@@ -528,12 +528,12 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
             if isinstance(short_slope_start, np.ndarray):
                 data_short_slope_start = (
                     data_full.sel(
-                        region=region, 
+                        region=region,
                         year=short_slope_start,
                     )
                     * np.identity(short_slope_start.shape[0])
                 ).sum(dim="variables")
-                
+
             else:
                 data_short_slope_start = data_full.sel(
                     region=region,
@@ -543,22 +543,20 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
             if isinstance(short_slope_end, np.ndarray):
                 data_short_slope_end = (
                     data_full.sel(
-                        region=region, 
+                        region=region,
                         year=short_slope_end,
                     )
                     * np.identity(short_slope_end.shape[0])
                 ).sum(dim="variables")
-                
+
             else:
                 data_short_slope_end = data_full.sel(
                     region=region,
                     year=short_slope_end,
                 )
-                
+
             short_slope = (
-                
-                data_short_slope_end.values
-                - data_short_slope_start.values
+                data_short_slope_end.values - data_short_slope_start.values
             ) / (short_slope_end - short_slope_start)
 
             if short_slope.shape != slope.shape:
@@ -571,8 +569,12 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                 slope -= cap_repl_rate
                 short_slope -= cap_repl_rate
 
-            x = np.divide(short_slope, slope, out = np.zeros(short_slope.shape, dtype = float), where = slope != 0)
-
+            x = np.divide(
+                short_slope,
+                slope,
+                out=np.zeros(short_slope.shape, dtype=float),
+                where=slope != 0,
+            )
 
             split_year = np.where(x < 0, -1, 1)
             split_year = np.where(
