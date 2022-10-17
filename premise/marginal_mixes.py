@@ -523,32 +523,42 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
             slope = (data_end.values - data_start.values) / (end - start)
 
             short_slope_start = start + (end - start) * weighted_slope_start
-
-            if isinstance(short_slope_start, np.ndarray):
-                short_slope_start = short_slope_start.astype(int)
-            else:
-                short_slope_start = np.array([short_slope_start]).astype(int)
-
             short_slope_end = start + (end - start) * weighted_slope_end
 
-            if isinstance(short_slope_end, np.ndarray):
-                short_slope_end = short_slope_end.astype(int)
-            else:
-                short_slope_end = np.array([short_slope_end]).astype(int)
-
-            short_slope = (
-                (
-                    data_full.sel(region=region, year=short_slope_end)
-                    * np.identity(short_slope_end.shape[0])
-                )
-                .sum(dim="variables")
-                .values
-                - (
-                    data_full.sel(region=region, year=short_slope_start)
+            if isinstance(short_slope_start, np.ndarray):
+                data_short_slope_start = (
+                    data_full.sel(
+                        region=region, 
+                        year=short_slope_start,
+                    )
                     * np.identity(short_slope_start.shape[0])
+                ).sum(dim="variables")
+                
+            else:
+                data_short_slope_start = data_full.sel(
+                    region=region,
+                    year=short_slope_start,
                 )
-                .sum(dim="variables")
-                .values
+
+            if isinstance(short_slope_end, np.ndarray):
+                data_short_slope_end = (
+                    data_full.sel(
+                        region=region, 
+                        year=short_slope_end,
+                    )
+                    * np.identity(short_slope_end.shape[0])
+                ).sum(dim="variables")
+                
+            else:
+                data_short_slope_end = data_full.sel(
+                    region=region,
+                    year=short_slope_end,
+                )
+                
+            short_slope = (
+                
+                data_short_slope_end.values
+                - data_short_slope_start.values
             ) / (short_slope_end - short_slope_start)
 
             if short_slope.shape != slope.shape:
@@ -561,7 +571,8 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                 slope -= cap_repl_rate
                 short_slope -= cap_repl_rate
 
-            x = np.where(slope == 0, 0, slope / short_slope)
+            x = np.divide(short_slope, slope, out = np.zeros(short_slope.shape, dtype = float), where = slope != 0)
+
 
             split_year = np.where(x < 0, -1, 1)
             split_year = np.where(
