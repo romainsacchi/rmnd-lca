@@ -526,6 +526,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
             short_slope_end = start + (end - start) * weighted_slope_end
 
             if isinstance(short_slope_start, np.ndarray):
+                short_slope_start = short_slope_start.astype(int)
                 data_short_slope_start = (
                     data_full.sel(
                         region=region,
@@ -535,12 +536,14 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                 ).sum(dim="variables")
 
             else:
+                short_slope_start = int(short_slope_start)
                 data_short_slope_start = data_full.sel(
                     region=region,
                     year=short_slope_start,
                 )
 
             if isinstance(short_slope_end, np.ndarray):
+                short_slope_end = short_slope_end.astype(int)
                 data_short_slope_end = (
                     data_full.sel(
                         region=region,
@@ -550,6 +553,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                 ).sum(dim="variables")
 
             else:
+                short_slope_end = int(short_slope_end)
                 data_short_slope_end = data_full.sel(
                     region=region,
                     year=short_slope_end,
