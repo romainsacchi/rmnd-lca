@@ -12,147 +12,156 @@ ELECTRO_MOTOR:
 W_on_AG:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
+
 W_on_SG_E_DD:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
 W_on_HTS_DD:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
 W_on_SG_PM_DD:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
 W_on_SG_PM_MS:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
 W_on_SG_PM_HS:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
 W_off_AG:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
 W_off_SG_E_DD:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
 W_off_HTS_DD:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
 W_off_SG_PM_DD:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
 W_off_SG_PM_MS:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
 W_off_SG_PM_HS:
   ecoinvent_aliases:
     fltr:
-      - wind power plant, 2MW, offshore, moving parts
-      - wind turbine, 2MW, onshore
-      - wind turbine, 4.5MW, onshore
-      - wind power plant, 800kW, moving parts
+      - wind power plant
+      - wind turbine
     mask:
-      - market
+      - fixed
+      - network
+      - concrete
 battery_LMO:
   ecoinvent_aliases:
     fltr:
-      - battery cell production, Li-ion, LiMn2O4
+      name: cathode production, LiMn2O4
     mask:
       - market
 battery_NMC111:
   ecoinvent_aliases:
     fltr:
       - battery cell production, Li-ion, NMC111
+      - Battery cell, NMC-111
+
+battery_NMC622:
+  ecoinvent_aliases:
+    fltr:
+      - Battery cell, NMC-622
 #    mask:
 #      -
 battery_NMC811:
   ecoinvent_aliases:
     fltr:
       - battery cell production, Li-ion, NMC811
+      - Battery cell, NMC-811
 #    mask:
 #      -
 battery_NCA:
   ecoinvent_aliases:
     fltr:
       - battery cell production, Li-ion, NCA
+      - Battery cell, NCA
 #    mask:
 #      - market
 battery_LFP:
   ecoinvent_aliases:
     fltr:
-      - LFP
-    mask:
-      - market
+      - Battery cell, LFP
+      - battery cell production, Li-ion, LFP
+
 battery_Lead_Acid:
   ecoinvent_aliases:
     fltr:
       - battery production, lead acid
-#    mask:
-#      - market
+      - lead acid battery, for lorry
+
 fuel_cell_PEMFC:
   ecoinvent_aliases:
     fltr:
