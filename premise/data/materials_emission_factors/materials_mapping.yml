@@ -1,0 +1,224 @@
+ELECTRO_MOTOR:
+  ecoinvent_aliases:
+    fltr:
+      - electric motor production, vehicle
+      - electric motor production
+#ELECTRO_MOTOR_wo_PM: # They do not identify any critical materials - Further research?
+#  ecoinvent_aliases:
+#    fltr:
+#      -
+#    mask:
+#      -
+W_on_AG:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+W_on_SG_E_DD:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+W_on_HTS_DD:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+W_on_SG_PM_DD:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+W_on_SG_PM_MS:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+W_on_SG_PM_HS:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+W_off_AG:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+W_off_SG_E_DD:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+W_off_HTS_DD:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+W_off_SG_PM_DD:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+W_off_SG_PM_MS:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+W_off_SG_PM_HS:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant, 2MW, offshore, moving parts
+      - wind turbine, 2MW, onshore
+      - wind turbine, 4.5MW, onshore
+      - wind power plant, 800kW, moving parts
+    mask:
+      - market
+battery_LMO:
+  ecoinvent_aliases:
+    fltr:
+      - battery cell production, Li-ion, LiMn2O4
+    mask:
+      - market
+battery_NMC111:
+  ecoinvent_aliases:
+    fltr:
+      - battery cell production, Li-ion, NMC111
+#    mask:
+#      -
+battery_NMC811:
+  ecoinvent_aliases:
+    fltr:
+      - battery cell production, Li-ion, NMC811
+#    mask:
+#      -
+battery_NCA:
+  ecoinvent_aliases:
+    fltr:
+      - battery cell production, Li-ion, NCA
+#    mask:
+#      - market
+battery_LFP:
+  ecoinvent_aliases:
+    fltr:
+      - LFP
+    mask:
+      - market
+battery_Lead_Acid:
+  ecoinvent_aliases:
+    fltr:
+      - battery production, lead acid
+#    mask:
+#      - market
+fuel_cell_PEMFC:
+  ecoinvent_aliases:
+    fltr:
+      - fuel cell production, polymer electrolyte membrane
+    mask:
+      - stack # Stack is an assembly of different fuel cells. EI models this process of assembling.
+fuel_cell_SOFC_yttrium:
+  ecoinvent_aliases:
+    flrt:
+      - fuel cell production, solid oxide
+    mask:
+      - micro gas turbine
+      - stack
+fuel_cell_SOFC_scandium:
+  ecoinvent_aliases:
+    flrt:
+      - fuel cell production, solid oxide
+    mask:
+      - micro gas turbine
+pv_c_Si:
+  ecoinvent_aliases:
+    flrt:
+      - photovoltaic laminate production, multi-Si wafer
+      - photovoltaic laminate production, ribbon-Si
+      - photovoltaic laminate production, single-Si wafer
+#    mask:
+pv_a_Si:
+  ecoinvent_aliases:
+    flrt:
+      - photovoltaic laminate production, a-Si
+#    mask:
+pv_CIGS:
+  ecoinvent_aliases:
+    flrt:
+      - photovoltaic laminate production, CIS
+pv_CdTe:
+  ecoinvent_aliases:
+    flrt:
+      - photovoltaic laminate production, CdTe
+csp_parabolic_SF:
+  ecoinvent_aliases:
+    flrt:
+      - collector field area, solar thermal parabolic trough, 50 MW
+    mask:
+      - market
+csp_parabolic:
+  ecoinvent_aliases:
+    flrt:
+      - power block, solar thermal parabolic trough, 50 MW
+    mask:
+      - market
+csp_tower_SF:
+  ecoinvent_aliases:
+    flrt:
+      - collector field area, solar tower power plant, 20 MW
+    mask:
+      - market
+csp_tower:
+  ecoinvent_aliases:
+    flrt:
+      - power block, solar tower power plant, 20 MW
+    mask:
+      - market
+nuclear:
+  ecoinvent_aliases:
+    fltr:
+      - nuclear power plant construction
+#    mask:
+#      -
