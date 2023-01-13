@@ -161,58 +161,58 @@ fuel_cell_PEMFC:
       - stack # Stack is an assembly of different fuel cells. EI models this process of assembling.
 fuel_cell_SOFC_yttrium:
   ecoinvent_aliases:
-    flrt:
+    fltr:
       - fuel cell production, solid oxide
     mask:
       - micro gas turbine
       - stack
 fuel_cell_SOFC_scandium:
   ecoinvent_aliases:
-    flrt:
+    fltr:
       - fuel cell production, solid oxide
     mask:
       - micro gas turbine
 pv_c_Si:
   ecoinvent_aliases:
-    flrt:
+    fltr:
       - photovoltaic laminate production, multi-Si wafer
       - photovoltaic laminate production, ribbon-Si
       - photovoltaic laminate production, single-Si wafer
 #    mask:
 pv_a_Si:
   ecoinvent_aliases:
-    flrt:
+    fltr:
       - photovoltaic laminate production, a-Si
 #    mask:
 pv_CIGS:
   ecoinvent_aliases:
-    flrt:
+    fltr:
       - photovoltaic laminate production, CIS
 pv_CdTe:
   ecoinvent_aliases:
-    flrt:
+    fltr:
       - photovoltaic laminate production, CdTe
 csp_parabolic_SF:
   ecoinvent_aliases:
-    flrt:
+    fltr:
       - collector field area, solar thermal parabolic trough, 50 MW
     mask:
       - market
 csp_parabolic:
   ecoinvent_aliases:
-    flrt:
+    fltr:
       - power block, solar thermal parabolic trough, 50 MW
     mask:
       - market
 csp_tower_SF:
   ecoinvent_aliases:
-    flrt:
+    fltr:
       - collector field area, solar tower power plant, 20 MW
     mask:
       - market
 csp_tower:
   ecoinvent_aliases:
-    flrt:
+    fltr:
       - power block, solar tower power plant, 20 MW
     mask:
       - market
