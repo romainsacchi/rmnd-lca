@@ -79,6 +79,8 @@ W_off_AG:
       - fixed
       - network
       - concrete
+      - onshore
+      - 800kW
 W_off_SG_E_DD:
   ecoinvent_aliases:
     fltr:
@@ -212,6 +214,7 @@ pv_c_Si:
       - ribbon-Si
       - single-Si wafer
       - photovoltaic cell, multi-Si, at plant
+      - photovoltaic cell, single-Si, at plant
     mask:
       - multi-Si wafer production
       - single-Si wafer production
@@ -220,6 +223,8 @@ pv_a_Si:
   ecoinvent_aliases:
     fltr:
       - photovoltaic laminate production, a-Si
+      - photovoltaic laminate, micro-Si, at plant
+      - photovoltaic panel, micro-Si, at plant
 pv_CIGS:
   ecoinvent_aliases:
     fltr:
