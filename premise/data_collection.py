@@ -102,6 +102,7 @@ def get_gnr_data() -> xr.DataArray:
 
     return gnr_array
 
+
 def get_metals_intensity_factors_data() -> xr.DataArray:
     """
     Read the materials intensity factors csv file and return an `xarray` with dimensions:
@@ -118,14 +119,19 @@ def get_metals_intensity_factors_data() -> xr.DataArray:
     df = pd.read_csv(filepath)
     df = df.melt(
         id_vars=["metal", "year", "origin_var"],
-        value_vars=["mean", "median", "min", "max"]
+        value_vars=["mean", "median", "min", "max"],
     )
-    array = df.groupby(["metal", "origin_var", "year", "variable"]).mean()["value"].to_xarray()
+    array = (
+        df.groupby(["metal", "origin_var", "year", "variable"])
+        .mean()["value"]
+        .to_xarray()
+    )
     array = array.interpolate_na(dim="year", method="nearest", fill_value="extrapolate")
     array = array.bfill(dim="year")
     array = array.ffill(dim="year")
 
     return array
+
 
 def get_gains_data() -> xr.DataArray:
     """
