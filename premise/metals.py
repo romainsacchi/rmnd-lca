@@ -10,10 +10,11 @@ https://doi.org/10.1016/j.egyr.2022.11.025.
 from datetime import date
 from pathlib import Path
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 import yaml
 
+from .export import biosphere_flows_dictionary
 from .transformation import (
     BaseTransformation,
     Dict,
@@ -24,7 +25,6 @@ from .transformation import (
     ws,
 )
 from .utils import DATA_DIR
-from .export import biosphere_flows_dictionary
 
 EI_METALS = DATA_DIR / "metals" / "ecoinvent_metals.yaml"
 LOG_DIR = DATA_DIR / "logs"
@@ -39,6 +39,7 @@ def fetch_mapping(filepath: str) -> dict:
         mapping = yaml.safe_load(stream)
     return mapping
 
+
 def rev_metals_map(mapping: dict) -> dict:
     """Returns a reversed dictionary"""
 
@@ -47,6 +48,7 @@ def rev_metals_map(mapping: dict) -> dict:
         for v in val:
             rev_mapping[v] = key
     return rev_mapping
+
 
 def load_conversion_factors():
     """
@@ -98,7 +100,9 @@ class Metals(BaseTransformation):
         self.logging_changes()
 
     def update_metal_use(
-        self, dataset: dict, technology: str,
+        self,
+        dataset: dict,
+        technology: str,
     ) -> dict:
         """
         Update metal use based on DLR data.
@@ -113,8 +117,14 @@ class Metals(BaseTransformation):
             print(f"Technology {technology} not found in DLR data.")
             return dataset
 
-        data = self.metals.sel(origin_var=technology, variable="mean").interp(year=self.year)
-        metals = [m for m in self.metals.metal.values if not np.isnan(data.sel(metal=m).values)]
+        data = self.metals.sel(origin_var=technology, variable="mean").interp(
+            year=self.year
+        )
+        metals = [
+            m
+            for m in self.metals.metal.values
+            if not np.isnan(data.sel(metal=m).values)
+        ]
 
         # Update biosphere exchanges according to DLR use factors
         for exc in ws.biosphere(
@@ -128,17 +138,13 @@ class Metals(BaseTransformation):
             if dataset["name"] in self.conversion_factors["Activity"].tolist():
                 use_factor *= self.conversion_factors.loc[
                     self.conversion_factors["Activity"] == dataset["name"],
-                    "Conversion_factor"
+                    "Conversion_factor",
                 ].values[0]
             else:
-                print(
-                    f"Conversion factor not found for {dataset['name']}."
-                )
+                print(f"Conversion factor not found for {dataset['name']}.")
 
             if metal not in exc.get("comment", ""):
-                exc["comment"] = (
-                    f"{exc['amount']};{use_factor};{technology};{metal}"
-                )
+                exc["comment"] = f"{exc['amount']};{use_factor};{technology};{metal}"
 
             # update the exchange amount
             exc["amount"] = use_factor
@@ -153,17 +159,15 @@ class Metals(BaseTransformation):
             if dataset["name"] in self.conversion_factors["Activity"].tolist():
                 use_factor *= self.conversion_factors.loc[
                     self.conversion_factors["Activity"] == dataset["name"],
-                    "Conversion_factor"
+                    "Conversion_factor",
                 ].values[0]
             else:
-                print(
-                    f"Conversion factor not found for {dataset['name']}."
-                )
+                print(f"Conversion factor not found for {dataset['name']}.")
             exc_id = (
                 f"{self.ei_metals[metal]}, in ground",
                 "natural resource",
                 "in ground",
-                "kilogram"
+                "kilogram",
             )
 
             exc = {
@@ -172,9 +176,7 @@ class Metals(BaseTransformation):
                 "input": ("biosphere3", biosphere_flow_codes[exc_id]),
                 "type": "biosphere",
                 "unit": "kilogram",
-                "comment": (
-                    f"{use_factor};{use_factor};{technology};{metal}"
-                )
+                "comment": (f"{use_factor};{use_factor};{technology};{metal}"),
             }
             dataset["exchanges"].append(exc)
 
@@ -210,7 +212,7 @@ class Metals(BaseTransformation):
                 "old value",
                 "new value",
                 "DLR variable",
-                "DLR metal"
+                "DLR metal",
             ],
         )
 

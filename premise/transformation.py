@@ -322,7 +322,6 @@ class BaseTransformation:
         :rtype: dict
         """
 
-
         return {
             tech: {
                 "IAM_eff_func": self.find_iam_efficiency_change,
