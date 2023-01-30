@@ -80,6 +80,7 @@ class Metals(BaseTransformation):
         self.version = version
         self.metals = iam_data.metals
         self.ei_metals = fetch_mapping(EI_METALS)
+        self.rev_ei_metals = rev_metals_map(self.ei_metals)
 
         mapping = InventorySet(self.database)
         self.metals_map: Dict[str, Set] = mapping.generate_metals_map()
@@ -128,10 +129,10 @@ class Metals(BaseTransformation):
 
         # Update biosphere exchanges according to DLR use factors
         for exc in ws.biosphere(
-            dataset, ws.either(*[ws.equals("name", x) for x in self.ei_metals])
+            dataset, ws.either(*[ws.equals("name", x) for x in self.rev_ei_metals])
         ):
 
-            metal = self.ei_metals[exc["name"]]
+            metal = self.rev_ei_metals[exc["name"]]
             use_factor = data.sel(metal=metal).values
 
             # check if there is a conversion factor

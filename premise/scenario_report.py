@@ -10,6 +10,7 @@ from openpyxl.chart import AreaChart, LineChart, Reference
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 from openpyxl.utils.dataframe import dataframe_to_rows
+import xarray as xr
 
 from . import DATA_DIR
 
@@ -55,7 +56,7 @@ SECTORS = {
 
 
 def get_variables(
-    filepath,
+        filepath,
 ):
     """
     Get the variables from a yaml file.
@@ -65,6 +66,47 @@ def get_variables(
         out = yaml.safe_load(stream)
 
     return list(out.keys())
+
+
+def get_iam_data(scenario, sector) -> None:
+    """
+    Get the IAM data for a given sector.
+    """
+    if "generation" in sector:
+        iam_data = scenario["iam data"].production_volumes
+    elif "efficiency" in sector:
+        iam_data = scenario["iam data"].efficiency
+    elif "CCS" in sector:
+        iam_data = scenario["iam data"].carbon_capture_rate * 100
+    elif "car" in sector:
+        if scenario["iam data"].trsp_cars is not None:
+            iam_data = scenario["iam data"].trsp_cars.sum(
+                dim=["size", "construction_year"]
+            )
+            iam_data = iam_data.rename({"powertrain": "variables"}).T
+        else:
+            return None
+
+    elif "bus" in sector:
+        if scenario["iam data"].trsp_buses is not None:
+            iam_data = scenario["iam data"].trsp_buses.sum(
+                dim=["size", "construction_year"]
+            )
+            iam_data = iam_data.rename({"powertrain": "variables"}).T
+        else:
+            return None
+    elif "truck" in sector:
+        if scenario["iam data"].trsp_trucks is not None:
+            iam_data = scenario["iam data"].trsp_trucks.sum(
+                dim=["size", "construction_year"]
+            )
+            iam_data = iam_data.rename({"powertrain": "variables"}).T
+        else:
+            return None
+    else:
+        iam_data = scenario["iam data"].other_vars
+
+    return iam_data
 
 
 def generate_summary_report(scenarios: list, filename: Path) -> None:
@@ -79,12 +121,10 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
     workbook.remove(workbook.active)
 
     for sector, filepath in SECTORS.items():
-
         if isinstance(filepath, tuple):
             filepath, variables = filepath
         else:
             variables = get_variables(filepath)
-
         worksheet = workbook.create_sheet(sector)
 
         col, row = (1, 1)
@@ -96,45 +136,16 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
         )
 
         scenario_list = []
-
         last_col_used = 0
 
         for scenario_idx, scenario in enumerate(scenarios):
 
             if (scenario["model"], scenario["pathway"]) not in scenario_list:
 
-                if "generation" in sector:
-                    iam_data = scenario["iam data"].production_volumes
-                elif "efficiency" in sector:
-                    iam_data = scenario["iam data"].efficiency
-                elif "CCS" in sector:
-                    iam_data = scenario["iam data"].carbon_capture_rate * 100
-                elif "car" in sector:
-                    if scenario["iam data"].trsp_cars is not None:
-                        iam_data = scenario["iam data"].trsp_cars.sum(
-                            dim=["size", "construction_year"]
-                        )
-                        iam_data = iam_data.rename({"powertrain": "variables"}).T
-                    else:
-                        continue
-                elif "bus" in sector:
-                    if scenario["iam data"].trsp_buses is not None:
-                        iam_data = scenario["iam data"].trsp_buses.sum(
-                            dim=["size", "construction_year"]
-                        )
-                        iam_data = iam_data.rename({"powertrain": "variables"}).T
-                    else:
-                        continue
-                elif "truck" in sector:
-                    if scenario["iam data"].trsp_trucks is not None:
-                        iam_data = scenario["iam data"].trsp_trucks.sum(
-                            dim=["size", "construction_year"]
-                        )
-                        iam_data = iam_data.rename({"powertrain": "variables"}).T
-                    else:
-                        continue
-                else:
-                    iam_data = scenario["iam data"].other_vars
+                iam_data = get_iam_data(scenario, sector)
+
+                if iam_data is None:
+                    continue
 
                 if scenario_idx > 0:
                     col = last_col_used + metadata[sector]["offset"]
