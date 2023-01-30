@@ -90,7 +90,9 @@ class InventorySet:
         self.materials_filters = get_mapping(
             filepath=MATERIALS_TECHS, var="ecoinvent_aliases"
         )
-        self.metals_filters = get_mapping(filepath=METALS_MAPPING, var="ecoinvent_aliases")
+        self.metals_filters = get_mapping(
+            filepath=METALS_MAPPING, var="ecoinvent_aliases"
+        )
 
     def generate_powerplant_map(self) -> dict:
         """

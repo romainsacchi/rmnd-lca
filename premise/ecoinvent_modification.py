@@ -31,9 +31,9 @@ from .external import ExternalScenario
 from .external_data_validation import check_external_scenarios, check_inventories
 from .fuels import Fuels
 from .inventory_imports import AdditionalInventory, DefaultInventory
+from .metals import Metals
 from .scenario_report import generate_summary_report
 from .steel import Steel
-from .metals import Metals
 from .transport import Transport
 from .utils import (
     HiddenPrints,
