@@ -17,6 +17,7 @@ GAINS_TO_ECOINVENT_EMISSION_FILEPATH = (
 POWERPLANT_TECHS = DATA_DIR / "electricity" / "electricity_tech_vars.yml"
 FUELS_TECHS = DATA_DIR / "fuels" / "fuel_tech_vars.yml"
 MATERIALS_TECHS = DATA_DIR / "utils" / "materials_vars.yml"
+METALS_MAPPING = DATA_DIR / "metals" / "metals_mapping.yml"
 
 
 def get_mapping(filepath: Path, var: str) -> dict:
@@ -89,6 +90,9 @@ class InventorySet:
         self.materials_filters = get_mapping(
             filepath=MATERIALS_TECHS, var="ecoinvent_aliases"
         )
+        self.metals_filters = get_mapping(
+            filepath=METALS_MAPPING, var="ecoinvent_aliases"
+        )
 
     def generate_powerplant_map(self) -> dict:
         """
@@ -130,6 +134,14 @@ class InventorySet:
         a set of related ecoinvent activities' names as values.
         """
         return self.generate_sets_from_filters(self.materials_filters)
+
+    def generate_metals_map(self) -> dict:
+        """
+        Filter ecoinvent processes related to metals.
+        Rerurns a dictionary with metal names as keys (see below) and
+        a set of related ecoinvent activities' names as values.
+        """
+        return self.generate_sets_from_filters(self.metals_filters)
 
     @staticmethod
     def act_fltr(

@@ -316,6 +316,12 @@ Nuclear:
         - aluminium
         - SMR
         - EPR
+  ecoinvent_fuel_aliases:
+    fltr:
+      - market for uranium, enriched
+      - market for nuclear fuel element, for pressure water reactor
+      - market for nuclear fuel element, for boiling water reactor
+      - market for uranium hexafluoride
 Nuclear_EPR:
   ecoinvent_aliases:
     fltr:

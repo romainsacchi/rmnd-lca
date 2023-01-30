@@ -1,0 +1,267 @@
+﻿metal,unit,year,mean,median,min,max,origin_var
+Dysprosium,kg/MW,2015,2.51295,2.2,0.0516,11.6,ELECTRO_MOTOR
+Neodymium,kg/MW,2015,10.38865385,7.5,3.4,36.5,ELECTRO_MOTOR
+Dysprosium,kg/MW,2020,2.5,2.1,1.9,5.6,ELECTRO_MOTOR
+Neodymium,kg/MW,2020,3.7,3.6,3.4,4.1,ELECTRO_MOTOR
+Dysprosium,kg/MW,2030,1.433333333,1.4,1.3,1.6,ELECTRO_MOTOR
+Neodymium,kg/MW,2030,2.933333333,2.9,2.7,3.2,ELECTRO_MOTOR
+Dysprosium,kg/MW,2050,0.7,0.7,0.7,0.7,ELECTRO_MOTOR
+Neodymium,kg/MW,2050,2.3,2.3,2.3,2.3,ELECTRO_MOTOR
+Nickel,kg/MW,2020,403.5,403.5,377,430,W-on AG
+Manganese,kg/MW,2020,780,780,780,780,W-on AG
+Nickel,kg/MW,2020,340,340,340,340,W-on SG-E-DD
+Manganese,kg/MW,2020,790,790,790,790,W-on SG-E-DD
+Nickel,kg/MW,2020,403.5,403.5,377,430,W-on HTS-DD
+Manganese,kg/MW,2020,780,780,780,780,W-on HTS-DD
+Yttrium,kg/MW,2030,1,0.3,0.1,2.3,W-on HTS-DD
+Dysprosium,kg/MW,2015,20.42704545,19.75,2,42,W-on SG-PM-DD
+Neodymium,kg/MW,2015,172.0215909,182.5,45,246.5,W-on SG-PM-DD
+Vanadium,kg/MW,2015,90.38,90.38,90.38,90.38,W-on SG-PM-DD
+Dysprosium,kg/MW,2020,16.49285714,16.5,2,29.25,W-on SG-PM-DD
+Neodymium,kg/MW,2020,139.8571429,162.5,34,180,W-on SG-PM-DD
+Nickel,kg/MW,2020,387.4283333,376.785,111,663,W-on SG-PM-DD
+Manganese,kg/MW,2020,301,80.5,32.5,790,W-on SG-PM-DD
+Dysprosium,kg/MW,2030,10.925,9.6,6.5,18,W-on SG-PM-DD
+Neodymium,kg/MW,2030,138,138.75,112,162.5,W-on SG-PM-DD
+Dysprosium,kg/MW,2040,11,9,1,23,W-on SG-PM-DD
+Neodymium,kg/MW,2040,120,120,27,140,W-on SG-PM-DD
+Dysprosium,kg/MW,2050,11.05,11.85,6.5,14,W-on SG-PM-DD
+Neodymium,kg/MW,2050,112.75,121.5,78,130,W-on SG-PM-DD
+Dysprosium,kg/MW,2015,3.631666667,3.45,0.9,6.4,W-on SG-PM-MS
+Neodymium,kg/MW,2015,33.30727273,38.35,6.2,49.6,W-on SG-PM-MS
+Nickel,kg/MW,2015,565,610,376.6,663.4,W-on SG-PM-MS
+Vanadium,kg/MW,2015,90.4,90.4,90.4,90.4,W-on SG-PM-MS
+Dysprosium,kg/MW,2020,4.76,5.4,2.88,6,W-on SG-PM-MS
+Neodymium,kg/MW,2020,41.13333333,40,32.4,51,W-on SG-PM-MS
+Nickel,kg/MW,2020,440,440,440,440,W-on SG-PM-MS
+Manganese,kg/MW,2020,304.3333333,80.5,32.5,800,W-on SG-PM-MS
+Dysprosium,kg/MW,2030,2.25,2.25,1.6,2.9,W-on SG-PM-MS
+Neodymium,kg/MW,2030,36,36,32,40,W-on SG-PM-MS
+Dysprosium,kg/MW,2050,2.05,2.05,1.2,2.9,W-on SG-PM-MS
+Neodymium,kg/MW,2050,32,32,32,32,W-on SG-PM-MS
+Dysprosium,kg/MW,2015,2.76625,2.565,0.9,5.4,W_on_SG_PM_HS
+Neodymium,kg/MW,2015,23.89,24.8,6.2,40.6,W_on_SG_PM_HS
+Nickel,kg/MW,2015,565,610,376.6,663.4,W_on_SG_PM_HS
+Vanadium,kg/MW,2015,90.4,90.4,90.4,90.4,W_on_SG_PM_HS
+Dysprosium,kg/MW,2020,4.28,5.4,1.44,6,W_on_SG_PM_HS
+Neodymium,kg/MW,2020,34.46666667,32.4,20,51,W_on_SG_PM_HS
+Nickel,kg/MW,2020,440,440,440,440,W_on_SG_PM_HS
+Manganese,kg/MW,2020,304.3333333,80.5,32.5,800,W_on_SG_PM_HS
+Dysprosium,kg/MW,2030,1.1,1.1,0.8,1.4,W_on_SG_PM_HS
+Neodymium,kg/MW,2030,18,18,16,20,W_on_SG_PM_HS
+Dysprosium,kg/MW,2050,1.3,1.3,1.2,1.4,W_on_SG_PM_HS
+Neodymium,kg/MW,2050,16,16,16,16,W_on_SG_PM_HS
+Nickel,kg/MW,2020,403.5,403.5,377,430,W-off AG
+Manganese,kg/MW,2020,780,780,780,780,W-off AG
+Nickel,kg/MW,2020,340,340,340,340,W-off SG-E-DD
+Manganese,kg/MW,2020,790,790,790,790,W-off SG-E-DD
+Nickel,kg/MW,2020,403.5,403.5,377,430,W-off HTS-DD
+Manganese,kg/MW,2020,780,780,780,780,W-off HTS-DD
+Yttrium,kg/MW,2030,1,0.3,0.1,2.3,W-off HTS-DD
+Dysprosium,kg/MW,2015,20.21088889,19.5,2,42,W-off SG-PM-DD
+Neodymium,kg/MW,2015,171.2776596,181.25,45,246.5,W-off SG-PM-DD
+Nickel,kg/MW,2015,416.914,377,111,663,W-off SG-PM-DD
+Vanadium,kg/MW,2015,90.38,90.38,90.38,90.38,W-off SG-PM-DD
+Dysprosium,kg/MW,2020,16.49285714,16.5,2,29.25,W-off SG-PM-DD
+Neodymium,kg/MW,2020,139.8571429,162.5,34,180,W-off SG-PM-DD
+Nickel,kg/MW,2020,240,240,240,240,W-off SG-PM-DD
+Manganese,kg/MW,2020,301,80.5,32.5,790,W-off SG-PM-DD
+Dysprosium,kg/MW,2030,10.925,9.6,6.5,18,W-off SG-PM-DD
+Neodymium,kg/MW,2030,142.06,147.5,112,162.5,W-off SG-PM-DD
+Dysprosium,kg/MW,2040,11,9,1,23,W-off SG-PM-DD
+Neodymium,kg/MW,2040,120,120,27,141.2,W-off SG-PM-DD
+Dysprosium,kg/MW,2050,11.05,11.85,6.5,14,W-off SG-PM-DD
+Neodymium,kg/MW,2050,115,124,78,130,W-off SG-PM-DD
+Dysprosium,kg/MW,2015,3.631666667,3.45,0.9,6.4,W-off SG-PM-MS
+Neodymium,kg/MW,2015,41,41,6.2,49.6,W-off SG-PM-MS
+Nickel,kg/MW,2015,565,610,376.6,663.4,W-off SG-PM-MS
+Vanadium,kg/MW,2015,90.4,90.4,90.4,90.4,W-off SG-PM-MS
+Dysprosium,kg/MW,2020,3,3,2.88,6,W-off SG-PM-MS
+Neodymium,kg/MW,2020,41.13333333,40,32.4,51,W-off SG-PM-MS
+Nickel,kg/MW,2020,440,440,440,440,W-off SG-PM-MS
+Manganese,kg/MW,2020,304.3333333,80.5,32.5,800,W-off SG-PM-MS
+Dysprosium,kg/MW,2030,2.25,2.25,1.6,2.9,W-off SG-PM-MS
+Neodymium,kg/MW,2030,36,36,32,40,W-off SG-PM-MS
+Dysprosium,kg/MW,2050,2.05,2.05,1.2,2.9,W-off SG-PM-MS
+Neodymium,kg/MW,2050,32,32,32,32,W-off SG-PM-MS
+Dysprosium,kg/MW,2015,2.76625,2.565,0.9,5.4,W_off_SG_PM_HS
+Neodymium,kg/MW,2015,23.89,24.8,6.2,40.6,W_off_SG_PM_HS
+Nickel,kg/MW,2015,565,610,376.6,663.4,W_off_SG_PM_HS
+Vanadium,kg/MW,2015,90.4,90.4,90.4,90.4,W_off_SG_PM_HS
+Dysprosium,kg/MW,2020,2,2,1.44,6,W_off_SG_PM_HS
+Neodymium,kg/MW,2020,22,22,20,51,W_off_SG_PM_HS
+Nickel,kg/MW,2020,440,440,440,440,W_off_SG_PM_HS
+Manganese,kg/MW,2020,304.3333333,80.5,32.5,800,W_off_SG_PM_HS
+Dysprosium,kg/MW,2030,1.1,1.1,0.8,1.4,W_off_SG_PM_HS
+Neodymium,kg/MW,2030,18,18,16,20,W_off_SG_PM_HS
+Dysprosium,kg/MW,2050,1.3,1.3,1.2,1.4,W_off_SG_PM_HS
+Neodymium,kg/MW,2050,16,16,16,16,W_off_SG_PM_HS
+Cobalt,kg/kWh,2005,1.08,1.08,0.96,1.2,LCO
+Lithium,kg/kWh,2005,0.12,0.12,0.1,0.14,LCO
+Cobalt,kg/kWh,2015,1.00798,0.98,0.6309,1.44,LCO
+Lithium,kg/kWh,2015,0.132557143,0.121,0.0739,0.2,LCO
+Lithium,kg/kWh,2050,0.07,0.07,0.07,0.07,LCO
+Lithium,kg/kWh,2005,0.1125,0.1125,0.085,0.14,battery_LMO
+Lithium,kg/kWh,2015,0.109383333,0.1165,0.0753,0.13,battery_LMO
+Manganese,kg/kWh,2015,1.2415,1.1985,0.827,1.77,battery_LMO
+Nickel,kg/kWh,2015,0.009,0.009,0.009,0.009,battery_LMO
+Cobalt,kg/kWh,2015,0.40543125,0.405,0.29,0.523,battery_NMC111
+Lithium,kg/kWh,2015,0.149285714,0.1515,0.1,0.185,battery_NMC111
+Manganese,kg/kWh,2015,0.361892308,0.368,0.27,0.492,battery_NMC111
+Nickel,kg/kWh,2015,0.413953333,0.4,0.289,0.69,battery_NMC111
+Cobalt,kg/kWh,2050,0.41,0.41,0.41,0.41,battery_NMC111
+Cobalt,kg/kWh,2015,0.197125,0.195,0.175,0.23,battery_NMC622
+Lithium,kg/kWh,2015,0.131766667,0.128,0.1196,0.15,battery_NMC622
+Manganese,kg/kWh,2015,0.188916667,0.195,0.1645,0.214,battery_NMC622
+Nickel,kg/kWh,2015,0.6011875,0.61,0.5275,0.687,battery_NMC622
+Cobalt,kg/kWh,2050,0.1425,0.1425,0.124,0.161,battery_NMC622
+Manganese,kg/kWh,2050,0.1325,0.1325,0.115,0.15,battery_NMC622
+Nickel,kg/kWh,2050,0.4255,0.4255,0.37,0.481,battery_NMC622
+Cobalt,kg/kWh,2015,0.09234,0.094,0.0837,0.1,battery_NMC811
+Lithium,kg/kWh,2015,0.11378,0.1129,0.11,0.12,battery_NMC811
+Manganese,kg/kWh,2015,0.0865,0.089,0.078,0.09,battery_NMC811
+Nickel,kg/kWh,2015,0.73918,0.75,0.6669,0.78,battery_NMC811
+Cobalt,kg/kWh,2015,0.190973333,0.1667,0.124,0.421,battery_NCA
+Lithium,kg/kWh,2015,0.139971429,0.125,0.053,0.25,battery_NCA
+Nickel,kg/kWh,2015,0.846028571,0.7645,0.421,1.575,battery_NCA
+Cobalt,kg/kWh,2050,0.18,0.18,0.18,0.18,battery_NCA
+Lithium,kg/kWh,2015,0.140313636,0.1245,0.069,0.338,battery_LFP
+Nickel,kg/kWh,2015,0.0645,0.0645,0.009,0.12,battery_LFP
+Lithium,kg/kWh,2050,0.092375,0.0915,0.0675,0.119,battery_LFP
+Lithium,kg/kWh,2015,0.1785,0.15,0.1095,0.276,LiO2
+Lithium,kg/kWh,2015,0.35894,0.41,0.1737,0.411,LiS8
+Vanadium,kg/kWh,2005,3.076666667,2.95,2.92,3.36,Redox-Flow
+Vanadium,kg/kWh,2015,3.895,3.895,2.92,4.87,Redox-Flow
+Sulfur,kg/kWh,2005,1.2,1.2,1.2,1.2,NaS
+Sulfur,kg/kWh,2015,1.19255,1.2213,1.0776,1.25,NaS
+Platinum,kg/MW,2005,0.738,0.75,0.39,1,fuel_cell_PEMFC
+Platinum,kg/MW,2015,0.449333333,0.5,0.19,0.92,fuel_cell_PEMFC
+Platinum,kg/MW,2025,0.206666667,0.2,0.2,0.22,fuel_cell_PEMFC
+Platinum,kg/MW,2035,0.155666667,0.167,0.1,0.2,fuel_cell_PEMFC
+Platinum,kg/MW,2050,0.105,0.105,0.1,0.11,fuel_cell_PEMFC
+Nickel,kg/MW,2005,424.3666667,500,200.1,573,SOFC - Yttrium
+Cerium,kg/MW,2015,4,2.5,2,7.5,SOFC - Yttrium
+Cobalt,kg/MW,2015,30,30,30,30,SOFC - Yttrium
+Lanthanum,kg/MW,2015,15.5,15,9,23,SOFC - Yttrium
+Manganese,kg/MW,2015,505,505,10,1000,SOFC - Yttrium
+Yttrium,kg/MW,2015,105.25,43,14,400,SOFC - Yttrium
+Zirconium,kg/MW,2015,250,250,100,400,SOFC - Yttrium
+Cerium,kg/MW,2025,1.2,0.875,0.1,2.625,SOFC - Yttrium
+Cobalt,kg/MW,2025,3,3,3,3,SOFC - Yttrium
+Lanthanum,kg/MW,2025,5.066666667,4,3.15,8.05,SOFC - Yttrium
+Nickel,kg/MW,2025,312.895,312.895,160.09,465.7,SOFC - Yttrium
+Yttrium,kg/MW,2025,11.26666667,10,7.7,16.1,SOFC - Yttrium
+Nickel,kg/MW,2050,274.235,274.235,140.07,408.4,SOFC - Yttrium
+Nickel,kg/MW,2005,386.55,386.55,200.1,573,fuel_cell_SOFC_scandium
+Cerium,kg/MW,2015,51,51,51,51,fuel_cell_SOFC_scandium
+Gadolinium,kg/MW,2015,13,13,13,13,fuel_cell_SOFC_scandium
+Lanthanum,kg/MW,2015,213,213,213,213,fuel_cell_SOFC_scandium
+Scandium,kg/MW,2015,23,23,23,23,fuel_cell_SOFC_scandium
+Strontium,kg/MW,2015,33.7,33.7,33.7,33.7,fuel_cell_SOFC_scandium
+Nickel,kg/MW,2025,312.895,312.895,160.09,465.7,fuel_cell_SOFC_scandium
+Nickel,kg/MW,2050,274.235,274.235,140.07,408.4,fuel_cell_SOFC_scandium
+Platinum,kg/MW,2005,6.35,6.35,4.7,8,PAFC
+Nickel,kg/MW,2015,1700,1700,1700,1700,PAFC
+Platinum,kg/MW,2015,4.35,4.3,3.75,5,PAFC
+Nickel,kg/MW,2005,2252.25,2250,1600,2909,AEL
+Cobalt,kg/MW,2015,6.7,6.7,4.5,8.9,AEL
+Nickel,kg/MW,2015,2922.333333,2181,1834,4752,AEL
+Potassium,kg/MW,2015,423.5,423.5,295,552,AEL
+Zirconium,kg/MW,2015,108.08,108.08,37,179.16,AEL
+Iridium,kg/MW,2015,1.177,0.77,0.26,4,PEMEL
+Platinum,kg/MW,2015,0.4015,0.315,0.075,1,PEMEL
+Iridium,kg/MW,2025,0.285666667,0.4,0.037,0.42,PEMEL
+Platinum,kg/MW,2025,0.07,0.1,0.01,0.1,PEMEL
+Iridium,kg/MW,2035,0.05,0.05,0.05,0.05,PEMEL
+Platinum,kg/MW,2035,0.0375,0.0375,0.0375,0.0375,PEMEL
+Nickel,kg/MW,2015,171,171,171,171,HTEL_SOEL-Scandium
+Scandium,kg/MW,2015,10,10,10,10,HTEL_SOEL-Scandium
+Scandium,kg/MW,2035,1.15,1.15,1.15,1.15,HTEL_SOEL-Scandium
+Lanthanum,kg/MW,2015,76.8,76.8,76.8,76.8,HTEL_SOEL-Yttrium
+Nickel,kg/MW,2015,193.1666667,171,95.5,313,HTEL_SOEL-Yttrium
+Yttrium,kg/MW,2015,7.6,7.6,7.6,7.6,HTEL_SOEL-Yttrium
+Zirconium,kg/MW,2015,71.9,71.9,71.9,71.9,HTEL_SOEL-Yttrium
+Yttrium,kg/MW,2020,4.1,4.1,4.1,4.1,HTEL_SOEL-Yttrium
+Yttrium,kg/MW,2035,0.47,0.47,0.47,0.47,HTEL_SOEL-Yttrium
+Nickel,kg/MW,2015,1.213333333,1.24,1.1,1.3,pv_c_Si
+Silver,kg/MW,2015,41.40861111,29.8,4,84,pv_c_Si
+Silver,kg/MW,2020,15.875,16.25,13,18,pv_c_Si
+Silver,kg/MW,2025,14.1,14.1,8.2,20,pv_c_Si
+Silver,kg/MW,2030,8.883333333,6.15,4,20,pv_c_Si
+Silver,kg/MW,2040,2.875,2.25,1,6,pv_c_Si
+Silver,kg/MW,2050,2.585714286,2,1,5,pv_c_Si
+Germanium,kg/MW,2005,73,73,73,73,pv_a_Si
+Germanium,kg/MW,2015,68,73,48,73,pv_a_Si
+Indium,kg/MW,2015,6.874,5.32,5,13.41,pv_a_Si
+Nickel,kg/MW,2015,334,334,334,334,pv_a_Si
+Germanium,kg/MW,2020,41.85714286,41,36,48,pv_a_Si
+Indium,kg/MW,2025,0,0,0,0,pv_a_Si
+Germanium,kg/MW,2030,29,29.5,22,35,pv_a_Si
+Germanium,kg/MW,2040,19,19,14,24,pv_a_Si
+Germanium,kg/MW,2050,14.75,14.5,10,20,pv_a_Si
+Gallium,kg/MW,2005,35.8925,25.085,5,88.4,pv_CIGS
+Indium,kg/MW,2005,47.61583333,41.55,24.1,83.79,pv_CIGS
+Selenium,kg/MW,2005,49.5025,42.3,29,84.41,pv_CIGS
+Cadmium,kg/MW,2015,1.225,1.1,0.9,1.8,pv_CIGS
+Gallium,kg/MW,2015,8.8096,7,0.1,39,pv_CIGS
+Indium,kg/MW,2015,35.79266667,23,4.5,150,pv_CIGS
+Selenium,kg/MW,2015,52.138,45,0.5,150,pv_CIGS
+Gallium,kg/MW,2020,3.666666667,3,2,6,pv_CIGS
+Indium,kg/MW,2020,18.26,19.8,8,34.6,pv_CIGS
+Selenium,kg/MW,2020,38,38,15,51,pv_CIGS
+Indium,kg/MW,2025,16,16,15,30,pv_CIGS
+Gallium,kg/MW,2030,3.6125,3.5,2,6.3,pv_CIGS
+Indium,kg/MW,2030,14.44545455,13,8,25.4,pv_CIGS
+Selenium,kg/MW,2030,28.2,23,17,41,pv_CIGS
+Gallium,kg/MW,2035,2,2,1,3,pv_CIGS
+Indium,kg/MW,2035,11,11,4,11,pv_CIGS
+Selenium,kg/MW,2035,18.5,18.5,7,30,pv_CIGS
+Gallium,kg/MW,2040,2,2,1,3,pv_CIGS
+Indium,kg/MW,2040,10.3,8.5,5.9,20.9,pv_CIGS
+Selenium,kg/MW,2040,16.66666667,14,11,25,pv_CIGS
+Cadmium,kg/MW,2050,0,0,0,0,pv_CIGS
+Gallium,kg/MW,2050,1.6625,1.35,0.8,3.3,pv_CIGS
+Indium,kg/MW,2050,7.972727273,6,3,20,pv_CIGS
+Selenium,kg/MW,2050,11.66,11,6.3,20,pv_CIGS
+Cadmium,kg/MW,2005,80.95,80.95,61.9,100,pv_CdTe
+Tellurium,kg/MW,2005,79.46,63.3,31,176,pv_CdTe
+Cadmium,kg/MW,2015,85.20578947,85,19,165,pv_CdTe
+Indium,kg/MW,2015,11.44,7.95,3.35,25,pv_CdTe
+Tellurium,kg/MW,2015,85.38424242,90.38,17,200,pv_CdTe
+Cadmium,kg/MW,2020,44.66666667,36,21,77,pv_CdTe
+Tellurium,kg/MW,2020,50.5,40.5,23,87,pv_CdTe
+Cadmium,kg/MW,2030,43.2,42.5,20,68.6,pv_CdTe
+Tellurium,kg/MW,2030,34.4,28.5,6.2,70,pv_CdTe
+Cadmium,kg/MW,2035,25,25,7,23,pv_CdTe
+Tellurium,kg/MW,2035,27,27,8,27,pv_CdTe
+Cadmium,kg/MW,2040,24.33333333,17,12,44,pv_CdTe
+Tellurium,kg/MW,2040,26,26,14,50,pv_CdTe
+Cadmium,kg/MW,2050,19.4,14.5,6.2,35,pv_CdTe
+Indium,kg/MW,2050,0,0,0,0,pv_CdTe
+Tellurium,kg/MW,2050,21.9125,17,7,40,pv_CdTe
+Indium,kg/MW,2015,7.408888889,7.9,2.2,13.29,pv_perovskite
+Indium,kg/MW,2050,0,0,0,0,pv_perovskite
+Silver,kg/MW,2015,7.350714286,7.15,1.83,13,csp_parabolic_SF
+Manganese,kg/MW,2015,2000,2000,2000,2000,csp_parabolic
+Nickel,kg/MW,2015,940,940,940,940,csp_parabolic
+Potassium,kg/MW,2015,74020,85100,48800,88160,csp_parabolic
+Vanadium,kg/MW,2015,1.9,1.9,1.9,1.9,csp_parabolic
+Silver,kg/MW,2015,8.72875,9.24,2.36,13.88,csp_tower_SF
+Manganese,kg/MW,2015,2000,2000,2000,2000,Fresnel Collector
+Nickel,kg/MW,2015,940,940,940,940,Fresnel Collector
+Potassium,kg/MW,2015,85100,85100,85100,85100,Fresnel Collector
+Vanadium,kg/MW,2015,1.9,1.9,1.9,1.9,Fresnel Collector
+Silver,kg/MW,2015,11.183,7.785,4.93,34.34,Solar Tower SF
+Manganese,kg/MW,2015,5700,5700,5700,5700,csp_tower
+Nickel,kg/MW,2015,1800,1800,1800,1800,csp_tower
+Potassium,kg/MW,2015,58000,58000,58000,58000,csp_tower
+Silver,kg/MW,2015,,,,,csp_tower
+Vanadium,kg/MW,2015,1.7,1.7,1.7,1.7,csp_tower
+Cadmium,kg/MW,2015,0.75,0.75,0.5,1,nuclear
+Indium,kg/MW,2015,1.8,1.8,1.6,2,nuclear
+Manganese,kg/MW,2015,75.19,75.19,75.19,75.19,nuclear
+Nickel,kg/MW,2015,270.3333333,256,255,300,nuclear
+Silver,kg/MW,2015,8.15,8.15,8,8.3,nuclear
+Vanadium,kg/MW,2015,0.8,0.8,0.6,1,nuclear
+Yttrium,kg/MW,2015,0.75,0.75,0.5,1,nuclear
+Zirconium,kg/MW,2015,30.75,30.75,30.5,31,nuclear

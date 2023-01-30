@@ -31,6 +31,7 @@ from .external import ExternalScenario
 from .external_data_validation import check_external_scenarios, check_inventories
 from .fuels import Fuels
 from .inventory_imports import AdditionalInventory, DefaultInventory
+from .metals import Metals
 from .scenario_report import generate_summary_report
 from .steel import Steel
 from .transport import Transport
@@ -769,6 +770,29 @@ class NewDatabase:
                 steel.generate_activities()
                 scenario["database"] = steel.database
 
+    def update_metals(self) -> None:
+        """
+        This method will update the metals use in inventories
+        with the data from DLR.
+        """
+
+        print("\n////////////////////////////// METALS ///////////////////////////////")
+
+        for scenario in self.scenarios:
+            if "exclude" not in scenario or "update_metals" not in scenario["exclude"]:
+
+                metals = Metals(
+                    database=scenario["database"],
+                    year=scenario["year"],
+                    model=scenario["model"],
+                    pathway=scenario["pathway"],
+                    iam_data=scenario["iam data"],
+                    version=self.version,
+                )
+
+                metals.update_metals_use_in_database()
+                scenario["database"] = metals.database
+
     def update_cars(self) -> None:
         """
         This method will update the cars inventories
@@ -932,6 +956,7 @@ class NewDatabase:
         self.update_electricity()
         self.update_cement()
         self.update_steel()
+        self.update_metals()
         self.update_fuels()
         self.update_external_scenario()
 
