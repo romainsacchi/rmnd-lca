@@ -956,6 +956,7 @@ class NewDatabase:
         self.update_electricity()
         self.update_cement()
         self.update_steel()
+        self.update_metals()
         self.update_fuels()
         self.update_external_scenario()
 

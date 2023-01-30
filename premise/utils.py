@@ -695,7 +695,7 @@ class PremiseImporter(LCIImporter):
     def write_database(self):
         if self.db_name in databases:
             print(
-                f"Database {self.db_name} already existing: " "it will be overwritten."
+                f"Database {self.db_name} already exists: " "it will be overwritten."
             )
         super().write_database()
 

@@ -85,6 +85,9 @@ class Metals(BaseTransformation):
         self.conversion_factors = load_conversion_factors()
 
     def update_metals_use_in_database(self):
+        """
+        Update the database with metals use factors.
+        """
 
         print("Integrating metals use factors.")
         for ds in self.database:
@@ -168,11 +171,11 @@ class Metals(BaseTransformation):
                 "amount": use_factor,
                 "input": ("biosphere3", biosphere_flow_codes[exc_id]),
                 "type": "biosphere",
+                "unit": "kilogram",
                 "comment": (
                     f"{use_factor};{use_factor};{technology};{metal}"
                 )
             }
-
             dataset["exchanges"].append(exc)
 
         return dataset
