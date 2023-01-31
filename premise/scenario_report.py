@@ -5,12 +5,12 @@ This module export a summary of scenario to an Excel file.
 from pathlib import Path
 
 import openpyxl
+import xarray as xr
 import yaml
 from openpyxl.chart import AreaChart, LineChart, Reference
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 from openpyxl.utils.dataframe import dataframe_to_rows
-import xarray as xr
 
 from . import DATA_DIR
 
@@ -56,7 +56,7 @@ SECTORS = {
 
 
 def get_variables(
-        filepath,
+    filepath,
 ):
     """
     Get the variables from a yaml file.
