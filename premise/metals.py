@@ -26,7 +26,6 @@ from .transformation import (
 )
 from .utils import DATA_DIR
 
-EI_METALS = DATA_DIR / "metals" / "ecoinvent_metals.yaml"
 LOG_DIR = DATA_DIR / "logs"
 
 biosphere_flow_codes = biosphere_flows_dictionary()
@@ -79,10 +78,10 @@ class Metals(BaseTransformation):
 
         self.version = version
         self.metals = iam_data.metals
-        self.ei_metals = fetch_mapping(EI_METALS)
-        self.rev_ei_metals = rev_metals_map(self.ei_metals)
 
         mapping = InventorySet(self.database)
+        self.activities_metals_map: Dict[str, Set] = mapping.generate_activities_using_metals_map()
+        self.rev_activities_metals_map: Dict[str, str] = rev_metals_map(self.activities_metals_map)
         self.metals_map: Dict[str, Set] = mapping.generate_metals_map()
         self.rev_metals_map: Dict[str, str] = rev_metals_map(self.metals_map)
         self.conversion_factors = load_conversion_factors()
@@ -94,8 +93,8 @@ class Metals(BaseTransformation):
 
         print("Integrating metals use factors.")
         for ds in self.database:
-            if ds["name"] in self.rev_metals_map:
-                origin_var = self.rev_metals_map[ds["name"]]
+            if ds["name"] in self.rev_activities_metals_map:
+                origin_var = self.rev_activities_metals_map[ds["name"]]
                 self.update_metal_use(ds, origin_var)
 
         self.logging_changes()
@@ -129,10 +128,10 @@ class Metals(BaseTransformation):
 
         # Update biosphere exchanges according to DLR use factors
         for exc in ws.biosphere(
-            dataset, ws.either(*[ws.equals("name", x) for x in self.rev_ei_metals])
+            dataset, ws.either(*[ws.equals("name", x) for x in self.rev_metals_map])
         ):
 
-            metal = self.rev_ei_metals[exc["name"]]
+            metal = self.rev_metals_map[exc["name"]]
             use_factor = data.sel(metal=metal).values
 
             # check if there is a conversion factor
@@ -165,14 +164,14 @@ class Metals(BaseTransformation):
             else:
                 print(f"Conversion factor not found for {dataset['name']}.")
             exc_id = (
-                f"{self.ei_metals[metal]}, in ground",
+                f"{self.metals_map[metal]}",
                 "natural resource",
                 "in ground",
                 "kilogram",
             )
 
             exc = {
-                "name": f"{self.ei_metals[metal]}, in ground",
+                "name": f"{self.ei_metals[metal]}",
                 "amount": use_factor,
                 "input": ("biosphere3", biosphere_flow_codes[exc_id]),
                 "type": "biosphere",

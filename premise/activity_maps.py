@@ -10,6 +10,7 @@ from typing import List, Union
 import yaml
 
 from . import DATA_DIR
+from .export import biosphere_flows_dictionary
 
 GAINS_TO_ECOINVENT_EMISSION_FILEPATH = (
     DATA_DIR / "GAINS_emission_factors" / "ecoinvent_to_gains_emission_mappping.csv"
@@ -17,6 +18,7 @@ GAINS_TO_ECOINVENT_EMISSION_FILEPATH = (
 POWERPLANT_TECHS = DATA_DIR / "electricity" / "electricity_tech_vars.yml"
 FUELS_TECHS = DATA_DIR / "fuels" / "fuel_tech_vars.yml"
 MATERIALS_TECHS = DATA_DIR / "utils" / "materials_vars.yml"
+ACTIVITIES_METALS_MAPPING = DATA_DIR / "metals" / "activities_mapping.yml"
 METALS_MAPPING = DATA_DIR / "metals" / "metals_mapping.yml"
 
 
@@ -90,6 +92,9 @@ class InventorySet:
         self.materials_filters = get_mapping(
             filepath=MATERIALS_TECHS, var="ecoinvent_aliases"
         )
+        self.activity_metals_filters = get_mapping(
+            filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
+        )
         self.metals_filters = get_mapping(
             filepath=METALS_MAPPING, var="ecoinvent_aliases"
         )
@@ -135,13 +140,23 @@ class InventorySet:
         """
         return self.generate_sets_from_filters(self.materials_filters)
 
-    def generate_metals_map(self) -> dict:
+    def generate_activities_using_metals_map(self) -> dict:
         """
         Filter ecoinvent processes related to metals.
         Rerurns a dictionary with metal names as keys (see below) and
         a set of related ecoinvent activities' names as values.
         """
-        return self.generate_sets_from_filters(self.metals_filters)
+        return self.generate_sets_from_filters(self.activity_metals_filters)
+
+    def generate_metals_map(self) -> dict:
+        """
+        Filter ecoinvent processes related to metals.
+        Returns a dictionary with metal names as keys (see below) and
+        a set of related ecoinvent activities' names as values.
+        """
+
+        return self.generate_sets_from_filters(self.metals_filters, database=[{"name": k[0]} for k in biosphere_flows_dictionary()])
+
 
     @staticmethod
     def act_fltr(
@@ -218,7 +233,7 @@ class InventorySet:
                 result = [act for act in result if notlike(act[field], conditions)]
         return result
 
-    def generate_sets_from_filters(self, filtr: dict) -> dict:
+    def generate_sets_from_filters(self, filtr: dict, database=None) -> dict:
         """
         Generate a dictionary with sets of activity names for
         technologies from the filter specifications.
@@ -229,7 +244,10 @@ class InventorySet:
             and a set of activity data set names as values.
         :rtype: dict
         """
+
+        database = database or self.database
+
         techs = {
-            tech: self.act_fltr(self.database, **fltr) for tech, fltr in filtr.items()
+            tech: self.act_fltr(database, **fltr) for tech, fltr in filtr.items()
         }
         return {tech: {act["name"] for act in actlst} for tech, actlst in techs.items()}
