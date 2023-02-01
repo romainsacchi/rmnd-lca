@@ -100,7 +100,6 @@ class Cement(BaseTransformation):
         d_act_clinker = remove_exchanges(d_act_clinker, list_fuels)
 
         for region, dataset in d_act_clinker.items():
-
             # Production volume by kiln type
             energy_input_per_kiln_type = self.iam_data.gnr_data.sel(
                 region=self.geo.iam_to_iam_region(region, from_iam="remind")
@@ -230,7 +229,6 @@ class Cement(BaseTransformation):
                     ("hard coal", "hard coal"),
                 ]
             ):
-
                 # Select waste fuel providers, fitting the IAM region
                 # Fetch respective shares based on production volumes
                 # if they cannot be found for the ecoinvent locations concerned
@@ -344,7 +342,6 @@ class Cement(BaseTransformation):
 
             # add CCS-related dataset
             if carbon_capture_rate > 0:
-
                 # total CO2 emissions = bio CO2 emissions
                 # + fossil CO2 emissions
                 # + calcination emissions
@@ -444,7 +441,6 @@ class Cement(BaseTransformation):
         """
 
         for region in d_act:
-
             # we fetch the clinker-to-cement ratio forecast
             # by REMIND (as other IAMs do not seem to consider
             # this). This ratio decreases over time
@@ -524,7 +520,6 @@ class Cement(BaseTransformation):
         d_act = remove_exchanges(d_act, ["electricity"])
 
         for region in d_act:
-
             new_exchanges = []
 
             electricity = (

@@ -263,7 +263,6 @@ class Steel(BaseTransformation):
 
         for steel in d_act_steel:
             for region, activity in d_act_steel[steel].items():
-
                 # the correction factor applied to all fuel/electricity input is
                 # equal to the ration fuel/output in the year in question
                 # divided by the ratio fuel/output in 2020
@@ -307,11 +306,9 @@ class Steel(BaseTransformation):
                 )
 
                 if carbon_capture_rate > 0:
-
                     for co2_flow in ws.biosphere(
                         activity, ws.contains("name", "Carbon dioxide, fossil")
                     ):
-
                         co2_amount = co2_flow["amount"]
                         co2_emitted = co2_amount * (1 - carbon_capture_rate)
                         co2_flow["amount"] = co2_emitted

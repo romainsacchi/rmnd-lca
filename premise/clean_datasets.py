@@ -155,7 +155,6 @@ class DatabaseCleaner:
     def __init__(
         self, source_db: str, source_type: str, source_file_path: Path
     ) -> None:
-
         if source_type == "brightway":
             # Check that database exists
             if len(DatabaseChooser(source_db)) == 0:
@@ -313,7 +312,6 @@ class DatabaseCleaner:
 
         """
         for dataset in self.database:
-
             # collect production exchanges that simply do not have a location key and set it to
             # the location of the dataset
             for exc in wurst.production(dataset):
@@ -342,9 +340,7 @@ class DatabaseCleaner:
         for dataset in self.database:
             for exc in dataset["exchanges"]:
                 if exc["type"] == "biosphere":
-
                     if "categories" not in exc:
-
                         # from the uuid, fetch the flow category
                         if "input" in exc:
                             if exc["input"][1] in dict_bio_cat:

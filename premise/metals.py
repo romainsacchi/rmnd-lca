@@ -80,8 +80,12 @@ class Metals(BaseTransformation):
         self.metals = iam_data.metals
 
         mapping = InventorySet(self.database)
-        self.activities_metals_map: Dict[str, Set] = mapping.generate_activities_using_metals_map()
-        self.rev_activities_metals_map: Dict[str, str] = rev_metals_map(self.activities_metals_map)
+        self.activities_metals_map: Dict[
+            str, Set
+        ] = mapping.generate_activities_using_metals_map()
+        self.rev_activities_metals_map: Dict[str, str] = rev_metals_map(
+            self.activities_metals_map
+        )
         self.metals_map: Dict[str, Set] = mapping.generate_metals_map()
         self.rev_metals_map: Dict[str, str] = rev_metals_map(self.metals_map)
         self.conversion_factors = load_conversion_factors()
@@ -130,7 +134,6 @@ class Metals(BaseTransformation):
         for exc in ws.biosphere(
             dataset, ws.either(*[ws.equals("name", x) for x in self.rev_metals_map])
         ):
-
             metal = self.rev_metals_map[exc["name"]]
             use_factor = data.sel(metal=metal).values
 

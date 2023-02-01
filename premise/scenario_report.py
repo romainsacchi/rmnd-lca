@@ -139,9 +139,7 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
         last_col_used = 0
 
         for scenario_idx, scenario in enumerate(scenarios):
-
             if (scenario["model"], scenario["pathway"]) not in scenario_list:
-
                 iam_data = get_iam_data(scenario, sector)
 
                 if iam_data is None:

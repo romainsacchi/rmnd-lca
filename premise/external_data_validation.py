@@ -123,7 +123,6 @@ def check_datapackage(datapackages: list):
             raise exception
 
     for d, datapackage in enumerate(datapackages):
-
         if "config" in [
             i.name for i in datapackage.resources
         ] and "scenario_data" not in [i.name for i in datapackage.resources]:
@@ -161,7 +160,6 @@ def check_datapackage(datapackages: list):
 
 def check_config_file(datapackages):
     for i, dp in enumerate(datapackages):
-
         resource = dp.get_resource("config")
         config_file = yaml.safe_load(resource.raw_read())
 
@@ -299,7 +297,6 @@ def check_config_file(datapackages):
             # are listed
 
             for market in config_file["markets"]:
-
                 try:
                     market_providers = [
                         (
@@ -321,7 +318,6 @@ def check_config_file(datapackages):
     needs_imported_inventories = [False for _ in datapackages]
 
     for i, dp in enumerate(datapackages):
-
         resource = dp.get_resource("config")
         config_file = yaml.safe_load(resource.raw_read())
 
@@ -336,9 +332,7 @@ def check_config_file(datapackages):
 
 
 def check_scenario_data_file(datapackages, iam_scenarios):
-
     for i, dp in enumerate(datapackages):
-
         scenarios = dp.descriptor["scenarios"]
 
         rev_scenarios = {}
@@ -370,7 +364,6 @@ def check_scenario_data_file(datapackages, iam_scenarios):
                     rev_scenarios[iam_scen] = [lst_ext_scen[int(usr_input)]]
 
         for iam_scen in iam_scenarios:
-
             try:
                 if "external scenarios" in iam_scen:
                     iam_scen["external scenarios"].append(
@@ -550,7 +543,6 @@ def get_recursively(search_dict, field):
     fields_found = []
 
     for key, value in search_dict.items():
-
         if key == field:
             fields_found.append(value)
 

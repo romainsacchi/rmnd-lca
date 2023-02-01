@@ -212,7 +212,6 @@ def get_vehicle_fleet_composition(model, vehicle_type) -> Union[xr.DataArray, No
     dataframe = dataframe.loc[dataframe["size"].isin(size_ftr)]
 
     if len(dataframe) > 0:
-
         arr = (
             dataframe.groupby(
                 ["region", "year", "powertrain", "construction_year", "size"]
@@ -493,7 +492,6 @@ class IAMDataCollection:
                 dataframe.drop(columns=dataframe.columns[-1], inplace=True)
 
         elif self.model == "image":
-
             dataframe = pd.read_csv(
                 data, index_col=[2, 3, 4], encoding="latin-1", sep=","
             ).drop(columns=["Model", "Scenario"])
@@ -548,7 +546,6 @@ class IAMDataCollection:
         )
 
         for region in data.coords["region"].values:
-
             current_shares = data.sel(region=region, year=self.year) / data.sel(
                 region=region, year=self.year
             ).sum(dim="variables")
@@ -618,7 +615,6 @@ class IAMDataCollection:
             # are likely to supply by increasing their lifetime
             # as the market does not justify additional capacity installation
             if volume_change < avg_cap_repl_rate:
-
                 # we remove suppliers with a positive growth
                 market_shares.loc[dict(region=region)].values[
                     market_shares.loc[dict(region=region)].values > 0
@@ -641,7 +637,6 @@ class IAMDataCollection:
             # market decreasing slowlier than the
             # capital renewal rate
             else:
-
                 # we remove suppliers with a negative growth
                 market_shares.loc[dict(region=region)].values[
                     market_shares.loc[dict(region=region)].values < 0
@@ -728,7 +723,6 @@ class IAMDataCollection:
         data_to_return.coords["variables"] = list_vars
 
         if self.system_model == "consequential":
-
             data_to_return = self.__transform_to_marginal_markets(data_to_return)
 
         else:
@@ -881,7 +875,6 @@ class IAMDataCollection:
                 all(v in data.variables.values for v in energy["cement"])
                 and prod["cement"] in data.variables.values
             ):
-
                 data_to_return = 1 / (
                     data.loc[:, energy["cement"], :].sum(dim="variables")
                     / data.loc[:, [prod["cement"]], :]
@@ -1310,7 +1303,6 @@ class IAMDataCollection:
         ]
 
         if self.system_model == "consequential":
-
             data_to_return = self.__transform_to_marginal_markets(data_to_return)
 
         else:
@@ -1582,7 +1574,6 @@ class IAMDataCollection:
         # Interpolation between two periods
 
         try:
-
             data_to_return = data.loc[:, list_products, :]
         except KeyError as exc:
             list_missing_vars = [
@@ -1611,11 +1602,9 @@ class IAMDataCollection:
         return data_to_return
 
     def get_external_data(self, datapackages):
-
         data = {}
 
         for i, dp in enumerate(datapackages):
-
             data[i] = {}
 
             resource = dp.get_resource("scenario_data")
@@ -1627,7 +1616,6 @@ class IAMDataCollection:
             config_file = yaml.safe_load(resource.raw_read())
 
             if "production pathways" in config_file:
-
                 variables = {}
                 for k, v in config_file["production pathways"].items():
                     try:
@@ -1678,7 +1666,6 @@ class IAMDataCollection:
                             continue
 
                 if len(variables) > 0:
-
                     subset = df.loc[
                         (df["model"] == self.model)
                         & (df["pathway"] == self.pathway)
@@ -1721,7 +1708,6 @@ class IAMDataCollection:
 
                     if ref_years:
                         for v, y in ref_years.items():
-
                             array.loc[dict(variables=v)] = array.loc[
                                 dict(variables=v)
                             ] / array.loc[dict(variables=v)].sel(year=int(y))

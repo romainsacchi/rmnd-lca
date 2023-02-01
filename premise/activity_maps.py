@@ -155,8 +155,10 @@ class InventorySet:
         a set of related ecoinvent activities' names as values.
         """
 
-        return self.generate_sets_from_filters(self.metals_filters, database=[{"name": k[0]} for k in biosphere_flows_dictionary()])
-
+        return self.generate_sets_from_filters(
+            self.metals_filters,
+            database=[{"name": k[0]} for k in biosphere_flows_dictionary()],
+        )
 
     @staticmethod
     def act_fltr(
@@ -247,7 +249,5 @@ class InventorySet:
 
         database = database or self.database
 
-        techs = {
-            tech: self.act_fltr(database, **fltr) for tech, fltr in filtr.items()
-        }
+        techs = {tech: self.act_fltr(database, **fltr) for tech, fltr in filtr.items()}
         return {tech: {act["name"] for act in actlst} for tech, actlst in techs.items()}

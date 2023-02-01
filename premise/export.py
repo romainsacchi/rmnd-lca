@@ -87,7 +87,6 @@ def load_simapro_categories():
 
 
 def get_simapro_category_of_exchange():
-
     """Load a dictionary with categories to use for Simapro export based on ei 3.7"""
 
     # Load the matching dictionary
@@ -358,7 +357,6 @@ def get_list_unique_acts(scenarios: List[dict]) -> list:
 
 
 def get_outdated_flows():
-
     with open(OUTDATED_FLOWS, "r", encoding="utf-8") as stream:
         outdated_flows = yaml.safe_load(stream)
 
@@ -372,7 +370,6 @@ exc_codes = {}
 
 @lru_cache()
 def fetch_exchange_code(name, ref, loc, unit):
-
     if (name, ref, loc, unit) not in exc_codes:
         code = str(uuid.uuid4().hex)
         exc_codes[(name, ref, loc, unit)] = code
@@ -717,7 +714,6 @@ def generate_scenario_difference_file(
     inds_std = sparse.argwhere((m[..., 1:] == m[..., 0, None]).all(axis=-1).T == False)
 
     for i in inds_std:
-
         c_name, c_ref, c_cat, c_loc, c_unit, c_type = acts_ind[i[0]]
         s_name, s_ref, s_cat, s_loc, s_unit, s_type = acts_ind[i[1]]
 
@@ -735,7 +731,6 @@ def generate_scenario_difference_file(
             )
 
         else:
-
             database_name = db_name
             exc_key_supplier = (
                 db_name,
@@ -859,7 +854,6 @@ def generate_superstructure_db(origin_db, scenarios, db_name, filepath) -> List[
 
 
 def prepare_db_for_export(scenario, cache, name):
-
     base = BaseTransformation(
         database=scenario["database"],
         iam_data=scenario["iam data"],
@@ -982,7 +976,6 @@ class Export:
         return list_rows
 
     def create_B_matrix_coordinates(self):
-
         index_B = create_index_of_biosphere_flows_matrix()
         rev_index_B = self.create_rev_index_of_B_matrix()
         index_A = create_index_of_A_matrix(self.db)
@@ -1019,7 +1012,6 @@ class Export:
         return list_rows
 
     def export_db_to_matrices(self):
-
         if not os.path.exists(self.filepath):
             os.makedirs(self.filepath)
 
@@ -1110,7 +1102,6 @@ class Export:
                     if len(ds["classifications"]) > 0:
                         for x in ds["classifications"]:
                             if x[0] == "ISIC rev.4 ecoinvent":
-
                                 try:
                                     key = [
                                         int(s)
@@ -1178,7 +1169,6 @@ class Export:
         return dict_categories
 
     def export_db_to_simapro(self):
-
         if not os.path.exists(self.filepath):
             os.makedirs(self.filepath)
 
@@ -1261,17 +1251,14 @@ class Export:
             writer.writerow([])
 
             for ds in self.db:
-
                 main_category, category = ("", "")
 
                 if ds["name"] in dict_cat_simapro:
-
                     main_category, category = (
                         dict_cat_simapro[ds["name"]]["main category"],
                         dict_cat_simapro[ds["name"]]["category"],
                     )
                 else:
-
                     if any(
                         i in ds["name"]
                         for i in (
@@ -1289,7 +1276,6 @@ class Export:
                         main_category, category = ("transport", r"Road\Infrastructure")
 
                     if main_category == "":
-
                         main_category, category = (
                             dict_cat[(ds["name"], ds["reference product"])][
                                 "main category"
@@ -1298,7 +1284,6 @@ class Export:
                         )
 
                 for item in fields:
-
                     if (
                         main_category.lower() == "waste treatment"
                         and item == "Products"
@@ -1314,7 +1299,6 @@ class Export:
                     writer.writerow([item])
 
                     if item == "Process name":
-
                         name = f"{ds['reference product']} {{{ds.get('location', 'GLO')}}}| {ds['name']} | Cut-off, U"
 
                         writer.writerow([name])
@@ -1335,7 +1319,6 @@ class Export:
                         writer.writerow([f"{datetime.datetime.today():%d.%m.%Y}"])
 
                     if item == "Comment":
-
                         if ds["name"] in dict_refs:
                             string = re.sub(
                                 "[^a-zA-Z0-9 .,]", "", dict_refs[ds["name"]]["source"]
@@ -1419,7 +1402,6 @@ class Export:
                     if item == "Materials/fuels":
                         for e in ds["exchanges"]:
                             if e["type"] == "technosphere":
-
                                 if e["name"] in dict_cat_simapro:
                                     exc_cat = dict_cat_simapro[e["name"]][
                                         "main category"
@@ -1473,7 +1455,6 @@ class Export:
                     if item == "Emissions to air":
                         for e in ds["exchanges"]:
                             if e["type"] == "biosphere" and e["categories"][0] == "air":
-
                                 if len(e["categories"]) > 1:
                                     sub_compartment = simapro_subs.get(
                                         e["categories"][1], ""
@@ -1554,7 +1535,6 @@ class Export:
                     if item == "Waste to treatment":
                         for e in ds["exchanges"]:
                             if e["type"] == "technosphere":
-
                                 if e["name"] in dict_cat_simapro:
                                     exc_cat = dict_cat_simapro[e["name"]][
                                         "main category"
@@ -1565,7 +1545,6 @@ class Export:
                                     ].lower()
 
                                 if exc_cat == "waste treatment":
-
                                     name = (
                                         e["product"]
                                         + " {"
@@ -1684,5 +1663,4 @@ class Export:
         return {v: k for k, v in inds.items()}
 
     def get_bio_code(self, idx):
-
         return self.bio_codes[idx]

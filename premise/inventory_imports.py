@@ -303,7 +303,6 @@ class BaseInventoryImport:
         """
         # Add a `product` field to the production exchange
         for dataset in self.import_db.data:
-
             for exchange in dataset["exchanges"]:
                 if exchange["type"] == "production":
                     if "product" not in exchange:
@@ -314,7 +313,6 @@ class BaseInventoryImport:
 
         # Add a `product` field to technosphere exchanges
         for dataset in self.import_db.data:
-
             for exchange in dataset["exchanges"]:
                 if exchange["type"] == "technosphere":
                     # Check if the field 'product' is present
@@ -525,7 +523,6 @@ class DefaultInventory(BaseInventoryImport):
         return ExcelImporter(path)
 
     def prepare_inventory(self) -> None:
-
         if self.version_in != self.version_out:
             self.import_db.migrate(
                 f"migration_{self.version_in.replace('.', '')}_{self.version_out.replace('.', '')}"
@@ -600,7 +597,6 @@ class VariousVehicles(BaseInventoryImport):
         self.check_for_already_existing_datasets()
 
     def merge_inventory(self):
-
         self.database.extend(self.import_db.data)
 
         print("Done!")
@@ -617,7 +613,6 @@ class AdditionalInventory(BaseInventoryImport):
         super().__init__(database, version_in, version_out, path)
 
     def load_inventory(self, path):
-
         if "http" in path:
             # online file
             # we need to save it locally first
@@ -655,7 +650,6 @@ class AdditionalInventory(BaseInventoryImport):
                     del dataset[key]
 
     def prepare_inventory(self):
-
         if self.version_in != self.version_out:
             self.import_db.migrate(
                 f"migration_{self.version_in.replace('.', '')}_{self.version_out.replace('.', '')}"

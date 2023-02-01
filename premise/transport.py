@@ -169,7 +169,6 @@ def create_fleet_vehicles(
                 size = size.replace(" gross weight", "")
 
             else:
-
                 if len(dataset["name"].split(", ")) == 6:
                     if dataset["name"].split(", ")[2] == "battery electric":
                         _, _, pwt, _, size, year = dataset["name"].split(", ")
@@ -238,7 +237,6 @@ def create_fleet_vehicles(
         total_km = sel.sum()
 
         if total_km > 0:
-
             if vehicle_type == "truck":
                 driving_cycles = ["regional delivery", "long haul"]
             else:
@@ -284,7 +282,6 @@ def create_fleet_vehicles(
                                 and (pwt, size, constr_year_map[construction_year])
                                 in available_ds
                             ):
-
                                 indiv_share = (indiv_km / total_km).values.item(0)
 
                                 if vehicle_type == "truck":
@@ -305,7 +302,6 @@ def create_fleet_vehicles(
                                     )
 
                                 if to_look_for in d_names:
-
                                     name, ref, unit = d_names[to_look_for]
 
                                     act["exchanges"].append(
@@ -328,7 +324,6 @@ def create_fleet_vehicles(
                         total_size_km = sel.sel(size=size).sum()
 
                         if total_size_km > 0:
-
                             name = (
                                 f"{vehicles_map[vehicle_type]['name']}, {size} gross weight, "
                                 f"unspecified powertrain, {driving_cycle}"
@@ -384,7 +379,6 @@ def create_fleet_vehicles(
                                             driving_cycle,
                                         )
                                         if to_look_for in d_names:
-
                                             name, ref, unit = d_names[to_look_for]
 
                                             act["exchanges"].append(
@@ -496,7 +490,6 @@ class Transport(BaseTransformation):
         fleet_act = None
 
         if self.has_fleet:
-
             datasets.import_db.data = [
                 dataset
                 for dataset in datasets.import_db.data
@@ -527,7 +520,6 @@ class Transport(BaseTransformation):
                 arr = None
 
             if arr is not None:
-
                 fleet_act = create_fleet_vehicles(
                     datasets.import_db.data,
                     vehicle_type=self.vehicle_type,
@@ -558,7 +550,6 @@ class Transport(BaseTransformation):
                 datasets.import_db.data.extend(fleet_act)
 
         else:
-
             datasets.import_db.data = [
                 dataset
                 for dataset in datasets.import_db.data
@@ -626,7 +617,6 @@ class Transport(BaseTransformation):
                     ws.contains("name", "transport, freight, lorry"),
                     ws.equals("unit", "ton kilometer"),
                 ):
-
                     key = [
                         k
                         for k in vehicles_map["truck"]["old_trucks"][self.model]

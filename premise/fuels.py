@@ -123,7 +123,6 @@ class Fuels(BaseTransformation):
         self.cached_suppliers = {}
 
     def generate_dac_activities(self) -> None:
-
         """Generate regional variants of the DAC process with varying heat sources"""
 
         # define heat sources
@@ -140,7 +139,6 @@ class Fuels(BaseTransformation):
 
         # loop through types of heat source
         for heat_type, activities in heat_map_ds.items():
-
             new_ds = copy.deepcopy(original_ds)
 
             new_name = f"{name}, with {heat_type}, and grid electricity"
@@ -233,7 +231,6 @@ class Fuels(BaseTransformation):
     def find_suppliers(
         self, name: str, ref_prod: str, unit: str, loc: str, exclude: List[str] = None
     ) -> Dict[Tuple[Any, Any, Any, Any], float]:
-
         """
         Return a list of potential suppliers given a name, reference product,
         unit and location, with their respective supply share (based on production volumes).
@@ -308,7 +305,6 @@ class Fuels(BaseTransformation):
         hydrogen_sources = fetch_mapping(HYDROGEN_SOURCES)
 
         for hydrogen_type, hydrogen_activity in hydrogen_sources.items():
-
             new_ds = self.fetch_proxies(
                 name=hydrogen_activity["name"],
                 ref_prod="Hydrogen",
@@ -317,7 +313,6 @@ class Fuels(BaseTransformation):
             )
 
             for region, dataset in new_ds.items():
-
                 # we adjust the electrolysis efficiency
                 if hydrogen_type == "from electrolysis":
                     for exc in ws.technosphere(dataset):
@@ -370,7 +365,6 @@ class Fuels(BaseTransformation):
                 for vehicle, config in supply_chain_scenarios.items():
                     for state in config["state"]:
                         for distance in config["distance"]:
-
                             # dataset creation
                             new_act = {
                                 "location": region,
@@ -400,7 +394,6 @@ class Fuels(BaseTransformation):
 
                             # transport
                             for trspt in config["vehicle"]:
-
                                 suppliers = self.find_suppliers(
                                     name=trspt["name"],
                                     ref_prod=trspt["reference product"],
@@ -437,7 +430,6 @@ class Fuels(BaseTransformation):
                             # need for inhibitor and purification if CNG pipeline
                             # electricity for purification: 2.46 kWh/kg H2
                             if vehicle == "CNG pipeline":
-
                                 inhibbitor_ds = ws.get_one(
                                     self.database,
                                     ws.contains(
@@ -470,7 +462,6 @@ class Fuels(BaseTransformation):
                                     new_act["comment"] = string
 
                             if "regional storage" in config:
-
                                 storage_ds = ws.get_one(
                                     self.database,
                                     ws.contains(
@@ -525,7 +516,6 @@ class Fuels(BaseTransformation):
                                 # by 2050, 6 kWh/kg H2
 
                                 if state == "gaseous":
-
                                     if vehicle == "truck":
                                         electricity_comp = get_compression_effort(
                                             25, 500, 1000
@@ -589,7 +579,6 @@ class Fuels(BaseTransformation):
                             # electricity for hydrogenation, dehydrogenation and
                             # compression at delivery
                             if state == "liquid organic compound":
-
                                 hydrogenation_ds = ws.get_one(
                                     self.database,
                                     ws.equals("name", "hydrogenation of hydrogen"),
@@ -676,7 +665,6 @@ class Fuels(BaseTransformation):
                             string = ""
                             total_loss = 1
                             for loss, val in losses[vehicle][state].items():
-
                                 val = float(val)
 
                                 if loss == "boil-off":
@@ -832,7 +820,6 @@ class Fuels(BaseTransformation):
 
         for fuel, activities in fuel_activities.items():
             for activity in activities:
-
                 original_ds = self.fetch_proxies(name=activity, ref_prod=" ")
 
                 # delete original
@@ -872,7 +859,6 @@ class Fuels(BaseTransformation):
                                     exc["location"] = region
 
                             for exc in ws.technosphere(dataset):
-
                                 if (
                                     "methane, from electrochemical methanation"
                                     in exc["name"]
@@ -906,11 +892,9 @@ class Fuels(BaseTransformation):
                         )
 
                 else:
-
                     new_ds = copy.deepcopy(original_ds)
 
                     for region, dataset in new_ds.items():
-
                         dataset["code"] = str(uuid.uuid4().hex)
                         for exc in ws.production(dataset):
                             if "input" in exc:
@@ -973,7 +957,6 @@ class Fuels(BaseTransformation):
         for exc in dataset["exchanges"]:
             # we adjust the land use
             if exc["type"] == "biosphere" and exc["name"].startswith("Occupation"):
-
                 # lower heating value, dry basis
                 lhv_ar = dataset["LHV [MJ/kg dry]"]
 
@@ -1022,7 +1005,6 @@ class Fuels(BaseTransformation):
         )
 
         if land_use_co2 > 0:
-
             # lower heating value, as received
             lhv_ar = dataset["LHV [MJ/kg dry]"]
 
@@ -1076,7 +1058,6 @@ class Fuels(BaseTransformation):
         ]
 
         if variables:
-
             scaling_factor = 1 / self.find_iam_efficiency_change(
                 variable=variables, location=region
             )
@@ -1157,7 +1138,6 @@ class Fuels(BaseTransformation):
                     regions = list(d_region_climate.keys())
 
                 for name in names:
-
                     try:
                         prod_label = [
                             l
@@ -1179,14 +1159,12 @@ class Fuels(BaseTransformation):
                     )
 
                     for region in regions:
-
                         # if this is a fuel production activity
                         # we need to adjust the process efficiency
                         if any(
                             i in new_ds[region]["name"]
                             for i in ["Ethanol production", "Biodiesel production"]
                         ):
-
                             new_ds[region] = self.adjust_biomass_conversion_efficiency(
                                 dataset=new_ds[region],
                                 region=region,
@@ -1280,7 +1258,6 @@ class Fuels(BaseTransformation):
             self.database,
             ws.exclude(ws.either(*[ws.contains("name", n) for n in acts_to_ignore])),
         ):
-
             # check that a fuel input exchange is present in the list of inputs
             # check also for "market group for" inputs
             if any(
@@ -1292,15 +1269,12 @@ class Fuels(BaseTransformation):
                 for exc in dataset["exchanges"]
                 for f in self.new_fuel_markets
             ):
-
                 amount_fossil_co2, amount_non_fossil_co2 = [0, 0]
 
                 for _, activity in fuel_markets.items():
-
                     # checking that it is one of the markets
                     # that has been newly created
                     if activity["name"] in acts_to_ignore:
-
                         excs = list(
                             ws.get_many(
                                 dataset["exchanges"],
@@ -1371,7 +1345,6 @@ class Fuels(BaseTransformation):
                 if amount_non_fossil_co2 > 0 and not any(
                     x in dataset["name"].lower() for x in list_items_to_ignore
                 ):
-
                     # test for the presence of a fossil CO2 flow
                     if not [
                         e
@@ -1429,7 +1402,6 @@ class Fuels(BaseTransformation):
         suppliers, counter = [], 0
 
         while not suppliers:
-
             suppliers = list(
                 ws.get_many(
                     self.database,
@@ -1603,9 +1575,7 @@ class Fuels(BaseTransformation):
         }
 
         for fuel, activity in fuel_markets.items():
-
             if [i for e in self.fuel_labels for i in vars_map[fuel] if i in e]:
-
                 print(f"--> {fuel}")
 
                 prod_vars = [
@@ -1621,9 +1591,7 @@ class Fuels(BaseTransformation):
                 )
 
                 for region, dataset in d_act.items():
-
                     if region != "World":
-
                         string = " Fuel market composition: "
                         fossil_co2, non_fossil_co2, final_lhv = [0, 0, 0]
 
@@ -1642,13 +1610,11 @@ class Fuels(BaseTransformation):
                         ]
 
                         for var in prod_vars:
-
                             share = d_fuels[var]["find_share"](
                                 var, vars_map[fuel], region
                             )
 
                             if share > 0:
-
                                 possible_suppliers = self.select_multiple_suppliers(
                                     var, d_fuels, dataset, vars_map[fuel]
                                 )
@@ -1766,7 +1732,6 @@ class Fuels(BaseTransformation):
                         final_lhv, final_fossil_co2, final_biogenic_co2 = (0, 0, 0)
 
                         for r in [x for x in d_act if x != "World"]:
-
                             total_prod_vol = (
                                 self.iam_data.production_volumes.sel(
                                     region="World", variables=prod_vars

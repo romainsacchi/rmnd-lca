@@ -166,7 +166,6 @@ def add_entry_to_cache(
     allocated: List[dict],
     share: List[float],
 ) -> dict:
-
     if location in cache:
         if model in cache[location]:
             cache[location][model][
@@ -183,7 +182,12 @@ def add_entry_to_cache(
         else:
             cache[location] = {
                 model: {
-                    (exc["name"], exc["product"], exc["location"], exc["unit"],): [
+                    (
+                        exc["name"],
+                        exc["product"],
+                        exc["location"],
+                        exc["unit"],
+                    ): [
                         (
                             e["name"],
                             e["product"],
@@ -199,7 +203,12 @@ def add_entry_to_cache(
     else:
         cache[location] = {
             model: {
-                (exc["name"], exc["product"], exc["location"], exc["unit"],): [
+                (
+                    exc["name"],
+                    exc["product"],
+                    exc["location"],
+                    exc["unit"],
+                ): [
                     (
                         e["name"],
                         e["product"],
@@ -253,7 +262,6 @@ def relink_technosphere_exchanges(
     ]
 
     for exc in filter(technosphere, dataset["exchanges"]):
-
         try:
             exchange = cache[dataset["location"]][model][
                 (exc["name"], exc["product"], exc["location"], exc["unit"])
@@ -289,7 +297,6 @@ def relink_technosphere_exchanges(
                 )
 
         except KeyError:
-
             kept = None
 
             possible_datasets = [
@@ -306,10 +313,14 @@ def relink_technosphere_exchanges(
                 continue
 
             if dataset["location"] in possible_locations:
-
                 cache[dataset["location"]] = {
                     model: {
-                        (exc["name"], exc["product"], exc["location"], exc["unit"],): [
+                        (
+                            exc["name"],
+                            exc["product"],
+                            exc["location"],
+                            exc["unit"],
+                        ): [
                             (e["name"], e["product"], e["location"], e["unit"], s)
                             for e, s in zip(
                                 [new_exchange(exc, dataset["location"], 1.0)], [1.0]
@@ -363,7 +374,6 @@ def relink_technosphere_exchanges(
             ]
 
             if len(possible_datasets) > 0:
-
                 location = (
                     dataset["location"]
                     if dataset["location"] not in geomatcher.iam_regions
@@ -401,7 +411,6 @@ def relink_technosphere_exchanges(
                         )
 
                 if not kept and exc["name"].startswith("market group for"):
-
                     market_group_exc = exc.copy()
                     market_group_exc["name"] = market_group_exc["name"].replace(
                         "market group for", "market for"
@@ -508,12 +517,10 @@ def get_gis_match(
     exclusive,
     biggest_first,
 ):
-
     with resolved_row(possible_locations, geomatcher.geo) as g:
         func = g.contained if contained else g.intersects
 
         if dataset["location"] not in geomatcher.iam_regions:
-
             gis_match = func(
                 location,
                 include_self=True,
@@ -544,7 +551,6 @@ def get_possibles(exchange, data):
 
 
 def default_global_location(database):
-
     """
     Set missing locations to ```GLO```
     for datasets in ``database``.
@@ -571,7 +577,6 @@ def get_regions_definition(model: str) -> None:
     country_converter = CountryConverter()
 
     for region in geo.iam_regions:
-
         list_countries = []
         for iso_2 in geo.iam_to_ecoinvent_location(region):
             if iso_2 in country_converter.ISO2["ISO2"].values:
@@ -634,7 +639,6 @@ def info_on_utils_functions():
 
 
 def check_database_name(data: List[dict], name: str) -> List[dict]:
-
     for ds in data:
         ds["database"] = name
 
@@ -721,7 +725,6 @@ def clean_up(exc):
 
 
 def write_brightway2_database(data, name):
-
     # Restore parameters to Brightway2 format
     # which allows for uncertainty and comments
 

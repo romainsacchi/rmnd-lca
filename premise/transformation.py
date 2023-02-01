@@ -75,7 +75,6 @@ def get_shares_from_production_volume(
     total_production_volume = 0
 
     for act in ds_list:
-
         production_volume = 0
 
         if "production volume" in act:
@@ -159,7 +158,6 @@ class BaseTransformation:
         year: int,
         cache: dict = None,
     ) -> None:
-
         self.database: List[dict] = database
         self.iam_data: IAMDataCollection = iam_data
         self.model: str = model
@@ -240,7 +238,6 @@ class BaseTransformation:
 
         # if fuel input other than MJ
         if fuel_unit in ["kilogram", "cubic meter", "kilowatt hour"]:
-
             lhv = [
                 self.fuels_specs[k]["lhv"]
                 for k in self.fuels_specs
@@ -335,7 +332,6 @@ class BaseTransformation:
     def region_to_proxy_dataset_mapping(
         self, name: str, ref_prod: str, regions: List[str] = None
     ) -> Dict[str, str]:
-
         d_map = {
             self.ecoinvent_to_iam_loc[d["location"]]: d["location"]
             for d in ws.get_many(
@@ -387,7 +383,6 @@ class BaseTransformation:
         ds_name, ds_ref_prod = [None, None]
 
         for region in d_iam_to_eco:
-
             try:
                 dataset = ws.get_one(
                     self.database,
@@ -414,7 +409,6 @@ class BaseTransformation:
                     d_act[region].pop("input")
 
                 if production_variable:
-
                     # Add `production volume` field
                     if isinstance(production_variable, str):
                         production_variable = [production_variable]
@@ -509,7 +503,6 @@ class BaseTransformation:
         )
 
         for existing_ds in existing_datasets:
-
             if existing_ds["location"] in mapping:
                 iam_locs = mapping[existing_ds["location"]]
             else:
@@ -536,7 +529,6 @@ class BaseTransformation:
                 )
 
             if len(iam_locs) > 1:
-
                 if production_variable:
                     # Add `production volume` field
                     if isinstance(production_variable, str):
@@ -563,7 +555,6 @@ class BaseTransformation:
                     total_prod_vol = 1
 
                 for iam_loc in iam_locs:
-
                     if production_variable and all(
                         i in self.iam_data.production_volumes.variables.values.tolist()
                         for i in production_variable
@@ -594,7 +585,6 @@ class BaseTransformation:
                     )
 
             else:
-
                 existing_ds["exchanges"].append(
                     {
                         "name": existing_ds["name"],
@@ -664,7 +654,6 @@ class BaseTransformation:
 
                 # not in cache, so find new candidate
                 except KeyError:
-
                     names_to_look_for = [exc[0], *alt_names]
 
                     if exc[0].startswith("market group for"):
@@ -681,7 +670,6 @@ class BaseTransformation:
                     for name_to_look_for, alt_loc in product(
                         names_to_look_for, alternative_locations
                     ):
-
                         if (name_to_look_for, exc[1], alt_loc) in self.list_datasets:
                             new_name, new_prod, new_loc, new_unit = (
                                 name_to_look_for,
@@ -762,7 +750,6 @@ class BaseTransformation:
             act["exchanges"].extend(list_new_exc)
 
     def add_entry_to_cache(self, location, exchange, new_exchange):
-
         if location in self.cache:
             if self.model in self.cache[location]:
                 self.cache[location][self.model][exchange] = new_exchange
@@ -848,7 +835,6 @@ class BaseTransformation:
                 exc["amount"] = bio_co2_stored
 
         if bio_co2_leaked > 0:
-
             # then the biogenic CO2 leaked during the capture process
             for exc in ws.biosphere(
                 ccs,
@@ -953,7 +939,6 @@ class BaseTransformation:
         for exc in ws.biosphere(
             dataset, ws.either(*[ws.contains("name", x) for x in self.emissions_map])
         ):
-
             pollutant = self.emissions_map[exc["name"]]
 
             scaling_factor = 1 / self.find_gains_emissions_change(

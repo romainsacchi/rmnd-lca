@@ -283,7 +283,6 @@ class Electricity(BaseTransformation):
 
         # Loop through IAM regions
         for region in self.regions:
-
             transf_loss = self.network_loss[region]["low"]["transf_loss"]
             distr_loss = self.network_loss[region]["low"]["distr_loss"]
 
@@ -301,7 +300,6 @@ class Electricity(BaseTransformation):
             tech_suppliers = defaultdict(list)
 
             for technology in ecoinvent_technologies:
-
                 suppliers, counter = [], 0
 
                 while len(suppliers) == 0:
@@ -327,7 +325,6 @@ class Electricity(BaseTransformation):
             # this is useful for systems that consume electricity
             # over a long period of time (e.g., buildings, BEVs, etc.)
             for period in [0, 20, 40, 60]:
-
                 mix = dict(
                     zip(
                         self.iam_data.electricity_markets.variables.values,
@@ -428,13 +425,11 @@ class Electricity(BaseTransformation):
                 for technology in technologies:
                     # If the solar power technology contributes to the mix
                     if mix[technology] > 0:
-
                         # Contribution in supply
                         amount = mix[technology]
                         solar_amount += amount
 
                         for supplier, share in tech_suppliers[technology]:
-
                             new_exchanges.append(
                                 {
                                     "uncertainty type": 0,
@@ -555,7 +550,6 @@ class Electricity(BaseTransformation):
         log_created_markets = []
 
         for region in self.regions:
-
             transf_loss = self.network_loss[region]["medium"]["transf_loss"]
             distr_loss = self.network_loss[region]["medium"]["distr_loss"]
 
@@ -565,7 +559,6 @@ class Electricity(BaseTransformation):
             # this is useful for systems that consume electricity
             # over a long period of time (e.g., buildings, BEVs, etc.)
             for period in [0, 20, 40, 60]:
-
                 # Create an empty dataset
 
                 new_dataset = {
@@ -768,7 +761,6 @@ class Electricity(BaseTransformation):
             tech_suppliers = defaultdict(list)
 
             for technology in ecoinvent_technologies:
-
                 suppliers, counter = [], 0
 
                 while len(suppliers) == 0:
@@ -864,15 +856,12 @@ class Electricity(BaseTransformation):
                         solar_amount += electriciy_mix[tech]
 
                 for technology in technologies:
-
                     # If the given technology contributes to the mix
                     if electriciy_mix[technology] > 0:
-
                         # Contribution in supply
                         amount = electriciy_mix[technology]
 
                         for supplier, share in tech_suppliers[technology]:
-
                             new_exchanges.append(
                                 {
                                     "uncertainty type": 0,
@@ -1009,7 +998,6 @@ class Electricity(BaseTransformation):
                     ws.equals("unit", "square meter"),
                 ],
             ):
-
                 surface = float(exc["amount"])
                 max_power = surface  # in kW, since we assume a constant 1,000W/m^2
                 current_eff = power / max_power
@@ -1156,7 +1144,6 @@ class Electricity(BaseTransformation):
                     )
 
     def create_biomass_markets(self) -> None:
-
         print("Create biomass markets.")
 
         with open(IAM_BIOMASS_VARS, "r") as stream:
@@ -1205,7 +1192,6 @@ class Electricity(BaseTransformation):
             }
 
             for biomass_type, biomass_act in biomass_map.items():
-
                 total_prod_vol = np.clip(
                     (
                         self.iam_data.production_volumes.sel(
@@ -1238,7 +1224,6 @@ class Electricity(BaseTransformation):
                         share = 0
 
                 if share > 0:
-
                     ecoinvent_regions = self.geo.iam_to_ecoinvent_location(
                         act["location"]
                     )
@@ -1285,7 +1270,6 @@ class Electricity(BaseTransformation):
                     suppliers = get_shares_from_production_volume(suppliers)
 
                     for supplier, supply_share in suppliers.items():
-
                         multiplication_factor = 1.0
                         amount = supply_share * share * multiplication_factor
                         act["exchanges"].append(
@@ -1380,7 +1364,6 @@ class Electricity(BaseTransformation):
                 *[ws.contains("name", name) for name in list_datasets_to_duplicate]
             ),
         ):
-
             new_plants = self.fetch_proxies(
                 name=dataset["name"],
                 ref_prod=dataset["reference product"],
@@ -1404,7 +1387,6 @@ class Electricity(BaseTransformation):
                     ]
 
                     for provider in providers:
-
                         provider_ds = ws.get_one(
                             self.database,
                             ws.equals("name", provider["name"]),
@@ -1493,7 +1475,6 @@ class Electricity(BaseTransformation):
                     ]
                 ),
             ):
-
                 # Find current efficiency
                 ei_eff = dict_technology["current_eff_func"](
                     dataset, dict_technology["fuel filters"], 3.6
@@ -1584,7 +1565,6 @@ class Electricity(BaseTransformation):
         list_to_remove = []
 
         for dataset in datasets_to_empty:
-
             list_to_remove.append((dataset["name"], dataset["location"]))
 
             # add tag
