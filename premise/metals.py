@@ -130,6 +130,7 @@ class Metals(BaseTransformation):
             if not np.isnan(data.sel(metal=m).values)
         ]
 
+
         # Update biosphere exchanges according to DLR use factors
         for exc in ws.biosphere(
             dataset, ws.either(*[ws.equals("name", x) for x in self.rev_metals_map])
@@ -166,21 +167,25 @@ class Metals(BaseTransformation):
                 ].values[0]
             else:
                 print(f"Conversion factor not found for {dataset['name']}.")
+
+            ### I want to create only the flows "METAL, in ground"
+            exc_ground = [x for x in self.metals_map[metal] if x == f'{metal}, in ground'][0]
             exc_id = (
-                f"{self.metals_map[metal]}",
+                exc_ground,
                 "natural resource",
                 "in ground",
                 "kilogram",
             )
-
             exc = {
-                "name": f"{self.ei_metals[metal]}",
+                # "name": f"{self.ei_metals[metal]}", #### self.ei_metals is never defined
+                "name": exc_ground,
                 "amount": use_factor,
                 "input": ("biosphere3", biosphere_flow_codes[exc_id]),
                 "type": "biosphere",
                 "unit": "kilogram",
                 "comment": (f"{use_factor};{use_factor};{technology};{metal}"),
             }
+
             dataset["exchanges"].append(exc)
 
         return dataset
