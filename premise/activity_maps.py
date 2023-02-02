@@ -10,6 +10,7 @@ from typing import List, Union
 import yaml
 
 from . import DATA_DIR
+
 # from .export import biosphere_flows_dictionary ### This import raises a circularity problem
 
 GAINS_TO_ECOINVENT_EMISSION_FILEPATH = (
@@ -22,9 +23,10 @@ ACTIVITIES_METALS_MAPPING = DATA_DIR / "metals" / "activities_mapping.yml"
 METALS_MAPPING = DATA_DIR / "metals" / "metals_mapping.yml"
 
 
-
 ### Copying the function from .export.py as the import gave a circular issue
 FILEPATH_BIOSPHERE_FLOWS = DATA_DIR / "utils" / "export" / "flows_biosphere_38.csv"
+
+
 def biosphere_flows_dictionary():
     """
     Create a dictionary with biosphere flows
@@ -41,6 +43,7 @@ def biosphere_flows_dictionary():
             csv_dict[(row[0], row[1], row[2], row[3])] = row[-1]
 
     return csv_dict
+
 
 def get_mapping(filepath: Path, var: str) -> dict:
     """
