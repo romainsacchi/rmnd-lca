@@ -31,6 +31,27 @@ LOG_DIR = DATA_DIR / "logs"
 biosphere_flow_codes = biosphere_flows_dictionary()
 
 
+def get_ecoinvent_metal_factors():
+    """
+    Load dataframe with ecoinvent factors for metals
+    and convert to xarray
+    """
+
+    filepath = DATA_DIR / "metals" / "ecoinvent_factors.csv"
+    df = pd.read_csv(filepath)
+
+    # create column "activity" as a tuple
+    # of the columns "name", "product" and "location".
+    df["activity"] = list(zip(df["name"], df["product"], df["location"]))
+    df = df.drop(columns=["name", "product", "location"])
+    df = df.melt(id_vars=["activity"], var_name="metal", value_name="value")
+
+    # create an xarray with dimensions activity, metal and year
+    ds = df.groupby(["activity", "metal"]).sum()["value"].to_xarray()
+
+    return ds
+
+
 def fetch_mapping(filepath: str) -> dict:
     """Returns a dictionary from a YML file"""
 
@@ -89,6 +110,7 @@ class Metals(BaseTransformation):
         self.metals_map: Dict[str, Set] = mapping.generate_metals_map()
         self.rev_metals_map: Dict[str, str] = rev_metals_map(self.metals_map)
         self.conversion_factors = load_conversion_factors()
+        self.current_metal_use = get_ecoinvent_metal_factors()
 
     def update_metals_use_in_database(self):
         """
@@ -121,7 +143,7 @@ class Metals(BaseTransformation):
             print(f"Technology {technology} not found in DLR data.")
             return dataset
 
-        data = self.metals.sel(origin_var=technology, variable="mean").interp(
+        data = self.metals.sel(origin_var=technology, variable="median").interp(
             year=self.year
         )
         metals = [
@@ -131,9 +153,11 @@ class Metals(BaseTransformation):
         ]
 
         # Update biosphere exchanges according to DLR use factors
+
         for exc in ws.biosphere(
             dataset, ws.either(*[ws.equals("name", x) for x in self.rev_metals_map])
         ):
+            print("Updating metal use for", dataset["name"], exc["name"])
             metal = self.rev_metals_map[exc["name"]]
             use_factor = data.sel(metal=metal).values
 
@@ -146,11 +170,27 @@ class Metals(BaseTransformation):
             else:
                 print(f"Conversion factor not found for {dataset['name']}.")
 
-            if metal not in exc.get("comment", ""):
-                exc["comment"] = f"{exc['amount']};{use_factor};{technology};{metal}"
-
             # update the exchange amount
-            exc["amount"] = use_factor
+            if metal in self.current_metal_use.metal.values:
+                ecoinvent_factor = self.current_metal_use.sel(
+                    metal=metal,
+                    activity=(
+                        dataset["name"],
+                        dataset["reference product"],
+                        dataset["location"],
+                    ),
+                ).values
+            else:
+                ecoinvent_factor = 0
+
+            exc["amount"] += (
+                use_factor
+                - ecoinvent_factor
+            )
+
+            if metal not in exc.get("comment", ""):
+                exc["comment"] = f"{ecoinvent_factor};{use_factor};{technology};{metal}"
+
             # remove metal from metals list
             metals.remove(metal)
 
@@ -167,24 +207,32 @@ class Metals(BaseTransformation):
             else:
                 print(f"Conversion factor not found for {dataset['name']}.")
 
-            ### I want to create only the flows "METAL, in ground"
-            exc_ground = [
-                x for x in self.metals_map[metal] if x == f"{metal}, in ground"
-            ][0]
             exc_id = (
-                exc_ground,
+                f"{metal}, in ground",
                 "natural resource",
                 "in ground",
                 "kilogram",
             )
+
+            if metal in self.current_metal_use.metal.values:
+                ecoinvent_factor = self.current_metal_use.sel(
+                    metal=metal,
+                    activity=(
+                        dataset["name"],
+                        dataset["reference product"],
+                        dataset["location"],
+                    ),
+                ).values
+            else:
+                ecoinvent_factor = 0
+
             exc = {
-                # "name": f"{self.ei_metals[metal]}", #### self.ei_metals is never defined
-                "name": exc_ground,
-                "amount": use_factor,
+                "name": f"{metal}, in ground",
+                "amount": use_factor - ecoinvent_factor,
                 "input": ("biosphere3", biosphere_flow_codes[exc_id]),
                 "type": "biosphere",
                 "unit": "kilogram",
-                "comment": (f"{use_factor};{use_factor};{technology};{metal}"),
+                "comment": (f"{ecoinvent_factor};{use_factor};{technology};{metal}"),
             }
 
             dataset["exchanges"].append(exc)

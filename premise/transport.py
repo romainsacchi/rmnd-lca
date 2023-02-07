@@ -111,11 +111,13 @@ def create_fleet_vehicles(
     if model == "remind":
         constr_year_map = {
             year: int(year.split("-")[-1])
-            for year in arr.coords["construction_year"].values
+            for year
+            in arr.coords["construction_year"].values
         }
     else:
         constr_year_map = {
-            year: year for year in arr.coords["construction_year"].values
+            year: year for year
+            in arr.coords["construction_year"].values
         }
 
     # fleet data does not go below 2015
@@ -458,7 +460,6 @@ class Transport(BaseTransformation):
             model=self.model,
             scenario=self.scenario,
             vehicle_type=self.vehicle_type,
-            relink=False,
             has_fleet=True,
         )
 
@@ -481,10 +482,9 @@ class Transport(BaseTransformation):
             "Scooter,",
             "Motorbike,",
             "urban delivery",
-            "passenger bus",
         ]
 
-        # We filter  vehicles by year of manufacture
+        # We filter vehicles by year of manufacture
         available_years = [2020, 2030, 2040, 2050]
         closest_year = min(available_years, key=lambda x: abs(x - self.year))
         fleet_act = None
@@ -502,7 +502,8 @@ class Transport(BaseTransformation):
                 dataset
                 for dataset in datasets.import_db.data
                 if not any(
-                    z for z in re.findall(r"\d+", dataset["name"]) if int(z) > self.year
+                    z for z in re.findall(r"\d+", dataset["name"])
+                    if int(z) > self.year
                 )
                 and not any(
                     z in dataset["name"]
