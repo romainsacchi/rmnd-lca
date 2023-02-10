@@ -183,10 +183,7 @@ class Metals(BaseTransformation):
             else:
                 ecoinvent_factor = 0
 
-            exc["amount"] += (
-                use_factor
-                - ecoinvent_factor
-            )
+            exc["amount"] += use_factor - ecoinvent_factor
 
             if metal not in exc.get("comment", ""):
                 exc["comment"] = f"{ecoinvent_factor};{use_factor};{technology};{metal}"
