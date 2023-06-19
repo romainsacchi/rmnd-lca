@@ -263,9 +263,11 @@ class Metals(BaseTransformation):
 
             dataset["exchanges"].append(exc)
 
-            if metal not in dataset.get("log parameters", {}):
-                dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
-                dataset["log parameters"][f"{metal} new amount"] = exc["amount"]
+            if "log parameters" not in dataset:
+                dataset["log parameters"] = {}
+
+            dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
+            dataset["log parameters"][f"{metal} new amount"] = exc["amount"]
 
         return dataset
 
