@@ -245,7 +245,7 @@ class Metals(BaseTransformation):
                     dataset["name"],
                     dataset["reference product"],
                     dataset["location"],
-                ) in self.current_metal_use.activity.values:
+                ) in self.current_metal_use.activity.values.tolist():
                     ecoinvent_factor = self.current_metal_use.sel(
                         metal=metal,
                         activity=(
