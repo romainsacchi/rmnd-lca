@@ -36,7 +36,7 @@ def get_mapping(filepath: Path, var: str) -> dict:
     """
 
     with open(filepath, "r", encoding="utf-8") as stream:
-        techs = yaml.safe_load(stream)
+        techs = yaml.full_load(stream)
 
     mapping = {}
     for key, val in techs.items():
