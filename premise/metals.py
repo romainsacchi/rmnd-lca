@@ -128,8 +128,6 @@ class Metals(BaseTransformation):
             version=self.version
         )
 
-        print(self.current_metal_use.activity.values)
-
     def update_metals_use_in_database(self):
         """
         Update the database with metals use factors.
@@ -227,12 +225,20 @@ class Metals(BaseTransformation):
             else:
                 print(f"Conversion factor not found for {dataset['name']}.")
 
-            exc_id = (
-                f"{metal}, in ground",
-                "natural resource",
-                "in ground",
-                "kilogram",
-            )
+            if self.version != "3.9":
+                exc_id = (
+                    f"{metal}, in ground",
+                    "natural resource",
+                    "in ground",
+                    "kilogram",
+                )
+            else:
+                exc_id = (
+                    f"{metal}",
+                    "natural resource",
+                    "in ground",
+                    "kilogram",
+                )
 
             if metal in self.current_metal_use.metal.values:
                 ecoinvent_factor = self.current_metal_use.sel(
