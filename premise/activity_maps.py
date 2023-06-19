@@ -6,9 +6,12 @@ mapping between ``premise`` and ``ecoinvent`` terminology.
 from collections import defaultdict
 from pathlib import Path
 from typing import List, Union
-from .export import biosphere_flows_dictionary
+from .data_collection import get_delimiter
+import csv
 
 import yaml
+
+from functools import lru_cache
 
 from . import DATA_DIR, VARIABLES_DIR
 
@@ -43,6 +46,32 @@ def get_mapping(filepath: Path, var: str) -> dict:
 
     return mapping
 
+
+@lru_cache
+def biosphere_flows_dictionary(version):
+    """
+    Create a dictionary with biosphere flows
+    (name, category, sub-category, unit) -> code
+    """
+    if version == "3.9":
+        fp = DATA_DIR / "utils" / "export" / "flows_biosphere_39.csv"
+    else:
+        fp = DATA_DIR / "utils" / "export" / "flows_biosphere_38.csv"
+
+    if not Path(fp).is_file():
+        raise FileNotFoundError("The dictionary of biosphere flows could not be found.")
+
+    csv_dict = {}
+
+    with open(fp, encoding="utf-8") as file:
+        input_dict = csv.reader(
+            file,
+            delimiter=get_delimiter(filepath=fp),
+        )
+        for row in input_dict:
+            csv_dict[(row[0], row[1], row[2], row[3])] = row[-1]
+
+    return csv_dict
 
 class InventorySet:
     """
@@ -193,7 +222,7 @@ class InventorySet:
     def generate_activities_using_metals_map(self) -> dict:
         """
         Filter ecoinvent processes related to metals.
-        Rerurns a dictionary with metal names as keys (see below) and
+        Returns a dictionary with metal names as keys (see below) and
         a set of related ecoinvent activities' names as values.
         """
         return self.generate_sets_from_filters(self.activity_metals_filters)
@@ -207,7 +236,8 @@ class InventorySet:
 
         return self.generate_sets_from_filters(
             self.metals_filters,
-            database=[{"name": k[0]} for k in biosphere_flows_dictionary(version=self.version)],
+            database=[{"name": k[0]}
+                      for k in biosphere_flows_dictionary(version=self.version)],
         )
 
     @staticmethod

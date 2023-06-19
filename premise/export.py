@@ -7,7 +7,6 @@ import datetime
 import json
 import os
 import re
-import sys
 import uuid
 from collections import defaultdict
 from functools import lru_cache
@@ -20,7 +19,6 @@ import sparse
 import yaml
 from datapackage import Package
 from pandas import DataFrame
-from prettytable import PrettyTable
 from scipy import sparse as nsp
 
 from . import DATA_DIR, __version__
