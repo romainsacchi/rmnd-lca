@@ -4,23 +4,24 @@
 Dysprosium:
   ecoinvent_aliases:
     fltr:
-      - Dysprosium, in ground
+      - name: Dysprosium
+        categories: !!python/tuple [natural resource, in ground]
 
 Neodymium:
   ecoinvent_aliases:
     fltr:
-      - Neodymium, 4% in bastnasite, 0.4% in crude ore, in ground
-      - Neodymium, in ground
+      - name: Neodymium, 4% in bastnasite, 0.4% in crude ore, in ground
+        categories: !!python/tuple [natural resource, in ground]
+      - name: Neodymium
+        categories: !!python/tuple [natural resource, in ground]
 
 Nickel:
   ecoinvent_aliases:
     fltr:
-      - Ni, Ni 2.3E+0%, Pt 2.5E-4%, Pd 7.3E-4%, Rh 2.0E-5%, Cu 3.2E+0% in ore, in ground
-      - Ni, Ni 3.7E-2%, Pt 4.8E-4%, Pd 2.0E-4%, Rh 2.4E-5%, Cu 5.2E-2% in ore, in ground
-      - Nickel, 1.13% in sulfide, Ni 0.76% and Cu 0.76% in crude ore, in ground
-      - Nickel, 1.98% in silicates, 1.04% in crude ore, in ground
-      - Nickel, in ground
-      - Nickel, Ni 2.5E+0%, in mixed ore, in ground
+      - name: Ni, Ni
+        categories: !!python/tuple [natural resource, in ground]
+      - name: Nickel
+        categories: !!python/tuple [natural resource, in ground]
 
 Manganese:
   ecoinvent_aliases:
