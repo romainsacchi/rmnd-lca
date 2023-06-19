@@ -38,7 +38,7 @@ with open(LOG_CONFIG, "r") as f:
     config = yaml.safe_load(f.read())
     logging.config.dictConfig(config)
 
-logger = logging.getLogger("emissions")
+logger = logging.getLogger("metal")
 
 
 def get_ecoinvent_metal_factors():
