@@ -10,16 +10,14 @@ Dysprosium:
 Neodymium:
   ecoinvent_aliases:
     fltr:
-      - name: Neodymium, 4% in bastnasite, 0.4% in crude ore, in ground
-        categories: natural resource
+      name: Neodymium, 4% in bastnasite, 0.4% in crude ore, in ground
+      categories: natural resource
 
 Nickel:
   ecoinvent_aliases:
     fltr:
-      - name: Ni, Ni
-        categories: natural resource
-      - name: Nickel
-        categories: natural resource
+      name: Nickel
+      categories: natural resource
 
 Manganese:
   ecoinvent_aliases:

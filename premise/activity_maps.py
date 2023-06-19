@@ -285,9 +285,9 @@ class InventorySet:
 
         def like(item_a, item_b):
             if filter_exact:
-                print(item_a, item_b)
+                #print(item_a, item_b)
                 return item_a.lower() == item_b.lower()
-            print(item_a, item_b)
+            #print(item_a, item_b)
             return item_a.lower().startswith(item_b.lower())
 
         def notlike(item_a, item_b):
