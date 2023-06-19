@@ -165,23 +165,6 @@ jobs:
       - name: Branch name
         run: echo running on branch ${GITHUB_REF##*/}
 
-      - name: Publish distribution 📦 to Anaconda if Push
-        if: github.ref == 'refs/heads/master'
-        shell: bash -l {0}
-
-        run: |
-          PKG_NAME=premise
-          USER=romainsacchi
-          conda install anaconda-client
-          conda install conda-build
-          mkdir ~/conda-bld
-          conda config --set anaconda_upload no
-          export CONDA_BLD_PATH=~/conda-bld
-          export VERSION=`date +%Y.%m.%d`
-          conda build "conda/" --old-build-string
-          ls $CONDA_BLD_PATH/noarch/
-          anaconda -t ${{ secrets.ANACONDA_CLOUD }} upload -u $USER $CONDA_BLD_PATH/noarch/$PKG_NAME-$VERSION-py_0.tar.bz2 --force
-
       - name: Publish distribution 📦 to Anaconda if Push from non-master branch
         if: github.ref != 'refs/heads/master'
         shell: bash -l {0}
@@ -220,7 +203,6 @@ jobs:
           allow-softlinks: true
           channel-priority: strict
           auto-update-conda: true
-          conda-build-version: 3.21.4
           activate-environment: test
 
       - name: Pull distribution 📦 from Anaconda and test it if master branch
@@ -231,6 +213,7 @@ jobs:
           conda install -c romainsacchi premise
           conda update premise
           conda install pytest
+          conda install bottleneck
           pytest -m "not ecoinvent"
         env:
           IAM_FILES_KEY: ${{ secrets.IAM_FILES_KEY }}
@@ -243,6 +226,7 @@ jobs:
           conda install -c romainsacchi premise-dev
           conda update premise-dev
           conda install pytest
+          conda install bottleneck
           pytest -m "not ecoinvent"
         env:
           IAM_FILES_KEY: ${{ secrets.IAM_FILES_KEY }}

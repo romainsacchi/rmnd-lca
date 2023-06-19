@@ -1,5 +1,3 @@
-import xarray as xr
-
 from premise.clean_datasets import remove_uncertainty
 from premise.export import *
 

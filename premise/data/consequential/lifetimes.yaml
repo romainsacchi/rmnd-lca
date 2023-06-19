@@ -1,0 +1,67 @@
+# lifetime, in years
+# of different technologies
+---
+Biomass IGCC CCS: 40
+Biomass IGCC: 40
+Biomass CHP: 40
+Biomass CHP CCS: 40
+Biomass ST: 40
+Coal IGCC: 40
+Coal IGCC CCS: 40
+Coal PC: 40
+Coal PC CCS: 40
+Coal CHP: 40
+Coal CHP CCS: 40
+Gas OC: 35
+Gas CC: 35
+Gas CC CCS: 35
+Gas CHP: 35
+Gas CHP CCS: 35
+Oil ST: 25
+Oil CC CCS: 25
+Oil CC: 25
+Oil CHP CCS: 25
+Oil CHP: 25
+Geothermal: 30
+Hydro: 130
+Hydrogen: 35
+Nuclear: 40
+Solar CSP: 30
+Solar PV Centralized: 30
+Solar PV Residential: 30
+Wind Onshore: 25
+Wind Offshore: 25
+diesel: 35
+gasoline: 35
+diesel, synthetic, from wood: 35
+diesel, synthetic, from wood, with CCS: 35
+diesel, synthetic, from grass: 35
+diesel, synthetic, from grass, with CCS: 35
+biodiesel, oil: 35
+biodiesel, oil, with CCS: 35
+bioethanol, wood: 35
+bioethanol, wood, with CCS: 35
+bioethanol, grass: 35
+bioethanol, grass, with CCS: 35
+bioethanol, grain: 35
+bioethanol, grain, with CCS: 35
+bioethanol, sugar: 35
+bioethanol, sugar, with CCS: 35
+methanol, wood: 35
+methanol, wood, with CCS: 35
+methanol, grass: 35
+methanol, grass, with CCS: 35
+natural gas: 35
+biomethane: 35
+petrol, synthetic, from electrolysis: 35
+petrol, synthetic, from coal: 35
+petrol, synthetic, from coal, with CCS: 35
+diesel, synthetic, from electrolysis: 35
+diesel, synthetic, from coal: 35
+diesel, synthetic, from coal, with CCS: 35
+hydrogen, electrolysis: 35
+hydrogen, biomass: 35
+hydrogen, biomass, with CCS: 35
+hydrogen, coal: 35
+hydrogen, nat. gas: 35
+hydrogen, nat. gas, with CCS: 35

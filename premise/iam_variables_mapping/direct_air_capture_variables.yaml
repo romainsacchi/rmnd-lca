@@ -1,0 +1,38 @@
+# mapping between premise and IAM terminology
+# regarding direct air capture use
+# the cumulative deployment of DACCS allows to
+# apply a learning curve to the DACCS datasets
+---
+
+dac_solvent:
+  iam_aliases:
+    remind: 'Emi|CO2|Cumulated|CDR|DACCS'
+    image: Carbon Capture|Storage|Direct Air Capture|Cumulative
+  ecoinvent_aliases:
+    fltr:
+      - carbon dioxide, captured from atmosphere, with a solvent-based direct air capture system, 1MtCO2
+
+dac_sorbent:
+  iam_aliases:
+    remind: 'Emi|CO2|Cumulated|CDR|DACCS'
+    image: Carbon Capture|Storage|Direct Air Capture|Cumulative
+  ecoinvent_aliases:
+    fltr:
+      - carbon dioxide, captured from atmosphere, with a sorbent-based direct air capture system, 100ktCO2
+
+daccs_solvent:
+  iam_aliases:
+    remind: 'Emi|CO2|Cumulated|CDR|DACCS'
+    image: Carbon Capture|Storage|Direct Air Capture|Cumulative
+  ecoinvent_aliases:
+    fltr:
+      - carbon dioxide, captured from atmosphere and stored, with a solvent-based direct air capture system, 1MtCO2
+
+daccs_sorbent:
+  iam_aliases:
+    remind: 'Emi|CO2|Cumulated|CDR|DACCS'
+    image: Carbon Capture|Storage|Direct Air Capture|Cumulative
+  ecoinvent_aliases:
+    fltr:
+      - carbon dioxide, captured from atmosphere and stored, with a sorbent-based direct air capture system, 100ktCO2
+

@@ -52,7 +52,13 @@ def get_db():
 def test_file_exists():
     db, version = get_db()
     with pytest.raises(FileNotFoundError) as wrapped_error:
-        BaseInventoryImport(db, version_in=version, version_out="3.8", path="testfile")
+        BaseInventoryImport(
+            db,
+            version_in=version,
+            version_out="3.8",
+            path="testfile",
+            system_model="cutoff",
+        )
     assert wrapped_error.type == FileNotFoundError
 
 
@@ -60,7 +66,9 @@ def test_biosphere_dict():
     db, version = get_db()
     testpath = Path("testfile")
     open(testpath, "w")
-    dbc = BaseInventoryImport(db, version_in=version, version_out="3.8", path=testpath)
+    dbc = BaseInventoryImport(
+        db, version_in=version, version_out="3.8", path=testpath, system_model="cutoff"
+    )
     assert (
         dbc.biosphere_dict[
             ("1,4-Butanediol", "air", "urban air close to ground", "kilogram")
@@ -75,7 +83,9 @@ def test_biosphere_dict_2():
     db, version = get_db()
     testpath = Path("testfile")
     open(testpath, "w")
-    dbc = BaseInventoryImport(db, version_in=version, version_out="3.8", path=testpath)
+    dbc = BaseInventoryImport(
+        db, version_in=version, version_out="3.8", path=testpath, system_model="cutoff"
+    )
 
     for act in dbc.database:
         for exc in act["exchanges"]:
@@ -98,7 +108,12 @@ def test_biosphere_dict_2():
 def test_load_carma():
     db, version = get_db()
     carma = DefaultInventory(
-        db, version_in="3.5", version_out="3.8", path=FILEPATH_CARMA_INVENTORIES
+        db,
+        version_in="3.5",
+        version_out="3.8",
+        path=FILEPATH_CARMA_INVENTORIES,
+        system_model="cutoff",
+        keep_uncertainty_data=False,
     )
     assert len(carma.import_db.data) >= 135
 
@@ -106,6 +121,11 @@ def test_load_carma():
 def test_load_biofuel():
     db, version = get_db()
     bio = DefaultInventory(
-        db, version_in="3.7", version_out="3.8", path=FILEPATH_BIOFUEL_INVENTORIES
+        db,
+        version_in="3.7",
+        version_out="3.8",
+        path=FILEPATH_BIOFUEL_INVENTORIES,
+        system_model="cutoff",
+        keep_uncertainty_data=False,
     )
     assert len(bio.import_db.data) >= 160

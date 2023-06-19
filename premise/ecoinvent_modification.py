@@ -12,16 +12,20 @@ from datetime import date
 from pathlib import Path
 from typing import List, Union
 
+import datapackage
 import yaml
 
-from . import DATA_DIR, INVENTORY_DIR
+from . import DATA_DIR, INVENTORY_DIR, __version__
 from .cement import Cement
 from .clean_datasets import DatabaseCleaner
 from .data_collection import IAMDataCollection
+from .direct_air_capture import DirectAirCapture
 from .electricity import Electricity
+from .emissions import Emissions
 from .export import (
     Export,
     build_datapackage,
+    check_amount_format,
     check_for_outdated_flows,
     generate_scenario_factor_file,
     generate_superstructure_db,
@@ -32,11 +36,12 @@ from .external_data_validation import check_external_scenarios, check_inventorie
 from .fuels import Fuels
 from .inventory_imports import AdditionalInventory, DefaultInventory
 from .metals import Metals
-from .scenario_report import generate_summary_report
+from .report import generate_change_report, generate_summary_report
 from .steel import Steel
 from .transport import Transport
 from .utils import (
     HiddenPrints,
+    clear_existing_cache,
     eidb_label,
     hide_messages,
     info_on_utils_functions,
@@ -125,7 +130,6 @@ FILEPATH_BIGCC = INVENTORY_DIR / "lci-BIGCC.xlsx"
 FILEPATH_NUCLEAR_EPR = INVENTORY_DIR / "lci-nuclear_EPR.xlsx"
 FILEPATH_NUCLEAR_SMR = INVENTORY_DIR / "lci-nuclear_SMR.xlsx"
 FILEPATH_WAVE = INVENTORY_DIR / "lci-wave_energy.xlsx"
-
 
 config = load_constants()
 
@@ -219,7 +223,7 @@ def check_filepath(path: str) -> Path:
     Check for the existence of the file.
     """
     if not Path(path).is_dir():
-        raise FileNotFoundError(f"The IAM output directory {path} could not be found.")
+        raise FileNotFoundError(f"The filepath {path} could not be found.")
     return Path(path)
 
 
@@ -277,16 +281,15 @@ def check_additional_inventories(inventories_list: List[dict]) -> List[dict]:
                 "must be present in the list of inventories to import."
             )
 
-        if not Path(inventory["inventories"]).is_file():
+        if not Path(inventory["filepath"]).is_file():
             raise FileNotFoundError(
                 f"Cannot find the inventory file: {inventory['inventories']}."
             )
-        inventory["inventories"] = Path(inventory["inventories"])
 
-        if inventory["ecoinvent version"] not in ["3.7", "3.7.1", "3.8"]:
+        if inventory["ecoinvent version"] not in config["SUPPORTED_EI_VERSIONS"]:
             raise ValueError(
                 "A lot of trouble will be avoided if the additional "
-                f"inventories to import are ecoinvent 3.7 or 3.8-compliant, not {inventory['ecoinvent version']}."
+                f"inventories to import are ecoinvent 3.6, 3.7, 3-8 or 3.9-compliant, not {inventory['ecoinvent version']}."
             )
 
     return inventories_list
@@ -296,13 +299,21 @@ def check_db_version(version: [str, float]) -> str:
     """
     Check that the ecoinvent database version is supported
     :param version:
-    :return:
+    :return: str
     """
     version = str(version)
     if version not in config["SUPPORTED_EI_VERSIONS"]:
         raise ValueError(
             f"Only {config['SUPPORTED_EI_VERSIONS']} are currently supported, not {version}."
         )
+
+    # convert "3.7.1" to "3.7"
+    if version == "3.7.1":
+        version = "3.7"
+
+    if version == "3.9.1":
+        version = "3.9"
+
     return version
 
 
@@ -352,13 +363,13 @@ def check_system_model(system_model: str) -> str:
     if not isinstance(system_model, str):
         raise TypeError(
             "The argument `system_model` must be a string"
-            "('attributional', 'consequential')."
+            "('consequential', 'cutoff')."
         )
 
-    if system_model not in ("attributional", "consequential"):
+    if system_model not in ("consequential", "cutoff"):
         raise ValueError(
             "The argument `system_model` must be one of the two values:"
-            "'attributional', 'consequential'."
+            "'consequential', 'cutoff'."
         )
 
     return system_model
@@ -402,9 +413,9 @@ class NewDatabase:
     :ivar source_db: name of the ecoinvent source database
     :vartype source_db: str
     :ivar source_version: version of the ecoinvent source database.
-        Currently works with ecoinvent cut-off 3.5, 3.6, 3.7, 3.7.1 and 3.8.
+        Currently works with ecoinvent cut-off 3.5, 3.6, 3.7, 3.7.1, 3.8, 3.9 and 3.9.1.
     :vartype source_version: str
-    :ivar system_model: Can be `attributional` (default) or `consequential`.
+    :ivar system_model: Can be `cutoff` (default) or `consequential`.
     :vartype system_model: str
 
     """
@@ -412,29 +423,38 @@ class NewDatabase:
     def __init__(
         self,
         scenarios: List[dict],
-        source_version: str = "3.8",
+        source_version: str = "3.9",
         source_type: str = "brightway",
         key: bytes = None,
         source_db: str = None,
         source_file_path: str = None,
         additional_inventories: List[dict] = None,
-        system_model: str = "attributional",
-        time_horizon: int = None,
+        system_model: str = "cutoff",
+        system_args: dict = None,
         use_cached_inventories: bool = True,
         use_cached_database: bool = True,
         external_scenarios: list = None,
         quiet=False,
         keep_uncertainty_data=False,
+        gains_scenario="CLE",
     ) -> None:
         self.source = source_db
         self.version = check_db_version(source_version)
         self.source_type = source_type
         self.system_model = check_system_model(system_model)
-        self.time_horizon = (
-            check_time_horizon(time_horizon)
-            if system_model == "consequential"
-            else None
-        )
+        self.system_model_args = system_args
+
+        # if version is anything other than 3.8 or 3.9
+        # and system_model is "consequential"
+        # raise an error
+        if self.version not in ["3.8", "3.9"] and self.system_model == "consequential":
+            raise ValueError(
+                "Consequential system model is only available for ecoinvent 3.8 or 3.9."
+            )
+
+        if gains_scenario not in ["CLE", "MFR"]:
+            raise ValueError("gains_scenario must be either 'CLE' or 'MFR'")
+        self.gains_scenario = gains_scenario
 
         if self.source_type == "ecospold":
             self.source_file_path = check_ei_filepath(source_file_path)
@@ -442,6 +462,12 @@ class NewDatabase:
             self.source_file_path = None
 
         self.scenarios = [check_scenarios(scenario, key) for scenario in scenarios]
+
+        # create dictionary that keeps track of emptied and created datasets
+        self.modified_datasets = {
+            (s["model"], s["pathway"], s["year"]): {"emptied": [], "created": []}
+            for s in self.scenarios
+        }
 
         # print some info
         if not quiet:
@@ -482,7 +508,7 @@ class NewDatabase:
                 self.database.extend(data)
 
         else:
-            self.__import_inventories()
+            self.__import_inventories(keep_uncertainty_data=keep_uncertainty_data)
 
         if self.additional_inventories:
             data = self.__import_additional_inventories(self.additional_inventories)
@@ -501,7 +527,8 @@ class NewDatabase:
                 filepath_iam_files=scenario["filepath"],
                 key=key,
                 system_model=self.system_model,
-                time_horizon=self.time_horizon,
+                system_model_args=self.system_model_args,
+                gains_scenario=self.gains_scenario,
             )
             scenario["iam data"] = data
 
@@ -525,7 +552,10 @@ class NewDatabase:
         if db_name is None:
             db_name = "unnamed"
 
-        file_name = Path(DIR_CACHED_DB / f"cached_{db_name.strip().lower()}.pickle")
+        file_name = Path(
+            DIR_CACHED_DB
+            / f"cached_{''.join(tuple(map( str , __version__ )))}_{db_name.strip().lower()}.pickle"
+        )
 
         # check that file path leads to an existing file
         if file_name.exists():
@@ -534,6 +564,7 @@ class NewDatabase:
 
         # extract the database, pickle it for next time and return it
         print("Cannot find cached database. Will create one now for next time...")
+        clear_existing_cache()
         database = self.__clean_database(keep_uncertainty_data=keep_uncertainty_data)
         pickle.dump(database, open(file_name, "wb"))
         return database
@@ -552,7 +583,8 @@ class NewDatabase:
             db_name = "unnamed"
 
         file_name = Path(
-            DIR_CACHED_DB / f"cached_{db_name.strip().lower()}_inventories.pickle"
+            DIR_CACHED_DB
+            / f"cached_{''.join(tuple(map( str , __version__ )))}_{db_name.strip().lower()}_inventories.pickle"
         )
 
         # check that file path leads to an existing file
@@ -578,10 +610,10 @@ class NewDatabase:
         :return:
         """
         return DatabaseCleaner(
-            self.source, self.source_type, self.source_file_path
+            self.source, self.source_type, self.source_file_path, self.version
         ).prepare_datasets(keep_uncertainty_data)
 
-    def __import_inventories(self) -> List[dict]:
+    def __import_inventories(self, keep_uncertainty_data: bool = False) -> List[dict]:
         """
         This method will trigger the import of a number of pickled inventories
         and merge them into the database dictionary.
@@ -642,11 +674,18 @@ class NewDatabase:
             (FILEPATH_WAVE, "3.8"),
         ]
         for filepath in filepaths:
+            # make an exception for FILEPATH_OIL_GAS_INVENTORIES
+            # ecoinvent version is 3.9
+            if filepath[0] == FILEPATH_OIL_GAS_INVENTORIES and self.version == "3.9":
+                continue
+
             inventory = DefaultInventory(
                 database=self.database,
                 version_in=filepath[1],
                 version_out=self.version,
                 path=filepath[0],
+                system_model=self.system_model,
+                keep_uncertainty_data=keep_uncertainty_data,
             )
             datasets = inventory.merge_inventory()
             data.extend(datasets)
@@ -656,20 +695,46 @@ class NewDatabase:
         print("Done!\n")
         return data
 
-    def __import_additional_inventories(self, datapackage: list) -> List[dict]:
+    def __import_additional_inventories(
+        self, data_package: [datapackage.DataPackage, list]
+    ) -> List[dict]:
+        """
+        This method will trigger the import of a number of inventories
+        and merge them into the database dictionary.
+
+        :param data_package: datapackage.DataPackage or list of file paths
+        :return: list of dictionaries
+
+        """
         print("\n//////////////// IMPORTING USER-DEFINED INVENTORIES ////////////////")
 
         data = []
 
-        if datapackage.get_resource("inventories"):
-            additional = AdditionalInventory(
-                database=self.database,
-                version_in=datapackage.descriptor["ecoinvent"]["version"],
-                version_out=self.version,
-                path=datapackage.get_resource("inventories").source,
-            )
-            additional.prepare_inventory()
-            data.extend(additional.merge_inventory())
+        if isinstance(data_package, list):
+            # this is a list of file paths
+            for file_path in data_package:
+                additional = AdditionalInventory(
+                    database=self.database,
+                    version_in=file_path["ecoinvent version"],
+                    version_out=self.version,
+                    path=file_path["filepath"],
+                    system_model=self.system_model,
+                )
+                additional.prepare_inventory()
+                data.extend(additional.merge_inventory())
+
+        elif isinstance(data_package, datapackage.DataPackage):
+            if data_package.get_resource("inventories"):
+                additional = AdditionalInventory(
+                    database=self.database,
+                    version_in=data_package.descriptor["ecoinvent"]["version"],
+                    version_out=self.version,
+                    path=data_package.get_resource("inventories").source,
+                    system_model=self.system_model,
+                )
+                data.extend(additional.merge_inventory())
+        else:
+            raise TypeError("Unknown data type for datapackage.")
 
         return data
 
@@ -693,15 +758,63 @@ class NewDatabase:
                     model=scenario["model"],
                     pathway=scenario["pathway"],
                     year=scenario["year"],
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
                 )
 
-                electricity.update_ng_production_ds()
+                # datasets in 3.9 have been updated
+                if self.version not in ["3.9", "3.9.1"]:
+                    electricity.update_ng_production_ds()
+
                 electricity.update_efficiency_of_solar_pv()
-                electricity.create_biomass_markets()
+
+                if scenario["iam data"].biomass_markets is not None:
+                    electricity.create_biomass_markets()
+
                 electricity.create_region_specific_power_plants()
-                electricity.update_electricity_markets()
-                electricity.update_electricity_efficiency()
+
+                if scenario["iam data"].electricity_markets is not None:
+                    electricity.update_electricity_markets()
+                else:
+                    print("No electricity markets found in IAM data. Skipping.")
+
+                if scenario["iam data"].electricity_efficiencies is not None:
+                    electricity.update_electricity_efficiency()
+                else:
+                    print("No electricity efficiencies found in IAM data. Skipping.")
+
                 scenario["database"] = electricity.database
+                self.modified_datasets = electricity.modified_datasets
+
+    def update_dac(self) -> None:
+        """
+        This method will update the Direct Air Capture (DAC) inventories
+        with the data from the IAM scenarios.
+
+        """
+
+        print("\n//////////////////////// DIRECT AIR CAPTURE ////////////////////////")
+
+        for scenario in self.scenarios:
+            if "exclude" not in scenario or "update_dac" not in scenario["exclude"]:
+                dac = DirectAirCapture(
+                    database=scenario["database"],
+                    iam_data=scenario["iam data"],
+                    model=scenario["model"],
+                    pathway=scenario["pathway"],
+                    year=scenario["year"],
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                )
+
+                if scenario["iam data"].dac_markets is not None:
+                    dac.generate_dac_activities()
+                    scenario["database"] = dac.database
+                    self.modified_datasets = dac.modified_datasets
+                else:
+                    print("No DAC markets found in IAM data. Skipping.")
 
     def update_fuels(self) -> None:
         """
@@ -719,9 +832,24 @@ class NewDatabase:
                     pathway=scenario["pathway"],
                     year=scenario["year"],
                     version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
                 )
-                fuels.generate_fuel_markets()
-                scenario["database"] = fuels.database
+
+                if any(
+                    x is not None
+                    for x in (
+                        scenario["iam data"].petrol_markets,
+                        scenario["iam data"].diesel_markets,
+                        scenario["iam data"].gas_markets,
+                        scenario["iam data"].hydrogen_markets,
+                    )
+                ):
+                    fuels.generate_fuel_markets()
+                    scenario["database"] = fuels.database
+                    self.modified_datasets = fuels.modified_datasets
+                else:
+                    print("No fuel markets found in IAM data. Skipping.")
 
     def update_cement(self) -> None:
         """
@@ -739,10 +867,16 @@ class NewDatabase:
                     iam_data=scenario["iam data"],
                     year=scenario["year"],
                     version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
                 )
 
-                cement.add_datasets_to_database()
-                scenario["database"] = cement.database
+                if scenario["iam data"].cement_markets is not None:
+                    cement.add_datasets_to_database()
+                    scenario["database"] = cement.database
+                    self.modified_datasets = cement.modified_datasets
+                else:
+                    print("No cement markets found in IAM data. Skipping.")
 
     def update_steel(self) -> None:
         """
@@ -760,9 +894,15 @@ class NewDatabase:
                     iam_data=scenario["iam data"],
                     year=scenario["year"],
                     version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
                 )
-                steel.generate_activities()
-                scenario["database"] = steel.database
+                if scenario["iam data"].steel_markets is not None:
+                    steel.generate_activities()
+                    scenario["database"] = steel.database
+                    self.modified_datasets = steel.modified_datasets
+                else:
+                    print("No steel markets found in IAM data. Skipping.")
 
     def update_metals(self) -> None:
         """
@@ -802,16 +942,22 @@ class NewDatabase:
                     pathway=scenario["pathway"],
                     iam_data=scenario["iam data"],
                     version=self.version,
+                    system_model=self.system_model,
                     vehicle_type="car",
                     relink=False,
                     has_fleet=True,
+                    modified_datasets=self.modified_datasets,
                 )
-                trspt.create_vehicle_markets()
-                scenario["database"] = trspt.database
+                if scenario["iam data"].trsp_cars is not None:
+                    trspt.create_vehicle_markets()
+                    scenario["database"] = trspt.database
+                    self.modified_datasets = trspt.modified_datasets
+                else:
+                    print("No passenger car markets found in IAM data. Skipping.")
 
     def update_two_wheelers(self) -> None:
         """
-        This method will update the two wheelers inventories
+        This method will update the two-wheelers inventories
         with the data from the IAM scenarios.
         """
         print("\n////////////////////////// TWO-WHEELERS ////////////////////////////")
@@ -828,12 +974,16 @@ class NewDatabase:
                     pathway=scenario["pathway"],
                     iam_data=scenario["iam data"],
                     version=self.version,
+                    system_model=self.system_model,
                     vehicle_type="two wheeler",
                     relink=False,
                     has_fleet=False,
+                    modified_datasets=self.modified_datasets,
                 )
+
                 trspt.create_vehicle_markets()
                 scenario["database"] = trspt.database
+                self.modified_datasets = trspt.modified_datasets
 
     def update_trucks(self) -> None:
         """
@@ -852,13 +1002,50 @@ class NewDatabase:
                     pathway=scenario["pathway"],
                     iam_data=scenario["iam data"],
                     version=self.version,
+                    system_model=self.system_model,
                     vehicle_type="truck",
                     relink=False,
                     has_fleet=True,
+                    modified_datasets=self.modified_datasets,
                 )
 
-                trspt.create_vehicle_markets()
-                scenario["database"] = trspt.database
+                if scenario["iam data"].trsp_trucks is not None:
+                    trspt.create_vehicle_markets()
+                    scenario["database"] = trspt.database
+                    self.modified_datasets = trspt.modified_datasets
+                else:
+                    print("No truck transport markets found in IAM data. Skipping.")
+
+    def update_buses(self) -> None:
+        """
+        This method will update the buses inventories
+        with the data from the IAM scenarios.
+        """
+
+        print("\n////////////////////////////// BUSES ///////////////////////////////")
+
+        for scenario in self.scenarios:
+            if "exclude" not in scenario or "update_buses" not in scenario["exclude"]:
+                trspt = Transport(
+                    database=scenario["database"],
+                    year=scenario["year"],
+                    model=scenario["model"],
+                    pathway=scenario["pathway"],
+                    iam_data=scenario["iam data"],
+                    version=self.version,
+                    system_model=self.system_model,
+                    vehicle_type="bus",
+                    relink=False,
+                    has_fleet=True,
+                    modified_datasets=self.modified_datasets,
+                )
+
+                if scenario["iam data"].trsp_buses is not None:
+                    trspt.create_vehicle_markets()
+                    scenario["database"] = trspt.database
+                    self.modified_datasets = trspt.modified_datasets
+                else:
+                    print("No bus transport markets found in IAM data. Skipping.")
 
     def update_external_scenario(self):
         if self.datapackages:
@@ -896,35 +1083,38 @@ class NewDatabase:
                         year=scenario["year"],
                         external_scenarios=self.datapackages,
                         external_scenarios_data=scenario["external data"],
+                        version=self.version,
+                        system_model=self.system_model,
+                        modified_datasets=self.modified_datasets,
                     )
                     external_scenario.create_custom_markets()
                     scenario["database"] = external_scenario.database
             print(f"Log file of exchanges saved under {DATA_DIR / 'logs'}.")
 
-    def update_buses(self) -> None:
+    def update_emissions(self) -> None:
         """
-        This method will update the buses inventories
-        with the data from the IAM scenarios.
+        This method will update the hot pollutants emissions
+        with the data from the GAINS model.
         """
 
-        print("\n////////////////////////////// BUSES ///////////////////////////////")
+        print("\n/////////////////////////// EMISSIONS //////////////////////////////")
 
         for scenario in self.scenarios:
-            if "exclude" not in scenario or "update_buses" not in scenario["exclude"]:
-                trspt = Transport(
+            if "update_emissions" not in scenario.get("exclude", []):
+                emissions = Emissions(
                     database=scenario["database"],
                     year=scenario["year"],
                     model=scenario["model"],
                     pathway=scenario["pathway"],
                     iam_data=scenario["iam data"],
                     version=self.version,
-                    vehicle_type="bus",
-                    relink=False,
-                    has_fleet=True,
+                    system_model=self.system_model,
+                    gains_scenario=self.gains_scenario,
+                    modified_datasets=self.modified_datasets,
                 )
 
-                trspt.create_vehicle_markets()
-                scenario["database"] = trspt.database
+                emissions.update_emissions_in_database()
+                scenario["database"] = emissions.database
 
     def update_all(self) -> None:
         """
@@ -937,16 +1127,15 @@ class NewDatabase:
             "If you want to update these steps, please run them separately afterwards."
         )
 
-        # self.update_two_wheelers()
-        # self.update_cars()
         self.update_trucks()
-        # self.update_buses()
         self.update_electricity()
+        self.update_dac()
         self.update_cement()
         self.update_steel()
         self.update_metals()
         self.update_fuels()
         self.update_external_scenario()
+        self.update_emissions()
 
     def write_superstructure_db_to_brightway(
         self, name: str = f"super_db_{date.today()}", filepath: str = None
@@ -967,11 +1156,21 @@ class NewDatabase:
         for scen, scenario in enumerate(self.scenarios):
             print(f"Prepare database {scen + 1}.")
             scenario["database"], cache = prepare_db_for_export(
-                scenario, cache=cache, name=name
+                scenario,
+                cache=cache,
+                name=name,
+                version=self.version,
+                system_model=self.system_model,
+                modified_datasets=self.modified_datasets,
             )
         self.database = generate_superstructure_db(
-            self.database, self.scenarios, db_name=name, filepath=filepath
+            self.database,
+            self.scenarios,
+            db_name=name,
+            filepath=filepath,
+            version=self.version,
         )
+        self.database = check_amount_format(self.database)
 
         print("Done!")
 
@@ -979,6 +1178,11 @@ class NewDatabase:
             self.database,
             name,
         )
+
+        # generate scenario report
+        self.generate_scenario_report()
+        # generate change report from logs
+        self.generate_change_report()
 
     def write_db_to_brightway(self, name: [str, List[str]] = None):
         """
@@ -1001,7 +1205,13 @@ class NewDatabase:
                 raise TypeError("`name` should be a string or a sequence of strings.")
         else:
             name = [
-                eidb_label(scenario["model"], scenario["pathway"], scenario["year"])
+                eidb_label(
+                    scenario["model"],
+                    scenario["pathway"],
+                    scenario["year"],
+                    version=self.version,
+                    system_model=self.system_model,
+                )
                 for scenario in self.scenarios
             ]
 
@@ -1016,13 +1226,22 @@ class NewDatabase:
         for scen, scenario in enumerate(self.scenarios):
             print(f"Prepare database {scen + 1}.")
             scenario["database"], cache = prepare_db_for_export(
-                scenario, cache=cache, name=name[scen]
+                scenario,
+                cache=cache,
+                name=name[scen],
+                version=self.version,
+                system_model=self.system_model,
+                modified_datasets=self.modified_datasets,
             )
 
             write_brightway2_database(
                 scenario["database"],
                 name[scen],
             )
+        # generate scenario report
+        self.generate_scenario_report()
+        # generate change report from logs
+        self.generate_change_report()
 
     def write_db_to_matrices(self, filepath: str = None):
         """
@@ -1035,7 +1254,7 @@ class NewDatabase:
         If it is a sequence of strings, each string becomes the directory
         under which the set of matrices is saved. If `filepath` is not provided,
         "iam model" / "pathway" / "year" subdirectories are created under
-        "premise" / "data" / "export".
+        the working directory.
         :type filepath: str or list
 
         """
@@ -1055,7 +1274,7 @@ class NewDatabase:
                 )
         else:
             filepath = [
-                (DATA_DIR / "export" / s["model"] / s["pathway"] / str(s["year"]))
+                (Path.cwd() / "export" / s["model"] / s["pathway"] / str(s["year"]))
                 for s in self.scenarios
             ]
 
@@ -1065,7 +1284,12 @@ class NewDatabase:
         for scen, scenario in enumerate(self.scenarios):
             print(f"Prepare database {scen + 1}.")
             scenario["database"], cache = prepare_db_for_export(
-                scenario, cache=cache, name="database"
+                scenario,
+                cache=cache,
+                name="database",
+                version=self.version,
+                system_model=self.system_model,
+                modified_datasets=self.modified_datasets,
             )
 
             Export(
@@ -1074,7 +1298,13 @@ class NewDatabase:
                 scenario["pathway"],
                 scenario["year"],
                 filepath[scen],
+                version=self.version,
             ).export_db_to_matrices()
+
+        # generate scenario report
+        self.generate_scenario_report()
+        # generate change report from logs
+        self.generate_change_report()
 
     def write_db_to_simapro(self, filepath: str = None):
         """
@@ -1085,7 +1315,7 @@ class NewDatabase:
 
         """
 
-        filepath = filepath or Path(DATA_DIR / "export" / "simapro")
+        filepath = filepath or Path(Path.cwd() / "export" / "simapro")
 
         if not os.path.exists(filepath):
             os.makedirs(filepath)
@@ -1096,7 +1326,12 @@ class NewDatabase:
         for scen, scenario in enumerate(self.scenarios):
             print(f"Prepare database {scen + 1}.")
             scenario["database"], cache = prepare_db_for_export(
-                scenario, cache=cache, name="database"
+                scenario,
+                cache=cache,
+                name="database",
+                version=self.version,
+                system_model=self.system_model,
+                modified_datasets=self.modified_datasets,
             )
 
             Export(
@@ -1105,7 +1340,13 @@ class NewDatabase:
                 scenario["pathway"],
                 scenario["year"],
                 filepath,
+                version=self.version,
             ).export_db_to_simapro()
+
+        # generate scenario report
+        self.generate_scenario_report()
+        # generate change report from logs
+        self.generate_change_report()
 
     def write_datapackage(self, name: str = f"datapackage_{date.today()}"):
         cached_inventories = self.__find_cached_inventories(self.source)
@@ -1120,11 +1361,19 @@ class NewDatabase:
         for scen, scenario in enumerate(self.scenarios):
             print(f"Prepare database {scen + 1}.")
             scenario["database"], cache = prepare_db_for_export(
-                scenario, cache=cache, name="database"
+                scenario,
+                cache=cache,
+                name="database",
+                version=self.version,
+                system_model=self.system_model,
+                modified_datasets=self.modified_datasets,
             )
 
         df, extra_inventories = generate_scenario_factor_file(
-            origin_db=self.database, scenarios=self.scenarios, db_name=name
+            origin_db=self.database,
+            scenarios=self.scenarios,
+            db_name=name,
+            version=self.version,
         )
 
         cached_inventories.extend(extra_inventories)
@@ -1139,6 +1388,11 @@ class NewDatabase:
             ei_version=self.version,
             name=name,
         )
+
+        # generate scenario report
+        self.generate_scenario_report()
+        # generate change report from logs
+        self.generate_change_report()
 
     def generate_scenario_report(
         self,
@@ -1155,7 +1409,7 @@ class NewDatabase:
             if isinstance(filepath, str):
                 filepath = Path(filepath)
         else:
-            filepath = Path(DATA_DIR / "export" / "scenario_report")
+            filepath = Path(Path.cwd() / "export" / "scenario_report")
 
         if not os.path.exists(filepath):
             os.makedirs(filepath)
@@ -1167,3 +1421,15 @@ class NewDatabase:
         generate_summary_report(self.scenarios, filepath / name)
 
         print(f"Report saved under {filepath}.")
+
+    def generate_change_report(self):
+        """
+        Generate a report of the changes between the original database and the scenarios.
+        """
+
+        print("Generate change report.")
+        generate_change_report(
+            self.source, self.version, self.source_type, self.system_model
+        )
+        # saved under working directory
+        print(f"Report saved under {os.getcwd()}.")

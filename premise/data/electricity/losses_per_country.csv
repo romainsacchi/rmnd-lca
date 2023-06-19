@@ -1,4 +1,4 @@
-Country;Transformation loss, high voltage;Transmission loss to medium voltage;Transformation loss, medium voltage;Transmission loss to low voltage;Transformation loss, low voltage;Production volume
+Country;Transformation loss high voltage;Transmission loss to medium voltage;Transformation loss medium voltage;Transmission loss to low voltage;Transformation loss low voltage;Production volume
 AL;0.0561;0.0127;0.008;0.056;0.0593;7630
 DZ;0.0746;0.0171;0.0109;0.0753;0.0815;52720
 AO;0.0451;0.0101;0.0064;0.0447;0.0468;8223

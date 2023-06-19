@@ -1,0 +1,17 @@
+gdp:
+  iam_aliases:
+    remind: GDP|PPP
+    image: GDP|PPP
+population:
+  iam_aliases:
+    remind: Population
+    image: Population
+
+GMST:
+  iam_aliases:
+    remind: Temperature|Global Mean
+    image: Temperature|Global Mean
+CO2:
+  iam_aliases:
+    remind: Emi|CO2
+    image: Emissions|CO2

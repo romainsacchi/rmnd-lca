@@ -1,0 +1,92 @@
+# constants used in premise
+---
+SUPPORTED_EI_VERSIONS:
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.7.1"
+  - "3.8"
+  - "3.9"
+  - "3.9.1"
+
+SUPPORTED_MODELS:
+  - remind
+  - image
+    
+SUPPORTED_PATHWAYS:
+  - SSP2-Base
+  - SSP2-NDC
+  - SSP2-NPi
+  - SSP2-PkBudg1150
+  - SSP2-PkBudg500
+  - SSP2-RCP26
+  - SSP2-RCP19
+  - SSP1-Base
+  - SSP1-NDC
+  - SSP1-NPi
+  - SSP1-PkBudg1150
+  - SSP1-PkBudg500
+  - SSP5-Base
+  - SSP5-NDC
+  - SSP5-NPi
+  - SSP5-PkBudg1150
+  - SSP5-PkBudg500
+  - static
+
+LIST_TRANSF_FUNC:
+  - update_electricity
+  - update_dac
+  - update_cement
+  - update_steel
+  - update_two_wheelers
+  - update_cars
+  - update_trucks
+  - update_buses
+  - update_fuels
+  - update_external_scenario
+  - update_emissions
+
+
+LIST_REMIND_REGIONS:
+  - CAZ
+  - CHA
+  - EUR
+  - IND
+  - JPN
+  - LAM
+  - MEA
+  - NEU
+  - OAS
+  - REF
+  - SSA
+  - USA
+  - World
+
+LIST_IMAGE_REGIONS:
+  - BRA
+  - CAN
+  - CEU
+  - CHN
+  - EAF
+  - INDIA
+  - INDO
+  - JAP
+  - KOR
+  - ME
+  - MEX
+  - NAF
+  - OCE
+  - RCAM
+  - RSAF
+  - RSAM
+  - RSAS
+  - RUS
+  - SAF
+  - SEAS
+  - STAN
+  - TUR
+  - UKR
+  - USA
+  - WAF
+  - WEU
+  - World

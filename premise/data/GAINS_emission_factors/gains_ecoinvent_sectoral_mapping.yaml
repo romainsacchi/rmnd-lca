@@ -1,0 +1,1691 @@
+AGR_ARABLENOF:
+  ecoinvent_aliases:
+    fltr:
+    - harvesting, by complete harvester, beets
+    - combine harvesting
+    - harvesting, by complete harvester, ground crops
+    - tillage, subsoiling, by subsoiler plow
+  gains_aliases_EU: AGR_ARABLENOF
+CHEMBULKNOF:
+  ecoinvent_aliases:
+    fltr:
+    - toluene oxidation
+    - sodium silicate production, hydrothermal liquor, product in 48% solution state
+    - p-nitrophenol production
+    - propylene oxide production, liquid
+    - ammonium sulfate production
+    - sodium silicate production, furnace process, solid product
+    - ethylene hydration
+    - ethylene glycol dimethyl ether production
+    - fleece production, polyethylene
+    - sodium phenolate production
+    - o-aminophenol production
+    - dipropylene glycol monomethyl ether production
+    - phenol production, from cumene
+    - 2,4-dichlorotoluene production
+    - benzene chlorination
+    - polyethylene production, high density, granulate
+    - styrene production
+    - o-nitrophenol production
+    - polyethylene terephthalate production, granulate, amorphous
+    - chloroacetic acid production
+    - '[sulfonyl]urea-compound production'
+    - pentaerythritol production in sodium hydroxide solution
+    - methylene diphenyl diisocyanate production
+    - trichloroacetic acid production
+    - bisphenol A epoxy based vinyl ester resin production
+    - ethylenediamine production
+    - cyanoacetic acid production
+    - 2,4-dichlorophenol production
+    - titanium dioxide production, chloride process
+    - sodium cumenesulphonate production
+    - 2,4-di-tert-butylphenol production
+    - maleic anhydride production by catalytic oxidation of benzene
+    - alkylbenzene production, linear
+    - ethylene glycol production
+    - cocamide diethanolamine production
+    - titanium dioxide production, sulfate process
+    - phenol production
+    - bisphenol A production, powder
+    - acetone production, from isopropanol
+    - aluminium sulfate production, powder
+    - ethylene dichloride production
+    - urea production
+    - 2-methyl-2-butanol production
+    - acetic acid production, product in 98% solution state
+    - vinyl chloride production
+    - tetrafluoroethylene film production, on glass
+    - rutile production, synthetic, 95% titanium dioxide, Benelite process
+    - leaching of spodumene with sulfuric acid
+    - phenyl acetic acid production
+    - carbon black production
+    - propylene glycol production, liquid
+    - ethylene vinyl acetate copolymer production
+    - diammonium phosphate production
+    - ammonia production, partial oxidation, liquid
+    - hydrochloric acid production, from the reaction of hydrogen with chlorine
+    - oxidation of methanol
+    - melamine formaldehyde resin production
+    - alkylbenzene sulfonate production, linear, petrochemical
+    - ammonium nitrate production
+    - urea ammonium nitrate production
+    - polyethylene production, low density, granulate
+    - urea formaldehyde resin production
+    - polyethylene terephthalate production, granulate, bottle grade
+    - trichloroethylene production
+    - sulfuric acid production
+    - purification of wet-process phosphoric acid to industrial grade, product in
+      85% solution state
+    - 4-tert-butyltoluene production
+    - ammonium nitrate phosphate production
+    - hydrogen peroxide production, product in 50% solution state
+    - urea formaldehyde foam slab production, hard
+    - 2,4-dinitrotoluene production
+    - non-ionic surfactant production, ethylene oxide derivate
+    - printing ink production, rotogravure, product in 55% toluene solution state
+    - ethylene bromide production
+    - ethyl benzene production
+    - acrylic acid production
+    - allyl chloride production, reaction of propylene and chlorine
+    - polypropylene production, granulate
+    - 2-butanol production by hydration of butene
+    - hydroformylation of propylene
+    - o-chlorotoluene production
+    - ammonia production, steam reforming, liquid
+    - p-chlorophenol production
+    - ethylene oxide production
+    - tetrafluoroethylene production
+    - polyethylene production, linear low density, granulate
+    - methylcyclohexane production
+    - cyclohexane production
+    - sodium silicate production, furnace liquor, product in 37% solution state
+    - monoammonium phosphate production
+    - hydrogen fluoride production
+    - sodium chlorate production, powder
+    - phthalic anhydride production
+    - ethanolamine production
+    - p-nitrotoluene production
+    - chlorofluorination of ethylene
+    - acetoacetic acid production
+    - aluminium sulfate production, without water, in 4.33% aluminium solution state
+    - chlorine dioxide production
+    - ethylene glycol diethyl ether production
+    - 2,6-di-tert-butylphenol production
+    - ethylene carbonate production
+    - calcium ammonium nitrate production
+    - cumene production
+    - purified terephthalic acid production
+    - nitrobenzene production
+    - methacrylic acid production
+    - sodium silicate production, spray powder, 80%
+    - chloronitrobenzene production
+    - ethylene glycol monoethyl ether production
+    - trifluoroacetic acid production
+    - phenolic resin production
+  gains_aliases_EU: CHEMBULKNOF
+  gains_aliases_IAM: CHEMBULK
+CHEMNOF:
+  ecoinvent_aliases:
+    fltr:
+    - dimethyl carbonate production
+    - zinc oxide production
+    - lubricating oil production
+    - seal production, natural rubber based
+    - manganese(III) oxide production
+    - lithium hexafluorophosphate production
+    - wood preservative production, water-based, indoor use, occasionally wet
+    - bitumen adhesive compound production, hot
+    - butyl acrylate production
+    - wood preservative production, organic salts, Cr-free, outdoor use, ground contact
+    - sodium methoxide production
+    - fluorescent whitening agent production, distyrylbiphenyl type
+    - wood preservative production, organic, indoor use, dry
+    - anionic resin production
+    - isopropylamine production
+    - piperidine production
+    - tin dioxide production
+    - acetic anhydride production, ketene route
+    - alkylketene dimer sizing agent production, for paper production
+    - calcium nitrate production
+    - methyl iodide production
+    - polyvinylchloride production, suspension polymerisation
+    - folpet production
+    - ammonium carbonate production
+    - isophthalic acid based unsaturated polyester resin production
+    - carbon dioxide production, liquid
+    - dicyclopentadiene based unsaturated polyester resin production
+    - yogurt production, from cow milk
+    - diazole-compound production
+    - battery separator production
+    - polysulfone production, for membrane filtration production
+    - alkyd paint production, white, solvent-based, product in 60% solution state
+    - tert-butyl amine production
+    - potassium hydroxide production
+    - sodium nitrate production
+    - sodium oxide production
+    - barium sulfide production
+    - acrolein production
+    - 2-nitroaniline production
+    - nitrous oxide production
+    - bipyridylium-compound production
+    - EDTA production
+    - aniline production
+    - maize starch production
+    - melamine production
+    - frit production, for ceramic tile
+    - mancozeb production
+    - sodium formate production
+    - strontium carbonate production
+    - silicon tetrachloride production
+    - esterquat production, from coconut oil and palm kernel oil
+    - polyurethane production, rigid foam
+    - phenoxy-compound production
+    - dodecanol production, ziegler process
+    - fatty acid production, from palm oil
+    - wood preservative production, organic, outdoor use, no ground contact
+    - ethoxylated alcohol (AE11) production, palm oil
+    - ethoxylated alcohol (AE>20) production, palm oil
+    - polylactide production, granulate
+    - dipropyl amine production
+    - chlorosulfonic acid production
+    - fatty alcohol production, from palm kernel oil
+    - methyl-3-methoxypropionate production
+    - bitumen seal production, V60
+    - sodium phosphate production
+    - manganese dioxide production
+    - foaming agent production
+    - triazine-compound production, unspecified
+    - methyl acrylate production
+    - trichloropropane production
+    - fatty acid production, from soybean oil
+    - copper oxide production
+    - phosgene production, liquid
+    - fluorspar production, 97% purity
+    - trisodium phosphate production
+    - mecoprop production
+    - mischmetal production, primary
+    - acetaldehyde production
+    - sulfur trioxide production
+    - adipic acid production
+    - epoxy resin production, liquid
+    - vinyl acetate production
+    - propyl amine production
+    - sodium chloroacetate production
+    - 4-tert-butylbenzaldehyde production
+    - glyphosate production
+    - dinitrogen tetroxide production
+    - sodium chloride production, powder
+    - imidazole production
+    - anode production, graphite, for lithium-ion battery
+    - chloroacetyl chloride production
+    - copper production, cathode, solvent extraction and electrowinning process
+    - benzaldehyde production
+    - sulfur dichloride production
+    - sodium hydrosulfide production
+    - benzimidazole-compound production
+    - sodium chloride production, brine solution
+    - retention aid production, for paper production
+    - sodium hydrogen sulfate production
+    - bitumen seal production
+    - sodium ethoxide production
+    - lithium manganese oxide production
+    - diazine-compound production
+    - rare earth oxides production, from rare earth oxide concentrate, 50% REO
+    - dimethenamide production
+    - coconut oil production, crude
+    - pyridine-compound production
+    - dithiocarbamate-compound production
+    - fatty alcohol production, from coconut oil
+    - trichloroborane production
+    - acetylene production
+    - benzaldehyde-2-sulfonic acid production
+    - ethylamine production
+    - phthalimide-compound production
+    - acetamide-anillide-compound production, unspecified
+    - polyphenylene sulfide production
+    - cadmium production, semiconductor-grade
+    - boron carbide production
+    - methyl formate production
+    - alkyd resin production, long oil, product in 70% white spirit solution state
+    - cadmium sulfide production, semiconductor-grade
+    - sodium sulfate production, from natural sources
+    - bitumen seal production, VA4
+    - sodium metasilicate pentahydrate production, 58% active substance, powder
+    - sulfamic acid production
+    - bitumen seal production, Alu80
+    - orbencarb production
+    - trichloromethane production
+    - ammonium thiocyanate production
+    - trimethylamine production
+    - heavy water production
+    - barium oxide production
+    - sulfuryl chloride production
+    - N,N-dimethylformamide production
+    - polyurethane adhesive production
+    - 1-propanol production
+    - wood preservative production, inorganic salt, containing Cr, outdoor use, ground
+      contact
+    - production of 2 wt-% potassium iodide solution
+    - sodium dithionite production, anhydrous
+    - phthalimide production
+    - iron(III) sulfate production, without water, in 12.5% iron solution state
+    - chloropropionic acid production
+    - sodium cyanide production
+    - epichlorohydrin production from allyl chloride
+    - sodium hydrogen sulfite production
+    - dimethylamine borane production
+    - soap production
+    - ethoxylated alcohol (AE7) production, palm kernel oil
+    - carbon monoxide production
+    - lithium carbonate production, from concentrated brine
+    - sodium hypochlorite production, product in 15% solution state
+    - benzyl chloride production
+    - zinc monosulfate production
+    - single superphosphate production
+    - chloromethyl methyl ether production
+    - polyvinylfluoride production
+    - wood preservative production, organic, indoor use, occasionally wet
+    - battery cell production, Li-ion
+    - cryolite production
+    - amine oxide production
+    - potato starch production
+    - trimethyl borate production
+    - cathode production, LiMn2O4, for lithium-ion battery
+    - isobutyl acetate production
+    - pyrazole production
+    - methyl ethyl ketone production
+    - selenium production
+    - thionyl chloride production
+    - 3-methyl-1-butyl acetate production
+    - chlorotoluron production
+    - diethyl ether production
+    - sodium fluoride production
+    - gallium production, semiconductor-grade
+    - polysulfide production, sealing compound
+    - trifluoromethane production
+    - 4-methyl-2-pentanone production
+    - aclonifen production
+    - dimethyl malonate production
+    - hydrogen sulfide production
+    - iron sulfate production
+    - aluminium chloride production
+    - maleic unsaturated polyester resin production
+    - fatty acid production, from palm kernel oil
+    - phosphane production
+    - phosphorus production, white, liquid
+    - tellurium production, semiconductor-grade
+    - isohexane production
+    - iron(III) chloride production, without water, in 14% iron solution state
+    - ethoxylated alcohol (AE3) production, coconut oil
+    - zinc sulfide production
+    - morpholine production
+    - tetraethyl orthosilicate production
+    - dimethyl sulfate production
+    - hydroquinone production
+    - fosetyl-Al production
+    - polyvinylchloride production, emulsion polymerisation
+    - propyl acetate production
+    - ethoxylated alcohol (AE7) production, petrochemical
+    - polyaluminium chloride production
+    - dimethylamine production
+    - sodium persulfate production
+    - bitumen adhesive compound production, cold
+    - 2,5-dimethylhexane-2,5-dihydroperoxide production
+    - polyvinylfluoride production, dispersion
+    - phosphorus trichloride production
+    - sulfur dioxide production, liquid
+    - indium production
+    - paraffin production
+    - dimethyldichlorosilane production
+    - napropamide production
+    - trimesoyl chloride production, for membrane filtration production
+    - polyurethane production, flexible foam
+    - ammonium bicarbonate production
+    - acetyl chloride production
+    - bitumen seal production, polymer EP4 flame retardant
+    - '[thio]carbamate-compound production'
+    - phosphorous chloride production
+    - n-olefins production
+    - butyldiglycol acetate production
+    - non-ferrous metal smelter production
+    - glucose production
+    - cadmium chloride production, semiconductor-grade
+    - dioxane production
+    - N-methyl-2-pyrrolidone production
+    - nitrous dioxide production
+    - boric acid production, anhydrous, powder
+    - decabromodiphenyl ether production
+    - sputtering target production, sintered, indium tin oxide
+    - carbon disulfide production
+    - iron (III) chloride production, product in 40% solution state
+    - sodium aluminate production, powder
+    - maleic anhydride production by direct oxidation of n-butane
+    - glycine production
+    - acetanilide production
+    - ethoxylated alcohol (AE7) production, coconut oil
+    - bromopropane production
+    - triethyl amine production
+    - white spirit production
+    - prosulfocarb production
+    - stearic acid production
+    - wood preservative production, water-based, indoor use, dry
+    - benzyl alcohol production
+    - lithium hydroxide production
+    - metaldehyde production
+    - rare earth oxides production, from rare earth carbonate concentrate
+    - synthetic rubber production
+    - lactic acid production
+    - pesticide production, unspecified
+    - DTPA production
+    - dimethyl hexanediol production
+    - polyacrylamide production
+    - nitric acid production, product in 50% solution state
+    - sodium tripolyphosphate production
+    - nitric oxide production
+    - adhesive production, for metal
+    - fatty alcohol production, petrochemical
+    - tetrahydrofuran production
+    - ethyl acetate production
+    - dimethyl ether production
+    - sulfur hexafluoride production, liquid
+    - diphenylether-compound production
+    - polyester resin production, unsaturated
+    - calcium carbide production, technical grade
+    - fluorescent whitening agent production, DAS1, triazinylaminostilben type
+    - lithium chloride production
+    - pyrethroid-compound production
+    - o-chlorobenzaldehyde production
+    - iodine production
+    - hydrazine sulfate production
+    - rare earth oxides production, from rare earth oxide concentrate, 70% REO
+    - phosphorus pentachloride production
+    - metamitron production
+    - captan production
+    - propanal production
+    - potassium chloride production
+    - hexafluoroethane production, from fluorination of tetrafluoroethane
+    - orthophthalic acid based unsaturated polyester resin production
+    - copper carbonate production
+    - formic acid production, methyl formate route
+    - polarizer, liquid crystals and colour filters production, for liquid crystal
+      display
+    - ammonium nitrite production
+    - polyvinylfluoride, film production
+    - nickel sulfate production
+    - methane sulfonic acid production
+    - iron(III) chloride production, without water, in 12% iron solution state
+    - boron trifluoride production
+    - alpha-picoline production
+    - dimethyl sulfide production
+    - polydimethylsiloxane production
+    - cyclohexanol production
+    - fatty alcohol production, from palm oil
+    - isoproturon production
+    - stone meal production
+    - fatty alcohol sulfate production, coconut oil
+    - barium carbonate production
+    - manganese sulfate production
+    - bromine production
+    - sodium sulfite production
+    - anthranilic acid production
+    - triphenyl phosphate production
+    - polyester-complexed starch biopolymer production
+    - potassium nitrate production
+    - activated silica production
+    - dimethyl sulfoxide production
+    - hydrazine production
+    - fatty alcohol sulfate production, from palm kernel oil
+    - ammonium chloride production
+    - copper sulfate production
+    - cadmium telluride production, semiconductor-grade
+    - carboxymethyl cellulose production, powder
+    - sulfite production
+    - fluorine production, liquid
+    - fatty alcohol sulfate production, palm oil
+    - wood preservative production, water-based, outdoor use, no ground contact
+    - potassium sulfate production
+    - tetrafluoroethane production
+    - coating powder production
+    - wood preservative production, creosote
+    - sodium nitrite production
+    - cyclohexanone production
+    - dimethylacetamide production
+    - butane-1,4-diol production
+    - benzoic-compound production
+    - sodium perchlorate production
+    - acrylic dispersion production, product in 65% solution state
+    - cyclic N-compound production
+    - melamine urea formaldehyde adhesive production
+    - sodium tetrafluoroborate production
+    - sodium sulfide production
+    - flux production, for wave soldering
+    - vinyl fluoride production
+    - soda production, solvay process
+    - fatty alcohol sulfate production, petrochemical
+    - benzal chloride production
+    - metolachlor production
+    - salicylic acid production
+    - printing ink production, offset, product in 47.5% solution state
+    - barium hydroxide production
+    - butyl acetate production
+    - ethoxylated alcohol (AE3) production, petrochemical
+    - chromium oxide production, flakes
+    - pendimethalin production
+    - nitrile-compound production
+    - aluminium fluoride production
+    - ethoxylated alcohol (AE3) production, palm kernel oil
+    - benzo[thia]diazole-compound production
+    - succinic acid production
+    - boric oxide production
+    - acrylic varnish production, product in 87.5% solution state
+    - alpha-naphthol production
+    - methyl tert-butyl ether production
+    - dinitroaniline-compound production
+    - paint production, for electrostatic painting for aluminium
+    - dimethylaminopropylamine production
+    - isopropanol production
+    - 1,1-difluoroethane production, HFC-152a
+    - ozone production, liquid
+    - wax production, for lost-wax metal casting
+    - methylamine production
+    - acrylic binder production, product in 34% solution state
+    - para-phenylene diamine production
+    - sodium pyrophosphate production
+    - tris(2,4-ditert-butylphenyl) phosphite production
+    - cyanogen chloride production
+    - phosphoryl chloride production
+    - potassium perchlorate production
+    - naphthalene sulfonic acid production
+    - cryolite production, from fluosilicic acid
+    - iron(II) chloride production
+    - dodecanol production, from coconut oil
+    - azodicarbonamide production
+    - pyridazine-compound production
+    - tantalum production, powder, capacitor-grade
+    - isopropyl acetate production
+    - 2-pyridinol production
+    - octabenzone production
+    - organophosphorus-compound production, unspecified
+    - calcium carbonate production, precipitated
+    - atrazine production
+    - dimethyl hexynediol production
+    - phenyl isocyanate production
+    - sodium dichromate production
+    - alkyl sulphate (C12-14) production
+    - glycerine production, from epichlorohydrin
+    - potassium carbonate production, from potassium hydroxide
+    - sodium amide production
+    - ascorbic acid production
+    - phosphorus oxychloride production
+    - propionic acid production
+    - cyanuric chloride production
+    - lithium fluoride production
+    - hydroxylamine production
+    - o-cresol production
+    - chlorothalonil production
+    - cadmium production, primary
+    - non-ionic surfactant production, fatty acid derivate
+    - alkyd paint production, white, water-based, product in 60% solution state
+    - 3-methylpyridine production
+    - arsine production
+    - zirconium oxide production
+    - ortho-phenylene diamine production
+    - fatty acid production, from coconut oil
+    - chlorodifluoromethane production
+    - glyoxal production
+    - indium tin oxide powder production, nanoscale, for sputtering target
+    - phenylenediamine production
+    - cationic resin production
+  gains_aliases_EU: CHEMNOF
+  gains_aliases_IAM: CHEM
+COILSC:
+  ecoinvent_aliases:
+    fltr:
+    - zinc coating, coils
+  gains_aliases_EU: COILSC
+CON_LOSSBC1:
+  ecoinvent_aliases:
+    fltr:
+    - lignite briquettes production
+  gains_aliases_EU: CON_LOSSBC1
+  gains_aliases_IAM: Transformations_Coal
+CON_LOSSGSL:
+  ecoinvent_aliases:
+    fltr:
+    - transport, pipeline, onshore, petroleum
+    - transport, pipeline, offshore, petroleum
+  gains_aliases_EU: CON_LOSSGSL
+  gains_aliases_IAM: Transformations_LLF
+CON_LOSSHC1:
+  ecoinvent_aliases:
+    fltr:
+    - hard coal briquettes production
+    - coking
+  gains_aliases_EU: CON_LOSSHC1
+  gains_aliases_IAM: Transformations_Coal
+CON_LOSSHF:
+  ecoinvent_aliases:
+    fltr:
+    - crude oil, import mix, at long distance transport
+  gains_aliases_EU: CON_LOSSHF
+  gains_aliases_IAM: Transformations_HLF
+DOM_OTHGAS:
+  ecoinvent_aliases:
+    fltr:
+    - propane, burned in building machine
+  gains_aliases_EU: DOM_OTHGAS
+  gains_aliases_IAM: End_Use_Residential_NatGas
+DOM_OTHGSL:
+  ecoinvent_aliases:
+    fltr:
+    - petrol, unleaded, burned in machinery
+  gains_aliases_EU: DOM_OTHGSL
+  gains_aliases_IAM: End_Use_Residential_LLF
+DOM_OTH_SHB_AFWD:
+  ecoinvent_aliases:
+    fltr:
+    - wood pellets, burned in stirling heat and power co-generation unit, 3kW electrical,
+      future
+    - heat production, mixed logs, at wood heater 6kW, state-of-the-art 2014
+    - heat production, mixed logs, at wood heater 6kW
+  gains_aliases_EU: DOM_OTH_SHB_AFWD
+  gains_aliases_IAM: End_Use_Services_Bio_Trad_Heat
+DOM_URB_STOVE_HARD:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of stalk, in wood heater 6kW
+  gains_aliases_EU: DOM_URB_STOVE_HARD
+  gains_aliases_IAM: End_Use_Residential_Bio_Trad_Heat
+DOM_URB_STOVE_HDC:
+  ecoinvent_aliases:
+    fltr:
+    - heat production, hard coal coke, stove 5-15kW
+    - heat production, lignite briquette, at stove 5-15kW
+    - heat production, hard coal briquette, stove 5-15kW
+  gains_aliases_EU: DOM_URB_STOVE_HDC
+  gains_aliases_IAM: End_Use_Residential_Coal_Heat
+GRASSLANDFIRE_MASS:
+  ecoinvent_aliases:
+    fltr:
+    - wheat grain processing, dry milling
+  gains_aliases_EU: GRASSLANDFIRE_MASS
+HMVESSF6:
+  ecoinvent_aliases:
+    fltr:
+    - transmission network construction, electricity, high voltage
+    - distribution network construction, electricity, low voltage
+    - transmission network construction, electricity, medium voltage
+  gains_aliases_EU: HMVESSF6
+IND_FOOD_TRMNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of wastewater from potato starch production, capacity 1.1E10l/year
+    - treatment of wastewater from anaerobic digestion of whey
+    - treatment of wastewater from maize starch production, capacity 1.1E10l/year
+  gains_aliases_EU: IND_FOOD_TRMNOF
+  gains_aliases_IAM: Waste_Water_Industrial
+INW_FOODNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of spent antifreezer liquid, hazardous waste incineration, with energy
+      recovery
+    - treatment of slaughterhouse waste, rendering
+    - treatment of poultry manure, drying, pelleting
+    - treatment of waste cooking oil, purified, esterification
+  gains_aliases_EU: INW_FOODNOF
+  gains_aliases_IAM: Waste_Solid_Industrial
+INW_OTHNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of fly ash and scrubber sludge, hazardous waste incineration, with
+      energy recovery
+    - treatment of used capacitor, to hazardous waste incineration, with energy recovery
+    - treatment of hazardous waste, hazardous waste incineration, with energy recovery
+    - treatment of aluminium scrap
+    - treatment of waste electric and electronic equipment, shredding
+    - treatment of waste emulsion paint, hazardous waste incineration, with energy
+      recovery
+    - treatment of basic oxygen furnace
+    - treatment of bilge oil, hazardous waste incineration, with energy recovery
+    - treatment of spent oxychlor catalyst, hazardous waste incineration, with energy
+      recovery
+    - treatment of refinery sludge, hazardous waste incineration, with energy recovery
+    - treatment of average incineration residue, residual material landfill
+    - treatment of Sn-based antifouling paint emissions
+    - treatment of waste paint, hazardous waste incineration, with energy recovery
+    - treatment of waste electric wiring, collection for final disposal
+    - treatment of waste, from silicon wafer production
+    - treatment of automobile catalyst
+    - treatment of dross from Al electrolysis, residual material landfill
+    - treatment of electronics scrap
+    - treatment of blast furnace
+    - treatment of bilge oil, hazardous waste incineration
+    - treatment of metal part of electronics scrap, in copper, anode, by electrolytic
+      refining
+    - treatment of Cu-based antifouling paint emissions
+    - treatment of slag from metallurgical grade silicon production, inert material
+      landfill
+    - treatment of waste mineral oil, hazardous waste incineration, with energy recovery
+  gains_aliases_EU: INW_OTHNOF
+  gains_aliases_IAM: Waste_Solid_Industrial
+INW_PAPNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of ash from deinking sludge, residual material landfill
+    - treatment, sludge from pulp and paper production
+    - treatment of sludge from pulp and paper production
+    - treatment of ash from paper production sludge, residual material landfill
+    - treatment of green liquor dregs, residual material landfill
+    - treatment of spent solvent mixture, hazardous waste incineration, with energy
+      recovery
+  gains_aliases_EU: INW_PAPNOF
+  gains_aliases_IAM: Waste_Solid_Industrial
+IN_BO_OTHGAS:
+  ecoinvent_aliases:
+    fltr:
+    - heat production, natural gas, at boiler atmospheric low-NOx non-modulating <100kW
+    - heat production, propane, at industrial furnace >100kW
+    - heat production, natural gas, at boiler condensing modulating <100kW
+    - heat production, natural gas, at industrial furnace low-NOx >100kW
+    - heat and power co-generation, natural gas, mini-plant 2KW electrical
+    - heat production, natural gas, at boiler modulating <100kW
+    - heat production, natural gas, at boiler condensing modulating >100kW
+    - heat production, natural gas, at boiler fan burner low-NOx non-modulating <100kW
+    - heat production, natural gas, at industrial furnace >100kW
+    - heat production, natural gas, at boiler atmospheric non-modulating <100kW
+    - heat production, natural gas, at boiler atm. low-NOx condensing non-modulating
+      <100kW
+    - heat production, natural gas, at boiler fan burner non-modulating <100kW
+    - refinery gas, burned in furnace
+    - heat production, natural gas, at boiler modulating >100kW
+    - sweet gas, burned in gas turbine
+    - sour gas, burned in gas turbine
+  gains_aliases_EU: IN_BO_OTHGAS
+  gains_aliases_IAM: End_Use_Industry_NatGas
+IN_BO_OTHGSL:
+  ecoinvent_aliases:
+    fltr:
+    - heat production, light fuel oil, at boiler
+  gains_aliases_EU: IN_BO_OTHGSL
+  gains_aliases_IAM: End_Use_Industry_LLF
+IN_BO_OTHHF:
+  ecoinvent_aliases:
+    fltr:
+    - heat production, heavy fuel oil, at industrial furnace 1MW
+  gains_aliases_EU: IN_BO_OTHHF
+  gains_aliases_IAM: End_Use_Industry_HLF
+IN_BO_OTH_SHC1:
+  ecoinvent_aliases:
+    fltr:
+    - heat production, at hard coal industrial furnace 1-10MW
+  gains_aliases_EU: IN_BO_OTH_SHC1
+  gains_aliases_IAM: End_Use_Industry_Coal
+IN_BO_PAPHC1:
+  ecoinvent_aliases:
+    fltr:
+    - paper production, woodfree
+    - paper production, newsprint, virgin
+    - paper production, woodcontaining
+  gains_aliases_EU: IN_BO_PAPHC1
+  gains_aliases_IAM: PAPER
+IN_BO_PAPHF:
+  ecoinvent_aliases:
+    fltr:
+    - sulfate pulp production
+    - kraft paper production
+  gains_aliases_EU: IN_BO_PAPHF
+  gains_aliases_IAM: PAPER
+IN_OC_OTHDC:
+  ecoinvent_aliases:
+    fltr:
+    - heat production, at coal coke industrial furnace 1-10MW
+    - treatment of coal tar, in industrial furnace 1MW
+  gains_aliases_EU: IN_OC_OTHDC
+  gains_aliases_IAM: End_Use_Industry_Coal
+IN_OC_OTHFWD:
+  ecoinvent_aliases:
+    fltr:
+    - heat production, softwood chips from forest, at furnace
+    - heat production, hardwood chips from forest, at furnace
+    - heat production, wood chips from post-consumer wood, at furnace
+    - heat production, untreated waste wood, at furnace
+    - heat production, wood chips from industry, at furnace
+    - heat production, wood pellet, at furnace 300kW
+    - heat production, mixed logs, at furnace
+  gains_aliases_EU: IN_OC_OTHFWD
+  gains_aliases_IAM: End_Use_Industry_Bio_Trad
+IN_OC_OTHGSL:
+  ecoinvent_aliases:
+    fltr:
+    - heat production, light fuel oil, at industrial furnace
+  gains_aliases_EU: IN_OC_OTHGSL
+  gains_aliases_IAM: End_Use_Industry_LLF
+MINE_BCNOF:
+  ecoinvent_aliases:
+    fltr:
+    - lignite mine operation
+  gains_aliases_EU: MINE_BCNOF
+  gains_aliases_IAM: Losses_Coal
+MINE_HCNOF:
+  ecoinvent_aliases:
+    fltr:
+    - hard coal mine operation
+  gains_aliases_EU: MINE_HCNOF
+  gains_aliases_IAM: Losses_Coal
+MSW_URB_FOODNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of used vegetable cooking oil
+    - treatment of biowaste, open dump
+    - treatment of kitchen and garden biowaste, home composting in heaps and containers
+    - treatment of biowaste, industrial composting
+    - treatment of biowaste by anaerobic digestion
+    - treatment of garden biowaste, home composting in heaps
+    mask:
+      name:
+      - open burning
+  gains_aliases_EU: MSW_URB_FOODNOF
+  gains_aliases_IAM: Waste_Solid_Municipal
+MSW_URB_GLANOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of waste glass
+    - treatment of glass from used cathode ray tube
+    - treatment of glass cullet
+    - treatment of waste glass, municipal incineration
+    mask:
+      name:
+      - open burning
+  gains_aliases_EU: MSW_URB_GLANOF
+  gains_aliases_IAM: Waste_Solid_Municipal
+MSW_URB_METNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of scrap aluminium, municipal incineration
+    - treatment of scrap steel
+    - treatment of scrap tin sheet
+    - treatment of waste reinforcement steel
+    - treatment of zinc
+    - treatment of steel in car shredder residue, municipal incineration
+    - treatment of used silencer, steel
+    - treatment of used beverage cans, for recycling, unsorted, sorting
+    - treatment of copper in car shredder residue, municipal incineration
+    - treatment of waste bulk iron, excluding reinforcement, sorting plant
+    - treatment of scrap copper, municipal incineration
+    - treatment of lead in car shredder residue, municipal incineration
+    - treatment of aluminium in car shredder residue, municipal incineration
+    - treatment of waste aluminium
+    mask:
+      name:
+      - open burning
+  gains_aliases_EU: MSW_URB_METNOF
+  gains_aliases_IAM: Waste_Solid_Municipal
+MSW_URB_OTHNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of used fluorescent lamp
+    - treatment of spent anion exchange resin from potable water production, municipal
+      incineration
+    - treatment of used exhaust air roof hood
+    - treatment of used bicycle
+    - treatment of used printer, laser
+    - treatment of used toner module, laser printer
+    - treatment of used liquid crystal display module, municipal
+    - treatment of digester sludge, municipal incineration
+    - treatment of waste brick
+    - treatment of municipal solid waste, open dump
+    - treatment of coating from waste cathode ray tube display
+    - treatment of used domestic refrigerator
+    - treatment of residue from mechanical treatment
+    - treatment of lignite ash, municipal incineration
+    - treatment of used laptop computer
+    - treatment of spent cation exchange resin from potable water production, municipal
+      incineration
+    - treatment of municipal solid waste, sanitary landfill
+    - treatment of hard coal ash, municipal incineration
+    - treatment of used window frame, wood-metal,
+    - treatment of used cable
+    - treatment of metal scrap
+    - treatment of used double glazing
+    - treatment of waste frit from cathode ray tube production, residual material
+      landfill
+    - treatment of municipal solid waste, municipal incineration
+    - treatment of used electric bicycle
+    - treatment of used exhaust air valve
+    - treatment of waste vapour barrier, flame-retarded, municipal incineration
+    - treatment of waste emulsion paint, municipal incineration
+    - treatment of waste bitumen sheet, municipal incineration
+    - treatment of waste rubber, unspecified, municipal incineration
+    - treatment of municipal solid waste, incineration
+    - treatment of used bus
+    - treatment of residue from shredder fraction from manual dismantling
+    - treatment of waste paint, municipal incineration
+    - treatment of used cathode ray tube display, manual dismantling
+    - treatment of used tyre
+    - treatment of used glider
+    - treatment of used desktop computer
+    - treatment of municipal solid waste, unsanitary landfill, dry infiltration class
+      (100mm)
+    - treatment of municipal solid waste
+    - treatment of raw sewage sludge, municipal incineration
+    - treatment of used door
+    - treatment of waste cement-fibre slab
+    mask:
+      name:
+      - open burning
+  gains_aliases_EU: MSW_URB_OTHNOF
+  gains_aliases_IAM: Waste_Solid_Municipal
+MSW_URB_PAPNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of waste newspaper, municipal incineration
+    - treatment of waste packaging paper, municipal incineration
+    - treatment of waste graphical paper
+    - treatment of waste packaging paper, sanitary landfill
+    - treatment of waste graphical paper, municipal incineration
+    - treatment of waste paper
+    - treatment of waste plaster-cardboard sandwich
+    - treatment of waste paperboard, municipal incineration
+    mask:
+      name:
+      - open burning
+  gains_aliases_EU: MSW_URB_PAPNOF
+  gains_aliases_IAM: Waste_Solid_Municipal
+MSW_URB_PLANOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of waste polyethylene, municipal incineration
+    - treatment of waste plastic
+    - treatment of waste polyurethane
+    - treatment of waste expanded polystyrene, municipal incineration
+    - treatment of waste polypropylene, municipal incineration
+    - treatment of waste plastic, industrial electronics, municipal incineration
+    - treatment of waste wire plastic, municipal incineration
+    - treatment of waste polyethylene
+    - treatment of waste polypropylene
+    - treatment of waste polyvinylfluoride, municipal incineration
+    - treatment of used flexible duct
+    - treatment of waste polyvinylchloride
+    - treatment of used window frame, plastic, collection for final disposal
+    - treatment of waste plastic plaster
+    - treatment of waste polyvinylchloride, municipal incineration
+    - treatment of waste plastic, mixture, municipal incineration
+    - treatment of waste polystyrene, municipal incineration
+    - treatment of waste plastic, consumer electronics, municipal incineration
+    - treatment of waste polyethylene terephthalate, municipal incineration
+    - treatment of waste sealing sheet
+    - treatment of waste polystyrene
+    - treatment of waste polyurethane, municipal incineration
+    mask:
+      name:
+      - open burning
+  gains_aliases_EU: MSW_URB_PLANOF
+  gains_aliases_IAM: Waste_Solid_Municipal
+  mask:
+    reference product:
+    - waste sealing sheet
+MSW_URB_TEXNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of waste textile
+    - treatment of waste yarn and waste textile
+    mask:
+      name:
+      - open burning
+  gains_aliases_EU: MSW_URB_TEXNOF
+  gains_aliases_IAM: Waste_Solid_Municipal
+MSW_URB_WOODNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of wood ash mixture
+    - treatment of waste fibreboard, collection for final disposal
+    - treatment of waste wood, untreated, municipal incineration
+    - treatment of waste wood
+    - treatment of waste building wood, chrome preserved, municipal incineration
+    - treatment of used window frame, wood, collection for final disposal
+    - treatment of waste wood pole, chrome preserved, municipal incineration
+    mask:
+      name:
+      - open burning
+  gains_aliases_EU: MSW_URB_WOODNOF
+  gains_aliases_IAM: Waste_Solid_Municipal
+PP_ENGGAS:
+  ecoinvent_aliases:
+    fltr:
+    - natural gas, burned in gas motor, for storage
+  gains_aliases_EU: PP_ENGGAS
+  gains_aliases_IAM: Power_Gen_NatGas
+PP_ENGMD:
+  ecoinvent_aliases:
+    fltr:
+    - diesel, burned in diesel-electric generating set, 18.5kW
+    - diesel, burned in building machine
+    - diesel, burned in agricultural machinery
+    - diesel, burned in diesel-electric generating set
+    - water pump operation, diesel
+    - Diesel, burned in diesel-electric generating set, at extraction site
+    - diesel, burned in diesel-electric generating set, 10MW
+  gains_aliases_EU: PP_ENGMD
+  gains_aliases_IAM: Power_Gen_HLF
+PP_EX_LBC2:
+  ecoinvent_aliases:
+    fltr:
+    - electricity production, peat
+  gains_aliases_EU: PP_EX_LBC2
+  gains_aliases_IAM: Power_Gen_Coal_Old
+PP_EX_LHC1:
+  ecoinvent_aliases:
+    fltr:
+    - electricity production, hard coal
+    mask:
+      name:
+      - mine
+      - ' supercritical'
+  gains_aliases_EU: PP_EX_LHC1
+  gains_aliases_IAM: Power_Gen_Coal_Old
+PP_EX_OTHARD:
+  ecoinvent_aliases:
+    fltr:
+    - heat production, straw, at furnace 300kW
+    - heat production, straw, organic, at furnace 300kW
+  gains_aliases_EU: PP_EX_OTHARD
+  gains_aliases_IAM: Power_Gen_Bio_Trad_Old
+PP_EX_OTHBGS:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of bagasse, from sweet sorghum, in heat and power co-generation unit,
+      6400kW thermal
+    - treatment of bagasse, from sugarcane, in heat and power co-generation unit,
+      6400kW thermal
+  gains_aliases_EU: PP_EX_OTHBGS
+  gains_aliases_IAM: Power_Gen_Bio_Trad_Old
+PP_EX_OTHFWD:
+  ecoinvent_aliases:
+    fltr:
+    - heat and power co-generation, wood chips, 2000 kW
+    - heat and power co-generation, wood chips, 6667 kW
+    mask:
+      name:
+      - state-of-the-art
+  gains_aliases_EU: PP_EX_OTHFWD
+  gains_aliases_IAM: Power_Gen_Bio_Trad_Old
+PP_EX_OTHGAS:
+  ecoinvent_aliases:
+    fltr:
+    - heat and power co-generation, natural gas, conventional power plant, 100MW electrical
+    - natural gas, burned in gas turbine
+    - natural gas, burned in micro gas turbine, 100kWe
+    - heat and power co-generation, natural gas, 160kW electrical, Jakobsberg
+    - electricity production, natural gas, conventional power plant
+  gains_aliases_EU: PP_EX_OTHGAS
+  gains_aliases_IAM: Power_Gen_NatGas
+PP_EX_OTHH2:
+  ecoinvent_aliases:
+    fltr:
+    - Hydrogen, from steam reforming of biomass gas, at reforming plant, no CCS
+    - Hydrogen, from steam reforming of biomassgas, at reforming plant, pre, pipeline
+      400km, storage 3000m
+    - SMR NG + CCS (MDEA), 98 (average), 25 bar
+    - SMR BM, HT+LT, + CCS (MDEA), 98 (average), digestate incineration, 26 bar
+    - SMR BM, HT+LT, with digestate incineration, 26 bar
+    - Hydrogen, from steam reforming of biomassgas, at reforming plant, pre, pipeline
+      200km, storage 1000m
+  gains_aliases_EU: PP_EX_OTHH2
+  gains_aliases_IAM: Power_Gen_LLF
+PP_EX_OTHWSFNR:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of coal gas, in power plant
+    - treatment of blast furnace gas, in power plant
+  gains_aliases_EU: PP_EX_OTHWSFNR
+PP_EX_OTHWSFR:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of biowaste, municipal incineration
+    - heat production, untreated waste wood, at furnace 1000-5000 kW
+    mask:
+      name:
+      - state-of-the-art
+  gains_aliases_EU: PP_EX_OTHWSFR
+PP_IGCCBC1:
+  ecoinvent_aliases:
+    fltr:
+    - Lignite IGCC power plant, operation, no CCS
+  gains_aliases_EU: PP_IGCCBC1
+  gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
+PP_IGCCHC1:
+  ecoinvent_aliases:
+    fltr:
+    - Hard coal IGCC power plant, operation, no CCS
+  gains_aliases_EU: PP_IGCCHC1
+  gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
+PP_IGCC_CCSBC1:
+  ecoinvent_aliases:
+    fltr:
+    - Lignite IGCC power plant, operation, with CCS
+  gains_aliases_EU: PP_IGCC_CCSBC1
+  gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
+PP_IGCC_CCSHC1:
+  ecoinvent_aliases:
+    fltr:
+    - Hard coal IGCC power plant, operation, with CCS
+  gains_aliases_EU: PP_IGCC_CCSHC1
+  gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
+PP_MODBC1:
+  ecoinvent_aliases:
+    fltr:
+    - Lignite, burned in power plant/PC, no CCS
+  gains_aliases_EU: PP_MODBC1
+  gains_aliases_IAM: Power_Gen_Coal_New
+PP_MODBIOG:
+  ecoinvent_aliases:
+    fltr:
+    - Biogas, burned in power plant/NGCC, no CCS
+  gains_aliases_EU: PP_MODBIOG
+  gains_aliases_IAM: Power_Gen_Bio_Trad
+PP_MODBMG:
+  ecoinvent_aliases:
+    fltr:
+    - electricity production, at BIGCC power plant, no CCS
+  gains_aliases_EU: PP_MODBMG
+  gains_aliases_IAM: Power_Gen_Bio_Trad
+PP_MODFWD:
+  ecoinvent_aliases:
+    fltr:
+    - Wood chips, burned in power plant 20 MW, truck 25km, no CCS
+  gains_aliases_EU: PP_MODFWD
+  gains_aliases_IAM: Power_Gen_Bio_Trad
+PP_MODGAS:
+  ecoinvent_aliases:
+    fltr:
+    - 100% SNG, burned in CC plant, truck 25km, no CCS
+    - heat and power co-generation, natural gas, combined cycle power plant, 400MW
+      electrical
+    - Natural gas, in ATR H2-CC/no CCS/MJ
+    - Natural gas, burned in power plant/NGCC, no CCS
+    - electricity production, natural gas, combined cycle power plant
+  gains_aliases_EU: PP_MODGAS
+  gains_aliases_IAM: Power_Gen_NatGas
+PP_MODHC1:
+  ecoinvent_aliases:
+    fltr:
+    - electricity production, hard coal, supercritical
+    - Hard coal, burned in power plant/PC, no CCS
+  gains_aliases_EU: PP_MODHC1
+  gains_aliases_IAM: Power_Gen_Coal_New
+PP_MOD_CCSBC1:
+  ecoinvent_aliases:
+    fltr:
+    - Lignite, burned in power plant/post, pipeline 400km, storage 3000m
+    - Lignite, burned in power plant/oxy, pipeline 200km, storage 1000m
+    - Lignite, burned in power plant/oxy, pipeline 400km, storage 3000m
+    - Lignite, burned in power plant/post, pipeline 200km, storage 1000m
+  gains_aliases_EU: PP_MOD_CCSBC1
+  gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
+PP_MOD_CCSBIOG:
+  ecoinvent_aliases:
+    fltr:
+    - Biogas, burned in power plant/post, pipeline 200km, storage 1000m/RER
+    - Biogas, in ATR H2-CC/pre, pipeline 200km, storage 1000m
+    - Biogas, burned in power plant/post, pipeline 400km, storage 1000m/RER
+    - Biogas, burned in power plant/post, pipeline 400km, storage 3000m/RER
+  gains_aliases_EU: PP_MOD_CCSBIOG
+  gains_aliases_IAM: Power_Gen_Bio_Trad
+PP_MOD_CCSFWD:
+  ecoinvent_aliases:
+    fltr:
+    - Wood chips, burned in power plant 20 MW, truck 25km, post, pipeline 200km, storage
+      1000m
+    - Wood chips, burned in power plant 20 MW, truck 25km, post, pipeline 400km, storage
+      3000m
+  gains_aliases_EU: PP_MOD_CCSFWD
+  gains_aliases_IAM: Power_Gen_Bio_Trad
+PP_MOD_CCSGAS:
+  ecoinvent_aliases:
+    fltr:
+    - Natural gas, burned in power plant/post, pipeline 400km, storage 3000m/RER
+    - Natural gas, burned in power plant/post, pipeline 400km, storage 1000m/RER
+    - 100% SNG, burned in CC plant, truck 25km, post, pipeline 200km, storage 1000m
+    - 100% SNG, burned in CC plant, truck 25km, post, pipeline 400km, storage 3000m
+    - Natural gas, in ATR H2-CC/pre
+    - Natural gas, burned in power plant/post, pipeline 200km, storage 1000m/RER
+  gains_aliases_EU: PP_MOD_CCSGAS
+  gains_aliases_IAM: Power_Gen_NatGas
+PP_MOD_CCSHC1:
+  ecoinvent_aliases:
+    fltr:
+    - Hard coal, burned in power plant/post, pipeline 400km, storage 3000m
+    - Hard coal, burned in power plant/oxy, pipeline 200km, storage 1000m
+    - Hard coal, burned in power plant/post, pipeline 400km, storage 1000m
+    - Hard coal, burned in power plant/oxy, pipeline 400km, storage 3000m
+    - Hard coal, burned in power plant/post, pipeline 200km, storage 1000m
+  gains_aliases_EU: PP_MOD_CCSHC1
+  gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
+PP_NEWBIOG:
+  ecoinvent_aliases:
+    fltr:
+    - heat and power co-generation, biogas, gas engine
+    - biomethane, low pressure burned in polymer electrolyte membrane fuel cell 2kWe,
+      future
+    - biomethane, low pressure burned in solid oxide fuel cell 125kWe, future
+    - biomethane, low pressure burned in micro gas turbine 100kWe
+    - biomethane, low pressure burned in solid oxide fuel cell, with micro gas turbine,
+      180kWe, future
+    - heat production, biomethane, at boiler condensing modulating <100kW
+  gains_aliases_EU: PP_NEWBIOG
+  gains_aliases_IAM: Power_Gen_Bio_Trad_New
+PP_NEWFWD:
+  ecoinvent_aliases:
+    fltr:
+    - heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014
+    - electricity production, wood, future
+    - heat and power co-generation, wood chips, 2000 kW, state-of-the-art 2014
+  gains_aliases_EU: PP_NEWFWD
+  gains_aliases_IAM: Power_Gen_Bio_Trad_New
+PP_NEWGAS:
+  ecoinvent_aliases:
+    fltr:
+    - natural gas, burned in solid oxide fuel cell, with micro gas turbine, 180kWe,
+      future
+    - heat and power co-generation, natural gas, 1MW electrical, lean burn
+    - heat and power co-generation, natural gas, 500kW electrical, lean burn
+    - electricity production, natural gas, 10MW
+    - natural gas, burned in solid oxide fuel cell 125kWe, future
+    - heat and power co-generation, natural gas, 200kW electrical, lean burn
+    - natural gas, burned in polymer electrolyte membrane fuel cell 2kWe, future
+    - heat and power co-generation, natural gas, 160kW electrical, lambda=1
+    - heat and power co-generation, natural gas, 50kW electrical, lean burn
+  gains_aliases_EU: PP_NEWGAS
+  gains_aliases_IAM: Power_Gen_NatGas
+PP_NEWH2:
+  ecoinvent_aliases:
+    fltr:
+    - ATR NG, 25 bar
+    - ATR BM, with digestate incineration, 25 bar
+    - ATR NG + CCS (MDEA), 98 (average), 25 bar
+    - Operation, H2 power plant 450MW
+    - ATR BM + CCS (MDEA), 98 (average), with digestate incineration, 25 bar
+  gains_aliases_EU: PP_NEWH2
+  gains_aliases_IAM: Power_Gen_LLF
+PP_NEWHF:
+  ecoinvent_aliases:
+    fltr:
+    - heat and power co-generation, oil
+    - electricity production, oil
+    - heavy fuel oil, burned in refinery furnace
+    mask:
+      name:
+      - aluminium
+  gains_aliases_EU: PP_NEWHF
+  gains_aliases_IAM: Power_Gen_HLF
+PP_NEWMD:
+  ecoinvent_aliases:
+    fltr:
+    - heat and power co-generation, diesel, 200kW electrical, SCR-NOx reduction
+  gains_aliases_EU: PP_NEWMD
+  gains_aliases_IAM: Power_Gen_HLF
+PP_NEWWSFR:
+  ecoinvent_aliases:
+    fltr:
+    - heat production, untreated waste wood, at furnace 1000-5000 kW, state-of-the-art
+      2014
+  gains_aliases_EU: PP_NEWWSFR
+PP_NEW_LBC1:
+  ecoinvent_aliases:
+    fltr:
+    - heat and power co-generation, lignite
+    - electricity production, lignite
+  gains_aliases_EU: PP_NEW_LBC1
+  gains_aliases_IAM: Power_Gen_Coal_New
+PP_NEW_LHC1:
+  ecoinvent_aliases:
+    fltr:
+    - heat and power co-generation, hard coal
+  gains_aliases_EU: PP_NEW_LHC1
+  gains_aliases_IAM: Power_Gen_Coal_New
+PP_TOTALGTH:
+  ecoinvent_aliases:
+    fltr:
+    - heat production, deep geothermal
+    - electricity production, deep geothermal
+  gains_aliases_EU: PP_TOTALGTH
+PP_TOTALHYD:
+  ecoinvent_aliases:
+    fltr:
+    - electricity production, hydro, reservoir, alpine region, label-certified
+    - electricity production, hydro, run-of-river, label-certified
+    - electricity production, hydro, reservoir, alpine region
+    - electricity production, hydro, reservoir, tropical region
+    - electricity production, hydro, aluminium industry
+    - electricity production, hydro, pumped storage
+    - electricity production, hydro, reservoir, non-alpine region
+  gains_aliases_EU: PP_TOTALHYD
+PP_TOTALNUC:
+  ecoinvent_aliases:
+    fltr:
+    - electricity production, nuclear, aluminium industry
+    - electricity production, nuclear, boiling water reactor
+    - electricity production, nuclear, pressure water reactor, heavy water moderated
+    - electricity production, nuclear, pressure water reactor
+  gains_aliases_EU: PP_TOTALNUC
+PP_TOTALSHP:
+  ecoinvent_aliases:
+    fltr:
+    - electricity production, hydro, run-of-river
+  gains_aliases_EU: PP_TOTALSHP
+PP_TOTALSPV:
+  ecoinvent_aliases:
+    fltr:
+    - electricity production, photovoltaic
+  gains_aliases_EU: PP_TOTALSPV
+PP_TOTALSTH:
+  ecoinvent_aliases:
+    fltr:
+    - electricity production, solar thermal parabolic trough, 50 MW
+    - electricity production, solar tower power plant, 20 MW
+  gains_aliases_EU: PP_TOTALSTH
+PP_TOTALWND:
+  ecoinvent_aliases:
+    fltr:
+    - electricity production, wind, <1MW turbine, onshore, label-certified
+    - electricity production, wind, 2.3MW turbine, precast concrete tower, onshore
+    - electricity production, wind, <1MW turbine, onshore
+    - electricity production, wind, 1-3MW turbine, onshore, label-certified
+    - electricity production, wind, 1-3MW turbine, onshore
+    - electricity production, wind, 1-3MW turbine, offshore
+    - electricity production, wind, >3MW turbine, onshore
+    - electricity production, wind, >3MW turbine, onshore, label-certified
+  gains_aliases_EU: PP_TOTALWND
+PROD_AGASGAS:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of waste natural gas, sour, burned in production flare
+    - natural gas, sweet, burned in production flare
+    - natural gas, sour, burned in production flare
+    - treatment of waste natural gas, sweet, burned in production flare
+  gains_aliases_EU: PROD_AGASGAS
+  gains_aliases_IAM: Losses_Prod_Conventional_Gas
+PR_ADIPNOF:
+  ecoinvent_aliases:
+    fltr:
+    - adipic acid production
+  gains_aliases_EU: PR_ADIPNOF
+  gains_aliases_IAM: AACID
+PR_CEMNOF:
+  ecoinvent_aliases:
+    fltr:
+    - clinker production
+  gains_aliases_EU: PR_CEMNOF
+  gains_aliases_IAM: CEMENT
+PR_NIACNOF:
+  ecoinvent_aliases:
+    fltr:
+    - nitric acid production
+  gains_aliases_EU: PR_NIACNOF
+  gains_aliases_IAM: NACID
+PR_OT_NFMENOF:
+  ecoinvent_aliases:
+    fltr:
+    - smelting and refining of nickel concentrate
+    - smelting of copper concentrate, sulfide ore
+  gains_aliases_EU: PR_OT_NFMENOF
+  gains_aliases_IAM: CUSM
+PR_PULPNOF:
+  ecoinvent_aliases:
+    fltr:
+    - paper production, newsprint, recycled
+  gains_aliases_EU: PR_PULPNOF
+  gains_aliases_IAM: PAPER
+PR_REFCRU:
+  ecoinvent_aliases:
+    fltr:
+    - kerosene production, petroleum refinery operation
+    - electricity production, medium voltage, petroleum refinery operation
+    - diesel production, low-sulfur, petroleum refinery operation
+    - naphtha production, petroleum refinery operation
+    - petrol production, unleaded, petroleum refinery operation
+    - heavy fuel oil production, petroleum refinery operation
+    - base oil production, petroleum refinery operation
+    - liquefied petroleum gas production, petroleum refinery operation
+    - diesel production, petroleum refinery operation
+    - refinery gas production, petroleum refinery operation
+    - hydrogen production, gaseous, petroleum refinery operation
+    - light fuel oil production, petroleum refinery operation
+    - C3 hydrocarbon production, mixture, petroleum refinery operation
+    - sulfur production, petroleum refinery operation
+    - petroleum coke production, petroleum refinery operation
+    - white spirit production, petroleum refinery operation
+    - petroleum slack wax production, petroleum refinery operation
+    - reformate production, petroleum refinery operation
+    - pitch production, petroleum refinery operation
+  gains_aliases_EU: PR_REFCRU
+RES_CREMNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of waste polystyrene, open burning
+    - treatment of municipal solid waste, open burning
+    - treatment of waste polyethylene, open burning
+    - treatment of waste plastic, consumer electronics, open burning
+    - treatment of waste, pneumatic tyres, open burning
+    - treatment of waste wood, untreated, open burning
+    - treatment of waste polyvinylchloride, open burning
+    - treatment of waste, electrical and electronic cables, open burning
+    - treatment of waste plastic, mixture, open burning
+    - treatment of waste polyurethane, open burning
+    - treatment of waste glass, open burning
+    - treatment of waste polypropylene, open burning
+    - treatment of waste graphical paper, open burning
+    - treatment of waste polyethylene terephthalate, open burning
+    - treatment of waste paperboard, open burning
+  gains_aliases_EU: RES_CREMNOF
+  gains_aliases_IAM: Waste_Solid_Municipal
+STEELVAR:
+  ecoinvent_aliases:
+    fltr:
+    - steel production
+    - sponge iron production
+    - sheet rolling, steel
+    - pig iron production
+    - cast iron production
+    - iron pellet production
+    - iron sinter production
+    - sheet rolling, chromium steel
+    mask:
+      name:
+      - waste
+  gains_aliases_EU: STEELVAR
+  gains_aliases_IAM: STEEL
+TRANSGAS:
+  ecoinvent_aliases:
+    fltr:
+    - transport, pipeline, long distance, natural gas
+    - transport, natural gas
+  gains_aliases_EU: TRANSGAS
+  gains_aliases_IAM: Losses_Distribution_Use
+TRA_OTS_LHF:
+  ecoinvent_aliases:
+    fltr:
+    - transport, freight, sea
+    - transport, liquefied natural gas
+    mask:
+      name:
+      - market
+  gains_aliases_EU: TRA_OTS_LHF
+  gains_aliases_IAM: End_Use_Transport_OFF_HLF
+TRA_OT_AGRMD:
+  ecoinvent_aliases:
+    fltr:
+    - transport, tractor and trailer, agricultural
+    mask:
+      name:
+      - market
+  gains_aliases_EU: TRA_OT_AGRMD
+  gains_aliases_IAM: End_Use_Transport_AGR_HLF
+TRA_OT_AIRGSL:
+  ecoinvent_aliases:
+    fltr:
+    - transport, passengers, passenger aircraft
+  gains_aliases_EU: TRA_OT_AIRGSL
+TRA_OT_INWMD:
+  ecoinvent_aliases:
+    fltr:
+    - transport, freight, inland waterways
+    mask:
+      name:
+      - market
+  gains_aliases_EU: TRA_OT_INWMD
+  gains_aliases_IAM: End_Use_Transport_OFF_HLF
+TRA_OT_RAIMD:
+  ecoinvent_aliases:
+    fltr:
+    - transport, freight train, diesel
+  gains_aliases_EU: TRA_OT_RAIMD
+  gains_aliases_IAM: End_Use_Transport_OFF_HLF
+TRA_RD_HDBMD:
+  ecoinvent_aliases:
+    fltr:
+    - transport, passenger coach
+    - transport, regular bus
+    mask:
+      name:
+      - market
+  gains_aliases_EU: TRA_RD_HDBMD
+  gains_aliases_IAM: End_Use_Transport_HDT_HLF
+TRA_RD_HDTGAS:
+  ecoinvent_aliases:
+    fltr:
+    - transport, freight, lorry, compressed gas
+  gains_aliases_EU: TRA_RD_HDTGAS
+  gains_aliases_IAM: End_Use_Transport_NatGas
+TRA_RD_HDTMD:
+  ecoinvent_aliases:
+    fltr:
+    - transport, freight, lorry >32 metric ton
+    - transport, freight, lorry 7.5-16 metric ton
+    - transport, freight, lorry, diesel
+    - transport, freight, lorry 16-32 metric ton
+    - transport, freight, lorry with refrigeration machine, 7.5-16 ton
+    mask:
+      name:
+      - market
+  gains_aliases_EU: TRA_RD_HDTMD
+  gains_aliases_IAM: End_Use_Transport_HDT_HLF
+TRA_RD_LD2GSL:
+  ecoinvent_aliases:
+    fltr:
+    - transport, passenger, motor scooter
+    mask:
+      name:
+      - market
+  gains_aliases_EU: TRA_RD_LD2GSL
+  gains_aliases_IAM: End_Use_Transport_MC_LLF
+TRA_RD_LD4CGAS:
+  ecoinvent_aliases:
+    fltr:
+    - transport, passenger car, large size, natural gas
+    - transport, passenger car, small size, natural gas
+    - transport, passenger car, medium size, natural gas
+  gains_aliases_EU: TRA_RD_LD4CGAS
+  gains_aliases_IAM: End_Use_Transport_NatGas
+TRA_RD_LD4CGSL:
+  ecoinvent_aliases:
+    fltr:
+    - transport, passenger car, medium size, petrol
+    - transport, passenger car, small size, petrol
+    - transport, passenger car, large size, petrol
+  gains_aliases_EU: TRA_RD_LD4CGSL
+  gains_aliases_IAM: End_Use_Transport_LDT_LLF
+TRA_RD_LD4CLPG:
+  ecoinvent_aliases:
+    fltr:
+    - transport, passenger car, medium size, liquefied petroleum gas
+  gains_aliases_EU: TRA_RD_LD4CLPG
+  gains_aliases_IAM: End_Use_Transport_LDT_LLF
+TRA_RD_LD4CMD:
+  ecoinvent_aliases:
+    fltr:
+    - transport, passenger car, large size, diesel
+    - transport, passenger car, small size, diesel
+    - transport, passenger car, medium size, diesel
+  gains_aliases_EU: TRA_RD_LD4CMD
+  gains_aliases_IAM: End_Use_Transport_LDT_HLF
+TRA_RD_LD4TMD:
+  ecoinvent_aliases:
+    fltr:
+    - transport, freight, lorry 3.5-7.5 metric ton
+    - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton
+  gains_aliases_EU: TRA_RD_LD4TMD
+  gains_aliases_IAM: End_Use_Transport_LDT_HLF
+WASTE_FLRNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of waste refinery gas, burned in flare
+  gains_aliases_EU: WASTE_FLRNOF
+  gains_aliases_IAM: Losses_Prod_Conventional_Gas
+WOODTIM:
+  ecoinvent_aliases:
+    fltr:
+    - wood preservation, dipping/immersion, solvent-based preservative, indoor use,
+      occasionally wet
+    - wood preservation, spray tunnel/deluging, solvent-based preservative, indoor
+      use, occasionally wet
+    - wood preservation, spray tunnel/deluging, solvent-based preservative, outdoor
+      use, no ground contact
+    - wood preservation, spray tunnel/deluging, solvent-based preservative, indoor
+      use, dry
+    - wood preservation, dipping/immersion, solvent-based preservative, indoor use,
+      dry
+    - wood preservation, dipping/immersion, solvent-based preservative, outdoor use,
+      no ground contact
+  gains_aliases_EU: WOODTIM
+WOOD_CRTIM:
+  ecoinvent_aliases:
+    fltr:
+    - wood preservation, pressure vessel, creosote, outdoor use, ground contact
+    - wood preservation, hot/cold dipping, creosote, outdoor use, ground contact
+  gains_aliases_EU: WOOD_CRTIM
+WW_DOM_CC_TRMPOP:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of wastewater, from residence
+    - treatment of wastewater, average
+  gains_aliases_EU: WW_DOM_CC_TRMPOP
+  gains_aliases_IAM: Waste_Water_Municipal
+Waste_Solid_IndustrialNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of used refrigera
+    - treatment of used sealing tape, aluminium/PE, 50 mm wide
+    - treatment of inert waste
+    - treatment of sewage sludge by anaerobic digestion
+    - treatment of crust from Parkes process for lead production
+    - treatment of refractory spent pot liner from Al electrolysis, residual material
+      landfill
+    - treatment of scrap lead acid battery, remelting
+    - treatment of spent antifreezer liquid, hazardous waste incineration
+    - treatment of used capacitor, to hazardous waste incineration
+    - treatment of used trawler, steel
+    - treatment of decarbonising waste, residual material landfill
+    - treatment of spent catalytic converter for cars, underground deposit
+    - treatment of spent solvent mixture, hazardous waste incineration
+    - treatment of electric arc furnace
+    - treatment of waste cement
+    - treatment of tallow to esterquat
+    - treatment of tin slag, residual material landfill
+    - treatment of waste gypsum
+    - treatment of waste mineral wool
+    - treatment of sludge from steel rolling, residual material landfill
+    - treatment of sludge, NaCl electrolysis
+    - treatment of H3PO4 purification residue, residual material landfill
+    - treatment of used locomotive
+    - treatment of residue from cooling tower, sanitary landfill
+    - treatment of waste asphalt
+    - treatment of lignite ash, sanitary landfill
+    - treatment of spent Formox catalyst base from formaldehyde production, residual
+      material landfill
+    - treatment of leach residue from copper production, neutralisation
+    - treatment of decommissioned airport infrastructure, contaminated gravel
+    - treatment of used purse seiner
+    - treatment of copper slag, residual material landfill
+    - treatment of used Ni-metal hydride battery, pyrometallurgical treatment
+    - treatment of hazardous waste, hazardous waste incineration
+    - treatment of used train
+    - treatment of waste reinforced plasterboard
+    - treatment of nickel smelter slag, residual material landfill
+    - treatment of decommissioned chemical production facilities
+    - treatment of non-sulfidic
+    - treatment of hard coal ash, sanitary landfill
+    - treatment of used lorry
+    - treatment of lignite ash, opencast refill
+    - treatment of used IT accessory, mechanical treatment
+    - treatment of waste emulsion paint
+    - treatment of used liquid crystal display
+    - treatment of decommissioned road
+    - treatment of spent sawing slurry from Si-wafer cutting
+    - treatment of used long liner, steel
+    - treatment of waste mineral oil, hazardous waste incineration
+    - treatment of condensate from light oil boiler
+    - treatment of spoil from hard coal mining, in surface landfill
+    - treatment of sludge from FeCl3 production, underground deposit
+    - treatment of spoil from lignite mining, in surface landfill
+    - treatment of precious metal from electronics scrap, in anode slime, precious
+      metal extraction
+    - treatment of used powertrain
+    - treatment of mill scale, residual material landfill
+    - treatment of used industrial electronic device
+    - treatment of waste paint
+    - treatment of used reefer, intermodal shipping container, 40-foot, high-cube
+    - treatment of waste mineral plaster
+    - treatment of fly ash and scrubber sludge, hazardous waste incineration
+    - treatment of spent perfluoropentane
+    - treatment of decommissioned pipeline, natural gas, inert material landfill
+    - treatment of used room-connecting overflow element, steel, approx. 40 m3/h
+    - treatment of hard coal ash, residual material landfill
+    - treatment of spent catalyst base from ethyleneoxide production, residual material
+      landfill
+    - treatment of used insulation spiral-seam duct
+    - treatment of waste zeolite
+    - treatment of copper cake
+    - treatment of limestone residue, inert material landfill
+    - treatment of waste x-ray film
+    - treatment of tailing, from uranium milling
+    - treatment of sulfidic tailing
+    - treatment of scrap printed wiring boards, shredding and separation
+    - treatment of residue from TiO2 production
+    - treatment of redmud from bauxite digestion, residual material landfill
+    - treatment of used tram
+    - treatment of waste concrete
+    - treatment of waste reinforced concrete
+    - treatment of used air
+    - treatment of waste bitumen, sanitary landfill
+    - treatment of residue from Na-dichromate production, residual material landfill
+    - treatment of used intermodal shipping container
+    - treatment of decommissioned tram track
+    - treatment of used internal combustion engine, shredding
+    - treatment of spent oxychlor catalyst, hazardous waste incineration
+    - treatment of heat carrier liquid, 40% C3H8O2, capacity 1.1E10l/year
+    - treatment of spent catalytic converter NOx reduction, underground deposit
+    - treatment of used light commercial vehicle
+    - treatment of used outside air intake, stainless steel, DN 370
+    - treatment of used blower and heat exchange unit
+    - treatment of drilling waste
+    - treatment of used triple glazing, U<0.5W/m2K, collection for final disposal
+    - treatment of coal slurry, impoundment
+    - treatment of refinery sludge
+    - treatment of lead smelter slag, residual material landfill
+    - treatment of used railway track
+    - treatment of hazardous waste, underground deposit
+    - treatment of spent pot liner from Al electrolysis, carbon fraction, residual
+      material landfill
+    - treatment of residue from rutile production, synthetic, 56% water, residual
+      material landfill
+    - treatment of shredder fraction from manual dismantling, shredding
+    - treatment of pollutant from rail ballast, residual material landfill
+    - treatment of filter dust from Al electrolysis, residual material landfill
+    - treatment of spent activated carbon
+    - treatment of uranium tailing, non-radioactive emission
+    - treatment of used diesel-electric generating set
+    - treatment of used ventilation control and wiring
+    - treatment of used Li-ion battery
+    - treatment of non-Fe-Co-metals, from used Li-ion battery, hydrometallurgical
+      processing
+    - treatment of salt tailing from potash mine, residual material landfill
+    - treatment of used motor scooter
+  gains_aliases_EU: Waste_Solid_IndustrialNOF
+  gains_aliases_IAM: Waste_Solid_Industrial
+Waste_Water_IndustrialNOF:
+  ecoinvent_aliases:
+    fltr:
+    - treatment of rainwater mineral oil storage, in wastewater treatment plant, capacity
+      1.1E10l/year
+    - treatment of wastewater
+    mask:
+      name:
+      - whey
+      - ' potato'
+      - ' maize'
+      - ' from residence'
+      - ' average'
+      - ' unpolluted'
+  gains_aliases_EU: Waste_Water_IndustrialNOF
+  gains_aliases_IAM: Waste_Water_Industrial

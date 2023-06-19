@@ -1,0 +1,36 @@
+gasoline:
+  - gasoline
+  - bioethanol, wood
+  - bioethanol, wood, with CCS
+  - bioethanol, grass
+  - bioethanol, grass, with CCS
+  - bioethanol, grain
+  - bioethanol, grain, with CCS
+  - bioethanol, sugar
+  - bioethanol, sugar, with CCS
+  - methanol, wood
+  - methanol, wood, with CCS
+  - methanol, grass
+  - methanol, grass, with CCS
+diesel:
+  - diesel
+  - diesel, synthetic, from wood
+  - diesel, synthetic, from wood, with CCS
+  - diesel, synthetic, from grass
+  - diesel, synthetic, from grass, with CCS
+  - biodiesel, oil
+  - biodiesel, oil, with CCS
+gas:
+  - natural gas
+  - biomethane
+
+hydrogen:
+  - hydrogen, electrolysis
+  - hydrogen, biomass
+  - hydrogen, biomass, with CCS
+  - hydrogen, coal
+  - hydrogen, coal, with CCS
+  - hydrogen, nat. gas
+  - hydrogen, nat. gas, with CCS
+
+

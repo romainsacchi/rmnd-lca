@@ -1,5 +1,5 @@
 # content of test_activity_maps.py
-from premise.activity_maps import InventorySet, get_gains_to_ecoinvent_emissions
+from premise.activity_maps import InventorySet
 
 dummy_minimal_db = [
     {
@@ -47,7 +47,6 @@ for act in dummy_minimal_db:
 
 def test_presence_of_dict():
     maps = InventorySet(dummy_minimal_db)
-    assert isinstance(get_gains_to_ecoinvent_emissions(), dict)
     assert isinstance(maps.generate_material_map(), dict)
     assert isinstance(maps.generate_powerplant_map(), dict)
 

@@ -1,0 +1,10 @@
+# mapping between premise and IAM terminology
+# regarding CO2 transport and storage
+---
+cs:
+  iam_aliases:
+    remind:
+    image:
+  ecoinvent_aliases:
+    fltr:
+      - carbon dioxide compression, transport and storage

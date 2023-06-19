@@ -32,10 +32,11 @@ def package_files(directory):
 
 setup(
     name="premise",
-    version="1.4.1",
+    version="1.5.3",
     python_requires=">=3.9,<3.11",
     packages=packages,
-    author="Romain Sacchi <romain.sacchi@psi.ch>, Alois Dirnaichner <dirnaichner@pik-potsdam.de>, Chris Mutel <chris.mutel@psi.ch>",
+    author="Romain Sacchi <romain.sacchi@psi.ch>, Alois Dirnaichner <dirnaichner@pik-potsdam.de>, Chris Mutel "
+    "<chris.mutel@psi.ch>",
     license=open("LICENSE").read(),
     # Only if you have non-python data (CSV, etc.). Might need to change the directory name as well.
     include_package_data=True,
@@ -43,7 +44,7 @@ setup(
         "numpy",
         "wurst==0.3.3",
         "bw2io==0.8.7",
-        "pandas",
+        "pandas==1.5.3",
         "bw2data",
         "xarray",
         "prettytable",
@@ -54,6 +55,9 @@ setup(
         "sparse",
         "schema",
         "datapackage",
+        "requests",
+        "bottleneck",
+        "constructive_geometries>=0.8.2",
     ],
     url="https://github.com/polca/premise",
     description="Coupling IAM output to ecoinvent LCA database ecoinvent for prospective LCA",

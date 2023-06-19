@@ -1,0 +1,65 @@
+cff-version: 1.2.0
+title: premise
+message: PRospective EnvironMental Impact asSEment
+type: software
+authors:
+  - given-names: Romain
+    family-names: Sacchi
+    email: romain.sacchi@psi.ch
+    affiliation: Paul Scherrer Institut
+    orcid: 'https://orcid.org/0000-0003-1440-0905'
+  - given-names: Tom
+    family-names: Terlouw
+    email: tom.terlouw@psi.ch
+    affiliation: Paul Scherrer Institut
+    orcid: 'https://orcid.org/0000-0003-3744-9728'
+  - given-names: Kais
+    family-names: Siala
+    email: siala@pik-potsdam.de
+    affiliation: Potsdam Institute for Climate Impact Research
+    orcid: 'https://orcid.org/0000-0002-9080-0014'
+  - given-names: Alois
+    family-names: Dirnaichner
+    email: aloisdir@pik-potsdam.de
+    affiliation: Potsdam Institute for Climate Impact Research
+    orcid: 'https://orcid.org/0000-0002-3240-2608'
+  - given-names: Christian
+    family-names: Bauer
+    email: christian.bauer@psi.ch
+    affiliation: Paul Scherrer Institut
+    orcid: 'https://orcid.org/0000-0002-1083-9200'
+  - given-names: Brian
+    family-names: Cox
+    email: brian.cox@infras.ch
+    affiliation: INFRAS AG
+    orcid: 'https://orcid.org/0000-0002-4531-6709'
+  - given-names: Christopher
+    family-names: Mutel
+    affiliation: Paul Scherrer Institut
+    email: chritopher.mutel@psi.ch
+    orcid: 0000-0002-7898-9862
+  - given-names: Vassilis
+    family-names: Daioglou
+    orcid: 'https://orcid.org/0000-0002-6028-352X'
+    affiliation: PBL Netherlands Environmental Assessment Agency
+    email: vassilis.daioglou@pbl.nl
+  - given-names: Gunnar
+    family-names: Luderer
+    orcid: 'https://orcid.org/0000-0002-9057-6155'
+    affiliation: Potsdam Institute for Climate Impact Research
+    email: luderer@pik-potsdam.de
+identifiers:
+  - type: url
+    value: 'https://doi.org/10.1016/j.rser.2022.112311'
+repository-code: 'https://github.com/polca/premise'
+abstract: >-
+  Coupling the ecoinvent database with projections from
+  Integrated Assessment Models (IAM)
+keywords:
+  - life cycle assessment
+  - integrated assessment model
+  - prospective scenario
+  - ecoinvent
+license: BSD-3-Clause
+version: 1.4.2
+date-released: '2023-02-01'

@@ -2,19 +2,51 @@
 Implements external scenario data.
 """
 
-import csv
-from datetime import date
-from pathlib import Path
 
-import xarray as xr
-import yaml
+import wurst
 from numpy import ndarray
-from wurst import searching as ws
 
-from . import DATA_DIR
 from .clean_datasets import get_biosphere_flow_uuid
+from .inventory_imports import generate_migration_maps, get_outdated_flows
 from .transformation import *
 from .utils import eidb_label
+
+LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
+
+# directory for log files
+DIR_LOGS = Path.cwd() / "export" / "logs"
+# if DIR_LOG_REPORT folder does not exist
+# we create it
+if not Path(DIR_LOGS).exists():
+    Path(DIR_LOGS).mkdir(parents=True, exist_ok=True)
+
+with open(LOG_CONFIG, "r") as f:
+    config = yaml.safe_load(f.read())
+    logging.config.dictConfig(config)
+
+logger = logging.getLogger("external")
+
+
+def get_mapping_between_ei_versions(version_in: str, version_out: str) -> dict:
+    mapping = generate_migration_maps(
+        version_in.replace(".", ""), version_out.replace(".", "")
+    )["data"]
+    m = {}
+
+    for i, j in mapping:
+        m[(i[0], i[1])] = j
+
+    return m
+
+
+def fetch_loc(loc):
+    if isinstance(loc, str):
+        return loc
+    elif isinstance(loc, tuple):
+        if loc[0] == "ecoinvent":
+            return loc[1]
+    else:
+        return None
 
 
 def flag_activities_to_adjust(
@@ -129,6 +161,11 @@ def flag_activities_to_adjust(
     if dataset_vars["regionalize"]:
         dataset["regionalize"] = dataset_vars["regionalize"]
 
+    if "production volume variable" in dataset_vars:
+        dataset["production volume variable"] = dataset_vars[
+            "production volume variable"
+        ]
+
     return dataset
 
 
@@ -240,6 +277,7 @@ def adjust_efficiency(dataset: dict) -> dict:
                             dataset,
                         ):
                             wurst.rescale_exchange(exc, scaling_factor)
+
     return dataset
 
 
@@ -297,6 +335,10 @@ class ExternalScenario(BaseTransformation):
         model: str,
         pathway: str,
         year: int,
+        version: str,
+        system_model: str,
+        modified_datasets: dict,
+        cache: dict = None,
     ):
         """
         :param database: list of datasets representing teh database
@@ -308,20 +350,36 @@ class ExternalScenario(BaseTransformation):
         :param year: year
 
         """
-        super().__init__(database, iam_data, model, pathway, year)
+        super().__init__(
+            database,
+            iam_data,
+            model,
+            pathway,
+            year,
+            version,
+            system_model,
+            modified_datasets,
+        )
         self.datapackages = external_scenarios
         self.external_scenarios_data = external_scenarios_data
 
-        for i, datapackage in enumerate(self.datapackages):
-            external_scenario_regions = self.external_scenarios_data[i]["regions"]
+        for datapackage_number, datapackage in enumerate(self.datapackages):
+            external_scenario_regions = self.external_scenarios_data[
+                datapackage_number
+            ]["regions"]
             # Open corresponding config file
             resource = datapackage.get_resource("config")
             config_file = yaml.safe_load(resource.raw_read())
             ds_names = get_recursively(config_file, "name")
-            self.regionalize_inventories(ds_names, external_scenario_regions)
-        self.dict_bio_flows = get_biosphere_flow_uuid()
+            self.regionalize_inventories(
+                ds_names, external_scenario_regions, datapackage_number
+            )
+        self.dict_bio_flows = get_biosphere_flow_uuid(self.version)
+        self.outdated_flows = get_outdated_flows()
 
-    def regionalize_inventories(self, ds_names, regions) -> None:
+    def regionalize_inventories(
+        self, ds_names, regions, datapackage_number: int
+    ) -> None:
         """
         Produce IAM region-specific version of the dataset.
         :param regions: list of regions to produce datasets for
@@ -342,37 +400,74 @@ class ExternalScenario(BaseTransformation):
                     regions=ds["regions"],
                 )
 
+                # add production volume
+                if ds.get("production volume variable"):
+                    if (
+                        ds["production volume variable"]
+                        in self.external_scenarios_data[datapackage_number][
+                            "production volume"
+                        ].variables.values
+                    ):
+                        for region, act in new_acts.items():
+                            if (
+                                region
+                                in self.external_scenarios_data[datapackage_number][
+                                    "production volume"
+                                ].region.values
+                            ):
+                                act["production volume"] = (
+                                    self.external_scenarios_data[datapackage_number][
+                                        "production volume"
+                                    ]
+                                    .sel(
+                                        region=region,
+                                        variables=ds["production volume variable"],
+                                    )
+                                    .interp(year=self.year)
+                                    .values
+                                )
+
                 # add new datasets to database
                 self.database.extend(new_acts.values())
+
+                for _, act in new_acts.items():
+                    # add to log
+                    self.write_log(act)
+                    self.modified_datasets[(self.model, self.scenario, self.year)][
+                        "created"
+                    ].append(
+                        (
+                            act["name"],
+                            act["reference product"],
+                            act["location"],
+                            act["unit"],
+                        )
+                    )
 
             # remove "adjust efficiency" tag
             del ds["regionalize"]
 
         # some datasets might be meant to replace the supply
         # of other datasets, so we need to adjust those
-        replacing_acts = list(
-            (
-                {
-                    "replaces": ds["replaces"],
-                    "replaces in": ds.get("replaces in", None),
-                    "name": ds["name"],
-                    "reference product": ds["reference product"],
-                    "replacement ratio": ds.get("replacement ratio", 1),
-                    "regions": ds.get("regions", regions),
-                }
-                for ds in self.database
-                if "replaces" in ds and ds["name"] in ds_names
-            )
-        )
+        replacing_acts = {
+            (ds["name"], ds["reference product"]): {
+                "replaces": ds["replaces"],
+                "replaces in": ds.get("replaces in", None),
+                "replacement ratio": ds.get("replacement ratio", 1),
+                "regions": ds.get("regions", regions),
+            }
+            for ds in self.database
+            if "replaces" in ds and ds["name"] in ds_names
+        }
 
-        for ds in replacing_acts:
+        for (name, ref_prod), values in replacing_acts.items():
             self.relink_to_new_datasets(
-                replaces=ds["replaces"],
-                replaces_in=ds.get("replaces in", None),
-                new_name=ds["name"],
-                new_ref=ds["reference product"],
-                ratio=ds.get("replacement ratio", 1),
-                regions=ds.get("regions", regions),
+                replaces=values["replaces"],
+                replaces_in=values.get("replaces in", None),
+                new_name=name,
+                new_ref=ref_prod,
+                ratio=values.get("replacement ratio", 1),
+                regions=values.get("regions", regions),
             )
 
         # adjust efficiency of datasets
@@ -383,8 +478,11 @@ class ExternalScenario(BaseTransformation):
         ):
             adjust_efficiency(dataset)
             del dataset["adjust efficiency"]
+            self.write_log(dataset, status="updated")
 
-    def get_market_dictionary_structure(self, market: dict, region: str) -> dict:
+    def get_market_dictionary_structure(
+        self, market: dict, region: str, waste_market: bool = False
+    ) -> dict:
         """
         Return a dictionary for market creation, given the location passed.
         To be further filled with exchanges.
@@ -398,7 +496,7 @@ class ExternalScenario(BaseTransformation):
             "reference product": market["reference product"],
             "unit": market["unit"],
             "location": region,
-            "database": eidb_label(self.model, self.scenario, self.year),
+            "database": eidb_label(self.model, self.scenario, self.year, self.version),
             "code": str(uuid.uuid4().hex),
             "exchanges": [
                 {
@@ -407,13 +505,18 @@ class ExternalScenario(BaseTransformation):
                     "unit": market["unit"],
                     "location": region,
                     "type": "production",
-                    "amount": 1,
+                    "amount": -1 if waste_market else 1,
                 }
             ],
         }
 
     def fill_in_world_market(
-        self, market: dict, regions: list, i: int, pathways: list
+        self,
+        market: dict,
+        regions: list,
+        i: int,
+        pathways: list,
+        waste_market: bool = False,
     ) -> dict:
         """
         Fill in the world market with the supply of all regional markets
@@ -422,11 +525,14 @@ class ExternalScenario(BaseTransformation):
         :param regions: List of regions
         :param i: index of production volumes array in external_data
         :param pathways: List of production pathways
+        :param waste_market: True if the market is a waste market
         :return: World market dataset
         """
 
         # fetch a template for the world market dataset
-        world_market = self.get_market_dictionary_structure(market, "World")
+        world_market = self.get_market_dictionary_structure(
+            market=market, region="World", waste_market=waste_market
+        )
         new_excs = []
 
         # fetch the supply share for each regional market
@@ -434,11 +540,15 @@ class ExternalScenario(BaseTransformation):
             supply_share = np.clip(
                 (
                     self.external_scenarios_data[i]["production volume"]
-                    .sel(region=region, year=self.year, variables=pathways)
+                    .sel(region=region, variables=pathways)
                     .sum(dim="variables")
+                    .interp(year=self.year)
                     / self.external_scenarios_data[i]["production volume"]
-                    .sel(year=self.year, variables=pathways)
+                    .sel(
+                        variables=pathways, region=[r for r in regions if r != "World"]
+                    )
                     .sum(dim=["variables", "region"])
+                    .interp(year=self.year)
                 ).values.item(0),
                 0,
                 1,
@@ -453,7 +563,7 @@ class ExternalScenario(BaseTransformation):
                     "unit": market["unit"],
                     "location": region,
                     "type": "technosphere",
-                    "amount": supply_share,
+                    "amount": supply_share * -1 if waste_market else supply_share,
                 }
             )
 
@@ -501,9 +611,7 @@ class ExternalScenario(BaseTransformation):
                                 ]
                             else:
                                 ecoinvent_regions = [
-                                    r
-                                    if isinstance(r, str) or r[0] == "ecoinvent"
-                                    else None
+                                    fetch_loc(r)
                                     for r in [
                                         y
                                         for x in regions
@@ -512,7 +620,9 @@ class ExternalScenario(BaseTransformation):
                                 ]
 
                                 ecoinvent_regions = [
-                                    i for i in ecoinvent_regions if i and i != "GLO"
+                                    i
+                                    for i in ecoinvent_regions
+                                    if i and i not in ["GLO", "RoW"]
                                 ]
 
                                 if len(ecoinvent_regions) == 0:
@@ -529,6 +639,8 @@ class ExternalScenario(BaseTransformation):
                                 "Europe without Switzerland",
                                 "RoW",
                                 "GLO",
+                                # add all ecoinvent locations
+                                *[fetch_loc(loc) for loc in list(self.geo.geo.keys())],
                             ]
 
                             suppliers, counter = [], 0
@@ -565,15 +677,18 @@ class ExternalScenario(BaseTransformation):
                                 for ds in suppliers:
                                     ds["custom scenario dataset"] = True
 
-    def fetch_supply_share(self, i: int, region: str, var: str, vars: list) -> ndarray:
+    def fetch_supply_share(
+        self, i: int, region: str, var: str, variables: list
+    ) -> ndarray:
         """
         Return the supply share of a given variable in a given region.
         :param i: index of the scenario
         :param region: region
         :param var: variable
-        :param vars: list of all variables
+        :param variables: list of all variables
         :return: ndarray
         """
+
         return np.clip(
             (
                 self.external_scenarios_data[i]["production volume"]
@@ -585,7 +700,7 @@ class ExternalScenario(BaseTransformation):
                 / self.external_scenarios_data[i]["production volume"]
                 .sel(
                     region=region,
-                    variables=vars,
+                    variables=variables,
                 )
                 .interp(year=self.year)
                 .sum(dim="variables")
@@ -653,7 +768,9 @@ class ExternalScenario(BaseTransformation):
 
         return new_excs
 
-    def add_additional_exchanges(self, additional_exc: dict, region: str) -> list:
+    def add_additional_exchanges(
+        self, additional_exc: dict, region: str, ei_version: str
+    ) -> list:
         """
         Add additional exchanges to a dataset.
         """
@@ -664,16 +781,25 @@ class ExternalScenario(BaseTransformation):
         unit = additional_exc.get("unit")
         amount = additional_exc["amount"]
 
+        # we need to ensure that the dataset exists
+        # to do so, we need to load migration.csv
+        # and check if the dataset is there
+        # if it is there, we need to use instead the new values
+
+        mapping = get_mapping_between_ei_versions(str(ei_version), self.version)
+
+        if (name, ref_prod) in mapping:
+            name = mapping[(name, ref_prod)]["name"]
+            ref_prod = mapping[(name, ref_prod)]["reference product"]
+
         if ref_prod:
             # this is a technosphere exchange
-
             if region in self.geo.iam_regions:
                 ecoinvent_regions = self.geo.iam_to_ecoinvent_location(region)
             else:
+                ecoinvent_regions = [fetch_loc(r) for r in self.geo.geo.within(region)]
                 ecoinvent_regions = [
-                    r[-1]
-                    for r in self.geo.geo.within(region)
-                    if r[0] == "ecoinvent" and r[-1] not in ["GLO", "RoW"]
+                    i for i in ecoinvent_regions if i and i not in ["GLO", "RoW"]
                 ]
 
             possible_locations = [
@@ -683,6 +809,8 @@ class ExternalScenario(BaseTransformation):
                 "Europe without Switzerland",
                 "RoW",
                 "GLO",
+                # add all ecoinvent locations
+                *[fetch_loc(loc) for loc in list(self.geo.geo.keys())],
             ]
             potential_suppliers = self.fetch_potential_suppliers(
                 possible_locations, name, ref_prod
@@ -695,9 +823,17 @@ class ExternalScenario(BaseTransformation):
             # this is a biosphere exchange
             categories = tuple(categories.split("::"))
             if len(categories) == 1:
-                categories += ("unspecified",)
+                key = (name, categories[0], "unspecified", unit)
+            else:
+                key = (name, categories[0], categories[1], unit)
 
-            key = (name, categories[0], categories[1], unit)
+            if key not in self.dict_bio_flows:
+                if key[0] in self.outdated_flows:
+                    key = (self.outdated_flows[key[0]], key[1], key[2], key[3])
+                else:
+                    raise ValueError(
+                        f"Cannot find biosphere flow {key} in the biosphere database."
+                    )
 
             return [
                 {
@@ -745,6 +881,23 @@ class ExternalScenario(BaseTransformation):
                         wurst.rescale_exchange(exc, scaling_factor)
         return datatset
 
+    def get_region_for_non_null_production_volume(self, i, variables):
+        nz = np.argwhere(
+            (
+                self.external_scenarios_data[i]["production volume"]
+                .sel(variables=variables)
+                .sum(dim=["year", "variables"])
+                > 0
+            ).values
+        )
+
+        return [
+            self.external_scenarios_data[i]["production volume"]
+            .coords["region"][x[0]]
+            .values.item(0)
+            for x in nz
+        ]
+
     def create_custom_markets(self) -> None:
         """
         Create new custom markets, and create a `World` market
@@ -765,16 +918,17 @@ class ExternalScenario(BaseTransformation):
                 print("Create custom markets.")
 
                 for market_vars in config_file["markets"]:
-                    # fetch all scenario file vars that
+                    # fetch all scenario file variables that
                     # relate to this market
-
                     pathways = market_vars["includes"]
-
-                    vars = fetch_var(config_file, pathways)
+                    variables = fetch_var(config_file, pathways)
+                    waste_market = market_vars.get("waste market", False)
 
                     # Check if there are regions we should not
                     # create a market for
-                    regions = self.external_scenarios_data[i]["regions"]
+                    regions = self.get_region_for_non_null_production_volume(
+                        i=i, variables=variables
+                    )
 
                     if "except regions" in market_vars:
                         regions = [
@@ -785,7 +939,7 @@ class ExternalScenario(BaseTransformation):
                     for region in regions:
                         # Create market dictionary
                         new_market = self.get_market_dictionary_structure(
-                            market_vars, region
+                            market=market_vars, region=region, waste_market=waste_market
                         )
 
                         new_excs = []
@@ -810,26 +964,13 @@ class ExternalScenario(BaseTransformation):
 
                             else:
                                 ecoinvent_regions = [
-                                    r
-                                    if isinstance(r, str) or r[0] == "ecoinvent"
-                                    else None
-                                    for r in [
-                                        y
-                                        for x in regions
-                                        for y in self.geo.geo.within(x)
+                                    i
+                                    for i in [
+                                        fetch_loc(r)
+                                        for r in self.geo.geo.within(region)
                                     ]
+                                    if i and i not in ["GLO", "RoW"]
                                 ]
-
-                                ecoinvent_regions = [
-                                    i for i in ecoinvent_regions if i and i != "GLO"
-                                ]
-
-                                if len(ecoinvent_regions) == 0:
-                                    ecoinvent_regions = [
-                                        i
-                                        for i in list(self.geo.geo.keys())
-                                        if isinstance(i, str) and i != "GLO"
-                                    ]
 
                             possible_locations = [
                                 region,
@@ -838,6 +979,8 @@ class ExternalScenario(BaseTransformation):
                                 "Europe without Switzerland",
                                 "RoW",
                                 "GLO",
+                                # add all ecoinvent locations
+                                *[fetch_loc(loc) for loc in list(self.geo.geo.keys())],
                             ]
 
                             potential_suppliers = self.fetch_potential_suppliers(
@@ -849,16 +992,12 @@ class ExternalScenario(BaseTransformation):
 
                             try:
                                 supply_share = self.fetch_supply_share(
-                                    i, region, var, vars
+                                    i, region, var, variables
                                 )
 
                             except KeyError:
                                 print(
-                                    "suppliers for ",
-                                    name,
-                                    ref_prod,
-                                    region,
-                                    "not found",
+                                    f"Could not fond suppliers for {name}, {ref_prod}, from {region}"
                                 )
                                 continue
 
@@ -866,6 +1005,7 @@ class ExternalScenario(BaseTransformation):
                                 suppliers = get_shares_from_production_volume(
                                     potential_suppliers
                                 )
+
                                 new_excs.extend(
                                     self.write_suppliers_exchanges(
                                         suppliers, supply_share
@@ -874,10 +1014,15 @@ class ExternalScenario(BaseTransformation):
 
                         if len(new_excs) > 0:
                             total = 0
+
                             for exc in new_excs:
                                 total += exc["amount"]
                             for exc in new_excs:
                                 exc["amount"] /= total
+                                if waste_market:
+                                    # if this is a waste market, we need to
+                                    # flip the sign of the amount
+                                    exc["amount"] *= -1
 
                             new_market["exchanges"].extend(new_excs)
 
@@ -885,7 +1030,9 @@ class ExternalScenario(BaseTransformation):
                             if "add" in market_vars:
                                 for additional_exc in market_vars["add"]:
                                     add_excs = self.add_additional_exchanges(
-                                        additional_exc, region
+                                        additional_exc,
+                                        region,
+                                        dp.descriptor["ecoinvent"]["version"],
                                     )
                                     new_market["exchanges"].extend(add_excs)
 
@@ -901,28 +1048,51 @@ class ExternalScenario(BaseTransformation):
                                 )
 
                             self.database.append(new_market)
+                            self.write_log(new_market)
+                            self.modified_datasets[
+                                (self.model, self.scenario, self.year)
+                            ]["created"].append(
+                                (
+                                    new_market["name"],
+                                    new_market["reference product"],
+                                    new_market["location"],
+                                    new_market["unit"],
+                                )
+                            )
+
                         else:
                             regions.remove(region)
-                        # Loop through the technologies that should
-                        # compose the market
 
                     # if so far, a market for `World` has not been created
                     # we need to create one then
-
                     create_world_region = True
-
-                    if "World" in regions:
+                    if "World" in regions or "World" in market_vars.get(
+                        "except regions", []
+                    ):
                         create_world_region = False
-
-                    if "except regions" in market_vars:
-                        if "World" in market_vars["except regions"]:
-                            create_world_region = False
 
                     if create_world_region:
                         world_market = self.fill_in_world_market(
-                            market_vars, regions, i, vars
+                            market=market_vars,
+                            regions=regions,
+                            i=i,
+                            pathways=variables,
+                            waste_market=waste_market,
                         )
                         self.database.append(world_market)
+                        self.write_log(world_market)
+                        self.modified_datasets[(self.model, self.scenario, self.year)][
+                            "created"
+                        ].append(
+                            (
+                                world_market["name"],
+                                world_market["reference product"],
+                                world_market["location"],
+                                world_market["unit"],
+                            )
+                        )
+
+                        regions.append("World")
 
                     # if the new markets are meant to replace for other
                     # providers in the database
@@ -935,6 +1105,7 @@ class ExternalScenario(BaseTransformation):
                             new_ref=market_vars["reference product"],
                             ratio=market_vars.get("replacement ratio", 1),
                             regions=regions,
+                            waste_process=waste_market,
                         )
 
     def relink_to_new_datasets(
@@ -945,14 +1116,13 @@ class ExternalScenario(BaseTransformation):
         new_ref: str,
         ratio,
         regions: list,
+        waste_process: bool = False,
     ) -> None:
         """
         Replaces exchanges that match `old_name` and `old_ref` with exchanges that
         have `new_name` and `new_ref`. The new exchange is from an IAM region, and so, if the
         region is not part of `regions`, we use `World` instead.
 
-        :param old_name: `name` of the exchange to replace
-        :param old_ref: `product` of the exchange to replace
         :param new_name: `name`of the new provider
         :param new_ref: `product` of the new provider
         :param regions: list of IAM regions the new provider can originate from
@@ -960,8 +1130,9 @@ class ExternalScenario(BaseTransformation):
         """
 
         datasets = []
+        exchanges_replaced = []
 
-        if replaces_in:
+        if replaces_in is not None:
             for k in replaces_in:
                 list_fltr = []
                 operator = k.get("operator", "equals")
@@ -980,7 +1151,14 @@ class ExternalScenario(BaseTransformation):
         else:
             datasets = self.database
 
-        log = []
+        # also filter out datasets that
+        # have the same name and ref product
+        # as new_name and new_ref
+        datasets = [
+            d
+            for d in datasets
+            if not (d["name"] == new_name and d["reference product"] == new_ref)
+        ]
 
         list_fltr = []
         for k in replaces:
@@ -1002,60 +1180,178 @@ class ExternalScenario(BaseTransformation):
             for fltr in list_fltr:
                 filtered_exchanges.extend(list(ws.technosphere(dataset, *fltr)))
 
-            for exc in filtered_exchanges:
-                if dataset["location"] in regions:
-                    new_loc = dataset["location"]
-                elif dataset["location"] == "World":
-                    new_loc = "World"
-                else:
-                    new_loc = self.geo.ecoinvent_to_iam_location(dataset["location"])
+            # remove filtered exchanges from the dataset
+            dataset["exchanges"] = [
+                exc for exc in dataset["exchanges"] if exc not in filtered_exchanges
+            ]
 
-                log.append(
-                    [
-                        dataset["name"],
-                        dataset["reference product"],
-                        dataset["location"],
+            new_exchanges = []
+
+            for exc in filtered_exchanges:
+                if (
+                    exc["location"] in regions
+                    and new_name == exc["name"]
+                    and new_ref == exc["product"]
+                ):
+                    new_exchanges.append(exc)
+                    continue
+
+                new_loc = None
+                exchanges_replaced.append(
+                    (
                         exc["name"],
                         exc["product"],
                         exc["location"],
-                        new_name,
-                        new_ref,
-                        new_loc,
-                    ]
+                    )
                 )
+                if len(regions) == 1:
+                    new_loc = regions[0]
+                elif dataset["location"] in regions:
+                    new_loc = dataset["location"]
+                elif self.geo.ecoinvent_to_iam_location(dataset["location"]) in regions:
+                    new_loc = self.geo.ecoinvent_to_iam_location(dataset["location"])
+                elif dataset["location"] in ["GLO", "RoW"]:
+                    if "World" in regions:
+                        new_loc = "World"
+                    else:
+                        new_loc = self.find_best_substitute_suppliers(
+                            new_name, new_ref, regions
+                        )
 
-                exc["name"] = new_name
-                exc["product"] = new_ref
-                exc["location"] = new_loc
-                exc["amount"] *= ratio
+                if isinstance(new_loc, str):
+                    new_loc = [(new_loc, 1.0)]
 
-                if "input" in exc:
-                    del exc["input"]
+                if new_loc:
+                    for loc, share in new_loc:
+                        # add new exchange
+                        new_exchanges.append(
+                            {
+                                "amount": exc["amount"] * ratio * share,
+                                "type": "technosphere",
+                                "unit": exc["unit"],
+                                "location": loc,
+                                "name": new_name,
+                                "product": new_ref,
+                            }
+                        )
+                else:
+                    new_exchanges.append(exc)
 
-        if log:
-            # check that directory exists, otherwise create it
-            Path(DATA_DIR / "logs").mkdir(parents=True, exist_ok=True)
+            if len(filtered_exchanges) > 1:
+                # sum up exchanges with the same name, product, and location
+                new_exchanges = self.sum_exchanges(new_exchanges)
 
-            with open(
-                DATA_DIR
-                / "logs"
-                / f"external scenario - exchanges {self.scenario} {self.year}-{date.today()}.csv",
-                "a",
-                encoding="utf-8",
-            ) as csv_file:
-                writer = csv.writer(csv_file, delimiter=";", lineterminator="\n")
-                writer.writerow(
-                    [
-                        "name",
-                        "product",
-                        "location",
-                        "old supplier name",
-                        "old supplier product",
-                        "old supplier location",
-                        "new supplier name",
-                        "new supplier product",
-                        "new supplier location",
-                    ]
+            dataset["exchanges"].extend(new_exchanges)
+
+        # if no "replaces in" is given, we consider that the dataset to
+        # be replaced should be emptied and a link to the new dataset
+        # should be added
+
+        if not replaces_in and len(exchanges_replaced) > 0:
+            unique_exchanges_replaced = list(set(exchanges_replaced))
+            name = unique_exchanges_replaced[0][0]
+            ref = unique_exchanges_replaced[0][1]
+            locs = [x[2] for x in unique_exchanges_replaced]
+
+            for ds in ws.get_many(
+                self.database,
+                ws.equals("name", name),
+                ws.equals("reference product", ref),
+                ws.either(*[ws.equals("location", l) for l in locs]),
+            ):
+                # remove all exchanges except production exchanges
+                ds["exchanges"] = [
+                    exc for exc in ds["exchanges"] if exc["type"] == "production"
+                ]
+                # add ann exchange from new supplier
+                if ds["location"] in ["GLO", "RoW"] and "World" in regions:
+                    new_loc = "World"
+                elif ds["location"] in regions:
+                    new_loc = ds["location"]
+                elif self.geo.ecoinvent_to_iam_location(ds["location"]) in regions:
+                    new_loc = self.geo.ecoinvent_to_iam_location(ds["location"])
+                else:
+                    new_loc = self.find_best_substitute_suppliers(
+                        new_name, new_ref, regions
+                    )
+
+                if isinstance(new_loc, str):
+                    new_loc = [(new_loc, 1.0)]
+
+                for loc, share in new_loc:
+                    ds["exchanges"].append(
+                        {
+                            "amount": 1.0
+                            * ratio
+                            * share
+                            * (-1.0 if waste_process else 1.0),
+                            "type": "technosphere",
+                            "unit": ds["unit"],
+                            "location": loc,
+                            "name": new_name,
+                            "product": new_ref,
+                        }
+                    )
+
+    def sum_exchanges(self, dataset_exchanges):
+        # sum up exchanges with the same name, product, and location
+        new_exc = defaultdict(float)
+        for exc in dataset_exchanges:
+            key = (
+                exc["name"],
+                exc.get("product"),
+                exc.get("categories"),
+                exc.get("location"),
+                exc.get("unit"),
+                exc.get("input"),
+                exc.get("type"),
+            )
+            new_exc[key] += exc["amount"]
+
+        return [
+            {
+                "name": name,
+                "product": product,
+                "categories": categories,
+                "location": location,
+                "unit": unit,
+                "input": input,
+                "type": exc_type,
+                "amount": amount,
+            }
+            for (
+                name,
+                product,
+                categories,
+                location,
+                unit,
+                input,
+                exc_type,
+            ), amount in new_exc.items()
+        ]
+
+    def find_best_substitute_suppliers(self, new_name, new_ref, regions):
+        # find the best suppliers for new dataset
+        # if there are several suppliers with the same name and product, the one
+        # with the highest production volume is chosen
+        suppliers = get_shares_from_production_volume(
+            list(
+                ws.get_many(
+                    self.database,
+                    ws.equals("name", new_name),
+                    ws.equals("reference product", new_ref),
+                    ws.either(*[ws.equals("location", r) for r in regions]),
                 )
-                for line in log:
-                    writer.writerow(line)
+            )
+        )
+        return [(x[1], y) for x, y in suppliers.items()]
+
+    def write_log(self, dataset, status="created"):
+        """
+        Write log file.
+        """
+
+        logger.info(
+            f"{status}|{self.model}|{self.scenario}|{self.year}|"
+            f"{dataset['name']}|{dataset['location']}"
+        )

@@ -19,9 +19,9 @@ requirements:
     - setuptools
   run:
     - numpy
-    - pandas
+    - pandas==1.5.3
     - bw2io==0.8.7
-    - bw2data
+    - bw2data==3.6.6
     - wurst==0.3.3
     - xarray
     - prettytable
@@ -31,6 +31,9 @@ requirements:
     - sparse
     - schema
     - datapackage
+    - requests
+    - bottleneck
+    - constructive_geometries>=0.8.2
 
 test:
   imports:

@@ -1,0 +1,235 @@
+# list of activities that cannot be imported
+# when the system model is consequential
+# the `replacement` field is optional
+# if it is not present, the activity is simply ignored
+# if it is present, the activity is replaced by the activity
+# specified in the `replacement` field.
+---
+- name: electricity production, at co-generation power plant/hard coal, oxy, pipeline 200km, storage 1000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/hard coal, oxy, pipeline 400km, storage 3000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/hard coal, post, pipeline 200km, storage 1000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/hard coal, post, pipeline 400km, storage 1000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/hard coal, post, pipeline 400km, storage 3000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/hard coal, pre, pipeline 200km, storage 1000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/hard coal, pre, pipeline 400km, storage 3000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/wood, post, pipeline 200km, storage 1000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/wood, post, pipeline 400km, storage 3000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/natural gas, post, pipeline 200km, storage 1000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/natural gas, pre, pipeline 200km, storage 1000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/oil, post, pipeline 200km, storage 1000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+- name: electricity production, at co-generation power plant/oil, pre, pipeline 200km, storage 1000m
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+
+- name: primary zinc production from concentrate
+  reference product: indium rich leaching residues, from zinc production
+  unit: kilogram
+  location: RoW
+  replacement:
+    name: primary zinc production from concentrate
+    reference product: zinc
+    location: RoW
+
+- name: platinum group metal, extraction and refinery operations
+  reference product: nickel, class 1
+  unit: kilogram
+  location: ZA
+  replacement:
+    name: market for nickel, class 1
+    reference product: nickel, class 1
+    location: GLO
+
+- name: treatment of aluminium scrap, new, at refiner
+  reference product: aluminium oxide, non-metallurgical
+  unit: kilogram
+  location: RER
+  replacement:
+    name: market for aluminium oxide, non-metallurgical
+    reference product: aluminium oxide, non-metallurgical
+    location: IAI Area, EU27 & EFTA
+
+- name: treatment of aluminium scrap, post-consumer, prepared for recycling, at refiner
+  reference product: aluminium, cast alloy
+  unit: kilogram
+  location: RER
+  replacement:
+    name: market for aluminium, cast alloy
+    reference product: aluminium, cast alloy
+    location: GLO
+
+- name: steel production, electric, low-alloyed
+  reference product: steel, low-alloyed
+  unit: kilogram
+  location: Europe without Switzerland and Austria
+  replacement:
+    name: market for steel, low-alloyed
+    reference product: steel, low-alloyed
+    location: GLO
+
+- name: treatment of aluminium scrap, post-consumer, prepared for recycling, at remelter
+  reference product: aluminium, wrought alloy
+  unit: kilogram
+  location: RER
+  replacement:
+    name: market for aluminium, wrought alloy
+    reference product: aluminium, wrought alloy
+    location: GLO
+
+- name: treatment of sewage sludge by anaerobic digestion
+  reference product: biogas
+  unit: cubic meter
+  location: CH
+  replacement:
+    name: market for biogas
+    reference product: biogas
+    location: CH
+
+- name: heat and power co-generation, biogas, gas engine
+  reference product: heat, central or small-scale, other than natural gas
+  unit: megajoule
+  location: CH
+  replacement:
+      name: market for heat, central or small-scale, other than natural gas
+      reference product: heat, central or small-scale, other than natural gas
+      location: CH
+
+- name: air separation, cryogenic
+  reference product: nitrogen, liquid
+  unit: kilogram
+  location: RER
+  replacement:
+    name: market for nitrogen, liquid
+    reference product: nitrogen, liquid
+    location: RER
+
+- name: coking
+  reference product: coal gas
+  unit: megajoule
+  location: RoW
+  replacement:
+      name: market for coal gas
+      reference product: coal gas
+      location: GLO
+
+- name: heat and power co-generation, natural gas, 1MW electrical, lean burn
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+  location: RoW
+  replacement:
+    name: market group for electricity, high voltage
+    reference product: electricity, high voltage
+    location: GLO
+
+- name: electricity, high voltage, production mix
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+  location: CN-QH
+  replacement:
+    name: market group for electricity, high voltage
+    reference product: electricity, high voltage
+    location: CN
+
+- name: sodium hydroxide to generic market for neutralising agent
+  reference product: neutralising agent, sodium hydroxide-equivalent
+  unit: kilogram
+  location: GLO
+  replacement:
+    name: market for neutralising agent, sodium hydroxide-equivalent
+    reference product: neutralising agent, sodium hydroxide-equivalent
+    location: GLO
+
+- name: oxidation of butane
+  reference product: methyl acetate
+  unit: kilogram
+  location: RER
+  replacement:
+      name: market for methyl acetate
+      reference product: methyl acetate
+      location: GLO
+
+- name: treatment of copper scrap by electrolytic refining
+  reference product: copper, cathode
+  unit: kilogram
+  location: RER
+  replacement:
+    name: market for copper, cathode
+    reference product: copper, cathode
+    location: GLO
+
+- name: primary zinc production from concentrate
+  reference product: cadmium sludge from zinc electrolysis
+  unit: kilogram
+  location: RoW
+  replacement:
+    name: market for cadmium sludge from zinc electrolysis
+    reference product: cadmium sludge from zinc electrolysis
+    location: GLO
+
+- name: treatment of municipal solid waste, incineration
+  reference product: electricity, for reuse in municipal waste incineration only
+  unit: kilowatt hour
+  location: CH
+  replacement:
+    name: market for electricity, for reuse in municipal waste incineration only
+    reference product: electricity, for reuse in municipal waste incineration only
+    location: CH
+
+- name: silicon production, electronics grade
+  reference product: silicon tetrachloride
+  unit: kilogram
+  location: DE
+  replacement:
+    name: market for silicon tetrachloride
+    reference product: silicon tetrachloride
+    location: RoW
+
+- name: treatment of municipal solid waste, incineration
+  reference product: heat, for reuse in municipal waste incineration only
+  unit: megajoule
+  location: CH
+  replacement:
+    name: market for heat, for reuse in municipal waste incineration only
+    reference product: heat, for reuse in municipal waste incineration only
+    location: CH
+
+- name: heat, from municipal waste incineration to generic market for heat district or industrial, other than natural gas
+  reference product: heat, district or industrial, other than natural gas
+  unit: megajoule
+  location: RoW
+  replacement:
+    name: heat, from municipal waste incineration to generic market for heat district or industrial, other than natural gas
+    reference product: heat, for reuse in municipal waste incineration only
+    location: RoW
+
+- name: market for carbon dioxide, in chemical industry
+  reference product: carbon dioxide, in chemical industry
+  unit: kilogram
+  location: GLO
+  replacement:
+    name: market for carbon dioxide, liquid
+    reference product: carbon dioxide, liquid
+    location: RoW

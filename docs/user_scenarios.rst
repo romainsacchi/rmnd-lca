@@ -4,10 +4,10 @@ User-defined scenarios
 Purpose
 -------
 
-*premise* allows users to integrate user-made scenarios in addition
-(or not) to an IAM scenario. This is useful for example when a user wants to
-integrate projections for a sector, product or a technology
-that is not really covered by IAM scenarios.
+*premise* enables users to seamlessly integrate custom scenarios,
+in addition to (or as an alternative to) existing IAM scenarios. This feature
+is particularly useful when users wish to incorporate projections for a sector,
+product, or technology that may not be adequately addressed by standard IAM scenarios.
 
 Available user-defined scenarios
 --------------------------------
@@ -20,13 +20,11 @@ https://github.com/premise-community-scenarios
 Using user-generated scenarios
 ------------------------------
 
-Quite simply, the user needs to fetch the url of the datapackage.json
-file of the scenario of interest. Using the library **datapackage**,
-the user can then load the scenario package (including a scenario file,
-inventories and a configuration file) and include it as an argument
-to the premise instance. You can include any number of user-defined
-in this list. It is not guarantee though that the user-defined scenarios
-will be compatible with one another.
+To put it simply, users must first obtain the URL of the datapackage.json file corresponding
+to the desired scenario. By utilizing the datapackage library, users can load the scenario package,
+which includes a scenario file, inventories, and a configuration file. This package can then be added
+as an argument to the *premise* instance. Users have the flexibility to include any number of custom
+scenarios in this list. However, compatibility between user-defined scenarios is not guaranteed.
 
 Example
 
@@ -60,7 +58,7 @@ to implement the user-defined scenario in the database.
 
     ndb.update_external_scenario()
 
-But of course, if you wish your database to also integrate the projections
+Of course, if you wish your database to also integrate the projections
 of the global IAM model, you can run the function **ndb.update_all()**.
 
 .. code-block:: python
@@ -107,7 +105,7 @@ The user can produce his/her own scenario by following the steps below:
 3. Add any inventories needed, under **inventories/lci-xxx.csv**.
 4. Modify the configuration file (**configuration_file/config.yaml**), to instruct **premise** what to do.
 5. Ensure that the file names and paths above are consistent with what is indicated in **datapackage.json**.
-6. Once you are happy with your scenario, you can contact the admin of the public repository to add your scenario to the repository.
+6. Once definitive, you can contact the admin of the public repository to add your scenario to the repository.
 
 
 .. _repository: https://github.com/premise-community-scenarios
@@ -116,34 +114,27 @@ The user can produce his/her own scenario by following the steps below:
 Example with Ammonia scenarios
 ------------------------------
 
-Using ammonia as an example, this guide shows how to create prospective databases
-from your custom scenarios and other background scenarios from **premise**.
+Using ammonia as an example, this guide demonstrates how to create
+prospective databases from custom scenarios and other background scenarios using premise.
 
-You can clone the Ammonia scenario repository:
+First, clone the Ammonia scenario repository:
 
 .. code-block:: bash
 
     git clone https://github.com/premise-community-scenarios/ammonia-prospective-scenarios.git
 
-This will download a copy of the repository to your local machine.
-You can then rename it and modify it to your liking.
+This command downloads a copy of the repository to your local machine.
+You can then rename and modify it as desired.
 
-A datapackage needs four files (called *resources*) to define a scenario:
+A datapackage requires four files (referred to as resources) to define a scenario:
 
-#    **datapackage.json**: a datapackage descriptor file, indicating the scenario author,
-scenario name, scenario description, scenario version, and the file names and paths
-of the scenario file, configuration file, and inventories.
+1. datapackage.json: A datapackage descriptor file that specifies the scenario author, name, description, version, and the file names and paths of the scenario file, configuration file, and inventories.
 
-#    **scenario_data.csv**: a scenario file, which defines some variables (production volumes,
-efficiencies, etc.) across time, space and scenarios.
+2. scenario_data.csv: A scenario file that outlines various variables (e.g., production volumes, efficiencies) across time, space, and scenarios.
 
-#    **config.yaml**: a configuration file, which tells **premise** what to do. Among other things,
-it tells **premise** which technologies the scenario considers, their names in the scenario data
-file and the inventories, and which inventories to use for which technologies. It also
-indicates which markets to create and for which regions.
+3. config.yaml: A configuration file that instructs premise on the required actions. It provides information on the technologies considered in the scenario, their names in the scenario data file and inventories, and the inventories to use for each technology. Additionally, it indicates the markets to be created and their corresponding regions.
 
-#    **lci-xxx.csv**: optional, a csv file containing the inventories of the scenario, if those
-are needed but not present in the LCA database.
+4. lci-xxx.csv: Optional; a CSV file containing the inventories of the scenario, which is necessary if the LCA database lacks the required inventories.
 
 
 datapackage.json
@@ -171,14 +162,12 @@ Example:
     }
 
 
-The mapping between the IAM scenarios and the user-defined scenarios is
-also done in the datapackage.json file. Here, for example, the **SSP2-Base**
-scenario from the IAM models **IMAGE** and **REMIND** are mapped to the user-defined
-scenario **Business As Usual**. This means that when a user wants to use the
-**SSP2-Base** scenario from **IMAGE** and **REMIND**, the user-defined scenario
-**Business As Usual** will be picked. While your scenario may not be meant to
-be used in addition to an IAM scenario, you must still map it to an IAM scenario
-(should be improved in the future).
+The mapping between IAM scenarios and user-defined scenarios is established within the
+datapackage.json file. For instance, the SSP2-Base scenario from IAM models IMAGE and REMIND
+is mapped to the user-defined scenario Business As Usual. This implies that when users opt for
+the SSP2-Base scenario from IMAGE and REMIND, the user-defined scenario Business As Usual will
+be selected. Although your custom scenario may not be intended for use alongside an IAM scenario,
+it must still be mapped to one (this aspect could be improved in the future).
 
 
 .. code-block:: json
@@ -438,7 +427,6 @@ Hence, in this example, the ammonia supplier will be replaced in all
 activities whose reference product contains the string **urea**
 and location in **DE**.
 
-Have fun!
 
 Main contributors
 -----------------

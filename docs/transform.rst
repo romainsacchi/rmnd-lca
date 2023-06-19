@@ -1,8 +1,8 @@
 TRANSFORM
 =========
 
-A series of transformation are operation on the LCI database to align process performance
-and technology market shares with outputs from the IAM scenario.
+A series of transformations are applied to the Life Cycle Inventory (LCI) database to align process performance
+and technology market shares with the outputs from the Integrated Assessment Model (IAM) scenario.
 
 Power generation
 """"""""""""""""
@@ -30,24 +30,24 @@ Run
 Efficiency adjustment
 +++++++++++++++++++++
 
-The energy conversion efficiency of powerplant datasets for a given technology
-is adjusted to align with the change in efficiency indicated by the IAM scenario.
+The energy conversion efficiency of power plant datasets for specific technologies is adjusted
+to align with the efficiency changes indicated by the IAM scenario.
 
 Combustion-based powerplants
 ----------------------------
 
-*premise* iterates through coal, lignite, natural gas, biogas and wood-fired powerplants
-datasets in the LCI database to calculate their current efficiency (i.e., the ratio between
-the primary fuel energy entering the process and the output energy produced, which is often 1 kWh).
-If the IAM scenario foresees a change in efficiency for these processes, the input of the datasets
-are scaled up or down by the *scaling factor* to effectively reflect a change in fuel input
-per kWh produced.
+*premise* iterates through coal, lignite, natural gas, biogas, and wood-fired power plant datasets
+in the LCI database to calculate their current efficiency (i.e., the ratio between the primary fuel
+energy entering the process and the output energy produced, which is often 1 kWh).
+If the IAM scenario anticipates a change in efficiency for these processes, the inputs of the
+datasets are scaled up or down by the scaling factor to effectively reflect a change in
+fuel input per kWh produced.
 
-The origin of this *scaling factor* is explained in XXX.
+The origin of this scaling factor is the IAM scenario selected.
 
 To calculate the old and new efficiency of the dataset, it is necessary to know
-the net calorific content of the fuel. The table below shows the Lower Heating Value
-for the different fuels used in combustion-based powerplants.
+the net calorific content of the fuel. The table below shows the Lower Heating Value for
+the different fuels used in combustion-based power plants.
 
  ================================================================== ===========================
   name of fuel                                                       LHV [MJ/kg, as received]
@@ -168,21 +168,20 @@ for the different fuels used in combustion-based powerplants.
   kerosene, synthetic, from biomass, economic allocation             43
  ================================================================== ===========================
 
-Additionally, the biogenic and fossil CO2 emissions of the datasets are also scaled up or down
-by the same factor, as those are proportionate to the amount of fuel used.
+Additionally, the biogenic and fossil CO2 emissions of the datasets are also
+scaled up or down by the same factor, as they are proportional to the amount of fuel used.
 
-Finally, another *scaling factor* is used to scale emissions of non-CO2 substances (CO, VOCs, etc.),
-based on GAINS projections for the given technology, region and year.
+Below is an example of a natural gas power plant with a current (2020) conversion efficiency
+of 77%. If the IAM scenario indicates a scaling factor of 1.03 in 2030, this suggests
+that the efficiency increases by 3% relative to the current level. As shown in the table below,
+this would result in a new efficiency of 79%, where all inputs, as well as CO2
+emissions outputs, are re-scaled by 1/1.03 (=0.97).
 
-We provide below an example of a natural gas powerplant, with a current (2020)
-conversion efficiency of 77%. If the IAM scenario indicates a *scaling factor*
-of 1.03 in 2030, this indicates tha the efficiency increases by 3% relative to current.
-As shown in the table below, this would results in a new efficiency of 79%, where
-all inputs, as well as CO2 emissions outputs are re-scaled by 1/1.03 (=0.97).
-This excludes non-CO2 emissions, such as CO in this example, which are re-scaled separately,
-based on GAINS projections: such emissions, while partly correlated to fuel use,
-are mostly mitigated via investments in electrostatic precipitators,
-which is what GAINS scenarios model.
+While non-CO2 emissions (e.g., CO) are reduced because of the reduction in fuel consumption,
+the emission factor per energy unit remains the same (i.e., gCO/MJ natural gas)).
+It can be re-scaled using the `update_emissions` function, which updates emission factors according
+to GAINS projections.
+
 
 
  =================================================== =========== =========== =======
@@ -209,11 +208,13 @@ improving its performance in the past, relative to today.
 .. note::
 
     You can check the efficiencies assumed in your scenarios by generating
-    a scenario summary report.
+    a scenario summary report, or a report of changes. They are automatically
+    generated after each database export, but you can also generate them manually:
 
 .. code-block:: python
 
     ndb.generate_scenario_report()
+    ndb.generate_change_report()
 
 Photovoltaics panels
 --------------------
@@ -230,7 +231,9 @@ are considered for the different types of PV panels:
   2050                   12.5        26.7         24.4        23.4    23.4   21
  ====================== =========== ============ =========== ======= ====== =======
 
-The sources for these efficiencies are given in XXX.
+The sources for these efficiencies are given in the inventory file LCI_PV_:
+
+.. _LCI_PV: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-PV.xlsx
 
 Given a scenario year, *premise* iterates through the different PV panel installation
 datasets to update their efficiency accordingly.
@@ -563,31 +566,17 @@ between today and the scenario year.
 
 .. _IEA: https://iea.blob.core.windows.net/assets/cbaa3da1-fd61-4c2a-8719-31538f59b54f/TechnologyRoadmapLowCarbonTransitionintheCementIndustry.pdf
 
-Then, *premise* determines
-the fuel mix required, here also based on the GNR/IEA data. Essentially,
-such fuel mix is composed of fossil fuel (i.e., coal), alternative fuel
-(i.e., refuse-derived fuel) and biomass (i.e., wood chips).
 
-Once the new ful mix is determined, *premise* modifies the fossil
-and biogenic CO2 emissions accordingly, based on the Lower Heating Value
-and CO2 emission factors for these fuels, shown in the table below.
 
- =============== =========================== ============== =====================
-  name of fuel    LHV [MJ/kg, as received]    CO2 [kg/MJ]    Share non-fossil C
- =============== =========================== ============== =====================
-  hard coal       26.7                        0.098          0
-  wood chips      18.9                        0.112          1
-  waste           14                          0.0917         0.34
- =============== =========================== ============== =====================
+Once the new energy input is determined, *premise* scales down the fuel,
+and the fossil and biogenic CO2 emissions accordingly, based on the Lower Heating Value
+and CO2 emission factors for these fuels.
 
 Note that the change in CO2 emissions only concerns the share
-that originates from the combustion of fuels. it does not
+that originates from the combustion of fuels. It does not
 concern the calcination emissions due to the production of
 calcium oxide (CaO) from calcium carbonate (CaCO3), which is set
 at a fix emission rate of 525 kg CO2/t clinker.
-
-Finally, another *scaling factor* is used to scale emissions of non-CO2 substances (CO, VOCs, etc.),
-based on GAINS projections for the cement sector, given a region and year.
 
 
 Carbon Capture and Storage
@@ -786,9 +775,6 @@ Regarding the production of secondary steel (using EAF),
 *premise* adjusts the input of electricity based on teh scaling factor
 provided by the IAM scenario.
 
-Finally, another *scaling factor* is used to scale emissions of non-CO2
-substances (CO, VOCs, etc.), based on GAINS projections for the steel sector,
-given a region and year.
 
 .. note::
 
@@ -1122,6 +1108,67 @@ of India.
   steel production, electric, low-alloyed                           0.34         kilogram         IND
  ================================================================= ============ ================ ===========
 
+Direct Air Capture
+""""""""""""""""""
+
+Run
+
+.. code-block:: python
+
+    from premise import *
+    import brightway2 as bw
+
+    bw.projects.set_current("my_project)
+
+    ndb = NewDatabase(
+        scenarios=[
+                {"model":"remind", "pathway":"SSP2-Base", "year":2028}
+            ],
+        source_db="ecoinvent 3.7 cutoff",
+        source_version="3.7.1",
+        key='xxxxxxxxxxxxxxxxxxxxxxxxx'
+    )
+    ndb.update_dac()
+
+
+
+*premise* creates different region-specific Direct Air Capture (DAC)
+datasets. If the cumulative DAC deployment is available from the IAM scenario, *premise* applies a learning rate on the input
+of thermal and electrical energy as well as infrastructure
+relative to 2020 (see SI of Qiu_ et al., 2022).
+
+The learning indicates the percentage improvement applied
+for every doubling of the cumulated deployment capacity,
+relative to 2020.
+
+The following table shows the learning rates applied for
+DAC systems for energy inputs:
+
++--------------------------------------------------+-------------------+-------------------+
+| Technology                                       | Solvent-based DAC | Sorbent-based DAC |
++==================================================+===================+===================+
+| Learning rate                                    | 2.50%             | 2.50%             |
++--------------------------------------------------+-------------------+-------------------+
+| Theoretical minimum (relative to initial value)  | 95%               | 95%               |
++--------------------------------------------------+-------------------+-------------------+
+
+The following table shows the learning rates applied for
+DAC systems for infrastructure inputs (materials, chemicals, system):
+
++-------------------------------------------------+-------------------+-------------------+
+| Technology                                      | Solvent-based DAC | Sorbent-based DAC |
++=================================================+===================+===================+
+| Learning rate                                   | 10.00%            | 15.00%            |
++--------------------------------------------------+-------------------+-------------------+
+| Theoretical minimum (relative to initial value) | 44%               | 18%               |
++-------------------------------------------------+-------------------+-------------------+
+
+A scaling factor is calculated from applying the above learning rates
+to the cumulative DAC deployment in the IAM scenario. The scaling factor
+is then applied to the input of thermal and electrical energy as well as
+infrastructure relative to 2020.
+
+.. _Qiu: https://doi.org/10.1038/s41467-022-31146-1
 
 Fuels
 """""
@@ -1166,10 +1213,40 @@ that represents the change in efficiency relative to today (2020).
 Hydrogen
 ________
 
-The process of producing hydrogen by electrolysis is expected to improve in
-the future. Upon import, *premise* adjusts the amount of electricity needed
+Several pathways for hydrogen production are modeled in *premise*:
+
+- electrolysis
+- steam methane reforming of natural gas
+- steam methane reforming of biomethane
+- gasification of coal
+- gasification of woody biomass
+
+The last four pathways are modeled with and without CCS.
+
+Inventories for these pathways are available under:
+
+* premise/data/additional_inventories/lci-hydrogen-electrolysis.xlsx
+* premise/data/additional_inventories/lci-smr-atr-natgas.xlsx
+* premise/data/additional_inventories/lci-smr-atr-biogas.xlsx
+* premise/data/additional_inventories/lci-hydrogen-coal-gasification.xlsx
+* premise/data/additional_inventories/lci-hydrogen-wood-gasification.xlsx
+
+
+In case the IAM variable that relates to a given hydrogen pathway's
+efficiency is not available, the process' efficiency is not modified,
+with the exception of electrolysis, which is modified regardless.
+
+A scaling factor is calculated for each pathway, which is the ratio
+between the IAM variable value for the year in question
+and the current efficiency value (i.e., in 2020). *premise*
+uses this scaling factor to adjust the amount of feedstock
+input to produce 1 kg of hydrogen (e.g., m3 of natural gas per kg hydrogen).
+
+If the IAM variable that relates to the efficiency of
+the electrolysis hydrogen process is not available,
+*premise* adjusts the amount of electricity needed
 to produce 1 kg of hydrogen by electrolysis, on the basis of the following
-requirements, which are sourced from Bauer et al, 2022 (in review):
+requirements, which are sourced from Bauer_ et al, 2022:
 
  ==================== ======= ======= =======
   kWh/kg H2, 25 bar    2010    2020    2050
@@ -1177,6 +1254,7 @@ requirements, which are sourced from Bauer et al, 2022 (in review):
   electricity          58      55      44
  ==================== ======= ======= =======
 
+.. _Bauer: https://www.psi.ch/en/media/77703/download?attachment
 
 Land use and land use change
 ++++++++++++++++++++++++++++
@@ -1230,7 +1308,7 @@ ________
 * the transport mode: truck, hydrogen pipeline, re-assigned CNG pipeline, ship,
 * the distance: 500 km, 2000 km
 * the state of the hydrogen: gaseous, liquid, liquid organic compound,
-* the hydrogen production route: electrolysis, SMR, ATR, biomass gasifier (coal, woody biommas)
+* the hydrogen production route: electrolysis, SMR, biomass gasifier (coal, woody biomass)
 
 Hence, for each IAM region, the following supply chains for hydrogen are built:
 
@@ -1248,21 +1326,12 @@ Hence, for each IAM region, the following supply chains for hydrogen are built:
 - hydrogen supply, from SMR of nat. gas, with CCS, by truck, as liquid, over 500 km
 - hydrogen supply, from electrolysis, by truck, as liquid organic compound, over 500 km
 - hydrogen supply, from gasification of biomass, by truck, as liquid organic compound, over 500 km
-- hydrogen supply, from ATR of nat. gas, by CNG pipeline, as gaseous, over 500 km
-- hydrogen supply, from ATR of nat. gas, with CCS, by truck, as gaseous, over 500 km
 - hydrogen supply, from SMR of nat. gas, with CCS, by truck, as gaseous, over 500 km
 - hydrogen supply, from SMR of biogas, with CCS, by CNG pipeline, as gaseous, over 500 km
 - hydrogen supply, from SMR of nat. gas, by truck, as gaseous, over 500 km
-- hydrogen supply, from ATR of biogas, by truck, as liquid organic compound, over 500 km
-- hydrogen supply, from ATR of nat. gas, with CCS, by ship, as liquid, over 2000 km
 - hydrogen supply, from SMR of nat. gas, by H2 pipeline, as gaseous, over 500 km
 - hydrogen supply, from gasification of biomass, with CCS, by truck, as liquid organic compound, over 500 km
 - hydrogen supply, from gasification of biomass, by ship, as liquid, over 2000 km
-- hydrogen supply, from gasification of biomass by heatpipe reformer, with CCS, by truck, as liquid organic compound, over 500 km
-- hydrogen supply, from ATR of biogas, with CCS, by CNG pipeline, as gaseous, over 500 km
-- hydrogen supply, from ATR of biogas, with CCS, by truck, as gaseous, over 500 km
-- hydrogen supply, from ATR of nat. gas, by truck, as liquid, over 500 km
-- hydrogen supply, from gasification of biomass by heatpipe reformer, by truck, as gaseous, over 500 km
 
 Each supply route is associated with specific losses.
 Losses for the transport of H2 by truck and hydrogen pipelines, and losses
@@ -1817,10 +1886,112 @@ the regionalization process will select all the existing suppliers and
 allocate a supply share to each supplier based on their respective
 production volume.
 
+GAINS emission factors
+""""""""""""""""""""""
 
+When using `update_emissions()`, emission factors from the GAINS-EU_ and GAINS-IAM_ models are used to scale
+non-CO2 emissions in various datasets.
+
+.. _GAINS-EU: https://gains.iiasa.ac.at/gains/EUN/index.login
+.. _GAINS-IAM: https://gains.iiasa.ac.at/gains/IAM/index.login
+
+The emission factors are available under
+https://github.com/polca/premise/tree/master/premise/data/GAINS_emission_factors
+
+Emission factors from GAINS-EU are applied to activities in European countries.
+Emission factors from GAINS-IAM are applied to activities in non-European countries,
+or to European activities if an emission facor from GAINS-EU has not been
+applied first.
+
+Emission factors are specific to:
+
+* an activity type,
+* a year,
+* a country (for GAINS-EU, otherwise a region),
+* a fuel type,
+* a technology type,
+* and a scenario.
+
+The mapping between GAINS and ecoinvent activities is available under the following file:
+https://github.com/polca/premise/blob/master/premise/data/GAINS_emission_factors/gains_ecoinvent_sectoral_mapping.yaml
+
+The table below shows the mapping between ecoinvent and GAINS emission flows.
+
++-------------------------------------------------------------------+----------------+
+| ecoinvent species                                                 | GAINS species  |
++===================================================================+================+
+| Sulfur dioxide                                                    |  SO2           |
++-------------------------------------------------------------------+----------------+
+| Sulfur oxides                                                     |  SO2           |
++-------------------------------------------------------------------+----------------+
+| Carbon monoxide, fossil                                           |  CO            |
++-------------------------------------------------------------------+----------------+
+| Carbon monoxide, non-fossil                                       |  CO            |
++-------------------------------------------------------------------+----------------+
+| Carbon monoxide, from soil or biomass stock                       |  CO            |
++-------------------------------------------------------------------+----------------+
+| Nitrogen oxides                                                   |  NOx           |
++-------------------------------------------------------------------+----------------+
+| Ammonia                                                           |  NH3           |
++-------------------------------------------------------------------+----------------+
+| NMVOC, non-methane volatile organic compounds, unspecified origin |  VOC           |
++-------------------------------------------------------------------+----------------+
+| VOC, volatile organic compounds, unspecified origin               |  VOC           |
++-------------------------------------------------------------------+----------------+
+| Methane                                                           |  CH4           |
++-------------------------------------------------------------------+----------------+
+| Methane, fossil                                                   |  CH4           |
++-------------------------------------------------------------------+----------------+
+| Methane, non-fossil                                               |  CH4           |
++-------------------------------------------------------------------+----------------+
+| Methane, from soil or biomass stock                               |  CH4           |
++-------------------------------------------------------------------+----------------+
+| Dinitrogen monoxide                                               |  N2O           |
++-------------------------------------------------------------------+----------------+
+| Particulates, > 10 um                                             |  PM10          |
++-------------------------------------------------------------------+----------------+
+| Particulates, > 2.5 um, and < 10um                                |  PM25          |
++-------------------------------------------------------------------+----------------+
+| Particulates, < 2.5 um                                            |  PM1           |
++-------------------------------------------------------------------+----------------+
+
+We consider emission factors in ecoinvent as representative of the current situation.
+Hence, we calculate a scaling factor from the GAINS emission factors for the year of
+the scenario relative to the year 2020.
+
+Two GAINS-IAM scenarios are available:
+
+* **CLE**: **C**urrent **LE**gislation scenario
+* **MFR**: **M**aximum **F**easible **R**eduction scenario
+
+By default, the CLE scenario is used. To use the MFR scenario:
+
+.. code-block:: python
+
+    ndb = NewDatabase(
+        ...
+        gains_scenario="MFR",
+    )
+
+Finally, unlike GAINS-EU, GAINS-IAM uses IAM-like regions, not countries.
+The mapping between IAM regions and GAINS-IAM regions is available under the following file:
+
+https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/gains_regions_mapping.yaml
+
+For questions related to GAINS modelling, please contact the respective GAINS team:
+
+* GAINS-EU: https://gains.iiasa.ac.at/gains/EUN/index.login
+* GAINS-IAM: https://gains.iiasa.ac.at/gains/IAM/index.login
 
 Logs
 """"
 
-*premise* generates log files for each transformation function applied to the database.
-They are found in the library folder, under *premise/data/logs*.
+*premise* generates a spreadsheet report detailing changes made to the database
+for each scenario. The report is saved in the current working directory and
+is automatically generated after database export.
+
+The report lists the datasets added, updated and emptied.
+It also gives a number of indicators relating to efficiency,
+emissions, etc. for each scenario.
+
+This report can also be generated manually using the `generate_change_report()` method.

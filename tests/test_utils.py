@@ -1,7 +1,5 @@
 from unittest.mock import call, patch
 
-import xarray as xr
-
 from premise import __version__
 from premise.utils import *
 
@@ -10,7 +8,12 @@ def test_ei_db_label():
     model = "remind"
     pathway = "SSP2-Base"
     year = 2012
-    assert eidb_label(model, pathway, year) == f"ecoinvent_{model}_{pathway}_{year}"
+    version = "3.9"
+    system_model = "cutoff"
+    assert (
+        eidb_label(model, pathway, year, version, system_model)
+        == f"ecoinvent_{system_model}_{version}_{model}_{pathway}_{year}"
+    )
 
 
 def test_crops_properties():
@@ -26,7 +29,7 @@ def test_fuels_properties():
 
 
 def test_eff_solar_PV():
-    eff_PV = get_efficiency_ratio_solar_photovoltaics()
+    eff_PV = get_efficiency_solar_photovoltaics()
     assert type(eff_PV) == xr.DataArray
     assert eff_PV.sel(technology="multi-Si", year=2010) == 0.14
     assert "moni-Si" not in eff_PV.technology.values

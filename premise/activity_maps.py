@@ -4,50 +4,29 @@ mapping between ``premise`` and ``ecoinvent`` terminology.
 """
 
 import csv
+from collections import defaultdict
 from pathlib import Path
+from pprint import pprint
 from typing import List, Union
 
 import yaml
 
-from . import DATA_DIR
+from . import DATA_DIR, VARIABLES_DIR
 
-# from .export import biosphere_flows_dictionary ### This import raises a circularity problem
-
-GAINS_TO_ECOINVENT_EMISSION_FILEPATH = (
-    DATA_DIR / "GAINS_emission_factors" / "ecoinvent_to_gains_emission_mappping.csv"
-)
-POWERPLANT_TECHS = DATA_DIR / "electricity" / "electricity_tech_vars.yml"
-FUELS_TECHS = DATA_DIR / "fuels" / "fuel_tech_vars.yml"
+POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
+FUELS_TECHS = VARIABLES_DIR / "fuels_variables.yaml"
 MATERIALS_TECHS = DATA_DIR / "utils" / "materials_vars.yml"
-ACTIVITIES_METALS_MAPPING = DATA_DIR / "metals" / "activities_mapping.yml"
-METALS_MAPPING = DATA_DIR / "metals" / "metals_mapping.yml"
-
-
-### Copying the function from .export.py as the import gave a circular issue
-FILEPATH_BIOSPHERE_FLOWS = DATA_DIR / "utils" / "export" / "flows_biosphere_38.csv"
-
-
-def biosphere_flows_dictionary():
-    """
-    Create a dictionary with biosphere flows
-    (name, category, sub-category, unit) -> code
-    """
-    if not FILEPATH_BIOSPHERE_FLOWS.is_file():
-        raise FileNotFoundError("The dictionary of biosphere flows could not be found.")
-
-    csv_dict = {}
-
-    with open(FILEPATH_BIOSPHERE_FLOWS, encoding="utf-8") as file:
-        input_dict = csv.reader(file, delimiter=";")
-        for row in input_dict:
-            csv_dict[(row[0], row[1], row[2], row[3])] = row[-1]
-
-    return csv_dict
+DAC_TECHS = VARIABLES_DIR / "direct_air_capture_variables.yaml"
+CARBON_STORAGE_TECHS = VARIABLES_DIR / "carbon_storage_variables.yaml"
+CEMENT_TECHS = VARIABLES_DIR / "cement_variables.yaml"
+GAINS_MAPPING = (
+    DATA_DIR / "GAINS_emission_factors" / "gains_ecoinvent_sectoral_mapping.yaml"
+)
 
 
 def get_mapping(filepath: Path, var: str) -> dict:
     """
-    Load a YAML file and return a dictionary given a variable.
+    Loa a YAML file and return a dictionary given a variable.
     :param filepath: YAML file path
     :param var: variable to return the dictionary for.
     :return: a dictionary
@@ -62,27 +41,6 @@ def get_mapping(filepath: Path, var: str) -> dict:
             mapping[key] = val[var]
 
     return mapping
-
-
-def get_gains_to_ecoinvent_emissions() -> dict:
-    """
-    Retrieve the correspondence between GAINS and ecoinvent emission labels.
-    :return: GAINS emission labels as keys and ecoinvent emission labels as values
-    """
-
-    if not GAINS_TO_ECOINVENT_EMISSION_FILEPATH.is_file():
-        raise FileNotFoundError(
-            "The dictionary of emission labels correspondences could not be found."
-        )
-
-    csv_dict = {}
-
-    with open(GAINS_TO_ECOINVENT_EMISSION_FILEPATH, encoding="utf-8") as file:
-        input_dict = csv.reader(file, delimiter=";")
-        for row in input_dict:
-            csv_dict[row[0]] = row[1]
-
-    return csv_dict
 
 
 class InventorySet:
@@ -105,22 +63,49 @@ class InventorySet:
 
     def __init__(self, database: List[dict]) -> None:
         self.database = database
+
         self.powerplant_filters = get_mapping(
             filepath=POWERPLANT_TECHS, var="ecoinvent_aliases"
         )
+
         self.powerplant_fuels_filters = get_mapping(
             filepath=POWERPLANT_TECHS, var="ecoinvent_fuel_aliases"
         )
+
         self.fuels_filters = get_mapping(filepath=FUELS_TECHS, var="ecoinvent_aliases")
+
         self.materials_filters = get_mapping(
             filepath=MATERIALS_TECHS, var="ecoinvent_aliases"
         )
-        self.activity_metals_filters = get_mapping(
-            filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
+
+        self.daccs_filters = get_mapping(filepath=DAC_TECHS, var="ecoinvent_aliases")
+
+        self.carbon_storage_filters = get_mapping(
+            filepath=CARBON_STORAGE_TECHS, var="ecoinvent_aliases"
         )
-        self.metals_filters = get_mapping(
-            filepath=METALS_MAPPING, var="ecoinvent_aliases"
+
+        self.cement_fuel_filters = get_mapping(
+            filepath=CEMENT_TECHS, var="ecoinvent_fuel_aliases"
         )
+
+        self.gains_filters_EU = get_mapping(
+            filepath=GAINS_MAPPING, var="ecoinvent_aliases"
+        )
+
+    def generate_gains_mapping_IAM(self, mapping):
+        EU_to_IAM_var = get_mapping(filepath=GAINS_MAPPING, var="gains_aliases_IAM")
+        new_map = defaultdict(set)
+        for eu, iam in EU_to_IAM_var.items():
+            new_map[iam].update(mapping[eu])
+
+        return new_map
+
+    def generate_gains_mapping(self):
+        """
+        Generate a dictionary with GAINS variables as keys and
+        ecoinvent datasets as values.
+        """
+        return self.generate_sets_from_filters(self.gains_filters_EU)
 
     def generate_powerplant_map(self) -> dict:
         """
@@ -133,6 +118,28 @@ class InventorySet:
         """
         return self.generate_sets_from_filters(self.powerplant_filters)
 
+    def generate_daccs_map(self) -> dict:
+        """
+        Filter ecoinvent processes related to direct air capture.
+
+        :return: dictionary with el. prod. techs as keys (see below) and
+            sets of related ecoinvent activities as values.
+        :rtype: dict
+
+        """
+        return self.generate_sets_from_filters(self.daccs_filters)
+
+    def generate_carbon_storage_map(self) -> dict:
+        """
+        Filter ecoinvent processes related to carbon storage.
+
+        :return: dictionary with el. prod. techs as keys (see below) and
+            sets of related ecoinvent activities as values.
+        :rtype: dict
+
+        """
+        return self.generate_sets_from_filters(self.carbon_storage_filters)
+
     def generate_powerplant_fuels_map(self) -> dict:
         """
         Filter ecoinvent processes related to electricity production.
@@ -143,6 +150,17 @@ class InventorySet:
 
         """
         return self.generate_sets_from_filters(self.powerplant_fuels_filters)
+
+    def generate_cement_fuels_map(self) -> dict:
+        """
+        Filter ecoinvent processes related to cement production.
+
+        :return: dictionary with el. prod. techs as keys (see below) and
+            sets of related ecoinvent activities as values.
+        :rtype: dict
+
+        """
+        return self.generate_sets_from_filters(self.cement_fuel_filters)
 
     def generate_fuel_map(self) -> dict:
         """
@@ -162,26 +180,6 @@ class InventorySet:
         a set of related ecoinvent activities' names as values.
         """
         return self.generate_sets_from_filters(self.materials_filters)
-
-    def generate_activities_using_metals_map(self) -> dict:
-        """
-        Filter ecoinvent processes related to metals.
-        Rerurns a dictionary with metal names as keys (see below) and
-        a set of related ecoinvent activities' names as values.
-        """
-        return self.generate_sets_from_filters(self.activity_metals_filters)
-
-    def generate_metals_map(self) -> dict:
-        """
-        Filter ecoinvent processes related to metals.
-        Returns a dictionary with metal names as keys (see below) and
-        a set of related ecoinvent activities' names as values.
-        """
-
-        return self.generate_sets_from_filters(
-            self.metals_filters,
-            database=[{"name": k[0]} for k in biosphere_flows_dictionary()],
-        )
 
     @staticmethod
     def act_fltr(
@@ -258,7 +256,7 @@ class InventorySet:
                 result = [act for act in result if notlike(act[field], conditions)]
         return result
 
-    def generate_sets_from_filters(self, filtr: dict, database=None) -> dict:
+    def generate_sets_from_filters(self, filtr: dict) -> dict:
         """
         Generate a dictionary with sets of activity names for
         technologies from the filter specifications.
@@ -269,8 +267,7 @@ class InventorySet:
             and a set of activity data set names as values.
         :rtype: dict
         """
-
-        database = database or self.database
-
-        techs = {tech: self.act_fltr(database, **fltr) for tech, fltr in filtr.items()}
+        techs = {
+            tech: self.act_fltr(self.database, **fltr) for tech, fltr in filtr.items()
+        }
         return {tech: {act["name"] for act in actlst} for tech, actlst in techs.items()}

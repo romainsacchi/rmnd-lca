@@ -20,39 +20,24 @@ As it now evolves towards a more IAM-neutral approach, a change of name was cons
 
 Scientific publication available here: [Sacchi et al, 2022](https://doi.org/10.1016/j.rser.2022.112311).
 
+What's new in 1.5.0?
+====================
+
+-  Added support for ecoinvent 3.9 and 3.9.1
+-  Added support for ecoinvent 3.8 and 3.9/3.9.1 consequential -- see [docs](https://premise.readthedocs.io/en/latest/consequential.html)
+-  Added REMIND SSP1 and SSP5 scenarios -- see [docs](https://premise.readthedocs.io/en/latest/introduction.html#default-iam-scenarios)
+-  Updated GAINS emission factors, using GAINS-EU and GAINS-IAM -- see [docs](https://premise.readthedocs.io/en/latest/transform.html#gains-emission-factors)
+-  Added new inventories for DAC and DACCS -- see [docs](https://premise.readthedocs.io/en/latest/transform.html#direct-air-capture)
+-  Added new inventories for EPR and SMR nuclear reactors -- see [EPR inventories](https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-nuclear_EPR.xlsx) and [SMR inventories](https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-nuclear_SMR.xlsx)
+-  Made mapping to new IAM models easier -- see [docs](https://premise.readthedocs.io/en/latest/mapping.html)
+-  Better logging of changes made to the ecoinvent database -- see [docs](https://premise.readthedocs.io/en/latest/transform.html#logs)
+
 What's new in 1.3.0?
 ====================
 
 -   Added support for user-generated scenarios (see [docs](https://premise.readthedocs.io/en/latest/user_scenarios.html) and [notebook](https://github.com/polca/premise/blob/master/examples/examples%20user-defined%20scenarios.ipynb))
 -   Updated REMIND scenarios to REMIND v.3.0
 
-What's new in 1.0.0?
-====================
-
-We have just released the first major version of *premise*.
-
-Compared to 0.4.5, here are some of the most notable changes:
-
-* there's now a [detailed documentation](https://premise.readthedocs.io/en/latest/) for *premise*.
-* *premise* works with ecoinvent 3.8, cut-off.
-* none of the original datasets in ecoinvent are deleted. This means that any inventories linking successfully
-with the original ecoinvent database will link with a premise-generated database.
-* uncertainty information is removed from the database.
-* *premise* reverts to using "Carbon dioxide, in air" and "Carbon dioxide, non-fossil" to model uptake
-and release of biogenic carbon dioxide. If you wish to account for those in the global warming indicator,
-you need to execute [premise_gwp](https://github.com/polca/premise_gwp), which installs the necessary 
-GWP LCIA methods.
-* *premise* caches the extraction of the database and the import of the inventories the first time 
-a database is created, skipping those steps for the next time.
-* updates inventories for PV and natural gas.
-* updates inventories for two-wheelers, cars, trucks and buses and creates region-specific
- fleet average vehicles (from REMIND or IMAGE fleet data). Activities using transport 
-are relinked to these new vehicles.
-* creates region-specific biomass markets that feed biomass to power plants,
-reflecting the share of biomass coming as forestry or agricultural residue.
-* creates liquid and gaseous fuel markets, reflecting the share of biofuels, methanol and synfuels.
-Also it modifies the split between fossil and biogenic CO2 emissions in the activities feeding
-from the fuel market (based on the fuel mix).
 
 
 Documentation

@@ -30,8 +30,6 @@ def check_inventories(
     :param config: config file
     :param inventory_data: inventory data to check
     :param scenario_data: external scenario data
-    :param model: IAM model name
-    :param pathway: IAM pathway name
     :param year: scenario year
     """
 
@@ -47,6 +45,9 @@ def check_inventories(
             "replaces": val.get("replaces", []),
             "replaces in": val.get("replaces in", []),
             "replacement ratio": val.get("replacement ratio", 1),
+            "production volume variable": val.get("production volume", {}).get(
+                "variable"
+            ),
         }
         for val in config["production pathways"].values()
     }
@@ -60,13 +61,13 @@ def check_inventories(
                     ),
                     "regionalize": True,
                     "new dataset": False,
-                    "except regions": val.get("except regions", []),
+                    "except regions": config["regionalize"].get("except regions", []),
                     "efficiency": val.get("efficiency", []),
                     "replaces": val.get("replaces", []),
                     "replaces in": val.get("replaces in", []),
                     "replacement ratio": val.get("replacement ratio", 1),
                 }
-                for val in config["regionalize"]
+                for val in config["regionalize"]["datasets"]
             }
         )
 
@@ -79,17 +80,15 @@ def check_inventories(
             if not v["exists in original database"] and not v.get("new dataset")
         )
     except AssertionError as e:
-        print("The following datasets are not in the inventory data:")
-        print(
-            [
-                i[0]
-                for i, v in d_datasets.items()
-                if not v["exists in original database"]
-                and not v.get("new dataset")
-                and (i[0], i[1]) not in list_datasets
-            ]
-        )
-        sys.exit()
+        list_missing_datasets = [
+            i[0]
+            for i, v in d_datasets.items()
+            if not v["exists in original database"]
+            and not v.get("new dataset")
+            and (i[0], i[1]) not in list_datasets
+        ]
+
+        raise f"The following datasets are not in the inventory data: {list_missing_datasets}"
 
     # flag imported inventories
     for i, dataset in enumerate(inventory_data):
@@ -158,6 +157,22 @@ def check_datapackage(datapackages: list):
             )
 
 
+def list_all_iam_regions(config):
+    """
+    List all IAM regions in the config file.
+    :param config: config file
+    :return: list of IAM regions
+    """
+
+    list_regions = []
+
+    for k, v in config.items():
+        if k.startswith("LIST_"):
+            list_regions.extend(v)
+
+    return list_regions
+
+
 def check_config_file(datapackages):
     for i, dp in enumerate(datapackages):
         resource = dp.get_resource("config")
@@ -192,12 +207,7 @@ def check_config_file(datapackages):
                         Optional("except regions"): And(
                             list,
                             Use(list),
-                            lambda s: all(
-                                i
-                                in config["LIST_REMIND_REGIONS"]
-                                + config["LIST_IMAGE_REGIONS"]
-                                for i in s
-                            ),
+                            lambda s: all(i in list_all_iam_regions(config) for i in s),
                         ),
                         Optional("replaces"): [
                             {
@@ -266,6 +276,7 @@ def check_config_file(datapackages):
                             }
                         ],
                         Optional("replacement ratio"): float,
+                        Optional("waste market"): bool,
                         Optional("efficiency"): [
                             {
                                 "variable": str,
@@ -280,13 +291,25 @@ def check_config_file(datapackages):
                         ],
                     }
                 ],
-                Optional("regionalize"): [
-                    {
-                        "name": str,
-                        "reference product": str,
-                        Optional("exists in original database"): bool,
-                    }
-                ],
+                Optional("regionalize"): {
+                    "datasets": [
+                        {
+                            "name": str,
+                            "reference product": str,
+                            Optional("exists in original database"): bool,
+                        }
+                    ],
+                    Optional("except regions"): And(
+                        list,
+                        Use(list),
+                        lambda s: all(
+                            i
+                            in config["LIST_REMIND_REGIONS"]
+                            + config["LIST_IMAGE_REGIONS"]
+                            for i in s
+                        ),
+                    ),
+                },
             }
         )
 
@@ -298,7 +321,7 @@ def check_config_file(datapackages):
 
             for market in config_file["markets"]:
                 try:
-                    market_providers = [
+                    [
                         (
                             config_file["production pathways"][a]["ecoinvent alias"][
                                 "name"
@@ -455,10 +478,12 @@ def check_scenario_data_file(datapackages, iam_scenarios):
                 f"is/are not found in the scenario data file no. {i + 1}."
             )
 
-        d_regions = {
-            "remind": config["LIST_REMIND_REGIONS"],
-            "image": config["LIST_IMAGE_REGIONS"],
-        }
+        d_regions = {}
+
+        for model in config["SUPPORTED_MODELS"]:
+            for k, v in config.items():
+                if k.startswith("LIST_") and model.lower() in k.lower():
+                    d_regions[model] = v
 
         list_ei_locs = [
             i if isinstance(i, str) else i[-1]
@@ -477,9 +502,15 @@ def check_scenario_data_file(datapackages, iam_scenarios):
                 )
 
         available_scenarios = df["scenario"].unique()
+
         if not all(
             s in available_scenarios for s in scenarios
         ):  # check that all scenarios are available in the scenario file
+            print(
+                "The following scenarios listed in the json file "
+                "are not available in the scenario data file:"
+            )
+            print(set([s for s in scenarios if s not in available_scenarios]))
             raise ValueError(
                 f"One or several scenarios are not available in the scenario file no. {i + 1}."
             )

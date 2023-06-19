@@ -1,0 +1,46 @@
+# mapping between premise and IAM terminology
+# regarding cement production volumes and energy use
+---
+cement, dry feed rotary kiln:
+  iam_aliases:
+    remind: Production|Industry|Cement
+    image: Production|Industry|Cement|Dry feed rotary kiln
+  energy_use_aliases:
+    remind: FE|Industry|+++|Cement
+    image:
+      - Final Energy|Industry|Cement|Dry feed rotary kiln|Coal
+      - Final Energy|Industry|Cement|Dry feed rotary kiln|Electricity
+      - Final Energy|Industry|Cement|Dry feed rotary kiln|Hydrogen
+      - Final Energy|Industry|Cement|Dry feed rotary kiln|Modern Biomass
+      - Final Energy|Industry|Cement|Dry feed rotary kiln|Natural Gas
+      - Final Energy|Industry|Cement|Dry feed rotary kiln|Oil
+      - Final Energy|Industry|Cement|Dry feed rotary kiln|Secondary Heat
+      - Final Energy|Industry|Cement|Dry feed rotary kiln|Traditional Biomass
+
+  eff_aliases:
+    remind: FE|Industry|Specific Energy Consumption|Cement
+  ecoinvent_fuel_aliases:
+    fltr:
+      name:
+        - market for diesel, low-sulfur
+        - market for natural gas, high pressure
+        - market for liquefied petroleum gas
+        - market for petroleum coke
+        - market for petrol, unleaded
+        - market for hard coal
+        - market for wood chips, wet, measured as dry mass
+        - market for diesel
+        - market for heavy fuel oil
+        - market for lignite
+        - market for charcoal
+        - market for natural gas, low pressure
+        - market for pulverised lignite
+        - market for light fuel oil
+        - market for meat and bone meal
+        - market group for natural gas, high pressure
+    mask:
+      name:
+        - factory
+        - generating
+        - furnace
+        - burned

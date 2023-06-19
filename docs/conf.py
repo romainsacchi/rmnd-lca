@@ -19,12 +19,12 @@ sys.path.insert(0, os.path.abspath(".."))
 
 project = "premise"
 copyright = (
-    "2022, Paul Scherrer Institut, Potsdam Institute for Climate Impact Research"
+    "2023, Paul Scherrer Institut, Potsdam Institute for Climate Impact Research"
 )
 author = "Romain Sacchi, Alois Dirnaichner, Chris Mutel"
 
 # The full version, including alpha/beta/rc tags
-release = "1.3.0"
+release = "1.5.0-alpha"
 
 # -- General configuration ---------------------------------------------------
 
@@ -40,22 +40,23 @@ autosummary_generate = True  # Turn on sphinx.ext.autosummary
 master_doc = "index"
 
 autodoc_mock_imports = [
-    "brightway2",
     "numpy",
+    "wurst==0.3.3",
+    "bw2io==0.8.7",
     "pandas",
-    "bw2io",
     "bw2data",
-    "bw2calc",
-    "wurst",
     "xarray",
     "prettytable",
     "pycountry",
     "cryptography",
     "premise_gwp",
     "pyYaml",
+    "sparse",
     "schema",
     "datapackage",
-    # "premise"
+    "requests",
+    "bottleneck",
+    "premise",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

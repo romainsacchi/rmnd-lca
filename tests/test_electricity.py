@@ -5,10 +5,6 @@ from premise import DATA_DIR
 from premise.data_collection import IAMDataCollection
 from premise.electricity import Electricity
 
-REGION_MAPPING_FILEPATH = DATA_DIR / "regionmappingH12.csv"
-PRODUCTION_PER_TECH = (
-    DATA_DIR / "electricity" / "electricity_production_volumes_per_tech.csv"
-)
 LOSS_PER_COUNTRY = DATA_DIR / "electricity" / "losses_per_country.csv"
 LHV_FUELS = DATA_DIR / "fuels_lower_heating_value.txt"
 
@@ -60,7 +56,14 @@ rdc = IAMDataCollection(
 )
 db, _ = get_db()
 el = Electricity(
-    database=db, iam_data=rdc, model="remind", pathway="SSP2-Base", year=2012
+    database=db,
+    iam_data=rdc,
+    model="remind",
+    pathway="SSP2-Base",
+    year=2012,
+    version="3.5",
+    system_model="cutoff",
+    modified_datasets={},
 )
 
 
@@ -72,8 +75,3 @@ def test_losses():
 def test_powerplant_map():
     s = el.powerplant_map["Biomass IGCC CCS"]
     assert isinstance(s, set)
-
-
-def test_emissions_map():
-    s = el.emissions_map["Sulfur dioxide"]
-    assert isinstance(s, str)

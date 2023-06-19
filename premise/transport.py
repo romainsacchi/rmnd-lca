@@ -16,11 +16,7 @@ from wurst import transformations as wt
 
 from . import DATA_DIR, INVENTORY_DIR
 from .inventory_imports import VariousVehicles
-from .transformation import (
-    BaseTransformation,
-    IAMDataCollection,
-    relink_technosphere_exchanges,
-)
+from .transformation import BaseTransformation, IAMDataCollection
 from .utils import eidb_label
 
 FILEPATH_FLEET_COMP = (
@@ -89,6 +85,8 @@ def create_fleet_vehicles(
     year: int,
     model: str,
     scenario: str,
+    version: str,
+    system_model: str,
     regions: List[str],
     arr: xr.DataArray,
 ) -> List[dict[str, Union[Union[str, float], Any]]]:
@@ -96,7 +94,6 @@ def create_fleet_vehicles(
     Create datasets for fleet average vehicles based on IAM fleet data.
 
     :param datasets: vehicle datasets of all size, powertrain and construction years.
-    :param regions_mapping: mapping between two IAM location terminologies
     :param vehicle_type: "car", "truck"
     :param year: year for the fleet average vehicle
     :param model: IAM model
@@ -264,7 +261,9 @@ def create_fleet_vehicles(
                         }
                     ],
                     "code": str(uuid.uuid4().hex),
-                    "database": eidb_label(model, scenario, year),
+                    "database": eidb_label(
+                        model, scenario, year, version, system_model
+                    ),
                     "comment": f"Fleet-average vehicle for the year {year}, "
                     f"for the region {region}.",
                 }
@@ -344,7 +343,9 @@ def create_fleet_vehicles(
                                     }
                                 ],
                                 "code": str(uuid.uuid4().hex),
-                                "database": eidb_label(model, scenario, year),
+                                "database": eidb_label(
+                                    model, scenario, year, version, system_model
+                                ),
                                 "comment": f"Fleet-average vehicle for the year {year}, for the region {region}.",
                             }
 
@@ -423,11 +424,22 @@ class Transport(BaseTransformation):
         pathway: str,
         year: int,
         version: str,
+        system_model: str,
         relink: bool,
         vehicle_type: str,
         has_fleet: bool,
+        modified_datasets: dict,
     ):
-        super().__init__(database, iam_data, model, pathway, year)
+        super().__init__(
+            database,
+            iam_data,
+            model,
+            pathway,
+            year,
+            version,
+            system_model,
+            modified_datasets,
+        )
         self.version = version
         self.relink = relink
         self.vehicle_type = vehicle_type
@@ -459,6 +471,7 @@ class Transport(BaseTransformation):
             scenario=self.scenario,
             vehicle_type=self.vehicle_type,
             has_fleet=True,
+            system_model=self.system_model,
         )
 
         various_veh.prepare_inventory()
@@ -480,6 +493,7 @@ class Transport(BaseTransformation):
             "Scooter,",
             "Motorbike,",
             "urban delivery",
+            "passenger bus",
         ]
 
         # We filter vehicles by year of manufacture
@@ -488,14 +502,6 @@ class Transport(BaseTransformation):
         fleet_act = None
 
         if self.has_fleet:
-            datasets.import_db.data = [
-                dataset
-                for dataset in datasets.import_db.data
-                if not any(
-                    vehicle in dataset["name"].lower() for vehicle in list_vehicles
-                )
-            ]
-
             datasets.import_db.data = [
                 dataset
                 for dataset in datasets.import_db.data
@@ -523,6 +529,8 @@ class Transport(BaseTransformation):
                     vehicle_type=self.vehicle_type,
                     year=self.year,
                     model=self.model,
+                    version=self.version,
+                    system_model=self.system_model,
                     scenario=self.scenario,
                     regions=self.regions,
                     arr=arr,
@@ -583,11 +591,8 @@ class Transport(BaseTransformation):
                             exc.pop("input")
 
                     if self.relink:
-                        self.cache, new_ds = relink_technosphere_exchanges(
+                        new_ds = self.relink_technosphere_exchanges(
                             new_ds,
-                            self.database,
-                            self.model,
-                            cache=self.cache,
                         )
 
                     list_new_ds.append(new_ds)

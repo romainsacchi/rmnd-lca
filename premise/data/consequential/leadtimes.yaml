@@ -1,0 +1,67 @@
+# lead time between investment decision and capacity installation
+# in years
+---
+Biomass IGCC CCS: 4
+Biomass IGCC: 4
+Biomass CHP: 4
+Biomass CHP CCS: 4
+Biomass ST: 4
+Coal IGCC: 4
+Coal IGCC CCS: 5
+Coal PC: 4
+Coal PC CCS: 5
+Coal CHP: 4
+Coal CHP CCS: 5
+Gas OC: 3
+Gas CC: 3
+Gas CC CCS: 3
+Gas CHP: 3
+Gas CHP CCS: 3
+Oil ST: 3
+Oil CC CCS: 3
+Oil CC: 3
+Oil CHP CCS: 3
+Oil CHP: 3
+Geothermal: 3
+Hydro: 4
+Hydrogen: 3
+Nuclear: 7
+Solar CSP: 3
+Solar PV Centralized: 2
+Solar PV Residential: 2
+Wind Onshore: 2
+Wind Offshore: 3
+diesel: 3
+gasoline: 3
+diesel, synthetic, from wood: 3
+diesel, synthetic, from wood, with CCS: 3
+diesel, synthetic, from grass: 3
+diesel, synthetic, from grass, with CCS: 3
+biodiesel, oil: 3
+biodiesel, oil, with CCS: 3
+bioethanol, wood: 3
+bioethanol, wood, with CCS: 3
+bioethanol, grass: 3
+bioethanol, grass, with CCS: 3
+bioethanol, grain: 3
+bioethanol, grain, with CCS: 3
+bioethanol, sugar: 3
+bioethanol, sugar, with CCS: 3
+methanol, wood: 3
+methanol, wood, with CCS: 3
+methanol, grass: 3
+methanol, grass, with CCS: 3
+natural gas: 3
+biomethane: 3
+petrol, synthetic, from electrolysis: 3
+petrol, synthetic, from coal: 3
+petrol, synthetic, from coal, with CCS: 3
+diesel, synthetic, from electrolysis: 3
+diesel, synthetic, from coal: 3
+diesel, synthetic, from coal, with CCS: 3
+hydrogen, electrolysis: 3
+hydrogen, biomass: 3
+hydrogen, biomass, with CCS: 3
+hydrogen, coal: 3
+hydrogen, nat. gas: 3
+hydrogen, nat. gas, with CCS: 3

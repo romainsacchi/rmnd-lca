@@ -6,8 +6,8 @@ and those provided by the user.
 import csv
 import itertools
 import sys
-import urllib
 import uuid
+from functools import lru_cache
 from pathlib import Path
 from typing import Dict, List, Union
 
@@ -19,13 +19,13 @@ from prettytable import PrettyTable
 from wurst import searching as ws
 
 from . import DATA_DIR, INVENTORY_DIR
-from .clean_datasets import remove_categories
+from .clean_datasets import remove_categories, remove_uncertainty
+from .data_collection import get_delimiter
 from .export import check_amount_format
 from .geomap import Geomap
 
-FILEPATH_BIOSPHERE_FLOWS = DATA_DIR / "utils" / "export" / "flows_biosphere_38.csv"
 FILEPATH_MIGRATION_MAP = INVENTORY_DIR / "migration_map.csv"
-
+FILEPATH_CONSEQUENTIAL_BLACKLIST = DATA_DIR / "consequential" / "blacklist.yaml"
 OUTDATED_FLOWS = DATA_DIR / "utils" / "export" / "outdated_flows.yaml"
 
 
@@ -40,26 +40,42 @@ def get_outdated_flows():
     return flows
 
 
-def get_biosphere_code() -> dict:
+@lru_cache
+def get_biosphere_code(version) -> dict:
     """
     Retrieve a dictionary with biosphere flow names and uuid codes.
     :returns: dictionary with biosphere flow names as keys and uuid codes as values
 
     """
+    if version == "3.9":
+        fp = DATA_DIR / "utils" / "export" / "flows_biosphere_39.csv"
+    else:
+        fp = DATA_DIR / "utils" / "export" / "flows_biosphere_38.csv"
 
-    if not FILEPATH_BIOSPHERE_FLOWS.is_file():
+    if not Path(fp).is_file():
         raise FileNotFoundError("The dictionary of biosphere flows could not be found.")
 
     csv_dict = {}
 
-    with open(FILEPATH_BIOSPHERE_FLOWS, encoding="utf-8") as file:
-        input_dict = csv.reader(file, delimiter=";")
+    with open(fp, encoding="utf-8") as file:
+        input_dict = csv.reader(
+            file,
+            delimiter=get_delimiter(filepath=fp),
+        )
         for row in input_dict:
             csv_dict[(row[0], row[1], row[2], row[3])] = row[4]
 
     return csv_dict
 
 
+def get_consequential_blacklist():
+    with open(FILEPATH_CONSEQUENTIAL_BLACKLIST, "r", encoding="utf-8") as stream:
+        flows = yaml.safe_load(stream)
+
+    return flows
+
+
+@lru_cache
 def generate_migration_maps(origin: str, destination: str) -> Dict[str, list]:
     """
     Generate mapping for ecoinvent datasets across different database versions.
@@ -71,7 +87,10 @@ def generate_migration_maps(origin: str, destination: str) -> Dict[str, list]:
     response = {"fields": ["name", "reference product", "location"], "data": []}
 
     with open(FILEPATH_MIGRATION_MAP, "r", encoding="utf-8") as read_obj:
-        csv_reader = csv.reader(read_obj, delimiter=";")
+        csv_reader = csv.reader(
+            read_obj,
+            delimiter=get_delimiter(filepath=FILEPATH_MIGRATION_MAP),
+        )
         next(csv_reader)
         for row in csv_reader:
             if row[0] == origin and row[1] == destination:
@@ -121,6 +140,57 @@ def check_for_duplicate_datasets(data: List[dict]) -> List[dict]:
     return data
 
 
+def check_for_datasets_compliance_with_consequential_database(
+    datasets: List[dict], blacklist: List[dict]
+):
+    """
+    Check whether the datasets to import are compliant with the consequential database.
+
+    :param datasets: list of datasets to import
+    :param blacklist: list of datasets that are not in the consequential database
+    :return: list of datasets that are compliant with the consequential database
+
+    """
+    # if system model is `consequential`` there is a
+    # number of datasets we do not want to import
+
+    tuples_of_blacklisted_datasets = [
+        (i["name"], i["reference product"], i["unit"]) for i in blacklist
+    ]
+
+    datasets = [
+        d
+        for d in datasets
+        if (d["name"], d["reference product"], d["unit"])
+        not in tuples_of_blacklisted_datasets
+    ]
+
+    # also, we want to change exchanges that do not
+    # exist in the consequential LCA database
+    # and change them for the consequential equivalent
+
+    for ds in datasets:
+        for exchange in ds["exchanges"]:
+            if exchange["type"] == "technosphere":
+                exc_id = (
+                    exchange["name"],
+                    exchange.get("reference product"),
+                    exchange["unit"],
+                )
+
+                if exc_id in tuples_of_blacklisted_datasets:
+                    for d in blacklist:
+                        if exc_id == (d["name"], d.get("reference product"), d["unit"]):
+                            if "replacement" in d:
+                                exchange["name"] = d["replacement"]["name"]
+                                exchange["reference product"] = d["replacement"][
+                                    "reference product"
+                                ]
+                                exchange["location"] = d["replacement"]["location"]
+
+    return datasets
+
+
 class BaseInventoryImport:
     """
     Base class for inventories that are to be merged with the wurst database.
@@ -140,6 +210,8 @@ class BaseInventoryImport:
         version_in: str,
         version_out: str,
         path: Union[str, Path],
+        system_model: str,
+        keep_uncertainty_data: bool = False,
     ) -> None:
         """Create a :class:`BaseInventoryImport` instance."""
         self.database = database
@@ -149,9 +221,12 @@ class BaseInventoryImport:
         ]
         self.version_in = version_in
         self.version_out = version_out
-        self.biosphere_dict = get_biosphere_code()
+        self.biosphere_dict = get_biosphere_code(self.version_out)
         self.outdated_flows = get_outdated_flows()
+        self.system_model = system_model
+        self.consequential_blacklist = get_consequential_blacklist()
         self.list_unlinked = []
+        self.keep_uncertainty_data = keep_uncertainty_data
 
         if "http" in str(path):
             r = requests.head(path)
@@ -163,13 +238,13 @@ class BaseInventoryImport:
                     f"The inventory file {path} could not be found."
                 )
 
-        self.path = path
-
+        self.path = Path(path) if isinstance(path, str) else path
         self.import_db = self.load_inventory(path)
 
         # register migration maps
-        # as imported inventories link to different ecoinvent versions
-        ei_versions = ["35", "36", "37", "38"]
+        # as imported inventories link
+        # to different ecoinvent versions
+        ei_versions = ["35", "36", "37", "38", "39"]
 
         for combination in itertools.product(ei_versions, ei_versions):
             if combination[0] != combination[1]:
@@ -317,7 +392,14 @@ class BaseInventoryImport:
                 if exchange["type"] == "technosphere":
                     # Check if the field 'product' is present
                     if not "product" in exchange:
-                        exchange["product"] = self.correct_product_field(exchange)
+                        exchange["product"] = self.correct_product_field(
+                            (
+                                exchange["name"],
+                                exchange["location"],
+                                exchange["unit"],
+                                exchange.get("reference product", None),
+                            )
+                        )
 
                     # If a 'reference product' field is present, we make sure
                     # it matches with the new 'product' field
@@ -326,14 +408,22 @@ class BaseInventoryImport:
                         try:
                             assert exchange["product"] == exchange["reference product"]
                         except AssertionError:
-                            exchange["product"] = self.correct_product_field(exchange)
+                            exchange["product"] = self.correct_product_field(
+                                (
+                                    exchange["name"],
+                                    exchange["location"],
+                                    exchange["unit"],
+                                    exchange.get("reference product", None),
+                                )
+                            )
 
         # Add a `code` field if missing
         for dataset in self.import_db.data:
             if "code" not in dataset:
                 dataset["code"] = str(uuid.uuid4().hex)
 
-    def correct_product_field(self, exc: dict) -> str:
+    @lru_cache
+    def correct_product_field(self, exc: tuple) -> [str, None]:
         """
         Find the correct name for the `product` field of the exchange
         :param exc: a dataset exchange
@@ -344,23 +434,23 @@ class BaseInventoryImport:
         candidate = next(
             ws.get_many(
                 self.import_db.data,
-                ws.equals("name", exc["name"]),
-                ws.equals("location", exc["location"]),
-                ws.equals("unit", exc["unit"]),
+                ws.equals("name", exc[0]),
+                ws.equals("location", exc[1]),
+                ws.equals("unit", exc[2]),
             ),
             None,
         )
 
         # If not, look in the ecoinvent inventories
         if candidate is None:
-            if "reference product" in exc:
+            if exc[-1] is not None:
                 candidate = next(
                     ws.get_many(
                         self.database,
-                        ws.equals("name", exc["name"]),
-                        ws.equals("reference product", exc["reference product"]),
-                        ws.equals("location", exc["location"]),
-                        ws.equals("unit", exc["unit"]),
+                        ws.equals("name", exc[0]),
+                        ws.equals("location", exc[1]),
+                        ws.equals("unit", exc[2]),
+                        ws.equals("reference product", exc[-1]),
                     ),
                     None,
                 )
@@ -368,9 +458,9 @@ class BaseInventoryImport:
                 candidate = next(
                     ws.get_many(
                         self.database,
-                        ws.equals("name", exc["name"]),
-                        ws.equals("location", exc["location"]),
-                        ws.equals("unit", exc["unit"]),
+                        ws.equals("name", exc[0]),
+                        ws.equals("location", exc[1]),
+                        ws.equals("unit", exc[2]),
                     ),
                     None,
                 )
@@ -380,17 +470,17 @@ class BaseInventoryImport:
 
         self.list_unlinked.append(
             (
-                exc["name"],
-                exc.get("reference product"),
-                exc.get("location"),
-                exc.get("categories"),
-                exc["unit"],
-                exc["type"],
-                self.path,
+                exc[0],
+                exc[-1],
+                exc[1],
+                None,
+                exc[2],
+                "technosphere",
+                self.path.name,
             )
         )
 
-        return exc["reference product"]
+        return None
 
     def add_biosphere_links(self, delete_missing: bool = False) -> None:
         """Add links for biosphere exchanges to :attr:`import_db`
@@ -429,7 +519,7 @@ class BaseInventoryImport:
                                         y["flag_deletion"] = True
                                     else:
                                         print(
-                                            f"Could not find a biosphere flow for {key}"
+                                            f"Could not find a biosphere flow for {key}."
                                         )
 
                         except KeyError:
@@ -438,20 +528,27 @@ class BaseInventoryImport:
                             else:
                                 raise
                     else:
+                        key = (
+                            y["name"],
+                            y["categories"][0].strip(),
+                            "unspecified",
+                            y["unit"],
+                        )
+
                         try:
                             y["input"] = (
                                 "biosphere3",
-                                self.biosphere_dict[
-                                    (
-                                        y["name"].strip(),
-                                        y["categories"][0].strip(),
-                                        "unspecified",
-                                        y["unit"].strip(),
-                                    )
-                                ],
+                                self.biosphere_dict[key],
                             )
                         except KeyError:
-                            if delete_missing:
+                            if y["name"] in self.outdated_flows:
+                                new_key = list(key)
+                                new_key[0] = self.outdated_flows[key[0]]
+                                y["input"] = (
+                                    "biosphere3",
+                                    self.biosphere_dict[tuple(new_key)],
+                                )
+                            elif delete_missing:
                                 print(
                                     f"The following biosphere exchange: "
                                     f"{y['name']}, {y['categories'][0]}, unspecified, {y['unit']} "
@@ -516,21 +613,54 @@ class DefaultInventory(BaseInventoryImport):
 
     """
 
-    def __init__(self, database, version_in, version_out, path):
-        super().__init__(database, version_in, version_out, path)
+    def __init__(
+        self,
+        database,
+        version_in,
+        version_out,
+        path,
+        system_model,
+        keep_uncertainty_data,
+    ):
+        super().__init__(
+            database, version_in, version_out, path, system_model, keep_uncertainty_data
+        )
 
     def load_inventory(self, path: Union[str, Path]) -> bw2io.ExcelImporter:
         return ExcelImporter(path)
 
     def prepare_inventory(self) -> None:
         if self.version_in != self.version_out:
+            # if version_out is 3.9, migrate towards 3.8 first, then 3.9
+            if self.version_out in ["3.9", "3.9.1"]:
+                print("Migrating to 3.8 first")
+                if self.version_in != "3.8":
+                    self.import_db.migrate(
+                        f"migration_{self.version_in.replace('.', '')}_38"
+                    )
+                self.import_db.migrate(
+                    f"migration_38_{self.version_out.replace('.', '')}"
+                )
             self.import_db.migrate(
                 f"migration_{self.version_in.replace('.', '')}_{self.version_out.replace('.', '')}"
             )
 
+        if self.system_model == "consequential":
+            self.import_db.data = (
+                check_for_datasets_compliance_with_consequential_database(
+                    self.import_db.data, self.consequential_blacklist
+                )
+            )
+
         self.import_db.data = remove_categories(self.import_db.data)
+
         self.add_biosphere_links()
         self.add_product_field_to_exchanges()
+
+        # Remove uncertainty data
+        if not self.keep_uncertainty_data:
+            print("Remove uncertainty data.")
+            self.database = remove_uncertainty(self.database)
 
         # Check for duplicates
         self.check_for_already_existing_datasets()
@@ -570,8 +700,9 @@ class VariousVehicles(BaseInventoryImport):
         vehicle_type: str,
         relink: bool = False,
         has_fleet: bool = False,
+        system_model: str = "cutoff",
     ) -> None:
-        super().__init__(database, version_in, version_out, path)
+        super().__init__(database, version_in, version_out, path, system_model)
         self.year = year
         self.regions = regions
         self.model = model
@@ -585,16 +716,25 @@ class VariousVehicles(BaseInventoryImport):
         return ExcelImporter(path)
 
     def prepare_inventory(self):
-        # initially links to ei37
-        if self.version_in != self.version_out:
-            self.import_db.migrate(
-                f"migration_{self.version_in.replace('.', '')}_{self.version_out.replace('.', '')}"
-            )
+        # if version_out is 3.9, migrate towards 3.8 first, then 3.9
+        if self.version_out in ["3.9", "3.9.1"]:
+            print("Migrating to 3.8 first")
+            if self.version_in != "3.8":
+                self.import_db.migrate(
+                    f"migration_{self.version_in.replace('.', '')}_38"
+                )
+            self.import_db.migrate(f"migration_38_{self.version_out.replace('.', '')}")
+        self.import_db.migrate(
+            f"migration_{self.version_in.replace('.', '')}_{self.version_out.replace('.', '')}"
+        )
 
         self.add_biosphere_links()
         self.add_product_field_to_exchanges()
         # Check for duplicates
         self.check_for_already_existing_datasets()
+
+        if self.list_unlinked:
+            self.display_unlinked_exchanges()
 
     def merge_inventory(self):
         self.database.extend(self.import_db.data)
@@ -609,8 +749,8 @@ class AdditionalInventory(BaseInventoryImport):
     Import additional inventories, if any.
     """
 
-    def __init__(self, database, version_in, version_out, path):
-        super().__init__(database, version_in, version_out, path)
+    def __init__(self, database, version_in, version_out, path, system_model):
+        super().__init__(database, version_in, version_out, path, system_model)
 
     def load_inventory(self, path):
         if "http" in path:
@@ -650,12 +790,27 @@ class AdditionalInventory(BaseInventoryImport):
                     del dataset[key]
 
     def prepare_inventory(self):
-        if self.version_in != self.version_out:
+        if str(self.version_in) != self.version_out:
+            # if version_out is 3.9, migrate towards 3.8 first, then 3.9
+            if self.version_out in ["3.9", "3.9.1"]:
+                if str(self.version_in) != "3.8":
+                    print("Migrating to 3.8 first")
+                    self.import_db.migrate(
+                        f"migration_{self.version_in.replace('.', '')}_38"
+                    )
+                self.import_db.migrate(
+                    f"migration_38_{self.version_out.replace('.', '')}"
+                )
+
             self.import_db.migrate(
                 f"migration_{self.version_in.replace('.', '')}_{self.version_out.replace('.', '')}"
             )
-            print(
-                f"migration_{self.version_in.replace('.', '')}_{self.version_out.replace('.', '')}"
+
+        if self.system_model == "consequential":
+            self.import_db.data = (
+                check_for_datasets_compliance_with_consequential_database(
+                    self.import_db.data, self.consequential_blacklist
+                )
             )
 
         list_missing_prod = self.search_missing_exchanges(
@@ -683,6 +838,7 @@ class AdditionalInventory(BaseInventoryImport):
 
             sys.exit()
 
+        self.import_db.data = remove_categories(self.import_db.data)
         self.add_biosphere_links(delete_missing=True)
         list_missing_ref = self.search_missing_field(field="name")
         list_missing_ref.extend(self.search_missing_field(field="reference product"))

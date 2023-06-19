@@ -1,45 +1,54 @@
 from electrolysis:
   name: hydrogen production, gaseous, 25 bar, from electrolysis
   var: hydrogen, electrolysis
+  feedstock name: electricity, low voltage
+  feedstock unit: kilowatt hour
+  floor value: 48.0
 from SMR of biogas, with CCS:
   name: hydrogen production, steam methane reforming, from biomethane, high and low temperature, with CCS (MDEA, 98% eff.), 26 bar
   var: hydrogen, biomass, with CCS
+  feedstock name: biomethane
+  feedstock unit: cubic meter
+  floor value: 3.5
 from SMR of biogas:
   name: hydrogen production, steam methane reforming, from biomethane, high and low temperature, 26 bar
   var: hydrogen, biomass
-from ATR of biogas:
-  name: hydrogen production, auto-thermal reforming, from biomethane, 25 bar
-  var: hydrogen, biomass
-from ATR of biogas, with CCS:
-  name: hydrogen production, auto-thermal reforming, from biomethane, with CCS (MDEA, 98% eff.), 25 bar
-  var: hydrogen, biomass, with CCS
+  feedstock name: biomethane
+  feedstock unit: cubic meter
+  floor value: 3.5
 from SMR of nat. gas:
   name: hydrogen production, steam methane reforming of natural gas, 25 bar
   var: hydrogen, nat. gas
+  feedstock name: natural gas
+  feedstock unit: cubic meter
+  floor value: 3.5
 from SMR of nat. gas, with CCS:
   name: hydrogen production, steam methane reforming of natural gas, with CCS (MDEA, 98% eff.), 25 bar
   var: hydrogen, nat. gas, with CCS
-from ATR of nat. gas:
-  name: hydrogen production, auto-thermal reforming of natural gas, 25 bar
-  var: hydrogen, nat. gas
-from ATR of nat. gas, with CCS:
-  name: hydrogen production, auto-thermal reforming of natural gas, with CCS (MDEA, 98% eff.), 25 bar
-  var: hydrogen, nat. gas, with CCS
-from gasification of biomass by heatpipe reformer, with CCS:
-  name: hydrogen production, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass with CCS, at gasification plant
-  var: hydrogen, biomass, with CCS
-from gasification of biomass by heatpipe reformer:
-  name: hydrogen production, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass, at gasification plant
-  var: hydrogen, biomass
+  feedstock name: natural gas
+  feedstock unit: cubic meter
+  floor value: 3.5
 from gasification of biomass, with CCS:
   name: hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant
   var: hydrogen, biomass, with CCS
+  feedstock name: wood chips
+  feedstock unit: kilogram
+  floor value: 7
 from gasification of biomass:
   name: hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant
   var: hydrogen, biomass
+  feedstock name: wood chips
+  feedstock unit: kilogram
+  floor value: 7
 from coal gasification:
   name: hydrogen production, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant
   var: hydrogen, coal
+  feedstock name: hard coal
+  feedstock unit: kilogram
+  floor value: 5
 from coal gasification, with CCS:
   name: hydrogen production, gaseous, 30 bar, from hard coal gasification and reforming, with CCS, at coal gasification plant
   var: hydrogen, coal
+  feedstock name: hard coal
+  feedstock unit: kilogram
+  floor value: 5

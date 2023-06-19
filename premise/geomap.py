@@ -3,15 +3,29 @@ geomap.py contains the Geomap class that allows to find equivalents between
 the IAM locations and ecoinvent locations.
 """
 
+import json
 from typing import Dict, List, Union
 
 import yaml
 from wurst import geomatcher
 
-from . import DATA_DIR
+from . import DATA_DIR, VARIABLES_DIR
 
-ECO_IAM_MAPPING = DATA_DIR / "geomap" / "missing_definitions.yml"
+ECO_IAM_MAPPING = VARIABLES_DIR / "missing_geography_equivalences.yaml"
 IAM_TO_IAM_MAPPING = DATA_DIR / "geomap" / "mapping_regions_iam.yml"
+
+
+def load_constants():
+    """
+    Load constants from the constants.yaml file.
+    :return: dict
+    """
+    with open(VARIABLES_DIR / "constants.yaml", "r", encoding="utf-8") as stream:
+        data = yaml.safe_load(stream)
+    return data
+
+
+constants = load_constants()
 
 
 def get_additional_mapping() -> Dict[str, str]:
@@ -24,16 +38,13 @@ def get_additional_mapping() -> Dict[str, str]:
     return out
 
 
-def get_iam_to_iam_mapping() -> Dict[str, str]:
+def load_json(filepath: str) -> Dict:
     """
-    Return a dictionary with IAM to IAM mappings
-    :return: dictionary with IAM to IAM location mapping
-
+    Load a json file.
     """
-    with open(IAM_TO_IAM_MAPPING, "r", encoding="utf-8") as stream:
-        out = yaml.safe_load(stream)
-
-    return out
+    with open(filepath, "r", encoding="utf-8") as stream:
+        data = json.load(stream)
+    return data
 
 
 class Geomap:
@@ -50,6 +61,21 @@ class Geomap:
         self.additional_mappings = get_additional_mapping()
         self.rev_additional_mappings = {}
 
+        if model not in ["remind", "image"]:
+            if "EXTRA_TOPOLOGY" in constants:
+                if model in constants["EXTRA_TOPOLOGY"]:
+                    self.geo.add_definitions(
+                        load_json(constants["EXTRA_TOPOLOGY"][model]),
+                        self.model.upper(),
+                    )
+            else:
+                raise ValueError(
+                    f"You must provide geographical definition "
+                    f"of the regions of the model {model} "
+                    f"if you are not using "
+                    "REMIND or IMAGE."
+                )
+
         for key, val in self.additional_mappings.items():
             if (
                 self.model.upper(),
@@ -62,8 +88,6 @@ class Geomap:
                 self.rev_additional_mappings[
                     (self.model.upper(), val[self.model])
                 ].append(key)
-
-        self.iam_to_iam_mappings = get_iam_to_iam_mapping()
 
         self.iam_regions = [
             x[1]
@@ -97,7 +121,7 @@ class Geomap:
                 if not isinstance(region, tuple):
                     ecoinvent_locations.append(region)
                 else:
-                    if region[0] not in ("REMIND", "IMAGE"):
+                    if region[0].lower() not in constants["SUPPORTED_MODELS"]:
                         ecoinvent_locations.append(region[1])
 
             # Current behaviour of `intersects` is to include "GLO" in all REMIND regions.
@@ -143,11 +167,15 @@ class Geomap:
             raise ValueError(f"Could not find equivalent for {location}.")
 
         # If not, then we look for IAM regions that contain it
-        iam_location = [
-            r[1]
-            for r in self.geo.within(location)
-            if r[0] == self.model.upper() and r[1] != "World"
-        ]
+        try:
+            iam_location = [
+                r[1]
+                for r in self.geo.within(location)
+                if r[0] == self.model.upper() and r[1] != "World"
+            ]
+        except KeyError:
+            print(f"Can't find location {location} using the geomatcher.")
+            return "World"
 
         # If not, then we look for IAM regions that intersects with it
         if len(iam_location) == 0:
@@ -198,23 +226,3 @@ class Geomap:
         # more than one region is found
         print(f"More than one region found for {location}:{iam_location}")
         return "World"
-
-    def iam_to_gains_region(self, location: str) -> str:
-        """
-        Regions defined in GAINS emission data follows REMIND naming
-        convention, but those are different for other IAMs.
-        :param location: IAM location
-        :return: GAINS location
-        """
-        return self.iam_to_iam_mappings[self.model][location]["gains"]
-
-    def iam_to_iam_region(self, location: str, from_iam: str) -> str:
-        """
-        When data is defined according to one IAM geography naming convention
-        but needs to be used with another IAM.
-        :param location: location to search the equivalent for
-        :param: to_iam: the IAM to search the equivalent for
-        :return: the equivalent location
-        """
-
-        return self.iam_to_iam_mappings[self.model][location][from_iam]

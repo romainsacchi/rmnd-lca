@@ -1,0 +1,39 @@
+# mapping between premise and IAM terminology regarding steel
+# production volumes and energy use
+---
+steel - primary:
+  iam_aliases:
+    remind: Production|Industry|Steel|Primary
+    image: Production|Steel|Primary
+  energy_use_aliases:
+    remind:
+      - FE|Industry|Steel|++|Primary
+    image:
+      - Final Energy|Industry|Steel|Gases
+      - Final Energy|Industry|Steel|Heat
+      - Final Energy|Industry|Steel|Hydrogen
+      - Final Energy|Industry|Steel|Liquids
+      - Final Energy|Industry|Steel|Solids
+  ecoinvent_aliases:
+    fltr:
+      - steel production, converter
+    mask:
+      - hot rolled
+
+steel - secondary:
+  iam_aliases:
+    remind: Production|Industry|Steel|Secondary
+    image: Production|Steel|Secondary
+  energy_use_aliases:
+    remind:
+      - FE|Industry|Steel|++|Secondary
+    image:
+      - Final Energy|Industry|Steel|Electricity
+  ecoinvent_aliases:
+    fltr:
+      - steel production, electric
+    mask:
+      name:
+        - hot rolled
+      reference product:
+        - heat

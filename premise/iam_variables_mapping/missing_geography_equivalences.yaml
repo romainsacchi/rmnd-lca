@@ -1,0 +1,133 @@
+# a mapping for a few ecoinvent locations
+# for which constructive_geometries
+# cannot find an IAM equivalent
+---
+Europe without Austria:
+  remind: EUR
+  image: WEU
+Europe without Switzerland and Austria:
+  remind: EUR
+  image: WEU
+Europe without Switzerland:
+  remind: EUR
+  image: WEU
+North America without Quebec:
+  remind: USA
+  image: USA
+RER w/o RU:
+  remind: EUR
+  image: WEU
+RER:
+  remind: EUR
+  image: WEU
+RoW:
+  remind: World
+  image: World
+GLO:
+  remind: World
+  image: World
+RNA:
+  remind: USA
+  image: USA
+SAS:
+  remind: IND
+  image: INDIA
+IAI Area, EU27 & EFTA:
+  remind: EUR
+  image: WEU
+UN-OCEANIA:
+  remind: CAZ
+  image: OCE
+UN-SEASIA:
+  remind: OAS
+  image: SEAS
+RAF:
+  remind: SSA
+  image: RSAF
+RAS:
+  remind: CHA
+  image: CHN
+IAI Area, Africa:
+  remind: SSA
+  image: RSAF
+RER w/o CH+DE:
+  remind: EUR
+  image: WEU
+RER w/o DE+NL+RU:
+  remind: EUR
+  image: WEU
+IAI Area, Asia, without China and GCC:
+  remind: OAS
+  image: SEAS
+Europe, without Russia and Turkey:
+  remind: EUR
+  image: WEU
+WECC:
+  remind: USA
+  image: USA
+WEU:
+  remind: EUR
+  image: WEU
+UCTE:
+  remind: EUR
+  image: WEU
+UCTE without Germany:
+  remind: EUR
+  image: WEU
+NORDEL:
+  remind: NEU
+  image: WEU
+ENTSO-E:
+  remind: EUR
+  image: WEU
+RLA:
+  remind: LAM
+  image: RSAM
+IAI Area, South America:
+  remind: LAM
+  image: RSAM
+IAI Area, Russia & RER w/o EU27 & EFTA:
+  remind: REF
+  image: RUS
+IAI Area, North America:
+  remind: USA
+  image: USA
+OCE:
+  remind: CAZ
+  image: OCE
+US-PR:
+  remind: USA
+  image: USA
+US only:
+  remind: USA
+  image: USA
+APAC:
+  remind: OAS
+  image: SEAS
+CN-NCGC:
+  remind: CHA
+  image: CHN
+CN-CSG:
+  remind: CHA
+  image: CHN
+CN-SWG:
+  remind: CHA
+  image: CHN
+CN-CCG:
+  remind: CHA
+  image: CHN
+CN-ECGC:
+  remind: CHA
+  image: CHN
+RoE:
+  remind: EUR
+  image: WEU
+CN-NWG:
+  remind: CHA
+  image: CHN
+BR-South-eastern/Mid-western grid:
+  remind: LAM
+  image: RSAM
+CN-NECG:
+  remind: CHA
+  image: CHN

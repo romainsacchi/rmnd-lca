@@ -1,0 +1,3679 @@
+AEROHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Aerosols
+AEROHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Aerosols
+AGR_ARABLENOF:
+  Activity description: No fuel use
+  Sector description: Ploughing, tilling, harvesting
+AGR_BEEFNOF:
+  Activity description: No fuel use
+  Sector description: Other cattle
+AGR_BEEFOL:
+  Activity description: Other cattle - liquid systems
+  Sector description: Other cattle
+AGR_BEEFOL_F:
+  Activity description: Other cattle - liquid (slurry) systems - enteric fermentation
+  Sector description: Other cattle
+AGR_BEEFOS:
+  Activity description: Other cattle - solid systems
+  Sector description: Other cattle
+AGR_COWSDL:
+  Activity description: Dairy cows - liquid systems
+  Sector description: Dairy cattle
+AGR_COWSDL_F:
+  Activity description: Dairy cows - liquid (slurry) systems - enteric fermentation
+  Sector description: Dairy cattle
+AGR_COWSDS:
+  Activity description: Dairy cows - solid systems
+  Sector description: Dairy cattle
+AGR_COWSNOF:
+  Activity description: No fuel use
+  Sector description: Dairy cattle
+AGR_COWS_MILKDL:
+  Activity description: Dairy cows - liquid systems
+  Sector description: Milk produced - dairy cows
+AGR_COWS_MILKDS:
+  Activity description: Dairy cows - solid systems
+  Sector description: Milk produced - dairy cows
+AGR_OTANIBS:
+  Activity description: Buffalos
+  Sector description: Other livestock (sheep, horses)
+AGR_OTANICM:
+  Activity description: Camels
+  Sector description: Other livestock (sheep, horses)
+AGR_OTANIFU:
+  Activity description: Fur animals
+  Sector description: Other livestock (sheep, horses)
+AGR_OTANIHO:
+  Activity description: Horses
+  Sector description: Other livestock (sheep, horses)
+AGR_OTANISH:
+  Activity description: Sheep and goats
+  Sector description: Other livestock (sheep, horses)
+AGR_OTHERNOF:
+  Activity description: No fuel use
+  Sector description: Other agricultural emisisons
+AGR_PIGNOF:
+  Activity description: No fuel use
+  Sector description: Pigs
+AGR_PIGPL:
+  Activity description: Pigs - liquid systems
+  Sector description: Pigs
+AGR_PIGPS:
+  Activity description: Pigs - solid systems
+  Sector description: Pigs
+AGR_POULTLH:
+  Activity description: Laying hens
+  Sector description: Poultry
+AGR_POULTOP:
+  Activity description: Other poultry
+  Sector description: Poultry
+ALU_CWPBPFC:
+  Activity description: Perfluorocarbons
+  Sector description: 'Primary aluminium production: Centre Worked Pre-bake technology'
+ALU_PFPBPFC:
+  Activity description: Perfluorocarbons
+  Sector description: 'Primary aluminium production: Point Feeder Pre-bake technology'
+ALU_SWPBPFC:
+  Activity description: Perfluorocarbons
+  Sector description: 'Primary aluminium production: Side Worked Pre-bake technology'
+ALU_VSSPFC:
+  Activity description: Perfluorocarbons
+  Sector description: 'Primary aluminium production: Vertical Stud Soderberg technology'
+APPLIC_LBS:
+  Activity description: Buffalos
+  Sector description: Manure application on large farms
+APPLIC_LCM:
+  Activity description: Camels
+  Sector description: Manure application on large farms
+APPLIC_LDL:
+  Activity description: Dairy cows - liquid systems
+  Sector description: Manure application on large farms
+APPLIC_LDS:
+  Activity description: Dairy cows - solid systems
+  Sector description: Manure application on large farms
+APPLIC_LFU:
+  Activity description: Fur animals
+  Sector description: Manure application on large farms
+APPLIC_LHO:
+  Activity description: Horses
+  Sector description: Manure application on large farms
+APPLIC_LLH:
+  Activity description: Laying hens
+  Sector description: Manure application on large farms
+APPLIC_LN_INPUT:
+  Activity description: Mass of Nitrogen added
+  Sector description: Manure application on large farms
+APPLIC_LOL:
+  Activity description: Other cattle - liquid systems
+  Sector description: Manure application on large farms
+APPLIC_LOP:
+  Activity description: Other poultry
+  Sector description: Manure application on large farms
+APPLIC_LOS:
+  Activity description: Other cattle - solid systems
+  Sector description: Manure application on large farms
+APPLIC_LPL:
+  Activity description: Pigs - liquid systems
+  Sector description: Manure application on large farms
+APPLIC_LPS:
+  Activity description: Pigs - solid systems
+  Sector description: Manure application on large farms
+APPLIC_LRICE_N:
+  Activity description: Mineral N fertilizer added to rice fields
+  Sector description: Manure application on large farms
+APPLIC_LSH:
+  Activity description: Sheep and goats
+  Sector description: Manure application on large farms
+APPLIC_LSOIL_N:
+  Activity description: Mineral N fertilizer added to agricultural soils
+  Sector description: Manure application on large farms
+APPLIC_MBS:
+  Activity description: Buffalos
+  Sector description: Manure application on medium farms
+APPLIC_MCM:
+  Activity description: Camels
+  Sector description: Manure application on medium farms
+APPLIC_MDL:
+  Activity description: Dairy cows - liquid systems
+  Sector description: Manure application on medium farms
+APPLIC_MDS:
+  Activity description: Dairy cows - solid systems
+  Sector description: Manure application on medium farms
+APPLIC_MFU:
+  Activity description: Fur animals
+  Sector description: Manure application on medium farms
+APPLIC_MHO:
+  Activity description: Horses
+  Sector description: Manure application on medium farms
+APPLIC_MLH:
+  Activity description: Laying hens
+  Sector description: Manure application on medium farms
+APPLIC_MN_INPUT:
+  Activity description: Mass of Nitrogen added
+  Sector description: Manure application on medium farms
+APPLIC_MOL:
+  Activity description: Other cattle - liquid systems
+  Sector description: Manure application on medium farms
+APPLIC_MOP:
+  Activity description: Other poultry
+  Sector description: Manure application on medium farms
+APPLIC_MOS:
+  Activity description: Other cattle - solid systems
+  Sector description: Manure application on medium farms
+APPLIC_MPL:
+  Activity description: Pigs - liquid systems
+  Sector description: Manure application on medium farms
+APPLIC_MPS:
+  Activity description: Pigs - solid systems
+  Sector description: Manure application on medium farms
+APPLIC_MRICE_N:
+  Activity description: Mineral N fertilizer added to rice fields
+  Sector description: Manure application on medium farms
+APPLIC_MSH:
+  Activity description: Sheep and goats
+  Sector description: Manure application on medium farms
+APPLIC_MSOIL_N:
+  Activity description: Mineral N fertilizer added to agricultural soils
+  Sector description: Manure application on medium farms
+APPLIC_SBS:
+  Activity description: Buffalos
+  Sector description: Manure application on small farms
+APPLIC_SCM:
+  Activity description: Camels
+  Sector description: Manure application on small farms
+APPLIC_SDL:
+  Activity description: Dairy cows - liquid systems
+  Sector description: Manure application on small farms
+APPLIC_SDS:
+  Activity description: Dairy cows - solid systems
+  Sector description: Manure application on small farms
+APPLIC_SFU:
+  Activity description: Fur animals
+  Sector description: Manure application on small farms
+APPLIC_SHO:
+  Activity description: Horses
+  Sector description: Manure application on small farms
+APPLIC_SLH:
+  Activity description: Laying hens
+  Sector description: Manure application on small farms
+APPLIC_SN_INPUT:
+  Activity description: Mass of Nitrogen added
+  Sector description: Manure application on small farms
+APPLIC_SOL:
+  Activity description: Other cattle - liquid systems
+  Sector description: Manure application on small farms
+APPLIC_SOP:
+  Activity description: Other poultry
+  Sector description: Manure application on small farms
+APPLIC_SOS:
+  Activity description: Other cattle - solid systems
+  Sector description: Manure application on small farms
+APPLIC_SPL:
+  Activity description: Pigs - liquid systems
+  Sector description: Manure application on small farms
+APPLIC_SPS:
+  Activity description: Pigs - solid systems
+  Sector description: Manure application on small farms
+APPLIC_SRICE_N:
+  Activity description: Mineral N fertilizer added to rice fields
+  Sector description: Manure application on small farms
+APPLIC_SSH:
+  Activity description: Sheep and goats
+  Sector description: Manure application on small farms
+APPLIC_SSOIL_N:
+  Activity description: Mineral N fertilizer added to agricultural soils
+  Sector description: Manure application on small farms
+AUTO_PVEH:
+  Activity description: Vehicles
+  Sector description: Vehicles manufacturing
+AUTO_P_NEWVEH:
+  Activity description: Vehicles
+  Sector description: Vehicles manufacturing (new plants)
+AU_LGPNOF:
+  Activity description: No fuel use
+  Sector description: Large-scale gold production
+AU_SGPNOF:
+  Activity description: No fuel use
+  Sector description: Small-scale artisanal gold production
+CAC_BHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Commercial air conditioning using water chilling, emissions
+    banked in equipment
+CAC_BHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Commercial air conditioning using water chilling, emissions
+    banked in equipment
+CAC_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Commercial air conditioning using water chilling, emissions
+    from scrapped equipment
+CAC_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Commercial air conditioning using water chilling, emissions
+    from scrapped equipment
+COAL_ABANDNOF:
+  Activity description: No fuel use
+  Sector description: Abandoned coal mines
+COILSC:
+  Activity description: Coated surface
+  Sector description: Coil coating
+COMM_BHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Commercial refrigeration, emissions banked in equipment
+COMM_BHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Commercial refrigeration, emissions banked in equipment
+COMM_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Commercial refrigeration, emissions from scrapped equipment
+COMM_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Commercial refrigeration, emissions from scrapped equipment
+CONSTRUCTNOF:
+  Activity description: No fuel use
+  Sector description: Construction activities (fugitive)
+CON_COMB1BC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Fuel conversion (grate firingr)
+CON_COMB1BC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Fuel conversion (grate firingr)
+CON_COMB1HC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Fuel conversion (grate firingr)
+CON_COMB1HC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Fuel conversion (grate firingr)
+CON_COMB1HC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Fuel conversion (grate firingr)
+CON_COMB2BC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Fuel conversion (fluidized bed boiler)
+CON_COMB2BC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Fuel conversion (fluidized bed boiler)
+CON_COMB2HC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Fuel conversion (fluidized bed boiler)
+CON_COMB2HC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Fuel conversion (fluidized bed boiler)
+CON_COMB2HC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Fuel conversion (fluidized bed boiler)
+CON_COMB3BC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Fuel conversion (pulverized bed boiler)
+CON_COMB3BC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Fuel conversion (pulverized bed boiler)
+CON_COMB3HC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Fuel conversion (pulverized bed boiler)
+CON_COMB3HC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Fuel conversion (pulverized bed boiler)
+CON_COMB3HC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Fuel conversion (pulverized bed boiler)
+CON_COMBBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Transformation - combustion
+CON_COMBBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Transformation - combustion
+CON_COMBBIOG:
+  Activity description: Biogas
+  Sector description: Transformation - combustion
+CON_COMBBMG:
+  Activity description: Biomass gasification
+  Sector description: Transformation - combustion
+CON_COMBDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Transformation - combustion
+CON_COMBFWD:
+  Activity description: Fuelwood
+  Sector description: Transformation - combustion
+CON_COMBGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Transformation - combustion
+CON_COMBGSL:
+  Activity description: Gasoline
+  Sector description: Transformation - combustion
+CON_COMBGTH:
+  Activity description: Geothermal
+  Sector description: Transformation - combustion
+CON_COMBH2:
+  Activity description: Hydrogen
+  Sector description: Transformation - combustion
+CON_COMBHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Transformation - combustion
+CON_COMBHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Transformation - combustion
+CON_COMBHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Transformation - combustion
+CON_COMBHF:
+  Activity description: Heavy fuel oil
+  Sector description: Transformation - combustion
+CON_COMBLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Transformation - combustion
+CON_COMBMD:
+  Activity description: Diesel
+  Sector description: Transformation - combustion
+CON_COMBSPV:
+  Activity description: Solar photovoltaic
+  Sector description: Transformation - combustion
+CON_COMBSTH:
+  Activity description: Solar thermal
+  Sector description: Transformation - combustion
+CON_COMBWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Transformation - combustion
+CON_COMBWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Transformation - combustion
+CON_LOSSBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Transformation - losses
+CON_LOSSBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Transformation - losses
+CON_LOSSBIOG:
+  Activity description: Biogas
+  Sector description: Transformation - losses
+CON_LOSSBMG:
+  Activity description: Biomass gasification
+  Sector description: Transformation - losses
+CON_LOSSDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Transformation - losses
+CON_LOSSELE:
+  Activity description: Electricity
+  Sector description: Transformation - losses
+CON_LOSSFWD:
+  Activity description: Fuelwood
+  Sector description: Transformation - losses
+CON_LOSSGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Transformation - losses
+CON_LOSSGSL:
+  Activity description: Gasoline
+  Sector description: Transformation - losses
+CON_LOSSH2:
+  Activity description: Hydrogen
+  Sector description: Transformation - losses
+CON_LOSSHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Transformation - losses
+CON_LOSSHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Transformation - losses
+CON_LOSSHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Transformation - losses
+CON_LOSSHF:
+  Activity description: Heavy fuel oil
+  Sector description: Transformation - losses
+CON_LOSSHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Transformation - losses
+CON_LOSSLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Transformation - losses
+CON_LOSSMD:
+  Activity description: Diesel
+  Sector description: Transformation - losses
+CON_LOSSWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Transformation - losses
+CON_LOSSWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Transformation - losses
+COWS_3000_MILKDL:
+  Activity description: Dairy cows - liquid systems
+  Sector description: Milk yield over 3000 kg/animal treshold
+COWS_3000_MILKDL_F:
+  Activity description: Dairy cows - liquid (slurry) systems - enteric fermentation
+  Sector description: Milk yield over 3000 kg/animal treshold
+COWS_3000_MILKDS:
+  Activity description: Dairy cows - solid systems
+  Sector description: Milk yield over 3000 kg/animal treshold
+DECO_PPNT:
+  Activity description: Paint use
+  Sector description: Decorative paints
+DEGRSLV:
+  Activity description: Solvent use
+  Sector description: Degreasing
+DEGR_NEWSLV:
+  Activity description: Solvent use
+  Sector description: Degreasing (new installations)
+DOM_COMBIOG:
+  Activity description: Biogas
+  Sector description: Commercial (combustion)
+DOM_COMBMG:
+  Activity description: Biomass gasification
+  Sector description: Commercial (combustion)
+DOM_COMCHCOA:
+  Activity description: Charcoal
+  Sector description: Commercial (combustion)
+DOM_COMDNG:
+  Activity description: Dung
+  Sector description: Commercial (combustion)
+DOM_COMELE:
+  Activity description: Electricity
+  Sector description: Commercial (combustion)
+DOM_COMGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Commercial (combustion)
+DOM_COMGSL:
+  Activity description: Gasoline
+  Sector description: Commercial (combustion)
+DOM_COMGTH:
+  Activity description: Geothermal
+  Sector description: Commercial (combustion)
+DOM_COMH2:
+  Activity description: Hydrogen
+  Sector description: Commercial (combustion)
+DOM_COMHF:
+  Activity description: Heavy fuel oil
+  Sector description: Commercial (combustion)
+DOM_COMHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Commercial (combustion)
+DOM_COMLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Commercial (combustion)
+DOM_COMMD:
+  Activity description: Diesel
+  Sector description: Commercial (combustion)
+DOM_COMSPV:
+  Activity description: Solar photovoltaic
+  Sector description: Commercial (combustion)
+DOM_COMSTH:
+  Activity description: Solar thermal
+  Sector description: Commercial (combustion)
+DOM_COM_MB_AARD:
+  Activity description: Agricultural residues
+  Sector description: Medium boilers (<50MW) - automatic (commercial)
+DOM_COM_MB_ABC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Medium boilers (<50MW) - automatic (commercial)
+DOM_COM_MB_ABC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Medium boilers (<50MW) - automatic (commercial)
+DOM_COM_MB_ADC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Medium boilers (<50MW) - automatic (commercial)
+DOM_COM_MB_AFWD:
+  Activity description: Fuelwood
+  Sector description: Medium boilers (<50MW) - automatic (commercial)
+DOM_COM_MB_AHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Medium boilers (<50MW) - automatic (commercial)
+DOM_COM_MB_AHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Medium boilers (<50MW) - automatic (commercial)
+DOM_COM_MB_AHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Medium boilers (<50MW) - automatic (commercial)
+DOM_COM_MB_MBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Medium boilers (<1MW) - manual (commercial)
+DOM_COM_MB_MBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Medium boilers (<1MW) - manual (commercial)
+DOM_COM_MB_MDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Medium boilers (<1MW) - manual (commercial)
+DOM_COM_MB_MFWD:
+  Activity description: Fuelwood
+  Sector description: Medium boilers (<1MW) - manual (commercial)
+DOM_COM_MB_MHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Medium boilers (<1MW) - manual (commercial)
+DOM_COM_MB_MHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Medium boilers (<1MW) - manual (commercial)
+DOM_COM_MB_MHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Medium boilers (<1MW) - manual (commercial)
+DOM_LIGHTGSL:
+  Activity description: Gasoline
+  Sector description: Residential - kerosene lamps
+DOM_OSPOP:
+  Activity description: Population
+  Sector description: Domestic use of solvents (other than paint)
+DOM_OTHBIOG:
+  Activity description: Biogas
+  Sector description: Services, agriculture, etc.
+DOM_OTHBMG:
+  Activity description: Biomass gasification
+  Sector description: Services, agriculture, etc.
+DOM_OTHCHCOA:
+  Activity description: Charcoal
+  Sector description: Services, agriculture, etc.
+DOM_OTHELE:
+  Activity description: Electricity
+  Sector description: Services, agriculture, etc.
+DOM_OTHGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Services, agriculture, etc.
+DOM_OTHGSL:
+  Activity description: Gasoline
+  Sector description: Services, agriculture, etc.
+DOM_OTHGTH:
+  Activity description: Geothermal
+  Sector description: Services, agriculture, etc.
+DOM_OTHH2:
+  Activity description: Hydrogen
+  Sector description: Services, agriculture, etc.
+DOM_OTHHF:
+  Activity description: Heavy fuel oil
+  Sector description: Services, agriculture, etc.
+DOM_OTHHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Services, agriculture, etc.
+DOM_OTHLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Services, agriculture, etc.
+DOM_OTHMD:
+  Activity description: Diesel
+  Sector description: Services, agriculture, etc.
+DOM_OTHSPV:
+  Activity description: Solar photovoltaic
+  Sector description: Services, agriculture, etc.
+DOM_OTHSTH:
+  Activity description: Solar thermal
+  Sector description: Services, agriculture, etc.
+DOM_OTH_FPLACEFWD:
+  Activity description: Fuelwood
+  Sector description: Fireplaces (agr, forestry, other)
+DOM_OTH_MB_AARD:
+  Activity description: Agricultural residues
+  Sector description: Medium boilers (<50MW) - automatic (agr, forestry, other)
+DOM_OTH_MB_ABC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Medium boilers (<50MW) - automatic (agr, forestry, other)
+DOM_OTH_MB_ABC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Medium boilers (<50MW) - automatic (agr, forestry, other)
+DOM_OTH_MB_ADC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Medium boilers (<50MW) - automatic (agr, forestry, other)
+DOM_OTH_MB_AFWD:
+  Activity description: Fuelwood
+  Sector description: Medium boilers (<50MW) - automatic (agr, forestry, other)
+DOM_OTH_MB_AHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Medium boilers (<50MW) - automatic (agr, forestry, other)
+DOM_OTH_MB_AHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Medium boilers (<50MW) - automatic (agr, forestry, other)
+DOM_OTH_MB_AHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Medium boilers (<50MW) - automatic (agr, forestry, other)
+DOM_OTH_MB_MBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Medium boilers (<1MW) - manual (agr, forestry, other)
+DOM_OTH_MB_MBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Medium boilers (<1MW) - manual (agr, forestry, other)
+DOM_OTH_MB_MDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Medium boilers (<1MW) - manual (agr, forestry, other)
+DOM_OTH_MB_MFWD:
+  Activity description: Fuelwood
+  Sector description: Medium boilers (<1MW) - manual (agr, forestry, other)
+DOM_OTH_MB_MHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Medium boilers (<1MW) - manual (agr, forestry, other)
+DOM_OTH_MB_MHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Medium boilers (<1MW) - manual (agr, forestry, other)
+DOM_OTH_MB_MHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Medium boilers (<1MW) - manual (agr, forestry, other)
+DOM_OTH_PITARD:
+  Activity description: Agricultural residues
+  Sector description: Three-stone stove (agr, forestry, other)
+DOM_OTH_PITDNG:
+  Activity description: Dung
+  Sector description: Three-stone stove (agr, forestry, other)
+DOM_OTH_PITFWD:
+  Activity description: Fuelwood
+  Sector description: Three-stone stove (agr, forestry, other)
+DOM_OTH_SHB_AARD:
+  Activity description: Agricultural residues
+  Sector description: Single house boilers (<50 kW) - automatic (agr, forestry, other)
+DOM_OTH_SHB_AFWD:
+  Activity description: Fuelwood
+  Sector description: Single house boilers (<50 kW) - automatic (agr, forestry, other)
+DOM_OTH_SHB_AHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Single house boilers (<50 kW) - automatic (agr, forestry, other)
+DOM_OTH_SHB_AHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Single house boilers (<50 kW) - automatic (agr, forestry, other)
+DOM_OTH_SHB_AHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Single house boilers (<50 kW) - automatic (agr, forestry, other)
+DOM_OTH_SHB_MBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Single house boilers (<50 kW) - manual (agr, forestry, other)
+DOM_OTH_SHB_MBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Single house boilers (<50 kW) - manual (agr, forestry, other)
+DOM_OTH_SHB_MDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Single house boilers (<50 kW) - manual (agr, forestry, other)
+DOM_OTH_SHB_MFWD:
+  Activity description: Fuelwood
+  Sector description: Single house boilers (<50 kW) - manual (agr, forestry, other)
+DOM_OTH_SHB_MHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Single house boilers (<50 kW) - manual (agr, forestry, other)
+DOM_OTH_SHB_MHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Single house boilers (<50 kW) - manual (agr, forestry, other)
+DOM_OTH_SHB_MHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Single house boilers (<50 kW) - manual (agr, forestry, other)
+DOM_OTH_STOVE_CARD:
+  Activity description: Agricultural residues
+  Sector description: Cooking stoves (agr, forestry, other)
+DOM_OTH_STOVE_CBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Cooking stoves (agr, forestry, other)
+DOM_OTH_STOVE_CBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Cooking stoves (agr, forestry, other)
+DOM_OTH_STOVE_CDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Cooking stoves (agr, forestry, other)
+DOM_OTH_STOVE_CDNG:
+  Activity description: Dung
+  Sector description: Cooking stoves (agr, forestry, other)
+DOM_OTH_STOVE_CFWD:
+  Activity description: Fuelwood
+  Sector description: Cooking stoves (agr, forestry, other)
+DOM_OTH_STOVE_CHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Cooking stoves (agr, forestry, other)
+DOM_OTH_STOVE_CHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Cooking stoves (agr, forestry, other)
+DOM_OTH_STOVE_CHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Cooking stoves (agr, forestry, other)
+DOM_OTH_STOVE_HARD:
+  Activity description: Agricultural residues
+  Sector description: Heating stoves (agr, forestry, other)
+DOM_OTH_STOVE_HBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Heating stoves (agr, forestry, other)
+DOM_OTH_STOVE_HBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Heating stoves (agr, forestry, other)
+DOM_OTH_STOVE_HDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Heating stoves (agr, forestry, other)
+DOM_OTH_STOVE_HDNG:
+  Activity description: Dung
+  Sector description: Heating stoves (agr, forestry, other)
+DOM_OTH_STOVE_HFWD:
+  Activity description: Fuelwood
+  Sector description: Heating stoves (agr, forestry, other)
+DOM_OTH_STOVE_HHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Heating stoves (agr, forestry, other)
+DOM_OTH_STOVE_HHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Heating stoves (agr, forestry, other)
+DOM_OTH_STOVE_HHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Heating stoves (agr, forestry, other)
+DOM_RURBIOG:
+  Activity description: Biogas
+  Sector description: Residential - rural
+DOM_RURBMG:
+  Activity description: Biomass gasification
+  Sector description: Residential - rural
+DOM_RURCHCOA:
+  Activity description: Charcoal
+  Sector description: Residential - rural
+DOM_RURELE:
+  Activity description: Electricity
+  Sector description: Residential - rural
+DOM_RURGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Residential - rural
+DOM_RURGSL:
+  Activity description: Gasoline
+  Sector description: Residential - rural
+DOM_RURGTH:
+  Activity description: Geothermal
+  Sector description: Residential - rural
+DOM_RURHF:
+  Activity description: Heavy fuel oil
+  Sector description: Residential - rural
+DOM_RURHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Residential - rural
+DOM_RURLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Residential - rural
+DOM_RURMD:
+  Activity description: Diesel
+  Sector description: Residential - rural
+DOM_RURSPV:
+  Activity description: Solar photovoltaic
+  Sector description: Residential - rural
+DOM_RURSTH:
+  Activity description: Solar thermal
+  Sector description: Residential - rural
+DOM_RUR_FPLACEFWD:
+  Activity description: Fuelwood
+  Sector description: Rural Fireplaces (households)
+DOM_RUR_PITARD:
+  Activity description: Agricultural residues
+  Sector description: Rural Three-stone stove (households)
+DOM_RUR_PITDNG:
+  Activity description: Dung
+  Sector description: Rural Three-stone stove (households)
+DOM_RUR_PITFWD:
+  Activity description: Fuelwood
+  Sector description: Rural Three-stone stove (households)
+DOM_RUR_SHB_AARD:
+  Activity description: Agricultural residues
+  Sector description: Rural Single house boilers (<50 kW) - automatic (households)
+DOM_RUR_SHB_AFWD:
+  Activity description: Fuelwood
+  Sector description: Rural Single house boilers (<50 kW) - automatic (households)
+DOM_RUR_SHB_AHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Rural Single house boilers (<50 kW) - automatic (households)
+DOM_RUR_SHB_AHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Rural Single house boilers (<50 kW) - automatic (households)
+DOM_RUR_SHB_AHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Rural Single house boilers (<50 kW) - automatic (households)
+DOM_RUR_SHB_MBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Rural Single house boilers (<50 kW) - manual (households)
+DOM_RUR_SHB_MBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Rural Single house boilers (<50 kW) - manual (households)
+DOM_RUR_SHB_MDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Rural Single house boilers (<50 kW) - manual (households)
+DOM_RUR_SHB_MFWD:
+  Activity description: Fuelwood
+  Sector description: Rural Single house boilers (<50 kW) - manual (households)
+DOM_RUR_SHB_MHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Rural Single house boilers (<50 kW) - manual (households)
+DOM_RUR_SHB_MHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Rural Single house boilers (<50 kW) - manual (households)
+DOM_RUR_SHB_MHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Rural Single house boilers (<50 kW) - manual (households)
+DOM_RUR_STOVE_CARD:
+  Activity description: Agricultural residues
+  Sector description: Rural Cooking stoves (households)
+DOM_RUR_STOVE_CBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Rural Cooking stoves (households)
+DOM_RUR_STOVE_CBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Rural Cooking stoves (households)
+DOM_RUR_STOVE_CDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Rural Cooking stoves (households)
+DOM_RUR_STOVE_CDNG:
+  Activity description: Dung
+  Sector description: Rural Cooking stoves (households)
+DOM_RUR_STOVE_CFWD:
+  Activity description: Fuelwood
+  Sector description: Rural Cooking stoves (households)
+DOM_RUR_STOVE_CHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Rural Cooking stoves (households)
+DOM_RUR_STOVE_CHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Rural Cooking stoves (households)
+DOM_RUR_STOVE_CHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Rural Cooking stoves (households)
+DOM_RUR_STOVE_HARD:
+  Activity description: Agricultural residues
+  Sector description: Rural Heating stoves (households)
+DOM_RUR_STOVE_HBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Rural Heating stoves (households)
+DOM_RUR_STOVE_HBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Rural Heating stoves (households)
+DOM_RUR_STOVE_HDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Rural Heating stoves (households)
+DOM_RUR_STOVE_HDNG:
+  Activity description: Dung
+  Sector description: Rural Heating stoves (households)
+DOM_RUR_STOVE_HFWD:
+  Activity description: Fuelwood
+  Sector description: Rural Heating stoves (households)
+DOM_RUR_STOVE_HHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Rural Heating stoves (households)
+DOM_RUR_STOVE_HHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Rural Heating stoves (households)
+DOM_RUR_STOVE_HHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Rural Heating stoves (households)
+DOM_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Domestic small hermetic refrigerators, emissions from scrapped
+    equipment
+DOM_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Domestic small hermetic refrigerators, emissions from scrapped
+    equipment
+DOM_URBBIOG:
+  Activity description: Biogas
+  Sector description: Residential - urban
+DOM_URBBMG:
+  Activity description: Biomass gasification
+  Sector description: Residential - urban
+DOM_URBCHCOA:
+  Activity description: Charcoal
+  Sector description: Residential - urban
+DOM_URBELE:
+  Activity description: Electricity
+  Sector description: Residential - urban
+DOM_URBGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Residential - urban
+DOM_URBGSL:
+  Activity description: Gasoline
+  Sector description: Residential - urban
+DOM_URBGTH:
+  Activity description: Geothermal
+  Sector description: Residential - urban
+DOM_URBHF:
+  Activity description: Heavy fuel oil
+  Sector description: Residential - urban
+DOM_URBHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Residential - urban
+DOM_URBLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Residential - urban
+DOM_URBMD:
+  Activity description: Diesel
+  Sector description: Residential - urban
+DOM_URBSPV:
+  Activity description: Solar photovoltaic
+  Sector description: Residential - urban
+DOM_URBSTH:
+  Activity description: Solar thermal
+  Sector description: Residential - urban
+DOM_URB_FPLACEFWD:
+  Activity description: Fuelwood
+  Sector description: Urban Fireplaces (households)
+DOM_URB_PITARD:
+  Activity description: Agricultural residues
+  Sector description: Urban Three-stone stove (households)
+DOM_URB_PITDNG:
+  Activity description: Dung
+  Sector description: Urban Three-stone stove (households)
+DOM_URB_PITFWD:
+  Activity description: Fuelwood
+  Sector description: Urban Three-stone stove (households)
+DOM_URB_SHB_AARD:
+  Activity description: Agricultural residues
+  Sector description: Urban Single house boilers (<50 kW) - automatic (households)
+DOM_URB_SHB_AFWD:
+  Activity description: Fuelwood
+  Sector description: Urban Single house boilers (<50 kW) - automatic (households)
+DOM_URB_SHB_AHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Urban Single house boilers (<50 kW) - automatic (households)
+DOM_URB_SHB_AHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Urban Single house boilers (<50 kW) - automatic (households)
+DOM_URB_SHB_AHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Urban Single house boilers (<50 kW) - automatic (households)
+DOM_URB_SHB_MBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Urban Single house boilers (<50 kW) - manual (households)
+DOM_URB_SHB_MBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Urban Single house boilers (<50 kW) - manual (households)
+DOM_URB_SHB_MDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Urban Single house boilers (<50 kW) - manual (households)
+DOM_URB_SHB_MFWD:
+  Activity description: Fuelwood
+  Sector description: Urban Single house boilers (<50 kW) - manual (households)
+DOM_URB_SHB_MHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Urban Single house boilers (<50 kW) - manual (households)
+DOM_URB_SHB_MHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Urban Single house boilers (<50 kW) - manual (households)
+DOM_URB_SHB_MHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Urban Single house boilers (<50 kW) - manual (households)
+DOM_URB_STOVE_CARD:
+  Activity description: Agricultural residues
+  Sector description: Urban Cooking stoves (households)
+DOM_URB_STOVE_CBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Urban Cooking stoves (households)
+DOM_URB_STOVE_CBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Urban Cooking stoves (households)
+DOM_URB_STOVE_CDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Urban Cooking stoves (households)
+DOM_URB_STOVE_CDNG:
+  Activity description: Dung
+  Sector description: Urban Cooking stoves (households)
+DOM_URB_STOVE_CFWD:
+  Activity description: Fuelwood
+  Sector description: Urban Cooking stoves (households)
+DOM_URB_STOVE_CHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Urban Cooking stoves (households)
+DOM_URB_STOVE_CHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Urban Cooking stoves (households)
+DOM_URB_STOVE_CHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Urban Cooking stoves (households)
+DOM_URB_STOVE_HARD:
+  Activity description: Agricultural residues
+  Sector description: Urban Heating stoves (households)
+DOM_URB_STOVE_HBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Urban Heating stoves (households)
+DOM_URB_STOVE_HBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Urban Heating stoves (households)
+DOM_URB_STOVE_HDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Urban Heating stoves (households)
+DOM_URB_STOVE_HDNG:
+  Activity description: Dung
+  Sector description: Urban Heating stoves (households)
+DOM_URB_STOVE_HFWD:
+  Activity description: Fuelwood
+  Sector description: Urban Heating stoves (households)
+DOM_URB_STOVE_HHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Urban Heating stoves (households)
+DOM_URB_STOVE_HHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Urban Heating stoves (households)
+DOM_URB_STOVE_HHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Urban Heating stoves (households)
+DRYTEX:
+  Activity description: Textiles (clothing)
+  Sector description: Dry cleaning
+DRY_NEWTEX:
+  Activity description: Textiles (clothing)
+  Sector description: Dry cleaning (new installations)
+D_GASSTGSL:
+  Activity description: Gasoline
+  Sector description: Gasoline distribution - service stations
+D_REFDEPGSL:
+  Activity description: Gasoline
+  Sector description: Gasoline storage & distribution (excl. gasoline stations)
+D_REFDEPMD:
+  Activity description: Diesel
+  Sector description: Gasoline storage & distribution (excl. gasoline stations)
+D_REFDEP_SGSL:
+  Activity description: Gasoline
+  Sector description: Gasoline storage & distribution (excl. transport sector)
+D_REFDEP_SMD:
+  Activity description: Diesel
+  Sector description: Gasoline storage & distribution (excl. transport sector)
+EXD_GASEMI:
+  Activity description: Emissions of NMVOC
+  Sector description: Production & distribution of natural gas
+EXD_GAS_NEWEMI:
+  Activity description: Emissions of NMVOC
+  Sector description: Production & distribution of natural gas - new mains
+EXD_LQEMI:
+  Activity description: Emissions of NMVOC
+  Sector description: Extraction of oil (incl delivery to terminals)
+EXD_LQ_NEWEMI:
+  Activity description: Emissions of NMVOC
+  Sector description: Extraction of oil (incl delivery to terminals; with recovery)
+FATOILSD:
+  Activity description: Seeds
+  Sector description: Fat and oil extraction (seeds)
+FCON_OTHNNOF:
+  Activity description: No fuel use
+  Sector description: Mineral N fertilizers use (excl. urea)
+FCON_UREANOF:
+  Activity description: No fuel use
+  Sector description: Urea application (incl. ABC)
+FERTPRONOF:
+  Activity description: No fuel use
+  Sector description: Mineral N fertilizer production
+FEXT_BHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Fire extinguishers, emissions banked in equipment
+FEXT_BHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Fire extinguishers, emissions banked in equipment
+FEXT_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Fire extinguishers, emissions from scrapped equipment
+FEXT_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Fire extinguishers, emissions from scrapped equipment
+FGAS_INDFGAS:
+  Activity description: Fluorinated greenhouse gas
+  Sector description: Other F-gas industrial emissions (activity given as other FGAS
+    emissions in kt)
+FOODPOP:
+  Activity description: Population
+  Sector description: Food and drink industry
+FORESTFIRE_MASS:
+  Activity description: forest, grassland burning
+  Sector description: Forest
+GLUE_INHADH:
+  Activity description: Adhesives
+  Sector description: Industrial application of adhesives (high performance)
+GLUE_INTADH:
+  Activity description: Adhesives
+  Sector description: Industrial application of adhesives (traditional)
+GRASSLANDFIRE_MASS:
+  Activity description: forest, grassland burning
+  Sector description: Grassland and soils
+GRAZE_LBS:
+  Activity description: Buffalos
+  Sector description: Grazing on large farms
+GRAZE_LCM:
+  Activity description: Camels
+  Sector description: Grazing on large farms
+GRAZE_LDL:
+  Activity description: Dairy cows - liquid systems
+  Sector description: Grazing on large farms
+GRAZE_LDS:
+  Activity description: Dairy cows - solid systems
+  Sector description: Grazing on large farms
+GRAZE_LFU:
+  Activity description: Fur animals
+  Sector description: Grazing on large farms
+GRAZE_LHO:
+  Activity description: Horses
+  Sector description: Grazing on large farms
+GRAZE_LLH:
+  Activity description: Laying hens
+  Sector description: Grazing on large farms
+GRAZE_LOL:
+  Activity description: Other cattle - liquid systems
+  Sector description: Grazing on large farms
+GRAZE_LOP:
+  Activity description: Other poultry
+  Sector description: Grazing on large farms
+GRAZE_LOS:
+  Activity description: Other cattle - solid systems
+  Sector description: Grazing on large farms
+GRAZE_LPL:
+  Activity description: Pigs - liquid systems
+  Sector description: Grazing on large farms
+GRAZE_LPS:
+  Activity description: Pigs - solid systems
+  Sector description: Grazing on large farms
+GRAZE_LSH:
+  Activity description: Sheep and goats
+  Sector description: Grazing on large farms
+GRAZE_MBS:
+  Activity description: Buffalos
+  Sector description: Grazing on medium farms
+GRAZE_MCM:
+  Activity description: Camels
+  Sector description: Grazing on medium farms
+GRAZE_MDL:
+  Activity description: Dairy cows - liquid systems
+  Sector description: Grazing on medium farms
+GRAZE_MDS:
+  Activity description: Dairy cows - solid systems
+  Sector description: Grazing on medium farms
+GRAZE_MFU:
+  Activity description: Fur animals
+  Sector description: Grazing on medium farms
+GRAZE_MHO:
+  Activity description: Horses
+  Sector description: Grazing on medium farms
+GRAZE_MLH:
+  Activity description: Laying hens
+  Sector description: Grazing on medium farms
+GRAZE_MOL:
+  Activity description: Other cattle - liquid systems
+  Sector description: Grazing on medium farms
+GRAZE_MOP:
+  Activity description: Other poultry
+  Sector description: Grazing on medium farms
+GRAZE_MOS:
+  Activity description: Other cattle - solid systems
+  Sector description: Grazing on medium farms
+GRAZE_MPL:
+  Activity description: Pigs - liquid systems
+  Sector description: Grazing on medium farms
+GRAZE_MPS:
+  Activity description: Pigs - solid systems
+  Sector description: Grazing on medium farms
+GRAZE_MSH:
+  Activity description: Sheep and goats
+  Sector description: Grazing on medium farms
+GRAZE_SBS:
+  Activity description: Buffalos
+  Sector description: Grazing on small farms
+GRAZE_SCM:
+  Activity description: Camels
+  Sector description: Grazing on small farms
+GRAZE_SDL:
+  Activity description: Dairy cows - liquid systems
+  Sector description: Grazing on small farms
+GRAZE_SDS:
+  Activity description: Dairy cows - solid systems
+  Sector description: Grazing on small farms
+GRAZE_SFU:
+  Activity description: Fur animals
+  Sector description: Grazing on small farms
+GRAZE_SHO:
+  Activity description: Horses
+  Sector description: Grazing on small farms
+GRAZE_SLH:
+  Activity description: Laying hens
+  Sector description: Grazing on small farms
+GRAZE_SOL:
+  Activity description: Other cattle - liquid systems
+  Sector description: Grazing on small farms
+GRAZE_SOP:
+  Activity description: Other poultry
+  Sector description: Grazing on small farms
+GRAZE_SOS:
+  Activity description: Other cattle - solid systems
+  Sector description: Grazing on small farms
+GRAZE_SPL:
+  Activity description: Pigs - liquid systems
+  Sector description: Grazing on small farms
+GRAZE_SPS:
+  Activity description: Pigs - solid systems
+  Sector description: Grazing on small farms
+GRAZE_SSH:
+  Activity description: Sheep and goats
+  Sector description: Grazing on small farms
+GSHP_BHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Ground source heat pumps, emissions banked in equipment
+GSHP_BHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Ground source heat pumps, emissions banked in equipment
+GSHP_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Ground source heat pumps, emissions from scrapped equipment
+GSHP_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Ground source heat pumps, emissions from scrapped equipment
+HCFC22_EHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: HCFC-22 production for emissive use
+HCFC22_FHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: HCFC-22 production for feedstock use
+HFC_OTHHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Other (solvents, fire extinguishers, etc.)
+HFC_OTHHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Other (solvents, fire extinguishers, etc.)
+HISTOSOLSAREA:
+  Activity description: Area of activity
+  Sector description: Organic soils
+HMVESSF6:
+  Activity description: Sulfur hexafluoride
+  Sector description: SF6 use in high and mid voltage switches
+IND_BHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Industrial refrigeration, including food and agricultural, emissions
+    banked in equipment
+IND_BHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Industrial refrigeration, including food and agricultural, emissions
+    banked in equipment
+IND_FOOD_NOCNOF:
+  Activity description: No fuel use
+  Sector description: 'Wastewater without treatment: food manufacturing industry'
+IND_FOOD_TRMNOF:
+  Activity description: No fuel use
+  Sector description: 'Wastewater with treatment: food manufacturing industry'
+IND_OSEMI:
+  Activity description: Emissions of NMVOC
+  Sector description: Other industrial use of solvents
+IND_OTHEMI:
+  Activity description: Emissions of NMVOC
+  Sector description: Other industrial sources
+IND_OTH_NOCNOF:
+  Activity description: No fuel use
+  Sector description: 'Wastewater without treatment: other organics manufacturing
+    industry'
+IND_OTH_TRMNOF:
+  Activity description: No fuel use
+  Sector description: 'Wastewater with treatment: other organics manufacturing industry'
+IND_PAP_NOCNOF:
+  Activity description: No fuel use
+  Sector description: 'Wastewater without treatment: pulp and paper manufacturing
+    industry'
+IND_PAP_TRMNOF:
+  Activity description: No fuel use
+  Sector description: 'Wastewater with treatment: pulp and paper manufacturing industry'
+IND_P_CNTPNT:
+  Activity description: Paint use
+  Sector description: Industrial paint use (continuous processes)
+IND_P_OTPNT:
+  Activity description: Paint use
+  Sector description: Industrial paint use (other)
+IND_P_PLPNT:
+  Activity description: Paint use
+  Sector description: Industrial paint use (plastic parts)
+IND_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Industrial refrigeration, including food and agricultural, emissions
+    from scrapped equipment
+IND_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Industrial refrigeration, including food and agricultural, emissions
+    from scrapped equipment
+INORGEMI:
+  Activity description: Emissions of NMVOC
+  Sector description: Inorganic chemical industry
+INW_FOOD10YR_BP:
+  Activity description: Activity at 10yr before the respective - present year, i.e.
+    1980 and 1985 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Solid waste: food manufacturing industry'
+INW_FOODNOF:
+  Activity description: No fuel use
+  Sector description: 'Solid waste: food manufacturing industry'
+INW_OTH20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Solid waste: other manufacturing industry'
+INW_OTHNOF:
+  Activity description: No fuel use
+  Sector description: 'Solid waste: other manufacturing industry'
+INW_PAP20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Solid waste: pulp and paper manufacturing industry'
+INW_PAPNOF:
+  Activity description: No fuel use
+  Sector description: 'Solid waste: pulp and paper manufacturing industry'
+INW_RUB20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Solid waste: rubber and plastics manufacturing industry'
+INW_RUBNOF:
+  Activity description: No fuel use
+  Sector description: 'Solid waste: rubber and plastics manufacturing industry'
+INW_TEX20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Solid waste: textile manufacturing industry'
+INW_TEXNOF:
+  Activity description: No fuel use
+  Sector description: 'Solid waste: textile manufacturing industry'
+INW_WOOD20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Solid waste: wood manufacturing industry'
+INW_WOODNOF:
+  Activity description: No fuel use
+  Sector description: 'Solid waste: wood manufacturing industry'
+IN_BO_CHEMARD:
+  Activity description: Agricultural residues
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMBGS:
+  Activity description: Bagasse
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMBIOG:
+  Activity description: Biogas
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMBLIQ:
+  Activity description: Black liquor
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMBMG:
+  Activity description: Biomass gasification
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMELE:
+  Activity description: Electricity
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMFWD:
+  Activity description: Fuelwood
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMGSL:
+  Activity description: Gasoline
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMH2:
+  Activity description: Hydrogen
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMHF:
+  Activity description: Heavy fuel oil
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMMD:
+  Activity description: Diesel
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Chemical industry (boilers)
+IN_BO_CHEMWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Chemical industry (boilers)
+IN_BO_CONARD:
+  Activity description: Agricultural residues
+  Sector description: Transformation sector (boilers)
+IN_BO_CONBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Transformation sector (boilers)
+IN_BO_CONBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Transformation sector (boilers)
+IN_BO_CONBGS:
+  Activity description: Bagasse
+  Sector description: Transformation sector (boilers)
+IN_BO_CONBIOG:
+  Activity description: Biogas
+  Sector description: Transformation sector (boilers)
+IN_BO_CONBLIQ:
+  Activity description: Black liquor
+  Sector description: Transformation sector (boilers)
+IN_BO_CONBMG:
+  Activity description: Biomass gasification
+  Sector description: Transformation sector (boilers)
+IN_BO_CONDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Transformation sector (boilers)
+IN_BO_CONELE:
+  Activity description: Electricity
+  Sector description: Transformation sector (boilers)
+IN_BO_CONFWD:
+  Activity description: Fuelwood
+  Sector description: Transformation sector (boilers)
+IN_BO_CONGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Transformation sector (boilers)
+IN_BO_CONGSL:
+  Activity description: Gasoline
+  Sector description: Transformation sector (boilers)
+IN_BO_CONH2:
+  Activity description: Hydrogen
+  Sector description: Transformation sector (boilers)
+IN_BO_CONHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Transformation sector (boilers)
+IN_BO_CONHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Transformation sector (boilers)
+IN_BO_CONHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Transformation sector (boilers)
+IN_BO_CONHF:
+  Activity description: Heavy fuel oil
+  Sector description: Transformation sector (boilers)
+IN_BO_CONHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Transformation sector (boilers)
+IN_BO_CONLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Transformation sector (boilers)
+IN_BO_CONMD:
+  Activity description: Diesel
+  Sector description: Transformation sector (boilers)
+IN_BO_CONWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Transformation sector (boilers)
+IN_BO_CONWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Transformation sector (boilers)
+IN_BO_OTHARD:
+  Activity description: Agricultural residues
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHBGS:
+  Activity description: Bagasse
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHBIOG:
+  Activity description: Biogas
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHBLIQ:
+  Activity description: Black liquor
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHBMG:
+  Activity description: Biomass gasification
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHELE:
+  Activity description: Electricity
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHFWD:
+  Activity description: Fuelwood
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHGSL:
+  Activity description: Gasoline
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHH2:
+  Activity description: Hydrogen
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHHF:
+  Activity description: Heavy fuel oil
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHMD:
+  Activity description: Diesel
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTHWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Other industry (boilers; liquid and gaseous fuels)
+IN_BO_OTH_LBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Other industry (large coal boilers; > 50 MWth )
+IN_BO_OTH_LBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Other industry (large coal boilers; > 50 MWth )
+IN_BO_OTH_LHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Other industry (large coal boilers; > 50 MWth )
+IN_BO_OTH_LHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Other industry (large coal boilers; > 50 MWth )
+IN_BO_OTH_LHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Other industry (large coal boilers; > 50 MWth )
+IN_BO_OTH_LHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Other industry (large coal boilers; > 50 MWth )
+IN_BO_OTH_SBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Other industry (small coal boilers; < 50 MWth )
+IN_BO_OTH_SBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Other industry (small coal boilers; < 50 MWth )
+IN_BO_OTH_SHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Other industry (small coal boilers; < 50 MWth )
+IN_BO_OTH_SHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Other industry (small coal boilers; < 50 MWth )
+IN_BO_OTH_SHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Other industry (small coal boilers; < 50 MWth )
+IN_BO_OTH_SHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Other industry (small coal boilers; < 50 MWth )
+IN_BO_PAPARD:
+  Activity description: Agricultural residues
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPBGS:
+  Activity description: Bagasse
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPBIOG:
+  Activity description: Biogas
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPBLIQ:
+  Activity description: Black liquor
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPBMG:
+  Activity description: Biomass gasification
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPELE:
+  Activity description: Electricity
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPFWD:
+  Activity description: Fuelwood
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPGSL:
+  Activity description: Gasoline
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPH2:
+  Activity description: Hydrogen
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPHF:
+  Activity description: Heavy fuel oil
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPMD:
+  Activity description: Diesel
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Paper & pulp (boilers)
+IN_BO_PAPWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Paper & pulp (boilers)
+IN_OC_CHEMARD:
+  Activity description: Agricultural residues
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMBIOG:
+  Activity description: Biogas
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMBLIQ:
+  Activity description: Black liquor
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMBMG:
+  Activity description: Biomass gasification
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMELE:
+  Activity description: Electricity
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMFWD:
+  Activity description: Fuelwood
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMGSL:
+  Activity description: Gasoline
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMGTH:
+  Activity description: Geothermal
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMH2:
+  Activity description: Hydrogen
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMHF:
+  Activity description: Heavy fuel oil
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMMD:
+  Activity description: Diesel
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMSPV:
+  Activity description: Solar photovoltaic
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMSTH:
+  Activity description: Solar thermal
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Chemical industry (furnaces)
+IN_OC_CHEMWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Chemical industry (furnaces)
+IN_OC_ISTEARD:
+  Activity description: Agricultural residues
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEBIOG:
+  Activity description: Biogas
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEBLIQ:
+  Activity description: Black liquor
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEBMG:
+  Activity description: Biomass gasification
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEELE:
+  Activity description: Electricity
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEFWD:
+  Activity description: Fuelwood
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEGSL:
+  Activity description: Gasoline
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEGTH:
+  Activity description: Geothermal
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEH2:
+  Activity description: Hydrogen
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEHF:
+  Activity description: Heavy fuel oil
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTELPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEMD:
+  Activity description: Diesel
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTESPV:
+  Activity description: Solar photovoltaic
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTESTH:
+  Activity description: Solar thermal
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Iron and steel (furnaces)
+IN_OC_ISTEWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Iron and steel (furnaces)
+IN_OC_NFMEARD:
+  Activity description: Agricultural residues
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEBIOG:
+  Activity description: Biogas
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEBLIQ:
+  Activity description: Black liquor
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEBMG:
+  Activity description: Biomass gasification
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEELE:
+  Activity description: Electricity
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEFWD:
+  Activity description: Fuelwood
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEGSL:
+  Activity description: Gasoline
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEGTH:
+  Activity description: Geothermal
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEH2:
+  Activity description: Hydrogen
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEHF:
+  Activity description: Heavy fuel oil
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMELPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEMD:
+  Activity description: Diesel
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMESPV:
+  Activity description: Solar photovoltaic
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMESTH:
+  Activity description: Solar thermal
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NFMEWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Non-ferrous metals (furnaces)
+IN_OC_NMMIARD:
+  Activity description: Agricultural residues
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIBIOG:
+  Activity description: Biogas
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIBLIQ:
+  Activity description: Black liquor
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIBMG:
+  Activity description: Biomass gasification
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIELE:
+  Activity description: Electricity
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIFWD:
+  Activity description: Fuelwood
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIGSL:
+  Activity description: Gasoline
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIHF:
+  Activity description: Heavy fuel oil
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMILPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIMD:
+  Activity description: Diesel
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_NMMIWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Non-metallic minerals (furnaces)
+IN_OC_OTHARD:
+  Activity description: Agricultural residues
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHBIOG:
+  Activity description: Biogas
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHBLIQ:
+  Activity description: Black liquor
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHBMG:
+  Activity description: Biomass gasification
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHELE:
+  Activity description: Electricity
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHFWD:
+  Activity description: Fuelwood
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHGSL:
+  Activity description: Gasoline
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHGTH:
+  Activity description: Geothermal
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHH2:
+  Activity description: Hydrogen
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHHF:
+  Activity description: Heavy fuel oil
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHMD:
+  Activity description: Diesel
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHSPV:
+  Activity description: Solar photovoltaic
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHSTH:
+  Activity description: Solar thermal
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Other Industry (furnaces)
+IN_OC_OTHWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Other Industry (furnaces)
+IN_OC_PAPARD:
+  Activity description: Agricultural residues
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPBIOG:
+  Activity description: Biogas
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPBLIQ:
+  Activity description: Black liquor
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPBMG:
+  Activity description: Biomass gasification
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPELE:
+  Activity description: Electricity
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPFWD:
+  Activity description: Fuelwood
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPGSL:
+  Activity description: Gasoline
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPGTH:
+  Activity description: Geothermal
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPH2:
+  Activity description: Hydrogen
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPHF:
+  Activity description: Heavy fuel oil
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPMD:
+  Activity description: Diesel
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPSPV:
+  Activity description: Solar photovoltaic
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPSTH:
+  Activity description: Solar thermal
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Paper & pulp (furnaces)
+IN_OC_PAPWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Paper & pulp (furnaces)
+IO_NH3_EMISSNOF:
+  Activity description: No fuel use
+  Sector description: Other industrial NH3 emissions
+LEAD_GASOLLFL:
+  Activity description: Leaded gasoline
+  Sector description: Leaded gasoline
+LEATHERCTG:
+  Activity description: Coating
+  Sector description: Leather coating
+MAGNPRSF6:
+  Activity description: Sulfur hexafluoride
+  Sector description: SF6 use in magnesium production and casting
+MANUREBS:
+  Activity description: Buffalos
+  Sector description: Manure treatment and manure distributed on soils
+MANURECM:
+  Activity description: Camels
+  Sector description: Manure treatment and manure distributed on soils
+MANUREDL:
+  Activity description: Dairy cows - liquid systems
+  Sector description: Manure treatment and manure distributed on soils
+MANUREDS:
+  Activity description: Dairy cows - solid systems
+  Sector description: Manure treatment and manure distributed on soils
+MANUREFU:
+  Activity description: Fur animals
+  Sector description: Manure treatment and manure distributed on soils
+MANUREHO:
+  Activity description: Horses
+  Sector description: Manure treatment and manure distributed on soils
+MANURELH:
+  Activity description: Laying hens
+  Sector description: Manure treatment and manure distributed on soils
+MANUREOL:
+  Activity description: Other cattle - liquid systems
+  Sector description: Manure treatment and manure distributed on soils
+MANUREOP:
+  Activity description: Other poultry
+  Sector description: Manure treatment and manure distributed on soils
+MANUREOS:
+  Activity description: Other cattle - solid systems
+  Sector description: Manure treatment and manure distributed on soils
+MANUREPL:
+  Activity description: Pigs - liquid systems
+  Sector description: Manure treatment and manure distributed on soils
+MANUREPS:
+  Activity description: Pigs - solid systems
+  Sector description: Manure treatment and manure distributed on soils
+MANURESH:
+  Activity description: Sheep and goats
+  Sector description: Manure treatment and manure distributed on soils
+MINE_BCNOF:
+  Activity description: No fuel use
+  Sector description: Brown coal mining
+MINE_BC_POSTNOF:
+  Activity description: No fuel use
+  Sector description: 'Mining: Brown coal -post-mining emissions'
+MINE_BC_PRENOF:
+  Activity description: No fuel use
+  Sector description: 'Mining: Brown coal -pre-mining emissions'
+MINE_BC_VAMNOF:
+  Activity description: No fuel use
+  Sector description: 'Mining: Brown coal - ventilation air methane'
+MINE_HCNOF:
+  Activity description: No fuel use
+  Sector description: Hard coal mining
+MINE_HC_POSTNOF:
+  Activity description: No fuel use
+  Sector description: 'Mining: Hard coal -post-mining emissions'
+MINE_HC_PRENOF:
+  Activity description: No fuel use
+  Sector description: 'Mining: Hard coal -pre-mining emissions'
+MINE_HC_VAMNOF:
+  Activity description: No fuel use
+  Sector description: 'Mining: Hard coal - ventilation air methane'
+MINE_OTHNOF:
+  Activity description: No fuel use
+  Sector description: 'Mining: Bauxite, copper, iron ore, other'
+MSW_RUR_FOOD10YR_BP:
+  Activity description: Activity at 10yr before the respective - present year, i.e.
+    1980 and 1985 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Rural Municipal solid waste: food & garden'
+MSW_RUR_FOODNOF:
+  Activity description: No fuel use
+  Sector description: 'Rural Municipal solid waste: food & garden'
+MSW_RUR_GLA20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Rural Municipal solid waste: glass'
+MSW_RUR_GLANOF:
+  Activity description: No fuel use
+  Sector description: 'Rural Municipal solid waste: glass'
+MSW_RUR_MET20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Rural Municipal solid waste: metals'
+MSW_RUR_METNOF:
+  Activity description: No fuel use
+  Sector description: 'Rural Municipal solid waste: metals'
+MSW_RUR_OTH20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Rural Municipal solid waste: other waste'
+MSW_RUR_OTHNOF:
+  Activity description: No fuel use
+  Sector description: 'Rural Municipal solid waste: other waste'
+MSW_RUR_PAP20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Rural Municipal solid waste: paper'
+MSW_RUR_PAPNOF:
+  Activity description: No fuel use
+  Sector description: 'Rural Municipal solid waste: paper'
+MSW_RUR_PLA20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Rural Municipal solid waste: plastics'
+MSW_RUR_PLANOF:
+  Activity description: No fuel use
+  Sector description: 'Rural Municipal solid waste: plastics'
+MSW_RUR_TEX20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Rural Municipal solid waste: textiles'
+MSW_RUR_TEXNOF:
+  Activity description: No fuel use
+  Sector description: 'Rural Municipal solid waste: textiles'
+MSW_RUR_WOOD20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Rural Municipal solid waste: wood'
+MSW_RUR_WOODNOF:
+  Activity description: No fuel use
+  Sector description: 'Rural Municipal solid waste: wood'
+MSW_URB_FOOD10YR_BP:
+  Activity description: Activity at 10yr before the respective - present year, i.e.
+    1980 and 1985 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Urban Municipal solid waste: food & garden'
+MSW_URB_FOODNOF:
+  Activity description: No fuel use
+  Sector description: 'Urban Municipal solid waste: food & garden'
+MSW_URB_GLA20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Urban Municipal solid waste: glass'
+MSW_URB_GLANOF:
+  Activity description: No fuel use
+  Sector description: 'Urban Municipal solid waste: glass'
+MSW_URB_MET20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Urban Municipal solid waste: metals'
+MSW_URB_METNOF:
+  Activity description: No fuel use
+  Sector description: 'Urban Municipal solid waste: metals'
+MSW_URB_OTH20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Urban Municipal solid waste: other waste'
+MSW_URB_OTHNOF:
+  Activity description: No fuel use
+  Sector description: 'Urban Municipal solid waste: other waste'
+MSW_URB_PAP20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Urban Municipal solid waste: paper'
+MSW_URB_PAPNOF:
+  Activity description: No fuel use
+  Sector description: 'Urban Municipal solid waste: paper'
+MSW_URB_PLA20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Urban Municipal solid waste: plastics'
+MSW_URB_PLANOF:
+  Activity description: No fuel use
+  Sector description: 'Urban Municipal solid waste: plastics'
+MSW_URB_TEX20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Urban Municipal solid waste: textiles'
+MSW_URB_TEXNOF:
+  Activity description: No fuel use
+  Sector description: 'Urban Municipal solid waste: textiles'
+MSW_URB_WOOD20YR_BP:
+  Activity description: Activity at 20yr before the respective - present year, i.e.
+    1970 and 1975 - Used to emulate stocks (pools) of landfilled waste
+  Sector description: 'Urban Municipal solid waste: wood'
+MSW_URB_WOODNOF:
+  Activity description: No fuel use
+  Sector description: 'Urban Municipal solid waste: wood'
+N2O_USEPOP:
+  Activity description: Population
+  Sector description: Use of nitrous oxide
+NONENBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Nonenergy use of fuels
+NONENBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Nonenergy use of fuels
+NONENDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Nonenergy use of fuels
+NONENGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Nonenergy use of fuels
+NONENGSL:
+  Activity description: Gasoline
+  Sector description: Nonenergy use of fuels
+NONENH2:
+  Activity description: Hydrogen
+  Sector description: Nonenergy use of fuels
+NONENHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Nonenergy use of fuels
+NONENHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Nonenergy use of fuels
+NONENHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Nonenergy use of fuels
+NONENHF:
+  Activity description: Heavy fuel oil
+  Sector description: Nonenergy use of fuels
+NONENLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Nonenergy use of fuels
+NONENMD:
+  Activity description: Diesel
+  Sector description: Nonenergy use of fuels
+NONENWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Nonenergy use of fuels
+NONENWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Nonenergy use of fuels
+OCHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Polyurethane one component foam
+OCHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Polyurethane one component foam
+OFHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Other foam
+OFHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Other foam
+ORG_STOREEMI:
+  Activity description: Emissions of NMVOC
+  Sector description: Organic chemical industry - storage
+OTHER_CH4CRU:
+  Activity description: Crude oil
+  Sector description: Other CH4 emissions not included separately in GAINS and statistical
+    differences
+OTHER_CH4NOF:
+  Activity description: No fuel use
+  Sector description: Other CH4 emissions not included separately in GAINS and statistical
+    differences
+OTHER_CO2NOF:
+  Activity description: No fuel use
+  Sector description: Other CO2 emissions
+OTHER_CONOF:
+  Activity description: No fuel use
+  Sector description: Other CO emissions
+OTHER_FGASFGAS:
+  Activity description: Fluorinated greenhouse gas
+  Sector description: Other F-gas emissions (activity given as other FGAS emissions
+    in kt)
+OTHER_HGNOF:
+  Activity description: No fuel use
+  Sector description: Other Hg emissions
+OTHER_N2ONOF:
+  Activity description: No fuel use
+  Sector description: Other N2O emissions
+OTHER_NOXNOF:
+  Activity description: No fuel use
+  Sector description: Other NOx emissions
+OTHER_PMNOF:
+  Activity description: No fuel use
+  Sector description: Other PM emissions
+OTHER_SO2NOF:
+  Activity description: No fuel use
+  Sector description: Other SO2 emissions
+OTHER_VOCEMI:
+  Activity description: Emissions of NMVOC
+  Sector description: Other NMVOC emissions
+OTH_NH3_EMISSNOF:
+  Activity description: No fuel use
+  Sector description: Other NH3 emissions (incl. humans & pets)
+OTH_ORG_PREMI:
+  Activity description: Emissions of NMVOC
+  Sector description: Organic chemical industry - downstream units
+PFC_OTHPFC:
+  Activity description: Perfluorocarbons
+  Sector description: PFC use in other applications including tyres, tennis balls,
+    sport shoes and sometimes in the semiconductor industry
+PHARMASLV:
+  Activity description: Solvent use
+  Sector description: Pharmaceutical industry
+PISPG:
+  Activity description: Paint and glue produced
+  Sector description: Products incorporating solvents
+PLSTYR_PREPS:
+  Activity description: Expandable polystyrene beads consumption
+  Sector description: Polystyrene processing
+PP_ENGGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Diesel generator sets
+PP_ENGGAS_M:
+  Activity description: Natural gas
+  Sector description: Diesel generator sets
+PP_ENGGAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Diesel generator sets
+PP_ENGGSL:
+  Activity description: Gasoline
+  Sector description: Diesel generator sets
+PP_ENGGSL_M:
+  Activity description: Gasoline
+  Sector description: Diesel generator sets
+PP_ENGGSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Diesel generator sets
+PP_ENGHF:
+  Activity description: Heavy fuel oil
+  Sector description: Diesel generator sets
+PP_ENGHF_NV:
+  Activity description: Number of vehicles driving on HF
+  Sector description: Diesel generator sets
+PP_ENGMD:
+  Activity description: Diesel
+  Sector description: Diesel generator sets
+PP_ENGMD_M:
+  Activity description: Diesel
+  Sector description: Diesel generator sets
+PP_ENGMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Diesel generator sets
+PP_EX_LBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Power & district heat plants - existing coal (>50 MWth)
+PP_EX_LBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Power & district heat plants - existing coal (>50 MWth)
+PP_EX_LHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Power & district heat plants - existing coal (>50 MWth)
+PP_EX_LHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Power & district heat plants - existing coal (>50 MWth)
+PP_EX_LHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Power & district heat plants - existing coal (>50 MWth)
+PP_EX_OTHARD:
+  Activity description: Agricultural residues
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHBGS:
+  Activity description: Bagasse
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHBIOG:
+  Activity description: Biogas
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHBLIQ:
+  Activity description: Black liquor
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHBMG:
+  Activity description: Biomass gasification
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHFWD:
+  Activity description: Fuelwood
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHGSL:
+  Activity description: Gasoline
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHH2:
+  Activity description: Hydrogen
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHHF:
+  Activity description: Heavy fuel oil
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHMD:
+  Activity description: Diesel
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_OTHWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Power & district heat plants - existing (excl. coal)
+PP_EX_SBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Power & district heat plants - existing coal (<50 MWth)
+PP_EX_SBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Power & district heat plants - existing coal (<50 MWth)
+PP_EX_SHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Power & district heat plants - existing coal (<50 MWth)
+PP_EX_SHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Power & district heat plants - existing coal (<50 MWth)
+PP_EX_SHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Power & district heat plants - existing coal (<50 MWth)
+PP_IGCCARD:
+  Activity description: Agricultural residues
+  Sector description: Power & district heat plants - IGCC
+PP_IGCCBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Power & district heat plants - IGCC
+PP_IGCCBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Power & district heat plants - IGCC
+PP_IGCCBLIQ:
+  Activity description: Black liquor
+  Sector description: Power & district heat plants - IGCC
+PP_IGCCFWD:
+  Activity description: Fuelwood
+  Sector description: Power & district heat plants - IGCC
+PP_IGCCHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Power & district heat plants - IGCC
+PP_IGCCHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Power & district heat plants - IGCC
+PP_IGCCHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Power & district heat plants - IGCC
+PP_IGCCHF:
+  Activity description: Heavy fuel oil
+  Sector description: Power & district heat plants - IGCC
+PP_IGCCWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Power & district heat plants - IGCC
+PP_IGCCWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Power & district heat plants - IGCC
+PP_IGCC_CCSBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Power & district heat plants - IGCC with CCS
+PP_IGCC_CCSBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Power & district heat plants - IGCC with CCS
+PP_IGCC_CCSHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Power & district heat plants - IGCC with CCS
+PP_IGCC_CCSHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Power & district heat plants - IGCC with CCS
+PP_IGCC_CCSHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Power & district heat plants - IGCC with CCS
+PP_MODARD:
+  Activity description: Agricultural residues
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)'
+PP_MODBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)'
+PP_MODBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)'
+PP_MODBGS:
+  Activity description: Bagasse
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)'
+PP_MODBIOG:
+  Activity description: Biogas
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)'
+PP_MODBMG:
+  Activity description: Biomass gasification
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)'
+PP_MODFWD:
+  Activity description: Fuelwood
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)'
+PP_MODGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)'
+PP_MODHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)'
+PP_MODHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)'
+PP_MODHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)'
+PP_MOD_CCSARD:
+  Activity description: Agricultural residues
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)
+    with CCS'
+PP_MOD_CCSBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)
+    with CCS'
+PP_MOD_CCSBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)
+    with CCS'
+PP_MOD_CCSBGS:
+  Activity description: Bagasse
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)
+    with CCS'
+PP_MOD_CCSBIOG:
+  Activity description: Biogas
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)
+    with CCS'
+PP_MOD_CCSBMG:
+  Activity description: Biomass gasification
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)
+    with CCS'
+PP_MOD_CCSFWD:
+  Activity description: Fuelwood
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)
+    with CCS'
+PP_MOD_CCSGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)
+    with CCS'
+PP_MOD_CCSHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)
+    with CCS'
+PP_MOD_CCSHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)
+    with CCS'
+PP_MOD_CCSHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: 'Modern power plants (coal: ultra & supercritical; gas: CCGT)
+    with CCS'
+PP_NEWARD:
+  Activity description: Agricultural residues
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWBGS:
+  Activity description: Bagasse
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWBIOG:
+  Activity description: Biogas
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWBLIQ:
+  Activity description: Black liquor
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWBMG:
+  Activity description: Biomass gasification
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWFWD:
+  Activity description: Fuelwood
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWGSL:
+  Activity description: Gasoline
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWH2:
+  Activity description: Hydrogen
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWHF:
+  Activity description: Heavy fuel oil
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWMD:
+  Activity description: Diesel
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWWSFNR:
+  Activity description: Waste fuels, non-renewable
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEWWSFR:
+  Activity description: Waste fuel, renewable
+  Sector description: Power & district heat plants - new (excl. coal)
+PP_NEW_LBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Power & district heat plants - new coal (>50 MWth)
+PP_NEW_LBC2:
+  Activity description: Brown coal/lignite grade 2 (also peat)
+  Sector description: Power & district heat plants - new coal (>50 MWth)
+PP_NEW_LHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Power & district heat plants - new coal (>50 MWth)
+PP_NEW_LHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Power & district heat plants - new coal (>50 MWth)
+PP_NEW_LHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Power & district heat plants - new coal (>50 MWth)
+PP_TOTALELE:
+  Activity description: Electricity
+  Sector description: Power & district heat plants (total)
+PP_TOTALGTH:
+  Activity description: Geothermal
+  Sector description: Power & district heat plants (total)
+PP_TOTALHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Power & district heat plants (total)
+PP_TOTALHYD:
+  Activity description: Hydro
+  Sector description: Power & district heat plants (total)
+PP_TOTALNUC:
+  Activity description: Nuclear
+  Sector description: Power & district heat plants (total)
+PP_TOTALSHP:
+  Activity description: Small hydro power
+  Sector description: Power & district heat plants (total)
+PP_TOTALSPV:
+  Activity description: Solar photovoltaic
+  Sector description: Power & district heat plants (total)
+PP_TOTALSTH:
+  Activity description: Solar thermal
+  Sector description: Power & district heat plants (total)
+PP_TOTALWND:
+  Activity description: Wind
+  Sector description: Power & district heat plants (total)
+PRODCRU:
+  Activity description: Crude oil
+  Sector description: Production of oil/gas
+PRODGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Production of oil/gas
+PROD_AGASCRU:
+  Activity description: Crude oil
+  Sector description: 'Production of oil or gas: venting of flaring of APG'
+PROD_AGASGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: 'Production of oil or gas: venting of flaring of APG'
+PROD_LEAKCB_GAS:
+  Activity description: Coalbed gas
+  Sector description: 'Production of oil or gas: emissions from unintended leakage
+    during extraction'
+PROD_LEAKCRU:
+  Activity description: Crude oil
+  Sector description: 'Production of oil or gas: emissions from unintended leakage
+    during extraction'
+PROD_LEAKGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: 'Production of oil or gas: emissions from unintended leakage
+    during extraction'
+PROD_LEAKS_GAS:
+  Activity description: Shale gas
+  Sector description: 'Production of oil or gas: emissions from unintended leakage
+    during extraction'
+PROD_LEAKT_GAS:
+  Activity description: Tight gas
+  Sector description: 'Production of oil or gas: emissions from unintended leakage
+    during extraction'
+PRT_OFFSINK:
+  Activity description: Printing inks
+  Sector description: Offset printing (existing)
+PRT_OFFS_NEWINK:
+  Activity description: Printing inks
+  Sector description: Offset printing (new)
+PRT_PACKINK:
+  Activity description: Printing inks
+  Sector description: Flexography & rotogravure - packaging
+PRT_PACK_NEWINK:
+  Activity description: Printing inks
+  Sector description: Flexography & rotogravure - packaging (new inst.)
+PRT_PUBINK:
+  Activity description: Printing inks
+  Sector description: Rotogravure in publication (existing)
+PRT_PUB_NEWINK:
+  Activity description: Printing inks
+  Sector description: Rotogravure in publication (new)
+PRT_SCRINK:
+  Activity description: Printing inks
+  Sector description: Screen printing (existing)
+PRT_SCR_NEWINK:
+  Activity description: Printing inks
+  Sector description: Screen printing (new)
+PR_ADIPNOF:
+  Activity description: No fuel use
+  Sector description: adipic acid production
+PR_ALPRIMNOF:
+  Activity description: No fuel use
+  Sector description: Aluminum production - primary
+PR_ALSECNOF:
+  Activity description: No fuel use
+  Sector description: Aluminum production - secondary
+PR_BAOXNOF:
+  Activity description: No fuel use
+  Sector description: Basic oxygen furnace
+PR_BRICKNOF:
+  Activity description: No fuel use
+  Sector description: Brick production
+PR_BRIQNOF:
+  Activity description: No fuel use
+  Sector description: Briquettes production
+PR_CAPRNOF:
+  Activity description: No fuel use
+  Sector description: Caprolactam
+PR_CASTNOF:
+  Activity description: No fuel use
+  Sector description: Cast iron (grey iron foundries)
+PR_CAST_FNOF:
+  Activity description: No fuel use
+  Sector description: Cast iron (grey iron foundries) (fugitive)
+PR_CBLACKNOF:
+  Activity description: No fuel use
+  Sector description: Carbon black production
+PR_CEMNOF:
+  Activity description: No fuel use
+  Sector description: Cement production
+PR_COKENOF:
+  Activity description: No fuel use
+  Sector description: Coke oven
+PR_CSPNOF:
+  Activity description: No fuel use
+  Sector description: Chlorine & caustic soda production - electrolysis using mercury
+    cells
+PR_EARCNOF:
+  Activity description: No fuel use
+  Sector description: Electric arc furnace
+PR_FERTNOF:
+  Activity description: No fuel use
+  Sector description: Fertilizer production
+PR_GLASSNOF:
+  Activity description: No fuel use
+  Sector description: Glass production (flat, blown, container glass)
+PR_HEARTHNOF:
+  Activity description: No fuel use
+  Sector description: Open hearth furnace
+PR_LIMENOF:
+  Activity description: No fuel use
+  Sector description: Lime production
+PR_NIACNOF:
+  Activity description: No fuel use
+  Sector description: Nitric acid production
+PR_OTHERNOF:
+  Activity description: No fuel use
+  Sector description: Production of glass fiber, gypsum, PVC, other
+PR_OT_NFMENOF:
+  Activity description: No fuel use
+  Sector description: Non-ferrous metals prod. (excl aluminum)
+PR_PELLNOF:
+  Activity description: No fuel use
+  Sector description: Agglomeration plant - pellets
+PR_PIGINOF:
+  Activity description: No fuel use
+  Sector description: Pig iron, blast furnace
+PR_PIGI_FNOF:
+  Activity description: No fuel use
+  Sector description: Pig iron, blast furnace (fugitive)
+PR_PULPNOF:
+  Activity description: No fuel use
+  Sector description: Paper pulp mills
+PR_REFCRU:
+  Activity description: Crude oil
+  Sector description: Petroleum refineries
+PR_REFNOF:
+  Activity description: No fuel use
+  Sector description: Petroleum refineries
+PR_SINTNOF:
+  Activity description: No fuel use
+  Sector description: Agglomeration plant - sinter
+PR_SINT_FNOF:
+  Activity description: No fuel use
+  Sector description: Agglomeration plant - sinter (fugitive)
+PR_SMIND_FNOF:
+  Activity description: No fuel use
+  Sector description: Small industrial and business facilities - fugitive
+PR_SUACNOF:
+  Activity description: No fuel use
+  Sector description: Sulfuric acid production
+PVC_PRPVC:
+  Activity description: PVC produced by suspension process
+  Sector description: Polyvinylchloride produceduction by suspension process
+RAC_BHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Residential air conditioning using water chilling, emissions
+    banked in equipment
+RAC_BHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Residential air conditioning using water chilling, emissions
+    banked in equipment
+RAC_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Residential air conditioning using water chilling, emissions
+    from scrapped equipment
+RAC_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Residential air conditioning using water chilling, emissions
+    from scrapped equipment
+RAILAC_BHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Mobile air conditioning in railway coaches, emissions banked
+    in equipment
+RAILAC_BHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Mobile air conditioning in railway coaches, emissions banked
+    in equipment
+RAILAC_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Mobile air conditioning in railway coaches, emissions from scrapped
+    equipment
+RAILAC_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Mobile air conditioning in railway coaches, emissions from scrapped
+    equipment
+RES_BBQNOF:
+  Activity description: No fuel use
+  Sector description: Meat frying, food preparation, BBQ
+RES_CIGARNOF:
+  Activity description: No fuel use
+  Sector description: Cigarette smoking
+RES_CREMNOF:
+  Activity description: No fuel use
+  Sector description: Traditional (open-air) cremation
+RES_FIREWNOF:
+  Activity description: No fuel use
+  Sector description: Fireworks
+RICE_FLOODAREA:
+  Activity description: Area of activity
+  Sector description: Continously flooded rice cultivation area
+RICE_INTERAREA:
+  Activity description: Area of activity
+  Sector description: Intermittently flooded rice cultivation area
+RICE_UPLANDAREA:
+  Activity description: Area of activity
+  Sector description: Upland (non-wetland) rice cultivation area
+SEMICONDPFC:
+  Activity description: Perfluorocarbons
+  Sector description: PFC use in semiconductor industry
+SF6_OTHSF6:
+  Activity description: Sulfur hexafluoride
+  Sector description: SF6 use in other applications including tyres, tennis balls,
+    sport shoes and sometimes in the semiconductor industry
+SHOESHO:
+  Activity description: Shoes
+  Sector description: Manufacturing of shoes
+SOLV_PEMHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Solvents used in precision, electronics and metal cleaning
+SOLV_PEMHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Solvents used in precision, electronics and metal cleaning
+STCRACK_PREP:
+  Activity description: Ethylene and Propylene
+  Sector description: Steam cracking (ethylene & propylene production)
+STH_AGRNOF:
+  Activity description: No fuel use
+  Sector description: Storage & handling of agricultural crops
+STH_COALNOF:
+  Activity description: No fuel use
+  Sector description: Storage & handling of coal
+STH_FEORENOF:
+  Activity description: No fuel use
+  Sector description: Storage & handling of iron ore
+STH_NPKNOF:
+  Activity description: No fuel use
+  Sector description: Storage & handling of N,P,K fertilizers
+STH_OTH_INNOF:
+  Activity description: No fuel use
+  Sector description: Storage & handling of other industrial bulk products
+SYNTH_RUBRUB:
+  Activity description: Synthetic rubber
+  Sector description: Synthetic rubber production
+TRANSGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Transmission of natural gas
+TRA_F_CH4GAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Fugitive emissions from gas distribution to transport sector
+TRA_OTBC1:
+  Activity description: Brown coal/lignite grade 1
+  Sector description: Non-road, other
+TRA_OTDC:
+  Activity description: Derived coal (coke, briquettes)
+  Sector description: Non-road, other
+TRA_OTELE:
+  Activity description: Electricity
+  Sector description: Non-road, other
+TRA_OTHC1:
+  Activity description: Hard coal, grade 1
+  Sector description: Non-road, other
+TRA_OTHC2:
+  Activity description: Hard coal, grade 2
+  Sector description: Non-road, other
+TRA_OTHC3:
+  Activity description: Hard coal, grade 3
+  Sector description: Non-road, other
+TRA_OTHT:
+  Activity description: Heat (steam, hot water)
+  Sector description: Non-road, other
+TRA_OTS_LGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Coastal shipping, large vessels
+TRA_OTS_LGAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Coastal shipping, large vessels
+TRA_OTS_LHF:
+  Activity description: Heavy fuel oil
+  Sector description: Coastal shipping, large vessels
+TRA_OTS_LHF_NV:
+  Activity description: Number of vehicles driving on HF
+  Sector description: Coastal shipping, large vessels
+TRA_OTS_LMD:
+  Activity description: Diesel
+  Sector description: Coastal shipping, large vessels
+TRA_OTS_LMD_M:
+  Activity description: Diesel
+  Sector description: Coastal shipping, large vessels
+TRA_OTS_LMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Coastal shipping, large vessels
+TRA_OTS_MGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Coastal shipping, medium vessels
+TRA_OTS_MGAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Coastal shipping, medium vessels
+TRA_OTS_MMD:
+  Activity description: Diesel
+  Sector description: Coastal shipping, medium vessels
+TRA_OTS_MMD_M:
+  Activity description: Diesel
+  Sector description: Coastal shipping, medium vessels
+TRA_OTS_MMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Coastal shipping, medium vessels
+TRA_OT_AGRGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Agriculture
+TRA_OT_AGRGAS_M:
+  Activity description: Natural gas
+  Sector description: Agriculture
+TRA_OT_AGRGAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Agriculture
+TRA_OT_AGRGSL:
+  Activity description: Gasoline
+  Sector description: Agriculture
+TRA_OT_AGRGSL_M:
+  Activity description: Gasoline
+  Sector description: Agriculture
+TRA_OT_AGRGSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Agriculture
+TRA_OT_AGRGSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Agriculture
+TRA_OT_AGRH2:
+  Activity description: Hydrogen
+  Sector description: Agriculture
+TRA_OT_AGRLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Agriculture
+TRA_OT_AGRLPG_NV:
+  Activity description: Number of vehicles driving on LPG
+  Sector description: Agriculture
+TRA_OT_AGRMD:
+  Activity description: Diesel
+  Sector description: Agriculture
+TRA_OT_AGRMD_M:
+  Activity description: Diesel
+  Sector description: Agriculture
+TRA_OT_AGRMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Agriculture
+TRA_OT_AGRMD_NV_HE:
+  Activity description: Number of High emitter vehicles driving on MD
+  Sector description: Agriculture
+TRA_OT_AIRGSL:
+  Activity description: Gasoline
+  Sector description: Aviation - LTO
+TRA_OT_AIR_DOMGSL:
+  Activity description: Gasoline
+  Sector description: Domestic aviation
+TRA_OT_CNSELE:
+  Activity description: Electricity
+  Sector description: Construction machinery
+TRA_OT_CNSGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Construction machinery
+TRA_OT_CNSGAS_M:
+  Activity description: Natural gas
+  Sector description: Construction machinery
+TRA_OT_CNSGAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Construction machinery
+TRA_OT_CNSGSL:
+  Activity description: Gasoline
+  Sector description: Construction machinery
+TRA_OT_CNSGSL_M:
+  Activity description: Gasoline
+  Sector description: Construction machinery
+TRA_OT_CNSGSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Construction machinery
+TRA_OT_CNSGSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Construction machinery
+TRA_OT_CNSH2:
+  Activity description: Hydrogen
+  Sector description: Construction machinery
+TRA_OT_CNSLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Construction machinery
+TRA_OT_CNSLPG_NV:
+  Activity description: Number of vehicles driving on LPG
+  Sector description: Construction machinery
+TRA_OT_CNSMD:
+  Activity description: Diesel
+  Sector description: Construction machinery
+TRA_OT_CNSMD_M:
+  Activity description: Diesel
+  Sector description: Construction machinery
+TRA_OT_CNSMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Construction machinery
+TRA_OT_CNSMD_NV_HE:
+  Activity description: Number of High emitter vehicles driving on MD
+  Sector description: Construction machinery
+TRA_OT_EVGSL:
+  Activity description: Gasoline
+  Sector description: Non-road gasoline engines - evaporative
+TRA_OT_INWGSL:
+  Activity description: Gasoline
+  Sector description: Inland waterways
+TRA_OT_INWGSL_M:
+  Activity description: Gasoline
+  Sector description: Inland waterways
+TRA_OT_INWGSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Inland waterways
+TRA_OT_INWGSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Inland waterways
+TRA_OT_INWH2:
+  Activity description: Hydrogen
+  Sector description: Inland waterways
+TRA_OT_INWMD:
+  Activity description: Diesel
+  Sector description: Inland waterways
+TRA_OT_INWMD_M:
+  Activity description: Diesel
+  Sector description: Inland waterways
+TRA_OT_INWMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Inland waterways
+TRA_OT_INWMD_NV_HE:
+  Activity description: Number of High emitter vehicles driving on MD
+  Sector description: Inland waterways
+TRA_OT_LBGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Other non-road machinery
+TRA_OT_LBGAS_M:
+  Activity description: Natural gas
+  Sector description: Other non-road machinery
+TRA_OT_LBGAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Other non-road machinery
+TRA_OT_LBGSL:
+  Activity description: Gasoline
+  Sector description: Other non-road machinery
+TRA_OT_LBGSL_M:
+  Activity description: Gasoline
+  Sector description: Other non-road machinery
+TRA_OT_LBGSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Other non-road machinery
+TRA_OT_LBGSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Other non-road machinery
+TRA_OT_LBH2:
+  Activity description: Hydrogen
+  Sector description: Other non-road machinery
+TRA_OT_LBLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Other non-road machinery
+TRA_OT_LBLPG_NV:
+  Activity description: Number of vehicles driving on LPG
+  Sector description: Other non-road machinery
+TRA_OT_LBMD:
+  Activity description: Diesel
+  Sector description: Other non-road machinery
+TRA_OT_LBMD_M:
+  Activity description: Diesel
+  Sector description: Other non-road machinery
+TRA_OT_LBMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Other non-road machinery
+TRA_OT_LBMD_NV_HE:
+  Activity description: Number of High emitter vehicles driving on MD
+  Sector description: Other non-road machinery
+TRA_OT_LD2GSL:
+  Activity description: Gasoline
+  Sector description: 2-stroke engines (non-road)
+TRA_OT_LD2GSL_M:
+  Activity description: Gasoline
+  Sector description: 2-stroke engines (non-road)
+TRA_OT_LD2GSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: 2-stroke engines (non-road)
+TRA_OT_LD2GSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: 2-stroke engines (non-road)
+TRA_OT_RAIELE:
+  Activity description: Electricity
+  Sector description: Railways
+TRA_OT_RAIGSL:
+  Activity description: Gasoline
+  Sector description: Railways
+TRA_OT_RAIGSL_M:
+  Activity description: Gasoline
+  Sector description: Railways
+TRA_OT_RAIGSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Railways
+TRA_OT_RAIGSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Railways
+TRA_OT_RAIH2:
+  Activity description: Hydrogen
+  Sector description: Railways
+TRA_OT_RAIMD:
+  Activity description: Diesel
+  Sector description: Railways
+TRA_OT_RAIMD_M:
+  Activity description: Diesel
+  Sector description: Railways
+TRA_OT_RAIMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Railways
+TRA_OT_RAIMD_NV_HE:
+  Activity description: Number of High emitter vehicles driving on MD
+  Sector description: Railways
+TRA_RDELE:
+  Activity description: Electricity
+  Sector description: Road vehicles
+TRA_RD_EVGSL:
+  Activity description: Gasoline
+  Sector description: Road - gasoline engines - evaporative
+TRA_RD_HDBABRASION:
+  Activity description: Road abrasion
+  Sector description: Buses
+TRA_RD_HDBBRAKE:
+  Activity description: Brake wear
+  Sector description: Buses
+TRA_RD_HDBELE:
+  Activity description: Electricity
+  Sector description: Buses
+TRA_RD_HDBELE_KM:
+  Activity description: Electricity
+  Sector description: Buses
+TRA_RD_HDBELE_NV:
+  Activity description: Number of vehicles driving on electricity
+  Sector description: Buses
+TRA_RD_HDBGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Buses
+TRA_RD_HDBGAS_M:
+  Activity description: Natural gas
+  Sector description: Buses
+TRA_RD_HDBGAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Buses
+TRA_RD_HDBGSL:
+  Activity description: Gasoline
+  Sector description: Buses
+TRA_RD_HDBGSL_M:
+  Activity description: Gasoline
+  Sector description: Buses
+TRA_RD_HDBGSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Buses
+TRA_RD_HDBGSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Buses
+TRA_RD_HDBH2:
+  Activity description: Hydrogen
+  Sector description: Buses
+TRA_RD_HDBH2_NV:
+  Activity description: Number of vehicles driving on H2
+  Sector description: Buses
+TRA_RD_HDBLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Buses
+TRA_RD_HDBLPG_NV:
+  Activity description: Number of vehicles driving on LPG
+  Sector description: Buses
+TRA_RD_HDBMD:
+  Activity description: Diesel
+  Sector description: Buses
+TRA_RD_HDBMD_M:
+  Activity description: Diesel
+  Sector description: Buses
+TRA_RD_HDBMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Buses
+TRA_RD_HDBMD_NV_HE:
+  Activity description: Number of High emitter vehicles driving on MD
+  Sector description: Buses
+TRA_RD_HDBTYRE:
+  Activity description: Tyre wear
+  Sector description: Buses
+TRA_RD_HDB_BHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Mobile air conditioning in buses, emissions banked in equipment
+TRA_RD_HDB_BHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Mobile air conditioning in buses, emissions banked in equipment
+TRA_RD_HDB_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Mobile air conditioning in buses, emissions from scrapped equipment
+TRA_RD_HDB_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Mobile air conditioning in buses, emissions from scrapped equipment
+TRA_RD_HDTABRASION:
+  Activity description: Road abrasion
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTBRAKE:
+  Activity description: Brake wear
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTELE:
+  Activity description: Electricity
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTELE_KM:
+  Activity description: Electricity
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTELE_NV:
+  Activity description: Number of vehicles driving on electricity
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTGAS_M:
+  Activity description: Natural gas
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTGAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTGSL:
+  Activity description: Gasoline
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTGSL_M:
+  Activity description: Gasoline
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTGSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTGSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTH2:
+  Activity description: Hydrogen
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTH2_NV:
+  Activity description: Number of vehicles driving on H2
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTLPG_NV:
+  Activity description: Number of vehicles driving on LPG
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTMD:
+  Activity description: Diesel
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTMD_M:
+  Activity description: Diesel
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTMD_NV_HE:
+  Activity description: Number of High emitter vehicles driving on MD
+  Sector description: Heavy duty vehicles
+TRA_RD_HDTTYRE:
+  Activity description: Tyre wear
+  Sector description: Heavy duty vehicles
+TRA_RD_HDT_BHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Mobile air conditioning in heavy duty trucks, emissions banked
+    in equipment
+TRA_RD_HDT_BHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Mobile air conditioning in heavy duty trucks, emissions banked
+    in equipment
+TRA_RD_HDT_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Mobile air conditioning in heavy duty trucks, emissions from
+    scrapped equipment
+TRA_RD_HDT_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Mobile air conditioning in heavy duty trucks, emissions from
+    scrapped equipment
+TRA_RD_LD2ABRASION:
+  Activity description: Road abrasion
+  Sector description: Mopeds
+TRA_RD_LD2BRAKE:
+  Activity description: Brake wear
+  Sector description: Mopeds
+TRA_RD_LD2ELE:
+  Activity description: Electricity
+  Sector description: Mopeds
+TRA_RD_LD2ELE_NV:
+  Activity description: Number of vehicles driving on electricity
+  Sector description: Mopeds
+TRA_RD_LD2GAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Mopeds
+TRA_RD_LD2GAS_M:
+  Activity description: Natural gas
+  Sector description: Mopeds
+TRA_RD_LD2GAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Mopeds
+TRA_RD_LD2GSL:
+  Activity description: Gasoline
+  Sector description: Mopeds
+TRA_RD_LD2GSL_M:
+  Activity description: Gasoline
+  Sector description: Mopeds
+TRA_RD_LD2GSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Mopeds
+TRA_RD_LD2GSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Mopeds
+TRA_RD_LD2LPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Mopeds
+TRA_RD_LD2LPG_NV:
+  Activity description: Number of vehicles driving on LPG
+  Sector description: Mopeds
+TRA_RD_LD2TYRE:
+  Activity description: Tyre wear
+  Sector description: Mopeds
+TRA_RD_LD4CABRASION:
+  Activity description: Road abrasion
+  Sector description: Cars
+TRA_RD_LD4CBRAKE:
+  Activity description: Brake wear
+  Sector description: Cars
+TRA_RD_LD4CELE:
+  Activity description: Electricity
+  Sector description: Cars
+TRA_RD_LD4CELE_NV:
+  Activity description: Number of vehicles driving on electricity
+  Sector description: Cars
+TRA_RD_LD4CGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Cars
+TRA_RD_LD4CGAS_M:
+  Activity description: Natural gas
+  Sector description: Cars
+TRA_RD_LD4CGAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Cars
+TRA_RD_LD4CGSL:
+  Activity description: Gasoline
+  Sector description: Cars
+TRA_RD_LD4CGSL_M:
+  Activity description: Gasoline
+  Sector description: Cars
+TRA_RD_LD4CGSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Cars
+TRA_RD_LD4CGSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Cars
+TRA_RD_LD4CH2:
+  Activity description: Hydrogen
+  Sector description: Cars
+TRA_RD_LD4CH2_NV:
+  Activity description: Number of vehicles driving on H2
+  Sector description: Cars
+TRA_RD_LD4CLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Cars
+TRA_RD_LD4CLPG_NV:
+  Activity description: Number of vehicles driving on LPG
+  Sector description: Cars
+TRA_RD_LD4CMD:
+  Activity description: Diesel
+  Sector description: Cars
+TRA_RD_LD4CMD_M:
+  Activity description: Diesel
+  Sector description: Cars
+TRA_RD_LD4CMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Cars
+TRA_RD_LD4CMD_NV_HE:
+  Activity description: Number of High emitter vehicles driving on MD
+  Sector description: Cars
+TRA_RD_LD4CTYRE:
+  Activity description: Tyre wear
+  Sector description: Cars
+TRA_RD_LD4C_BHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Mobile air conditioning in cars, emissions banked in equipment
+TRA_RD_LD4C_BHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Mobile air conditioning in cars, emissions banked in equipment
+TRA_RD_LD4C_EVGSL:
+  Activity description: Gasoline
+  Sector description: Cars - evaporative
+TRA_RD_LD4C_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Mobile air conditioning in cars, emissions from scrapped equipment
+TRA_RD_LD4C_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Mobile air conditioning in cars, emissions from scrapped equipment
+TRA_RD_LD4TABRASION:
+  Activity description: Road abrasion
+  Sector description: Light duty vehicles
+TRA_RD_LD4TBRAKE:
+  Activity description: Brake wear
+  Sector description: Light duty vehicles
+TRA_RD_LD4TELE:
+  Activity description: Electricity
+  Sector description: Light duty vehicles
+TRA_RD_LD4TELE_NV:
+  Activity description: Number of vehicles driving on electricity
+  Sector description: Light duty vehicles
+TRA_RD_LD4TGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Light duty vehicles
+TRA_RD_LD4TGAS_M:
+  Activity description: Natural gas
+  Sector description: Light duty vehicles
+TRA_RD_LD4TGAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Light duty vehicles
+TRA_RD_LD4TGSL:
+  Activity description: Gasoline
+  Sector description: Light duty vehicles
+TRA_RD_LD4TGSL_M:
+  Activity description: Gasoline
+  Sector description: Light duty vehicles
+TRA_RD_LD4TGSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Light duty vehicles
+TRA_RD_LD4TGSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Light duty vehicles
+TRA_RD_LD4TH2:
+  Activity description: Hydrogen
+  Sector description: Light duty vehicles
+TRA_RD_LD4TH2_NV:
+  Activity description: Number of vehicles driving on H2
+  Sector description: Light duty vehicles
+TRA_RD_LD4TLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Light duty vehicles
+TRA_RD_LD4TLPG_NV:
+  Activity description: Number of vehicles driving on LPG
+  Sector description: Light duty vehicles
+TRA_RD_LD4TMD:
+  Activity description: Diesel
+  Sector description: Light duty vehicles
+TRA_RD_LD4TMD_M:
+  Activity description: Diesel
+  Sector description: Light duty vehicles
+TRA_RD_LD4TMD_NV:
+  Activity description: Number of vehicles driving on MD
+  Sector description: Light duty vehicles
+TRA_RD_LD4TMD_NV_HE:
+  Activity description: Number of High emitter vehicles driving on MD
+  Sector description: Light duty vehicles
+TRA_RD_LD4TTYRE:
+  Activity description: Tyre wear
+  Sector description: Light duty vehicles
+TRA_RD_LD4T_BHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Mobile air conditioning in light duty trucks, emissions banked
+    in equipment
+TRA_RD_LD4T_BHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Mobile air conditioning in light duty trucks, emissions banked
+    in equipment
+TRA_RD_LD4T_EVGSL:
+  Activity description: Gasoline
+  Sector description: Light duty vehicles - evaporative
+TRA_RD_LD4T_SHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Mobile air conditioning in light duty trucks, emissions from
+    scrapped equipment
+TRA_RD_LD4T_SHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Mobile air conditioning in light duty trucks, emissions from
+    scrapped equipment
+TRA_RD_M4ABRASION:
+  Activity description: Road abrasion
+  Sector description: Motorcycles
+TRA_RD_M4BRAKE:
+  Activity description: Brake wear
+  Sector description: Motorcycles
+TRA_RD_M4ELE:
+  Activity description: Electricity
+  Sector description: Motorcycles
+TRA_RD_M4ELE_NV:
+  Activity description: Number of vehicles driving on electricity
+  Sector description: Motorcycles
+TRA_RD_M4GAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Motorcycles
+TRA_RD_M4GAS_M:
+  Activity description: Natural gas
+  Sector description: Motorcycles
+TRA_RD_M4GAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Motorcycles
+TRA_RD_M4GSL:
+  Activity description: Gasoline
+  Sector description: Motorcycles
+TRA_RD_M4GSL_M:
+  Activity description: Gasoline
+  Sector description: Motorcycles
+TRA_RD_M4GSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Motorcycles
+TRA_RD_M4GSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Motorcycles
+TRA_RD_M4LPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Motorcycles
+TRA_RD_M4LPG_NV:
+  Activity description: Number of vehicles driving on LPG
+  Sector description: Motorcycles
+TRA_RD_M4TYRE:
+  Activity description: Tyre wear
+  Sector description: Motorcycles
+TRA_RD_OTHABRASION:
+  Activity description: Road abrasion
+  Sector description: Generic road vehicles as 3-wheelers and others
+TRA_RD_OTHBRAKE:
+  Activity description: Brake wear
+  Sector description: Generic road vehicles as 3-wheelers and others
+TRA_RD_OTHGAS:
+  Activity description: Natural gas (incl. other gases)
+  Sector description: Generic road vehicles as 3-wheelers and others
+TRA_RD_OTHGAS_NV:
+  Activity description: Number of vehicles driving on GAS
+  Sector description: Generic road vehicles as 3-wheelers and others
+TRA_RD_OTHGSL:
+  Activity description: Gasoline
+  Sector description: Generic road vehicles as 3-wheelers and others
+TRA_RD_OTHGSL_NV:
+  Activity description: Number of vehicles driving on GSL
+  Sector description: Generic road vehicles as 3-wheelers and others
+TRA_RD_OTHGSL_NV_HE:
+  Activity description: Number of High emitter vehicles driving on GSL
+  Sector description: Generic road vehicles as 3-wheelers and others
+TRA_RD_OTHLPG:
+  Activity description: Liquefied petroleum gas
+  Sector description: Generic road vehicles as 3-wheelers and others
+TRA_RD_OTHLPG_NV:
+  Activity description: Number of vehicles driving on LPG
+  Sector description: Generic road vehicles as 3-wheelers and others
+TRA_RD_OTHTYRE:
+  Activity description: Tyre wear
+  Sector description: Generic road vehicles as 3-wheelers and others
+TRA_REFBHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Refrigerated transport, emissions banked in equipment
+TRA_REFBHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Refrigerated transport, emissions banked in equipment
+TRA_REFSHCFC:
+  Activity description: Hydrochlorofluorocarbon
+  Sector description: Refrigerated transport, emissions from scrapped equipment
+TRA_REFSHFC:
+  Activity description: Hydrofluorocarbon
+  Sector description: Refrigerated transport, emissions from scrapped equipment
+TYRESTYR:
+  Activity description: Tyres
+  Sector description: Tyre production
+VEHR_PPNT:
+  Activity description: Paint use
+  Sector description: Vehicle refinishing
+VEHR_P_NEWPNT:
+  Activity description: Paint use
+  Sector description: Vehicle refinishing (new installations)
+VEHTRPOP:
+  Activity description: Population
+  Sector description: (De)Waxing and underbody treatment of vehicles
+WASTE_AGRNOF:
+  Activity description: No fuel use
+  Sector description: Agricultural waste burning
+WASTE_FLRNOF:
+  Activity description: No fuel use
+  Sector description: Flaring in refineries
+WASTE_VOCEMI:
+  Activity description: Emissions of NMVOC
+  Sector description: Waste treatment and disposal
+WIND_BSF6:
+  Activity description: Sulfur hexafluoride
+  Sector description: SF6 use in soundproof windows
+WIREENW:
+  Activity description: Enamelled wire
+  Sector description: Winding wire coating
+WOODTIM:
+  Activity description: Wood treated
+  Sector description: Wood preservation (excl. creosote)
+WOOD_CRTIM:
+  Activity description: Wood treated
+  Sector description: Wood preservation (creosote)
+WOOD_PSC:
+  Activity description: Coated surface
+  Sector description: Wood coating
+WT_NH3_EMISSNOF:
+  Activity description: No fuel use
+  Sector description: Waste treatment and disposal (incl. sludge application)
+WW_DOMPOP:
+  Activity description: Population
+  Sector description: Domestic wastewater
+WW_DOM_CC_NOCPOP:
+  Activity description: Population
+  Sector description: 'Domestic wastewater: centralized collection without treatment'
+WW_DOM_CC_TRMPOP:
+  Activity description: Population
+  Sector description: 'Domestic wastewater: centralized collection with treatment'
+WW_DOM_DC_NOCPOP:
+  Activity description: Population
+  Sector description: 'Domestic wastewater: decentralized collection without treatment'
+WW_DOM_DC_TRMPOP:
+  Activity description: Population
+  Sector description: 'Domestic wastewater: decentralized collection with treatment'

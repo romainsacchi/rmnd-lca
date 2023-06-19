@@ -6,7 +6,6 @@ truck:
   state:
     - gaseous
     - liquid
-    - liquid organic compound
   distance:
     - 500
 
@@ -26,24 +25,6 @@ H2 pipeline:
       reference product: pipeline, for hydrogen distribution
       unit: kilometer
     - name: transmission pipeline for hydrogen, dedicated hydrogen pipeline
-      reference product: pipeline, for hydrogen transmission
-      unit: kilometer
-  state:
-    - gaseous
-  distance:
-    - 500
-  regional storage:
-    name: geological hydrogen storage
-    reference product: hydrogen storage
-    unit: kilogram
-  lifetime: 40 * 400000 * 1e3
-
-CNG pipeline:
-  vehicle:
-    - name: distribution pipeline for hydrogen, reassigned CNG pipeline
-      reference product: pipeline, for hydrogen distribution
-      unit: kilometer
-    - name: transmission pipeline for hydrogen, reassigned CNG pipeline
       reference product: pipeline, for hydrogen transmission
       unit: kilometer
   state:

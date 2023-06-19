@@ -1,9 +1,12 @@
 waste heat:
   name: heat, from municipal waste incineration to generic market for heat district or industrial, other than natural gas
   reference product: heat, district or industrial, other than natural gas
+  description: Heat from municipal waste incineration -- free of burden.
 industrial steam heat:
   name: market for heat, from steam, in chemical industry
   reference product: heat, from steam, in chemical industry
+  description: Average heat mix from the chemical industry (mostly natural gas).
 heat pump heat:
-  name: market group for electricity, low voltage
-  reference product: electricity, low voltage
+  name: market group for electricity, medium voltage
+  reference product: electricity, medium voltage
+  description: The heat source is a heat pump with a COP of 2.9.
