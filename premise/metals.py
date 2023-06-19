@@ -241,14 +241,21 @@ class Metals(BaseTransformation):
                 )
 
             if metal in self.current_metal_use.metal.values:
-                ecoinvent_factor = self.current_metal_use.sel(
-                    metal=metal,
-                    activity=(
-                        dataset["name"],
-                        dataset["reference product"],
-                        dataset["location"],
-                    ),
-                ).values
+                if (
+                    dataset["name"],
+                    dataset["reference product"],
+                    dataset["location"],
+                ) in self.current_metal_use.activity.values:
+                    ecoinvent_factor = self.current_metal_use.sel(
+                        metal=metal,
+                        activity=(
+                            dataset["name"],
+                            dataset["reference product"],
+                            dataset["location"],
+                        ),
+                    ).values
+                else:
+                    ecoinvent_factor = 0
             else:
                 ecoinvent_factor = 0
 
