@@ -3,17 +3,16 @@ activity_maps.py contains InventorySet, which is a class that provides all neces
 mapping between ``premise`` and ``ecoinvent`` terminology.
 """
 
+import csv
 from collections import defaultdict
+from functools import lru_cache
 from pathlib import Path
 from typing import List, Union
-from .data_collection import get_delimiter
-import csv
 
 import yaml
 
-from functools import lru_cache
-
 from . import DATA_DIR, VARIABLES_DIR
+from .data_collection import get_delimiter
 
 POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
 FUELS_TECHS = VARIABLES_DIR / "fuels_variables.yaml"
@@ -72,6 +71,7 @@ def biosphere_flows_dictionary(version):
             csv_dict[(row[0], row[1], row[2], row[3])] = row[-1]
 
     return csv_dict
+
 
 class InventorySet:
     """
@@ -236,8 +236,9 @@ class InventorySet:
 
         return self.generate_sets_from_filters(
             self.metals_filters,
-            database=[{"name": k[0]}
-                      for k in biosphere_flows_dictionary(version=self.version)],
+            database=[
+                {"name": k[0]} for k in biosphere_flows_dictionary(version=self.version)
+            ],
         )
 
     @staticmethod

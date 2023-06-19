@@ -60,6 +60,7 @@ def get_crops_properties() -> dict:
 
     return crop_props
 
+
 def get_metals_intensity_factors_data() -> xr.DataArray:
     """
     Read the materials intensity factors csv file and return an `xarray` with dimensions:
