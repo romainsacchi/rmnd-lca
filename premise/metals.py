@@ -7,8 +7,8 @@ Energy Reports, Volume 8, 2022, Pages 14875-14887, ISSN 2352-4847,
 https://doi.org/10.1016/j.egyr.2022.11.025.
 """
 
-from pathlib import Path
 import logging.config
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -107,7 +107,16 @@ class Metals(BaseTransformation):
         system_model: str,
         modified_datasets: dict,
     ):
-        super().__init__(database, iam_data, model, pathway, year, version, system_model, modified_datasets)
+        super().__init__(
+            database,
+            iam_data,
+            model,
+            pathway,
+            year,
+            version,
+            system_model,
+            modified_datasets,
+        )
 
         self.version = version
         self.metals = iam_data.metals
@@ -124,9 +133,7 @@ class Metals(BaseTransformation):
         self.conversion_factors = load_conversion_factors()
         self.current_metal_use = get_ecoinvent_metal_factors()
 
-        self.biosphere_flow_codes = biosphere_flows_dictionary(
-            version=self.version
-        )
+        self.biosphere_flow_codes = biosphere_flows_dictionary(version=self.version)
 
     def update_metals_use_in_database(self):
         """
@@ -268,7 +275,6 @@ class Metals(BaseTransformation):
                 dataset["log parameters"][f"{metal} new amount"] = exc["amount"]
 
         return dataset
-
 
     def write_log(self, dataset, status="created"):
         """
