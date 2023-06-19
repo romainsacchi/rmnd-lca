@@ -237,7 +237,7 @@ class InventorySet:
         return self.generate_sets_from_filters(
             self.metals_filters,
             database=[
-                {"name": k[0]} for k in biosphere_flows_dictionary(version=self.version)
+                {"name": k[0], "categories": k[1]} for k in biosphere_flows_dictionary(version=self.version)
             ],
         )
 
