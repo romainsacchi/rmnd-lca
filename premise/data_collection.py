@@ -60,6 +60,35 @@ def get_crops_properties() -> dict:
 
     return crop_props
 
+def get_metals_intensity_factors_data() -> xr.DataArray:
+    """
+    Read the materials intensity factors csv file and return an `xarray` with dimensions:
+
+    * year
+    * metal
+    * origin_val
+    * variable
+
+    This data is further used in metals.py.
+    """
+
+    filepath = Path(DATA_DIR / "metals" / "metals_db.csv")
+    df = pd.read_csv(filepath)
+    df = df.melt(
+        id_vars=["metal", "year", "origin_var"],
+        value_vars=["mean", "median", "min", "max"],
+    )
+    array = (
+        df.groupby(["metal", "origin_var", "year", "variable"])
+        .mean()["value"]
+        .to_xarray()
+    )
+    array = array.interpolate_na(dim="year", method="nearest", fill_value="extrapolate")
+    array = array.bfill(dim="year")
+    array = array.ffill(dim="year")
+
+    return array
+
 
 @lru_cache
 def get_gains_IAM_data(model, gains_scenario):
@@ -545,6 +574,8 @@ class IAMDataCollection:
             self.model, vehicle_type="truck"
         )
         self.trsp_buses = get_vehicle_fleet_composition(self.model, vehicle_type="bus")
+
+        self.metals = get_metals_intensity_factors_data()
 
         self.production_volumes = self.__get_iam_production_volumes(
             data=data,

@@ -7,8 +7,8 @@ Energy Reports, Volume 8, 2022, Pages 14875-14887, ISSN 2352-4847,
 https://doi.org/10.1016/j.egyr.2022.11.025.
 """
 
-from datetime import date
 from pathlib import Path
+import logging.config
 
 import numpy as np
 import pandas as pd
@@ -26,9 +26,19 @@ from .transformation import (
 )
 from .utils import DATA_DIR
 
-LOG_DIR = DATA_DIR / "logs"
+LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
+# directory for log files
+DIR_LOG_REPORT = Path.cwd() / "export" / "logs"
+# if DIR_LOG_REPORT folder does not exist
+# we create it
+if not Path(DIR_LOG_REPORT).exists():
+    Path(DIR_LOG_REPORT).mkdir(parents=True, exist_ok=True)
 
-biosphere_flow_codes = biosphere_flows_dictionary()
+with open(LOG_CONFIG, "r") as f:
+    config = yaml.safe_load(f.read())
+    logging.config.dictConfig(config)
+
+logger = logging.getLogger("emissions")
 
 
 def get_ecoinvent_metal_factors():
@@ -94,13 +104,15 @@ class Metals(BaseTransformation):
         pathway: str,
         year: int,
         version: str,
+        system_model: str,
+        modified_datasets: dict,
     ):
-        super().__init__(database, iam_data, model, pathway, year)
+        super().__init__(database, iam_data, model, pathway, year, version, system_model, modified_datasets)
 
         self.version = version
         self.metals = iam_data.metals
 
-        mapping = InventorySet(self.database)
+        mapping = InventorySet(self.database, self.version)
         self.activities_metals_map: Dict[
             str, Set
         ] = mapping.generate_activities_using_metals_map()
@@ -111,6 +123,10 @@ class Metals(BaseTransformation):
         self.rev_metals_map: Dict[str, str] = rev_metals_map(self.metals_map)
         self.conversion_factors = load_conversion_factors()
         self.current_metal_use = get_ecoinvent_metal_factors()
+
+        self.biosphere_flow_codes = biosphere_flows_dictionary(
+            version=self.version
+        )
 
     def update_metals_use_in_database(self):
         """
@@ -123,7 +139,7 @@ class Metals(BaseTransformation):
                 origin_var = self.rev_activities_metals_map[ds["name"]]
                 self.update_metal_use(ds, origin_var)
 
-        self.logging_changes()
+            self.write_log(ds, "updated")
 
     def update_metal_use(
         self,
@@ -167,6 +183,7 @@ class Metals(BaseTransformation):
                     self.conversion_factors["Activity"] == dataset["name"],
                     "Conversion_factor",
                 ].values[0]
+
             else:
                 print(f"Conversion factor not found for {dataset['name']}.")
 
@@ -185,10 +202,14 @@ class Metals(BaseTransformation):
 
             exc["amount"] += use_factor - ecoinvent_factor
 
-            if metal not in exc.get("comment", ""):
-                exc["comment"] = f"{ecoinvent_factor};{use_factor};{technology};{metal}"
+            if "log parameters" not in dataset:
+                dataset["log parameters"] = {}
 
-            # remove metal from metals list
+            if metal not in dataset["log parameters"]:
+                dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
+                dataset["log parameters"][f"{metal} new amount"] = exc["amount"]
+
+                # remove metal from metals list
             metals.remove(metal)
 
         # Add new biosphere exchanges for metals
@@ -226,7 +247,7 @@ class Metals(BaseTransformation):
             exc = {
                 "name": f"{metal}, in ground",
                 "amount": use_factor - ecoinvent_factor,
-                "input": ("biosphere3", biosphere_flow_codes[exc_id]),
+                "input": ("biosphere3", self.biosphere_flow_codes[exc_id]),
                 "type": "biosphere",
                 "unit": "kilogram",
                 "comment": (f"{ecoinvent_factor};{use_factor};{technology};{metal}"),
@@ -234,47 +255,20 @@ class Metals(BaseTransformation):
 
             dataset["exchanges"].append(exc)
 
+            if metal not in dataset["log parameters"]:
+                dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
+                dataset["log parameters"][f"{metal} new amount"] = exc["amount"]
+
         return dataset
 
-    def logging_changes(self):
+
+    def write_log(self, dataset, status="created"):
         """
-        Log changes made to the database.
+        Write log file.
         """
 
-        print("Logging changes made to the database.")
-        list_res = []
-        for ds in self.database:
-            for exc in ds["exchanges"]:
-                if exc["type"] == "biosphere" and exc.get("comment"):
-                    if len(exc["comment"].split(";")) == 4:
-                        d = [
-                            ds["name"],
-                            ds["reference product"],
-                            ds["location"],
-                            exc["name"],
-                        ]
-                        d.extend(exc["comment"].split(";"))
-                        list_res.append(d)
-
-        modified = pd.DataFrame(
-            list_res,
-            columns=[
-                "dataset name",
-                "dataset product",
-                "dataset location",
-                "metal",
-                "old value",
-                "new value",
-                "DLR variable",
-                "DLR metal",
-            ],
-        )
-
-        # check that directory exists, otherwise create it
-        Path(LOG_DIR).mkdir(parents=True, exist_ok=True)
-        modified.to_csv(
-            LOG_DIR
-            / f"log modified metals use {self.model.upper()} {self.scenario} {self.year}-{date.today()}.csv",
-            index=False,
-        )
-        print(f"Log of changes in metals use saved in {LOG_DIR}.")
+        if "log parameters" in dataset:
+            logger.info(
+                f"{status}|{self.model}|{self.scenario}|{self.year}|"
+                f"{dataset['name']}|{dataset['location']}|"
+            )

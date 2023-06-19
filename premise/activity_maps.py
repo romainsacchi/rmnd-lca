@@ -3,11 +3,10 @@ activity_maps.py contains InventorySet, which is a class that provides all neces
 mapping between ``premise`` and ``ecoinvent`` terminology.
 """
 
-import csv
 from collections import defaultdict
 from pathlib import Path
-from pprint import pprint
 from typing import List, Union
+from .export import biosphere_flows_dictionary
 
 import yaml
 
@@ -22,6 +21,8 @@ CEMENT_TECHS = VARIABLES_DIR / "cement_variables.yaml"
 GAINS_MAPPING = (
     DATA_DIR / "GAINS_emission_factors" / "gains_ecoinvent_sectoral_mapping.yaml"
 )
+ACTIVITIES_METALS_MAPPING = DATA_DIR / "metals" / "activities_mapping.yml"
+METALS_MAPPING = DATA_DIR / "metals" / "metals_mapping.yml"
 
 
 def get_mapping(filepath: Path, var: str) -> dict:
@@ -61,8 +62,9 @@ class InventorySet:
     These functions return the result of applying :func:`act_fltr` to the filter dictionaries.
     """
 
-    def __init__(self, database: List[dict]) -> None:
+    def __init__(self, database: List[dict], version: str = None) -> None:
         self.database = database
+        self.version = version
 
         self.powerplant_filters = get_mapping(
             filepath=POWERPLANT_TECHS, var="ecoinvent_aliases"
@@ -90,6 +92,13 @@ class InventorySet:
 
         self.gains_filters_EU = get_mapping(
             filepath=GAINS_MAPPING, var="ecoinvent_aliases"
+        )
+
+        self.activity_metals_filters = get_mapping(
+            filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
+        )
+        self.metals_filters = get_mapping(
+            filepath=METALS_MAPPING, var="ecoinvent_aliases"
         )
 
     def generate_gains_mapping_IAM(self, mapping):
@@ -181,6 +190,26 @@ class InventorySet:
         """
         return self.generate_sets_from_filters(self.materials_filters)
 
+    def generate_activities_using_metals_map(self) -> dict:
+        """
+        Filter ecoinvent processes related to metals.
+        Rerurns a dictionary with metal names as keys (see below) and
+        a set of related ecoinvent activities' names as values.
+        """
+        return self.generate_sets_from_filters(self.activity_metals_filters)
+
+    def generate_metals_map(self) -> dict:
+        """
+        Filter ecoinvent processes related to metals.
+        Returns a dictionary with metal names as keys (see below) and
+        a set of related ecoinvent activities' names as values.
+        """
+
+        return self.generate_sets_from_filters(
+            self.metals_filters,
+            database=[{"name": k[0]} for k in biosphere_flows_dictionary(version=self.version)],
+        )
+
     @staticmethod
     def act_fltr(
         database: List[dict],
@@ -256,7 +285,7 @@ class InventorySet:
                 result = [act for act in result if notlike(act[field], conditions)]
         return result
 
-    def generate_sets_from_filters(self, filtr: dict) -> dict:
+    def generate_sets_from_filters(self, filtr: dict, database=None) -> dict:
         """
         Generate a dictionary with sets of activity names for
         technologies from the filter specifications.
@@ -267,7 +296,8 @@ class InventorySet:
             and a set of activity data set names as values.
         :rtype: dict
         """
-        techs = {
-            tech: self.act_fltr(self.database, **fltr) for tech, fltr in filtr.items()
-        }
+
+        database = database or self.database
+
+        techs = {tech: self.act_fltr(database, **fltr) for tech, fltr in filtr.items()}
         return {tech: {act["name"] for act in actlst} for tech, actlst in techs.items()}

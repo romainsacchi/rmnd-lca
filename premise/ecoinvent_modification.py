@@ -923,7 +923,7 @@ class NewDatabase:
                     version=self.version,
                 )
 
-                metals.update_metals_use_in_database()
+                #metals.update_metals_use_in_database()
                 scenario["database"] = metals.database
 
     def update_cars(self) -> None:
