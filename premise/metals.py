@@ -128,6 +128,8 @@ class Metals(BaseTransformation):
             version=self.version
         )
 
+        print(self.current_metal_use.activity.values)
+
     def update_metals_use_in_database(self):
         """
         Update the database with metals use factors.
