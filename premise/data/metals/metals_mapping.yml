@@ -5,7 +5,7 @@ Dysprosium:
   ecoinvent_aliases:
     fltr:
       - name: Dysprosium
-        categories: !!python/tuple [natural resource, in ground]
+        categories: !!python/tuple [natural resource,in ground]
 
 Neodymium:
   ecoinvent_aliases:
