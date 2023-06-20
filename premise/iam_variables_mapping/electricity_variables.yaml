@@ -25,7 +25,6 @@ Biomass CHP CCS:
     image: Secondary Energy|Electricity|Biomass|w/ CCS|2
   eff_aliases:
     image: Efficiency|Electricity|Biomass|w/ CCS|2
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at co-generation power plant/wood, post, pipeline 200km, storage 1000m

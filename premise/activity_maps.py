@@ -13,6 +13,7 @@ import yaml
 
 from . import DATA_DIR, VARIABLES_DIR
 from .data_collection import get_delimiter
+from wurst import searching as ws
 
 POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
 FUELS_TECHS = VARIABLES_DIR / "fuels_variables.yaml"
@@ -275,7 +276,6 @@ class InventorySet:
             fltr = {}
         if mask is None:
             mask = {}
-        result = []
 
         # default field is name
         if isinstance(fltr, (list, str)):
@@ -283,40 +283,24 @@ class InventorySet:
         if isinstance(mask, (list, str)):
             mask = {"name": mask}
 
-        def like(item_a, item_b):
-            if filter_exact:
-                #print(item_a, item_b)
-                return item_a.lower() == item_b.lower()
-            #print(item_a, item_b)
-            return item_a.lower().startswith(item_b.lower())
-
-        def notlike(item_a, item_b):
-            if mask_exact:
-                return item_a.lower() != item_b.lower()
-            return item_b.lower() not in item_a.lower()
-
         assert len(fltr) > 0, "Filter dict must not be empty."
 
-        for field in fltr:
-            conditions = fltr[field]
-            if isinstance(conditions, list):
-                for condition in conditions:
-                    # this is effectively connecting the statements by *or*
-                    result.extend(
-                        [act for act in database if like(act[field], condition)]
-                    )
+        # find `act` in `database` that match `fltr`
+        # and do not match `mask`
+        filters = []
+        for field, value in fltr.items():
+            if isinstance(value, list):
+                filters.extend([ws.either(*[ws.contains(field, v) for v in value])])
             else:
-                result.extend([act for act in database if like(act[field], conditions)])
+                filters.append(ws.contains(field, value))
 
-        for field in mask:
-            conditions = mask[field]
-            if isinstance(conditions, list):
-                for condition in conditions:
-                    # this is effectively connecting the statements by *and*
-                    result = [act for act in result if notlike(act[field], condition)]
+        for field, value in mask.items():
+            if isinstance(value, list):
+                filters.extend([ws.exclude(ws.contains(field, v)) for v in value])
             else:
-                result = [act for act in result if notlike(act[field], conditions)]
-        return result
+                filters.append(ws.exclude(ws.contains(field, value)))
+
+        return list(ws.get_many(database, *filters))
 
     def generate_sets_from_filters(self, filtr: dict, database=None) -> dict:
         """

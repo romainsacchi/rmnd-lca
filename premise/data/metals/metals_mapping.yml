@@ -10,7 +10,7 @@ Dysprosium:
 Neodymium:
   ecoinvent_aliases:
     fltr:
-      name: Neodymium, 4% in bastnasite, 0.4% in crude ore, in ground
+      name: Neodymium, 4% in bastnasite, 0.4% in crude ore
       categories: natural resource
 
 Nickel:
@@ -22,135 +22,131 @@ Nickel:
 Manganese:
   ecoinvent_aliases:
     fltr:
-      - Manganese, 35.7% in sedimentary deposit, 14.2% in crude ore, in ground
-      - Manganese, in ground
+      name: Manganese
+      categories: natural resource
 
 Yttrium:
   ecoinvent_aliases:
     fltr:
-      - Yttrium, in ground
+      name: Yttrium
+      categories: natural resource
 
 Vanadium:
   ecoinvent_aliases:
     fltr:
-      - Vanadium, in ground
+      name: Vanadium
+      categories: natural resource
 
 Cobalt:
   ecoinvent_aliases:
     fltr:
-      - Cobalt, Co 5.0E-2%, in mixed ore, in ground
-      - Cobalt, in ground
+      name: Cobalt
+      categories: natural resource
 
 Lithium:
   ecoinvent_aliases:
     fltr:
-      - Lithium, 0.15% in brine, in ground
-      - Lithium, in ground
+      name: Lithium
+      categories: natural resource
 
 Sulfur:
   ecoinvent_aliases:
     fltr:
-      - Sulfur, in ground
+      name: Sulfur
+      categories: natural resource
 
 Platinum:
   ecoinvent_aliases:
     fltr:
-      - Platinum, in ground
-      - Platinum, Pt 4.7E-7%, in mixed ore, in ground
-      - Pt, Pt 2.5E-4%, Pd 7.3E-4%, Rh 2.0E-5%, Ni 2.3E+0%, Cu 3.2E+0% in ore, in ground
-      - Pt, Pt 4.8E-4%, Pd 2.0E-4%, Rh 2.4E-5%, Ni 3.7E-2%, Cu 5.2E-2% in ore, in ground
+      name: Platinum
+      categories: natural resource
 
 Cerium:
   ecoinvent_aliases:
     fltr:
-      - Cerium, 24% in bastnasite, 2.4% in crude ore, in ground
-      - Cerium, in ground
+      name: Cerium
+      categories: natural resource
 
 Lanthanum:
   ecoinvent_aliases:
     fltr:
-      - Lanthanum, 7.2% in bastnasite, 0.72% in crude ore, in ground
-      - Lanthanum, in ground
+      name: Lanthanum
+      categories: natural resource
 
 Zirconium:
   ecoinvent_aliases:
     fltr:
-      - Zirconium, 50% in zircon, 0.39% in crude ore, in ground
-      - Zirconium, in ground
+      name: Zirconium
+      categories: natural resource
 
 Gadolinium:
   ecoinvent_aliases:
     fltr:
-      - Gadolinium, 0.15% in bastnasite, 0.015% in crude ore, in ground
-      - Gadolinium, in ground
+      name: Gadolinium
+      categories: natural resource
 
 Scandium:
   ecoinvent_aliases:
     fltr:
-      - Scandium, in ground
+      name: Scandium
+      categories: natural resource
 
 Strontium:
   ecoinvent_aliases:
     fltr:
-      - Strontium, in ground
+      name: Strontium
+      categories: natural resource
 
 Potassium:
   ecoinvent_aliases:
     fltr:
-      - Potassium, in ground
+      name: Potassium
+      categories: natural resource
 
 Iridium:
   ecoinvent_aliases:
     fltr:
-      - Iridium, in ground
+      name: Iridium
+      categories: natural resource
 
 Silver:
   ecoinvent_aliases:
     fltr:
-      - Silver, 0.007% in sulfide, Ag 0.004%, Pb, Zn, Cd, In, in ground
-      - Silver, 0.01% in crude ore, in ground
-      - Silver, 3.2ppm in sulfide, Ag 1.2ppm, Cu and Te, in crude ore, in ground
-      - Silver, Ag 1.5E-4%, Au 6.8E-4%, in ore, in ground
-      - Silver, Ag 1.5E-5%, Au 5.4E-4%, in ore, in ground
-      - Silver, Ag 1.8E-6%, in mixed ore, in ground
-      - Silver, Ag 2.1E-4%, Au 2.1E-4%, in ore, in ground
-      - Silver, Ag 4.2E-3%, Au 1.1E-4%, in ore, in ground
-      - Silver, Ag 4.6E-5%, Au 1.3E-4%, in ore, in ground
-      - Silver, Ag 5.4E-3%, in mixed ore, in ground
-      - Silver, Ag 7.6E-5%, Au 9.7E-5%, in ore, in ground
-      - Silver, Ag 9.7E-4%, in mixed ore, in ground
-      - Silver, in ground
+      name: Silver
+      categories: natural resource
 
 Germanium:
   ecoinvent_aliases:
     fltr:
-      - Germanium, in ground
+      name: Germanium
+      categories: natural resource
 
 Indium:
   ecoinvent_aliases:
     fltr:
-      - Indium, 0.005% in sulfide, In 0.003%, Pb, Zn, Ag, Cd, in ground
-      - Indium, in ground
+      name: Indium
+      categories: natural resource
 
 Gallium:
   ecoinvent_aliases:
     fltr:
-      - Gallium, 0.014% in bauxite, in ground
-      - Gallium, in ground
+      name: Gallium
+      categories: natural resource
 
 Selenium:
   ecoinvent_aliases:
     fltr:
-      - Selenium, in ground
+      name: Selenium
+      categories: natural resource
 
 Cadmium:
   ecoinvent_aliases:
     fltr:
-      - Cadmium, 0.30% in sulfide, Cd 0.18%, Pb, Zn, Ag, In, in ground
-      - Cadmium, in ground
+      name: Cadmium
+      categories: natural resource
 
 Tellurium:
   ecoinvent_aliases:
     fltr:
-      - Tellurium, 0.5ppm in sulfide, Te 0.2ppm, Cu and Ag, in crude ore, in ground
-      - Tellurium, in ground
+      name: Tellurium
+      categories: natural resource
