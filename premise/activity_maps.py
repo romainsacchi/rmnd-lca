@@ -11,10 +11,10 @@ from pprint import pprint
 from typing import List, Union
 
 import yaml
+from wurst import searching as ws
 
 from . import DATA_DIR, VARIABLES_DIR
 from .data_collection import get_delimiter
-from wurst import searching as ws
 
 POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
 FUELS_TECHS = VARIABLES_DIR / "fuels_variables.yaml"
@@ -239,7 +239,8 @@ class InventorySet:
         return self.generate_sets_from_filters(
             self.metals_filters,
             database=[
-                {"name": k[0], "categories": k[1]} for k in biosphere_flows_dictionary(version=self.version)
+                {"name": k[0], "categories": k[1]}
+                for k in biosphere_flows_dictionary(version=self.version)
             ],
         )
 

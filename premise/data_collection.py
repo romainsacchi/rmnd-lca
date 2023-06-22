@@ -573,7 +573,9 @@ class IAMDataCollection:
             },
         )
 
-        self.land_use = self.__get_iam_production_volumes(data=data, input_vars=land_use_vars)
+        self.land_use = self.__get_iam_production_volumes(
+            data=data, input_vars=land_use_vars
+        )
         self.land_use_change = self.__get_iam_production_volumes(
             data=data, input_vars=land_use_change_vars
         )
