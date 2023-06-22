@@ -447,6 +447,10 @@ class IAMDataCollection:
         )
         # divide the volume of "gasoline" by 2
         self.petrol_markets.loc[dict(variables="gasoline")] /= 2
+        # normalize by the sum
+        self.petrol_markets = self.petrol_markets / self.petrol_markets.sum(
+            dim="variables"
+        )
 
         self.diesel_markets = self.__fetch_market_data(
             data=data,
@@ -463,6 +467,10 @@ class IAMDataCollection:
         )
         # divide the volume of "gasoline" by 2
         self.diesel_markets.loc[dict(variables="diesel")] /= 2
+        # normalize by the sum
+        self.diesel_markets = self.diesel_markets / self.diesel_markets.sum(
+            dim="variables"
+        )
 
         self.gas_markets = self.__fetch_market_data(
             data=data,
@@ -565,8 +573,8 @@ class IAMDataCollection:
             },
         )
 
-        self.land_use = self.__fetch_market_data(data=data, input_vars=land_use_vars)
-        self.land_use_change = self.__fetch_market_data(
+        self.land_use = self.__get_iam_production_volumes(data=data, input_vars=land_use_vars)
+        self.land_use_change = self.__get_iam_production_volumes(
             data=data, input_vars=land_use_change_vars
         )
 
@@ -580,7 +588,7 @@ class IAMDataCollection:
 
         self.production_volumes = self.__get_iam_production_volumes(
             data=data,
-            dict_products={
+            input_vars={
                 **electricity_prod_vars,
                 **fuel_prod_vars,
                 **cement_prod_vars,
@@ -748,6 +756,9 @@ class IAMDataCollection:
             market_data /= (
                 data.loc[:, available_vars, :].groupby("region").sum(dim="variables")
             )
+
+        # back-fill nans
+        market_data = market_data.bfill(dim="year")
 
         return market_data
 
@@ -954,21 +965,19 @@ class IAMDataCollection:
 
         return rate
 
-    def __get_iam_production_volumes(self, dict_products, data) -> [xr.DataArray, None]:
+    def __get_iam_production_volumes(self, input_vars, data) -> [xr.DataArray, None]:
         """
         Returns n xarray with production volumes for different sectors:
         electricity, steel, cement, fuels.
         This is used to build markets: we use
         the production volumes of each region for example,
         to build the World market.
-        :param dict_products: a dictionary that contains
+        :param input_vars: a dictionary that contains
         common labels as keys, and IAM labels as values.
         :param data: IAM data
         :return: a xarray with production volumes for
         different commodities (electricity, cement, etc.)
         """
-
-        list_products = list(dict_products.values())
 
         # If the year specified is not contained within the range of years given by the IAM
         if self.year < data.year.values.min() or self.year > data.year.values.max():
@@ -977,40 +986,24 @@ class IAMDataCollection:
                 f"of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
             )
 
-        # Finally, if the specified year falls in between
-        # two periods provided by the IAM
-        # Interpolation between two periods
+        missing_vars = set(input_vars.values()) - set(data.variables.values)
 
-        try:
-            # flatten list
-            for var in list_products:
-                if isinstance(var, list):
-                    list_products.extend(var)
-                    list_products.remove(var)
-            data_to_return = data.loc[:, list_products, :]
-
-        except KeyError as exc:
-            list_missing_vars = [
-                var for var in list_products if var not in data.variables.values
-            ]
+        if missing_vars:
             print(
-                f"The following variables cannot be found in the IAM file: {list_missing_vars}"
+                f"The following variables are missing from the IAM file: {list(missing_vars)}"
             )
-            if len(list_products) - len(list_missing_vars) > 0:
-                available_vars = [
-                    var for var in list_products if var in data.variables.values
-                ]
-                print(
-                    "The process continues with the remaining variables, "
-                    "but certain transformation functions may not work."
-                )
-                list_products = available_vars
-                data_to_return = data.loc[:, list_products, :]
-            else:
-                return None
+
+        available_vars = list(set(input_vars.values()) - missing_vars)
+
+        if available_vars:
+            data_to_return = data.loc[
+                :, [v for v in input_vars.values() if v in available_vars], :
+            ]
+        else:
+            return None
 
         data_to_return.coords["variables"] = [
-            k for k, v in dict_products.items() if v in list_products
+            k for k, v in input_vars.items() if v in available_vars
         ]
 
         return data_to_return

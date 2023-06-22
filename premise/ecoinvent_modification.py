@@ -26,7 +26,6 @@ from .export import (
     Export,
     build_datapackage,
     check_amount_format,
-    check_for_outdated_flows,
     generate_scenario_factor_file,
     generate_superstructure_db,
     prepare_db_for_export,
@@ -56,7 +55,7 @@ DIR_CACHED_DB = DATA_DIR / "cache"
 FILEPATH_OIL_GAS_INVENTORIES = INVENTORY_DIR / "lci-ESU-oil-and-gas.xlsx"
 FILEPATH_CARMA_INVENTORIES = INVENTORY_DIR / "lci-Carma-CCS.xlsx"
 FILEPATH_CHP_INVENTORIES = INVENTORY_DIR / "lci-combined-heat-power-plant-CCS.xlsx"
-FILEPATH_DAC_INVENTORIES = INVENTORY_DIR / "lci-direct-air-capture.xlsx"
+FILEPATH_CC_INVENTORIES = INVENTORY_DIR / "lci-carbon-capture.xlsx"
 FILEPATH_BIOFUEL_INVENTORIES = INVENTORY_DIR / "lci-biofuels.xlsx"
 FILEPATH_BIOGAS_INVENTORIES = INVENTORY_DIR / "lci-biogas.xlsx"
 
@@ -64,6 +63,10 @@ FILEPATH_CARBON_FIBER_INVENTORIES = INVENTORY_DIR / "lci-carbon-fiber.xlsx"
 FILEPATH_HYDROGEN_DISTRI_INVENTORIES = INVENTORY_DIR / "lci-hydrogen-distribution.xlsx"
 
 FILEPATH_HYDROGEN_INVENTORIES = INVENTORY_DIR / "lci-hydrogen-electrolysis.xlsx"
+FILEPATH_HYDROGEN_SOLAR_INVENTORIES = (
+    INVENTORY_DIR / "lci-hydrogen-thermochemical-water-splitting.xlsx"
+)
+FILEPATH_HYDROGEN_PYROLYSIS_INVENTORIES = INVENTORY_DIR / "lci-hydrogen-pyrolysis.xlsx"
 
 FILEPATH_HYDROGEN_BIOGAS_INVENTORIES = (
     INVENTORY_DIR / "lci-hydrogen-smr-atr-biogas.xlsx"
@@ -130,6 +133,7 @@ FILEPATH_BIGCC = INVENTORY_DIR / "lci-BIGCC.xlsx"
 FILEPATH_NUCLEAR_EPR = INVENTORY_DIR / "lci-nuclear_EPR.xlsx"
 FILEPATH_NUCLEAR_SMR = INVENTORY_DIR / "lci-nuclear_SMR.xlsx"
 FILEPATH_WAVE = INVENTORY_DIR / "lci-wave_energy.xlsx"
+FILEPATH_FUEL_CELL = INVENTORY_DIR / "lci-fuel_cell.xlsx"
 
 config = load_constants()
 
@@ -629,7 +633,7 @@ class NewDatabase:
             (FILEPATH_OIL_GAS_INVENTORIES, "3.7"),
             (FILEPATH_CARMA_INVENTORIES, "3.5"),
             (FILEPATH_CHP_INVENTORIES, "3.5"),
-            (FILEPATH_DAC_INVENTORIES, "3.7"),
+            (FILEPATH_CC_INVENTORIES, "3.9"),
             (FILEPATH_BIOGAS_INVENTORIES, "3.6"),
             (FILEPATH_CARBON_FIBER_INVENTORIES, "3.7"),
             (FILEPATH_LITHIUM, "3.8"),
@@ -637,7 +641,9 @@ class NewDatabase:
             (FILEPATH_GRAPHITE, "3.8"),
             (FILEPATH_BATTERIES, "3.8"),
             (FILEPATH_PHOTOVOLTAICS, "3.7"),
-            (FILEPATH_HYDROGEN_INVENTORIES, "3.7"),
+            (FILEPATH_HYDROGEN_INVENTORIES, "3.9"),
+            (FILEPATH_HYDROGEN_SOLAR_INVENTORIES, "3.9"),
+            (FILEPATH_HYDROGEN_PYROLYSIS_INVENTORIES, "3.9"),
             (FILEPATH_METHANOL_FUELS_INVENTORIES, "3.7"),
             (FILEPATH_METHANOL_CEMENT_FUELS_INVENTORIES, "3.7"),
             (FILEPATH_HYDROGEN_COAL_GASIFICATION_INVENTORIES, "3.7"),
@@ -647,7 +653,7 @@ class NewDatabase:
             (FILEPATH_HYDROGEN_BIOGAS_INVENTORIES, "3.7"),
             (FILEPATH_HYDROGEN_NATGAS_INVENTORIES, "3.7"),
             (FILEPATH_HYDROGEN_WOODY_INVENTORIES, "3.7"),
-            (FILEPATH_SYNGAS_INVENTORIES, "3.6"),
+            (FILEPATH_SYNGAS_INVENTORIES, "3.9"),
             (FILEPATH_SYNGAS_FROM_COAL_INVENTORIES, "3.7"),
             (FILEPATH_BIOFUEL_INVENTORIES, "3.7"),
             (FILEPATH_SYNFUEL_INVENTORIES, "3.7"),
@@ -672,6 +678,7 @@ class NewDatabase:
             (FILEPATH_NUCLEAR_EPR, "3.8"),
             (FILEPATH_NUCLEAR_SMR, "3.8"),
             (FILEPATH_WAVE, "3.8"),
+            (FILEPATH_FUEL_CELL, "3.9"),
         ]
         for filepath in filepaths:
             # make an exception for FILEPATH_OIL_GAS_INVENTORIES
@@ -1356,8 +1363,6 @@ class NewDatabase:
         if not cached_inventories:
             cache_fp = DATA_DIR / "cache" / f"cached_{self.source}_inventories.pickle"
             raise ValueError(f"No cached inventories found at {cache_fp}.")
-        else:
-            cached_inventories = check_for_outdated_flows(cached_inventories)
 
         cache = {}
         for scen, scenario in enumerate(self.scenarios):

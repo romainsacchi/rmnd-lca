@@ -1,0 +1,95 @@
+# biosphere flow names have changed between ei <3.9 and ei 39
+---
+
+air:
+  Chromium III: Chromium
+  Particulate Matter, > 2.5 um and < 10um: Particulates, > 2.5 um, and < 10um
+  Copper ion: Copper
+  Nickel II: Nickel
+  NMVOC, non-methane volatile organic compounds: NMVOC, non-methane volatile organic compounds, unspecified origin
+  Mercury II: Mercury
+  Zinc II: Zinc
+  Antimony: Antimony ion
+  Arsenic: Arsenic ion
+  Barium: Barium II
+  Cadmium: Cadmium II
+  Chromium: Chromium III
+  Cobalt: Cobalt II
+  Copper: Copper ion
+  Hydrogen chloride: Hydrochloric acid
+  Lead: Lead II
+  Manganese: Manganese II
+  Mercury: Mercury II
+  Molybdenum: Molybdenum VI
+  NMVOC, non-methane volatile organic compounds, unspecified origin: NMVOC, non-methane volatile organic compounds
+  Nickel: Nickel II
+  Selenium: Selenium IV
+  Vanadium: Vanadium V
+  Zinc: Zinc II
+  Particulates, < 2.5 um: Particulate Matter, < 2.5 um
+  Particulates, > 10 um: Particulate Matter, > 10 um
+  Particulates, > 2.5 um, and < 10um: Particulate Matter, > 2.5 um and < 10um
+  Potassium: Potassium I
+  Ethene: Ethylene
+  Aluminium: Aluminium III
+  Silver: Silver I
+  Tin: Tin ion
+  Iron: Iron ion
+  Cesium-137: Caesium-137
+  Cesium-134: Caesium-134
+  Cesium-136: Caesium-136
+
+natural resource:
+  Iridium: Iridium, in ground
+  Lithium, in ground: Lithium
+  Cobalt, in ground: Cobalt
+  Copper, in ground: Copper
+  Oil, crude, in ground: Oil, crude
+  Bromine, in water: Bromine
+  Fluorspar, in ground: Fluorspar
+  Iodine, in water: Iodine
+
+soil:
+  Cyfluthrin: Beta-cyfluthrin
+  Cadmium: Cadmium II
+  Chromium: Chromium III
+  Copper: Copper ion
+  Lead: Lead II
+  Mercury: Mercury II
+  Nickel: Nickel II
+  Zinc: Zinc II
+  Arsenic: Arsenic ion
+  Tebupirimphos: Tebupirimfos
+  Pyraclostrobin (prop): Pyraclostrobin
+  Carfentrazone ethyl ester: Carfentrazone-ethyl
+  Iprodion: Iprodione
+  Quizalofop ethyl ester: Quizalofop-ethyl
+
+water:
+  AOX, Adsorbable Organic Halogen as Cl: AOX, Adsorbable Organic Halogen
+  Aluminium: Aluminium III
+  Arsenic, ion: Arsenic ion
+  Barium: Barium II
+  Calcium, ion: Calcium II
+  Chromium, ion: Chromium III
+  Iron, ion: Iron ion
+  Manganese: Manganese II
+  Potassium, ion: Potassium I
+  Sodium, ion: Sodium I
+  Zinc, ion: Zinc II
+  Lithium, ion: Lithium I
+  Cadmium, ion: Cadmium II
+  Ethene: Ethylene
+  Copper, ion: Copper ion
+  Lead: Lead II
+  Mercury: Mercury II
+  Nickel, ion: Nickel II
+  Ammonium, ion: Ammonium
+  Iron: Iron ion
+  Nickel: Nickel II
+  Molybdenum: Molybdenum VI
+  Silver, ion: Silver I
+  VOC, volatile organic compounds, unspecified origin: VOC, volatile organic compounds
+  Cesium-137: Caesium-137
+  Cesium-134: Caesium-134
+  Cesium-136: Caesium-136

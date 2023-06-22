@@ -25,10 +25,10 @@ Biomass CHP CCS:
     image: Secondary Energy|Electricity|Biomass|w/ CCS|2
   eff_aliases:
     image: Efficiency|Electricity|Biomass|w/ CCS|2
+
   ecoinvent_aliases:
     fltr:
-      - electricity production, at co-generation power plant/wood, post, pipeline 200km, storage 1000m
-      - electricity production, at co-generation power plant/wood, post, pipeline 400km, storage 3000m
+      - electricity production, at co-generation power plant/wood, post
   ecoinvent_fuel_aliases:
     fltr:
       - heat and power co-generation, wood chips, 6667 kW
@@ -44,6 +44,7 @@ Biomass ST:
   ecoinvent_fuel_aliases:
     fltr:
       - Wood chips, burned in power plant 20 MW, truck 25km, no CCS
+
 Biomass IGCC CCS:
   iam_aliases:
     remind: SE|Electricity|Biomass|++|Gasification Combined Cycle w/ CC
@@ -51,17 +52,18 @@ Biomass IGCC CCS:
   eff_aliases:
     remind: Tech|Electricity|Biomass|Gasification Combined Cycle w/ CC|Efficiency
     image: Efficiency|Electricity|Biomass|w/ CCS|1
-
   ecoinvent_aliases:
     fltr:
-      - electricity production, at wood burning power plant 20 MW, truck 25km, post, pipeline 200km, storage 1000m
-      - electricity production, at BIGCC power plant, pre, pipeline 200km, storage 1000m
+      - electricity production, at wood burning power plant 20 MW, truck 25km, p
+      - electricity production, at BIGCC power plant, p
+
   ecoinvent_fuel_aliases:
     fltr:
       - Wood chips, burned in power plant 20 MW, truck 25km, post, pipeline 200km, storage 1000m
       - Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant
       - market for wood chips
       - market for biomass, used as fuel
+
 Biomass IGCC:
   iam_aliases:
     remind: SE|Electricity|Biomass|++|Gasification Combined Cycle w/o CC
@@ -69,7 +71,6 @@ Biomass IGCC:
   eff_aliases:
     remind: Tech|Electricity|Biomass|Gasification Combined Cycle w/o CC|Efficiency
     image: Efficiency|Electricity|Biomass|w/o CCS|2
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at BIGCC power plant, no CCS
@@ -77,6 +78,7 @@ Biomass IGCC:
     fltr:
       - market for wood chips
       - market for biomass, used as fuel
+
 Coal PC:
   iam_aliases:
     remind: SE|Electricity|Coal|++|Pulverised Coal w/o CC
@@ -101,6 +103,7 @@ Coal PC:
         - plant
         - briquettes
         - ash
+
 Coal IGCC:
   iam_aliases:
     remind: SE|Electricity|Coal|++|Gasification Combined Cycle w/o CC
@@ -117,6 +120,7 @@ Coal IGCC:
     fltr:
       - Hard coal, burned in power plant/IGCC, no CCS
       - Lignite, burned in power plant/IGCC, no CCS
+
 Coal PC CCS:
   iam_aliases:
     remind: SE|Electricity|Coal|++|Pulverised Coal w/ CC
@@ -125,12 +129,13 @@ Coal PC CCS:
 
   ecoinvent_aliases:
     fltr:
-      - electricity production, at power plant/hard coal, post, pipeline 200km, storage 1000m
-      - electricity production, at power plant/lignite, post, pipeline 200km, storage 1000m
+      - electricity production, at power plant/hard coal, p
+      - electricity production, at power plant/lignite, p
   ecoinvent_fuel_aliases:
     fltr:
       - Hard coal, burned in power plant/post, pipeline 200km, storage 1000m
       - Lignite, burned in power plant/post, pipeline 200km, storage 1000m
+
 Coal IGCC CCS:
   iam_aliases:
     remind: SE|Electricity|Coal|++|Gasification Combined Cycle w/ CC
@@ -141,12 +146,13 @@ Coal IGCC CCS:
 
   ecoinvent_aliases:
     fltr:
-      - electricity production, at power plant/hard coal, pre, pipeline 200km, storage 1000m
-      - electricity production, at power plant/lignite, pre, pipeline 200km, storage 1000m
+      - electricity production, at power plant/hard coal, p
+      - electricity production, at power plant/lignite, p
   ecoinvent_fuel_aliases:
     fltr:
       - Hard coal, burned in power plant/pre
       - Lignite, burned in power plant/pre
+
 Coal CHP:
   iam_aliases:
     remind: SE|Electricity|Coal|++|Combined Heat and Power w/o CC
@@ -171,6 +177,7 @@ Coal CHP:
         - plant
         - briquettes
         - ash
+
 Coal CHP CCS:
   iam_aliases:
     image: Secondary Energy|Electricity|Coal|w/ CCS|2
@@ -179,8 +186,8 @@ Coal CHP CCS:
 
   ecoinvent_aliases:
     fltr:
-      - electricity production, at co-generation power plant/hard coal, oxy, pipeline
-      - electricity production, at co-generation power plant/hard coal, post, pipeline
+      - electricity production, at co-generation power plant/hard coal
+
   ecoinvent_fuel_aliases:
     fltr:
       - heat and power co-generation, hard coal
@@ -266,11 +273,12 @@ Gas CHP CCS:
 
   ecoinvent_aliases:
     fltr:
-      - electricity production, at co-generation power plant/natural gas, post, pipeline
-      - electricity production, at co-generation power plant/natural gas, pre, pipeline
+      - electricity production, at co-generation power plant/natural gas, p
+
   ecoinvent_fuel_aliases:
     fltr:
       - heat and power co-generation, natural gas, conventional power plant, 100MW electrical
+
 Gas CC CCS:
   iam_aliases:
     remind: SE|Electricity|Gas|++|Combined Cycle w/ CC
@@ -281,8 +289,8 @@ Gas CC CCS:
 
   ecoinvent_aliases:
     fltr:
-      - electricity production, at power plant/natural gas, pre, pipeline
-      - electricity production, at power plant/natural gas, post, pipeline
+      - electricity production, at power plant/natural gas, p
+
   ecoinvent_fuel_aliases:
     fltr:
       - Natural gas, in ATR H2-CC/pre

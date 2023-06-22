@@ -7,7 +7,7 @@ import wurst
 from numpy import ndarray
 
 from .clean_datasets import get_biosphere_flow_uuid
-from .inventory_imports import generate_migration_maps, get_outdated_flows
+from .inventory_imports import generate_migration_maps, get_correspondence_bio_flows
 from .transformation import *
 from .utils import eidb_label
 
@@ -375,7 +375,7 @@ class ExternalScenario(BaseTransformation):
                 ds_names, external_scenario_regions, datapackage_number
             )
         self.dict_bio_flows = get_biosphere_flow_uuid(self.version)
-        self.outdated_flows = get_outdated_flows()
+        self.outdated_flows = get_correspondence_bio_flows()
 
     def regionalize_inventories(
         self, ds_names, regions, datapackage_number: int

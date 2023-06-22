@@ -101,20 +101,23 @@ class Steel(BaseTransformation):
                 for loc, dataset in steel_markets.items():
                     if loc != "World":
                         if self.system_model != "consequential":
-                            primary_share = self.iam_data.production_volumes.sel(
-                                region=loc, variables="steel - primary"
-                            ).interp(year=self.year).values.item(
-                                0
-                            ) / self.iam_data.production_volumes.sel(
-                                region=loc,
-                                variables=["steel - primary", "steel - secondary"],
-                            ).interp(
-                                year=self.year
-                            ).sum(
-                                dim="variables"
-                            ).values.item(
-                                0
-                            )
+                            try:
+                                primary_share = self.iam_data.production_volumes.sel(
+                                    region=loc, variables="steel - primary"
+                                ).interp(year=self.year).values.item(
+                                    0
+                                ) / self.iam_data.production_volumes.sel(
+                                    region=loc,
+                                    variables=["steel - primary", "steel - secondary"],
+                                ).interp(
+                                    year=self.year
+                                ).sum(
+                                    dim="variables"
+                                ).values.item(
+                                    0
+                                )
+                            except KeyError:
+                                primary_share = 1
                         else:
                             primary_share = 1
 
@@ -199,20 +202,25 @@ class Steel(BaseTransformation):
             regions = [r for r in self.regions if r != "World"]
 
             for region in regions:
-                share = (
-                    self.iam_data.production_volumes.sel(
-                        variables=["steel - primary", "steel - secondary"],
-                        region=region,
-                    )
-                    .interp(year=self.year)
-                    .sum(dim="variables")
-                    / self.iam_data.production_volumes.sel(
-                        variables=["steel - primary", "steel - secondary"],
-                        region="World",
-                    )
-                    .interp(year=self.year)
-                    .sum(dim="variables")
-                ).values.item(0)
+                try:
+                    share = (
+                        self.iam_data.production_volumes.sel(
+                            variables=["steel - primary", "steel - secondary"],
+                            region=region,
+                        )
+                        .interp(year=self.year)
+                        .sum(dim="variables")
+                        / self.iam_data.production_volumes.sel(
+                            variables=["steel - primary", "steel - secondary"],
+                            region="World",
+                        )
+                        .interp(year=self.year)
+                        .sum(dim="variables")
+                    ).values.item(0)
+
+                except KeyError:
+                    # equal share to all regions
+                    share = 1 / len(regions)
 
                 steel_markets["World"]["exchanges"].append(
                     {
@@ -423,40 +431,44 @@ class Steel(BaseTransformation):
             else:
                 sector = "steel - secondary"
 
-            # Calculate the scaling factor based on the efficiency change from 2020 to the current year
-            scaling_factor = 1 / self.find_iam_efficiency_change(
-                data=self.iam_data.steel_efficiencies,
-                variable=sector,
-                location=dataset["location"],
-            )
+            if sector in self.iam_data.steel_efficiencies.variables.values:
+                # Calculate the scaling factor based on the efficiency change from 2020 to the current year
+                scaling_factor = 1 / self.find_iam_efficiency_change(
+                    data=self.iam_data.steel_efficiencies,
+                    variable=sector,
+                    location=dataset["location"],
+                )
+            else:
+                scaling_factor = 1
 
-            # Update the comments
-            text = (
-                f"This dataset has been modified by `premise`, according to the performance "
-                f"for steel production indicated by the IAM model {self.model.upper()} for the IAM "
-                f"region {region} in {self.year}, following the scenario {self.scenario}. "
-                f"The energy efficiency of the process has been improved by {int((1 - scaling_factor) * 100)}%."
-            )
-            dataset["comment"] = text + dataset["comment"]
+            if scaling_factor != 1:
+                # Update the comments
+                text = (
+                    f"This dataset has been modified by `premise`, according to the performance "
+                    f"for steel production indicated by the IAM model {self.model.upper()} for the IAM "
+                    f"region {region} in {self.year}, following the scenario {self.scenario}. "
+                    f"The energy efficiency of the process has been improved by {int((1 - scaling_factor) * 100)}%."
+                )
+                dataset["comment"] = text + dataset["comment"]
 
-            # Scale down the fuel exchanges using the scaling factor
-            wurst.change_exchanges_by_constant_factor(
-                dataset,
-                scaling_factor,
-                technosphere_filters=[
-                    ws.either(*[ws.contains("name", x) for x in list_fuels])
-                ],
-                biosphere_filters=[ws.contains("name", "Carbon dioxide, fossil")],
-            )
+                # Scale down the fuel exchanges using the scaling factor
+                wurst.change_exchanges_by_constant_factor(
+                    dataset,
+                    scaling_factor,
+                    technosphere_filters=[
+                        ws.either(*[ws.contains("name", x) for x in list_fuels])
+                    ],
+                    biosphere_filters=[ws.contains("name", "Carbon dioxide, fossil")],
+                )
 
-            if "log parameters" not in dataset:
-                dataset["log parameters"] = {}
+                if "log parameters" not in dataset:
+                    dataset["log parameters"] = {}
 
-            dataset["log parameters"].update(
-                {
-                    "thermal efficiency change": scaling_factor,
-                }
-            )
+                dataset["log parameters"].update(
+                    {
+                        "thermal efficiency change": scaling_factor,
+                    }
+                )
 
         return datasets
 

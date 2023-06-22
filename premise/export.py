@@ -23,6 +23,7 @@ from scipy import sparse as nsp
 
 from . import DATA_DIR, __version__
 from .data_collection import get_delimiter
+from .inventory_imports import get_correspondence_bio_flows
 from .transformation import BaseTransformation
 from .utils import check_database_name
 
@@ -30,7 +31,9 @@ FILEPATH_SIMAPRO_UNITS = DATA_DIR / "utils" / "export" / "simapro_units.yml"
 FILEPATH_SIMAPRO_COMPARTMENTS = (
     DATA_DIR / "utils" / "export" / "simapro_compartments.yml"
 )
-OUTDATED_FLOWS = DATA_DIR / "utils" / "export" / "outdated_flows.yaml"
+CORRESPONDENCE_BIO_FLOWS = (
+    DATA_DIR / "utils" / "export" / "correspondence_biosphere_flows.yaml"
+)
 
 # current working directory
 DIR_DATAPACKAGE = Path.cwd() / "export" / "datapackage"
@@ -367,14 +370,7 @@ def get_list_unique_acts(scenarios: List[dict]) -> list:
     return list(set(list_unique_acts))
 
 
-def get_outdated_flows():
-    with open(OUTDATED_FLOWS, "r", encoding="utf-8") as stream:
-        outdated_flows = yaml.safe_load(stream)
-
-    return outdated_flows
-
-
-outdated_flows = get_outdated_flows()
+bio_flows_correspondence = get_correspondence_bio_flows()
 exc_codes = {}
 
 
@@ -419,9 +415,10 @@ def correct_biosphere_flow(name, cat, unit, version):
         main_cat = cat[0]
         sub_cat = "unspecified"
 
-    if name in outdated_flows:
-        if (outdated_flows[name], main_cat, sub_cat, unit) in bio_dict:
-            return bio_dict[(outdated_flows[name], main_cat, sub_cat, unit)]
+    if (name, main_cat, sub_cat, unit) not in bio_dict:
+        if bio_flows_correspondence.get(main_cat, {}).get(name, {}):
+            name = bio_flows_correspondence[main_cat][name]
+            return bio_dict[(name, main_cat, sub_cat, unit)]
     return bio_dict[(name, main_cat, sub_cat, unit)]
 
 
@@ -440,14 +437,6 @@ def get_exchange(ind, acts_ind, db_name, version, amount=1.0):
         if flow_type == "biosphere"
         else (db_name, fetch_exchange_code(name, ref, loc, unit)),
     }
-
-
-def check_for_outdated_flows(database):
-    for ds in database:
-        for exc in ds["exchanges"]:
-            if exc["name"] in outdated_flows:
-                exc["name"] = outdated_flows[exc["name"]]
-    return database
 
 
 def write_formatted_data(name, data, filepath):
@@ -764,7 +753,7 @@ def generate_scenario_difference_file(
                 exc_key_supplier = (
                     database_name,
                     bio_dict[
-                        outdated_flows.get(s_name, s_name),
+                        bio_flows_correspondence.get(s_cat[0], {}).get(s_name, s_name),
                         s_cat[0],
                         s_cat[1] if len(s_cat) > 1 else "unspecified",
                         s_unit,

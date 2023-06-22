@@ -467,11 +467,29 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 38;39;market for concrete, normal;concrete, normal;CH;market for concrete, normal strength;concrete, normal strength;CH
 38;39;market for concrete, normal;concrete, normal;CO;market for concrete, normal strength;concrete, normal strength;CO
 38;39;market for concrete, normal;concrete, normal;GLO;market for concrete, normal strength;concrete, normal strength;AT
-38;39;market for concrete, normal;concrete, normal;GLO;market for concrete, normal strength;concrete, normal strength;GLO
+38;39;market for concrete, normal;concrete, normal;RoW;market for concrete, normal strength;concrete, normal strength;RoW
 38;39;market for concrete, normal;concrete, normal;IN;market for concrete, normal strength;concrete, normal strength;IN
 38;39;market for concrete, normal;concrete, normal;PE;market for concrete, normal strength;concrete, normal strength;PE
 38;39;market for concrete, normal;concrete, normal;RNA;market for concrete, normal strength;concrete, normal strength;RNA
 38;39;market for concrete, normal;concrete, normal;ZA;market for concrete, normal strength;concrete, normal strength;ZA
+39;37;market for concrete, normal strength;concrete, normal strength;BR;market for concrete, normal;concrete, normal;BR
+39;37;market for concrete, normal strength;concrete, normal strength;CH;market for concrete, normal;concrete, normal;CH
+39;37;market for concrete, normal strength;concrete, normal strength;CO;market for concrete, normal;concrete, normal;CO
+39;37;market for concrete, normal strength;concrete, normal strength;GLO;market for concrete, normal;concrete, normal;AT
+39;37;market for concrete, normal strength;concrete, normal strength;GLO;market for concrete, normal;concrete, normal;GLO
+39;37;market for concrete, normal strength;concrete, normal strength;IN;market for concrete, normal;concrete, normal;IN
+39;37;market for concrete, normal strength;concrete, normal strength;PE;market for concrete, normal;concrete, normal;PE
+39;37;market for concrete, normal strength;concrete, normal strength;RNA;market for concrete, normal;concrete, normal;RNA
+39;37;market for concrete, normal strength;concrete, normal strength;ZA;market for concrete, normal;concrete, normal;ZA
+39;36;market for concrete, normal strength;concrete, normal strength;BR;market for concrete, normal;concrete, normal;BR
+39;36;market for concrete, normal strength;concrete, normal strength;CH;market for concrete, normal;concrete, normal;CH
+39;36;market for concrete, normal strength;concrete, normal strength;CO;market for concrete, normal;concrete, normal;CO
+39;36;market for concrete, normal strength;concrete, normal strength;GLO;market for concrete, normal;concrete, normal;AT
+39;36;market for concrete, normal strength;concrete, normal strength;GLO;market for concrete, normal;concrete, normal;GLO
+39;36;market for concrete, normal strength;concrete, normal strength;IN;market for concrete, normal;concrete, normal;IN
+39;36;market for concrete, normal strength;concrete, normal strength;PE;market for concrete, normal;concrete, normal;PE
+39;36;market for concrete, normal strength;concrete, normal strength;RNA;market for concrete, normal;concrete, normal;RNA
+39;36;market for concrete, normal strength;concrete, normal strength;ZA;market for concrete, normal;concrete, normal;ZA
 38;39;market for energy use and operation emissions, electric bicycle;energy use and operation emissions, electric bicycle;GLO;market for energy use, electric bicycle;energy use, electric bicycle;GLO
 38;39;market for energy use and operation emissions, electric bicycle, electricity from renewable energy products;energy use and operation emissions, electric bicycle, electricity from renewable energy products;GLO;market for energy use, electric bicycle, electricity from renewable energy products;energy use, electric bicycle, electricity from renewable energy products;GLO
 38;39;market for iron (III) chloride, without water, in 40% solution state;iron (III) chloride, without water, in 40% solution state;GLO;market for iron(III) chloride, without water, in 40% solution state;iron (III) chloride, without water, in 40% solution state;GLO
@@ -539,6 +557,8 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 37;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;RoW;treatment of wastewater, average, wastewater treatment;wastewater, average;RoW
 37;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;CH;treatment of wastewater, average, wastewater treatment;wastewater, average;CH
 37;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;Europe without Switzerland;treatment of wastewater, average, wastewater treatment;wastewater, average;Europe without Switzerland
+38;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;RoW;treatment of wastewater, average, wastewater treatment;wastewater, average;RoW
+38;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;CH;treatment of wastewater, average, wastewater treatment;wastewater, average;CH
 38;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;Europe without Switzerland;treatment of wastewater, average, wastewater treatment;wastewater, average;Europe without Switzerland
 35;39;concrete production, for civil engineering, with cement CEM II/B;concrete, sole plate and foundation;CH;concrete production, 25MPa, for building construction, with cement, CEM II/B;concrete, 25MPa;CH
 35;39;treatment of wastewater, average, capacity 1.1E10l/year;wastewater, average;CH;treatment of wastewater, average, wastewater treatment;wastewater, average;CH

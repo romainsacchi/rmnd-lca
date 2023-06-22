@@ -529,6 +529,8 @@ Hydrogen
 * Coal gasification
 * Coal gasification, with Carbon Capture and Storage
 * Electrolysis
+* Thermochemical water splitting
+* Pyrolysis
 
 Inventories using Steam Methane Reforming are from Antonini_ et al. 2021.
 They can be consulted here: LCI_SMR_.
@@ -539,14 +541,20 @@ They can be consulted here: LCI_woody_.
 Inventories using coal gasification are from Wokaun_ et al. 2015, but updated
 with Li_ et al. 2022, which also provide an option with CCS.
 They can be consulted here: LCI_coal_.
-Inventories using electrolysis are from Bareiss_ et al. 2019.
+Inventories using electrolysis are from Niklas Gerloff_. 2021.
 They can be consulted here: LCI_electrolysis_.
+Inventories for thermochemical water splitting are from Zhang2_ et al. 2022.
+Inventories for pyrolysis are from Al-Qahtani_ et al. 2021, completed with
+data from Postels_ et al., 2016.
 
 .. _Antonini: https://pubs.rsc.org/en/content/articlelanding/2020/se/d0se00222d
 .. _Antonini2: https://pubs.rsc.org/en/Content/ArticleLanding/2021/SE/D0SE01637C
 .. _Wokaun: https://www.cambridge.org/core/books/transition-to-hydrogen/43144AF26ED80E7106B675A6E83B1579
 .. _Li: https://doi.org/10.1016/j.jclepro.2022.132514
-.. _Bareiss: https://www.sciencedirect.com/science/article/pii/S0306261919300017
+.. _Gerloff: https://doi.org/10.1016/j.est.2021.102759
+.. _Zhang2: https://doi.org/10.1016/j.ijhydene.2022.02.150
+.. _Al-Qahtani: https://doi.org/10.1016/j.apenergy.2020.115958
+.. _Postels: https://doi.org/10.1016/j.ijhydene.2016.09.167
 .. _LCI_SMR: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-hydrogen-smr-atr-natgas.xlsx
 .. _LCI_ATR: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-hydrogen-smr-atr-natgas.xlsx
 .. _LCI_woody: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-hydrogen-wood-gasification.xlsx
@@ -569,7 +577,9 @@ The new datasets introduced are listed in the table below (only production datas
   hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant    CH
   hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant              CH
   hydrogen production, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant                             RER
-  hydrogen production, gaseous, 25 bar, from electrolysis                                                                                 RER
+  hydrogen production, gaseous, 200 bar, from PEM electrolysis, from grid electricity                                                     RER
+  hydrogen production, gaseous, 25 bar, from thermochemical water splitting, at solar tower                                               RER
+  hydrogen production, gaseous, 100 bar, from methane pyrolysis                                                                           RER
  ======================================================================================================================================= ===========
 
 Hydrogen storage and distribution
@@ -777,8 +787,8 @@ reflect the fact that part of the CO2 has not been emitted but has ended in the 
 in the fuel instead of being stored underground, which from a carbon accounting standpoint is
 similar.
 
-Direct Air Capture
-------------------
+Carbon Capture
+--------------
 
 Two sets of inventories for Direct Air Capture (DAC) are available in *premise*.
 One for a solvent-based system, and one for a sorbent-based system. The inventories
@@ -791,8 +801,14 @@ They can be consulted here: LCI_DAC_.
 .. _Qiu: https://doi.org/10.1038/s41467-022-31146-1
 .. _LCI_DAC: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-direct-air-capture.xlsx
 
-They introduce the following datasets:
+Additional, two datasets for carbon capture at point sources are available:
+one at cement plant from Meunier_ et al, 2020, and another one at municipal solid waste incineration plant (MSWI)
+from Bisinella_ et al, 2021.
 
+.. _Meunier: https://doi.org/10.1016/j.renene.2019.07.010
+.. _Bisinella: https://doi.org/10.1016/j.wasman.2021.04.046
+
+They introduce the following datasets:
 
  =============================================================================================================== ===========
   Activity                                                                                                         Location
@@ -801,6 +817,8 @@ They introduce the following datasets:
   carbon dioxide, captured from atmosphere and stored, with a sorbent-based direct air capture system, 100ktCO2    RER
   carbon dioxide, captured from atmosphere, with a solvent-based direct air capture system, 1MtCO2                 RER
   carbon dioxide, captured from atmosphere and stored, with a solvent-based direct air capture system, 1MtCO2      RER
+  carbon dioxide, captured at municipal solid waste incineration plant, for subsequent reuse                       RER
+  carbon dioxide, captured at cement production plant, for subsequent reuse                                        RER
  =============================================================================================================== ===========
 
 Using the transformation function `update_dac()`, *premise* creates various configurations of these processes,

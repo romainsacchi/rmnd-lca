@@ -48,14 +48,6 @@ handlers:
     formatter: simple
     mode: w
 
-  file_metal:
-    class: logging.FileHandler
-    level: INFO
-    filename: "export/logs/premise_metal.log"
-    encoding: utf8
-    formatter: simple
-    mode: w
-
   file_emissions:
     class: logging.FileHandler
     level: INFO
@@ -96,11 +88,6 @@ loggers:
   fuel:
     level: INFO
     handlers: [ file_fuel ]
-    propagate: False
-
-  metal:
-    level: INFO
-    handlers: [ file_metal ]
     propagate: False
 
   emissions:

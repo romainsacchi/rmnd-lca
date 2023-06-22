@@ -4,4 +4,4 @@ methane, from biomass:
   - Biomethane, gaseous, 5 bar, from sewage sludge fermentation, at fuelling station
 methane, synthetic:
   - methane, from electrochemical methanation, with carbon from atmospheric CO2 capture
-  - Methane, synthetic, gaseous, 5 bar, from electrochemical methanation, at fuelling station
+  - methane, from biological methanation, with carbon from atmospheric CO2 capture

@@ -387,12 +387,14 @@ hydrogen, petroleum:
   ecoinvent_aliases:
     fltr:
       - hydrogen production, gaseous, petroleum refinery operation
+
 hydrogen, electrolysis:
   lhv: 120
   co2: 0
   biogenic_share: 1
   iam_aliases:
     remind: SE|Hydrogen|+|Electricity
+    image: Secondary Energy|Hydrogen|Electrolysis
   eff_aliases:
     remind: Tech|Hydrogen|Electricity|Efficiency
   ecoinvent_aliases:
@@ -400,12 +402,33 @@ hydrogen, electrolysis:
       - hydrogen supply, from electrolysis
       - hydrogen production, gaseous, 25 bar, from electrolysis
       - hydrogen production, gaseous, 700 bar, from electrolysis
+      - hydrogen production, gaseous, 200 bar, from PEM electrolysis, from grid electricity
+
+hydrogen, solar:
+  lhv: 120
+  co2: 0
+  biogenic_share: 1
+  iam_aliases:
+    image: Secondary Energy|Hydrogen|Solar
+  ecoinvent_aliases:
+    fltr:
+      - hydrogen production, gaseous, 25 bar, from thermochemical water splitting, at solar tower
+
+hydrogen, pyrolysis:
+  lhv: 120
+  co2: 0
+  biogenic_share: 1
+  ecoinvent_aliases:
+    fltr:
+      - hydrogen production, gaseous, 100 bar, from methane pyrolysis
+
 hydrogen, biomass:
   lhv: 120
   co2: 0
   biogenic_share: 1
   iam_aliases:
     remind: SE|Hydrogen|Biomass|+|w/o CC
+    image: Secondary Energy|Hydrogen|Biomass|w/o CCS
   eff_aliases:
     remind: Tech|Hydrogen|Biomass|w/o CC|Efficiency
   ecoinvent_aliases:
@@ -421,6 +444,7 @@ hydrogen, biomass, with CCS:
   biogenic_share: 1
   iam_aliases:
     remind: SE|Hydrogen|Biomass|+|w/ CC
+    image: Secondary Energy|Hydrogen|Biomass|w/ CCS
   eff_aliases:
     remind: Tech|Hydrogen|Biomass|w/ CC|Efficiency
   ecoinvent_aliases:
@@ -436,6 +460,7 @@ hydrogen, coal:
   biogenic_share: 1
   iam_aliases:
     remind: SE|Hydrogen|Coal|+|w/o CC
+    image: Secondary Energy|Hydrogen|Coal|w/o CCS
   eff_aliases:
     remind: Tech|Hydrogen|Coal|w/o CC|Efficiency
   ecoinvent_aliases:
@@ -447,6 +472,7 @@ hydrogen, coal, with CCS:
   biogenic_share: 1
   iam_aliases:
     remind: SE|Hydrogen|Coal|+|w/ CC
+    image: Secondary Energy|Hydrogen|Coal|w/ CCS
   eff_aliases:
     remind: Tech|Hydrogen|Coal|w/ CC|Efficiency
   ecoinvent_aliases:
@@ -459,6 +485,7 @@ hydrogen, nat. gas:
   biogenic_share: 1
   iam_aliases:
     remind: SE|Hydrogen|Gas|+|w/o CC
+    image: Secondary Energy|Hydrogen|Gas|w/o CCS
   eff_aliases:
     remind: Tech|Hydrogen|Gas|w/o CC|Efficiency
   ecoinvent_aliases:
@@ -470,6 +497,7 @@ hydrogen, nat. gas, with CCS:
   biogenic_share: 1
   iam_aliases:
     remind: SE|Hydrogen|Gas|+|w/ CC
+    image: Secondary Energy|Hydrogen|Gas|w/ CCS
   eff_aliases:
     remind: Tech|Hydrogen|Gas|w/ CC|Efficiency
   ecoinvent_aliases:
@@ -559,6 +587,7 @@ bioethanol, wood, with CCS:
     remind: SE|Liquids|Biomass|Cellulosic|+|w/ CC
     image: Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Woody|w/CCS
   eff_aliases:
+    remind: SE|Liquids|Biomass|Cellulosic|+|w/o CC
     image: Efficiency|Liquids|Biomass|Ethanol|Woody|w/ CCS
   ecoinvent_aliases:
     fltr:

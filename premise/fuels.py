@@ -472,7 +472,7 @@ class Fuels(BaseTransformation):
 
             new_ds = self.fetch_proxies(
                 name=hydrogen_activity_name,
-                ref_prod="Hydrogen",
+                ref_prod="hydrogen",
                 production_variable=hydrogen_efficiency_variable,
             )
 
@@ -1504,23 +1504,23 @@ class Fuels(BaseTransformation):
                     # update exchange value
                     exc["amount"] = float(land_use)
 
-                    string = (
-                        f"The land area occupied has been modified to {land_use}, "
-                        f"to be in line with the scenario {self.scenario} of {self.model.upper()} "
-                        f"in {self.year} in the region {region}. "
-                    )
-                    if "comment" in dataset:
-                        dataset["comment"] += string
-                    else:
-                        dataset["comment"] = string
+                string = (
+                    f"The land area occupied has been modified to {land_use}, "
+                    f"to be in line with the scenario {self.scenario} of {self.model.upper()} "
+                    f"in {self.year} in the region {region}. "
+                )
+                if "comment" in dataset:
+                    dataset["comment"] += string
+                else:
+                    dataset["comment"] = string
 
-                    if "log parameters" not in dataset:
-                        dataset["log parameters"] = {}
-                    dataset["log parameters"].update(
-                        {
-                            "land footprint": land_use,
-                        }
-                    )
+                if "log parameters" not in dataset:
+                    dataset["log parameters"] = {}
+                dataset["log parameters"].update(
+                    {
+                        "land footprint": land_use,
+                    }
+                )
 
         return dataset
 
@@ -1619,17 +1619,22 @@ class Fuels(BaseTransformation):
         """
 
         # Find variables with crop type and biofuel type keywords
-        variables = [
+        crop_var = [
             v
             for v in self.fuel_markets.variables.values.tolist()
             if crop_type.lower() in v.lower()
             and any(x.lower() in v.lower() for x in ["bioethanol", "biodiesel"])
         ]
 
-        if variables:
+        if len(crop_var) == 0:
+            return dataset
+        else:
+            crop_var = crop_var[0]
+
+        if crop_var in self.fuel_efficiencies.variables.values:
             # Find scaling factor compared to 2020
             scaling_factor = 1 / self.find_iam_efficiency_change(
-                data=self.fuel_efficiencies, variable=variables, location=region
+                data=self.fuel_efficiencies, variable=crop_var, location=region
             )
 
             if "log parameters" not in dataset:
@@ -1865,7 +1870,7 @@ class Fuels(BaseTransformation):
         if np.isnan(fuel_share):
             print("Incorrect fuel share for", fuel, "in", region)
 
-        return fuel_share
+        return float(fuel_share)
 
     def relink_activities_to_new_markets(self):
         """
@@ -1929,7 +1934,6 @@ class Fuels(BaseTransformation):
                             )
 
                             # Update CO2 emissions
-
                             amount_fossil_co2 += (
                                 amount
                                 * self.new_fuel_markets[
@@ -1979,7 +1983,7 @@ class Fuels(BaseTransformation):
 
     def generate_world_fuel_market(
         self, dataset: dict, d_act: dict, prod_vars: list, period: int
-    ) -> tuple:
+    ) -> dict:
         """
         Generate the world fuel market for a given dataset and product variables.
 
@@ -2067,7 +2071,12 @@ class Fuels(BaseTransformation):
             final_fossil_co2 += share * co2_factor
             final_biogenic_co2 += share * biogenic_co2_factor
 
-        return final_lhv, final_fossil_co2, final_biogenic_co2, dataset
+            dataset["log parameters"] = {}
+            dataset["log parameters"]["fossil CO2 per kg fuel"] = final_fossil_co2
+            dataset["log parameters"]["non-fossil CO2 per kg fuel"] = final_biogenic_co2
+            dataset["log parameters"]["lower heating value"] = final_lhv
+
+        return dataset
 
     def generate_regional_fuel_market(
         self,
@@ -2079,7 +2088,7 @@ class Fuels(BaseTransformation):
         region: str,
         activity: dict,
         period: int,
-    ) -> tuple:
+    ) -> dict:
         """
         Generate regional fuel market for a given dataset and fuel providers.
 
@@ -2130,7 +2139,7 @@ class Fuels(BaseTransformation):
 
             if np.isnan(share):
                 print(
-                    "Incorrect fuel supplier share for", dataset["name"], "in", region
+                    f"Incorrect fuel supplier share for {dataset['name']} in {region}."
                 )
 
             if isinstance(share, np.ndarray):
@@ -2197,10 +2206,12 @@ class Fuels(BaseTransformation):
 
                 dataset = update_dataset(dataset, supplier_key, amount)
 
-                string += (
+                text = (
                     f"{prod_var.capitalize()}: {(share * 100):.1f} pct @ "
                     f"{self.fuels_specs[prod_var]['lhv']} MJ/kg. "
                 )
+                if text not in string:
+                    string += text
 
                 if "log parameters" not in dataset:
                     dataset["log parameters"] = {}
@@ -2236,14 +2247,7 @@ class Fuels(BaseTransformation):
         dataset["non-fossil CO2"] = non_fossil_co2
         dataset["LHV"] = final_lhv
 
-        # add fuel market to the dictionary
-        self.new_fuel_markets[(dataset["name"], dataset["location"])] = {
-            "fossil CO2": fossil_co2,
-            "non-fossil CO2": non_fossil_co2,
-            "LHV": final_lhv,
-        }
-
-        return fossil_co2, non_fossil_co2, final_lhv, dataset
+        return dataset
 
     def generate_fuel_markets(self):
         """
@@ -2280,10 +2284,10 @@ class Fuels(BaseTransformation):
                     "created"
                 ].append(
                     (
-                        dataset["name"],
-                        dataset["reference product"],
-                        dataset["location"],
-                        dataset["unit"],
+                        new_dataset["name"],
+                        new_dataset["reference product"],
+                        new_dataset["location"],
+                        new_dataset["unit"],
                     )
                 )
 
@@ -2313,10 +2317,10 @@ class Fuels(BaseTransformation):
                     "created"
                 ].append(
                     (
-                        dataset["name"],
-                        dataset["reference product"],
-                        dataset["location"],
-                        dataset["unit"],
+                        new_dataset["name"],
+                        new_dataset["reference product"],
+                        new_dataset["location"],
+                        new_dataset["unit"],
                     )
                 )
 
@@ -2383,12 +2387,7 @@ class Fuels(BaseTransformation):
                             dataset["code"] = str(uuid.uuid4().hex)
 
                         if region != "World":
-                            (
-                                fossil_co2,
-                                non_fossil_co2,
-                                final_lhv,
-                                dataset,
-                            ) = self.generate_regional_fuel_market(
+                            dataset = self.generate_regional_fuel_market(
                                 dataset=dataset,
                                 fuel_providers=d_fuels,
                                 prod_vars=prod_vars,
@@ -2401,12 +2400,7 @@ class Fuels(BaseTransformation):
 
                         else:
                             # World dataset
-                            (
-                                fossil_co2,
-                                non_fossil_co2,
-                                final_lhv,
-                                dataset,
-                            ) = self.generate_world_fuel_market(
+                            dataset = self.generate_world_fuel_market(
                                 dataset=dataset,
                                 d_act=d_act,
                                 prod_vars=prod_vars,
@@ -2417,9 +2411,15 @@ class Fuels(BaseTransformation):
                         self.new_fuel_markets.update(
                             {
                                 (dataset["name"], dataset["location"]): {
-                                    "fossil CO2": fossil_co2,
-                                    "non-fossil CO2": non_fossil_co2,
-                                    "LHV": final_lhv,
+                                    "fossil CO2": dataset["log parameters"][
+                                        "fossil CO2 per kg fuel"
+                                    ],
+                                    "non-fossil CO2": dataset["log parameters"][
+                                        "non-fossil CO2 per kg fuel"
+                                    ],
+                                    "LHV": dataset["log parameters"][
+                                        "lower heating value"
+                                    ],
                                 }
                             }
                         )

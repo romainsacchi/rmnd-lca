@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Dict, List, Union
 
 import bw2io
+import numpy as np
 import requests
 import yaml
 from bw2io import CSVImporter, ExcelImporter, Migration
@@ -21,20 +22,21 @@ from wurst import searching as ws
 from . import DATA_DIR, INVENTORY_DIR
 from .clean_datasets import remove_categories, remove_uncertainty
 from .data_collection import get_delimiter
-from .export import check_amount_format
 from .geomap import Geomap
 
 FILEPATH_MIGRATION_MAP = INVENTORY_DIR / "migration_map.csv"
 FILEPATH_CONSEQUENTIAL_BLACKLIST = DATA_DIR / "consequential" / "blacklist.yaml"
-OUTDATED_FLOWS = DATA_DIR / "utils" / "export" / "outdated_flows.yaml"
+CORRESPONDENCE_BIO_FLOWS = (
+    DATA_DIR / "utils" / "export" / "correspondence_biosphere_flows.yaml"
+)
 
 
-def get_outdated_flows():
+def get_correspondence_bio_flows():
     """
-    Retrieve a list of outdated flows from the outdated flows file.
+    Mapping between ei39 and ei<39 biosphere flows.
     """
 
-    with open(OUTDATED_FLOWS, "r", encoding="utf-8") as stream:
+    with open(CORRESPONDENCE_BIO_FLOWS, "r", encoding="utf-8") as stream:
         flows = yaml.safe_load(stream)
 
     return flows
@@ -102,6 +104,17 @@ def generate_migration_maps(origin: str, destination: str) -> Dict[str, list]:
                 if row[7] != "":
                     data["location"] = row[7]
                 response["data"].append(((row[2], row[3], row[4]), data))
+
+            if row[0] == destination and row[1] == origin:
+                data = {}
+                if row[2] != "":
+                    data["name"] = row[2]
+                if row[3] != "":
+                    data["reference product"] = row[3]
+                if row[4] != "":
+                    data["location"] = row[4]
+                response["data"].append(((row[5], row[6], row[7]), data))
+
     return response
 
 
@@ -191,6 +204,35 @@ def check_for_datasets_compliance_with_consequential_database(
     return datasets
 
 
+def check_amount_format(database: list) -> list:
+    """
+    Check that the `amount` field is of type `float`.
+    :param database: database to check
+    :return: database with corrected amount field
+    """
+
+    for dataset in database:
+        for exc in dataset["exchanges"]:
+            if not isinstance(exc["amount"], float):
+                exc["amount"] = float(exc["amount"])
+
+            if isinstance(exc["amount"], (np.float64, np.ndarray)):
+                exc["amount"] = float(exc["amount"])
+
+        for k, v in dataset.items():
+            if isinstance(v, dict):
+                for i, j in v.items():
+                    if isinstance(j, (np.float64, np.ndarray)):
+                        v[i] = float(v[i])
+
+        for e in dataset["exchanges"]:
+            for k, v in e.items():
+                if isinstance(v, (np.float64, np.ndarray)):
+                    e[k] = float(e[k])
+
+    return database
+
+
 class BaseInventoryImport:
     """
     Base class for inventories that are to be merged with the wurst database.
@@ -222,7 +264,7 @@ class BaseInventoryImport:
         self.version_in = version_in
         self.version_out = version_out
         self.biosphere_dict = get_biosphere_code(self.version_out)
-        self.outdated_flows = get_outdated_flows()
+        self.correspondence_bio_flows = get_correspondence_bio_flows()
         self.system_model = system_model
         self.consequential_blacklist = get_consequential_blacklist()
         self.list_unlinked = []
@@ -493,40 +535,14 @@ class BaseInventoryImport:
                 if y["type"] == "biosphere":
                     if isinstance(y["categories"], str):
                         y["categories"] = tuple(y["categories"].split("::"))
-                    if len(y["categories"]) > 1:
-                        try:
-                            key = (
-                                y["name"],
-                                y["categories"][0],
-                                y["categories"][1],
-                                y["unit"],
-                            )
-                            if key in self.biosphere_dict:
-                                y["input"] = (
-                                    "biosphere3",
-                                    self.biosphere_dict[key],
-                                )
-                            else:
-                                if key[0] in self.outdated_flows:
-                                    new_key = list(key)
-                                    new_key[0] = self.outdated_flows[key[0]]
-                                    y["input"] = (
-                                        "biosphere3",
-                                        self.biosphere_dict[tuple(new_key)],
-                                    )
-                                else:
-                                    if delete_missing:
-                                        y["flag_deletion"] = True
-                                    else:
-                                        print(
-                                            f"Could not find a biosphere flow for {key}."
-                                        )
 
-                        except KeyError:
-                            if delete_missing:
-                                y["flag_deletion"] = True
-                            else:
-                                raise
+                    if len(y["categories"]) > 1:
+                        key = (
+                            y["name"],
+                            y["categories"][0],
+                            y["categories"][1],
+                            y["unit"],
+                        )
                     else:
                         key = (
                             y["name"],
@@ -535,30 +551,22 @@ class BaseInventoryImport:
                             y["unit"],
                         )
 
-                        try:
-                            y["input"] = (
-                                "biosphere3",
-                                self.biosphere_dict[key],
-                            )
-                        except KeyError:
-                            if y["name"] in self.outdated_flows:
-                                new_key = list(key)
-                                new_key[0] = self.outdated_flows[key[0]]
-                                y["input"] = (
-                                    "biosphere3",
-                                    self.biosphere_dict[tuple(new_key)],
-                                )
-                            elif delete_missing:
-                                print(
-                                    f"The following biosphere exchange: "
-                                    f"{y['name']}, {y['categories'][0]}, unspecified, {y['unit']} "
-                                    f"in {x['name']}, {x['location']}"
-                                    f" cannot be found and will be deleted."
-                                )
-                                y["flag_deletion"] = True
-                            else:
-                                raise
-            x["exchanges"] = [ex for ex in x["exchanges"] if "flag_deletion" not in ex]
+                    if key not in self.biosphere_dict:
+                        if self.correspondence_bio_flows.get(key[1], {}).get(key[0]):
+                            new_key = list(key)
+                            new_key[0] = self.correspondence_bio_flows[key[1]][key[0]]
+                            key = tuple(new_key)
+                            assert (
+                                key in self.biosphere_dict
+                            ), f"Could not find a biosphere flow for {key}."
+                        else:
+                            print(key)
+                            continue
+
+                    y["input"] = (
+                        "biosphere3",
+                        self.biosphere_dict[key],
+                    )
 
     def remove_ds_and_modifiy_exchanges(self, name: str, ex_data: dict) -> None:
         """

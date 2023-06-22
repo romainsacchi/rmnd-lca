@@ -1,5 +1,5 @@
 from electrolysis:
-  name: hydrogen production, gaseous, 25 bar, from electrolysis
+  name: hydrogen production, gaseous, 200 bar, from PEM electrolysis, from grid electricity
   var: hydrogen, electrolysis
   feedstock name: electricity, low voltage
   feedstock unit: kilowatt hour
@@ -52,3 +52,15 @@ from coal gasification, with CCS:
   feedstock name: hard coal
   feedstock unit: kilogram
   floor value: 5
+from pyrolysis:
+  name: hydrogen production, gaseous, 100 bar, from methane pyrolysis
+  var: hydrogen, pyrolsis
+  feedstock name: natural gas
+  feedstock unit: cubic meter
+  floor value: 6.5
+from thermochemical water splitting:
+  name: hydrogen production, gaseous, 25 bar, from thermochemical water splitting, at solar tower
+  var: hydrogen, solar
+  feedstock name: Energy, solar, converted
+  feedstock unit: megajoule
+  floor value: 180

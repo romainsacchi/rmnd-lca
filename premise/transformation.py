@@ -611,21 +611,21 @@ class BaseTransformation:
                 ds_name = d_act[region]["name"]
                 ds_ref_prod = d_act[region]["reference product"]
 
-        if delete_original_dataset:
-            # add dataset to emptied datasets list
-            for ds in self.database:
-                if (ds["name"] == ds_name) and (ds["reference product"] == ds_ref_prod):
-                    self.modified_datasets[(self.model, self.scenario, self.year)][
-                        "emptied"
-                    ].append(
-                        (
-                            ds["name"],
-                            ds["reference product"],
-                            ds["location"],
-                            ds["unit"],
-                        )
+        # add dataset to emptied datasets list
+        for ds in self.database:
+            if (ds["name"] == ds_name) and (ds["reference product"] == ds_ref_prod):
+                self.modified_datasets[(self.model, self.scenario, self.year)][
+                    "emptied"
+                ].append(
+                    (
+                        ds["name"],
+                        ds["reference product"],
+                        ds["location"],
+                        ds["unit"],
                     )
+                )
 
+        if delete_original_dataset:
             # remove the dataset from `self.database`
             self.database = [
                 ds
@@ -814,7 +814,7 @@ class BaseTransformation:
                     if isinstance(entry, tuple):
                         entry = [entry + (1.0,)]
 
-                # not in cache, so find new candidate
+                # not in cache, so find new candidates
                 else:
                     names_to_look_for = [exc[0], *alt_names]
 
