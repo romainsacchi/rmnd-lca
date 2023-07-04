@@ -17,6 +17,7 @@ from pathlib import Path
 
 import wurst
 import yaml
+import copy
 
 from . import VARIABLES_DIR
 from .data_collection import get_delimiter
@@ -311,6 +312,10 @@ class Electricity(BaseTransformation):
 
         # Loop through IAM regions
         for region in self.regions:
+
+            if region == "World":
+                continue
+
             transf_loss = self.network_loss[region]["low"]["transf_loss"]
             distr_loss = self.network_loss[region]["low"]["distr_loss"]
 
@@ -597,6 +602,15 @@ class Electricity(BaseTransformation):
                     )
                 )
 
+        for period in periods:
+            new_world_dataset = self.generate_world_market(
+                dataset=copy.deepcopy(new_dataset),
+                regions=self.regions,
+                period=period
+            )
+            self.database.append(new_world_dataset)
+            self.write_log(new_world_dataset)
+
     def create_new_markets_medium_voltage(self) -> None:
         """
         Create medium voltage market groups for electricity, by receiving high voltage market groups as inputs
@@ -608,6 +622,10 @@ class Electricity(BaseTransformation):
         log_created_markets = []
 
         for region in self.regions:
+
+            if region == "World":
+                continue
+
             transf_loss = self.network_loss[region]["medium"]["transf_loss"]
             distr_loss = self.network_loss[region]["medium"]["distr_loss"]
 
@@ -796,6 +814,17 @@ class Electricity(BaseTransformation):
                     )
                 )
 
+        for period in periods:
+            new_world_dataset = self.generate_world_market(
+                dataset=copy.deepcopy(new_dataset),
+                regions=self.regions,
+                period=period
+            )
+            self.database.append(new_world_dataset)
+            self.write_log(new_world_dataset)
+
+
+
     def create_new_markets_high_voltage(self) -> None:
         """
         Create high voltage market groups for electricity, based on electricity mixes given by the IAM scenario.
@@ -818,6 +847,10 @@ class Electricity(BaseTransformation):
         }
 
         for region in self.regions:
+
+            if region == "World":
+                continue
+
             # Fetch ecoinvent regions contained in the IAM region
             ecoinvent_regions = self.geo.iam_to_ecoinvent_location(region)
             # Second, add transformation loss
@@ -1007,22 +1040,6 @@ class Electricity(BaseTransformation):
                                 }
                             )
 
-                            log_created_markets.append(
-                                [
-                                    f"high voltage, {self.scenario}, {self.year}"
-                                    if period == 0
-                                    else f"high voltage, {self.scenario}, {self.year}, {period}-year period",
-                                    technology,
-                                    region,
-                                    transf_loss,
-                                    0.0,
-                                    supplier["name"],
-                                    supplier["location"],
-                                    share,
-                                    (amount * share) / (1 - solar_amount),
-                                ]
-                            )
-
                 new_dataset["exchanges"] = new_exchanges
 
                 if "log parameters" not in new_dataset:
@@ -1052,6 +1069,121 @@ class Electricity(BaseTransformation):
                         new_dataset["unit"],
                     )
                 )
+
+        for period in periods:
+            new_world_dataset = self.generate_world_market(
+                dataset=copy.deepcopy(new_dataset),
+                regions=self.regions,
+                period=period
+            )
+            self.database.append(new_world_dataset)
+            self.write_log(new_world_dataset)
+
+    def generate_world_market(
+        self,
+        dataset: dict,
+        regions: List[str],
+        period: int
+    ) -> dict:
+        """
+        Generate the world market for a given dataset and product variables.
+
+        :param dataset: The dataset for which to generate the world market.
+        :param regions: A dictionary of activity datasets, keyed by region.
+        :param prod_vars: A list of product variables.
+
+        This function generates the world market exchanges for a given dataset and set of product variables.
+        It first filters out non-production exchanges from the dataset, and then calculates the total production
+        volume for the world using the given product variables. For each region, it calculates the share of the
+        production volume and adds a technosphere exchange to the dataset with the appropriate share.
+
+        """
+
+        # rename dataset
+        if "period" in dataset["name"]:
+            dataset["name"] = dataset["name"][:-16]
+
+        # same for production exchanges
+        for exc in ws.production(dataset):
+            if "period" in exc["name"]:
+                exc["name"] = exc["name"][:-16]
+
+        # rename location
+        dataset["location"] = "World"
+        if "code" in dataset:
+            del dataset["code"]
+        dataset["code"] = str(uuid.uuid4().hex)
+
+        # rename location of production exchanges
+        for exc in ws.production(dataset):
+            exc["location"] = "World"
+            if "input" in exc:
+                del exc["input"]
+
+        if period > 0:
+            # this dataset is for a period of time
+            dataset["name"] += f", {period}-year period"
+            dataset["comment"] += (
+                f" Average mix over a {period}"
+                f"-year period {self.year}-{self.year + period}."
+            )
+            for exc in ws.production(dataset):
+                exc["name"] += f", {period}-year period"
+
+
+        # Filter out non-production exchanges
+        dataset["exchanges"] = [
+            e for e in dataset["exchanges"] if e["type"] == "production"
+        ]
+
+        # Calculate share of production volume for each region
+        for r in regions:
+
+            if r == "World":
+                continue
+
+            share = (
+                (
+                    self.iam_data.production_volumes.sel(
+                        region=r,
+                        variables=self.iam_data.electricity_markets.variables.values,
+                    ).sum(
+                        dim="variables"
+                    )
+                    / self.iam_data.production_volumes.sel(
+                        region=[
+                            x for x
+                            in self.iam_data.production_volumes.region.values
+                            if x != "World"
+                        ],
+                        variables=self.iam_data.electricity_markets.variables.values,
+                    ).sum(dim=["variables", "region"])
+                )
+                .interp(
+                    year=np.arange(self.year, self.year + period + 1),
+                    kwargs={"fill_value": "extrapolate"},
+                )
+                .mean(dim="year")
+                .values
+            )
+
+            if np.isnan(share):
+                print("Incorrect market share for", dataset["name"], "in", r)
+
+            if share > 0:
+                # Add exchange for the region
+                exchange = {
+                    "uncertainty type": 0,
+                    "amount": share,
+                    "type": "technosphere",
+                    "product": dataset["reference product"],
+                    "name": dataset["name"],
+                    "unit": dataset["unit"],
+                    "location": r,
+                }
+                dataset["exchanges"].append(exchange)
+
+        return dataset
 
     def update_efficiency_of_solar_pv(self) -> None:
         """
@@ -1596,9 +1728,6 @@ class Electricity(BaseTransformation):
             technologies=list(set(eff_labels).intersection(all_techs)),
         )
 
-        # to store changes in efficiency
-        eff_change_log = []
-
         for technology in technologies_map:
             dict_technology = technologies_map[technology]
             print("Rescale inventories and emissions for", technology)
@@ -1630,26 +1759,31 @@ class Electricity(BaseTransformation):
                 if "log parameters" not in dataset:
                     dataset["log parameters"] = {}
 
-                dataset["log parameters"].update(
-                    {
-                        "old efficiency": ei_eff,
-                        "new efficiency": new_efficiency,
-                    }
-                )
+                # ensure that the dataset has not already been adjusted
+                if (
+                    "new efficiency" not in dataset["log parameters"]
+                    and scaling_factor != 1
+                ):
+                    dataset["log parameters"].update(
+                        {
+                            "old efficiency": ei_eff,
+                            "new efficiency": new_efficiency,
+                        }
+                    )
 
-                self.update_ecoinvent_efficiency_parameter(
-                    dataset, ei_eff, new_efficiency
-                )
+                    self.update_ecoinvent_efficiency_parameter(
+                        dataset, ei_eff, new_efficiency
+                    )
 
-                # Rescale all the technosphere exchanges
-                # according to the change in efficiency between `year`
-                # and 2020 from the IAM efficiency values
-                wurst.change_exchanges_by_constant_factor(
-                    dataset,
-                    scaling_factor,
-                )
+                    # Rescale all the technosphere exchanges
+                    # according to the change in efficiency between `year`
+                    # and 2020 from the IAM efficiency values
+                    wurst.change_exchanges_by_constant_factor(
+                        dataset,
+                        scaling_factor,
+                    )
 
-                self.write_log(dataset=dataset, status="updated")
+                    self.write_log(dataset=dataset, status="updated")
 
     def update_electricity_markets(self) -> None:
         """

@@ -337,15 +337,7 @@ def check_scenarios(scenario: dict, key: bytes) -> dict:
         filepath = scenario["filepath"]
         scenario["filepath"] = check_filepath(filepath)
     else:
-        if key is not None:
-            scenario["filepath"] = DATA_DIR / "iam_output_files"
-        else:
-            raise PermissionError(
-                "You will need to provide a decryption key "
-                "if you want to use the IAM scenario files included "
-                "in premise. If you do not have a key, "
-                "please contact the developers."
-            )
+        scenario["filepath"] = DATA_DIR / "iam_output_files"
 
     scenario["model"] = check_model_name(scenario["model"])
     scenario["pathway"] = check_pathway_name(

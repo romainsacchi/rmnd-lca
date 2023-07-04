@@ -12,7 +12,6 @@ from wurst import geomatcher
 from . import DATA_DIR, VARIABLES_DIR
 
 ECO_IAM_MAPPING = VARIABLES_DIR / "missing_geography_equivalences.yaml"
-IAM_TO_IAM_MAPPING = DATA_DIR / "geomap" / "mapping_regions_iam.yml"
 
 
 def load_constants():

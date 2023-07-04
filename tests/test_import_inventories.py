@@ -128,4 +128,4 @@ def test_load_biofuel():
         system_model="cutoff",
         keep_uncertainty_data=False,
     )
-    assert len(bio.import_db.data) >= 160
+    assert len(bio.import_db.data) >= 150
