@@ -252,6 +252,7 @@ gasoline:
         - petrol, unleaded
       name:
         - petrol production
+        - market for petrol
     mask:
       name:
         - import
