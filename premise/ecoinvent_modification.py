@@ -625,8 +625,8 @@ class NewDatabase:
         # file path and original ecoinvent version
         data = []
         filepaths = [
-            (FILEPATH_RHENIUM,"3.8"),
-            (FILEPATH_PGM,"3.8"),
+            (FILEPATH_RHENIUM, "3.8"),
+            (FILEPATH_PGM, "3.8"),
             (FILEPATH_OIL_GAS_INVENTORIES, "3.7"),
             (FILEPATH_CARMA_INVENTORIES, "3.5"),
             (FILEPATH_CHP_INVENTORIES, "3.5"),
@@ -652,7 +652,7 @@ class NewDatabase:
             (FILEPATH_HYDROGEN_WOODY_INVENTORIES, "3.7"),
             (FILEPATH_SYNGAS_INVENTORIES, "3.9"),
             (FILEPATH_SYNGAS_FROM_COAL_INVENTORIES, "3.7"),
-            (FILEPATH_VANADIUM,"3.8"),
+            (FILEPATH_VANADIUM, "3.8"),
             (FILEPATH_BIOFUEL_INVENTORIES, "3.7"),
             (FILEPATH_SYNFUEL_INVENTORIES, "3.7"),
             (
