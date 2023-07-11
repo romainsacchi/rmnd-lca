@@ -9,6 +9,7 @@ the newly created electricity markets.
 
 """
 
+import copy
 import logging.config
 import re
 from collections import defaultdict
@@ -17,7 +18,6 @@ from pathlib import Path
 
 import wurst
 import yaml
-import copy
 
 from . import VARIABLES_DIR
 from .data_collection import get_delimiter
@@ -312,7 +312,6 @@ class Electricity(BaseTransformation):
 
         # Loop through IAM regions
         for region in self.regions:
-
             if region == "World":
                 continue
 
@@ -604,9 +603,7 @@ class Electricity(BaseTransformation):
 
         for period in periods:
             new_world_dataset = self.generate_world_market(
-                dataset=copy.deepcopy(new_dataset),
-                regions=self.regions,
-                period=period
+                dataset=copy.deepcopy(new_dataset), regions=self.regions, period=period
             )
             self.database.append(new_world_dataset)
             self.write_log(new_world_dataset)
@@ -622,7 +619,6 @@ class Electricity(BaseTransformation):
         log_created_markets = []
 
         for region in self.regions:
-
             if region == "World":
                 continue
 
@@ -816,14 +812,10 @@ class Electricity(BaseTransformation):
 
         for period in periods:
             new_world_dataset = self.generate_world_market(
-                dataset=copy.deepcopy(new_dataset),
-                regions=self.regions,
-                period=period
+                dataset=copy.deepcopy(new_dataset), regions=self.regions, period=period
             )
             self.database.append(new_world_dataset)
             self.write_log(new_world_dataset)
-
-
 
     def create_new_markets_high_voltage(self) -> None:
         """
@@ -847,7 +839,6 @@ class Electricity(BaseTransformation):
         }
 
         for region in self.regions:
-
             if region == "World":
                 continue
 
@@ -1072,18 +1063,13 @@ class Electricity(BaseTransformation):
 
         for period in periods:
             new_world_dataset = self.generate_world_market(
-                dataset=copy.deepcopy(new_dataset),
-                regions=self.regions,
-                period=period
+                dataset=copy.deepcopy(new_dataset), regions=self.regions, period=period
             )
             self.database.append(new_world_dataset)
             self.write_log(new_world_dataset)
 
     def generate_world_market(
-        self,
-        dataset: dict,
-        regions: List[str],
-        period: int
+        self, dataset: dict, regions: List[str], period: int
     ) -> dict:
         """
         Generate the world market for a given dataset and product variables.
@@ -1130,7 +1116,6 @@ class Electricity(BaseTransformation):
             for exc in ws.production(dataset):
                 exc["name"] += f", {period}-year period"
 
-
         # Filter out non-production exchanges
         dataset["exchanges"] = [
             e for e in dataset["exchanges"] if e["type"] == "production"
@@ -1138,7 +1123,6 @@ class Electricity(BaseTransformation):
 
         # Calculate share of production volume for each region
         for r in regions:
-
             if r == "World":
                 continue
 
@@ -1147,13 +1131,11 @@ class Electricity(BaseTransformation):
                     self.iam_data.production_volumes.sel(
                         region=r,
                         variables=self.iam_data.electricity_markets.variables.values,
-                    ).sum(
-                        dim="variables"
-                    )
+                    ).sum(dim="variables")
                     / self.iam_data.production_volumes.sel(
                         region=[
-                            x for x
-                            in self.iam_data.production_volumes.region.values
+                            x
+                            for x in self.iam_data.production_volumes.region.values
                             if x != "World"
                         ],
                         variables=self.iam_data.electricity_markets.variables.values,
