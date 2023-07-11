@@ -38,6 +38,7 @@ air:
   Cesium-137: Caesium-137
   Cesium-134: Caesium-134
   Cesium-136: Caesium-136
+  Beryllium: Beryllium II
 
 natural resource:
   Iridium: Iridium, in ground
@@ -48,6 +49,21 @@ natural resource:
   Bromine, in water: Bromine
   Fluorspar, in ground: Fluorspar
   Iodine, in water: Iodine
+  Ruthenium, in ground: Ruthenium
+  Rhodium, in ground: Rhodium
+  Platinum, in ground: Platinum
+  Nickel, in ground: Nickel
+  Palladium, in ground: Palladium
+  Gangue, in ground: Gangue
+  Selenium, in ground: Selenium
+  Tellurium, in ground: Tellurium
+  Molybdenum, in ground: Molybdenum
+  Gold, in ground: Gold
+  Silver, in ground: Silver
+  Rhenium, in ground: Rhenium
+  Iridium, in ground: Iridium
+  Iron, 72% in magnetite, 14% in crude ore, in ground: Iron, 72% in magnetite, 14% in crude ore
+  Vanadium, in ground: Vanadium
 
 soil:
   Cyfluthrin: Beta-cyfluthrin
@@ -64,6 +80,7 @@ soil:
   Carfentrazone ethyl ester: Carfentrazone-ethyl
   Iprodion: Iprodione
   Quizalofop ethyl ester: Quizalofop-ethyl
+
 
 water:
   AOX, Adsorbable Organic Halogen as Cl: AOX, Adsorbable Organic Halogen
@@ -93,3 +110,5 @@ water:
   Cesium-137: Caesium-137
   Cesium-134: Caesium-134
   Cesium-136: Caesium-136
+  Cobalt: Cobalt II
+  Tin, ion: Tin ion

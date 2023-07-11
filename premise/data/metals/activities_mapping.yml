@@ -1,76 +1,17 @@
-ELECTRO_MOTOR:
+ICEV:
+  ecoinvent_aliases:
+    fltr:
+      - passenger car production, petrol/natural gas
+      - passenger car, diesel
+    mask:
+      - market
+EV:
   ecoinvent_aliases:
     fltr:
       - electric motor production, vehicle
       - electric motor production
-#ELECTRO_MOTOR_wo_PM: # They do not identify any critical materials - Further research?
-#  ecoinvent_aliases:
-#    fltr:
-#      -
-#    mask:
-#      -
-W_on_AG:
-  ecoinvent_aliases:
-    fltr:
-      - wind power plant
-      - wind turbine
-    mask:
-      - fixed
-      - network
-      - concrete
-      - offshore
-
-W_on_SG_E_DD:
-  ecoinvent_aliases:
-    fltr:
-      - wind power plant
-      - wind turbine
-    mask:
-      - fixed
-      - network
-      - concrete
-      - offshore
-W_on_HTS_DD:
-  ecoinvent_aliases:
-    fltr:
-      - wind power plant
-      - wind turbine
-    mask:
-      - fixed
-      - network
-      - concrete
-      - offshore
-W_on_SG_PM_DD:
-  ecoinvent_aliases:
-    fltr:
-      - wind power plant
-      - wind turbine
-    mask:
-      - fixed
-      - network
-      - concrete
-      - offshore
-W_on_SG_PM_MS:
-  ecoinvent_aliases:
-    fltr:
-      - wind power plant
-      - wind turbine
-    mask:
-      - fixed
-      - network
-      - concrete
-      - offshore
-W_on_SG_PM_HS:
-  ecoinvent_aliases:
-    fltr:
-      - wind power plant
-      - wind turbine
-    mask:
-      - fixed
-      - network
-      - concrete
-      - offshore
-W_off_AG:
+### At this point, we assume that DDPM are used for offshore and Gearbox onshore.
+Wind-DDPM:
   ecoinvent_aliases:
     fltr:
       - wind power plant
@@ -81,7 +22,8 @@ W_off_AG:
       - concrete
       - onshore
       - 800kW
-W_off_SG_E_DD:
+      - market
+Wind-Gearbox:
   ecoinvent_aliases:
     fltr:
       - wind power plant
@@ -90,122 +32,129 @@ W_off_SG_E_DD:
       - fixed
       - network
       - concrete
-      - onshore
-      - 800kW
-W_off_HTS_DD:
-  ecoinvent_aliases:
-    fltr:
-      - wind power plant
-      - wind turbine
-    mask:
-      - fixed
-      - network
-      - concrete
-      - onshore
-      - 800kW
-W_off_SG_PM_DD:
-  ecoinvent_aliases:
-    fltr:
-      - wind power plant
-      - wind turbine
-    mask:
-      - fixed
-      - network
-      - concrete
-      - onshore
-      - 800kW
-W_off_SG_PM_MS:
-  ecoinvent_aliases:
-    fltr:
-      - wind power plant
-      - wind turbine
-    mask:
-      - fixed
-      - network
-      - concrete
-      - onshore
-      - 800kW
-W_off_SG_PM_HS:
-  ecoinvent_aliases:
-    fltr:
-      - wind power plant
-      - wind turbine
-    mask:
-      - fixed
-      - network
-      - concrete
-      - onshore
-      - 800kW
-battery_LMO:
+      - offshore
+      - market
+LMO:
   ecoinvent_aliases:
     fltr:
       name: cathode production, LiMn2O4
     mask:
       - market
-battery_NMC111:
+NMC111:
   ecoinvent_aliases:
     fltr:
       - battery cell production, Li-ion, NMC111
       - Battery cell, NMC-111
-
-battery_NMC622:
+NMC622:
   ecoinvent_aliases:
     fltr:
       - Battery cell, NMC-622
-#    mask:
-#      -
-battery_NMC811:
+NMC811:
   ecoinvent_aliases:
     fltr:
       - battery cell production, Li-ion, NMC811
       - Battery cell, NMC-811
-#    mask:
-#      -
-battery_NCA:
+NCA:
   ecoinvent_aliases:
     fltr:
       - battery cell production, Li-ion, NCA
       - Battery cell, NCA
-#    mask:
-#      - market
-battery_LFP:
+LFP:
   ecoinvent_aliases:
     fltr:
       - Battery cell, LFP
       - battery cell production, Li-ion, LFP
-
-battery_Lead_Acid:
+Lead_Acid:
   ecoinvent_aliases:
     fltr:
       - battery production, lead acid
       - lead acid battery, for lorry
-
-fuel_cell_PEMFC:
+NiMH:
+  ecoinvent_aliases:
+    fltr:
+      - battery production, NiMH, rechargeable, prismatic
+## Battery technoligies not found in Ecoinvent
+#LiS:
+#LiO2:
+PEMFC:
   ecoinvent_aliases:
     fltr:
       - fuel cell production, polymer electrolyte membrane
+      - fuel cell
+      - PEM
     mask:
-      - stack # Stack is an assembly of different fuel cells. EI models this process of assembling.
-fuel_cell_SOFC_yttrium:
+      - solid oxide
+      - Balance of Plant
+      - maintenance
+      - market
+      - hydrogen
+      - natural gas
+      - electrolyzer
+      - assembly
+      - polymer
+      - biomethane
+### How to parametrize the different shares???
+SOFC_yttrium:
   ecoinvent_aliases:
     fltr:
-      - fuel cell production, solid oxide
-    mask:
-      - micro gas turbine
+      - fuel cell production
       - stack
-fuel_cell_SOFC_scandium:
-  ecoinvent_aliases:
-    fltr:
-      - fuel cell production, solid oxide
+      - solid oxide
     mask:
       - micro gas turbine
+      - market
+      - assembly
+      - biomethane
+      - Balance of Plant
+      - maintenance
+      - polymer
+      - PEM
+      - natural gas
+      - fuel cell production, solid oxide
+#SOFC_scandium:
+##  ecoinvent_aliases:
+##    fltr:
+##      - fuel cell production, solid oxide
+##    mask:
+##      - micro gas turbine
 PEMEL:
   ecoinvent_aliases:
     fltr:
-      - electrolyzer, PEM
+      - electrolyzer production
+      - PEM
     mask:
       - Balance of Plant
-      - stack
+      - SOEC
+      - AEC
+      - assembly
+      - hydrogen production
+      - fuel cell
+AEL:
+  ecoinvent_aliases:
+    fltr:
+      - electrolyzer production
+      - AEC
+      - stack polymer electrolyte
+    mask:
+      - Balance of Plant
+      - PEM
+      - hydrogen production
+      - SOEC
+      - market
+      - fuel cell
+HTEL:
+  ecoinvent_aliases:
+    fltr:
+      - electrolyzer production
+      - SOEC
+      - stack solid oxide
+    mask:
+      - Balance of Plant
+      - PEM
+      - AEC
+      - market
+      - hydrogen production
+      - fuel cell
 pv_c_Si:
   ecoinvent_aliases:
     fltr:
@@ -219,6 +168,7 @@ pv_c_Si:
       - multi-Si wafer production
       - single-Si wafer production
       - at regional storage
+      - market
 pv_a_Si:
   ecoinvent_aliases:
     fltr:
