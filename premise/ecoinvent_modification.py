@@ -137,6 +137,7 @@ FILEPATH_FUEL_CELL = INVENTORY_DIR / "lci-fuel_cell.xlsx"
 FILEPATH_RHENIUM = INVENTORY_DIR / "lci-rhenium.xlsx"
 FILEPATH_PGM = INVENTORY_DIR / "lci-PGM.xlsx"
 FILEPATH_VANADIUM = INVENTORY_DIR / "lci-vanadium.xlsx"
+FILEPATH_GERMANIUM = INVENTORY_DIR / 'lci-germanium.xlsx'
 
 config = load_constants()
 
@@ -625,7 +626,7 @@ class NewDatabase:
         # file path and original ecoinvent version
         data = []
         filepaths = [
-            (FILEPATH_RHENIUM, "3.8"),
+            (FILEPATH_RHENIUM, "3.9"),
             (FILEPATH_PGM, "3.8"),
             (FILEPATH_OIL_GAS_INVENTORIES, "3.7"),
             (FILEPATH_CARMA_INVENTORIES, "3.5"),
@@ -653,6 +654,7 @@ class NewDatabase:
             (FILEPATH_SYNGAS_INVENTORIES, "3.9"),
             (FILEPATH_SYNGAS_FROM_COAL_INVENTORIES, "3.7"),
             (FILEPATH_VANADIUM, "3.8"),
+            (FILEPATH_GERMANIUM,"3.9"),
             (FILEPATH_BIOFUEL_INVENTORIES, "3.7"),
             (FILEPATH_SYNFUEL_INVENTORIES, "3.7"),
             (
