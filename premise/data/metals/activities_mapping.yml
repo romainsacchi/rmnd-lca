@@ -1,10 +1,25 @@
 ICEV:
   ecoinvent_aliases:
     fltr:
-      - passenger car production, petrol/natural gas
-      - passenger car, diesel
+#      - passenger car production, petrol/natural gas
+#      - passenger car, diesel
+       - passenger car production
+       - diesel
+       - petrol/natural
     mask:
       - market
+      - electric
+      - Biodiesel
+      - methanol
+      - transport
+      - low-sulfur
+      - synthetic
+      - chipper
+      - pump
+      - burned
+      - machine
+      - refinery
+      - import
 EV:
   ecoinvent_aliases:
     fltr:
@@ -94,7 +109,7 @@ PEMFC:
       - polymer
       - biomethane
 ### How to parametrize the different shares???
-SOFC_yttrium:
+SOFC - Y:
   ecoinvent_aliases:
     fltr:
       - fuel cell production
@@ -142,7 +157,7 @@ AEL:
       - SOEC
       - market
       - fuel cell
-HTEL:
+HTEL - Yttrium:
   ecoinvent_aliases:
     fltr:
       - electrolyzer production
@@ -155,7 +170,7 @@ HTEL:
       - market
       - hydrogen production
       - fuel cell
-pv_c_Si:
+c-Si:
   ecoinvent_aliases:
     fltr:
       - photovoltaic cell production
@@ -169,55 +184,61 @@ pv_c_Si:
       - single-Si wafer production
       - at regional storage
       - market
-pv_a_Si:
+      - electricity production
+      - laminate
+      - panel
+      - slanted-roof
+a-Si:
   ecoinvent_aliases:
     fltr:
       - photovoltaic laminate production, a-Si
       - photovoltaic laminate, micro-Si, at plant
       - photovoltaic panel, micro-Si, at plant
-pv_CIGS:
+CIGS:
   ecoinvent_aliases:
     fltr:
       - photovoltaic laminate production, CIS
       - photovoltaic laminate, CIS, at plant
-pv_CdTe:
+CdTe:
   ecoinvent_aliases:
     fltr:
       - photovoltaic laminate production, CdTe
       - photovoltaic laminate, CdTe
+    mask:
+      - market
 pv_perovskite:
   ecoinvent_aliases:
     fltr:
       - photovoltaic panel, perovskite-Si-tandem, at plant
-csp_parabolic_SF:
+Parabolic Trough - SF:
   ecoinvent_aliases:
     fltr:
       - collector field area
     mask:
       - market
       - tower
-csp_parabolic:
+Parabolic Trough - PB:
   ecoinvent_aliases:
     fltr:
       - power block
     mask:
       - market
       - tower
-csp_tower_SF:
+CSP Tower - SF:
   ecoinvent_aliases:
     fltr:
       - collector field area
     mask:
       - market
       - parabolic
-csp_tower:
+CSP Tower - PB:
   ecoinvent_aliases:
     fltr:
       - power block
     mask:
       - market
       - parabolic
-nuclear:
+Nuclear:
   ecoinvent_aliases:
     fltr:
       - nuclear power plant construction
