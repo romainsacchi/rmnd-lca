@@ -39,6 +39,7 @@ VEHICLES_MAP = DATA_DIR / "transport" / "vehicles_map.yaml"
 IAM_CARBON_CAPTURE_VARS = VARIABLES_DIR / "carbon_capture_variables.yaml"
 CROPS_PROPERTIES = VARIABLES_DIR / "crops_variables.yaml"
 GAINS_GEO_MAP = VARIABLES_DIR / "gains_regions_mapping.yaml"
+COAL_POWER_PLANTS_DATA = DATA_DIR / "electricity" / "coal_power_emissions_2012_v1.csv"
 
 
 def get_delimiter(data=None, filepath=None):
@@ -322,12 +323,14 @@ class IAMDataCollection:
         system_model: str = "cutoff",
         system_model_args: dict = None,
         gains_scenario: str = "CLE",
+        use_absolute_efficiency: bool = False,
     ) -> None:
         self.model = model
         self.pathway = pathway
         self.year = year
         self.external_scenarios = external_scenarios
         self.system_model_args = system_model_args
+        self.use_absolute_efficiency = use_absolute_efficiency
         key = key or None
 
         electricity_prod_vars = self.__get_iam_variable_labels(
@@ -445,12 +448,13 @@ class IAMDataCollection:
                 if any(x in k for x in ["gasoline", "ethanol", "methanol"])
             },
         )
-        # divide the volume of "gasoline" by 2
-        self.petrol_markets.loc[dict(variables="gasoline")] /= 2
-        # normalize by the sum
-        self.petrol_markets = self.petrol_markets / self.petrol_markets.sum(
-            dim="variables"
-        )
+        if self.petrol_markets is not None:
+            # divide the volume of "gasoline" by 2
+            self.petrol_markets.loc[dict(variables="gasoline")] /= 2
+            # normalize by the sum
+            self.petrol_markets = self.petrol_markets / self.petrol_markets.sum(
+                dim="variables"
+            )
 
         self.diesel_markets = self.__fetch_market_data(
             data=data,
@@ -465,12 +469,13 @@ class IAMDataCollection:
                 )
             },
         )
-        # divide the volume of "gasoline" by 2
-        self.diesel_markets.loc[dict(variables="diesel")] /= 2
-        # normalize by the sum
-        self.diesel_markets = self.diesel_markets / self.diesel_markets.sum(
-            dim="variables"
-        )
+        if self.diesel_markets is not None:
+            # divide the volume of "gasoline" by 2
+            self.diesel_markets.loc[dict(variables="diesel")] /= 2
+            # normalize by the sum
+            self.diesel_markets = self.diesel_markets / self.diesel_markets.sum(
+                dim="variables"
+            )
 
         self.gas_markets = self.__fetch_market_data(
             data=data,
@@ -574,10 +579,10 @@ class IAMDataCollection:
         )
 
         self.land_use = self.__get_iam_production_volumes(
-            data=data, input_vars=land_use_vars
+            data=data, input_vars=land_use_vars, fill=True
         )
         self.land_use_change = self.__get_iam_production_volumes(
-            data=data, input_vars=land_use_change_vars
+            data=data, input_vars=land_use_change_vars, fill=True
         )
 
         self.trsp_cars = get_vehicle_fleet_composition(self.model, vehicle_type="car")
@@ -599,6 +604,8 @@ class IAMDataCollection:
                 **biomass_prod_vars,
             },
         )
+
+        self.coal_power_plants = self.fetch_external_data_coal_power_plants()
 
     def __get_iam_variable_labels(
         self, filepath: Path, variable: str
@@ -837,10 +844,23 @@ class IAMDataCollection:
         else:
             return None
 
-        eff_data /= eff_data.sel(year=2020)
+        if not self.use_absolute_efficiency:
+            eff_data /= eff_data.sel(year=2020)
+            # fix efficiencies
+            eff_data = fix_efficiencies(eff_data)
+        else:
+            # if absolute efficiencies are used, we need to make sure that
+            # the efficiency is not greater than 1
+            # otherwise it means they are given as percentages
 
-        # fix efficiencies
-        eff_data = fix_efficiencies(eff_data)
+            # check if any efficiency is greater than 1
+            if (eff_data > 1).any():
+                # if yes, divide by 100
+                eff_data /= 100
+
+            # now check that all efficiencies are between 0 and 1
+            eff_data = xr.where(eff_data > 1, 1, eff_data)
+            eff_data = xr.where(eff_data < 0, 0, eff_data)
 
         return eff_data
 
@@ -905,43 +925,49 @@ class IAMDataCollection:
         # IAM files
 
         if "cement - cco2" not in data.variables.values.tolist():
-            rate.loc[dict(region="World", variables="cement")] = 1
+            rate.loc[dict(region="World", variables="cement")] = 0
         else:
-            rate.loc[dict(region="World", variables="cement")] = (
-                data.loc[
-                    dict(
-                        region=[r for r in self.regions if r != "World"],
-                        variables=dict_vars["cement - cco2"],
-                    )
-                ]
-                .sum(dim=["variables", "region"])
-                .values
-                / data.loc[
-                    dict(
-                        region=[r for r in self.regions if r != "World"],
-                        variables=dict_vars["cement - co2"],
-                    )
-                ]
-                .sum(dim=["variables", "region"])
-                .values
-            )
+            try:
+                rate.loc[dict(region="World", variables="cement")] = (
+                    data.loc[
+                        dict(
+                            region=[r for r in self.regions if r != "World"],
+                            variables=dict_vars["cement - cco2"],
+                        )
+                    ]
+                    .sum(dim=["variables", "region"])
+                    .values
+                    / data.loc[
+                        dict(
+                            region=[r for r in self.regions if r != "World"],
+                            variables=dict_vars["cement - co2"],
+                        )
+                    ]
+                    .sum(dim=["variables", "region"])
+                    .values
+                )
+            except ZeroDivisionError:
+                rate.loc[dict(region="World", variables="cement")] = 0
 
-            rate.loc[dict(region="World", variables="steel")] = data.loc[
-                dict(
-                    region=[r for r in self.regions if r != "World"],
-                    variables=dict_vars["steel - cco2"],
+            try:
+                rate.loc[dict(region="World", variables="steel")] = data.loc[
+                    dict(
+                        region=[r for r in self.regions if r != "World"],
+                        variables=dict_vars["steel - cco2"],
+                    )
+                ].sum(dim=["variables", "region"]) / data.loc[
+                    dict(
+                        region=[r for r in self.regions if r != "World"],
+                        variables=dict_vars["steel - co2"],
+                    )
+                ].sum(
+                    dim=["variables", "region"]
                 )
-            ].sum(dim=["variables", "region"]) / data.loc[
-                dict(
-                    region=[r for r in self.regions if r != "World"],
-                    variables=dict_vars["steel - co2"],
-                )
-            ].sum(
-                dim=["variables", "region"]
-            )
+            except ZeroDivisionError:
+                rate.loc[dict(region="World", variables="steel")] = 0
 
         if "steel - cco2" not in data.variables.values.tolist():
-            rate.loc[dict(region="World", variables="steel")] = 1
+            rate.loc[dict(region="World", variables="steel")] = 0
         else:
             rate.loc[dict(region="World", variables="steel")] = (
                 data.loc[
@@ -967,7 +993,9 @@ class IAMDataCollection:
 
         return rate
 
-    def __get_iam_production_volumes(self, input_vars, data) -> [xr.DataArray, None]:
+    def __get_iam_production_volumes(
+        self, input_vars, data, fill: bool = False
+    ) -> [xr.DataArray, None]:
         """
         Returns n xarray with production volumes for different sectors:
         electricity, steel, cement, fuels.
@@ -1007,6 +1035,16 @@ class IAMDataCollection:
         data_to_return.coords["variables"] = [
             k for k, v in input_vars.items() if v in available_vars
         ]
+
+        if fill:
+            # if fill, we fill zero values
+            # with the nearest year's value
+            # first, convert zero values to NaNs
+            data_to_return = data_to_return.where(data_to_return != 0)
+            # then, backfill
+            data_to_return = data_to_return.bfill(dim="year")
+            # then, forward fill
+            data_to_return = data_to_return.ffill(dim="year")
 
         return data_to_return
 
@@ -1131,3 +1169,72 @@ class IAMDataCollection:
                     data[i]["efficiency"] = array
 
         return data
+
+    def fetch_external_data_coal_power_plants(self):
+        """
+        Fetch data on coal power plants from external sources.
+        Source:
+        Oberschelp, C., Pfister, S., Raptis, C.E. et al.
+        Global emission hotspots of coal power generation.
+        Nat Sustain 2, 113–121 (2019).
+        https://doi.org/10.1038/s41893-019-0221-6
+
+        """
+
+        df = pd.read_csv(COAL_POWER_PLANTS_DATA, sep=",", index_col=False)
+        # rename columns
+        new_cols = {
+            "ISO2": "country",
+            "NET_ELECTRICITY_GENERATION_MWH": "generation",
+            "FUEL_INPUT_LHV_MJ": "fuel input",
+            "NET_ELECTRICAL_EFFICIENCY": "efficiency",
+            "CHP_PLANT": "CHP",
+            "PLANT_FUEL": "fuel",
+            "PLANT_EMISSION_CO2_KG": "CO2",
+            "PLANT_EMISSION_CH4_KG": "CH4",
+            "PLANT_EMISSION_SO2_KG": "SO2",
+            "PLANT_EMISSION_NOX_KG": "NOx",
+            "PLANT_EMISSION_PM_2.5_KG": "PM <2.5",
+            "PLANT_EMISSION_PM_10_TO_2.5_KG": "PM 10 - 2.5",
+            "PLANT_EMISSION_PM_GR_10_KG": "PM > 10",
+            "PLANT_EMISSION_HG_0_KG": "HG0",
+            "PLANT_EMISSION_HG_2P_KG": "HG2",
+            "PLANT_EMISSION_HG_P_KG": "HGp",
+        }
+        df = df.rename(columns=new_cols)
+
+        # drop columns
+        df = df.drop(columns=[c for c in df.columns if c not in new_cols.values()])
+
+        # rename Bituminous fuel type as Anthracite
+        df.loc[:, "fuel"] = df.loc[:, "fuel"].replace(
+            "Bituminous coal", "Anthracite coal"
+        )
+
+        # rename Subbituminous  and Coal blend fuel type as Lignite
+        df["fuel"] = df["fuel"].replace("Subbituminous coal", "Lignite coal")
+        df["fuel"] = df["fuel"].replace("Coal blend", "Lignite coal")
+
+        # convert to xarray
+        # with dimensions: country and CHP
+        # with variables as avergage: generation, efficiency, CO2, CH4, SO2,
+        # NOx, PM <2.5, PM 10 - 2.5, PM > 10, HG0, HG2, HGp
+        # and ignore the following variables: fuel input
+
+        df = df.drop(columns=["fuel input"])
+        array = (
+            df.melt(
+                id_vars=[
+                    "country",
+                    "CHP",
+                    "fuel",
+                ],
+                var_name="variable",
+                value_name="value",
+            )
+            .groupby(["country", "CHP", "fuel", "variable"])["value"]
+            .mean()
+            .to_xarray()
+        )
+
+        return array

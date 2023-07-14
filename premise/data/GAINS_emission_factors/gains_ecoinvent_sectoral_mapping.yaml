@@ -1022,14 +1022,17 @@ PP_EX_OTHGAS:
 PP_EX_OTHH2:
   ecoinvent_aliases:
     fltr:
-    - Hydrogen, from steam reforming of biomass gas, at reforming plant, no CCS
-    - Hydrogen, from steam reforming of biomassgas, at reforming plant, pre, pipeline
-      400km, storage 3000m
-    - SMR NG + CCS (MDEA), 98 (average), 25 bar
-    - SMR BM, HT+LT, + CCS (MDEA), 98 (average), digestate incineration, 26 bar
-    - SMR BM, HT+LT, with digestate incineration, 26 bar
-    - Hydrogen, from steam reforming of biomassgas, at reforming plant, pre, pipeline
-      200km, storage 1000m
+    - hydrogen, from steam reforming of biomass gas, at reforming plant
+    - hydrogen, from steam reforming of biomassgas, at reforming plant, pre, pipeline 200km, storage 1000m
+    - hydrogen, from steam reforming of biomassgas, at reforming plant, pre, pipeline 400km, storage 3000m
+    - hydrogen production, steam methane reforming, from biomethane, high and low temperature, with CCS (MDEA, 98% eff.), 26 bar
+    - hydrogen production, steam methane reforming, from biomethane, high and low temperature, 26 bar
+    - hydrogen production, auto-thermal reforming, from biomethane, 25 bar
+    - hydrogen production, auto-thermal reforming, from biomethane, with CCS (MDEA, 98% eff.), 25 bar
+    - hydrogen production, steam methane reforming of natural gas, 25 bar
+    - hydrogen production, steam methane reforming of natural gas, with CCS (MDEA, 98% eff.), 25 bar
+    - hydrogen production, auto-thermal reforming of natural gas, 25 bar
+    - hydrogen production, auto-thermal reforming of natural gas, with CCS (MDEA, 98% eff.), 25 bar
   gains_aliases_EU: PP_EX_OTHH2
   gains_aliases_IAM: Power_Gen_LLF
 PP_EX_OTHWSFNR:
@@ -1050,49 +1053,59 @@ PP_EX_OTHWSFR:
 PP_IGCCBC1:
   ecoinvent_aliases:
     fltr:
-    - Lignite IGCC power plant, operation, no CCS
+    - electricity production, at lignite-fired IGCC power plant
+    mask:
+      name:
+        - pipeline
   gains_aliases_EU: PP_IGCCBC1
   gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
 PP_IGCCHC1:
   ecoinvent_aliases:
     fltr:
-    - Hard coal IGCC power plant, operation, no CCS
+      - electricity production, at hard coal-fired IGCC power plant
+    mask:
+      name:
+        - pipeline
   gains_aliases_EU: PP_IGCCHC1
   gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
 PP_IGCC_CCSBC1:
   ecoinvent_aliases:
     fltr:
-    - Lignite IGCC power plant, operation, with CCS
+    - electricity production, at lignite-fired IGCC power plant, pre, pipeline 200km, storage 1000m
   gains_aliases_EU: PP_IGCC_CCSBC1
   gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
 PP_IGCC_CCSHC1:
   ecoinvent_aliases:
     fltr:
-    - Hard coal IGCC power plant, operation, with CCS
+    - electricity production, at hard coal-fired IGCC power plant, pre, pipeline 200km, storage 1000m
   gains_aliases_EU: PP_IGCC_CCSHC1
   gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
 PP_MODBC1:
   ecoinvent_aliases:
     fltr:
-    - Lignite, burned in power plant/PC, no CCS
+    - electricity production, lignite
+    - electricity production, at lignite-fired power plant, pulverised
   gains_aliases_EU: PP_MODBC1
   gains_aliases_IAM: Power_Gen_Coal_New
 PP_MODBIOG:
   ecoinvent_aliases:
     fltr:
-    - Biogas, burned in power plant/NGCC, no CCS
+    - electricity production, at biomethane-fired combined cycle power plant
   gains_aliases_EU: PP_MODBIOG
   gains_aliases_IAM: Power_Gen_Bio_Trad
 PP_MODBMG:
   ecoinvent_aliases:
     fltr:
-    - electricity production, at BIGCC power plant, no CCS
+      - electricity production, at biomass-fired IGCC power plant
+    mask:
+      name:
+        - pipeline
   gains_aliases_EU: PP_MODBMG
   gains_aliases_IAM: Power_Gen_Bio_Trad
 PP_MODFWD:
   ecoinvent_aliases:
     fltr:
-    - Wood chips, burned in power plant 20 MW, truck 25km, no CCS
+    - electricity production, at biomass-fired IGCC power plant, pre, pipeline 200km, storage 1000m
   gains_aliases_EU: PP_MODFWD
   gains_aliases_IAM: Power_Gen_Bio_Trad
 PP_MODGAS:
@@ -1101,25 +1114,23 @@ PP_MODGAS:
     - 100% SNG, burned in CC plant, truck 25km, no CCS
     - heat and power co-generation, natural gas, combined cycle power plant, 400MW
       electrical
-    - Natural gas, in ATR H2-CC/no CCS/MJ
-    - Natural gas, burned in power plant/NGCC, no CCS
-    - electricity production, natural gas, combined cycle power plant
+    - natural gas, in ATR H2-CC/no CCS/MJ
+    - natural gas, burned in power plant/NGCC, no CCS
+    - electricity production, at natural gas-fired combined cycle power plant
   gains_aliases_EU: PP_MODGAS
   gains_aliases_IAM: Power_Gen_NatGas
 PP_MODHC1:
   ecoinvent_aliases:
     fltr:
     - electricity production, hard coal, supercritical
-    - Hard coal, burned in power plant/PC, no CCS
+    - electricity production, hard coal
   gains_aliases_EU: PP_MODHC1
   gains_aliases_IAM: Power_Gen_Coal_New
 PP_MOD_CCSBC1:
   ecoinvent_aliases:
     fltr:
-    - Lignite, burned in power plant/post, pipeline 400km, storage 3000m
-    - Lignite, burned in power plant/oxy, pipeline 200km, storage 1000m
-    - Lignite, burned in power plant/oxy, pipeline 400km, storage 3000m
-    - Lignite, burned in power plant/post, pipeline 200km, storage 1000m
+    - electricity production, at lignite-fired power plant, oxy, pipeline 200km, storage 1000m
+    - electricity production, at lignite-fired power plant, post, pipeline 200km, storage 1000m
   gains_aliases_EU: PP_MOD_CCSBC1
   gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
 PP_MOD_CCSBIOG:
@@ -1134,31 +1145,20 @@ PP_MOD_CCSBIOG:
 PP_MOD_CCSFWD:
   ecoinvent_aliases:
     fltr:
-    - Wood chips, burned in power plant 20 MW, truck 25km, post, pipeline 200km, storage
-      1000m
-    - Wood chips, burned in power plant 20 MW, truck 25km, post, pipeline 400km, storage
-      3000m
+    - electricity production, at wood burning power plant, post, pipeline 200km, storage 1000m
   gains_aliases_EU: PP_MOD_CCSFWD
   gains_aliases_IAM: Power_Gen_Bio_Trad
 PP_MOD_CCSGAS:
   ecoinvent_aliases:
     fltr:
-    - Natural gas, burned in power plant/post, pipeline 400km, storage 3000m/RER
-    - Natural gas, burned in power plant/post, pipeline 400km, storage 1000m/RER
-    - 100% SNG, burned in CC plant, truck 25km, post, pipeline 200km, storage 1000m
-    - 100% SNG, burned in CC plant, truck 25km, post, pipeline 400km, storage 3000m
-    - Natural gas, in ATR H2-CC/pre
-    - Natural gas, burned in power plant/post, pipeline 200km, storage 1000m/RER
+    - electricity production, at natural gas-fired combined cycle power plant, post, pipeline 200km, storage 1000m
   gains_aliases_EU: PP_MOD_CCSGAS
   gains_aliases_IAM: Power_Gen_NatGas
 PP_MOD_CCSHC1:
   ecoinvent_aliases:
     fltr:
-    - Hard coal, burned in power plant/post, pipeline 400km, storage 3000m
-    - Hard coal, burned in power plant/oxy, pipeline 200km, storage 1000m
-    - Hard coal, burned in power plant/post, pipeline 400km, storage 1000m
-    - Hard coal, burned in power plant/oxy, pipeline 400km, storage 3000m
-    - Hard coal, burned in power plant/post, pipeline 200km, storage 1000m
+    - electricity production, at hard coal-fired power plant, oxy, pipeline 200km, storage 1000m
+      electricity production, at hard coal-fired power plant, post, pipeline 200km, storage 1000m
   gains_aliases_EU: PP_MOD_CCSHC1
   gains_aliases_IAM: Power_Gen_Coal_IGCC_CCS
 PP_NEWBIOG:
@@ -1200,11 +1200,7 @@ PP_NEWGAS:
 PP_NEWH2:
   ecoinvent_aliases:
     fltr:
-    - ATR NG, 25 bar
-    - ATR BM, with digestate incineration, 25 bar
-    - ATR NG + CCS (MDEA), 98 (average), 25 bar
-    - Operation, H2 power plant 450MW
-    - ATR BM + CCS (MDEA), 98 (average), with digestate incineration, 25 bar
+    - electricity production, at hydrogen-fired combined cycle power plant, by auto-thermal reforming of natural gas, pre, pipeline 200km, storage 1000m
   gains_aliases_EU: PP_NEWH2
   gains_aliases_IAM: Power_Gen_LLF
 PP_NEWHF:
@@ -1554,7 +1550,7 @@ WW_DOM_CC_TRMPOP:
 Waste_Solid_IndustrialNOF:
   ecoinvent_aliases:
     fltr:
-    - treatment of used refrigera
+    - treatment of used refrigerant
     - treatment of used sealing tape, aluminium/PE, 50 mm wide
     - treatment of inert waste
     - treatment of sewage sludge by anaerobic digestion

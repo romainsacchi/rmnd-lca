@@ -920,7 +920,7 @@ def prepare_db_for_export(
             "market group for electricity, medium voltage",
             "market group for electricity, low voltage",
             "carbon dioxide, captured from atmosphere, with a solvent-based direct air capture system, 1MtCO2, with heat pump heat, and grid electricity",
-            "methane, from electrochemical methanation, with carbon from atmospheric CO2 capture, using heat pump heat",
+            "methane, from electrochemical methanation, with carbon from atmospheric carbon dioxide capture, using heat pump heat",
             "Methane, synthetic, gaseous, 5 bar, from electrochemical methanation (H2 from electrolysis, CO2 from DAC using heat pump heat), at fuelling station, using heat pump heat",
             "market for diesel",
             "market for diesel, low-sulfur",

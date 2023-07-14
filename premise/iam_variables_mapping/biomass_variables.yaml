@@ -17,6 +17,6 @@ biomass - residual:
     remind: SE|Electricity|Biomass|Residues
   ecoinvent_aliases:
     name:
-      - Supply of forest residue
+      - supply of forest residue
     reference product:
-      - Forest residue
+      - forest residue

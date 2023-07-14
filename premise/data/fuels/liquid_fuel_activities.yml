@@ -7,32 +7,32 @@ methanol, from coal, with CCS:
   - methanol synthesis, hydrogen from coal gasification, with CCS
 
 fischer-tropsch:
-  - Diesel production, synthetic, Fischer Tropsch process, hydrogen from electrolysis, energy allocation
+  - diesel production, synthetic, Fischer Tropsch process, hydrogen from electrolysis, energy allocation
   - diesel production, synthetic, from Fischer Tropsch process, hydrogen from electrolysis, energy allocation, at fuelling station
-  - Syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from electrolysis
-  - Carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from electrolysis
+  - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from electrolysis
+  - carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from electrolysis
 
 fischer-tropsch, from woody biomass:
-  - Diesel production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, energy allocation
+  - diesel production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, energy allocation
   - diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, energy allocation, at fuelling station
-  - Diesel production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, with CCS, energy allocation
+  - diesel production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, with CCS, energy allocation
   - diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, with CCS, energy allocation, at fuelling station
-  - Syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from wood gasification
-  - Syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from wood gasification, with CCS
-  - Carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from wood gasification
-  - Carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from wood gasification, with CCS
+  - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from wood gasification
+  - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from wood gasification, with CCS
+  - carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from wood gasification
+  - carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from wood gasification, with CCS
 
 fischer-tropsch, from coal:
-  - Diesel production, synthetic, Fischer Tropsch process, hydrogen from coal gasification, energy allocation
+  - diesel production, synthetic, Fischer Tropsch process, hydrogen from coal gasification, energy allocation
   - diesel production, synthetic, from Fischer Tropsch process, hydrogen from coal gasification, energy allocation, at fuelling station
-  - Syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from coal gasification
-  - Carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from coal gasification
+  - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from coal gasification
+  - carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from coal gasification
 
 fischer-tropsch, from coal, with CCS:
-  - Diesel production, synthetic, Fischer Tropsch process, hydrogen from coal gasification, with CCS, energy allocation
+  - diesel production, synthetic, Fischer Tropsch process, hydrogen from coal gasification, with CCS, energy allocation
   - diesel production, synthetic, from Fischer Tropsch process, hydrogen from coal gasification, with CCS, energy allocation, at fuelling station
-  - Syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from coal gasification, with CCS
-  - Carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from coal gasification, with CCS
+  - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from coal gasification, with CCS
+  - carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from coal gasification, with CCS
 
 methanol-to-liquids:
   - gasoline production, from methanol, hydrogen from electrolysis, CO2 from DAC, energy allocation

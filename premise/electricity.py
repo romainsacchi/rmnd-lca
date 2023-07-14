@@ -188,6 +188,7 @@ class Electricity(BaseTransformation):
         version: str,
         system_model: str,
         modified_datasets: dict,
+        use_absolute_efficiency: bool = False,
     ) -> None:
         super().__init__(
             database,
@@ -218,6 +219,7 @@ class Electricity(BaseTransformation):
         }
         self.system_model = system_model
         self.biosphere_dict = biosphere_flows_dictionary(self.version)
+        self.use_absolute_efficiency = use_absolute_efficiency
 
     @lru_cache
     def get_production_per_tech_dict(self) -> Dict[Tuple[str, str], float]:
@@ -1595,12 +1597,13 @@ class Electricity(BaseTransformation):
 
         list_datasets_to_duplicate.extend(
             [
-                "Wood chips, burned in power plant",
-                "Natural gas, in ATR ",
-                "Hard coal, burned",
-                "Lignite, burned",
-                "CO2 storage/",
-                "CO2 capture/",
+                "carbon dioxide storage from",
+                "carbon dioxide storage at",
+                "carbon dioxide, captured from hard coal",
+                "carbon dioxide, captured from lignite",
+                "carbon dioxide, captured from natural gas",
+                "carbon dioxide, captured at wood burning",
+                "carbon dioxide, captured at hydrogen burning",
             ]
         )
 
@@ -1624,7 +1627,6 @@ class Electricity(BaseTransformation):
             if "CHP CCS" in self.powerplant_map_rev.get(dataset["name"], ""):
                 for plant in new_plants.values():
                     co2_amount = 0
-
                     providers = [
                         e
                         for e in plant["exchanges"]
@@ -1651,7 +1653,7 @@ class Electricity(BaseTransformation):
                         if (
                             exc["type"] == "technosphere"
                             and exc["unit"] == "kilogram"
-                            and exc["name"].startswith("CO2 capture")
+                            and exc["name"].startswith("carbon dioxide, captured")
                         ):
                             exc["amount"] = co2_amount * 0.9
 
@@ -1719,33 +1721,68 @@ class Electricity(BaseTransformation):
                 ws.equals("unit", "kilowatt hour"),
                 ws.either(
                     *[
-                        ws.contains("name", n)
+                        ws.equals("name", n)
                         for n in dict_technology["technology filters"]
                     ]
                 ),
             ):
+                if (
+                    dataset["name"],
+                    dataset["reference product"],
+                    dataset["location"],
+                    dataset["unit"],
+                ) in self.modified_datasets[(self.model, self.scenario, self.year)][
+                    "emptied"
+                ]:
+                    continue
+
                 # Find current efficiency
                 ei_eff = dict_technology["current_eff_func"](
                     dataset, dict_technology["fuel filters"], 3.6
                 )
 
-                # Find relative efficiency change indicated by the IAM
-                scaling_factor = 1 / self.find_iam_efficiency_change(
-                    data=self.iam_data.electricity_efficiencies,
-                    variable=technology,
-                    location=self.geo.ecoinvent_to_iam_location(dataset["location"]),
-                )
+                if not self.use_absolute_efficiency:
+                    iam_location = self.geo.ecoinvent_to_iam_location(
+                        dataset["location"]
+                    )
+                    if (
+                        iam_location
+                        in self.iam_data.electricity_efficiencies.coords[
+                            "region"
+                        ].values
+                    ):
+                        # Find relative efficiency change indicated by the IAM
+                        scaling_factor = 1 / self.find_iam_efficiency_change(
+                            data=self.iam_data.electricity_efficiencies,
+                            variable=technology,
+                            location=iam_location,
+                        )
+                    else:
+                        scaling_factor = 1
 
-                new_efficiency = float(np.clip(ei_eff * 1 / scaling_factor, 0, 1))
+                    new_efficiency = float(np.clip(ei_eff * 1 / scaling_factor, 0, 1))
+                else:
+                    new_efficiency = self.find_iam_efficiency_change(
+                        data=self.iam_data.electricity_efficiencies,
+                        variable=technology,
+                        location=self.geo.ecoinvent_to_iam_location(
+                            dataset["location"]
+                        ),
+                    )
 
-                if "log parameters" not in dataset:
-                    dataset["log parameters"] = {}
+                    if ei_eff != 1 and not np.isnan(new_efficiency):
+                        scaling_factor = ei_eff / new_efficiency
+                    else:
+                        scaling_factor = 1
 
                 # ensure that the dataset has not already been adjusted
                 if (
-                    "new efficiency" not in dataset["log parameters"]
+                    "new efficiency" not in dataset.get("log parameters", {})
                     and scaling_factor != 1
                 ):
+                    if "log parameters" not in dataset:
+                        dataset["log parameters"] = {}
+
                     dataset["log parameters"].update(
                         {
                             "old efficiency": ei_eff,
@@ -1766,6 +1803,128 @@ class Electricity(BaseTransformation):
                     )
 
                     self.write_log(dataset=dataset, status="updated")
+
+    def adjust_coal_power_plant_emissions(self) -> None:
+        """
+        Based on:
+        Fetch data on coal power plants from external sources.
+        Source:
+        Oberschelp, C., Pfister, S., Raptis, C.E. et al.
+        Global emission hotspots of coal power generation.
+        Nat Sustain 2, 113–121 (2019).
+        https://doi.org/10.1038/s41893-019-0221-6
+
+        We adjust efficiency and emissions of coal power plants,
+        including coal-fired CHPs.
+        """
+
+        print("Adjust efficiency and emissions of coal power plants...")
+
+        coal_techs = [
+            "Coal PC",
+            "Coal CHP",
+        ]
+
+        for tech in coal_techs:
+            datasets = ws.get_many(
+                self.database,
+                ws.either(*[ws.contains("name", n) for n in self.powerplant_map[tech]]),
+                ws.equals("unit", "kilowatt hour"),
+                ws.doesnt_contain_any("name", ["mine", "critical"]),
+            )
+
+            for dataset in datasets:
+                loc = dataset["location"][:2]
+                if loc in self.iam_data.coal_power_plants.country.values:
+                    # Find current efficiency
+                    ei_eff = self.find_fuel_efficiency(
+                        dataset, self.powerplant_fuels_map[tech], 3.6
+                    )
+
+                    new_eff = self.iam_data.coal_power_plants.sel(
+                        country=loc,
+                        fuel="Anthracite coal"
+                        if "hard coal" in dataset["name"]
+                        else "Lignite coal",
+                        CHP=True if "co-generation" in dataset["name"] else False,
+                        variable="efficiency",
+                    )
+
+                    if not np.isnan(new_eff.values.item(0)):
+                        wurst.change_exchanges_by_constant_factor(
+                            dataset,
+                            ei_eff / new_eff.values.item(0),
+                        )
+
+                        if "log parameters" not in dataset:
+                            dataset["log parameters"] = {}
+
+                        dataset["log parameters"].update(
+                            {
+                                f"ecoinvent original efficiency": ei_eff,
+                                f"Oberschelp et al. efficiency": new_eff.values.item(0),
+                                f"efficiency change": ei_eff / new_eff.values.item(0),
+                            }
+                        )
+
+                        self.update_ecoinvent_efficiency_parameter(
+                            dataset, ei_eff, new_eff.values.item(0)
+                        )
+
+                    substances = [
+                        ("CO2", "Carbon dioxide, fossil"),
+                        ("SO2", "Sulfur dioxide"),
+                        ("CH4", "Methane, fossil"),
+                        ("NOx", "Nitrogen oxides"),
+                        ("PM <2.5", "Particulate Matter, < 2.5 um"),
+                        ("PM 10 - 2.5", "Particulate Matter, > 2.5 um and < 10um"),
+                        ("PM > 10", "Particulate Matter, > 10 um"),
+                    ]
+
+                    for substance in substances:
+                        species, flow = substance
+
+                        emission_factor = self.iam_data.coal_power_plants.sel(
+                            country=loc,
+                            fuel="Anthracite coal"
+                            if "hard coal" in dataset["name"]
+                            else "Lignite coal",
+                            CHP=True if "co-generation" in dataset["name"] else False,
+                            variable=species,
+                        ) / (
+                            self.iam_data.coal_power_plants.sel(
+                                country=loc,
+                                fuel="Anthracite coal"
+                                if "hard coal" in dataset["name"]
+                                else "Lignite coal",
+                                CHP=True
+                                if "co-generation" in dataset["name"]
+                                else False,
+                                variable="generation",
+                            )
+                            * 1e3
+                        )
+
+                        if not np.isnan(emission_factor.values.item(0)):
+                            for exc in ws.biosphere(dataset):
+                                if exc["name"] == flow:
+                                    scaling_factor = (
+                                        emission_factor.values.item(0) / exc["amount"]
+                                    )
+                                    exc["amount"] = float(
+                                        emission_factor.values.item(0)
+                                    )
+
+                                    if "log parameters" not in dataset:
+                                        dataset["log parameters"] = {}
+
+                                    dataset["log parameters"].update(
+                                        {
+                                            f"{species} scaling factor": scaling_factor,
+                                        }
+                                    )
+
+                    # self.write_log(dataset=dataset, status="updated")
 
     def update_electricity_markets(self) -> None:
         """
@@ -1885,5 +2044,15 @@ class Electricity(BaseTransformation):
             f"{dataset.get('log parameters', {}).get('biomass share', '')}|"
             f"{dataset.get('log parameters', {}).get('transformation loss', '')}|"
             f"{dataset.get('log parameters', {}).get('distribution loss', '')}|"
-            f"{dataset.get('log parameters', {}).get('renewable share', '')}"
+            f"{dataset.get('log parameters', {}).get('renewable share', '')}|"
+            f"{dataset.get('log parameters', {}).get('ecoinvent original efficiency', '')}|"
+            f"{dataset.get('log parameters', {}).get('Oberschelp et al. efficiency', '')}|"
+            f"{dataset.get('log parameters', {}).get('efficiency change', '')}|"
+            f"{dataset.get('log parameters', {}).get('CO2 scaling factor', '')}|"
+            f"{dataset.get('log parameters', {}).get('SO2 scaling factor', '')}|"
+            f"{dataset.get('log parameters', {}).get('CH4 scaling factor', '')}|"
+            f"{dataset.get('log parameters', {}).get('NOx scaling factor', '')}|"
+            f"{dataset.get('log parameters', {}).get('PM <2.5 scaling factor', '')}|"
+            f"{dataset.get('log parameters', {}).get('PM 10 - 2.5 scaling factor', '')}|"
+            f"{dataset.get('log parameters', {}).get('PM > 10 scaling factor', '')}"
         )

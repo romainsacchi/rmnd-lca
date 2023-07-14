@@ -437,12 +437,14 @@ class NewDatabase:
         quiet=False,
         keep_uncertainty_data=False,
         gains_scenario="CLE",
+        use_absolute_efficiency=False,
     ) -> None:
         self.source = source_db
         self.version = check_db_version(source_version)
         self.source_type = source_type
         self.system_model = check_system_model(system_model)
         self.system_model_args = system_args
+        self.use_absolute_efficiency = use_absolute_efficiency
 
         # if version is anything other than 3.8 or 3.9
         # and system_model is "consequential"
@@ -529,6 +531,7 @@ class NewDatabase:
                 system_model=self.system_model,
                 system_model_args=self.system_model_args,
                 gains_scenario=self.gains_scenario,
+                use_absolute_efficiency=self.use_absolute_efficiency,
             )
             scenario["iam data"] = data
 
@@ -768,7 +771,10 @@ class NewDatabase:
                     version=self.version,
                     system_model=self.system_model,
                     modified_datasets=self.modified_datasets,
+                    use_absolute_efficiency=self.use_absolute_efficiency,
                 )
+
+                electricity.adjust_coal_power_plant_emissions()
 
                 # datasets in 3.9 have been updated
                 if self.version not in ["3.9", "3.9.1"]:

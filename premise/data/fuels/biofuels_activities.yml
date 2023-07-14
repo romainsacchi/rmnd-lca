@@ -1,146 +1,94 @@
 oil:
   rapeseed:
-    - Farming and supply of rapeseed
-    - Extraction of vegetable oil from rapeseed
-    - Refining of crude vegetable oil from rapeseed
-    - Biodiesel production, via transesterification, from rapeseed oil, energy allocation
-    - Biodiesel, from rapeseed oil, at fuelling station
+    - farming and supply of rapeseed
+    - extraction of vegetable oil from rapeseed
+    - refining of crude vegetable oil from rapeseed
+    - biodiesel production, via transesterification, from rapeseed oil, energy allocation
+    - biodiesel, from rapeseed oil, at fuelling station
   palm oil:
-    - Farming and supply of Fresh Fruit Bunches (FFBs) for palm oil
-    - Crude Palm Oil extraction from FFBs at oil mill
-    - Refining of vegetable oil from oil palm
-    - Biodiesel production, via transesterification, from palm oil, energy allocation
-    - Biodiesel, from palm oil, at fuelling station
+    - farming and supply of Fresh Fruit Bunches (FFBs) for palm oil
+    - crude Palm Oil extraction from FFBs at oil mill
+    - refining of vegetable oil from oil palm
+    - biodiesel production, via transesterification, from palm oil, energy allocation
+    - biodiesel, from palm oil, at fuelling station
   used cooking oil:
-    - Supply and refining of waste cooking oil
-    - Biodiesel production, via transesterification, from used cooking oil, energy allocation
-    - Biodiesel production, via transesterification, from used cooking oil, with carbon capture and storage, energy allocation
-    - Biodiesel, from used cooking oil, at fuelling station
+    - supply and refining of waste cooking oil
+    - biodiesel production, via transesterification, from used cooking oil, energy allocation
+    - biodiesel production, via transesterification, from used cooking oil, with carbon capture and storage, energy allocation
+    - biodiesel, from used cooking oil, at fuelling station
 
 grass:
   switchgrass:
-    - Farming and supply of switchgrass
-    - Ethanol production, via fermentation, from switchgrass, economic allocation
-    - Ethanol production, via fermentation, from switchgrass, energy allocation
-    - Ethanol production, via fermentation, from switchgrass, with carbon capture and storage, energy allocation
-    - Ethanol production, via fermentation, from switchgrass, system expansion
-    - Ethanol, from switchgrass, economic allocation, at fuelling station
-    - Ethanol, from switchgrass, energy allocation, at fuelling station
-    - Ethanol, from switchgrass, economic allocation, with carbon capture and storage, at fuelling station
-    - Ethanol, from switchgrass, system expansion, at fuelling station
+    - farming and supply of switchgrass
+    - ethanol production, via fermentation, from switchgrass, economic allocation
+    - ethanol production, via fermentation, from switchgrass, energy allocation
+    - ethanol production, via fermentation, from switchgrass, with carbon capture and storage, energy allocation
   grain sorghum:
-    - Farming and supply of Grain Sorghum
-    - Ethanol production, via fermentation, from grain sorghum, economic allocation
-    - Ethanol production, via fermentation, from grain sorghum, energy allocation
-    - Ethanol production, via fermentation, from grain sorghum, system expansion
-    - Ethanol, from grain sorghum, economic allocation, at fuelling station
-    - Ethanol, from grain sorghum, energy allocation, at fuelling station
-    - Ethanol, from grain sorghum, system expansion, at fuelling station
+    - farming and supply of Grain Sorghum
+    - ethanol production, via fermentation, from grain sorghum, economic allocation
+    - ethanol production, via fermentation, from grain sorghum, energy allocation
   sweet sorghum:
-    - Farming and supply of Sweet Sorghum
-    - Ethanol production, via fermentation, from sweet sorghum, economic allocation
-    - Ethanol production, via fermentation, from sweet sorghum, energy allocation
-    - Ethanol production, via fermentation, from sweet sorghum, system expansion
-    - Ethanol, from sweet sorghum, economic allocation, at fuelling station
-    - Ethanol, from sweet sorghum, energy allocation, at fuelling station
+    - farming and supply of Sweet Sorghum
+    - ethanol production, via fermentation, from sweet sorghum, economic allocation
+    - ethanol production, via fermentation, from sweet sorghum, energy allocation
   forage sorghum:
-    - Farming and supply of Forage Sorghum
-    - Ethanol production, via fermentation, from forage sorghum, economic allocation
-    - Ethanol production, via fermentation, from forage sorghum, energy allocation
-    - Ethanol production, via fermentation, from forage sorghum, system expansion
-    - Ethanol, from forage sorghum, economic allocation, at fuelling station
-    - Ethanol, from forage sorghum, energy allocation, at fuelling station
-    - Ethanol, from forage sorghum, system expansion, at fuelling station
+    - farming and supply of Forage Sorghum
+    - ethanol production, via fermentation, from forage sorghum, economic allocation
+    - ethanol production, via fermentation, from forage sorghum, energy allocation
   miscanthus:
-    - Farming and supply of miscanthus
-    - Ethanol production, via fermentation, from miscanthus, economic allocation
-    - Ethanol production, via fermentation, from miscanthus, energy allocation
-    - Ethanol production, via fermentation, from miscanthus, with carbon capture and storage, energy allocation
-    - Ethanol production, via fermentation, from miscanthus, system expansion
-    - Ethanol, from miscanthus, economic allocation, at fuelling station
-    - Ethanol, from miscanthus, energy allocation, at fuelling station
-    - Ethanol, from miscanthus, system expansion, at fuelling station
-
+    - farming and supply of miscanthus
+    - ethanol production, via fermentation, from miscanthus, economic allocation
+    - ethanol production, via fermentation, from miscanthus, energy allocation
+    - ethanol production, via fermentation, from miscanthus, with carbon capture and storage, energy allocation
 wood:
   poplar:
-    - Farming and supply of poplar
-    - Ethanol production, via fermentation, from poplar, economic allocation
-    - Ethanol production, via fermentation, from poplar, energy allocation
-    - Ethanol production, via fermentation, from poplar, with carbon capture and storage, energy allocation
-    - Ethanol production, via fermentation, from poplar, system expansion
-    - Ethanol, from poplar, economic allocation, at fuelling station
-    - Ethanol, from poplar, energy allocation, at fuelling station
-    - Ethanol, from poplar, system expansion, at fuelling station
+    - farming and supply of poplar
+    - ethanol production, via fermentation, from poplar, economic allocation
+    - ethanol production, via fermentation, from poplar, energy allocation
+    - ethanol production, via fermentation, from poplar, with carbon capture and storage, energy allocation
   willow:
-    - Farming and supply of willow
-    - Ethanol production, via fermentation, from willow, economic allocation
-    - Ethanol production, via fermentation, from willow, energy allocation
-    - Ethanol production, via fermentation, from willow, system expansion
-    - Ethanol, from willow, economic allocation, at fuelling station
-    - Ethanol, from willow, energy allocation, at fuelling station
-    - Ethanol, from willow, system expansion, at fuelling station
+    - farming and supply of willow
+    - ethanol production, via fermentation, from willow, economic allocation
+    - ethanol production, via fermentation, from willow, energy allocation
   forest residues:
-    - Supply of forest residue
-    - Ethanol production, via fermentation, from forest residue, economic allocation
-    - Ethanol production, via fermentation, from forest residue, energy allocation
-    - Ethanol production, via fermentation, from forest residue, system expansion
-    - Ethanol, from forest residue, economic allocation, at fuelling station
-    - Ethanol, from forest residue, energy allocation, at fuelling station
-    - Ethanol, from forest residue, system expansion, at fuelling station
+    - supply of forest residue
+    - ethanol production, via fermentation, from forest residue, economic allocation
+    - ethanol production, via fermentation, from forest residue, energy allocation
   eucalyptus:
-    - Farming and supply of eucalyptus
-    - Ethanol production, via fermentation, from eucalyptus
-    - Ethanol production, via fermentation, from eucalyptus, with carbon capture and storage
-    - Ethanol, from eucalyptus, at fuelling station
+    - farming and supply of eucalyptus
+    - ethanol production, via fermentation, from eucalyptus
+    - ethanol production, via fermentation, from eucalyptus, with carbon capture and storage
 
 sugar:
   sugarcane:
-    - Farming and supply of sugarcane
-    - Ethanol production, via fermentation, from sugarcane, economic allocation
-    - Ethanol production, via fermentation, from sugarcane, energy allocation
-    - Ethanol production, via fermentation, from sugarcane, with carbon capture and storage, energy allocation
-    - Ethanol production, via fermentation, from sugarcane, system expansion
-    - Ethanol, from sugarcane, economic allocation, at fuelling station
-    - Ethanol, from sugarcane, energy allocation, at fuelling station
-    - Ethanol, from sugarcane, system expansion, at fuelling station
-    - Farming and supply of sugarcane straw
-    - Ethanol production, via fermentation, from sugarcane straw, economic allocation
-    - Ethanol production, via fermentation, from sugarcane straw, energy allocation
-    - Ethanol production, via fermentation, from sugarcane straw, system expansion
+    - farming and supply of sugarcane
+    - ethanol production, via fermentation, from sugarcane, economic allocation
+    - ethanol production, via fermentation, from sugarcane, energy allocation
+    - ethanol production, via fermentation, from sugarcane, with carbon capture and storage, energy allocation
+    - farming and supply of sugarcane straw
+    - ethanol production, via fermentation, from sugarcane straw, economic allocation
+    - ethanol production, via fermentation, from sugarcane straw, energy allocation
   sugarbeet:
-    - Farming and supply of sugarbeet
-    - Ethanol production, via fermentation, from sugarbeet, energy allocation
-    - Ethanol production, via fermentation, from sugarbeet, with carbon capture and storage, energy allocation
-    - Ethanol, from sugarbeet, at fuelling station
+    - farming and supply of sugarbeet
+    - ethanol production, via fermentation, from sugarbeet, energy allocation
+    - ethanol production, via fermentation, from sugarbeet, with carbon capture and storage, energy allocation
 
 
 grain:
   corn stover:
-    - Farming and supply of corn stover
-    - Ethanol production, via fermentation, from corn stover, economic allocation
-    - Ethanol production, via fermentation, from corn stover, energy allocation
-    - Ethanol production, via fermentation, from corn stover, system expansion
-    - Ethanol, from corn stover, economic allocation, at fuelling station
-    - Ethanol, from corn stover, energy allocation, at fuelling station
-    - Ethanol, from corn stover, system expansion, at fuelling station
+    - farming and supply of corn stover
+    - ethanol production, via fermentation, from corn stover, economic allocation
+    - ethanol production, via fermentation, from corn stover, energy allocation
   corn:
-    - Farming and supply of corn
-    - Ethanol production, via fermentation, from corn, economic allocation
-    - Ethanol production, via fermentation, from corn, energy allocation
-    - Ethanol production, via fermentation, from corn, system expansion
-    - Ethanol production, via fermentation, from corn, with carbon capture and storage, energy allocation
-    - Ethanol, from corn, economic allocation, at fuelling station
-    - Ethanol, from corn, energy allocation, at fuelling station
-    - Ethanol, from corn, system expansion, at fuelling station
-    - Ethanol, from corn, with carbon capture and storage, energy allocation, at fuelling station
+    - farming and supply of corn
+    - ethanol production, via fermentation, from corn, economic allocation
+    - ethanol production, via fermentation, from corn, energy allocation
+    - ethanol production, via fermentation, from corn, with carbon capture and storage, energy allocation
   wheat:
-    - Farming and supply of wheat grains
-    - Ethanol production, via fermentation, from wheat grains, energy allocation
-    - Ethanol, from wheat grains, energy allocation, at fuelling station
+    - farming and supply of wheat grains
+    - ethanol production, via fermentation, from wheat grains, energy allocation
   wheat straw:
-    - Farming and supply of wheat straw
-    - Ethanol production, via fermentation, from wheat straw, energy allocation
-    - Ethanol, from wheat straw, at fuelling station
+    - farming and supply of wheat straw
+    - ethanol production, via fermentation, from wheat straw, energy allocation
   corn starch:
-    - Ethanol production, via fermentation, from corn starch, energy allocation
-    - Ethanol, from corn starch, at fuelling station
+    - ethanol production, via fermentation, from corn starch, energy allocation

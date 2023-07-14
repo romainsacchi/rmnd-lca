@@ -36,7 +36,24 @@ to align with the efficiency changes indicated by the IAM scenario.
 Combustion-based powerplants
 ----------------------------
 
-*premise* iterates through coal, lignite, natural gas, biogas, and wood-fired power plant datasets
+First, *premise* adjust the efficiency of coal- and lignite-fired
+power plants on the basis of the excellent work done by Oberschelp_ et al. (2019),
+to update some datasets in ecoinvent, which are, for some of them, several decades
+old. More specifically, the data provides plant-specific efficiency
+and emissions factors. We average them by country and fuel type to obtain
+volume-weighted factors. Rhe efficiency of the following datasets is updated:
+
+* electricity production, hard coal
+* electricity production, lignite
+* heat and power co-generation, hard coal
+* heat and power co-generation, lignite
+
+The data from Oberschelp_ et al. (2019) also allows us to update emissions of
+SO2, NOx, CH4, and PMs.
+
+.. _Oberschelp: https://www.nature.com/articles/s41893-019-0221-6
+
+Second, *premise* iterates through coal, lignite, natural gas, biogas, and wood-fired power plant datasets
 in the LCI database to calculate their current efficiency (i.e., the ratio between the primary fuel
 energy entering the process and the output energy produced, which is often 1 kWh).
 If the IAM scenario anticipates a change in efficiency for these processes, the inputs of the
