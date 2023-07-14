@@ -96,6 +96,47 @@ premise_electricity:
         name: Renewable share
         description: Share of renewable electricity (i.e., solar, wind, hydro, wave, geothermal) in the mix
         unit: 0-1
+      ecoinvent original efficiency:
+        name: Original efficiency
+        description: Original efficiency of electricity generation
+        unit: 0-1
+      Oberschelp et al. efficiency:
+        name: New efficiency
+        description: New efficiency according to Oberschelp et al. (2019)
+        unit: 0-1
+      efficiency change:
+        name: Efficiency change
+        description: Change in efficiency of electricity generation
+        unit: 0-1
+      CO2 scaling factor:
+        name: CO2 scaling factor
+        description: Scaling factor the initial CO2 emissions are multiplied by
+        unit: 0-1
+      SO2 scaling factor:
+        name: SO2 scaling factor
+        description: Scaling factor the initial SO2 emissions are multiplied by
+        unit: 0-1
+      CH4 scaling factor:
+        name: CH4 scaling factor
+        description: Scaling factor the initial CH4 emissions are multiplied by
+        unit: 0-1
+      NOx scaling factor:
+        name: NOx scaling factor
+        description: Scaling factor the initial NOx emissions are multiplied by
+        unit: 0-1
+      PM<2.5 scaling factor:
+        name: PM<2.5 scaling factor
+        description: Scaling factor the initial PM<2.5 emissions are multiplied by
+        unit: 0-1
+      PM 2.5-10 scaling factor:
+        name: PM 2.5-10 scaling factor
+        description: Scaling factor the initial PM 2.510 emissions are multiplied by
+        unit: 0-1
+      PM>10 scaling factor:
+        name: PM>10 scaling factor
+        description: Scaling factor the initial PM>10 emissions are multiplied by
+        unit: 0-1
+
     tab: Electricity
 
 premise_steel:

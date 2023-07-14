@@ -610,7 +610,7 @@ class Fuels(BaseTransformation):
             "geological hydrogen storage",
             # "hydrogenation of hydrogen",
             # "dehydrogenation of hydrogen",
-            "Hydrogen refuelling station",
+            "hydrogen refuelling station",
         ]:
             new_ds = self.fetch_proxies(name=act, ref_prod=" ")
 
@@ -1171,7 +1171,7 @@ class Fuels(BaseTransformation):
 
         ds_h2_station = ws.get_one(
             self.database,
-            ws.equals("name", "Hydrogen refuelling station"),
+            ws.equals("name", "hydrogen refuelling station"),
             ws.equals("location", region),
         )
 
@@ -2187,12 +2187,16 @@ class Fuels(BaseTransformation):
                 "market",
             ]
 
+            if "natural gas" in dataset["name"]:
+                blacklist.remove("market")
+
             if "low-sulfur" in dataset["name"]:
                 blacklist.append("unleaded")
             if "unleaded" in dataset["name"]:
                 blacklist.append("low-sulfur")
 
             possible_names = tuple(fuel_providers[prod_var]["fuel filters"])
+
             possible_suppliers = self.select_multiple_suppliers(
                 possible_names=possible_names,
                 dataset_location=dataset["location"],

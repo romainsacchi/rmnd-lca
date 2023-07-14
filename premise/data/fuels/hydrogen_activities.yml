@@ -8,14 +8,14 @@ from SMR of biogas, with CCS:
   name: hydrogen production, steam methane reforming, from biomethane, high and low temperature, with CCS (MDEA, 98% eff.), 26 bar
   var: hydrogen, biomass, with CCS
   feedstock name: biomethane
-  feedstock unit: cubic meter
-  floor value: 3.5
+  feedstock unit: kilogram
+  floor value: 3.2
 from SMR of biogas:
   name: hydrogen production, steam methane reforming, from biomethane, high and low temperature, 26 bar
   var: hydrogen, biomass
   feedstock name: biomethane
-  feedstock unit: cubic meter
-  floor value: 3.5
+  feedstock unit: kilogram
+  floor value: 3.2
 from SMR of nat. gas:
   name: hydrogen production, steam methane reforming of natural gas, 25 bar
   var: hydrogen, nat. gas

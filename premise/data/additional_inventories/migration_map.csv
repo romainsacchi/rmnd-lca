@@ -33,6 +33,8 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 37;35;market for nickel, class 1;nickel, class 1;GLO;market for nickel, 99.5%;nickel, 99.5%;
 35;36;market for transport, freight, sea, transoceanic tanker;transport, freight, sea, transoceanic tanker;GLO;market for transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas;transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas;
 35;36;market for water, decarbonised, at user;water, decarbonised, at user;GLO;market for water, decarbonised;water, decarbonised;DE
+36;38;market for water, decarbonised, at user;water, decarbonised, at user;GLO;market for water, decarbonised;water, decarbonised;DE
+36;37;market for water, decarbonised, at user;water, decarbonised, at user;GLO;market for water, decarbonised;water, decarbonised;DE
 35;36;market for water, completely softened, from decarbonised water, at user;water, completely softened, from decarbonised water, at user;GLO;market for water, completely softened;water, completely softened;RER
 35;36;market for concrete block;concrete block;GLO;;;DE
 35;36;steel production, electric, low-alloyed;steel, low-alloyed;Europe without Switzerland and Austria;;;RER
@@ -341,6 +343,8 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 35;39;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;RER;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;
 36;39;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;RER;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;
 37;39;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;RER;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;
+39;37;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;RER;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;
+38;37;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;RER;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;
 35;39;plywood production, for outdoor use;plywood;RER;plywood production;;
 35;39;market for chemicals, inorganic;chemical, inorganic;GLO;market for chemical, inorganic;;
 36;39;market for chemicals, inorganic;chemical, inorganic;GLO;market for chemical, inorganic;;

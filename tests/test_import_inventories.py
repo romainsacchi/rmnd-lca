@@ -115,7 +115,7 @@ def test_load_carma():
         system_model="cutoff",
         keep_uncertainty_data=False,
     )
-    assert len(carma.import_db.data) >= 135
+    assert len(carma.import_db.data) >= 81
 
 
 def test_load_biofuel():

@@ -58,31 +58,73 @@ def fetch_data(
     iam_data: xr.DataArray, sector: str, variable: str
 ) -> [xr.DataArray, None]:
     data = {
-        "Population": iam_data.other_vars,
-        "GDP": iam_data.other_vars,
-        "CO2": iam_data.other_vars,
-        "GMST": iam_data.other_vars,
-        "Electricity - generation": iam_data.production_volumes,
-        "Electricity (biom) - generation": iam_data.production_volumes,
-        "Electricity - efficiency": iam_data.electricity_efficiencies,
-        "Fuel (gasoline) - generation": iam_data.production_volumes,
-        "Fuel (gasoline) - efficiency": iam_data.petrol_efficiencies,
-        "Fuel (diesel) - generation": iam_data.production_volumes,
-        "Fuel (diesel) - efficiency": iam_data.diesel_efficiencies,
-        "Fuel (gas) - generation": iam_data.production_volumes,
-        "Fuel (gas) - efficiency": iam_data.gas_efficiencies,
-        "Fuel (hydrogen) - generation": iam_data.production_volumes,
-        "Fuel (hydrogen) - efficiency": iam_data.hydrogen_efficiencies,
-        "Cement - generation": iam_data.production_volumes,
-        "Cement - efficiency": iam_data.cement_efficiencies,
-        "Cement - CCS": iam_data.carbon_capture_rate,
-        "Steel - generation": iam_data.production_volumes,
-        "Steel - efficiency": iam_data.steel_efficiencies,
-        "Steel - CCS": iam_data.carbon_capture_rate,
-        "Direct Air Capture - generation": iam_data.production_volumes,
-        "Transport (cars)": iam_data.trsp_cars,
-        "Transport (buses)": iam_data.trsp_buses,
-        "Transport (trucks)": iam_data.trsp_trucks,
+        "Population": iam_data.other_vars if hasattr(iam_data, "other_vars") else None,
+        "GDP": iam_data.other_vars if hasattr(iam_data, "other_vars") else None,
+        "CO2": iam_data.other_vars if hasattr(iam_data, "other_vars") else None,
+        "GMST": iam_data.other_vars if hasattr(iam_data, "other_vars") else None,
+        "Electricity - generation": iam_data.production_volumes
+        if hasattr(iam_data, "production_volumes")
+        else None,
+        "Electricity (biom) - generation": iam_data.production_volumes
+        if hasattr(iam_data, "production_volumes")
+        else None,
+        "Electricity - efficiency": iam_data.electricity_efficiencies
+        if hasattr(iam_data, "electricity_efficiencies")
+        else None,
+        "Fuel (gasoline) - generation": iam_data.production_volumes
+        if hasattr(iam_data, "production_volumes")
+        else None,
+        "Fuel (gasoline) - efficiency": iam_data.petrol_efficiencies
+        if hasattr(iam_data, "petrol_efficiencies")
+        else None,
+        "Fuel (diesel) - generation": iam_data.production_volumes
+        if hasattr(iam_data, "production_volumes")
+        else None,
+        "Fuel (diesel) - efficiency": iam_data.diesel_efficiencies
+        if hasattr(iam_data, "diesel_efficiencies")
+        else None,
+        "Fuel (gas) - generation": iam_data.production_volumes
+        if hasattr(iam_data, "production_volumes")
+        else None,
+        "Fuel (gas) - efficiency": iam_data.gas_efficiencies
+        if hasattr(iam_data, "gas_efficiencies")
+        else None,
+        "Fuel (hydrogen) - generation": iam_data.production_volumes
+        if hasattr(iam_data, "production_volumes")
+        else None,
+        "Fuel (hydrogen) - efficiency": iam_data.hydrogen_efficiencies
+        if hasattr(iam_data, "hydrogen_efficiencies")
+        else None,
+        "Cement - generation": iam_data.production_volumes
+        if hasattr(iam_data, "production_volumes")
+        else None,
+        "Cement - efficiency": iam_data.cement_efficiencies
+        if hasattr(iam_data, "cement_efficiencies")
+        else None,
+        "Cement - CCS": iam_data.carbon_capture_rate
+        if hasattr(iam_data, "carbon_capture_rate")
+        else None,
+        "Steel - generation": iam_data.production_volumes
+        if hasattr(iam_data, "production_volumes")
+        else None,
+        "Steel - efficiency": iam_data.steel_efficiencies
+        if hasattr(iam_data, "steel_efficiencies")
+        else None,
+        "Steel - CCS": iam_data.carbon_capture_rate
+        if hasattr(iam_data, "carbon_capture_rate")
+        else None,
+        "Direct Air Capture - generation": iam_data.production_volumes
+        if hasattr(iam_data, "production_volumes")
+        else None,
+        "Transport (cars)": iam_data.trsp_cars
+        if hasattr(iam_data, "trsp_cars")
+        else None,
+        "Transport (buses)": iam_data.trsp_buses
+        if hasattr(iam_data, "trsp_buses")
+        else None,
+        "Transport (trucks)": iam_data.trsp_trucks
+        if hasattr(iam_data, "trsp_trucks")
+        else None,
     }
 
     if data[sector] is not None:
