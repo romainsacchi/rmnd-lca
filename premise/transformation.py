@@ -1455,7 +1455,6 @@ class BaseTransformation:
 
                     allocated, share = allocate_inputs(exc, kept)
 
-
                     new_exchanges.extend(allocated)
 
                     # add to cache

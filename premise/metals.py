@@ -11,11 +11,11 @@ import logging.config
 import uuid
 from pathlib import Path
 
+import country_converter as coco
 import numpy as np
 import pandas as pd
 import wurst
 import yaml
-import country_converter as coco
 
 from .export import biosphere_flows_dictionary
 from .transformation import (
@@ -53,6 +53,7 @@ def load_BGS_mapping():
     df = pd.read_excel(filepath, sheet_name="Sheet1")
     return df
 
+
 def get_ecoinvent_metal_factors():
     """
     Load dataframe with ecoinvent factors for metals
@@ -83,6 +84,7 @@ def load_post_allocation_correction_factors():
     with open(filepath, "r", encoding="utf-8") as stream:
         factors = yaml.safe_load(stream)
     return factors
+
 
 def fetch_mapping(filepath: str) -> dict:
     """Returns a dictionary from a YML file"""
@@ -307,7 +309,6 @@ class Metals(BaseTransformation):
 
         return dataset
 
-
     def post_allocation_correction(self):
         """
         Correct for post-allocation in the database.
@@ -329,7 +330,9 @@ class Metals(BaseTransformation):
                     "amount": dataset["additional flow"]["amount"],
                     "unit": dataset["additional flow"]["unit"],
                     "type": "biosphere",
-                    "categories": tuple(dataset["additional flow"]["categories"].split("::")),
+                    "categories": tuple(
+                        dataset["additional flow"]["categories"].split("::")
+                    ),
                     "input": (
                         "biosphere3",
                         self.biosphere_flow_codes[
@@ -337,13 +340,14 @@ class Metals(BaseTransformation):
                             dataset["additional flow"]["categories"].split("::")[0],
                             dataset["additional flow"]["categories"].split("::")[1],
                             dataset["additional flow"]["unit"],
-                        ]
+                        ],
                     ),
                 }
             )
 
-    def create_new_mining_activity(self, name, reference_product, location, new_location):
-
+    def create_new_mining_activity(
+        self, name, reference_product, location, new_location
+    ):
         try:
             ws.get_one(
                 self.database,
@@ -355,7 +359,6 @@ class Metals(BaseTransformation):
             return None
 
         except ws.NoResults:
-
             try:
                 original = ws.get_one(
                     self.database,
@@ -364,10 +367,14 @@ class Metals(BaseTransformation):
                     ws.equals("location", location),
                 )
             except ws.NoResults:
-                print(f"No original dataset found for {name}, {reference_product} in {location}")
+                print(
+                    f"No original dataset found for {name}, {reference_product} in {location}"
+                )
                 return None
             except ws.MultipleResults:
-                print(f"Multiple original datasets found for {name}, {reference_product} in {location}")
+                print(
+                    f"Multiple original datasets found for {name}, {reference_product} in {location}"
+                )
                 return None
 
             dataset = wurst.copy_to_new_location(original, new_location)
@@ -385,7 +392,6 @@ class Metals(BaseTransformation):
         country_short = coco.convert(country_long, to="ISO2")
 
         if isinstance(country_short, list):
-
             if country_long == "France (French Guiana)":
                 country_short = "GF"
             else:
@@ -399,7 +405,6 @@ class Metals(BaseTransformation):
         return country_short
 
     def create_region_specific_market(self, row):
-
         new_location = self.convert_long_to_short_country_name(row["Country"])
 
         if new_location is None:
@@ -431,10 +436,7 @@ class Metals(BaseTransformation):
 
         # if not, we create it
         dataset = self.create_new_mining_activity(
-            name,
-            reference_product,
-            location,
-            new_location
+            name, reference_product, location, new_location
         )
 
         if dataset is None:
@@ -443,13 +445,7 @@ class Metals(BaseTransformation):
         # add new dataset to database
         self.database.append(dataset)
 
-        self.modified_datasets[
-            (
-                self.model,
-                self.scenario,
-                self.year
-            )
-        ][
+        self.modified_datasets[(self.model, self.scenario, self.year)][
             "created"
         ].append(
             (
@@ -471,11 +467,10 @@ class Metals(BaseTransformation):
         }
 
     def create_market(self, metal, df):
-
         # check if market already exists
         # if so, remove it
         for ds in self.database:
-            if ds['name'] == f"market for {metal.lower()}":
+            if ds["name"] == f"market for {metal.lower()}":
                 self.database.remove(ds)
                 # add it to self.modified_datasets
                 self.modified_datasets[(self.model, self.scenario, self.year)][
@@ -510,10 +505,7 @@ class Metals(BaseTransformation):
         }
 
         dataset["exchanges"].extend(
-            [
-                self.create_region_specific_market(row)
-                for _, row in df.iterrows()
-            ]
+            [self.create_region_specific_market(row) for _, row in df.iterrows()]
         )
 
         # filter out None
@@ -522,7 +514,6 @@ class Metals(BaseTransformation):
         return dataset
 
     def create_metal_markets(self):
-
         self.post_allocation_correction()
 
         print("Creating metal markets")
@@ -552,8 +543,7 @@ class Metals(BaseTransformation):
             )
 
         dataframe_parent = dataframe.loc[
-            (dataframe["Share_2017_2021"].isnull())
-            & (~dataframe["Region"].isnull())
+            (dataframe["Share_2017_2021"].isnull()) & (~dataframe["Region"].isnull())
         ]
 
         print("Creating additional mining processes")
@@ -562,7 +552,7 @@ class Metals(BaseTransformation):
                 row["Process"],
                 row["Reference product"],
                 row["Region"],
-                self.convert_long_to_short_country_name(row["Country"])
+                self.convert_long_to_short_country_name(row["Country"]),
             )
 
             if dataset is None:
@@ -580,9 +570,7 @@ class Metals(BaseTransformation):
                     dataset["location"],
                     dataset["unit"],
                 )
-
             )
-
 
     def write_log(self, dataset, status="created"):
         """
