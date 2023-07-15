@@ -210,6 +210,9 @@ def allocate_inputs(exc, lst):
         total = len(lst)
         pvs = [1 for _ in range(total)]
 
+    if lst[0]["name"] != exc["name"]:
+        exc["name"] = lst[0]["name"]
+
     return [
         new_exchange(exc, obj["location"], factor / total)
         for obj, factor in zip(lst, pvs)
@@ -1451,6 +1454,8 @@ class BaseTransformation:
                     kept = possible_datasets
 
                     allocated, share = allocate_inputs(exc, kept)
+
+
                     new_exchanges.extend(allocated)
 
                     # add to cache

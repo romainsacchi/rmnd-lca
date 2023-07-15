@@ -938,7 +938,7 @@ class NewDatabase:
                     modified_datasets=self.modified_datasets,
                 )
 
-                metals.update_metals_use_in_database()
+                metals.create_metal_markets()
                 scenario["database"] = metals.database
 
     def update_cars(self) -> None:

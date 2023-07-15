@@ -8,11 +8,14 @@ https://doi.org/10.1016/j.egyr.2022.11.025.
 """
 
 import logging.config
+import uuid
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import wurst
 import yaml
+import country_converter as coco
 
 from .export import biosphere_flows_dictionary
 from .transformation import (
@@ -41,6 +44,15 @@ with open(LOG_CONFIG, "r") as f:
 logger = logging.getLogger("metal")
 
 
+def load_BGS_mapping():
+    """
+    Load mapping between BGS and ecoinvent
+    """
+
+    filepath = DATA_DIR / "metals" / "BGS_mapping.xlsx"
+    df = pd.read_excel(filepath, sheet_name="Sheet1")
+    return df
+
 def get_ecoinvent_metal_factors():
     """
     Load dataframe with ecoinvent factors for metals
@@ -61,6 +73,16 @@ def get_ecoinvent_metal_factors():
 
     return ds
 
+
+def load_post_allocation_correction_factors():
+    """
+    Load yaml file with post-allocation correction factors
+    """
+
+    filepath = DATA_DIR / "metals" / "post-allocation correction" / "corrections.yaml"
+    with open(filepath, "r", encoding="utf-8") as stream:
+        factors = yaml.safe_load(stream)
+    return factors
 
 def fetch_mapping(filepath: str) -> dict:
     """Returns a dictionary from a YML file"""
@@ -284,6 +306,283 @@ class Metals(BaseTransformation):
             dataset["log parameters"][f"{metal} new amount"] = exc["amount"]
 
         return dataset
+
+
+    def post_allocation_correction(self):
+        """
+        Correct for post-allocation in the database.
+        """
+
+        factors_list = load_post_allocation_correction_factors()
+
+        for dataset in factors_list:
+            ds = ws.get_one(
+                self.database,
+                ws.equals("name", dataset["name"]),
+                ws.equals("reference product", dataset["reference product"]),
+                ws.equals("location", dataset["location"]),
+                ws.equals("unit", dataset["unit"]),
+            )
+            ds["exchanges"].append(
+                {
+                    "name": dataset["additional flow"]["name"],
+                    "amount": dataset["additional flow"]["amount"],
+                    "unit": dataset["additional flow"]["unit"],
+                    "type": "biosphere",
+                    "categories": tuple(dataset["additional flow"]["categories"].split("::")),
+                    "input": (
+                        "biosphere3",
+                        self.biosphere_flow_codes[
+                            dataset["additional flow"]["name"],
+                            dataset["additional flow"]["categories"].split("::")[0],
+                            dataset["additional flow"]["categories"].split("::")[1],
+                            dataset["additional flow"]["unit"],
+                        ]
+                    ),
+                }
+            )
+
+    def create_new_mining_activity(self, name, reference_product, location, new_location):
+
+        try:
+            ws.get_one(
+                self.database,
+                ws.equals("name", name),
+                ws.equals("reference product", reference_product),
+                ws.equals("location", new_location),
+            )
+
+            return None
+
+        except ws.NoResults:
+
+            try:
+                original = ws.get_one(
+                    self.database,
+                    ws.equals("name", name),
+                    ws.equals("reference product", reference_product),
+                    ws.equals("location", location),
+                )
+            except ws.NoResults:
+                print(f"No original dataset found for {name}, {reference_product} in {location}")
+                return None
+            except ws.MultipleResults:
+                print(f"Multiple original datasets found for {name}, {reference_product} in {location}")
+                return None
+
+            dataset = wurst.copy_to_new_location(original, new_location)
+            dataset = self.relink_technosphere_exchanges(dataset)
+            dataset["code"] = str(uuid.uuid4())
+
+            return dataset
+
+    def convert_long_to_short_country_name(self, country_long):
+        """
+        Convert long country name to short country name.
+        :param country_long: Long country name
+        :return: Short country name
+        """
+        country_short = coco.convert(country_long, to="ISO2")
+
+        if isinstance(country_short, list):
+
+            if country_long == "France (French Guiana)":
+                country_short = "GF"
+            else:
+                print(f"Multiple locations found for {country_long}. Using first one.")
+                country_short = country_short[0]
+
+        if country_short not in self.geo.geo.keys():
+            print(f"New location {country_short} for {country_long} not found")
+            return None
+
+        return country_short
+
+    def create_region_specific_market(self, row):
+
+        new_location = self.convert_long_to_short_country_name(row["Country"])
+
+        if new_location is None:
+            return None
+
+        name = row["Process"]
+        reference_product = row["Reference product"]
+        location = row["Region"]
+
+        # check if already exists
+        try:
+            ds = ws.get_one(
+                self.database,
+                ws.equals("name", name),
+                ws.equals("reference product", reference_product),
+                ws.equals("location", new_location),
+            )
+            return {
+                "name": ds["name"],
+                "product": ds["reference product"],
+                "location": ds["location"],
+                "unit": ds["unit"],
+                "amount": float(row["Share_2017_2021"]),
+                "uncertainty type": 0,
+                "type": "technosphere",
+            }
+        except ws.NoResults:
+            pass
+
+        # if not, we create it
+        dataset = self.create_new_mining_activity(
+            name,
+            reference_product,
+            location,
+            new_location
+        )
+
+        if dataset is None:
+            return None
+
+        # add new dataset to database
+        self.database.append(dataset)
+
+        self.modified_datasets[
+            (
+                self.model,
+                self.scenario,
+                self.year
+            )
+        ][
+            "created"
+        ].append(
+            (
+                dataset["name"],
+                dataset["reference product"],
+                dataset["location"],
+                dataset["unit"],
+            )
+        )
+
+        return {
+            "name": dataset["name"],
+            "product": dataset["reference product"],
+            "location": dataset["location"],
+            "unit": dataset["unit"],
+            "amount": float(row["Share_2017_2021"]),
+            "uncertainty type": 0,
+            "type": "technosphere",
+        }
+
+    def create_market(self, metal, df):
+
+        # check if market already exists
+        # if so, remove it
+        for ds in self.database:
+            if ds['name'] == f"market for {metal.lower()}":
+                self.database.remove(ds)
+                # add it to self.modified_datasets
+                self.modified_datasets[(self.model, self.scenario, self.year)][
+                    "emptied"
+                ].append(
+                    (
+                        ds["name"],
+                        ds["reference product"],
+                        ds["location"],
+                        ds["unit"],
+                    )
+                )
+
+        dataset = {
+            "name": f"market for {metal.lower()}",
+            "location": "GLO",
+            "exchanges": [
+                {
+                    "name": f"market for {metal.lower()}",
+                    "product": f"{metal.lower()}",
+                    "location": "GLO",
+                    "amount": 1,
+                    "type": "production",
+                    "unit": "kilogram",
+                }
+            ],
+            "reference product": f"{metal.lower()}",
+            "unit": "kilogram",
+            "production amount": 1,
+            "comment": "Created by premise",
+            "code": str(uuid.uuid4()),
+        }
+
+        dataset["exchanges"].extend(
+            [
+                self.create_region_specific_market(row)
+                for _, row in df.iterrows()
+            ]
+        )
+
+        # filter out None
+        dataset["exchanges"] = [exc for exc in dataset["exchanges"] if exc]
+
+        return dataset
+
+    def create_metal_markets(self):
+
+        self.post_allocation_correction()
+
+        print("Creating metal markets")
+
+        dataframe = load_BGS_mapping()
+        dataframe = dataframe.loc[dataframe["Work done"] == "Yes"]
+        dataframe = dataframe.loc[~dataframe["Country"].isnull()]
+        dataframe_shares = dataframe.loc[dataframe["Share_2017_2021"] > 0]
+
+        for metal in dataframe_shares["Metal"].unique():
+            print(f"... for {metal}.")
+            df_metal = dataframe.loc[dataframe["Metal"] == metal]
+            dataset = self.create_market(metal, df_metal)
+
+            self.database.append(dataset)
+
+            # add it to self.modified_datasets
+            self.modified_datasets[(self.model, self.scenario, self.year)][
+                "created"
+            ].append(
+                (
+                    dataset["name"],
+                    dataset["reference product"],
+                    dataset["location"],
+                    dataset["unit"],
+                )
+            )
+
+        dataframe_parent = dataframe.loc[
+            (dataframe["Share_2017_2021"].isnull())
+            & (~dataframe["Region"].isnull())
+        ]
+
+        print("Creating additional mining processes")
+        for _, row in dataframe_parent.iterrows():
+            dataset = self.create_new_mining_activity(
+                row["Process"],
+                row["Reference product"],
+                row["Region"],
+                self.convert_long_to_short_country_name(row["Country"])
+            )
+
+            if dataset is None:
+                continue
+
+            self.database.append(dataset)
+
+            # add it to self.modified_datasets
+            self.modified_datasets[(self.model, self.scenario, self.year)][
+                "created"
+            ].append(
+                (
+                    dataset["name"],
+                    dataset["reference product"],
+                    dataset["location"],
+                    dataset["unit"],
+                )
+
+            )
+
 
     def write_log(self, dataset, status="created"):
         """

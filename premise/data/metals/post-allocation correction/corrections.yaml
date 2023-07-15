@@ -3,7 +3,7 @@
   location: ZA
   unit: kilogram
   additional flow:
-    name: Palladium, in ground
+    name: Palladium
     categories: natural resource::in ground
     amount: 0.8848
     unit: kilogram
@@ -12,7 +12,7 @@
   location: RU
   unit: kilogram
   additional flow:
-    name: Palladium, in ground
+    name: Palladium
     categories: natural resource::in ground
     amount: 0.9067
     unit: kilogram
@@ -21,7 +21,7 @@
   location: ZA
   unit: kilogram
   additional flow:
-    name: Platinum, in ground
+    name: Platinum
     categories: natural resource::in ground
     amount: 0.2886
     unit: kilogram
@@ -30,7 +30,7 @@
   location: RU
   unit: kilogram
   additional flow:
-    name: Platinum, in ground
+    name: Platinum
     categories: natural resource::in ground
     amount: 0.8833
     unit: kilogram
@@ -39,7 +39,7 @@
   location: ZA
   unit: kilogram
   additional flow:
-    name: Rhodium, in ground
+    name: Rhodium
     categories: natural resource::in ground
     amount: 0.8907
     unit: kilogram
@@ -48,7 +48,7 @@
   location: RU
   unit: kilogram
   additional flow:
-    name: Rhodium, in ground
+    name: Rhodium
     categories: natural resource::in ground
     amount: 0.9893
     unit: kilogram
@@ -57,7 +57,7 @@
   location: RU
   unit: kilogram
   additional flow:
-    name: Copper, in ground
+    name: Copper
     categories: natural resource::in ground
     amount: 0.7391
     unit: kilogram
@@ -66,7 +66,7 @@
   location: RU
   unit: kilogram
   additional flow:
-    name: Nickel, in ground
+    name: Nickel
     categories: natural resource::in ground
     amount: 0.3663
     unit: kilogram
@@ -75,7 +75,7 @@
   location: ZA
   unit: kilogram
   additional flow:
-    name: Copper, in ground
+    name: Copper
     categories: natural resource::in ground
     amount: 0.9519
     unit: kilogram
@@ -84,7 +84,7 @@
   location: ZA
   unit: kilogram
   additional flow:
-    name: Nickel, in ground
+    name: Nickel
     categories: natural resource::in ground
     amount: 0.9288
     unit: kilogram
@@ -93,7 +93,7 @@
   location: ZA
   unit: kilogram
   additional flow:
-    name: Gold, in ground
+    name: Gold
     categories: natural resource::in ground
     amount: 0.9632
     unit: kilogram
