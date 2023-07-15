@@ -489,14 +489,15 @@ class Metals(BaseTransformation):
                     )
                 )
 
+
         dataset = {
             "name": f"market for {metal.lower()}",
-            "location": "GLO",
+            "location": "World",
             "exchanges": [
                 {
                     "name": f"market for {metal.lower()}",
                     "product": f"{metal.lower()}",
-                    "location": "GLO",
+                    "location": "World",
                     "amount": 1,
                     "type": "production",
                     "unit": "kilogram",

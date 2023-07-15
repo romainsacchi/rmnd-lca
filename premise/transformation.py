@@ -913,8 +913,40 @@ class BaseTransformation:
                                 )
                             ]
 
-                    if not entry:
-                        entry = [exc + (1.0,)]
+                        elif (
+                                exc[0],
+                                exc[1],
+                                "World",
+                                exc[-1],
+                            ) in self.modified_datasets[
+                                (self.model, self.scenario, self.year)
+                            ][
+                                "created"
+                            ]:
+
+                            self.add_new_entry_to_cache(
+                                location=act["location"],
+                                exchange={
+                                    "name": exc[0],
+                                    "product": exc[1],
+                                    "location": exc[2],
+                                    "unit": exc[-1],
+                                },
+                                allocated=[
+                                    {
+                                        "name": exc[0],
+                                        "product": exc[1],
+                                        "location": "World",
+                                        "unit": exc[-1],
+                                    }
+                                ],
+                                shares=[1.0],
+                            )
+                            break
+
+                        else:
+
+                            entry = [exc + (1.0,)]
 
                 # summing up the amounts provided by the unwanted exchanges
                 # and remove these unwanted exchanges from the dataset
@@ -1226,7 +1258,13 @@ class BaseTransformation:
                 kept = None
                 key = (exc["name"], exc["product"], exc["unit"])
                 possible_datasets = [
-                    x for x in self.get_possibles(key) if x["location"] in list_loc
+                    x
+                    for x in self.get_possibles(key)
+                    if x["location"] in list_loc
+                    and (exc["name"], exc["product"], x["location"], exc["unit"])
+                    not in self.modified_datasets[
+                        (self.model, self.scenario, self.year)
+                    ]["emptied"]
                 ]
 
                 possible_locations = [obj["location"] for obj in possible_datasets]
@@ -1345,12 +1383,12 @@ class BaseTransformation:
                         continue
 
                 if not kept and any(
-                    loc in possible_locations for loc in ["GLO", "RoW"]
+                    loc in possible_locations for loc in ["World", "GLO", "RoW"]
                 ):
                     kept = [
                         ds
                         for ds in possible_datasets
-                        if ds["location"] in ["GLO", "RoW"]
+                        if ds["location"] in ["World", "GLO", "RoW"]
                     ]
                     allocated, share = allocate_inputs(exc, kept)
                     new_exchanges.extend(allocated)
@@ -1454,7 +1492,6 @@ class BaseTransformation:
                     kept = possible_datasets
 
                     allocated, share = allocate_inputs(exc, kept)
-
 
                     new_exchanges.extend(allocated)
 
