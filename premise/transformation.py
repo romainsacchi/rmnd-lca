@@ -914,16 +914,15 @@ class BaseTransformation:
                             ]
 
                         elif (
-                                exc[0],
-                                exc[1],
-                                "World",
-                                exc[-1],
-                            ) in self.modified_datasets[
-                                (self.model, self.scenario, self.year)
-                            ][
-                                "created"
-                            ]:
-
+                            exc[0],
+                            exc[1],
+                            "World",
+                            exc[-1],
+                        ) in self.modified_datasets[
+                            (self.model, self.scenario, self.year)
+                        ][
+                            "created"
+                        ]:
                             self.add_new_entry_to_cache(
                                 location=act["location"],
                                 exchange={
@@ -945,7 +944,6 @@ class BaseTransformation:
                             break
 
                         else:
-
                             entry = [exc + (1.0,)]
 
                 # summing up the amounts provided by the unwanted exchanges
