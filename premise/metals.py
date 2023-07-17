@@ -484,7 +484,6 @@ class Metals(BaseTransformation):
                     )
                 )
 
-
         dataset = {
             "name": f"market for {metal.lower()}",
             "location": "World",
