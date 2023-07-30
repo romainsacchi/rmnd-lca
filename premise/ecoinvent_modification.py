@@ -435,6 +435,9 @@ def _update_all(
     return scenario, modified_datasets
 
 
+def _export_to_matrices(obj):
+    obj.export_db_to_matrices()
+
 class NewDatabase:
     """
     Class that represents a new wurst inventory database, modified according to IAM data.
@@ -528,7 +531,7 @@ class NewDatabase:
             self.database = self.__find_cached_db(
                 source_db, keep_uncertainty_data=keep_uncertainty_data
             )
-            # print("Done!")
+            print("Done!")
         else:
             self.database = self.__clean_database(
                 keep_uncertainty_data=keep_uncertainty_data
@@ -547,7 +550,7 @@ class NewDatabase:
             data = self.__import_additional_inventories(self.additional_inventories)
             self.database.extend(data)
 
-        # print("Done!")
+        print("Done!")
 
         print("\n/////////////////////// EXTRACTING IAM DATA ////////////////////////")
 
@@ -575,7 +578,7 @@ class NewDatabase:
         with Pool(processes=multiprocessing.cpu_count()) as pool:
             pool.map(_fetch_iam_data, self.scenarios)
 
-        # print("Done!")
+        print("Done!")
 
     def __find_cached_db(self, db_name: str, keep_uncertainty_data: bool) -> List[dict]:
         """
@@ -807,6 +810,8 @@ class NewDatabase:
             self.scenarios[s] = results[s][0]
             self.modified_datasets.update(results[s][1])
 
+        print("Done!\n")
+
     def update_dac(self) -> None:
         """
         This method will update the Direct Air Capture (DAC) inventories
@@ -833,6 +838,8 @@ class NewDatabase:
             self.scenarios[s] = results[s][0]
             self.modified_datasets.update(results[s][1])
 
+        print("Done!\n")
+
     def update_fuels(self) -> None:
         """
         This method will update the fuels inventories
@@ -856,6 +863,8 @@ class NewDatabase:
         for s, scenario in enumerate(self.scenarios):
             self.scenarios[s] = results[s][0]
             self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_cement(self) -> None:
         """
@@ -881,6 +890,8 @@ class NewDatabase:
             self.scenarios[s] = results[s][0]
             self.modified_datasets.update(results[s][1])
 
+        print("Done!\n")
+
     def update_steel(self) -> None:
         """
         This method will update the steel inventories
@@ -904,6 +915,8 @@ class NewDatabase:
         for s, scenario in enumerate(self.scenarios):
             self.scenarios[s] = results[s][0]
             self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_cars(self) -> None:
         """
@@ -930,6 +943,8 @@ class NewDatabase:
             self.scenarios[s] = results[s][0]
             self.modified_datasets.update(results[s][1])
 
+        print("Done!\n")
+
     def update_two_wheelers(self) -> None:
         """
         This method will update the two-wheelers inventories
@@ -954,6 +969,8 @@ class NewDatabase:
         for s, scenario in enumerate(self.scenarios):
             self.scenarios[s] = results[s][0]
             self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_trucks(self) -> None:
         """
@@ -982,6 +999,8 @@ class NewDatabase:
             self.scenarios[s] = results[s][0]
             self.modified_datasets.update(results[s][1])
 
+        print("Done!\n")
+
     def update_buses(self) -> None:
         """
         This method will update the buses inventories
@@ -1007,6 +1026,8 @@ class NewDatabase:
         for s, scenario in enumerate(self.scenarios):
             self.scenarios[s] = results[s][0]
             self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_external_scenario(self):
         if self.datapackages:
@@ -1052,6 +1073,8 @@ class NewDatabase:
                     scenario["database"] = external_scenario.database
             print(f"Log file of exchanges saved under {DATA_DIR / 'logs'}.")
 
+        print("Done!\n")
+
     def update_emissions(self) -> None:
         """
         This method will update the hot pollutants emissions
@@ -1077,6 +1100,8 @@ class NewDatabase:
         for s, scenario in enumerate(self.scenarios):
             self.scenarios[s] = results[s][0]
             self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_all(self) -> None:
         """
@@ -1135,7 +1160,7 @@ class NewDatabase:
         cache = {}
 
         # use multiprocessing to speed up the process
-        with Pool(processes=multiprocessing.cpu_count()) as pool:
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
             args = [
                 (
                     scenario,
@@ -1212,7 +1237,7 @@ class NewDatabase:
         cache = {}
 
         # use multiprocessing to speed up the process
-        with Pool(processes=multiprocessing.cpu_count()) as pool:
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
             args = [
                 (
                     scenario,
@@ -1278,9 +1303,11 @@ class NewDatabase:
 
         cache = {}
 
+
+
         # use multiprocessing to speed up the process
         # use multiprocessing to speed up the process
-        with Pool(processes=multiprocessing.cpu_count()) as pool:
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
             args = [
                 (
                     scenario,
@@ -1291,12 +1318,18 @@ class NewDatabase:
                 )
                 for scenario in self.scenarios
             ]
-            self.scenarios, cache = pool.starmap(_prepare_database, args)
+            results = pool.starmap(_prepare_database, args)
+
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            cache.update(results[s][1])
+
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
             args = [
-                (scenario, filepath[scen], self.version)
+                Export(scenario, filepath[scen], self.version)
                 for scen, scenario in enumerate(self.scenarios)
             ]
-            pool.starmap(Export().export_db_to_matrices, args)
+            pool.map(_export_to_matrices, args)
 
         # generate scenario report
         self.generate_scenario_report()
@@ -1322,7 +1355,7 @@ class NewDatabase:
         cache = {}
 
         # use multiprocessing to speed up the process
-        with Pool(processes=multiprocessing.cpu_count()) as pool:
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
             args = [
                 (
                     scenario,
@@ -1359,7 +1392,7 @@ class NewDatabase:
 
         cache = {}
         # use multiprocessing to speed up the process
-        with Pool(processes=multiprocessing.cpu_count()) as pool:
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
             args = [
                 (
                     scenario,
