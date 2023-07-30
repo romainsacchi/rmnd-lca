@@ -438,6 +438,7 @@ def _update_all(
 def _export_to_matrices(obj):
     obj.export_db_to_matrices()
 
+
 class NewDatabase:
     """
     Class that represents a new wurst inventory database, modified according to IAM data.
@@ -1302,8 +1303,6 @@ class NewDatabase:
         print("Write new database(s) to matrix.")
 
         cache = {}
-
-
 
         # use multiprocessing to speed up the process
         # use multiprocessing to speed up the process

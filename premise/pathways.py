@@ -1,9 +1,10 @@
-from typing import List
 import copy
+import multiprocessing
 from datetime import date
 from multiprocessing import Pool as ProcessPool
-import multiprocessing
 from pathlib import Path
+from typing import List
+
 from datapackage import Package
 
 from . import __version__
@@ -19,19 +20,19 @@ from .export import (
 
 class PathwaysDataPackage:
     def __init__(
-            self,
-            scenarios: List[dict],
-            source_version: str = "3.9",
-            source_type: str = "brightway",
-            key: bytes = None,
-            source_db: str = None,
-            source_file_path: str = None,
-            additional_inventories: List[dict] = None,
-            system_model: str = "cutoff",
-            system_args: dict = None,
-            external_scenarios: list = None,
-            gains_scenario="CLE",
-            use_absolute_efficiency=False,
+        self,
+        scenarios: List[dict],
+        source_version: str = "3.9",
+        source_type: str = "brightway",
+        key: bytes = None,
+        source_db: str = None,
+        source_file_path: str = None,
+        additional_inventories: List[dict] = None,
+        system_model: str = "cutoff",
+        system_args: dict = None,
+        external_scenarios: list = None,
+        gains_scenario="CLE",
+        use_absolute_efficiency=False,
     ):
         self.scenarios = scenarios
         self.source_db = source_db
@@ -80,8 +81,8 @@ class PathwaysDataPackage:
             {
                 "name": f"{s['model'].upper()} - {s['pathway']}",
                 "description": f"Prospective db, "
-                               f"based on {s['model'].upper()}, "
-                               f"pathway {s['pathway']}.",
+                f"based on {s['model'].upper()}, "
+                f"pathway {s['pathway']}.",
             }
             for s in self.scenarios
         ]
@@ -90,7 +91,7 @@ class PathwaysDataPackage:
             "scenario",
             "data package",
             "premise",
-            "pathways"
+            "pathways",
         ]
         package.descriptor["licenses"] = [
             {

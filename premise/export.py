@@ -992,7 +992,6 @@ class Export:
         filepath: Union[list[Path], list[Union[Path, Any]]] = None,
         version: str = None,
     ):
-
         self.db = scenario["database"]
         self.model = scenario["model"]
         self.scenario = scenario["pathway"]

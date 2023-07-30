@@ -1,4 +1,9 @@
-__all__ = ("NewDatabase", "clear_cache", "get_regions_definition", "PathwaysDataPackage")
+__all__ = (
+    "NewDatabase",
+    "clear_cache",
+    "get_regions_definition",
+    "PathwaysDataPackage",
+)
 __version__ = (1, 5, 9)
 
 from pathlib import Path
