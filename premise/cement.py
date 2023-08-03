@@ -14,22 +14,33 @@ from pathlib import Path
 
 import yaml
 
+from .logger import create_logger
 from .transformation import BaseTransformation, Dict, IAMDataCollection, List, np, ws
 from .utils import DATA_DIR
 
-LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
-# directory for log files
-DIR_LOG_REPORT = Path.cwd() / "export" / "logs"
-# if DIR_LOG_REPORT folder does not exist
-# we create it
-if not Path(DIR_LOG_REPORT).exists():
-    Path(DIR_LOG_REPORT).mkdir(parents=True, exist_ok=True)
+logger = create_logger("cement")
 
-with open(LOG_CONFIG, "r") as f:
-    config = yaml.safe_load(f.read())
-    logging.config.dictConfig(config)
 
-logger = logging.getLogger("cement")
+def _update_cement(scenario, version, system_model, modified_datasets):
+    cement = Cement(
+        database=scenario["database"],
+        model=scenario["model"],
+        pathway=scenario["pathway"],
+        iam_data=scenario["iam data"],
+        year=scenario["year"],
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+    )
+
+    if scenario["iam data"].cement_markets is not None:
+        cement.add_datasets_to_database()
+        scenario["database"] = cement.database
+        modified_datasets = cement.modified_datasets
+    else:
+        print("No cement markets found in IAM data. Skipping.")
+
+    return scenario, modified_datasets
 
 
 class Cement(BaseTransformation):
@@ -453,9 +464,9 @@ class Cement(BaseTransformation):
         :return: Does not return anything. Modifies in place.
         """
 
-        print("Start integration of cement data...")
+        # print("Start integration of cement data...")
 
-        print("Create new clinker production datasets and delete old datasets")
+        # print("Create new clinker production datasets and delete old datasets")
 
         clinker_prod_datasets = list(self.build_clinker_production_datasets().values())
         self.database.extend(clinker_prod_datasets)
@@ -475,7 +486,7 @@ class Cement(BaseTransformation):
                 )
             )
 
-        print("Create new clinker market datasets and delete old datasets")
+        # print("Create new clinker market datasets and delete old datasets")
         clinker_market_datasets = list(
             self.fetch_proxies(
                 name="market for clinker",
@@ -501,7 +512,7 @@ class Cement(BaseTransformation):
                 )
             )
 
-        print("Create new cement market datasets")
+        # print("Create new cement market datasets")
 
         # cement markets
         markets = ws.get_many(
@@ -542,10 +553,10 @@ class Cement(BaseTransformation):
 
         self.database.extend(new_datasets)
 
-        print(
-            "Create new cement production datasets and "
-            "adjust electricity consumption"
-        )
+        # print(
+        #    "Create new cement production datasets and "
+        #    "adjust electricity consumption"
+        # )
         # cement production
         production = ws.get_many(
             self.database,

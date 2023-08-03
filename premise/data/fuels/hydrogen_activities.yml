@@ -1,5 +1,5 @@
 from electrolysis:
-  name: hydrogen production, gaseous, 200 bar, from PEM electrolysis, from grid electricity
+  name: hydrogen production, gaseous, 30 bar, from PEM electrolysis, from grid electricity
   var: hydrogen, electrolysis
   feedstock name: electricity, low voltage
   feedstock unit: kilowatt hour

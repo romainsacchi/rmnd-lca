@@ -340,6 +340,8 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 35;39;market for potassium fertiliser, as K2O;potassium fertiliser, as K2O;GLO;market group for inorganic potassium fertiliser, as K2O;inorganic potassium fertiliser, as K2O;RER
 36;39;market for potassium fertiliser, as K2O;potassium fertiliser, as K2O;GLO;market group for inorganic potassium fertiliser, as K2O;inorganic potassium fertiliser, as K2O;RER
 37;39;market for chemicals, inorganic;chemical, inorganic;GLO;market for chemical, inorganic;;
+39;37;market for chemical, inorganic;chemical, inorganic;GLO;market for chemicals, inorganic;;
+38;37;market for chemical, inorganic;chemical, inorganic;GLO;market for chemicals, inorganic;;
 35;39;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;RER;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;
 36;39;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;RER;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;
 37;39;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;RER;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;

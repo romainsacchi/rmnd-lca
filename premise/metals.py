@@ -28,20 +28,26 @@ from .transformation import (
     ws,
 )
 from .utils import DATA_DIR
+from .logger import create_logger
 
-LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
-# directory for log files
-DIR_LOG_REPORT = Path.cwd() / "export" / "logs"
-# if DIR_LOG_REPORT folder does not exist
-# we create it
-if not Path(DIR_LOG_REPORT).exists():
-    Path(DIR_LOG_REPORT).mkdir(parents=True, exist_ok=True)
+logger = create_logger("metal")
 
-with open(LOG_CONFIG, "r") as f:
-    config = yaml.safe_load(f.read())
-    logging.config.dictConfig(config)
 
-logger = logging.getLogger("metal")
+def _update_metals(scenario, version, system_model, modified_datasets):
+    metals = Metals(
+        database=scenario["database"],
+        model=scenario["model"],
+        pathway=scenario["pathway"],
+        iam_data=scenario["iam data"],
+        year=scenario["year"],
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+    )
+
+    metals.create_metal_markets()
+
+    return scenario, modified_datasets
 
 
 def load_BGS_mapping():
@@ -152,8 +158,8 @@ class Metals(BaseTransformation):
         self.rev_activities_metals_map: Dict[str, str] = rev_metals_map(
             self.activities_metals_map
         )
-        self.metals_map: Dict[str, Set] = mapping.generate_metals_map()
-        self.rev_metals_map: Dict[str, str] = rev_metals_map(self.metals_map)
+        #self.metals_map: Dict[str, Set] = mapping.generate_metals_map()
+        #self.rev_metals_map: Dict[str, str] = rev_metals_map(self.metals_map)
         self.conversion_factors = load_conversion_factors()
         self.current_metal_use = get_ecoinvent_metal_factors()
 

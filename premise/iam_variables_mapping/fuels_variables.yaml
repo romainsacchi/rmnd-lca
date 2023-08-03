@@ -244,6 +244,7 @@ diesel:
   iam_aliases:
     remind: SE|Liquids|Fossil|+|Oil
     image: Secondary Energy|Consumption|Liquids|Fossil
+    message: Secondary Energy|Liquids|Oil
   eff_aliases:
     remind: Tech|Liquids|Fossil|Oil|Efficiency
   ecoinvent_aliases:
@@ -273,6 +274,7 @@ gasoline:
   iam_aliases:
     remind: SE|Liquids|Fossil|+|Oil
     image: Secondary Energy|Consumption|Liquids|Fossil
+    message: Secondary Energy|Liquids|Oil
   eff_aliases:
     remind: Tech|Liquids|Fossil|Oil|Efficiency
   ecoinvent_aliases:
@@ -442,7 +444,7 @@ hydrogen, electrolysis:
     remind: Tech|Hydrogen|Electricity|Efficiency
   ecoinvent_aliases:
     fltr:
-      - hydrogen production, gaseous, 200 bar, from PEM electrolysis, from grid electricity
+      - hydrogen production, gaseous, 30 bar, from PEM electrolysis, from grid electricity
 
 hydrogen, solar:
   lhv: 120

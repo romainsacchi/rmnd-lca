@@ -5,13 +5,15 @@ export.py contains all the functions to format, prepare and export databases.
 import csv
 import datetime
 import json
+import multiprocessing as mp
 import os
 import re
 import uuid
 from collections import defaultdict
 from functools import lru_cache
+from multiprocessing.pool import ThreadPool as Pool
 from pathlib import Path
-from typing import Dict, List
+from typing import Any, Dict, List, Set, Tuple, Union
 
 import numpy as np
 import pandas as pd
@@ -627,9 +629,21 @@ def generate_scenario_factor_file(origin_db, scenarios, db_name, version):
     return df, extra_acts
 
 
+def generate_new_activities(args):
+    k, v, acts_ind, db_name, version, dict_meta, m = args
+    act = get_act_dict_structure(k, acts_ind, db_name)
+    meta_id = tuple(list(acts_ind[k])[:-1])
+    act.update(dict_meta[meta_id])
+
+    act["exchanges"].extend(
+        get_exchange(i, acts_ind, db_name, version, amount=m[i, k, 0]) for i in v
+    )
+    return act
+
+
 def generate_scenario_difference_file(
     db_name, origin_db, scenarios, version
-) -> tuple[DataFrame, list[dict], list[tuple]]:
+) -> tuple[DataFrame, list[dict], set[Any]]:
     """
     Generate a scenario difference file for a given list of databases
     :param db_name: name of the new database
@@ -645,7 +659,8 @@ def generate_scenario_difference_file(
             for a in origin_db
         }
     )
-    list_acts = get_list_unique_acts([{"database": origin_db}] + scenarios)
+    # Turn list into set for O(1) membership tests
+    list_acts = set(get_list_unique_acts([{"database": origin_db}] + scenarios))
 
     acts_ind = dict(enumerate(list_acts))
     acts_ind_rev = {v: k for k, v in acts_ind.items()}
@@ -660,25 +675,26 @@ def generate_scenario_difference_file(
         for a, _ in enumerate(list_scenarios)
     }
 
-    # store the metadata in a dictionary
-    dict_meta = {
-        (a["name"], a["reference product"], None, a["location"], a["unit"]): {
-            b: c
-            for b, c in a.items()
-            if b
-            not in [
-                "exchanges",
-                "code",
-                "name",
-                "reference product",
-                "location",
-                "unit",
-                "database",
-            ]
-        }
-        for db in list_dbs
-        for a in db
-    }
+    # Use defaultdict to avoid key errors
+    dict_meta = defaultdict(dict)
+
+    for db in list_dbs:
+        for a in db:
+            key = (a["name"], a["reference product"], None, a["location"], a["unit"])
+            dict_meta[key] = {
+                b: c
+                for b, c in a.items()
+                if b
+                not in [
+                    "exchanges",
+                    "code",
+                    "name",
+                    "reference product",
+                    "location",
+                    "unit",
+                    "database",
+                ]
+            }
 
     for i, db in enumerate(list_dbs):
         for ds in db:
@@ -711,22 +727,14 @@ def generate_scenario_difference_file(
     for ind in inds:
         inds_d[ind[0]].append(ind[1])
 
-    new_db = []
-
-    for k, v in inds_d.items():
-        act = get_act_dict_structure(
-            k,
-            acts_ind,
-            db_name,
+    with Pool(processes=mp.cpu_count()) as pool:
+        new_db = pool.map(
+            generate_new_activities,
+            [
+                (k, v, acts_ind, db_name, version, dict_meta, m)
+                for k, v in inds_d.items()
+            ],
         )
-        meta_id = tuple(list(acts_ind[k])[:-1])
-        act.update(dict_meta[meta_id])
-
-        act["exchanges"].extend(
-            get_exchange(i, acts_ind, db_name, version, amount=m[i, k, 0]) for i in v
-        )
-
-        new_db.append(act)
 
     inds_std = sparse.argwhere((m[..., 1:] == m[..., 0, None]).all(axis=-1).T == False)
 
@@ -812,19 +820,21 @@ def generate_scenario_difference_file(
     df = pd.DataFrame(dataframe_rows, columns=columns)
 
     df["to categories"] = None
-    df = df.replace("None", None)
-    df = df.replace({np.nan: None})
-    df.loc[df["flow type"] == "biosphere", "from reference product"] = None
-    df.loc[df["flow type"] == "biosphere", "from location"] = None
-    df.loc[df["flow type"] == "technosphere", "from categories"] = None
-    df.loc[df["flow type"] == "production", "from categories"] = None
+    df = df.replace({"None": None, np.nan: None})
+    df.loc[
+        df["flow type"] == "biosphere", ["from reference product", "from location"]
+    ] = None
+    df.loc[
+        df["flow type"].isin(["technosphere", "production"]), "from categories"
+    ] = None
+    df.loc[df["flow type"] == "production", list_scenarios] = 1.0
 
     # return the dataframe and the new db
     return df, new_db, list_acts
 
 
 def generate_superstructure_db(
-    origin_db, scenarios, db_name, filepath, version
+    origin_db, scenarios, db_name, filepath, version, format="excel"
 ) -> List[dict]:
     """
     Build a superstructure database from a list of databases
@@ -832,6 +842,8 @@ def generate_superstructure_db(
     :param scenarios: a list of modified databases
     :param db_name: the name of the new database
     :param filepath: the filepath of the new database
+    :param version: the version of the new database
+    :param format: the format of the scenario difference file. Cna be "excel", "csv" or "feather".
     :return: a superstructure database
     """
 
@@ -868,17 +880,26 @@ def generate_superstructure_db(
     after = len(df)
     print(f"Dropped {before - after} duplicate(s).")
 
-    filepath_sdf = filepath / f"scenario_diff_{db_name}.xlsx"
-    try:
-        df.to_excel(filepath_sdf, index=False)
-    except ValueError:
-        # from https://stackoverflow.com/questions/66356152/splitting-a-dataframe-into-multiple-sheets
-        GROUP_LENGTH = 1000000  # set nr of rows to slice df
-        with pd.ExcelWriter(filepath_sdf) as writer:
-            for i in range(0, len(df), GROUP_LENGTH):
-                df[i : i + GROUP_LENGTH].to_excel(
-                    writer, sheet_name=f"Row {i}", index=False, header=True
-                )
+    if format == "excel":
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.xlsx"
+        try:
+            df.to_excel(filepath_sdf, index=False)
+        except ValueError:
+            # from https://stackoverflow.com/questions/66356152/splitting-a-dataframe-into-multiple-sheets
+            GROUP_LENGTH = 1000000  # set nr of rows to slice df
+            with pd.ExcelWriter(filepath_sdf) as writer:
+                for i in range(0, len(df), GROUP_LENGTH):
+                    df[i : i + GROUP_LENGTH].to_excel(
+                        writer, sheet_name=f"Row {i}", index=False, header=True
+                    )
+    elif format == "csv":
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.csv"
+        df.to_csv(filepath_sdf, index=False, sep=";")
+    elif format == "feather":
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.feather"
+        df.to_feather(filepath_sdf)
+    else:
+        raise ValueError(f"Unknown format {format}")
 
     print(f"Scenario difference file exported to {filepath}!")
 
@@ -901,18 +922,18 @@ def prepare_db_for_export(
     )
 
     # we ensure the absence of duplicate datasets
-    print("- check for duplicates...")
+    # print("- check for duplicates...")
     base.database = check_for_duplicates(base.database)
 
     # we check the format of numbers
-    print("- check for values format...")
+    # print("- check for values format...")
     base.database = check_database_name(data=base.database, name=name)
     base.database = remove_unused_fields(base.database)
     base.database = correct_fields_format(base.database)
     base.database = check_amount_format(base.database)
 
     # we relink "dead" exchanges
-    print("- relinking exchanges...")
+    # print("- relinking exchanges...")
     base.relink_datasets(
         excludes_datasets=["cobalt industry", "market group for electricity"],
         alt_names=[
@@ -922,14 +943,27 @@ def prepare_db_for_export(
             "carbon dioxide, captured from atmosphere, with a solvent-based direct air capture system, 1MtCO2, with heat pump heat, and grid electricity",
             "methane, from electrochemical methanation, with carbon from atmospheric carbon dioxide capture, using heat pump heat",
             "Methane, synthetic, gaseous, 5 bar, from electrochemical methanation (H2 from electrolysis, CO2 from DAC using heat pump heat), at fuelling station, using heat pump heat",
-            "market for diesel",
-            "market for diesel, low-sulfur",
         ],
     )
 
-    print("Done!")
+    # print("Done!")
 
     return base.database, base.cache
+
+
+def _prepare_database(
+    scenario, scenario_cache, version, system_model, modified_datasets
+):
+    scenario["database"], scenario_cache = prepare_db_for_export(
+        scenario,
+        cache=scenario_cache,
+        name="database",
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+    )
+
+    return scenario, scenario_cache
 
 
 class Export:
@@ -953,12 +987,15 @@ class Export:
     """
 
     def __init__(
-        self, db, model=None, scenario=None, year=None, filepath=None, version=None
+        self,
+        scenario: dict = None,
+        filepath: Union[list[Path], list[Union[Path, Any]]] = None,
+        version: str = None,
     ):
-        self.db = db
-        self.model = model
-        self.scenario = scenario
-        self.year = year
+        self.db = scenario["database"]
+        self.model = scenario["model"]
+        self.scenario = scenario["pathway"]
+        self.year = scenario["year"]
         self.filepath = filepath
         self.version = version
         self.bio_codes = self.rev_index(

@@ -15,6 +15,7 @@ from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 from openpyxl.utils.dataframe import dataframe_to_rows
 from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
+from pandas._libs.parsers import ParserError
 from pandas.errors import EmptyDataError
 
 from . import DATA_DIR, VARIABLES_DIR, __version__
@@ -541,7 +542,7 @@ def convert_log_to_excel_file(filepath):
     """
 
     try:
-        df = pd.read_csv(filepath, sep="|", header=None)
+        df = pd.read_csv(filepath, sep="|", header=None, on_bad_lines="skip")
         df.columns = fetch_columns(filepath)
         return df
 

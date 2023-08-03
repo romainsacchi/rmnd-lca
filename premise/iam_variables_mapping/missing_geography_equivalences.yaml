@@ -5,129 +5,172 @@
 Europe without Austria:
   remind: EUR
   image: WEU
+  message: WEU
 Europe without Switzerland and Austria:
   remind: EUR
   image: WEU
+  message: WEU
 Europe without Switzerland:
   remind: EUR
   image: WEU
+  message: WEU
 North America without Quebec:
   remind: USA
   image: USA
+  message: NAM
 RER w/o RU:
   remind: EUR
   image: WEU
+  message: WEU
 RER:
   remind: EUR
   image: WEU
+  message: WEU
 RoW:
   remind: World
   image: World
+  message: World
 GLO:
   remind: World
   image: World
+  message: World
 RNA:
   remind: USA
   image: USA
+  message: NAM
 SAS:
   remind: IND
   image: INDIA
+  message: SAS
 IAI Area, EU27 & EFTA:
   remind: EUR
   image: WEU
+  message: WEU
 UN-OCEANIA:
   remind: CAZ
   image: OCE
+  message: PAO
 UN-SEASIA:
   remind: OAS
   image: SEAS
+  message: PAS
 RAF:
   remind: SSA
   image: RSAF
+  message: AFR
 RAS:
   remind: CHA
   image: CHN
+  message: CHN
 IAI Area, Africa:
   remind: SSA
   image: RSAF
+  message: AFR
 RER w/o CH+DE:
   remind: EUR
   image: WEU
+  message: WEU
 RER w/o DE+NL+RU:
   remind: EUR
   image: WEU
+  message: WEU
 IAI Area, Asia, without China and GCC:
   remind: OAS
   image: SEAS
+  message: PAS
 Europe, without Russia and Turkey:
   remind: EUR
   image: WEU
+  message: WEU
 WECC:
   remind: USA
   image: USA
+  message: NAM
 WEU:
   remind: EUR
   image: WEU
+  message: WEU
 UCTE:
   remind: EUR
   image: WEU
+  message: WEU
 UCTE without Germany:
   remind: EUR
   image: WEU
+  message: WEU
 NORDEL:
   remind: NEU
   image: WEU
+  message: WEU
 ENTSO-E:
   remind: EUR
   image: WEU
+  message: WEU
 RLA:
   remind: LAM
   image: RSAM
+  message: LAM
 IAI Area, South America:
   remind: LAM
   image: RSAM
+  message: LAM
 IAI Area, Russia & RER w/o EU27 & EFTA:
   remind: REF
   image: RUS
+  message: FSU
 IAI Area, North America:
   remind: USA
   image: USA
+  message: NAM
 OCE:
   remind: CAZ
   image: OCE
+  message: PAO
 US-PR:
   remind: USA
   image: USA
+  message: NAM
 US only:
   remind: USA
   image: USA
+  message: NAM
 APAC:
   remind: OAS
   image: SEAS
+  message: PAS
 CN-NCGC:
   remind: CHA
   image: CHN
+  message: CHN
 CN-CSG:
   remind: CHA
   image: CHN
+  message: CHN
 CN-SWG:
   remind: CHA
   image: CHN
+  message: CHN
 CN-CCG:
   remind: CHA
   image: CHN
+  message: CHN
 CN-ECGC:
   remind: CHA
   image: CHN
+  message: CHN
 RoE:
   remind: EUR
   image: WEU
+  message: WEU
 CN-NWG:
   remind: CHA
   image: CHN
+  message: CHN
 BR-South-eastern/Mid-western grid:
   remind: LAM
   image: RSAM
+  message: LAM
 CN-NECG:
   remind: CHA
   image: CHN
+  message: CHN

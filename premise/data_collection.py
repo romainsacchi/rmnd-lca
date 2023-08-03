@@ -217,11 +217,13 @@ def get_vehicle_fleet_composition(model, vehicle_type) -> Union[xr.DataArray, No
         dataframe = pd.read_csv(
             FILEPATH_FLEET_COMP, sep=get_delimiter(filepath=FILEPATH_FLEET_COMP)
         )
-    else:
+    elif model == "image":
         dataframe = pd.read_csv(
             FILEPATH_IMAGE_TRUCKS_FLEET_COMP,
             sep=get_delimiter(filepath=FILEPATH_FLEET_COMP),
         )
+    else:
+        return None
 
     dataframe = dataframe.loc[~dataframe["region"].isnull()]
 
@@ -245,7 +247,7 @@ def get_vehicle_fleet_composition(model, vehicle_type) -> Union[xr.DataArray, No
     return None
 
 
-def fix_efficiencies(data: xr.DataArray) -> xr.DataArray:
+def fix_efficiencies(data: xr.DataArray, min_year: int) -> xr.DataArray:
     """
     Fix the efficiency data to ensure plausibility.
 
@@ -274,7 +276,7 @@ def fix_efficiencies(data: xr.DataArray) -> xr.DataArray:
     # ensure that efficiency can not decrease over time
     while data.diff(dim="year").min().values < 0:
         diff = data.diff(dim="year")
-        diff = xr.concat([data.sel(year=2005), diff], dim="year")
+        diff = xr.concat([data.sel(year=min_year), diff], dim="year")
         diff.values[diff.values > 0] = 0
         diff *= -1
         data += diff
@@ -331,6 +333,8 @@ class IAMDataCollection:
         self.external_scenarios = external_scenarios
         self.system_model_args = system_model_args
         self.use_absolute_efficiency = use_absolute_efficiency
+        self.min_year = 2005
+        self.max_year = 2100
         key = key or None
 
         electricity_prod_vars = self.__get_iam_variable_labels(
@@ -518,7 +522,11 @@ class IAMDataCollection:
             data=data,
         )
 
-        self.other_vars = self.__fetch_market_data(data=data, input_vars=other_vars)
+        self.other_vars = self.__fetch_market_data(
+            data=data,
+            input_vars=other_vars,
+            normalize=False,
+        )
 
         self.electricity_efficiencies = self.get_iam_efficiencies(
             data=data, efficiency_labels=electricity_eff_vars
@@ -693,8 +701,14 @@ class IAMDataCollection:
         # remove any column that is a string
         # and that is not any of "Region", "Variable", "Unit"
         for col in dataframe.columns:
-            if isinstance(col, str) and col not in ["Region", "Variable", "Unit"]:
-                dataframe = dataframe.drop(col, axis=1)
+            if isinstance(col, str):
+                if col.lower() not in ["region", "variable", "unit"]:
+                    dataframe = dataframe.drop(col, axis=1)
+
+        # identify the lowest and highest column name that is numeric
+        # and consider it the minimum year
+        self.min_year = min([x for x in dataframe.columns if isinstance(x, int)])
+        self.max_year = max([x for x in dataframe.columns if isinstance(x, int)])
 
         dataframe = dataframe.reset_index()
 
@@ -702,11 +716,14 @@ class IAMDataCollection:
         if "index" in dataframe.columns:
             dataframe = dataframe.drop("index", axis=1)
 
-        dataframe = dataframe.loc[dataframe["Variable"].isin(variables)]
+        # convert all column names that are string to lower case
+        dataframe.columns = [
+            x.lower() if isinstance(x, str) else x for x in dataframe.columns
+        ]
 
-        dataframe = dataframe.rename(
-            columns={"Region": "region", "Variable": "variables", "Unit": "unit"}
-        )
+        dataframe = dataframe.loc[dataframe["variable"].isin(variables)]
+
+        dataframe = dataframe.rename(columns={"variable": "variables"})
 
         array = (
             dataframe.melt(
@@ -722,7 +739,7 @@ class IAMDataCollection:
         return array
 
     def __fetch_market_data(
-        self, data: xr.DataArray, input_vars: dict
+        self, data: xr.DataArray, input_vars: dict, normalize: bool = True
     ) -> [xr.DataArray, None]:
         """
         This method retrieves the market share for each technology,
@@ -747,14 +764,14 @@ class IAMDataCollection:
         available_vars = list(set(input_vars.values()) - missing_vars)
 
         if available_vars:
-            market_data = data.loc[
-                :, [v for v in input_vars.values() if v in available_vars], :
-            ]
+            market_data = data.loc[:, available_vars, :]
         else:
             return None
 
+        rev_input_vars = {v: k for k, v in input_vars.items()}
+
         market_data.coords["variables"] = [
-            k for k, v in input_vars.items() if v in available_vars
+            rev_input_vars[v] for v in market_data.variables.values
         ]
 
         if self.system_model == "consequential":
@@ -762,12 +779,17 @@ class IAMDataCollection:
                 market_data, self.year, self.system_model_args
             )
         else:
-            market_data /= (
-                data.loc[:, available_vars, :].groupby("region").sum(dim="variables")
-            )
+            if normalize is True:
+                market_data /= (
+                    data.loc[:, available_vars, :]
+                    .groupby("region")
+                    .sum(dim="variables")
+                )
 
         # back-fill nans
         market_data = market_data.bfill(dim="year")
+        # fill NaNs with zeros
+        market_data = market_data.fillna(0)
 
         return market_data
 
@@ -847,7 +869,7 @@ class IAMDataCollection:
         if not self.use_absolute_efficiency:
             eff_data /= eff_data.sel(year=2020)
             # fix efficiencies
-            eff_data = fix_efficiencies(eff_data)
+            eff_data = fix_efficiencies(eff_data, self.min_year)
         else:
             # if absolute efficiencies are used, we need to make sure that
             # the efficiency is not greater than 1
@@ -887,7 +909,7 @@ class IAMDataCollection:
 
         # if variable is missing, we assume that the rate is 0
         # and that none of the  CO2 emissions are captured
-        if dict_vars["cement - cco2"] not in data.variables.values.tolist():
+        if dict_vars.get("cement - cco2") not in data.variables.values.tolist():
             cement_rate = xr.DataArray(
                 np.zeros((len(data.region), len(data.year))),
                 coords=[data.region, data.year],
@@ -900,7 +922,7 @@ class IAMDataCollection:
 
         cement_rate.coords["variables"] = "cement"
 
-        if dict_vars["steel - cco2"] not in data.variables.values.tolist():
+        if dict_vars.get("steel - cco2") not in data.variables.values.tolist():
             steel_rate = xr.DataArray(
                 np.zeros((len(data.region), len(data.year))),
                 coords=[data.region, data.year],

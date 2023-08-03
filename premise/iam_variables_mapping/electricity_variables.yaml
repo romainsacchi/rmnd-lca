@@ -23,24 +23,26 @@ Biomass CHP:
   ecoinvent_fuel_aliases:
     fltr:
       - market for wood chips, wet, measured as dry mass
+
 Biomass CHP CCS:
   iam_aliases:
     image: Secondary Energy|Electricity|Biomass|w/ CCS|2
   eff_aliases:
     image: Efficiency|Electricity|Biomass|w/ CCS|2
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at co-generation wood-fired power plant, post, pipeline 200km, storage 1000m
   ecoinvent_fuel_aliases:
     fltr:
       - heat and power co-generation, wood chips, 6667 kW
+
 Biomass ST:
   iam_aliases:
+    message: Secondary Energy|Electricity|Biomass|w/o CCS|2
     image: Secondary Energy|Electricity|Biomass|w/o CCS|1
   eff_aliases:
+    message: Efficiency|Electricity|Biomass|w/o CCS|2
     image: Efficiency|Electricity|Biomass|w/o CCS|1
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at wood burning power plant
@@ -53,26 +55,30 @@ Biomass ST:
 
 Biomass IGCC CCS:
   iam_aliases:
+    message: Secondary Energy|Electricity|Biomass|w/ CCS|1
     remind: SE|Electricity|Biomass|++|Gasification Combined Cycle w/ CC
     image: Secondary Energy|Electricity|Biomass|w/ CCS|1
   eff_aliases:
     remind: Tech|Electricity|Biomass|Gasification Combined Cycle w/ CC|Efficiency
     image: Efficiency|Electricity|Biomass|w/ CCS|1
+    message: Efficiency|Electricity|Biomass|w/o CCS|1
   ecoinvent_aliases:
     fltr:
       - electricity production, at biomass-fired IGCC power plant, pre, pipeline 200km, storage 1000m
-
   ecoinvent_fuel_aliases:
     fltr:
       - market for wood chips, wet, measured as dry mass
       - market for biomass, used as fuel
+
 Biomass IGCC:
   iam_aliases:
+    message: Secondary Energy|Electricity|Biomass|w/o CCS|1
     remind: SE|Electricity|Biomass|++|Gasification Combined Cycle w/o CC
     image: Secondary Energy|Electricity|Biomass|w/o CCS|2
   eff_aliases:
     remind: Tech|Electricity|Biomass|Gasification Combined Cycle w/o CC|Efficiency
     image: Efficiency|Electricity|Biomass|w/o CCS|2
+    message: Efficiency|Electricity|Biomass|w/o CCS|1
   ecoinvent_aliases:
     fltr:
       - electricity production, at biomass-fired IGCC power plant
@@ -82,20 +88,24 @@ Biomass IGCC:
     fltr:
       - market for wood chips, wet, measured as dry mass
       - market for biomass, used as fuel
+
 Coal PC:
   iam_aliases:
+    message: Secondary Energy|Electricity|Coal|w/o CCS|3
     remind: SE|Electricity|Coal|++|Pulverised Coal w/o CC
     image: Secondary Energy|Electricity|Coal|w/o CCS|1
   eff_aliases:
+    message: Efficiency|Electricity|Coal|w/o CCS|3
     remind: Tech|Electricity|Coal|Pulverised Coal w/o CC|Efficiency
     image: Efficiency|Electricity|Coal|w/o CCS|1
-
   ecoinvent_aliases:
     fltr:
       - electricity production, hard coal
       - electricity production, lignite
     mask:
-      name: mine
+      name:
+        - mine
+        - supercritical
   ecoinvent_fuel_aliases:
     fltr:
       - market for hard coal
@@ -106,21 +116,22 @@ Coal PC:
         - plant
         - briquettes
         - ash
+
 Coal IGCC:
   iam_aliases:
+    message: Secondary Energy|Electricity|Coal|w/o CCS|1
     remind: SE|Electricity|Coal|++|Gasification Combined Cycle w/o CC
     image: Secondary Energy|Electricity|Coal|w/o CCS|2
   eff_aliases:
+    message: Efficiency|Electricity|Coal|w/o CCS|1
     remind: Tech|Electricity|Coal|Gasification Combined Cycle w/o CC|Efficiency
     image: Efficiency|Electricity|Coal|w/o CCS|2
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at hard coal-fired IGCC power plant
       - electricity production, at lignite-fired IGCC power plant
     mask:
       name: pipeline
-
   ecoinvent_fuel_aliases:
     fltr:
       - market for hard coal
@@ -131,12 +142,14 @@ Coal IGCC:
           - plant
           - briquettes
           - ash
+
 Coal PC CCS:
   iam_aliases:
+    message: Secondary Energy|Electricity|Coal|w/ CCS|2
     remind: SE|Electricity|Coal|++|Pulverised Coal w/ CC
   eff_aliases:
+    message: Efficiency|Electricity|Coal|w/ CCS|2
     remind: Tech|Electricity|Coal|Pulverised Coal w/ CC|Efficiency
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at hard coal-fired power plant, oxy, pipeline 200km, storage 1000m
@@ -153,19 +166,20 @@ Coal PC CCS:
         - plant
         - briquettes
         - ash
+
 Coal IGCC CCS:
   iam_aliases:
+    message: Secondary Energy|Electricity|Coal|w/ CCS|1
     remind: SE|Electricity|Coal|++|Gasification Combined Cycle w/ CC
     image: Secondary Energy|Electricity|Coal|w/ CCS|1
   eff_aliases:
+    message: Efficiency|Electricity|Coal|w/ CCS|1
     remind: Tech|Electricity|Coal|Gasification Combined Cycle w/ CC|Efficiency
     image: Efficiency|Electricity|Coal|w/ CCS|1
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at hard coal-fired IGCC power plant, pre, pipeline 200km, storage 1000m
       - electricity production, at lignite-fired IGCC power plant, pre, pipeline 200km, storage 1000m
-
   ecoinvent_fuel_aliases:
     fltr:
       - market for hard coal
@@ -176,6 +190,7 @@ Coal IGCC CCS:
         - plant
         - briquettes
         - ash
+
 Coal CHP:
   iam_aliases:
     remind: SE|Electricity|Coal|++|Combined Heat and Power w/o CC
@@ -183,7 +198,6 @@ Coal CHP:
   eff_aliases:
     remind: Tech|Electricity|Coal|Combined Heat and Power w/o CC|Efficiency
     image: Efficiency|Electricity|Coal|w/o CCS|3
-
   ecoinvent_aliases:
     fltr:
       - heat and power co-generation, hard coal
@@ -200,27 +214,61 @@ Coal CHP:
         - plant
         - briquettes
         - ash
+
 Coal CHP CCS:
   iam_aliases:
     image: Secondary Energy|Electricity|Coal|w/ CCS|2
   eff_aliases:
     image: Efficiency|Electricity|Coal|w/ CCS|2
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at co-generation hard coal-fired power plant, post, pipeline 200km, storage 1000m
-
   ecoinvent_fuel_aliases:
     fltr:
       - heat and power co-generation, hard coal
+
+Coal SC: # super critical steam cycle
+  iam_aliases:
+    message: Secondary Energy|Electricity|Coal|w/o CCS|2
+  eff_aliases:
+    message: Efficiency|Electricity|Coal|w/o CCS|2
+  ecoinvent_aliases:
+    fltr:
+      - electricity production, hard coal, supercritical
+  ecoinvent_fuel_aliases:
+    fltr:
+      - market for hard coal
+
+Coal PCU: # sub critical steam cycle unfiltered
+  iam_aliases:
+    message: Secondary Energy|Electricity|Coal|w/o CCS|4
+  eff_aliases:
+    message: Efficiency|Electricity|Coal|w/o CCS|4
+  ecoinvent_aliases:
+    fltr:
+      - electricity production, hard coal, subcritical
+  ecoinvent_fuel_aliases:
+    fltr:
+      - market for hard coal
+  exists in database: False
+  proxy:
+    name: electricity production, hard coal
+    reference product: electricity, high voltage
+    mask:
+      name:
+        - mine
+        - supercritical
+    new name: electricity production, hard coal, subcritical
+
 Gas OC:
   iam_aliases:
+    message: Secondary Energy|Electricity|Gas|w/o CCS|3
     remind: SE|Electricity|Gas|++|Gas Turbine
     image: Secondary Energy|Electricity|Gas|w/o CCS|1
   eff_aliases:
+    message: Efficiency|Electricity|Gas|w/o CCS|3
     remind: Tech|Electricity|Gas|Gas Turbine|Efficiency
     image: Efficiency|Electricity|Gas|w/o CCS|1
-
   ecoinvent_fuel_aliases:
     fltr:
       - market for natural gas, high pressure
@@ -235,18 +283,19 @@ Gas OC:
       - burned
       - vented
       - vehicle
-
   ecoinvent_aliases:
     fltr:
       - electricity production, natural gas, conventional power plant
+
 Gas CC:
   iam_aliases:
+    message: Secondary Energy|Electricity|Gas|w/o CCS|1
     remind: SE|Electricity|Gas|++|Combined Cycle w/o CC
     image: Secondary Energy|Electricity|Gas|w/o CCS|2
   eff_aliases:
+    message: Efficiency|Electricity|Gas|w/o CCS|1
     remind: Tech|Electricity|Gas|Combined Cycle w/o CC|Efficiency
     image: Efficiency|Electricity|Gas|w/o CCS|2
-
   ecoinvent_aliases:
     fltr:
       - electricity production, natural gas, combined cycle power plant
@@ -263,6 +312,7 @@ Gas CC:
       - burned
       - vented
       - vehicle
+
 Gas CHP:
   iam_aliases:
     remind: SE|Electricity|Gas|++|Combined Heat and Power w/o CC
@@ -270,7 +320,6 @@ Gas CHP:
   eff_aliases:
     remind: Tech|Electricity|Gas|Combined Heat and Power w/o CC|Efficiency
     image: Efficiency|Electricity|Gas|w/o CCS|3
-
   ecoinvent_aliases:
     fltr:
       - heat and power co-generation, natural gas, combined cycle power plant, 400MW electrical
@@ -297,40 +346,64 @@ Gas CHP CCS:
     image: Secondary Energy|Electricity|Gas|w/ CCS|2
   eff_aliases:
     image: Efficiency|Electricity|Gas|w/ CCS|2
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at co-generation natural gas-fired power plant, post, pipeline 200km, storage 1000m
-
   ecoinvent_fuel_aliases:
     fltr:
       - heat and power co-generation, natural gas, conventional power plant, 100MW electrical
 
 Gas CC CCS:
   iam_aliases:
+    message: Secondary Energy|Electricity|Gas|w/ CCS|1
     remind: SE|Electricity|Gas|++|Combined Cycle w/ CC
     image: Secondary Energy|Electricity|Gas|w/ CCS|1
   eff_aliases:
+    message: Efficiency|Electricity|Gas|w/ CCS|1
     remind: Tech|Electricity|Gas|Combined Cycle w/ CC|Efficiency
     image: Efficiency|Electricity|Gas|w/ CCS|1
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at natural gas-fired combined cycle power plant, post, pipeline 200km, storage 1000m
-
   ecoinvent_fuel_aliases:
     fltr:
-      - market group for natural gas, high pressure
+      - market group for natural gas
+      - market for natural gas
+
+Gas ST: # ["Note": "Steam cycle sub cricitcal"]
+  iam_aliases:
+    message: Secondary Energy|Electricity|Gas|w/o CCS|2
+    remind: SE|Electricity|Gas|++|Gas Turbine
+    image: Secondary Energy|Electricity|Gas|w/o CCS|1
+  eff_aliases:
+    message: Efficiency|Electricity|Gas|w/o CCS|2
+    remind: Tech|Electricity|Gas|Gas Turbine|Efficiency
+    image: Efficiency|Electricity|Gas|w/o CCS|1
+  ecoinvent_aliases:
+    fltr:
+      - electricity production, natural gas, subcritical, steam cycle
+  ecoinvent_fuel_aliases:
+    fltr:
+      - market group for natural gas
+      - market for natural gas
+  exists in database: False
+  proxy:
+    name: electricity production, natural gas, conventional power plant
+    reference product: electricity, high voltage
+    new name: electricity production, natural gas, subcritical, steam cycle
 
 Geothermal:
   iam_aliases:
+    message: Secondary Energy|Electricity|Geothermal
     remind: SE|Electricity|+|Geothermal
     image: Secondary Energy|Electricity|Other
   ecoinvent_aliases:
     fltr:
       - electricity production, deep geothermal
+
 Hydro:
   iam_aliases:
+    message: Secondary Energy|Electricity|Hydro
     remind: SE|Electricity|+|Hydro
     image: Secondary Energy|Electricity|Hydro
   ecoinvent_aliases:
@@ -339,11 +412,14 @@ Hydro:
       - electricity production, hydro, run-of-river
     mask:
       name: renewable
+
 Nuclear:
   iam_aliases:
+    message: Secondary Energy|Electricity|Nuclear
     remind: SE|Electricity|+|Nuclear
     image: Secondary Energy|Electricity|Nuclear
   eff_aliases:
+    message: Efficiency|Electricity|Nuclear
     image: Efficiency|Electricity|Nuclear
   ecoinvent_aliases:
     fltr:
@@ -370,6 +446,7 @@ Nuclear_EPR:
       - market for nuclear fuel element, for pressure water reactor
       - market for nuclear fuel element, for boiling water reactor
       - market for uranium hexafluoride
+
 Nuclear_SMR:
   ecoinvent_aliases:
     fltr:
@@ -380,14 +457,16 @@ Nuclear_SMR:
       - market for nuclear fuel element, for pressure water reactor
       - market for nuclear fuel element, for boiling water reactor
       - market for uranium hexafluoride
+
 Oil ST:
   iam_aliases:
+    message: Secondary Energy|Electricity|Oil|w/o CCS|2
     remind: SE|Electricity|Oil|w/o CC
     image: Secondary Energy|Electricity|Oil|w/o CCS|1
   eff_aliases:
     remind: Tech|Electricity|Oil|DOT|Efficiency
     image: Efficiency|Electricity|Oil|w/o CCS|1
-
+    message: Efficiency|Electricity|Oil|w/o CCS|2
   ecoinvent_aliases:
     fltr:
       - electricity production, oil
@@ -400,12 +479,14 @@ Oil ST:
       - market group for heavy fuel oil
     mask:
       name: burned
+
 Oil CC:
   iam_aliases:
+    message: Secondary Energy|Electricity|Oil|w/o CCS|1
     image: Secondary Energy|Electricity|Oil|w/o CCS|2
   eff_aliases:
+    message: Efficiency|Electricity|Oil|w/o CCS|1
     image: Efficiency|Electricity|Oil|w/o CCS|2
-
   ecoinvent_aliases:
     fltr:
       - electricity production, oil
@@ -418,12 +499,12 @@ Oil CC:
       - market group for heavy fuel oil
     mask:
       name: burned
+
 Oil CC CCS:
   iam_aliases:
     image: Secondary Energy|Electricity|Oil|w/ CCS|1
   eff_aliases:
     image: Efficiency|Electricity|Oil|w/ CCS|1
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at co-generation oil-fired power plant, post, pipeline 200km, storage 1000m
@@ -434,12 +515,12 @@ Oil CC CCS:
       - heat and power co-generation, oil
     mask:
       name: burned
+
 Oil CHP:
   iam_aliases:
     image: Secondary Energy|Electricity|Oil|w/o CCS|3
   eff_aliases:
     image: Efficiency|Electricity|Oil|w/o CCS|3
-
   ecoinvent_aliases:
     fltr:
       - heat and power co-generation, oil
@@ -452,16 +533,15 @@ Oil CHP:
       - market group for heavy fuel oil
     mask:
       name: burned
+
 Oil CHP CCS:
   iam_aliases:
     image: Secondary Energy|Electricity|Oil|w/ CCS|2
   eff_aliases:
     image: Efficiency|Electricity|Oil|w/ CCS|2
-
   ecoinvent_aliases:
     fltr:
       - electricity production, at co-generation oil-fired power plant, post, pipeline 200km, storage 1000m
-
     mask:
       name: aluminium
   ecoinvent_fuel_aliases:
@@ -469,29 +549,58 @@ Oil CHP CCS:
       - heat and power co-generation, oil
     mask:
       name: burned
+
+Foil ST: # ["Note": "Steam cycle fuel oil"]
+  iam_aliases:
+    message: Secondary Energy|Electricity|Oil|w/o CCS|3
+  eff_aliases:
+    message: Efficiency|Electricity|Oil|w/o CCS|3
+  ecoinvent_aliases:
+    fltr:
+      - electricity production, oil
+  ecoinvent_fuel_aliases:
+    fltr:
+      - market for heavy fuel oil
+      - market group for heavy fuel oil
+    mask:
+      name: burned
+
 Solar CSP:
   iam_aliases:
+    message: Secondary Energy|Electricity|Solar|CSP|1
     remind: SE|Electricity|Solar|+|CSP
     image: Secondary Energy|Electricity|Solar|CSP
   ecoinvent_aliases:
     fltr:
       - electricity production, solar thermal parabolic trough, 50 MW
       - electricity production, solar tower power plant, 20 MW
+
+Solar CSP autonomous:
+  iam_aliases:
+    message: Secondary Energy|Electricity|Solar|CSP|2
+  ecoinvent_aliases:
+    fltr:
+      name: electricity production, at 110 MW concentrating solar power plant, with thermal energy storage
+
 Solar PV Centralized:
   iam_aliases:
+    message: Secondary Energy|Electricity|Solar|PV
     remind: SE|Electricity|Solar|+|PV
     image: Secondary Energy|Electricity|Solar|PV|1
   ecoinvent_aliases:
     fltr:
       - electricity production, photovoltaic, commercial
+
 Solar PV Residential:
   iam_aliases:
     image: Secondary Energy|Electricity|Solar|PV|2
   ecoinvent_aliases:
     fltr:
       - electricity production, photovoltaic, residential
+
 Wind Onshore:
   iam_aliases:
+    message: Secondary Energy|Electricity|Wind|Onshore
     remind: SE|Electricity|Wind|+|Onshore
     image: Secondary Energy|Electricity|Wind|1
   ecoinvent_aliases:
@@ -503,8 +612,10 @@ Wind Onshore:
       name:
         - label-certified
         - renewable
+
 Wind Offshore:
   iam_aliases:
+    message: Secondary Energy|Electricity|Wind|Offshore
     remind: SE|Electricity|Wind|+|Offshore
     image: Secondary Energy|Electricity|Wind|2
   ecoinvent_aliases:
@@ -514,6 +625,7 @@ Wind Offshore:
       name:
         - label-certified
         - renewable
+
 Wave:
   ecoinvent_aliases:
     fltr:

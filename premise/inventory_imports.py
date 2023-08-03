@@ -559,6 +559,7 @@ class BaseInventoryImport:
                             assert (
                                 key in self.biosphere_dict
                             ), f"Could not find a biosphere flow for {key}."
+                            y["name"] = new_key[0]
                         else:
                             print(key)
                             continue
@@ -786,7 +787,7 @@ class VariousVehicles(BaseInventoryImport):
     def merge_inventory(self):
         self.database.extend(self.import_db.data)
 
-        print("Done!")
+        # print("Done!")
 
         return self.database
 

@@ -577,7 +577,10 @@ The new datasets introduced are listed in the table below (only production datas
   hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant    CH
   hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant              CH
   hydrogen production, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant                             RER
-  hydrogen production, gaseous, 200 bar, from PEM electrolysis, from grid electricity                                                     RER
+  hydrogen production, gaseous, 30 bar, from PEM electrolysis, from grid electricity                                                      RER
+  hydrogen production, gaseous, 20 bar, from AEC electrolysis, from grid electricity                                                      RER
+  hydrogen production, gaseous, 1 bar, from SOEC electrolysis, from grid electricity                                                      RER
+  hydrogen production, gaseous, 1 bar, from SOEC electrolysis, with steam input, from grid electricity                                    RER
   hydrogen production, gaseous, 25 bar, from thermochemical water splitting, at solar tower                                               RER
   hydrogen production, gaseous, 100 bar, from methane pyrolysis                                                                           RER
  ======================================================================================================================================= ===========

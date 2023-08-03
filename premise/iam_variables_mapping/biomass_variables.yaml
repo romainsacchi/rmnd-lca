@@ -2,10 +2,19 @@
 # used in the IAMs regarding the origin of biomass
 # used in the production of electricity
 ---
-biomass - purpose grown:
+biomass crops - purpose grown:
   iam_aliases:
     image: Primary Energy|Biomass|Energy Crops
+    message: Primary Energy|Biomass|Energy Crops
     remind: SE|Electricity|Biomass|Energy Crops
+  ecoinvent_aliases:
+    name:
+      - market for wood chips
+    reference product:
+      - wood chips
+biomass wood - purpose grown:
+  iam_aliases:
+    message: Primary Energy|Biomass|Fuelwood
   ecoinvent_aliases:
     name:
       - market for wood chips
@@ -13,6 +22,7 @@ biomass - purpose grown:
       - wood chips
 biomass - residual:
   iam_aliases:
+    message: Primary Energy|Biomass|Residues
     image: Primary Energy|Biomass|Residues
     remind: SE|Electricity|Biomass|Residues
   ecoinvent_aliases:

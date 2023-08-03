@@ -14,6 +14,7 @@ import xarray as xr
 import yaml
 from numpy import ndarray
 
+from .logger import create_logger
 from .transformation import (
     BaseTransformation,
     Dict,
@@ -25,21 +26,10 @@ from .transformation import (
 )
 from .utils import DATA_DIR
 
+logger = create_logger("emissions")
+
 EI_POLLUTANTS = DATA_DIR / "GAINS_emission_factors" / "GAINS_ei_pollutants.yaml"
 GAINS_SECTORS = DATA_DIR / "GAINS_emission_factors" / "GAINS_EU_sectors_mapping.yaml"
-LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
-# directory for log files
-DIR_LOG_REPORT = Path.cwd() / "export" / "logs"
-# if DIR_LOG_REPORT folder does not exist
-# we create it
-if not Path(DIR_LOG_REPORT).exists():
-    Path(DIR_LOG_REPORT).mkdir(parents=True, exist_ok=True)
-
-with open(LOG_CONFIG, "r") as f:
-    config = yaml.safe_load(f.read())
-    logging.config.dictConfig(config)
-
-logger = logging.getLogger("emissions")
 
 
 def fetch_mapping(filepath: str) -> dict:
@@ -48,6 +38,27 @@ def fetch_mapping(filepath: str) -> dict:
     with open(filepath, "r", encoding="utf-8") as stream:
         mapping = yaml.safe_load(stream)
     return mapping
+
+
+def _update_emissions(
+    scenario, version, system_model, gains_scenario, modified_datasets
+):
+    emissions = Emissions(
+        database=scenario["database"],
+        year=scenario["year"],
+        model=scenario["model"],
+        pathway=scenario["pathway"],
+        iam_data=scenario["iam data"],
+        version=version,
+        system_model=system_model,
+        gains_scenario=gains_scenario,
+        modified_datasets=modified_datasets,
+    )
+
+    emissions.update_emissions_in_database()
+    scenario["database"] = emissions.database
+
+    return scenario, modified_datasets
 
 
 class Emissions(BaseTransformation):
@@ -119,7 +130,7 @@ class Emissions(BaseTransformation):
         return data
 
     def update_emissions_in_database(self):
-        print("Integrating GAINS EU emission factors.")
+        # print("Integrating GAINS EU emission factors.")
         for ds in self.database:
             if (
                 ds["name"] in self.rev_gains_map_EU
@@ -134,7 +145,7 @@ class Emissions(BaseTransformation):
                 )
                 self.write_log(ds, status="updated")
 
-        print("Integrating GAINS IAM emission factors.")
+        # print("Integrating GAINS IAM emission factors.")
         for ds in self.database:
             if (
                 ds["name"] in self.rev_gains_map_IAM

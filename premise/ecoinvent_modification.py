@@ -5,10 +5,13 @@ as well as export it back.
 """
 
 import copy
+import multiprocessing
 import os
 import pickle
 import sys
 from datetime import date
+from multiprocessing import Pool as ProcessPool
+from multiprocessing.pool import ThreadPool as Pool
 from pathlib import Path
 from typing import List, Union
 
@@ -16,30 +19,28 @@ import datapackage
 import yaml
 
 from . import DATA_DIR, INVENTORY_DIR, __version__
-from .cement import Cement
+from .cement import _update_cement
 from .clean_datasets import DatabaseCleaner
 from .data_collection import IAMDataCollection
-from .direct_air_capture import DirectAirCapture
-from .electricity import Electricity
-from .emissions import Emissions
+from .direct_air_capture import _update_dac
+from .electricity import _update_electricity
+from .emissions import _update_emissions
 from .export import (
     Export,
+    _prepare_database,
     build_datapackage,
-    check_amount_format,
     generate_scenario_factor_file,
     generate_superstructure_db,
-    prepare_db_for_export,
 )
 from .external import ExternalScenario
 from .external_data_validation import check_external_scenarios, check_inventories
-from .fuels import Fuels
+from .fuels import _update_fuels
 from .inventory_imports import AdditionalInventory, DefaultInventory
-from .metals import Metals
+from .metals import _update_metals
 from .report import generate_change_report, generate_summary_report
-from .steel import Steel
-from .transport import Transport
+from .steel import _update_steel
+from .transport import _update_vehicles
 from .utils import (
-    HiddenPrints,
     clear_existing_cache,
     eidb_label,
     hide_messages,
@@ -134,6 +135,7 @@ FILEPATH_NUCLEAR_EPR = INVENTORY_DIR / "lci-nuclear_EPR.xlsx"
 FILEPATH_NUCLEAR_SMR = INVENTORY_DIR / "lci-nuclear_SMR.xlsx"
 FILEPATH_WAVE = INVENTORY_DIR / "lci-wave_energy.xlsx"
 FILEPATH_FUEL_CELL = INVENTORY_DIR / "lci-fuel_cell.xlsx"
+FILEPATH_CSP = INVENTORY_DIR / "lci-concentrating-solar-power.xlsx"
 FILEPATH_RHENIUM = INVENTORY_DIR / "lci-rhenium.xlsx"
 FILEPATH_PGM = INVENTORY_DIR / "lci-PGM.xlsx"
 FILEPATH_VANADIUM = INVENTORY_DIR / "lci-vanadium.xlsx"
@@ -404,6 +406,47 @@ def check_time_horizon(time_horizon: int) -> int:
     return int(time_horizon)
 
 
+def _update_all(
+    scenario,
+    version,
+    system_model,
+    modified_datasets,
+    use_absolute_efficiency,
+    vehicle_type,
+    gains_scenario,
+):
+    scenario, modified_datasets = _update_vehicles(
+        scenario, vehicle_type, version, system_model, modified_datasets
+    )
+    scenario, modified_datasets = _update_electricity(
+        scenario, version, system_model, modified_datasets, use_absolute_efficiency
+    )
+    scenario, modified_datasets = _update_dac(
+        scenario, version, system_model, modified_datasets
+    )
+    scenario, modified_datasets = _update_cement(
+        scenario, version, system_model, modified_datasets
+    )
+    scenario, modified_datasets = _update_steel(
+        scenario, version, system_model, modified_datasets
+    )
+    scenario, modified_datasets = _update_metals(
+        scenario, version, system_model, modified_datasets
+    )
+    scenario, modified_datasets = _update_fuels(
+        scenario, version, system_model, modified_datasets
+    )
+    scenario, modified_datasets = _update_emissions(
+        scenario, version, system_model, gains_scenario, modified_datasets
+    )
+
+    return scenario, modified_datasets
+
+
+def _export_to_matrices(obj):
+    obj.export_db_to_matrices()
+
+
 class NewDatabase:
     """
     Class that represents a new wurst inventory database, modified according to IAM data.
@@ -520,7 +563,7 @@ class NewDatabase:
 
         print("\n/////////////////////// EXTRACTING IAM DATA ////////////////////////")
 
-        for scenario in self.scenarios:
+        def _fetch_iam_data(scenario):
             data = IAMDataCollection(
                 model=scenario["model"],
                 pathway=scenario["pathway"],
@@ -539,6 +582,10 @@ class NewDatabase:
                 scenario["external data"] = data.get_external_data(self.datapackages)
 
             scenario["database"] = copy.deepcopy(self.database)
+
+        # use multiprocessing to speed up the process
+        with Pool(processes=multiprocessing.cpu_count()) as pool:
+            pool.map(_fetch_iam_data, self.scenarios)
 
         print("Done!")
 
@@ -682,6 +729,7 @@ class NewDatabase:
             (FILEPATH_NUCLEAR_SMR, "3.8"),
             (FILEPATH_WAVE, "3.8"),
             (FILEPATH_FUEL_CELL, "3.9"),
+            (FILEPATH_CSP, "3.9"),
         ]
         for filepath in filepaths:
             # make an exception for FILEPATH_OIL_GAS_INVENTORIES
@@ -702,7 +750,7 @@ class NewDatabase:
 
             self.database.extend(datasets)
 
-        print("Done!\n")
+        # print("Done!\n")
         return data
 
     def __import_additional_inventories(
@@ -757,48 +805,25 @@ class NewDatabase:
 
         print("\n/////////////////////////// ELECTRICITY ////////////////////////////")
 
-        for scenario in self.scenarios:
-            if (
-                "exclude" not in scenario
-                or "update_electricity" not in scenario["exclude"]
-            ):
-                electricity = Electricity(
-                    database=scenario["database"],
-                    iam_data=scenario["iam data"],
-                    model=scenario["model"],
-                    pathway=scenario["pathway"],
-                    year=scenario["year"],
-                    version=self.version,
-                    system_model=self.system_model,
-                    modified_datasets=self.modified_datasets,
-                    use_absolute_efficiency=self.use_absolute_efficiency,
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
+                    self.use_absolute_efficiency,
                 )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_update_electricity, args)
 
-                electricity.adjust_coal_power_plant_emissions()
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
 
-                # datasets in 3.9 have been updated
-                if self.version not in ["3.9", "3.9.1"]:
-                    electricity.update_ng_production_ds()
-
-                electricity.update_efficiency_of_solar_pv()
-
-                if scenario["iam data"].biomass_markets is not None:
-                    electricity.create_biomass_markets()
-
-                electricity.create_region_specific_power_plants()
-
-                if scenario["iam data"].electricity_markets is not None:
-                    electricity.update_electricity_markets()
-                else:
-                    print("No electricity markets found in IAM data. Skipping.")
-
-                if scenario["iam data"].electricity_efficiencies is not None:
-                    electricity.update_electricity_efficiency()
-                else:
-                    print("No electricity efficiencies found in IAM data. Skipping.")
-
-                scenario["database"] = electricity.database
-                self.modified_datasets = electricity.modified_datasets
+        print("Done!\n")
 
     def update_dac(self) -> None:
         """
@@ -809,25 +834,24 @@ class NewDatabase:
 
         print("\n//////////////////////// DIRECT AIR CAPTURE ////////////////////////")
 
-        for scenario in self.scenarios:
-            if "exclude" not in scenario or "update_dac" not in scenario["exclude"]:
-                dac = DirectAirCapture(
-                    database=scenario["database"],
-                    iam_data=scenario["iam data"],
-                    model=scenario["model"],
-                    pathway=scenario["pathway"],
-                    year=scenario["year"],
-                    version=self.version,
-                    system_model=self.system_model,
-                    modified_datasets=self.modified_datasets,
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
                 )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_update_dac, args)
 
-                if scenario["iam data"].dac_markets is not None:
-                    dac.generate_dac_activities()
-                    scenario["database"] = dac.database
-                    self.modified_datasets = dac.modified_datasets
-                else:
-                    print("No DAC markets found in IAM data. Skipping.")
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_fuels(self) -> None:
         """
@@ -836,33 +860,24 @@ class NewDatabase:
         """
         print("\n////////////////////////////// FUELS ///////////////////////////////")
 
-        for scenario in self.scenarios:
-            if "exclude" not in scenario or "update_fuels" not in scenario["exclude"]:
-                fuels = Fuels(
-                    database=scenario["database"],
-                    iam_data=scenario["iam data"],
-                    model=scenario["model"],
-                    pathway=scenario["pathway"],
-                    year=scenario["year"],
-                    version=self.version,
-                    system_model=self.system_model,
-                    modified_datasets=self.modified_datasets,
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
                 )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_update_fuels, args)
 
-                if any(
-                    x is not None
-                    for x in (
-                        scenario["iam data"].petrol_markets,
-                        scenario["iam data"].diesel_markets,
-                        scenario["iam data"].gas_markets,
-                        scenario["iam data"].hydrogen_markets,
-                    )
-                ):
-                    fuels.generate_fuel_markets()
-                    scenario["database"] = fuels.database
-                    self.modified_datasets = fuels.modified_datasets
-                else:
-                    print("No fuel markets found in IAM data. Skipping.")
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_cement(self) -> None:
         """
@@ -871,25 +886,24 @@ class NewDatabase:
         """
         print("\n///////////////////////////// CEMENT //////////////////////////////")
 
-        for scenario in self.scenarios:
-            if "exclude" not in scenario or "update_cement" not in scenario["exclude"]:
-                cement = Cement(
-                    database=scenario["database"],
-                    model=scenario["model"],
-                    pathway=scenario["pathway"],
-                    iam_data=scenario["iam data"],
-                    year=scenario["year"],
-                    version=self.version,
-                    system_model=self.system_model,
-                    modified_datasets=self.modified_datasets,
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
                 )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_update_cement, args)
 
-                if scenario["iam data"].cement_markets is not None:
-                    cement.add_datasets_to_database()
-                    scenario["database"] = cement.database
-                    self.modified_datasets = cement.modified_datasets
-                else:
-                    print("No cement markets found in IAM data. Skipping.")
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_steel(self) -> None:
         """
@@ -898,24 +912,24 @@ class NewDatabase:
         """
         print("\n////////////////////////////// STEEL //////////////////////////////")
 
-        for scenario in self.scenarios:
-            if "exclude" not in scenario or "update_steel" not in scenario["exclude"]:
-                steel = Steel(
-                    database=scenario["database"],
-                    model=scenario["model"],
-                    pathway=scenario["pathway"],
-                    iam_data=scenario["iam data"],
-                    year=scenario["year"],
-                    version=self.version,
-                    system_model=self.system_model,
-                    modified_datasets=self.modified_datasets,
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
                 )
-                if scenario["iam data"].steel_markets is not None:
-                    steel.generate_activities()
-                    scenario["database"] = steel.database
-                    self.modified_datasets = steel.modified_datasets
-                else:
-                    print("No steel markets found in IAM data. Skipping.")
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_update_steel, args)
+
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_metals(self) -> None:
         """
@@ -925,21 +939,24 @@ class NewDatabase:
 
         print("\n////////////////////////////// METALS ///////////////////////////////")
 
-        for scenario in self.scenarios:
-            if "exclude" not in scenario or "update_metals" not in scenario["exclude"]:
-                metals = Metals(
-                    database=scenario["database"],
-                    year=scenario["year"],
-                    model=scenario["model"],
-                    pathway=scenario["pathway"],
-                    iam_data=scenario["iam data"],
-                    version=self.version,
-                    system_model=self.system_model,
-                    modified_datasets=self.modified_datasets,
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
                 )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_update_metals, args)
 
-                metals.create_metal_markets()
-                scenario["database"] = metals.database
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_cars(self) -> None:
         """
@@ -948,27 +965,25 @@ class NewDatabase:
         """
         print("\n///////////////////////// PASSENGER CARS ///////////////////////////")
 
-        for scenario in self.scenarios:
-            if "exclude" not in scenario or "update_cars" not in scenario["exclude"]:
-                trspt = Transport(
-                    database=scenario["database"],
-                    year=scenario["year"],
-                    model=scenario["model"],
-                    pathway=scenario["pathway"],
-                    iam_data=scenario["iam data"],
-                    version=self.version,
-                    system_model=self.system_model,
-                    vehicle_type="car",
-                    relink=False,
-                    has_fleet=True,
-                    modified_datasets=self.modified_datasets,
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    "car",
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
                 )
-                if scenario["iam data"].trsp_cars is not None:
-                    trspt.create_vehicle_markets()
-                    scenario["database"] = trspt.database
-                    self.modified_datasets = trspt.modified_datasets
-                else:
-                    print("No passenger car markets found in IAM data. Skipping.")
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_update_vehicles, args)
+
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_two_wheelers(self) -> None:
         """
@@ -977,28 +992,25 @@ class NewDatabase:
         """
         print("\n////////////////////////// TWO-WHEELERS ////////////////////////////")
 
-        for scenario in self.scenarios:
-            if (
-                "exclude" not in scenario
-                or "update_two_wheelers" not in scenario["exclude"]
-            ):
-                trspt = Transport(
-                    database=scenario["database"],
-                    year=scenario["year"],
-                    model=scenario["model"],
-                    pathway=scenario["pathway"],
-                    iam_data=scenario["iam data"],
-                    version=self.version,
-                    system_model=self.system_model,
-                    vehicle_type="two wheeler",
-                    relink=False,
-                    has_fleet=False,
-                    modified_datasets=self.modified_datasets,
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    "two wheeler",
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
                 )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_update_vehicles, args)
 
-                trspt.create_vehicle_markets()
-                scenario["database"] = trspt.database
-                self.modified_datasets = trspt.modified_datasets
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_trucks(self) -> None:
         """
@@ -1008,28 +1020,26 @@ class NewDatabase:
 
         print("\n////////////////// MEDIUM AND HEAVY DUTY TRUCKS ////////////////////")
 
-        for scenario in self.scenarios:
-            if "exclude" not in scenario or "update_trucks" not in scenario["exclude"]:
-                trspt = Transport(
-                    database=scenario["database"],
-                    year=scenario["year"],
-                    model=scenario["model"],
-                    pathway=scenario["pathway"],
-                    iam_data=scenario["iam data"],
-                    version=self.version,
-                    system_model=self.system_model,
-                    vehicle_type="truck",
-                    relink=False,
-                    has_fleet=True,
-                    modified_datasets=self.modified_datasets,
-                )
+        args = [
+            (
+                scenario,
+                "truck",
+                self.version,
+                self.system_model,
+                self.modified_datasets,
+            )
+            for scenario in self.scenarios
+        ]
 
-                if scenario["iam data"].trsp_trucks is not None:
-                    trspt.create_vehicle_markets()
-                    scenario["database"] = trspt.database
-                    self.modified_datasets = trspt.modified_datasets
-                else:
-                    print("No truck transport markets found in IAM data. Skipping.")
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            results = pool.starmap(_update_vehicles, args)
+
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_buses(self) -> None:
         """
@@ -1039,28 +1049,25 @@ class NewDatabase:
 
         print("\n////////////////////////////// BUSES ///////////////////////////////")
 
-        for scenario in self.scenarios:
-            if "exclude" not in scenario or "update_buses" not in scenario["exclude"]:
-                trspt = Transport(
-                    database=scenario["database"],
-                    year=scenario["year"],
-                    model=scenario["model"],
-                    pathway=scenario["pathway"],
-                    iam_data=scenario["iam data"],
-                    version=self.version,
-                    system_model=self.system_model,
-                    vehicle_type="bus",
-                    relink=False,
-                    has_fleet=True,
-                    modified_datasets=self.modified_datasets,
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    "bus",
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
                 )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_update_vehicles, args)
 
-                if scenario["iam data"].trsp_buses is not None:
-                    trspt.create_vehicle_markets()
-                    scenario["database"] = trspt.database
-                    self.modified_datasets = trspt.modified_datasets
-                else:
-                    print("No bus transport markets found in IAM data. Skipping.")
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_external_scenario(self):
         if self.datapackages:
@@ -1106,6 +1113,8 @@ class NewDatabase:
                     scenario["database"] = external_scenario.database
             print(f"Log file of exchanges saved under {DATA_DIR / 'logs'}.")
 
+        print("Done!\n")
+
     def update_emissions(self) -> None:
         """
         This method will update the hot pollutants emissions
@@ -1114,22 +1123,25 @@ class NewDatabase:
 
         print("\n/////////////////////////// EMISSIONS //////////////////////////////")
 
-        for scenario in self.scenarios:
-            if "update_emissions" not in scenario.get("exclude", []):
-                emissions = Emissions(
-                    database=scenario["database"],
-                    year=scenario["year"],
-                    model=scenario["model"],
-                    pathway=scenario["pathway"],
-                    iam_data=scenario["iam data"],
-                    version=self.version,
-                    system_model=self.system_model,
-                    gains_scenario=self.gains_scenario,
-                    modified_datasets=self.modified_datasets,
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    self.version,
+                    self.system_model,
+                    self.gains_scenario,
+                    self.modified_datasets,
                 )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_update_emissions, args)
 
-                emissions.update_emissions_in_database()
-                scenario["database"] = emissions.database
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
+
+        print("Done!\n")
 
     def update_all(self) -> None:
         """
@@ -1142,22 +1154,40 @@ class NewDatabase:
             "If you want to update these steps, please run them separately afterwards."
         )
 
-        self.update_trucks()
-        self.update_electricity()
-        self.update_dac()
-        self.update_cement()
-        self.update_steel()
-        self.update_metals()
-        self.update_fuels()
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
+                    self.use_absolute_efficiency,
+                    "truck",
+                    self.gains_scenario,
+                )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_update_all, args)
+
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            self.modified_datasets.update(results[s][1])
+
         self.update_external_scenario()
-        self.update_emissions()
 
     def write_superstructure_db_to_brightway(
-        self, name: str = f"super_db_{date.today()}", filepath: str = None
+        self,
+        name: str = f"super_db_{date.today()}",
+        filepath: str = None,
+        format: str = "excel",
     ) -> None:
         """
         Register a super-structure database,
         according to https://github.com/dgdekoning/brightway-superstructure
+        :param name: name of the super-structure database
+        :param filepath: filepath of the "scenarios difference file"
+        :param format: format of the "scenarios difference file" export. Can be "excel", "csv" or "feather".
         :return: filepath of the "scenarios difference file"
         """
 
@@ -1168,26 +1198,33 @@ class NewDatabase:
             )
 
         cache = {}
-        for scen, scenario in enumerate(self.scenarios):
-            print(f"Prepare database {scen + 1}.")
-            scenario["database"], cache = prepare_db_for_export(
-                scenario,
-                cache=cache,
-                name=name,
-                version=self.version,
-                system_model=self.system_model,
-                modified_datasets=self.modified_datasets,
-            )
+
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    cache,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
+                )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_prepare_database, args)
+
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            cache.update(results[s][1])
+
         self.database = generate_superstructure_db(
-            self.database,
-            self.scenarios,
+            origin_db=self.database,
+            scenarios=self.scenarios,
             db_name=name,
             filepath=filepath,
             version=self.version,
+            format=format,
         )
-        self.database = check_amount_format(self.database)
-
-        print("Done!")
 
         write_brightway2_database(
             self.database,
@@ -1238,17 +1275,26 @@ class NewDatabase:
         print("Write new database(s) to Brightway2.")
 
         cache = {}
-        for scen, scenario in enumerate(self.scenarios):
-            print(f"Prepare database {scen + 1}.")
-            scenario["database"], cache = prepare_db_for_export(
-                scenario,
-                cache=cache,
-                name=name[scen],
-                version=self.version,
-                system_model=self.system_model,
-                modified_datasets=self.modified_datasets,
-            )
 
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    cache,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
+                )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_prepare_database, args)
+
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            cache.update(results[s][1])
+
+        for scen, scenario in enumerate(self.scenarios):
             write_brightway2_database(
                 scenario["database"],
                 name[scen],
@@ -1296,25 +1342,32 @@ class NewDatabase:
         print("Write new database(s) to matrix.")
 
         cache = {}
-        for scen, scenario in enumerate(self.scenarios):
-            print(f"Prepare database {scen + 1}.")
-            scenario["database"], cache = prepare_db_for_export(
-                scenario,
-                cache=cache,
-                name="database",
-                version=self.version,
-                system_model=self.system_model,
-                modified_datasets=self.modified_datasets,
-            )
 
-            Export(
-                scenario["database"],
-                scenario["model"],
-                scenario["pathway"],
-                scenario["year"],
-                filepath[scen],
-                version=self.version,
-            ).export_db_to_matrices()
+        # use multiprocessing to speed up the process
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    cache,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
+                )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_prepare_database, args)
+
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            cache.update(results[s][1])
+
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                Export(scenario, filepath[scen], self.version)
+                for scen, scenario in enumerate(self.scenarios)
+            ]
+            pool.map(_export_to_matrices, args)
 
         # generate scenario report
         self.generate_scenario_report()
@@ -1338,25 +1391,30 @@ class NewDatabase:
         print("Write Simapro import file(s).")
 
         cache = {}
-        for scen, scenario in enumerate(self.scenarios):
-            print(f"Prepare database {scen + 1}.")
-            scenario["database"], cache = prepare_db_for_export(
-                scenario,
-                cache=cache,
-                name="database",
-                version=self.version,
-                system_model=self.system_model,
-                modified_datasets=self.modified_datasets,
-            )
 
-            Export(
-                scenario["database"],
-                scenario["model"],
-                scenario["pathway"],
-                scenario["year"],
-                filepath,
-                version=self.version,
-            ).export_db_to_simapro()
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    cache,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
+                )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_prepare_database, args)
+
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                cache.update(results[s][1])
+
+            args = [
+                (scenario, filepath[scen], self.version)
+                for scen, scenario in enumerate(self.scenarios)
+            ]
+            pool.starmap(Export().export_db_to_simapro, args)
 
         # generate scenario report
         self.generate_scenario_report()
@@ -1371,16 +1429,23 @@ class NewDatabase:
             raise ValueError(f"No cached inventories found at {cache_fp}.")
 
         cache = {}
-        for scen, scenario in enumerate(self.scenarios):
-            print(f"Prepare database {scen + 1}.")
-            scenario["database"], cache = prepare_db_for_export(
-                scenario,
-                cache=cache,
-                name="database",
-                version=self.version,
-                system_model=self.system_model,
-                modified_datasets=self.modified_datasets,
-            )
+        # use multiprocessing to speed up the process
+        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+            args = [
+                (
+                    scenario,
+                    cache,
+                    self.version,
+                    self.system_model,
+                    self.modified_datasets,
+                )
+                for scenario in self.scenarios
+            ]
+            results = pool.starmap(_prepare_database, args)
+
+        for s, scenario in enumerate(self.scenarios):
+            self.scenarios[s] = results[s][0]
+            cache.update(results[s][1])
 
         df, extra_inventories = generate_scenario_factor_file(
             origin_db=self.database,

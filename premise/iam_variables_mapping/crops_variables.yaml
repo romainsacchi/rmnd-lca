@@ -10,6 +10,9 @@ sugar:
     remind:
       temperate: sugarbeet
       tropical: sugarcane
+    message:
+      temperate: sugarbeet
+      tropical: sugarcane
   land_use:
     image: Land Use|Marginal|Biomass|Sugar
   land_use_change:
@@ -20,6 +23,9 @@ oil:
       temperate: rapeseed
       tropical: palm oil
     remind:
+      temperate: rapeseed
+      tropical: palm oil
+    message:
       temperate: rapeseed
       tropical: palm oil
   land_use:
@@ -34,6 +40,9 @@ wood:
     remind:
       temperate: poplar
       tropical: eucalyptus
+    message:
+      temperate: poplar
+      tropical: eucalyptus
   land_use:
     image: Land Use|Marginal|Biomass|Woody
   land_use_change:
@@ -46,6 +55,9 @@ grass:
     remind:
       temperate: switchgrass
       tropical: miscanthus
+    message:
+      temperate: switchgrass
+      tropical: miscanthus
   land_use:
     image: Land Use|Marginal|Biomass|Grassy
   land_use_change:
@@ -56,6 +68,9 @@ grain:
       temperate: corn
       tropical: corn
     remind:
+      temperate: corn
+      tropical: corn
+    message:
       temperate: corn
       tropical: corn
   land_use:

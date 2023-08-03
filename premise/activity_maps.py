@@ -48,31 +48,58 @@ def get_mapping(filepath: Path, var: str) -> dict:
     return mapping
 
 
-@lru_cache
-def biosphere_flows_dictionary(version):
+def act_fltr(
+    database: List[dict],
+    fltr: Union[str, List[str]] = None,
+    mask: Union[str, List[str]] = None,
+) -> List[dict]:
+    """Filter `database` for activities matching field contents given by `fltr` excluding strings in `mask`.
+    `fltr`: string, list of strings or dictionary.
+    If a string is provided, it is used to match the name field from the start (*startswith*).
+    If a list is provided, all strings in the lists are used and results are joined (*or*).
+    A dict can be given in the form <fieldname>: <str> to filter for <str> in <fieldname>.
+    `mask`: used in the same way as `fltr`, but filters add up with each other (*and*).
+    `filter_exact` and `mask_exact`: boolean, set `True` to only allow for exact matches.
+
+    :param database: A lice cycle inventory database
+    :type database: brightway2 database object
+    :param fltr: value(s) to filter with.
+    :type fltr: Union[str, lst, dict]
+    :param mask: value(s) to filter with.
+    :type mask: Union[str, lst, dict]
+    :return: list of activity data set names
+    :rtype: list
+
     """
-    Create a dictionary with biosphere flows
-    (name, category, sub-category, unit) -> code
-    """
-    if version == "3.9":
-        fp = DATA_DIR / "utils" / "export" / "flows_biosphere_39.csv"
-    else:
-        fp = DATA_DIR / "utils" / "export" / "flows_biosphere_38.csv"
+    if fltr is None:
+        fltr = {}
+    if mask is None:
+        mask = {}
 
-    if not Path(fp).is_file():
-        raise FileNotFoundError("The dictionary of biosphere flows could not be found.")
+    # default field is name
+    if isinstance(fltr, (list, str)):
+        fltr = {"name": fltr}
+    if isinstance(mask, (list, str)):
+        mask = {"name": mask}
 
-    csv_dict = {}
+    assert len(fltr) > 0, "Filter dict must not be empty."
 
-    with open(fp, encoding="utf-8") as file:
-        input_dict = csv.reader(
-            file,
-            delimiter=get_delimiter(filepath=fp),
-        )
-        for row in input_dict:
-            csv_dict[(row[0], row[1], row[2], row[3])] = row[-1]
+    # find `act` in `database` that match `fltr`
+    # and do not match `mask`
+    filters = []
+    for field, value in fltr.items():
+        if isinstance(value, list):
+            filters.extend([ws.either(*[ws.contains(field, v) for v in value])])
+        else:
+            filters.append(ws.contains(field, value))
 
-    return csv_dict
+    for field, value in mask.items():
+        if isinstance(value, list):
+            filters.extend([ws.exclude(ws.contains(field, v)) for v in value])
+        else:
+            filters.append(ws.exclude(ws.contains(field, value)))
+
+    return list(ws.get_many(database, *filters))
 
 
 class InventorySet:
@@ -229,20 +256,6 @@ class InventorySet:
         """
         return self.generate_sets_from_filters(self.activity_metals_filters)
 
-    def generate_metals_map(self) -> dict:
-        """
-        Filter ecoinvent processes related to metals.
-        Returns a dictionary with metal names as keys (see below) and
-        a set of related ecoinvent activities' names as values.
-        """
-
-        return self.generate_sets_from_filters(
-            self.metals_filters,
-            database=[
-                {"name": k[0], "categories": k[1]}
-                for k in biosphere_flows_dictionary(version=self.version)
-            ],
-        )
 
     @staticmethod
     def act_fltr(
@@ -318,5 +331,8 @@ class InventorySet:
 
         database = database or self.database
 
-        techs = {tech: self.act_fltr(database, **fltr) for tech, fltr in filtr.items()}
+        techs = {
+            tech: act_fltr(database, fltr.get("fltr"), fltr.get("mask"))
+            for tech, fltr in filtr.items()
+        }
         return {tech: {act["name"] for act in actlst} for tech, actlst in techs.items()}

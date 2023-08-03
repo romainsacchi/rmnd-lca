@@ -1,30 +1,37 @@
 """
 Integrates projections regarding steel production.
 """
-import logging.config
-from pathlib import Path
 from typing import Dict, List
 
 import wurst
-import yaml
 
 from .data_collection import IAMDataCollection
+from .logger import create_logger
 from .transformation import BaseTransformation, ws
-from .utils import DATA_DIR
 
-LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
-# directory for log files
-DIR_LOG_REPORT = Path.cwd() / "export" / "logs"
-# if DIR_LOG_REPORT folder does not exist
-# we create it
-if not Path(DIR_LOG_REPORT).exists():
-    Path(DIR_LOG_REPORT).mkdir(parents=True, exist_ok=True)
+logger = create_logger("steel")
 
-with open(LOG_CONFIG, "r") as f:
-    config = yaml.safe_load(f.read())
-    logging.config.dictConfig(config)
 
-logger = logging.getLogger("steel")
+def _update_steel(scenario, version, system_model, modified_datasets):
+    steel = Steel(
+        database=scenario["database"],
+        model=scenario["model"],
+        pathway=scenario["pathway"],
+        iam_data=scenario["iam data"],
+        year=scenario["year"],
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+    )
+
+    if scenario["iam data"].steel_markets is not None:
+        steel.generate_activities()
+        scenario["database"] = steel.database
+        modified_datasets = steel.modified_datasets
+    else:
+        print("No steel markets found in IAM data. Skipping.")
+
+    return scenario, modified_datasets
 
 
 class Steel(BaseTransformation):
@@ -259,7 +266,7 @@ class Steel(BaseTransformation):
 
         """
         # Determine all steel activities in the database. Empty old datasets.
-        print("Create new steel production datasets and empty old datasets")
+        # print("Create new steel production datasets and empty old datasets")
 
         d_act_primary_steel = {
             mat: self.fetch_proxies(
@@ -340,7 +347,7 @@ class Steel(BaseTransformation):
         Create region-specific pig iron production activities.
         """
 
-        print("Create pig iron production datasets")
+        # print("Create pig iron production datasets")
 
         pig_iron = self.fetch_proxies(
             name="pig iron production",

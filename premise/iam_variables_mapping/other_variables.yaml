@@ -1,9 +1,12 @@
 gdp:
   iam_aliases:
+    message: GDP|PPP
     remind: GDP|PPP
     image: GDP|PPP
+
 population:
   iam_aliases:
+    message: Population
     remind: Population
     image: Population
 
@@ -15,3 +18,4 @@ CO2:
   iam_aliases:
     remind: Emi|CO2
     image: Emissions|CO2
+    message: Emissions|CO2

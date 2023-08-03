@@ -1,77 +1,102 @@
 # mapping between GAINS-IAM regions and IAM regions
 ---
 AFRI_EAST:
+  message: AFR
   remind: SSA
   image: EAF
 AFRI_NORT:
+  message: AFR
   remind: MEA
   image: NAF
 AFRI_WEST:
+  message: AFR
   remind: SSA
   image: WAF
 ASIA_STAN:
+  message: PAS
   remind: OAS
   image: STAN
 BRAZ_WHOL:
+  message: LAM
   remind: LAM
   image: BRA
 CANA_WHOL:
+  message: NAM
   remind: CAZ
   image: CAN
 CEAM_REST:
+  message: LAM
   remind: LAM
   image: RCAM
 CENT_EURO:
+  message: EEU
   remind: EUR
   image: CEU
 CHIN_PLUS:
+  message: CHN
   remind: CHA
   image: CHN
 INDI_WHOL:
+  message: SAS
   remind: IND
   image: INDIA
 INDO_PLUS:
+  message: PAS
   remind: OAS
   image: INDO
 JAPA_WHOL:
+  message: PAO
   remind: JPN
   image: JAP
 KORE_AALL:
+  message: PAS
   remind: OAS
   image: KOR
 LAME_REST:
+  message: LAM
   remind: LAM
   image: RSAM
 MEXI_WHOL:
+  message: LAM
   remind: LAM
   image: MEX
 MIDD_EAST:
+  message: MEA
   remind: MEA
   image: ME
 OCEA_WHOL:
+  message: PAO
   remind: CAZ
   image: OCE
 RUSS_PLUS:
+  message: FSU
   remind: REF
   image: RUS
 SAFR_WHOL:
+  message: AFR
   remind: SSA
   image: SAF
 SOEA_ASIA:
+  message: PAS
   remind: OAS
   image: SEAS
 SOUA_REST:
+  message: SAS
   remind: OAS
   image: RSAS
 TURK_WHOL:
+  message: WEU
   remind: MEA
   image: TUR
 UKRA_PLUS:
+  message: FSU
   remind: REF
   image: UKR
 USAM_WHOL:
+  message: NAM
   remind: USA
   image: USA
 WEST_EURO:
+  message: WEU
   remind: NEU
   image: WEU

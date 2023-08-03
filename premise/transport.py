@@ -33,6 +33,42 @@ FILEPATH_TRUCK_LOAD_FACTORS = DATA_DIR / "transport" / "avg_load_factors.yaml"
 FILEPATH_VEHICLES_MAP = DATA_DIR / "transport" / "vehicles_map.yaml"
 
 
+def _update_vehicles(scenario, vehicle_type, version, system_model, modified_datasets):
+    trspt = Transport(
+        database=scenario["database"],
+        year=scenario["year"],
+        model=scenario["model"],
+        pathway=scenario["pathway"],
+        iam_data=scenario["iam data"],
+        version=version,
+        system_model=system_model,
+        vehicle_type=vehicle_type,
+        relink=False,
+        has_fleet=True,
+        modified_datasets=modified_datasets,
+    )
+
+    if vehicle_type == "car":
+        iam_data = scenario["iam data"].trsp_cars
+    elif vehicle_type == "truck":
+        iam_data = scenario["iam data"].trsp_trucks
+    elif vehicle_type == "bus":
+        iam_data = scenario["iam data"].trsp_buses
+    elif vehicle_type == "two wheeler":
+        iam_data = scenario["iam data"].trsp_two_wheelers
+    else:
+        raise ValueError("Unknown vehicle type.")
+
+    if iam_data is not None:
+        trspt.create_vehicle_markets()
+        scenario["database"] = trspt.database
+        modified_datasets = trspt.modified_datasets
+    else:
+        print(f"No markets found for {vehicle_type} in IAM data. Skipping.")
+
+    return scenario, modified_datasets
+
+
 def get_average_truck_load_factors() -> Dict[str, Dict[str, Dict[str, float]]]:
     """
     Load average load factors for trucks
@@ -101,7 +137,7 @@ def create_fleet_vehicles(
     :param regions: IAM regions
     :return: list of fleet average vehicle datasets
     """
-    print("Create fleet average vehicles...")
+    # print("Create fleet average vehicles...")
 
     vehicles_map = get_vehicles_mapping()
 

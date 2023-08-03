@@ -32,7 +32,7 @@ def package_files(directory):
 
 setup(
     name="premise",
-    version="1.5.8",
+    version="1.5.9",
     python_requires=">=3.9,<3.11",
     packages=packages,
     author="Romain Sacchi <romain.sacchi@psi.ch>, Alois Dirnaichner <dirnaichner@pik-potsdam.de>, Chris Mutel "
@@ -58,6 +58,7 @@ setup(
         "requests",
         "bottleneck",
         "constructive_geometries>=0.8.2",
+        "pyarrow",
     ],
     url="https://github.com/polca/premise",
     description="Coupling IAM output to ecoinvent LCA database ecoinvent for prospective LCA",

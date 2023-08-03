@@ -34,6 +34,7 @@ requirements:
     - requests
     - bottleneck
     - constructive_geometries>=0.8.2
+    - pyarrow
 
 test:
   imports:

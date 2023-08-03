@@ -541,6 +541,7 @@ class BaseTransformation:
         relink=True,
         regions=None,
         delete_original_dataset=False,
+        empty_original_activity=True,
     ) -> Dict[str, dict]:
         """
         Fetch dataset proxies, given a dataset `name` and `reference product`.
@@ -555,6 +556,8 @@ class BaseTransformation:
         :param relink: if `relink`, exchanges from the datasets will be relinked to
         the most geographically-appropriate providers from the database. This is computer-intensive.
         :param regions: regions to create proxy datasets for. if None, all regions are considered.
+        :param delete_original_dataset: if True, delete original datasets from the database.
+        :param empty_original_activity: if True, empty original activities from exchanges.
         :return: dictionary with IAM regions as keys, proxy datasets as values.
         """
 
@@ -594,10 +597,12 @@ class BaseTransformation:
                 if "input" in d_act[region]:
                     del d_act[region]["input"]
 
-                if production_variable:
+                if production_variable is not None:
                     # Add `production volume` field
                     if isinstance(production_variable, str):
-                        production_variable = [production_variable]
+                        production_variable = [
+                            production_variable,
+                        ]
 
                     if all(
                         i in self.iam_data.production_volumes.variables
@@ -643,13 +648,14 @@ class BaseTransformation:
 
         # empty original datasets
         # and make them link to new regional datasets
-        self.empty_original_datasets(
-            name=ds_name,
-            ref_prod=ds_ref_prod,
-            loc_map=d_iam_to_eco,
-            production_variable=production_variable,
-            regions=regions,
-        )
+        if empty_original_activity is True:
+            self.empty_original_datasets(
+                name=ds_name,
+                ref_prod=ds_ref_prod,
+                loc_map=d_iam_to_eco,
+                production_variable=production_variable,
+                regions=regions,
+            )
 
         if delete_original_dataset:
             # remove the dataset from `self.database`
@@ -825,6 +831,13 @@ class BaseTransformation:
                 ]
             ]
 
+            # remove excs_to_relink from act["exchanges"]
+            act["exchanges"] = [
+                exchange
+                for exchange in act["exchanges"]
+                if exchange not in excs_to_relink
+            ]
+
             unique_excs_to_relink = set(
                 (exc["name"], exc["product"], exc["location"], exc["unit"])
                 for exc in excs_to_relink
@@ -913,38 +926,8 @@ class BaseTransformation:
                                 )
                             ]
 
-                        elif (
-                            exc[0],
-                            exc[1],
-                            "World",
-                            exc[-1],
-                        ) in self.modified_datasets[
-                            (self.model, self.scenario, self.year)
-                        ][
-                            "created"
-                        ]:
-                            self.add_new_entry_to_cache(
-                                location=act["location"],
-                                exchange={
-                                    "name": exc[0],
-                                    "product": exc[1],
-                                    "location": exc[2],
-                                    "unit": exc[-1],
-                                },
-                                allocated=[
-                                    {
-                                        "name": exc[0],
-                                        "product": exc[1],
-                                        "location": "World",
-                                        "unit": exc[-1],
-                                    }
-                                ],
-                                shares=[1.0],
-                            )
-                            break
-
-                        else:
-                            entry = [exc + (1.0,)]
+                    if not entry:
+                        entry = [exc + (1.0,)]
 
                 # summing up the amounts provided by the unwanted exchanges
                 # and remove these unwanted exchanges from the dataset
@@ -990,14 +973,6 @@ class BaseTransformation:
                 )
             ]
 
-            act["exchanges"] = [
-                e
-                for e in act["exchanges"]
-                if (e["name"], e.get("product"), e.get("location"), e["unit"])
-                not in [
-                    (iex[0], iex[1], iex[2], iex[3]) for iex in unique_excs_to_relink
-                ]
-            ]
             act["exchanges"].extend(new_exchanges)
 
     def get_carbon_capture_rate(self, loc: str, sector: str) -> float:
@@ -1256,13 +1231,7 @@ class BaseTransformation:
                 kept = None
                 key = (exc["name"], exc["product"], exc["unit"])
                 possible_datasets = [
-                    x
-                    for x in self.get_possibles(key)
-                    if x["location"] in list_loc
-                    and (exc["name"], exc["product"], x["location"], exc["unit"])
-                    not in self.modified_datasets[
-                        (self.model, self.scenario, self.year)
-                    ]["emptied"]
+                    x for x in self.get_possibles(key) if x["location"] in list_loc
                 ]
 
                 possible_locations = [obj["location"] for obj in possible_datasets]
@@ -1381,12 +1350,12 @@ class BaseTransformation:
                         continue
 
                 if not kept and any(
-                    loc in possible_locations for loc in ["World", "GLO", "RoW"]
+                    loc in possible_locations for loc in ["GLO", "RoW"]
                 ):
                     kept = [
                         ds
                         for ds in possible_datasets
-                        if ds["location"] in ["World", "GLO", "RoW"]
+                        if ds["location"] in ["GLO", "RoW"]
                     ]
                     allocated, share = allocate_inputs(exc, kept)
                     new_exchanges.extend(allocated)
@@ -1490,7 +1459,6 @@ class BaseTransformation:
                     kept = possible_datasets
 
                     allocated, share = allocate_inputs(exc, kept)
-
                     new_exchanges.extend(allocated)
 
                     # add to cache

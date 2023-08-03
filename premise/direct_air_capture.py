@@ -9,21 +9,11 @@ from pathlib import Path
 import wurst
 import yaml
 
+from .logger import create_logger
 from .utils import DATA_DIR
 
-LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
-# directory for log files
-DIR_LOG_REPORT = Path.cwd() / "export" / "logs"
-# if DIR_LOG_REPORT folder does not exist
-# we create it
-if not Path(DIR_LOG_REPORT).exists():
-    Path(DIR_LOG_REPORT).mkdir(parents=True, exist_ok=True)
+logger = create_logger("dac")
 
-with open(LOG_CONFIG, "r") as f:
-    config = yaml.safe_load(f.read())
-    logging.config.dictConfig(config)
-
-logger = logging.getLogger("dac")
 
 import numpy as np
 
@@ -45,6 +35,28 @@ def fetch_mapping(filepath: str) -> dict:
     with open(filepath, "r", encoding="utf-8") as stream:
         mapping = yaml.safe_load(stream)
     return mapping
+
+
+def _update_dac(scenario, version, system_model, modified_datasets):
+    dac = DirectAirCapture(
+        database=scenario["database"],
+        iam_data=scenario["iam data"],
+        model=scenario["model"],
+        pathway=scenario["pathway"],
+        year=scenario["year"],
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+    )
+
+    if scenario["iam data"].dac_markets is not None:
+        dac.generate_dac_activities()
+        scenario["database"] = dac.database
+        modified_datasets = dac.modified_datasets
+    else:
+        print("No DAC markets found in IAM data. Skipping.")
+
+    return scenario, modified_datasets
 
 
 class DirectAirCapture(BaseTransformation):
@@ -94,7 +106,7 @@ class DirectAirCapture(BaseTransformation):
         modifies the original datasets to include the heat source, and adds the modified datasets to the database.
 
         """
-        print("Generate region-specific direct air capture processes.")
+        # print("Generate region-specific direct air capture processes.")
 
         # get original dataset
         for ds_list in self.carbon_storage.values():

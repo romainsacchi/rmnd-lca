@@ -41,3 +41,17 @@ remind:
   NEU: temperate
   REF: temperate
   USA: temperate
+
+message:
+  AFR: tropical
+  CHN: temperate
+  EEU: temperate
+  FSU: temperate
+  LAM: tropical
+  MEA: tropical
+  NAM: temperate
+  PAO: temperate
+  PAS: tropical
+  RCPA: tropical
+  SAS: tropical
+  WEU: temperate
