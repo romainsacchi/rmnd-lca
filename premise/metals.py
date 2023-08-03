@@ -18,6 +18,7 @@ import wurst
 import yaml
 
 from .export import biosphere_flows_dictionary
+from .logger import create_logger
 from .transformation import (
     BaseTransformation,
     Dict,
@@ -28,7 +29,6 @@ from .transformation import (
     ws,
 )
 from .utils import DATA_DIR
-from .logger import create_logger
 
 logger = create_logger("metal")
 
@@ -158,8 +158,8 @@ class Metals(BaseTransformation):
         self.rev_activities_metals_map: Dict[str, str] = rev_metals_map(
             self.activities_metals_map
         )
-        #self.metals_map: Dict[str, Set] = mapping.generate_metals_map()
-        #self.rev_metals_map: Dict[str, str] = rev_metals_map(self.metals_map)
+        # self.metals_map: Dict[str, Set] = mapping.generate_metals_map()
+        # self.rev_metals_map: Dict[str, str] = rev_metals_map(self.metals_map)
         self.conversion_factors = load_conversion_factors()
         self.current_metal_use = get_ecoinvent_metal_factors()
 

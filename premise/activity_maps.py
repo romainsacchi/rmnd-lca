@@ -256,7 +256,6 @@ class InventorySet:
         """
         return self.generate_sets_from_filters(self.activity_metals_filters)
 
-
     @staticmethod
     def act_fltr(
         database: List[dict],
