@@ -9,6 +9,7 @@ https://doi.org/10.1016/j.egyr.2022.11.025.
 
 import logging.config
 import uuid
+from functools import lru_cache
 from pathlib import Path
 
 import country_converter as coco
@@ -16,7 +17,6 @@ import numpy as np
 import pandas as pd
 import wurst
 import yaml
-from functools import lru_cache
 
 from .export import biosphere_flows_dictionary
 from .logger import create_logger

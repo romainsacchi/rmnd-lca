@@ -36,7 +36,7 @@ from .external import ExternalScenario
 from .external_data_validation import check_external_scenarios, check_inventories
 from .fuels import _update_fuels
 from .inventory_imports import AdditionalInventory, DefaultInventory
-from .metals import _update_metals, Metals
+from .metals import Metals, _update_metals
 from .report import generate_change_report, generate_summary_report
 from .steel import _update_steel
 from .transport import _update_vehicles
