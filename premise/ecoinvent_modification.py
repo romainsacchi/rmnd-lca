@@ -36,7 +36,7 @@ from .external import ExternalScenario
 from .external_data_validation import check_external_scenarios, check_inventories
 from .fuels import _update_fuels
 from .inventory_imports import AdditionalInventory, DefaultInventory
-from .metals import _update_metals
+from .metals import _update_metals, Metals
 from .report import generate_change_report, generate_summary_report
 from .steel import _update_steel
 from .transport import _update_vehicles
@@ -940,21 +940,37 @@ class NewDatabase:
         print("\n////////////////////////////// METALS ///////////////////////////////")
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_update_metals, args)
+        # with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+        #     args = [
+        #         (
+        #             scenario,
+        #             self.version,
+        #             self.system_model,
+        #             self.modified_datasets,
+        #         )
+        #         for scenario in self.scenarios
+        #     ]
+        #     results = pool.starmap(_update_metals, args)
+        #
+        # for s, scenario in enumerate(self.scenarios):
+        #     self.scenarios[s] = results[s][0]
+        #     self.modified_datasets.update(results[s][1])
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+        for scenario in self.scenarios:
+            if "exclude" not in scenario or "update_metals" not in scenario["exclude"]:
+                metals = Metals(
+                    database=scenario["database"],
+                    year=scenario["year"],
+                    model=scenario["model"],
+                    pathway=scenario["pathway"],
+                    iam_data=scenario["iam data"],
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                )
+
+                metals.create_metal_markets()
+                scenario["database"] = metals.database
 
         print("Done!\n")
 

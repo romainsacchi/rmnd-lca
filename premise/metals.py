@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 import wurst
 import yaml
+from functools import lru_cache
 
 from .export import biosphere_flows_dictionary
 from .transformation import (
@@ -389,6 +390,7 @@ class Metals(BaseTransformation):
 
             return dataset
 
+    @lru_cache
     def convert_long_to_short_country_name(self, country_long):
         """
         Convert long country name to short country name.
