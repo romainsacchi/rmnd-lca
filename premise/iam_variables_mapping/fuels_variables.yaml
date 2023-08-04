@@ -122,6 +122,8 @@ natural gas:
         - petroleum and gas production
         - market for natural gas
         - market group for natural gas
+        - evaporation of natural gas
+
     mask:
       name:
         - import

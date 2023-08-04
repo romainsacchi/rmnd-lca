@@ -4,6 +4,7 @@ Various utils functions.
 
 import os
 import sys
+import uuid
 from functools import lru_cache
 from pathlib import Path
 from typing import List
@@ -302,7 +303,23 @@ def clean_up(exc):
     return exc
 
 
-def write_brightway2_database(data, name):
+def reset_all_codes(data):
+    """
+    Re-generate all codes in each dataset of a database
+    Remove all code for each production and technosphere exchanges
+    in each dataset.
+    """
+    for ds in data:
+        ds["code"] = str(uuid.uuid4())
+        for exc in ds["exchanges"]:
+            if exc["type"] in ["production", "technosphere"]:
+                if "input" in exc:
+                    del exc["input"]
+
+    return data
+
+
+def write_brightway2_database(data, name, reset_codes=False):
     # Restore parameters to Brightway2 format
     # which allows for uncertainty and comments
 
@@ -329,6 +346,9 @@ def write_brightway2_database(data, name):
         ds["exchanges"] = [clean_up(exc) for exc in ds["exchanges"]]
 
     change_db_name(data, name)
+
+    if reset_codes:
+        reset_all_codes(data)
     link_internal(data)
     check_internal_linking(data)
     check_duplicate_codes(data)

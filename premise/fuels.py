@@ -346,20 +346,11 @@ class Fuels(BaseTransformation):
             for sub_type in sub_types
         }
 
-        self.iam_fuel_markets = xr.DataArray(
-            dims=["variables"], coords={"variables": []}
+        self.iam_fuel_markets = self.iam_data.production_volumes.sel(
+            variables=[g for g in [item for sublist in list(self.fuel_groups.values()) for item in sublist]
+                       if g in self.iam_data.production_volumes.variables.values.tolist()
+                       ]
         )
-        for market in [
-            self.iam_data.petrol_markets,
-            self.iam_data.diesel_markets,
-            self.iam_data.gas_markets,
-            self.iam_data.hydrogen_markets,
-        ]:
-            if market is not None:
-                self.iam_fuel_markets = xr.concat(
-                    [self.iam_fuel_markets, market],
-                    dim="variables",
-                )
 
         self.fuel_efficiencies = xr.DataArray(
             dims=["variables"], coords={"variables": []}
@@ -1313,7 +1304,10 @@ class Fuels(BaseTransformation):
             for activity in activities:
                 if fuel == "methane, synthetic":
                     original_ds = self.fetch_proxies(
-                        name=activity, ref_prod=" ", delete_original_dataset=True
+                        name=activity,
+                        ref_prod=" ",
+                        delete_original_dataset=False,
+                        empty_original_activity=False,
                     )
 
                     for co2_type in [
@@ -2211,6 +2205,7 @@ class Fuels(BaseTransformation):
 
             if "natural gas" in dataset["name"]:
                 blacklist.remove("market")
+                blacklist.append("market for natural gas, high pressure")
 
             if "low-sulfur" in dataset["name"]:
                 blacklist.append("unleaded")
