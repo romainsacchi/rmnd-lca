@@ -1172,7 +1172,14 @@ class BaseTransformation:
             )
             for e, s in zip(allocated, shares)
         ]
-        self.cache.setdefault(location, {}).setdefault(self.model, {})[exc_key] = entry
+
+        if location not in self.cache:
+            self.cache[location] = {}
+
+        if self.model not in self.cache[location]:
+            self.cache[location][self.model] = {}
+
+        self.cache[location][self.model][exc_key] = entry
 
     def relink_technosphere_exchanges(
         self,
@@ -1260,66 +1267,21 @@ class BaseTransformation:
                         possible_datasets[0]["reference product"] == exc["product"]
                     ), f"candidate: {_(possible_datasets[0])}, exc: {_(exc)}"
 
-                    self.cache.update(
-                        {
-                            dataset["location"]: {
-                                self.model: {
-                                    (
-                                        exc["name"],
-                                        exc["product"],
-                                        exc["location"],
-                                        exc["unit"],
-                                    ): [
-                                        (
-                                            e["name"],
-                                            e["product"],
-                                            e["location"],
-                                            e["unit"],
-                                            s,
-                                        )
-                                        for e, s in zip(
-                                            [new_exchange(exc, exc["location"], 1.0)],
-                                            [1.0],
-                                        )
-                                    ]
-                                }
-                            }
-                        }
+                    # update cache
+                    self.add_new_entry_to_cache(
+                        dataset["location"], exc, [new_exchange(exc, exc["location"], 1.0)], [1.0]
                     )
 
                     new_exchanges.append(exc)
                     continue
 
                 if dataset["location"] in possible_locations:
-                    self.cache.update(
-                        {
-                            dataset["location"]: {
-                                self.model: {
-                                    (
-                                        exc["name"],
-                                        exc["product"],
-                                        exc["location"],
-                                        exc["unit"],
-                                    ): [
-                                        (
-                                            e["name"],
-                                            e["product"],
-                                            e["location"],
-                                            e["unit"],
-                                            s,
-                                        )
-                                        for e, s in zip(
-                                            [
-                                                new_exchange(
-                                                    exc, dataset["location"], 1.0
-                                                )
-                                            ],
-                                            [1.0],
-                                        )
-                                    ]
-                                }
-                            }
-                        }
+
+                    self.add_new_entry_to_cache(
+                        dataset["location"],
+                        exc,
+                        [new_exchange(exc, dataset["location"], 1.0)],
+                        [1.0]
                     )
 
                     exc["location"] = dataset["location"]

@@ -355,40 +355,35 @@ class Metals(BaseTransformation):
     def create_new_mining_activity(
         self, name, reference_product, location, new_location
     ):
+        """
+        Create a new mining activity in a new location.
+        """
         try:
-            ws.get_one(
+            original = ws.get_one(
                 self.database,
                 ws.equals("name", name),
                 ws.equals("reference product", reference_product),
-                ws.equals("location", new_location),
+                ws.equals("location", location),
             )
-
+        except ws.NoResults:
+            print(
+                f"No original dataset found for {name}, {reference_product} in {location}"
+            )
+            return None
+        except ws.MultipleResults:
+            print(
+                f"Multiple original datasets found for {name}, {reference_product} in {location}"
+            )
             return None
 
-        except ws.NoResults:
-            try:
-                original = ws.get_one(
-                    self.database,
-                    ws.equals("name", name),
-                    ws.equals("reference product", reference_product),
-                    ws.equals("location", location),
-                )
-            except ws.NoResults:
-                print(
-                    f"No original dataset found for {name}, {reference_product} in {location}"
-                )
-                return None
-            except ws.MultipleResults:
-                print(
-                    f"Multiple original datasets found for {name}, {reference_product} in {location}"
-                )
-                return None
+        if location == new_location:
+            return None
 
-            dataset = wurst.copy_to_new_location(original, new_location)
-            dataset = self.relink_technosphere_exchanges(dataset)
-            dataset["code"] = str(uuid.uuid4())
+        dataset = wurst.copy_to_new_location(original, new_location)
+        dataset = self.relink_technosphere_exchanges(dataset)
+        dataset["code"] = str(uuid.uuid4())
 
-            return dataset
+        return dataset
 
     @lru_cache
     def convert_long_to_short_country_name(self, country_long):
