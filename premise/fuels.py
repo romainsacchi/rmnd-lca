@@ -347,9 +347,15 @@ class Fuels(BaseTransformation):
         }
 
         self.iam_fuel_markets = self.iam_data.production_volumes.sel(
-            variables=[g for g in [item for sublist in list(self.fuel_groups.values()) for item in sublist]
-                       if g in self.iam_data.production_volumes.variables.values.tolist()
-                       ]
+            variables=[
+                g
+                for g in [
+                    item
+                    for sublist in list(self.fuel_groups.values())
+                    for item in sublist
+                ]
+                if g in self.iam_data.production_volumes.variables.values.tolist()
+            ]
         )
 
         self.fuel_efficiencies = xr.DataArray(
