@@ -326,7 +326,9 @@ class BaseTransformation:
 
         if exclude_region:
             extra_filters.append(
-                ws.exclude(ws.either(*[ws.contains("location", x) for x in exclude_region]))
+                ws.exclude(
+                    ws.either(*[ws.contains("location", x) for x in exclude_region])
+                )
             )
 
         try:
