@@ -1271,19 +1271,21 @@ class BaseTransformation:
 
                     # update cache
                     self.add_new_entry_to_cache(
-                        dataset["location"], exc, [new_exchange(exc, exc["location"], 1.0)], [1.0]
+                        dataset["location"],
+                        exc,
+                        [new_exchange(exc, exc["location"], 1.0)],
+                        [1.0],
                     )
 
                     new_exchanges.append(exc)
                     continue
 
                 if dataset["location"] in possible_locations:
-
                     self.add_new_entry_to_cache(
                         dataset["location"],
                         exc,
                         [new_exchange(exc, dataset["location"], 1.0)],
-                        [1.0]
+                        [1.0],
                     )
 
                     exc["location"] = dataset["location"]
