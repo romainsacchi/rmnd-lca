@@ -47,7 +47,7 @@ def _update_dac(scenario, version, system_model, modified_datasets, cache=None):
         version=version,
         system_model=system_model,
         modified_datasets=modified_datasets,
-        cache=cache
+        cache=cache,
     )
 
     if scenario["iam data"].dac_markets is not None:
@@ -88,7 +88,7 @@ class DirectAirCapture(BaseTransformation):
             version,
             system_model,
             modified_datasets,
-            cache
+            cache,
         )
         self.database = database
         self.iam_data = iam_data

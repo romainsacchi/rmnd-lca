@@ -61,7 +61,7 @@ class Steel(BaseTransformation):
         version: str,
         system_model: str,
         modified_datasets: dict,
-        cache: dict = None
+        cache: dict = None,
     ) -> None:
         super().__init__(
             database,
@@ -72,7 +72,7 @@ class Steel(BaseTransformation):
             version,
             system_model,
             modified_datasets,
-            cache
+            cache,
         )
         self.version = version
 

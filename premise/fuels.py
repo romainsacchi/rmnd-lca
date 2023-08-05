@@ -284,7 +284,7 @@ def _update_fuels(scenario, version, system_model, modified_datasets, cache):
         version=version,
         system_model=system_model,
         modified_datasets=modified_datasets,
-        cache=cache
+        cache=cache,
     )
 
     if any(
@@ -321,7 +321,7 @@ class Fuels(BaseTransformation):
         version: str,
         system_model: str,
         modified_datasets: dict,
-        cache: dict = None
+        cache: dict = None,
     ):
         super().__init__(
             database,
@@ -332,7 +332,7 @@ class Fuels(BaseTransformation):
             version,
             system_model,
             modified_datasets,
-            cache
+            cache,
         )
         # ecoinvent version
         self.version = version

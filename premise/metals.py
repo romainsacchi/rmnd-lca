@@ -422,15 +422,16 @@ class Metals(BaseTransformation):
         return mapping
 
     def create_region_specific_markets(self, df: pd.DataFrame) -> List[dict]:
-
         new_exchanges = []
 
         # iterate through unique pair of process - reference product in df:
         # for each pair, create a new mining activity
 
         for (name, ref_prod), group in df.groupby(["Process", "Reference product"]):
-
-            new_locations = {c: self.convert_long_to_short_country_name(c) for c in group["Country"].unique()}
+            new_locations = {
+                c: self.convert_long_to_short_country_name(c)
+                for c in group["Country"].unique()
+            }
             # remove None values
             new_locations = {k: v for k, v in new_locations.items() if v}
             # fetch shares for each location in df
@@ -455,20 +456,24 @@ class Metals(BaseTransformation):
                         dataset["reference product"],
                         dataset["location"],
                         dataset["unit"],
-                    ) for dataset in datasets.values()
+                    )
+                    for dataset in datasets.values()
                 ]
             )
 
-            new_exchanges.extend([
-                {
-                    "name": dataset["name"],
-                    "product": dataset["reference product"],
-                    "location": dataset["location"],
-                    "unit": dataset["unit"],
-                    "amount": shares[(name, ref_prod, dataset["location"])],
-                    "type": "technosphere",
-                } for dataset in datasets.values()
-            ])
+            new_exchanges.extend(
+                [
+                    {
+                        "name": dataset["name"],
+                        "product": dataset["reference product"],
+                        "location": dataset["location"],
+                        "unit": dataset["unit"],
+                        "amount": shares[(name, ref_prod, dataset["location"])],
+                        "type": "technosphere",
+                    }
+                    for dataset in datasets.values()
+                ]
+            )
 
         return new_exchanges
 
@@ -489,7 +494,7 @@ class Metals(BaseTransformation):
                         ds["unit"],
                     )
                 )
-                #self.database.remove(ds)
+                # self.database.remove(ds)
 
         dataset = {
             "name": f"market for {metal[0].lower() + metal[1:]}",
@@ -555,11 +560,17 @@ class Metals(BaseTransformation):
         for metal in dataframe_parent["Metal"].unique():
             df_metal = dataframe_parent.loc[dataframe["Metal"] == metal]
 
-            for (name, ref_prod), group in df_metal.groupby(["Process", "Reference product"]):
-
-                new_locations = {c: self.convert_long_to_short_country_name(c) for c in group["Country"].unique()}
+            for (name, ref_prod), group in df_metal.groupby(
+                ["Process", "Reference product"]
+            ):
+                new_locations = {
+                    c: self.convert_long_to_short_country_name(c)
+                    for c in group["Country"].unique()
+                }
                 # remove None
-                new_locations = {k: v for k, v in new_locations.items() if v is not None}
+                new_locations = {
+                    k: v for k, v in new_locations.items() if v is not None
+                }
 
                 geography_mapping = self.get_geo_mapping(group, new_locations)
 
@@ -580,7 +591,8 @@ class Metals(BaseTransformation):
                             dataset["reference product"],
                             dataset["location"],
                             dataset["unit"],
-                        ) for dataset in datasets.values()
+                        )
+                        for dataset in datasets.values()
                     ]
                 )
 

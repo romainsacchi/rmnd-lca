@@ -31,7 +31,7 @@ def _update_cement(scenario, version, system_model, modified_datasets, cache):
         version=version,
         system_model=system_model,
         modified_datasets=modified_datasets,
-        cache=cache
+        cache=cache,
     )
 
     if scenario["iam data"].cement_markets is not None:
@@ -76,7 +76,7 @@ class Cement(BaseTransformation):
         version: str,
         system_model: str,
         modified_datasets: dict,
-        cache: dict = None
+        cache: dict = None,
     ):
         super().__init__(
             database,
@@ -87,7 +87,7 @@ class Cement(BaseTransformation):
             version,
             system_model,
             modified_datasets,
-            cache
+            cache,
         )
         self.version = version
 

@@ -599,9 +599,7 @@ class BaseTransformation:
                     *filters,
                 )
             except ws.NoResults:
-                print(
-                    f"No dataset found for: {name, ref_prod, d_iam_to_eco[region]}."
-                )
+                print(f"No dataset found for: {name, ref_prod, d_iam_to_eco[region]}.")
                 continue
             except ws.MultipleResults as err:
                 print(
@@ -689,8 +687,7 @@ class BaseTransformation:
                 ds
                 for ds in self.database
                 if not (
-                    ds["name"] == ds_name
-                    and ds["reference product"] == ds_ref_prod
+                    ds["name"] == ds_name and ds["reference product"] == ds_ref_prod
                 )
             ]
 

@@ -34,12 +34,12 @@ FILEPATH_VEHICLES_MAP = DATA_DIR / "transport" / "vehicles_map.yaml"
 
 
 def _update_vehicles(
-        scenario,
-        vehicle_type,
-        version,
-        system_model,
-        modified_datasets,
-        cache=None,
+    scenario,
+    vehicle_type,
+    version,
+    system_model,
+    modified_datasets,
+    cache=None,
 ):
     trspt = Transport(
         database=scenario["database"],
