@@ -33,7 +33,14 @@ FILEPATH_TRUCK_LOAD_FACTORS = DATA_DIR / "transport" / "avg_load_factors.yaml"
 FILEPATH_VEHICLES_MAP = DATA_DIR / "transport" / "vehicles_map.yaml"
 
 
-def _update_vehicles(scenario, vehicle_type, version, system_model, modified_datasets):
+def _update_vehicles(
+        scenario,
+        vehicle_type,
+        version,
+        system_model,
+        modified_datasets,
+        cache=None,
+):
     trspt = Transport(
         database=scenario["database"],
         year=scenario["year"],
@@ -63,10 +70,11 @@ def _update_vehicles(scenario, vehicle_type, version, system_model, modified_dat
         trspt.create_vehicle_markets()
         scenario["database"] = trspt.database
         modified_datasets = trspt.modified_datasets
+        cache = trspt.cache
     else:
         print(f"No markets found for {vehicle_type} in IAM data. Skipping.")
 
-    return scenario, modified_datasets
+    return scenario, modified_datasets, {} or cache
 
 
 def get_average_truck_load_factors() -> Dict[str, Dict[str, Dict[str, float]]]:

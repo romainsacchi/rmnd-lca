@@ -163,7 +163,7 @@ def get_production_weighted_losses(
 
 
 def _update_electricity(
-    scenario, version, system_model, modified_datasets, use_absolute_efficiency
+    scenario, version, system_model, modified_datasets, use_absolute_efficiency, cache=None
 ):
     electricity = Electricity(
         database=scenario["database"],
@@ -175,6 +175,7 @@ def _update_electricity(
         system_model=system_model,
         modified_datasets=modified_datasets,
         use_absolute_efficiency=use_absolute_efficiency,
+        cache=cache,
     )
 
     electricity.create_missing_power_plant_datasets()
@@ -203,8 +204,9 @@ def _update_electricity(
 
     scenario["database"] = electricity.database
     modified_datasets = electricity.modified_datasets
+    cache = electricity.cache
 
-    return scenario, modified_datasets
+    return scenario, modified_datasets, cache
 
 
 class Electricity(BaseTransformation):
@@ -235,6 +237,7 @@ class Electricity(BaseTransformation):
         system_model: str,
         modified_datasets: dict,
         use_absolute_efficiency: bool = False,
+        cache: dict = None,
     ) -> None:
         super().__init__(
             database,
@@ -245,6 +248,7 @@ class Electricity(BaseTransformation):
             version,
             system_model,
             modified_datasets,
+            cache
         )
         mapping = InventorySet(self.database)
         self.powerplant_map = mapping.generate_powerplant_map()

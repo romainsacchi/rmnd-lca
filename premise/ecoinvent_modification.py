@@ -415,26 +415,48 @@ def _update_all(
     vehicle_type,
     gains_scenario,
 ):
-    scenario, modified_datasets = _update_vehicles(
-        scenario, vehicle_type, version, system_model, modified_datasets
+    scenario, modified_datasets, cache = _update_vehicles(
+        scenario=scenario,
+        vehicle_type=vehicle_type,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets
     )
-    scenario, modified_datasets = _update_electricity(
-        scenario, version, system_model, modified_datasets, use_absolute_efficiency
+    scenario, modified_datasets, cache = _update_electricity(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+        use_absolute_efficiency=use_absolute_efficiency,
+        cache=cache
     )
-    scenario, modified_datasets = _update_dac(
-        scenario, version, system_model, modified_datasets
+    scenario, modified_datasets, cache = _update_dac(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+        cache=cache
     )
-    scenario, modified_datasets = _update_cement(
-        scenario, version, system_model, modified_datasets
+    scenario, modified_datasets, cache = _update_cement(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+        cache=cache
     )
-    scenario, modified_datasets = _update_steel(
-        scenario, version, system_model, modified_datasets
+    scenario, modified_datasets, cache = _update_steel(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+        cache=cache
     )
-    scenario, modified_datasets = _update_metals(
-        scenario, version, system_model, modified_datasets
-    )
-    scenario, modified_datasets = _update_fuels(
-        scenario, version, system_model, modified_datasets
+    scenario, modified_datasets, cache = _update_fuels(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+        cache=cache
     )
     scenario, modified_datasets = _update_emissions(
         scenario, version, system_model, gains_scenario, modified_datasets
@@ -1167,7 +1189,8 @@ class NewDatabase:
         print("`update_all()` will skip the following steps:")
         print("update_two_wheelers(), update_cars(), and update_buses()")
         print(
-            "If you want to update these steps, please run them separately afterwards."
+            "If you want to update these steps, "
+            "please run them separately afterwards."
         )
 
         # use multiprocessing to speed up the process

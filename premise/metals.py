@@ -353,37 +353,21 @@ class Metals(BaseTransformation):
             )
 
     def create_new_mining_activity(
-        self, name, reference_product, location, new_location
-    ):
+        self, name, reference_product, new_locations, geo_mapping
+    ) -> dict:
         """
         Create a new mining activity in a new location.
         """
-        try:
-            original = ws.get_one(
-                self.database,
-                ws.equals("name", name),
-                ws.equals("reference product", reference_product),
-                ws.equals("location", location),
-            )
-        except ws.NoResults:
-            print(
-                f"No original dataset found for {name}, {reference_product} in {location}"
-            )
-            return None
-        except ws.MultipleResults:
-            print(
-                f"Multiple original datasets found for {name}, {reference_product} in {location}"
-            )
-            return None
+        # Get the original datasets
+        datasets = self.fetch_proxies(
+            name=name,
+            ref_prod=reference_product,
+            regions=new_locations.values(),
+            geo_mapping=geo_mapping,
+            exact_match=True,
+        )
 
-        if location == new_location:
-            return None
-
-        dataset = wurst.copy_to_new_location(original, new_location)
-        dataset = self.relink_technosphere_exchanges(dataset)
-        dataset["code"] = str(uuid.uuid4())
-
-        return dataset
+        return datasets
 
     @lru_cache
     def convert_long_to_short_country_name(self, country_long):
@@ -407,74 +391,93 @@ class Metals(BaseTransformation):
 
         return country_short
 
-    def create_region_specific_market(self, row):
-        new_location = self.convert_long_to_short_country_name(row["Country"])
+    def get_shares(self, df: pd.DataFrame, new_locations: dict, name, ref_prod) -> dict:
+        """
+        Get shares of each location in the dataframe.
+        :param df: Dataframe with mining shares
+        :param new_locations: List of new locations
+        :return: Dictionary with shares of each location
+        """
+        shares = {}
 
-        if new_location is None:
-            return None
+        for long_location, short_location in new_locations.items():
+            shares[(name, ref_prod, short_location)] = df.loc[
+                df["Country"] == long_location, "Share_2017_2021"
+            ].values[0]
 
-        name = row["Process"]
-        reference_product = row["Reference product"]
-        location = row["Region"]
+        return shares
 
-        # check if already exists
-        try:
-            ds = ws.get_one(
-                self.database,
-                ws.equals("name", name),
-                ws.equals("reference product", reference_product),
-                ws.equals("location", new_location),
+    def get_geo_mapping(self, df: pd.DataFrame, new_locations: dict) -> dict:
+        """
+        Fetch the value under "Region" for each location in new_locations.
+        """
+
+        mapping = {}
+
+        for long_location, short_location in new_locations.items():
+            mapping[short_location] = df.loc[
+                df["Country"] == long_location, "Region"
+            ].values[0]
+
+        return mapping
+
+    def create_region_specific_markets(self, df: pd.DataFrame) -> List[dict]:
+
+        new_exchanges = []
+
+        # iterate through unique pair of process - reference product in df:
+        # for each pair, create a new mining activity
+
+        for (name, ref_prod), group in df.groupby(["Process", "Reference product"]):
+
+            new_locations = {c: self.convert_long_to_short_country_name(c) for c in group["Country"].unique()}
+            # remove None values
+            new_locations = {k: v for k, v in new_locations.items() if v}
+            # fetch shares for each location in df
+            shares = self.get_shares(group, new_locations, name, ref_prod)
+
+            geography_mapping = self.get_geo_mapping(group, new_locations)
+
+            # if not, we create it
+            datasets = self.create_new_mining_activity(
+                name, ref_prod, new_locations, geography_mapping
             )
-            return {
-                "name": ds["name"],
-                "product": ds["reference product"],
-                "location": ds["location"],
-                "unit": ds["unit"],
-                "amount": float(row["Share_2017_2021"]),
-                "uncertainty type": 0,
-                "type": "technosphere",
-            }
-        except ws.NoResults:
-            pass
 
-        # if not, we create it
-        dataset = self.create_new_mining_activity(
-            name, reference_product, location, new_location
-        )
+            # add new datasets to database
+            self.database.extend(datasets.values())
 
-        if dataset is None:
-            return None
-
-        # add new dataset to database
-        self.database.append(dataset)
-
-        self.modified_datasets[(self.model, self.scenario, self.year)][
-            "created"
-        ].append(
-            (
-                dataset["name"],
-                dataset["reference product"],
-                dataset["location"],
-                dataset["unit"],
+            self.modified_datasets[(self.model, self.scenario, self.year)][
+                "created"
+            ].extend(
+                [
+                    (
+                        dataset["name"],
+                        dataset["reference product"],
+                        dataset["location"],
+                        dataset["unit"],
+                    ) for dataset in datasets.values()
+                ]
             )
-        )
 
-        return {
-            "name": dataset["name"],
-            "product": dataset["reference product"],
-            "location": dataset["location"],
-            "unit": dataset["unit"],
-            "amount": float(row["Share_2017_2021"]),
-            "uncertainty type": 0,
-            "type": "technosphere",
-        }
+            new_exchanges.extend([
+                {
+                    "name": dataset["name"],
+                    "product": dataset["reference product"],
+                    "location": dataset["location"],
+                    "unit": dataset["unit"],
+                    "amount": shares[(name, ref_prod, dataset["location"])],
+                    "type": "technosphere",
+                } for dataset in datasets.values()
+            ])
+
+        return new_exchanges
 
     def create_market(self, metal, df):
         # check if market already exists
         # if so, remove it
+
         for ds in self.database:
-            if ds["name"] == f"market for {metal.lower()}":
-                self.database.remove(ds)
+            if ds["name"] == f"market for {metal[0].lower() + metal[1:]}":
                 # add it to self.modified_datasets
                 self.modified_datasets[(self.model, self.scenario, self.year)][
                     "emptied"
@@ -486,30 +489,29 @@ class Metals(BaseTransformation):
                         ds["unit"],
                     )
                 )
+                #self.database.remove(ds)
 
         dataset = {
-            "name": f"market for {metal.lower()}",
+            "name": f"market for {metal[0].lower() + metal[1:]}",
             "location": "World",
             "exchanges": [
                 {
-                    "name": f"market for {metal.lower()}",
-                    "product": f"{metal.lower()}",
+                    "name": f"market for {metal[0].lower() + metal[1:]}",
+                    "product": f"{metal[0].lower() + metal[1:]}",
                     "location": "World",
                     "amount": 1,
                     "type": "production",
                     "unit": "kilogram",
                 }
             ],
-            "reference product": f"{metal.lower()}",
+            "reference product": f"{metal[0].lower() + metal[1:]}",
             "unit": "kilogram",
             "production amount": 1,
             "comment": "Created by premise",
             "code": str(uuid.uuid4()),
         }
 
-        dataset["exchanges"].extend(
-            [self.create_region_specific_market(row) for _, row in df.iterrows()]
-        )
+        dataset["exchanges"].extend(self.create_region_specific_markets(df))
 
         # filter out None
         dataset["exchanges"] = [exc for exc in dataset["exchanges"] if exc]
@@ -550,30 +552,37 @@ class Metals(BaseTransformation):
         ]
 
         print("Creating additional mining processes")
-        for _, row in dataframe_parent.iterrows():
-            dataset = self.create_new_mining_activity(
-                row["Process"],
-                row["Reference product"],
-                row["Region"],
-                self.convert_long_to_short_country_name(row["Country"]),
-            )
+        for metal in dataframe_parent["Metal"].unique():
+            df_metal = dataframe_parent.loc[dataframe["Metal"] == metal]
 
-            if dataset is None:
-                continue
+            for (name, ref_prod), group in df_metal.groupby(["Process", "Reference product"]):
 
-            self.database.append(dataset)
+                new_locations = {c: self.convert_long_to_short_country_name(c) for c in group["Country"].unique()}
+                # remove None
+                new_locations = {k: v for k, v in new_locations.items() if v is not None}
 
-            # add it to self.modified_datasets
-            self.modified_datasets[(self.model, self.scenario, self.year)][
-                "created"
-            ].append(
-                (
-                    dataset["name"],
-                    dataset["reference product"],
-                    dataset["location"],
-                    dataset["unit"],
+                geography_mapping = self.get_geo_mapping(group, new_locations)
+
+                # if not, we create it
+                datasets = self.create_new_mining_activity(
+                    name, ref_prod, new_locations, geography_mapping
                 )
-            )
+
+                self.database.extend(datasets.values())
+
+                # add it to self.modified_datasets
+                self.modified_datasets[(self.model, self.scenario, self.year)][
+                    "created"
+                ].extend(
+                    [
+                        (
+                            dataset["name"],
+                            dataset["reference product"],
+                            dataset["location"],
+                            dataset["unit"],
+                        ) for dataset in datasets.values()
+                    ]
+                )
 
     def write_log(self, dataset, status="created"):
         """
