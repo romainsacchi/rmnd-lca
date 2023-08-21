@@ -5,43 +5,19 @@
 # if it is present, the activity is replaced by the activity
 # specified in the `replacement` field.
 ---
-- name: electricity production, at co-generation power plant/hard coal, oxy, pipeline 200km, storage 1000m
+- name: electricity production, at co-generation hard coal-fired power plant, post, pipeline 200km, storage 1000m
   reference product: electricity, high voltage
   unit: kilowatt hour
-- name: electricity production, at co-generation power plant/hard coal, oxy, pipeline 400km, storage 3000m
+
+- name: electricity production, at co-generation wood-fired power plant, post, pipeline 200km, storage 1000m
   reference product: electricity, high voltage
   unit: kilowatt hour
-- name: electricity production, at co-generation power plant/hard coal, post, pipeline 200km, storage 1000m
+
+- name: electricity production, at co-generation natural gas-fired power plant, post, pipeline 200km, storage 1000m
   reference product: electricity, high voltage
   unit: kilowatt hour
-- name: electricity production, at co-generation power plant/hard coal, post, pipeline 400km, storage 1000m
-  reference product: electricity, high voltage
-  unit: kilowatt hour
-- name: electricity production, at co-generation power plant/hard coal, post, pipeline 400km, storage 3000m
-  reference product: electricity, high voltage
-  unit: kilowatt hour
-- name: electricity production, at co-generation power plant/hard coal, pre, pipeline 200km, storage 1000m
-  reference product: electricity, high voltage
-  unit: kilowatt hour
-- name: electricity production, at co-generation power plant/hard coal, pre, pipeline 400km, storage 3000m
-  reference product: electricity, high voltage
-  unit: kilowatt hour
-- name: electricity production, at co-generation power plant/wood, post, pipeline 200km, storage 1000m
-  reference product: electricity, high voltage
-  unit: kilowatt hour
-- name: electricity production, at co-generation power plant/wood, post, pipeline 400km, storage 3000m
-  reference product: electricity, high voltage
-  unit: kilowatt hour
-- name: electricity production, at co-generation power plant/natural gas, post, pipeline 200km, storage 1000m
-  reference product: electricity, high voltage
-  unit: kilowatt hour
-- name: electricity production, at co-generation power plant/natural gas, pre, pipeline 200km, storage 1000m
-  reference product: electricity, high voltage
-  unit: kilowatt hour
-- name: electricity production, at co-generation power plant/oil, post, pipeline 200km, storage 1000m
-  reference product: electricity, high voltage
-  unit: kilowatt hour
-- name: electricity production, at co-generation power plant/oil, pre, pipeline 200km, storage 1000m
+
+- name: electricity production, at co-generation oil-fired power plant, post, pipeline 200km, storage 1000m
   reference product: electricity, high voltage
   unit: kilowatt hour
 
@@ -116,6 +92,24 @@
       name: market for heat, central or small-scale, other than natural gas
       reference product: heat, central or small-scale, other than natural gas
       location: CH
+
+- name: heat and power co-generation, hard coal
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+  location: DE
+  replacement:
+    name: electricity production, hard coal
+    reference product: electricity, high voltage
+    location: DE
+
+- name: heat and power co-generation, oil
+  reference product: electricity, high voltage
+  unit: kilowatt hour
+  location: DE
+  replacement:
+    name: electricity production, oil
+    reference product: electricity, high voltage
+    location: DE
 
 - name: air separation, cryogenic
   reference product: nitrogen, liquid

@@ -21,7 +21,7 @@ from .utils import DATA_DIR
 logger = create_logger("cement")
 
 
-def _update_cement(scenario, version, system_model, modified_datasets, cache):
+def _update_cement(scenario, version, system_model, modified_datasets, cache=None):
     cement = Cement(
         database=scenario["database"],
         model=scenario["model"],

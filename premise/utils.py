@@ -169,7 +169,7 @@ def clear_existing_cache():
     [
         f.unlink()
         for f in Path(DATA_DIR / "cache").glob("*")
-        if f.is_file() and "__version__" not in f.name
+        if f.is_file() and "".join(tuple(map(str, __version__))) not in f.name
     ]
 
 

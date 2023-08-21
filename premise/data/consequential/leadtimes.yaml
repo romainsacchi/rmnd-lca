@@ -17,20 +17,26 @@ Gas CC: 3
 Gas CC CCS: 3
 Gas CHP: 3
 Gas CHP CCS: 3
+Gas ST: 3
 Oil ST: 3
 Oil CC CCS: 3
 Oil CC: 3
 Oil CHP CCS: 3
 Oil CHP: 3
+Foil ST: 3
 Geothermal: 3
 Hydro: 4
 Hydrogen: 3
 Nuclear: 7
+Nuclear_EPR: 7
+Nuclear_SMR: 7
 Solar CSP: 3
+Solar CSP autonomous: 3
 Solar PV Centralized: 2
 Solar PV Residential: 2
 Wind Onshore: 2
 Wind Offshore: 3
+Wave: 3
 diesel: 3
 gasoline: 3
 diesel, synthetic, from wood: 3
@@ -65,3 +71,11 @@ hydrogen, biomass, with CCS: 3
 hydrogen, coal: 3
 hydrogen, nat. gas: 3
 hydrogen, nat. gas, with CCS: 3
+hydrogen, coal, with CCS: 3
+hydrogen, solar: 3
+cement, dry feed rotary kiln: 10
+steel - primary: 10
+steel - secondary: 10
+daccs_sorbent: 3
+biomass - residual: 3
+biomass crops - purpose grown: 3

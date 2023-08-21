@@ -155,7 +155,8 @@ class DirectAirCapture(BaseTransformation):
                     name=ds_name,
                     ref_prod="carbon dioxide",
                     relink=False,
-                    delete_original_dataset=True,
+                    delete_original_dataset=False,
+                    empty_original_activity=False,
                 )
 
                 # loop through heat sources

@@ -41,7 +41,7 @@ power plants on the basis of the excellent work done by Oberschelp_ et al. (2019
 to update some datasets in ecoinvent, which are, for some of them, several decades
 old. More specifically, the data provides plant-specific efficiency
 and emissions factors. We average them by country and fuel type to obtain
-volume-weighted factors. Rhe efficiency of the following datasets is updated:
+volume-weighted factors. The efficiency of the following datasets is updated:
 
 * electricity production, hard coal
 * electricity production, lignite
