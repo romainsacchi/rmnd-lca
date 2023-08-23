@@ -364,6 +364,14 @@ class IAMDataCollection:
             IAM_CROPS_VARS, variable="land_use_change"
         )
 
+        fertilizer_vars = self.__get_iam_variable_labels(
+            IAM_CROPS_VARS, variable="fertilizer use"
+        )
+
+        crops_production = self.__get_iam_variable_labels(
+            IAM_CROPS_VARS, variable="production"
+        )
+
         carbon_capture_vars = self.__get_iam_variable_labels(
             IAM_CARBON_CAPTURE_VARS, variable="iam_aliases"
         )
@@ -389,6 +397,8 @@ class IAMDataCollection:
             + list(biomass_eff_vars.values())
             + list(land_use_vars.values())
             + list(land_use_change_vars.values())
+            + list(fertilizer_vars.values())
+            + list(crops_production.values())
             + list(carbon_capture_vars.values())
             + list(other_vars.values())
         )
@@ -569,6 +579,15 @@ class IAMDataCollection:
             data=data, input_vars=land_use_change_vars, fill=True
         )
 
+        self.fertilizer_use = self.__get_iam_production_volumes(
+            data=data, input_vars=fertilizer_vars, fill=True
+        )
+
+        self.crops_production = self.__get_iam_production_volumes(
+            data=data, input_vars=crops_production, fill=True
+        )
+
+
         self.trsp_cars = get_vehicle_fleet_composition(self.model, vehicle_type="car")
         self.trsp_trucks = get_vehicle_fleet_composition(
             self.model, vehicle_type="truck"
@@ -732,21 +751,29 @@ class IAMDataCollection:
             data.year.values.min() <= self.year <= data.year.values.max()
         ), f"{self.year} is outside of the boundaries of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
 
-        missing_vars = set(input_vars.values()) - set(data.variables.values)
+        missing_vars = set(flatten(input_vars.values())) - set(data.variables.values)
 
         if missing_vars:
             print(
                 f"The following variables are missing from the IAM file: {list(missing_vars)}"
             )
 
-        available_vars = list(set(input_vars.values()) - missing_vars)
+        available_vars = list(set(flatten(input_vars.values())) - missing_vars)
 
         if available_vars:
             market_data = data.loc[:, available_vars, :]
         else:
             return None
 
-        rev_input_vars = {v: k for k, v in input_vars.items()}
+        # create a reverse dictionary
+        # considering that values may contain a list
+        rev_input_vars = {}
+        for k, v in input_vars.items():
+            if isinstance(v, list):
+                for x in v:
+                    rev_input_vars[x] = k
+            else:
+                rev_input_vars[v] = k
 
         market_data.coords["variables"] = [
             rev_input_vars[v] for v in market_data.variables.values
@@ -828,7 +855,7 @@ class IAMDataCollection:
                 # and that each element of prod.values() is in data.variables.values
                 if (
                     all(var in data.variables.values for var in energy_labels[k])
-                    and v in data.variables.values
+                    and v in data.variables.values.tolist()
                 ):
                     d = 1 / (
                         data.loc[:, energy_labels[k], :].sum(dim="variables")
@@ -1025,19 +1052,21 @@ class IAMDataCollection:
                 f"of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
             )
 
-        missing_vars = set(input_vars.values()) - set(data.variables.values)
+        missing_vars = set(flatten(input_vars.values())) - set(data.variables.values)
 
         if missing_vars:
             print(
                 f"The following variables are missing from the IAM file: {list(missing_vars)}"
             )
 
-        available_vars = list(set(input_vars.values()) - missing_vars)
+        available_vars = list(set(flatten(input_vars.values())) - missing_vars)
 
         if available_vars:
             data_to_return = data.loc[
-                :, [v for v in input_vars.values() if v in available_vars], :
+                :, [v for v in flatten(input_vars.values())
+                    if v in available_vars], :
             ]
+
         else:
             return None
 

@@ -605,8 +605,29 @@ class NewDatabase:
             scenario["database"] = copy.deepcopy(self.database)
 
         # use multiprocessing to speed up the process
-        with Pool(processes=multiprocessing.cpu_count()) as pool:
-            pool.map(_fetch_iam_data, self.scenarios)
+        #with Pool(processes=multiprocessing.cpu_count()) as pool:
+        #    pool.map(_fetch_iam_data, self.scenarios)
+
+        for scenario in self.scenarios:
+            data = IAMDataCollection(
+                model=scenario["model"],
+                pathway=scenario["pathway"],
+                year=scenario["year"],
+                external_scenarios=scenario.get("external scenarios"),
+                filepath_iam_files=scenario["filepath"],
+                key=key,
+                system_model=self.system_model,
+                system_model_args=self.system_model_args,
+                gains_scenario=self.gains_scenario,
+                use_absolute_efficiency=self.use_absolute_efficiency,
+            )
+
+            scenario["iam data"] = data
+
+            if self.datapackages:
+                scenario["external data"] = data.get_external_data(self.datapackages)
+
+            scenario["database"] = copy.deepcopy(self.database)
 
         print("Done!")
 

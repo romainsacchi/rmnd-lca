@@ -17,6 +17,10 @@ sugar:
     image: Land Use|Marginal|Biomass|Sugar
   land_use_change:
     image: Emission Factor|CO2|Energy|Supply|Biomass|Marginal|Sugar
+  production:
+    image: Agricultural Production|Crops|Energy|Sugarcrops
+  fertilizer use:
+    image: Fertilizer Use|Nitrogen|Energy-Crops|Sugarcrops
 oil:
   crop_type:
     image:
@@ -32,6 +36,10 @@ oil:
     image: Land Use|Marginal|Biomass|OilCrop
   land_use_change:
     image: Emission Factor|CO2|Energy|Supply|Biomass|Marginal|Oilcrops
+  production:
+    image: Agricultural Production|Crops|Energy|Oilcrops
+  fertilizer use:
+    image: Fertilizer Use|Nitrogen|Energy-Crops|Oil-crops
 wood:
   crop_type:
     image:
@@ -47,6 +55,10 @@ wood:
     image: Land Use|Marginal|Biomass|Woody
   land_use_change:
     image: Emission Factor|CO2|Energy|Supply|Biomass|Marginal|Woody
+  production:
+    image: Agricultural Production|Crops|Energy|Woody
+  fertilizer use:
+    image: Fertilizer Use|Nitrogen|Energy-Crops|Woody crops
 grass:
   crop_type:
     image:
@@ -62,6 +74,10 @@ grass:
     image: Land Use|Marginal|Biomass|Grassy
   land_use_change:
     image: Emission Factor|CO2|Energy|Supply|Biomass|Marginal|Grassy
+  production:
+    image: Agricultural Production|Crops|Energy|Non-Woody
+  fertilizer use:
+    image: Fertilizer Use|Nitrogen|Energy-Crops|Non-woody crops
 grain:
   crop_type:
     image:
@@ -77,3 +93,7 @@ grain:
     image: Land Use|Marginal|Biomass|Maize
   land_use_change:
     image: Emission Factor|CO2|Energy|Supply|Biomass|Marginal|Maize
+  production:
+    image: Agricultural Production|Crops|Energy|Maize
+  fertilizer use:
+    image: Fertilizer Use|Nitrogen|Energy-Crops|Non-woody crops
