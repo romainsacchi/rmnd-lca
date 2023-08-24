@@ -587,7 +587,6 @@ class IAMDataCollection:
             data=data, input_vars=crops_production, fill=True
         )
 
-
         self.trsp_cars = get_vehicle_fleet_composition(self.model, vehicle_type="car")
         self.trsp_trucks = get_vehicle_fleet_composition(
             self.model, vehicle_type="truck"
@@ -1063,8 +1062,7 @@ class IAMDataCollection:
 
         if available_vars:
             data_to_return = data.loc[
-                :, [v for v in flatten(input_vars.values())
-                    if v in available_vars], :
+                :, [v for v in flatten(input_vars.values()) if v in available_vars], :
             ]
 
         else:
