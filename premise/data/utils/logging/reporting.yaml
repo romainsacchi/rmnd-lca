@@ -342,6 +342,10 @@ premise_fuel:
         name: Land use CO2
         description: Land use CO2 (kg CO2) per kg crop
         unit: kg CO2/kg
+      fertilizer scaling factor:
+        name: Fertilizer scaling factor
+        description: Scaling factor applied on the initial amount of fertilizer used
+        unit: unitless
       fossil CO2 per kg fuel:
         name: Fossil CO2 per kg fuel combusted
         description: Amount of fossil CO2 emitted per kg fuel combusted

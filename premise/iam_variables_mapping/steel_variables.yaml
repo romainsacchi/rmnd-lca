@@ -4,20 +4,7 @@
 steel - primary:
   iam_aliases:
     remind: Production|Industry|Steel|Primary
-    image:
-      - Production|Industry|Iron and Steel|BF/BOF Standard
-      - Production|Industry|Iron and Steel|BF/ BOF Standard + CCS
-      - Production|Industry|Iron and Steel|BF/BOF Modernized
-      - Production|Industry|Iron and Steel|BF/BOF Standard
-      - Production|Industry|Iron and Steel|DRI EAF + CCS
-      - Production|Industry|Iron and Steel|DRI EAF
-      - Production|Industry|Iron and Steel|Electrowinning/EAF
-      - Production|Industry|Iron and Steel|H-DRI/EAF
-      - Production|Industry|Iron and Steel|SR/BOF + CCS
-      - Production|Industry|Iron and Steel|SR/BOF
-      - Production|Industry|Iron and Steel|TGR BF/BOF BAT + CCS
-      - Production|Industry|Iron and Steel|TGR BF/BOF BAT
-      - Production|Industry|Iron and Steel|TGR BF/BOF
+    image: Production|Industry|Iron and Steel|Primary
     message: Production|Primary|Steel
   energy_use_aliases:
     remind:

@@ -557,10 +557,6 @@ class Cement(BaseTransformation):
 
         self.database.extend(new_datasets)
 
-        # print(
-        #    "Create new cement production datasets and "
-        #    "adjust electricity consumption"
-        # )
         # cement production
         production = ws.get_many(
             self.database,

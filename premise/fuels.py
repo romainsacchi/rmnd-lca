@@ -1787,6 +1787,34 @@ class Fuels(BaseTransformation):
             )
         )
 
+    def adjust_fertilizer_use(self, dataset: dict, crop_type: str) -> dict:
+
+        scaling_factor = self.iam_data.fertilizer_use.sel(
+            region=dataset["location"] if dataset["location"] in self.regions else self.ecoinvent_to_iam_loc[dataset["location"]], variables=crop_type
+        ).interp(year=self.year).values.item(0)
+
+        if np.isnan(scaling_factor):
+            scaling_factor = 1.0
+
+        if scaling_factor != 1.0:
+            wurst.change_exchanges_by_constant_factor(
+                dataset,
+                float(scaling_factor),
+                technosphere_filters=[ws.contains("name", "fertil")],
+                biosphere_filters=[ws.contains("name", "Dinitrogen monoxide")],
+            )
+
+            if "log parameters" not in dataset:
+                dataset["log parameters"] = {}
+
+            dataset["log parameters"].update(
+                {
+                    "fertilizer scaling factor": scaling_factor,
+                }
+            )
+
+        return dataset
+
     def generate_biofuel_activities(self):
         """
         Create region-specific biofuel datasets.
@@ -1865,6 +1893,14 @@ class Fuels(BaseTransformation):
                             ds, region, crop_type
                         )
                         if self.should_adjust_land_use_change_emissions(ds, crop_type)
+                        else ds
+                        for region, ds in new_datasets.items()
+                    }
+
+                    # Adjust fertilizer use
+                    new_datasets = {
+                        region: self.adjust_fertilizer_use(ds, crop_type)
+                        if self.iam_data.fertilizer_use is not None
                         else ds
                         for region, ds in new_datasets.items()
                     }
@@ -2197,7 +2233,6 @@ class Fuels(BaseTransformation):
         string = ""
 
         # if the sum is zero, we need to select a provider
-
         if (
             self.iam_fuel_markets.sel(region=region, variables=prod_vars)
             .interp(year=self.year)
@@ -2605,6 +2640,7 @@ class Fuels(BaseTransformation):
             f"{dataset.get('log parameters', {}).get('final biomass per kg biofuel', '')}|"
             f"{dataset.get('log parameters', {}).get('land footprint', '')}|"
             f"{dataset.get('log parameters', {}).get('land use CO2', '')}|"
+            f"{dataset.get('log parameters', {}).get('fertilizer scaling factor', '')}|"
             f"{dataset.get('log parameters', {}).get('fossil CO2 per kg fuel', '')}|"
             f"{dataset.get('log parameters', {}).get('non-fossil CO2 per kg fuel', '')}|"
             f"{dataset.get('log parameters', {}).get('lower heating value', '')}"
