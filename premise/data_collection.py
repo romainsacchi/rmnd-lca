@@ -593,16 +593,15 @@ class IAMDataCollection:
             self.fertilizer_use = (
                 fertilizer
                 / crops_production.sel(
-                variables=fertilizer.coords["variables"].values,
-                region=fertilizer.coords["region"].values,
-                year=fertilizer.coords["year"].values,
-            )
+                    variables=fertilizer.coords["variables"].values,
+                    region=fertilizer.coords["region"].values,
+                    year=fertilizer.coords["year"].values,
+                )
             ) * np.where(crops_production > 0, 1, np.nan)
             self.fertilizer_use /= self.fertilizer_use.sel(year=2020)
             self.fertilizer_use = self.fertilizer_use.interpolate_na(
                 dim="year", method="linear", fill_value="extrapolate"
             )
-
 
         self.trsp_cars = get_vehicle_fleet_composition(self.model, vehicle_type="car")
         self.trsp_trucks = get_vehicle_fleet_composition(
@@ -806,8 +805,6 @@ class IAMDataCollection:
                     .groupby("region")
                     .sum(dim="variables")
                 )
-
-
 
         # back-fill nans
         market_data = market_data.bfill(dim="year")
@@ -1081,8 +1078,7 @@ class IAMDataCollection:
 
         if available_vars:
             data_to_return = data.loc[
-                :, [v for v in flatten(input_vars.values())
-                    if v in available_vars], :
+                :, [v for v in flatten(input_vars.values()) if v in available_vars], :
             ]
 
         else:

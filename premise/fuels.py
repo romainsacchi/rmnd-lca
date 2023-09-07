@@ -1788,10 +1788,16 @@ class Fuels(BaseTransformation):
         )
 
     def adjust_fertilizer_use(self, dataset: dict, crop_type: str) -> dict:
-
-        scaling_factor = self.iam_data.fertilizer_use.sel(
-            region=dataset["location"] if dataset["location"] in self.regions else self.ecoinvent_to_iam_loc[dataset["location"]], variables=crop_type
-        ).interp(year=self.year).values.item(0)
+        scaling_factor = (
+            self.iam_data.fertilizer_use.sel(
+                region=dataset["location"]
+                if dataset["location"] in self.regions
+                else self.ecoinvent_to_iam_loc[dataset["location"]],
+                variables=crop_type,
+            )
+            .interp(year=self.year)
+            .values.item(0)
+        )
 
         if np.isnan(scaling_factor):
             scaling_factor = 1.0
