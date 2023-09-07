@@ -605,7 +605,7 @@ class NewDatabase:
             scenario["database"] = copy.deepcopy(self.database)
 
         # use multiprocessing to speed up the process
-        #with Pool(processes=multiprocessing.cpu_count()) as pool:
+        # with Pool(processes=multiprocessing.cpu_count()) as pool:
         #    pool.map(_fetch_iam_data, self.scenarios)
 
         for scenario in self.scenarios:
