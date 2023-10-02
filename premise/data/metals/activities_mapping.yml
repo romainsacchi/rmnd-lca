@@ -88,9 +88,10 @@ NiMH:
   ecoinvent_aliases:
     fltr:
       - battery production, NiMH, rechargeable, prismatic
-## Battery technoligies not found in Ecoinvent
+## Battery technologies not found in Ecoinvent
 #LiS:
 #LiO2:
+#LCo
 PEMFC:
   ecoinvent_aliases:
     fltr:
@@ -170,6 +171,7 @@ HTEL - Yttrium:
       - market
       - hydrogen production
       - fuel cell
+### PAFC fuel cells are not found in Ecoinvent
 c-Si:
   ecoinvent_aliases:
     fltr:
