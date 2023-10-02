@@ -178,6 +178,7 @@ class Metals(BaseTransformation):
                 self.update_metal_use(ds, origin_var)
 
             self.write_log(ds, "updated")
+
     def update_metal_use(
         self,
         dataset: dict,
@@ -205,7 +206,7 @@ class Metals(BaseTransformation):
             if not np.isnan(data.sel(metal=m).values)
         ]
 
-        # Update biosphere exchanges according to DLR use factors --- 
+        # Update biosphere exchanges according to DLR use factors ---
         for exc in ws.biosphere(
             dataset, ws.either(*[ws.equals("name", x) for x in self.rev_metals_map])
         ):
