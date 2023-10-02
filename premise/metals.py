@@ -51,13 +51,13 @@ def _update_metals(scenario, version, system_model, modified_datasets):
     return scenario, modified_datasets
 
 
-def load_BGS_mapping():
+def load_mining_shares_mapping():
     """
-    Load mapping between BGS and ecoinvent
+    Load mapping between mining shares from the different sources and ecoinvent
     """
 
-    filepath = DATA_DIR / "metals" / "BGS_mapping.xlsx"
-    df = pd.read_excel(filepath, sheet_name="Sheet1")
+    filepath = DATA_DIR / "metals" / "mining_shares_mapping.xlsx"
+    df = pd.read_excel(filepath, sheet_name="Shares_mapping")
     return df
 
 
@@ -178,23 +178,22 @@ class Metals(BaseTransformation):
                 self.update_metal_use(ds, origin_var)
 
             self.write_log(ds, "updated")
-
     def update_metal_use(
         self,
         dataset: dict,
         technology: str,
     ) -> dict:
         """
-        Update metal use based on DLR data.
+        Update metal use based on metal intensities data.
         :param dataset: dataset to adjust metal use for
-        :param technology: DLR variable name to look up
+        :param technology: metal intensity variable name to look up
         :return: Does not return anything. Modified in place.
         """
 
         # get the list of metal factors available for this technology
 
         if technology not in self.metals.origin_var.values:
-            print(f"Technology {technology} not found in DLR data.")
+            print(f"Technology {technology} not found in metal intensity database.")
             return dataset
 
         data = self.metals.sel(origin_var=technology, variable="median").interp(
@@ -206,8 +205,7 @@ class Metals(BaseTransformation):
             if not np.isnan(data.sel(metal=m).values)
         ]
 
-        # Update biosphere exchanges according to DLR use factors
-
+        # Update biosphere exchanges according to DLR use factors --- 
         for exc in ws.biosphere(
             dataset, ws.either(*[ws.equals("name", x) for x in self.rev_metals_map])
         ):
@@ -402,7 +400,7 @@ class Metals(BaseTransformation):
 
         for long_location, short_location in new_locations.items():
             shares[(name, ref_prod, short_location)] = df.loc[
-                df["Country"] == long_location, "Share_2017_2021"
+                df["Country"] == long_location, "Year 2020"
             ].values[0]
 
         return shares
@@ -528,10 +526,10 @@ class Metals(BaseTransformation):
 
         print("Creating metal markets")
 
-        dataframe = load_BGS_mapping()
+        dataframe = load_mining_shares_mapping()
         dataframe = dataframe.loc[dataframe["Work done"] == "Yes"]
         dataframe = dataframe.loc[~dataframe["Country"].isnull()]
-        dataframe_shares = dataframe.loc[dataframe["Share_2017_2021"] > 0]
+        dataframe_shares = dataframe.loc[dataframe["Year 2020"] > 0]
 
         for metal in dataframe_shares["Metal"].unique():
             print(f"... for {metal}.")
@@ -553,7 +551,7 @@ class Metals(BaseTransformation):
             )
 
         dataframe_parent = dataframe.loc[
-            (dataframe["Share_2017_2021"].isnull()) & (~dataframe["Region"].isnull())
+            (dataframe["Year 2020"].isnull()) & (~dataframe["Region"].isnull())
         ]
 
         print("Creating additional mining processes")
@@ -595,6 +593,143 @@ class Metals(BaseTransformation):
                         for dataset in datasets.values()
                     ]
                 )
+
+    def update_metal_use(
+        self,
+        dataset: dict,
+        technology: str,
+    ) -> dict:
+        """
+        Update metal use based on metal intensities data.
+        :param dataset: dataset to adjust metal use for
+        :param technology: metal intensity variable name to look up
+        :return: Does not return anything. Modified in place.
+        """
+
+        # get the list of metal factors available for this technology
+
+        if technology not in self.metals.origin_var.values:
+            print(f"Technology {technology} not found in metal intensity database.")
+            return dataset
+
+        data = self.metals.sel(origin_var=technology, variable="median").interp(
+            year=self.year
+        )
+        metals = [
+            m
+            for m in self.metals.metal.values
+            if not np.isnan(data.sel(metal=m).values)
+        ]
+
+        # Update biosphere exchanges according to DLR use factors
+
+        for exc in ws.biosphere(
+            dataset, ws.either(*[ws.equals("name", x) for x in self.rev_metals_map])
+        ):
+            print("Updating metal use for", dataset["name"], exc["name"])
+            metal = self.rev_metals_map[exc["name"]]
+            use_factor = data.sel(metal=metal).values
+
+            # check if there is a conversion factor
+            if dataset["name"] in self.conversion_factors["Activity"].tolist():
+                use_factor *= self.conversion_factors.loc[
+                    self.conversion_factors["Activity"] == dataset["name"],
+                    "Conversion_factor",
+                ].values[0]
+
+            else:
+                print(f"Conversion factor not found for {dataset['name']}.")
+
+            # update the exchange amount
+            if metal in self.current_metal_use.metal.values:
+                ecoinvent_factor = self.current_metal_use.sel(
+                    metal=metal,
+                    activity=(
+                        dataset["name"],
+                        dataset["reference product"],
+                        dataset["location"],
+                    ),
+                ).values
+            else:
+                ecoinvent_factor = 0
+
+            exc["amount"] += use_factor - ecoinvent_factor
+
+            if "log parameters" not in dataset:
+                dataset["log parameters"] = {}
+
+            if metal not in dataset["log parameters"]:
+                dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
+                dataset["log parameters"][f"{metal} new amount"] = exc["amount"]
+
+                # remove metal from metals list
+            metals.remove(metal)
+
+        # Add new biosphere exchanges for metals
+        # not present in the original dataset
+        for metal in metals:
+            use_factor = data.sel(metal=metal).values
+            # check if there is a conversion factor
+            if dataset["name"] in self.conversion_factors["Activity"].tolist():
+                use_factor *= self.conversion_factors.loc[
+                    self.conversion_factors["Activity"] == dataset["name"],
+                    "Conversion_factor",
+                ].values[0]
+            else:
+                print(f"Conversion factor not found for {dataset['name']}.")
+
+            if self.version != "3.9":
+                exc_id = (
+                    f"{metal}, in ground",
+                    "natural resource",
+                    "in ground",
+                    "kilogram",
+                )
+            else:
+                exc_id = (
+                    f"{metal}",
+                    "natural resource",
+                    "in ground",
+                    "kilogram",
+                )
+
+            if metal in self.current_metal_use.metal.values:
+                if (
+                    dataset["name"],
+                    dataset["reference product"],
+                    dataset["location"],
+                ) in self.current_metal_use.activity.values.tolist():
+                    ecoinvent_factor = self.current_metal_use.sel(
+                        metal=metal,
+                        activity=(
+                            dataset["name"],
+                            dataset["reference product"],
+                            dataset["location"],
+                        ),
+                    ).values
+                else:
+                    ecoinvent_factor = 0
+            else:
+                ecoinvent_factor = 0
+
+            exc = {
+                "name": f"{metal}, in ground",
+                "amount": use_factor - ecoinvent_factor,
+                "input": ("biosphere3", self.biosphere_flow_codes[exc_id]),
+                "type": "biosphere",
+                "unit": "kilogram",
+                "comment": (f"{ecoinvent_factor};{use_factor};{technology};{metal}"),
+            }
+
+            dataset["exchanges"].append(exc)
+
+            if "log parameters" not in dataset:
+                dataset["log parameters"] = {}
+
+            dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
+            dataset["log parameters"][f"{metal} new amount"] = exc["amount"]
+
+        return dataset
 
     def write_log(self, dataset, status="created"):
         """
