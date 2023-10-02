@@ -562,6 +562,8 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 37;39;market for concrete, normal;concrete, normal;CH;market for concrete, normal strength;concrete, normal strength;CH
 37;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;RoW;treatment of wastewater, average, wastewater treatment;wastewater, average;RoW
 37;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;CH;treatment of wastewater, average, wastewater treatment;wastewater, average;CH
+39;38;treatment of wastewater, average, wastewater treatment;wastewater, average;CH;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;CH
+39;37;treatment of wastewater, average, wastewater treatment;wastewater, average;CH;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;CH
 37;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;Europe without Switzerland;treatment of wastewater, average, wastewater treatment;wastewater, average;Europe without Switzerland
 38;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;RoW;treatment of wastewater, average, wastewater treatment;wastewater, average;RoW
 38;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;CH;treatment of wastewater, average, wastewater treatment;wastewater, average;CH

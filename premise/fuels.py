@@ -358,7 +358,8 @@ class Fuels(BaseTransformation):
                     for sublist in list(self.fuel_groups.values())
                     for item in sublist
                 ]
-                if g in self.iam_data.production_volumes.variables.values.tolist()
+                if g
+                in self.iam_data.production_volumes.coords["variables"].values.tolist()
             ]
         )
 
@@ -1927,6 +1928,7 @@ class Fuels(BaseTransformation):
                     region=region, variables=relevant_variables
                 ).sum(dim="variables")
             )
+            .fillna(0)
             .interp(
                 year=np.arange(self.year, self.year + period + 1),
                 kwargs={"fill_value": "extrapolate"},
@@ -1936,7 +1938,9 @@ class Fuels(BaseTransformation):
         )
 
         if np.isnan(fuel_share):
-            print(f"Incorrect fuel share for {fuel} in {region}")
+            print(
+                f"Warning: incorrect fuel share for {fuel} in {region} (-> set to 0%)."
+            )
             fuel_share = 0
 
         return float(fuel_share)
@@ -2074,7 +2078,7 @@ class Fuels(BaseTransformation):
 
         # Calculate share of production volume for each region
         for r in d_act.keys():
-            if r == "World":
+            if r == "World" or (dataset["name"], r) not in self.new_fuel_markets:
                 continue
 
             share = (
@@ -2192,10 +2196,27 @@ class Fuels(BaseTransformation):
 
         string = ""
 
+        # if the sum is zero, we need to select a provider
+
+        if (
+            self.iam_fuel_markets.sel(region=region, variables=prod_vars)
+            .interp(year=self.year)
+            .sum(dim=["variables"])
+            == 0
+        ):
+            if "hydrogen" in dataset["name"].lower():
+                prod_vars = [
+                    "hydrogen, nat. gas",
+                ]
+
         for prod_var in prod_vars:
-            share = fuel_providers[prod_var]["find_share"](
-                prod_var, tuple(vars_map[fuel_category]), region, period
-            )
+            if len(prod_vars) > 1:
+                share = fuel_providers[prod_var]["find_share"](
+                    prod_var, tuple(vars_map[fuel_category]), region, period
+                )
+
+            else:
+                share = 1.0
 
             if np.isnan(share) or share <= 0:
                 continue

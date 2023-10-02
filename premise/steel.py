@@ -16,7 +16,7 @@ from .utils import DATA_DIR
 logger = create_logger("steel")
 
 
-def _update_steel(scenario, version, system_model, modified_datasets, cache):
+def _update_steel(scenario, version, system_model, modified_datasets, cache=None):
     steel = Steel(
         database=scenario["database"],
         model=scenario["model"],

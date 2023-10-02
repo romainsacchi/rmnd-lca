@@ -550,8 +550,6 @@ class BaseTransformation:
         regions=None,
         delete_original_dataset=False,
         empty_original_activity=True,
-        geo_mapping: dict = None,
-        exact_match=False,
     ) -> Dict[str, dict]:
         """
         Fetch dataset proxies, given a dataset `name` and `reference product`.
@@ -571,7 +569,7 @@ class BaseTransformation:
         :return: dictionary with IAM regions as keys, proxy datasets as values.
         """
 
-        d_iam_to_eco = geo_mapping or self.region_to_proxy_dataset_mapping(
+        d_iam_to_eco = self.region_to_proxy_dataset_mapping(
             name=name, ref_prod=ref_prod, regions=regions
         )
 
@@ -580,32 +578,18 @@ class BaseTransformation:
         ds_name, ds_ref_prod = [None, None]
 
         for region in d_iam_to_eco:
-            # build filters
-            if exact_match is True:
-                filters = [
-                    ws.equals("name", name),
-                    ws.equals("reference product", ref_prod),
-                ]
-            else:
-                filters = [
-                    ws.equals("name", name),
-                    ws.contains("reference product", ref_prod),
-                ]
-            filters.append(ws.equals("location", d_iam_to_eco[region]))
-
             try:
                 dataset = ws.get_one(
                     self.database,
-                    *filters,
+                    ws.equals("name", name),
+                    ws.contains("reference product", ref_prod),
+                    ws.equals("location", d_iam_to_eco[region]),
                 )
-            except ws.NoResults:
-                print(f"No dataset found for: {name, ref_prod, d_iam_to_eco[region]}.")
-                continue
             except ws.MultipleResults as err:
                 print(
                     err,
                     "A single dataset was expected, "
-                    f"but found more than one for: {name, ref_prod, d_iam_to_eco[region]}.",
+                    f"but found more than one for: {name, ref_prod}",
                 )
 
             if (name, ref_prod, region, dataset["unit"]) not in self.modified_datasets[
@@ -681,7 +665,7 @@ class BaseTransformation:
                 regions=regions,
             )
 
-        if delete_original_dataset is True:
+        if delete_original_dataset:
             # remove the dataset from `self.database`
             self.database = [
                 ds
@@ -898,8 +882,6 @@ class BaseTransformation:
                     alternative_locations.extend(
                         [self.ecoinvent_to_iam_loc[act["location"]]]
                     )
-
-                    alternative_locations.append("World")
 
                     for name_to_look_for, alt_loc in product(
                         names_to_look_for, alternative_locations

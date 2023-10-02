@@ -11,6 +11,7 @@ import re
 import uuid
 from collections import defaultdict
 from functools import lru_cache
+from multiprocessing import Pool as ProcessPool
 from multiprocessing.pool import ThreadPool as Pool
 from pathlib import Path
 from typing import Any, Dict, List, Set, Tuple, Union
@@ -989,7 +990,7 @@ class Export:
     def __init__(
         self,
         scenario: dict = None,
-        filepath: Union[list[Path], list[Union[Path, Any]]] = None,
+        filepath: Path = None,
         version: str = None,
     ):
         self.db = scenario["database"]

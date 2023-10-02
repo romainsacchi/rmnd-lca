@@ -441,7 +441,9 @@ class IAMDataCollection:
         )
 
         self.electricity_markets = self.__fetch_market_data(
-            data=data, input_vars=electricity_prod_vars
+            data=data,
+            input_vars=electricity_prod_vars,
+            system_model=self.system_model,
         )
 
         self.petrol_markets = self.__fetch_market_data(
@@ -451,6 +453,7 @@ class IAMDataCollection:
                 for k, v in fuel_prod_vars.items()
                 if any(x in k for x in ["gasoline", "ethanol", "methanol"])
             },
+            system_model=self.system_model,
         )
         if self.petrol_markets is not None:
             # divide the volume of "gasoline" by 2
@@ -472,6 +475,7 @@ class IAMDataCollection:
                     ]
                 )
             },
+            system_model=self.system_model,
         )
         if self.diesel_markets is not None:
             # divide the volume of "gasoline" by 2
@@ -488,6 +492,7 @@ class IAMDataCollection:
                 for k, v in fuel_prod_vars.items()
                 if any(x in k for x in ["biogas", "methane", "natural gas"])
             },
+            system_model=self.system_model,
         )
 
         self.hydrogen_markets = self.__fetch_market_data(
@@ -502,17 +507,20 @@ class IAMDataCollection:
                     ]
                 )
             },
+            system_model=self.system_model,
         )
 
         self.cement_markets = self.__fetch_market_data(
-            data=data, input_vars=cement_prod_vars
+            data=data, input_vars=cement_prod_vars, system_model="cutoff"
         )
         self.steel_markets = self.__fetch_market_data(
-            data=data, input_vars=steel_prod_vars
+            data=data, input_vars=steel_prod_vars, system_model="cutoff"
         )
-        self.dac_markets = self.__fetch_market_data(data=data, input_vars=dac_prod_vars)
+        self.dac_markets = self.__fetch_market_data(
+            data=data, input_vars=dac_prod_vars, system_model="cutoff"
+        )
         self.biomass_markets = self.__fetch_market_data(
-            data=data, input_vars=biomass_prod_vars
+            data=data, input_vars=biomass_prod_vars, system_model="cutoff"
         )
 
         self.carbon_capture_rate = self.__get_carbon_capture_rate(
@@ -523,9 +531,7 @@ class IAMDataCollection:
         )
 
         self.other_vars = self.__fetch_market_data(
-            data=data,
-            input_vars=other_vars,
-            normalize=False,
+            data=data, input_vars=other_vars, normalize=False, system_model="cutoff"
         )
 
         self.electricity_efficiencies = self.get_iam_efficiencies(
@@ -598,8 +604,6 @@ class IAMDataCollection:
             self.model, vehicle_type="truck"
         )
         self.trsp_buses = get_vehicle_fleet_composition(self.model, vehicle_type="bus")
-
-        self.metals = get_metals_intensity_factors_data()
 
         self.production_volumes = self.__get_iam_production_volumes(
             data=data,
@@ -739,7 +743,11 @@ class IAMDataCollection:
         return array
 
     def __fetch_market_data(
-        self, data: xr.DataArray, input_vars: dict, normalize: bool = True
+        self,
+        data: xr.DataArray,
+        input_vars: dict,
+        system_model: str,
+        normalize: bool = True,
     ) -> [xr.DataArray, None]:
         """
         This method retrieves the market share for each technology,
@@ -774,7 +782,7 @@ class IAMDataCollection:
             rev_input_vars[v] for v in market_data.variables.values
         ]
 
-        if self.system_model == "consequential":
+        if system_model == "consequential":
             market_data = consequential_method(
                 market_data, self.year, self.system_model_args
             )
@@ -909,7 +917,10 @@ class IAMDataCollection:
 
         # if variable is missing, we assume that the rate is 0
         # and that none of the  CO2 emissions are captured
-        if dict_vars.get("cement - cco2") not in data.variables.values.tolist():
+
+        if not any(
+            x in data.variables.values.tolist() for x in dict_vars.get("cement - cco2")
+        ):
             cement_rate = xr.DataArray(
                 np.zeros((len(data.region), len(data.year))),
                 coords=[data.region, data.year],
@@ -922,7 +933,9 @@ class IAMDataCollection:
 
         cement_rate.coords["variables"] = "cement"
 
-        if dict_vars.get("steel - cco2") not in data.variables.values.tolist():
+        if not any(
+            x in data.variables.values.tolist() for x in dict_vars.get("steel - cco2")
+        ):
             steel_rate = xr.DataArray(
                 np.zeros((len(data.region), len(data.year))),
                 coords=[data.region, data.year],
@@ -946,7 +959,9 @@ class IAMDataCollection:
         # as it is sometimes neglected in the
         # IAM files
 
-        if "cement - cco2" not in data.variables.values.tolist():
+        if not any(
+            x in data.variables.values.tolist() for x in dict_vars.get("cement - cco2")
+        ):
             rate.loc[dict(region="World", variables="cement")] = 0
         else:
             try:
@@ -988,7 +1003,9 @@ class IAMDataCollection:
             except ZeroDivisionError:
                 rate.loc[dict(region="World", variables="steel")] = 0
 
-        if "steel - cco2" not in data.variables.values.tolist():
+        if not any(
+            x in data.variables.values.tolist() for x in dict_vars.get("steel - cco2")
+        ):
             rate.loc[dict(region="World", variables="steel")] = 0
         else:
             rate.loc[dict(region="World", variables="steel")] = (
