@@ -1,5 +1,9 @@
 # mapping between biofuel types, crop types, climate types
 # and aliases for land use and land use change
+# land_use in hectares per GJ primary energy
+# land_use_change in ton CO2 per GJ primary energy
+# production in MT/year
+# fertilizer use
 
 ---
 sugar:
