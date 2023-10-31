@@ -550,6 +550,7 @@ class BaseTransformation:
         regions=None,
         delete_original_dataset=False,
         empty_original_activity=True,
+        exact_match = False
     ) -> Dict[str, dict]:
         """
         Fetch dataset proxies, given a dataset `name` and `reference product`.
@@ -578,13 +579,27 @@ class BaseTransformation:
         ds_name, ds_ref_prod = [None, None]
 
         for region in d_iam_to_eco:
-            try:
-                dataset = ws.get_one(
-                    self.database,
+            if exact_match:
+                filters = [
+                    ws.equals("name", name),
+                    ws.equals("reference product", ref_prod),
+                ]
+            else:
+                filters = [
                     ws.equals("name", name),
                     ws.contains("reference product", ref_prod),
-                    ws.equals("location", d_iam_to_eco[region]),
-                )
+                ]
+            filters.append(ws.equals("location", d_iam_to_eco[region]))
+
+            try:
+                dataset = ws.get_one(self.database, *filters)
+            # try:
+            #     dataset = ws.get_one(
+            #         self.database,
+            #         ws.equals("name", name),
+            #         ws.contains("reference product", ref_prod),
+            #         ws.equals("location", d_iam_to_eco[region]),
+            #     )
             except ws.MultipleResults as err:
                 print(
                     err,

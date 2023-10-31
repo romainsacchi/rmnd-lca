@@ -138,7 +138,8 @@ FILEPATH_FUEL_CELL = INVENTORY_DIR / "lci-fuel_cell.xlsx"
 FILEPATH_CSP = INVENTORY_DIR / "lci-concentrating-solar-power.xlsx"
 FILEPATH_RHENIUM = INVENTORY_DIR / "lci-rhenium.xlsx"
 FILEPATH_PGM = INVENTORY_DIR / "lci-PGM.xlsx"
-FILEPATH_VANADIUM = INVENTORY_DIR / "lci-vanadium.xlsx"
+# FILEPATH_VANADIUM = INVENTORY_DIR / "lci-vanadium.xlsx"
+FILEPATH_VANADIUM_BATTERY = INVENTORY_DIR / "lci-vanadium-redox-flow-battery.xlsx"
 FILEPATH_GERMANIUM = INVENTORY_DIR / "lci-germanium.xlsx"
 
 config = load_constants()
@@ -729,7 +730,8 @@ class NewDatabase:
             (FILEPATH_HYDROGEN_WOODY_INVENTORIES, "3.7"),
             (FILEPATH_SYNGAS_INVENTORIES, "3.9"),
             (FILEPATH_SYNGAS_FROM_COAL_INVENTORIES, "3.7"),
-            (FILEPATH_VANADIUM, "3.8"),
+            # (FILEPATH_VANADIUM, "3.9"),
+            (FILEPATH_VANADIUM_BATTERY, "3.9"),
             (FILEPATH_GERMANIUM, "3.9"),
             (FILEPATH_BIOFUEL_INVENTORIES, "3.7"),
             (FILEPATH_SYNFUEL_INVENTORIES, "3.7"),
@@ -960,7 +962,7 @@ class NewDatabase:
     def update_metals(self) -> None:
         """
         This method will update the metals use in inventories
-        with the data from DLR.
+        with the data from the literature review.
         """
 
         print("\n////////////////////////////// METALS ///////////////////////////////")

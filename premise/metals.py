@@ -1,10 +1,6 @@
 """
-Integrates projections regarding use of metals in the economy,
-from the DLR study:
-Simon Schlichenmaier, Tobias Naegler,
-May material bottlenecks hamper the global energy transition towards the 1.5°C target?,
-Energy Reports, Volume 8, 2022, Pages 14875-14887, ISSN 2352-4847,
-https://doi.org/10.1016/j.egyr.2022.11.025.
+Integrates projections regarding use of metals in the economy from:
+-
 """
 
 import logging.config
@@ -206,7 +202,7 @@ class Metals(BaseTransformation):
             if not np.isnan(data.sel(metal=m).values)
         ]
 
-        # Update biosphere exchanges according to DLR use factors ---
+        # Update biosphere exchanges according to use factors ---
         for exc in ws.biosphere(
             dataset, ws.either(*[ws.equals("name", x) for x in self.rev_metals_map])
         ):
@@ -362,7 +358,7 @@ class Metals(BaseTransformation):
             name=name,
             ref_prod=reference_product,
             regions=new_locations.values(),
-            geo_mapping=geo_mapping,
+            # geo_mapping=geo_mapping,
             exact_match=True,
         )
 

@@ -274,7 +274,7 @@ def update_dataset(dataset, supplier_key, amount):
     return dataset
 
 
-def _update_fuels(scenario, version, system_model, modified_datasets, cache):
+def _update_fuels(scenario, version, system_model, modified_datasets, cache=None):
     fuels = Fuels(
         database=scenario["database"],
         iam_data=scenario["iam data"],

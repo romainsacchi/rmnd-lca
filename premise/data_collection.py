@@ -605,6 +605,8 @@ class IAMDataCollection:
         )
         self.trsp_buses = get_vehicle_fleet_composition(self.model, vehicle_type="bus")
 
+        self.metals = get_metals_intensity_factors_data()
+
         self.production_volumes = self.__get_iam_production_volumes(
             data=data,
             input_vars={
