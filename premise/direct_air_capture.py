@@ -3,20 +3,13 @@ Integrates projections regarding direct air capture and storage.
 """
 
 import copy
-import logging.config
-from pathlib import Path
 
+import numpy as np
 import wurst
 import yaml
 
+from .filesystem_constants import DATA_DIR
 from .logger import create_logger
-from .utils import DATA_DIR
-
-logger = create_logger("dac")
-
-
-import numpy as np
-
 from .transformation import (
     BaseTransformation,
     IAMDataCollection,
@@ -25,6 +18,8 @@ from .transformation import (
     uuid,
     ws,
 )
+
+logger = create_logger("dac")
 
 HEAT_SOURCES = DATA_DIR / "fuels" / "heat_sources_map.yml"
 

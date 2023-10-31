@@ -14,8 +14,8 @@ import wurst
 from bw2data.database import DatabaseChooser
 from wurst import searching as ws
 
-from . import DATA_DIR
 from .data_collection import get_delimiter
+from .filesystem_constants import DATA_DIR
 
 
 def remove_uncertainty(database):

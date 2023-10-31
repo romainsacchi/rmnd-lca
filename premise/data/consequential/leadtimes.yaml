@@ -37,6 +37,8 @@ Solar PV Residential: 2
 Wind Onshore: 2
 Wind Offshore: 3
 Wave: 3
+Storage, Hydrogen: 3
+Storage, Flow Battery: 3
 diesel: 3
 gasoline: 3
 diesel, synthetic, from wood: 3

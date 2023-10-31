@@ -13,6 +13,7 @@ SUPPORTED_MODELS:
   - remind
   - image
   - message
+  - tiam
 
 SUPPORTED_PATHWAYS:
   - SSP2-Base
@@ -106,5 +107,24 @@ LIST_IMAGE_REGIONS:
   - WEU
   - World
 
+LIST_TIAM_REGIONS:
+  - AFR
+  - AUS
+  - CAN
+  - CSA
+  - CHI
+  - EEU
+  - FSU
+  - IND
+  - JPN
+  - MEX
+  - MEA
+  - ODA
+  - SKO
+  - UK
+  - WEU
+  - World
+
 EXTRA_TOPOLOGY:
   message: /Users/romain/GitHub/premise/premise/iam_variables_mapping/MESSAGE_iso2_map.json
+  tiam: /Users/romain/GitHub/premise/premise/iam_variables_mapping/TIAM_iso2_map.json

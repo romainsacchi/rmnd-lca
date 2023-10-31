@@ -1,17 +1,13 @@
 """
 Integrates projections regarding steel production.
 """
-import logging.config
-from pathlib import Path
 from typing import Dict, List
 
 import wurst
-import yaml
 
 from .data_collection import IAMDataCollection
 from .logger import create_logger
 from .transformation import BaseTransformation, ws
-from .utils import DATA_DIR
 
 logger = create_logger("steel")
 
@@ -227,10 +223,14 @@ class Steel(BaseTransformation):
                         .sum(dim="variables")
                         / self.iam_data.production_volumes.sel(
                             variables=["steel - primary", "steel - secondary"],
-                            region="World",
+                            region=[
+                                x
+                                for x in self.iam_data.production_volumes.region.values
+                                if x != "World"
+                            ],
                         )
                         .interp(year=self.year)
-                        .sum(dim="variables")
+                        .sum(dim=["variables", "region"])
                     ).values.item(0)
 
                 except KeyError:

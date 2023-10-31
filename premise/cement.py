@@ -8,15 +8,10 @@ of the wurst database to the newly created cement markets.
 
 """
 
-import logging.config
 from collections import defaultdict
-from pathlib import Path
-
-import yaml
 
 from .logger import create_logger
 from .transformation import BaseTransformation, Dict, IAMDataCollection, List, np, ws
-from .utils import DATA_DIR
 
 logger = create_logger("cement")
 
@@ -376,7 +371,7 @@ class Cement(BaseTransformation):
 
             # Carbon capture rate: share of capture of total CO2 emitted
             carbon_capture_rate = self.get_carbon_capture_rate(
-                loc=dataset["location"], sector="cement, dry feed rotary kiln"
+                loc=dataset["location"], sector="cement"
             )
 
             dataset["log parameters"].update(

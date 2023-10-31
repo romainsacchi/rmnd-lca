@@ -4,99 +4,124 @@ AFRI_EAST:
   message: AFR
   remind: SSA
   image: EAF
+  tiam: AFR
 AFRI_NORT:
   message: AFR
   remind: MEA
   image: NAF
+  tiam: AFR
 AFRI_WEST:
   message: AFR
   remind: SSA
   image: WAF
+  tiam: AFR
 ASIA_STAN:
   message: PAS
   remind: OAS
   image: STAN
+  tiam: ODA
 BRAZ_WHOL:
   message: LAM
   remind: LAM
   image: BRA
+  tiam: CSA
 CANA_WHOL:
   message: NAM
   remind: CAZ
   image: CAN
+  tiam: CAN
 CEAM_REST:
   message: LAM
   remind: LAM
   image: RCAM
+  tiam: CSA
 CENT_EURO:
   message: EEU
   remind: EUR
   image: CEU
+  tiam: EEU
 CHIN_PLUS:
   message: CHN
   remind: CHA
   image: CHN
+  tiam: CHI
 INDI_WHOL:
   message: SAS
   remind: IND
   image: INDIA
+  tiam: CHI
 INDO_PLUS:
   message: PAS
   remind: OAS
   image: INDO
+  tiam: ODA
 JAPA_WHOL:
   message: PAO
   remind: JPN
   image: JAP
+  tiam: JAP
 KORE_AALL:
   message: PAS
   remind: OAS
   image: KOR
+  tiam: SKO
 LAME_REST:
   message: LAM
   remind: LAM
   image: RSAM
+  tiam: CSA
 MEXI_WHOL:
   message: LAM
   remind: LAM
   image: MEX
+  tiam: MEX
 MIDD_EAST:
   message: MEA
   remind: MEA
   image: ME
+  tiam: MEA
 OCEA_WHOL:
   message: PAO
   remind: CAZ
   image: OCE
+  tiam: AUS
 RUSS_PLUS:
   message: FSU
   remind: REF
   image: RUS
+  tiam: FSU
 SAFR_WHOL:
   message: AFR
   remind: SSA
   image: SAF
+  tiam: AFR
 SOEA_ASIA:
   message: PAS
   remind: OAS
   image: SEAS
+  tiam: ODA
 SOUA_REST:
   message: SAS
   remind: OAS
   image: RSAS
+  tiam: ODA
 TURK_WHOL:
   message: WEU
   remind: MEA
   image: TUR
+  tiam: MEA
 UKRA_PLUS:
   message: FSU
   remind: REF
   image: UKR
+  tiam: FSU
 USAM_WHOL:
   message: NAM
   remind: USA
   image: USA
+  tiam: USA
 WEST_EURO:
   message: WEU
   remind: NEU
   image: WEU
+  tiam: WEU

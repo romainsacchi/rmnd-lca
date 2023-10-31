@@ -79,3 +79,5 @@ steel - secondary: 40
 daccs_sorbent: 20
 biomass - residual: 35
 biomass crops - purpose grown: 35
+Storage, Hydrogen: 20
+Storage, Flow Battery: 20

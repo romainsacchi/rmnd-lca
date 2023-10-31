@@ -13,7 +13,7 @@ import xarray as xr
 import yaml
 from numpy import ndarray
 
-from premise import DATA_DIR
+from .filesystem_constants import DATA_DIR
 
 IAM_LEADTIMES = DATA_DIR / "consequential" / "leadtimes.yaml"
 IAM_LIFETIMES = DATA_DIR / "consequential" / "lifetimes.yaml"
@@ -196,6 +196,10 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
         shares = data_full.sel(region=region, year=year) / data_full.sel(
             region=region, year=year
         ).sum(dim="variables")
+
+        # if shares contains only NaNs, we give its elements the value 1
+        if shares.isnull().all():
+            shares = xr.ones_like(shares)
 
         time_parameters = {
             (False, False, False, False): {

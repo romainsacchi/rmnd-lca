@@ -25,8 +25,9 @@ from wurst import transformations as wt
 
 from .activity_maps import InventorySet
 from .data_collection import IAMDataCollection
+from .filesystem_constants import DATA_DIR
 from .geomap import Geomap
-from .utils import DATA_DIR, get_fuel_properties
+from .utils import get_fuel_properties
 
 LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
 # directory for log files
@@ -50,6 +51,7 @@ def get_suppliers_of_a_region(
     reference_prod: str,
     unit: str,
     exclude: List[str] = None,
+    exact_match: bool = False,
 ) -> filter:
     """
     Return a list of datasets, for which the location, name,
@@ -65,8 +67,16 @@ def get_suppliers_of_a_region(
     :param exclude: list of terms to exclude
     """
 
-    filters = [
-        ws.either(*[ws.contains("name", supplier) for supplier in names]),
+    if exact_match:
+        filters = [
+            ws.either(*[ws.equals("name", supplier) for supplier in names]),
+        ]
+    else:
+        filters = [
+            ws.either(*[ws.contains("name", supplier) for supplier in names]),
+        ]
+
+    filters += [
         ws.either(*[ws.equals("location", loc) for loc in locations]),
         ws.contains("reference product", reference_prod),
         ws.equals("unit", unit),
@@ -213,10 +223,13 @@ def allocate_inputs(exc, lst):
     if lst[0]["name"] != exc["name"]:
         exc["name"] = lst[0]["name"]
 
-    return [
-        new_exchange(exc, obj["location"], factor / total)
-        for obj, factor in zip(lst, pvs)
-    ], [p / total for p in pvs]
+    return (
+        [
+            new_exchange(exc, obj["location"], factor / total)
+            for obj, factor in zip(lst, pvs)
+        ],
+        [p / total for p in pvs],
+    )
 
 
 def filter_out_results(
@@ -550,7 +563,6 @@ class BaseTransformation:
         regions=None,
         delete_original_dataset=False,
         empty_original_activity=True,
-        exact_match=False,
     ) -> Dict[str, dict]:
         """
         Fetch dataset proxies, given a dataset `name` and `reference product`.
@@ -579,27 +591,13 @@ class BaseTransformation:
         ds_name, ds_ref_prod = [None, None]
 
         for region in d_iam_to_eco:
-            if exact_match:
-                filters = [
-                    ws.equals("name", name),
-                    ws.equals("reference product", ref_prod),
-                ]
-            else:
-                filters = [
+            try:
+                dataset = ws.get_one(
+                    self.database,
                     ws.equals("name", name),
                     ws.contains("reference product", ref_prod),
-                ]
-            filters.append(ws.equals("location", d_iam_to_eco[region]))
-
-            try:
-                dataset = ws.get_one(self.database, *filters)
-            # try:
-            #     dataset = ws.get_one(
-            #         self.database,
-            #         ws.equals("name", name),
-            #         ws.contains("reference product", ref_prod),
-            #         ws.equals("location", d_iam_to_eco[region]),
-            #     )
+                    ws.equals("location", d_iam_to_eco[region]),
+                )
             except ws.MultipleResults as err:
                 print(
                     err,
@@ -722,7 +720,9 @@ class BaseTransformation:
             self.database,
             ws.equals("name", name),
             ws.contains("reference product", ref_prod),
-            ws.doesnt_contain_any("location", regions),
+            ws.exclude(
+                ws.either(*[ws.equals("location", loc) for loc in self.regions])
+            ),
         )
 
         for existing_ds in existing_datasets:

@@ -11,10 +11,9 @@ import re
 import uuid
 from collections import defaultdict
 from functools import lru_cache
-from multiprocessing import Pool as ProcessPool
 from multiprocessing.pool import ThreadPool as Pool
 from pathlib import Path
-from typing import Any, Dict, List, Set, Tuple, Union
+from typing import Any, Dict, List
 
 import numpy as np
 import pandas as pd
@@ -24,11 +23,12 @@ from datapackage import Package
 from pandas import DataFrame
 from scipy import sparse as nsp
 
-from . import DATA_DIR, __version__
+from . import __version__
 from .data_collection import get_delimiter
+from .filesystem_constants import DATA_DIR
 from .inventory_imports import get_correspondence_bio_flows
 from .transformation import BaseTransformation
-from .utils import check_database_name
+from .utils import check_database_name, reset_all_codes
 
 FILEPATH_SIMAPRO_UNITS = DATA_DIR / "utils" / "export" / "simapro_units.yml"
 FILEPATH_SIMAPRO_COMPARTMENTS = (
@@ -523,7 +523,9 @@ def build_datapackage(df, inventories, list_scenarios, ei_version, name):
 
     # check that directory exists, otherwise create it
     Path(DIR_DATAPACKAGE_TEMP).mkdir(parents=True, exist_ok=True)
-    df.to_csv(DIR_DATAPACKAGE_TEMP / "scenario_data.csv", index=False)
+    df.to_csv(
+        DIR_DATAPACKAGE_TEMP / "scenario_data.csv", index=False, encoding="utf-8-sig"
+    )
     write_formatted_data(
         name=name, data=inventories, filepath=DIR_DATAPACKAGE_TEMP / "inventories.csv"
     )
@@ -546,16 +548,31 @@ def build_datapackage(df, inventories, list_scenarios, ei_version, name):
             "name": "biosphere3",
         },
     ]
-    package.descriptor["scenarios"] = [
-        {
-            "name": s,
-            "description": f"Prospective db, "
-            f"based on {s.split(' - ')[0].upper()}, "
-            f"pathway {s.split(' - ')[1].upper()}, "
-            f"for the year {s.split(' - ')[2]}.",
-        }
-        for s in list_scenarios[1:]
-    ]
+
+    if len(list_scenarios[0]) == 3:
+        package.descriptor["scenarios"] = [
+            {
+                "name": s,
+                "description": f"Prospective db, "
+                f"based on {s.split(' - ')[0].upper()}, "
+                f"pathway {s.split(' - ')[1].upper()}, "
+                f"for the year {s.split(' - ')[-1]}.",
+            }
+            for s in list_scenarios[1:]
+        ]
+    else:
+        package.descriptor["scenarios"] = [
+            {
+                "name": s,
+                "description": f"Prospective db, "
+                f"based on {s.split(' - ')[0].upper()}, "
+                f"pathway {s.split(' - ')[1].upper()}, "
+                f"for the year {s.split(' - ')[2]}, and "
+                f"external scenario {' '.join(s.split(' - ')[3:])}.",
+            }
+            for s in list_scenarios[1:]
+        ]
+
     package.descriptor["keywords"] = [
         "ecoinvent",
         "scenario",
@@ -580,19 +597,31 @@ def build_datapackage(df, inventories, list_scenarios, ei_version, name):
     print(f"Data package saved at {DIR_DATAPACKAGE / f'{name}.zip'}")
 
 
-def generate_scenario_factor_file(origin_db, scenarios, db_name, version):
+def generate_scenario_factor_file(
+    origin_db: list,
+    scenarios: dict,
+    db_name: str,
+    version: str,
+    scenario_list: list = None,
+):
     """
     Generate a scenario factor file from a list of databases
     :param origin_db: the original database
     :param scenarios: a list of databases
     :param db_name: the name of the database
+    :param version: the version of ecoinvent
+    :param scenario_list: a list of external scenarios
     """
 
     print("Building scenario factor file...")
 
     # create the dataframe
     df, new_db, list_unique_acts = generate_scenario_difference_file(
-        origin_db=origin_db, scenarios=scenarios, db_name=db_name, version=version
+        origin_db=origin_db,
+        scenarios=scenarios,
+        db_name=db_name,
+        version=version,
+        scenario_list=scenario_list,
     )
 
     original = df["original"]
@@ -643,7 +672,7 @@ def generate_new_activities(args):
 
 
 def generate_scenario_difference_file(
-    db_name, origin_db, scenarios, version
+    db_name, origin_db, scenarios, version, scenario_list
 ) -> tuple[DataFrame, list[dict], set[Any]]:
     """
     Generate a scenario difference file for a given list of databases
@@ -666,9 +695,8 @@ def generate_scenario_difference_file(
     acts_ind = dict(enumerate(list_acts))
     acts_ind_rev = {v: k for k, v in acts_ind.items()}
 
-    list_scenarios = ["original"] + [
-        f"{s['model']} - {s['pathway']} - {s['year']}" for s in scenarios
-    ]
+    list_scenarios = ["original"] + scenario_list
+
     list_dbs = [origin_db] + [a["database"] for a in scenarios]
 
     matrices = {
@@ -743,6 +771,9 @@ def generate_scenario_difference_file(
         c_name, c_ref, c_cat, c_loc, c_unit, c_type = acts_ind[i[0]]
         s_name, s_ref, s_cat, s_loc, s_unit, s_type = acts_ind[i[1]]
 
+        database_name = db_name
+        exc_key_supplier = None
+
         if s_type == "biosphere":
             database_name = "biosphere3"
 
@@ -769,15 +800,6 @@ def generate_scenario_difference_file(
                     ],
                 )
 
-        else:
-            database_name = db_name
-            exc_key_supplier = (
-                db_name,
-                fetch_exchange_code(s_name, s_ref, s_loc, s_unit),
-            )
-
-        exc_key_consumer = (db_name, fetch_exchange_code(c_name, c_ref, c_loc, c_unit))
-
         row = [
             s_name,
             s_ref,
@@ -792,7 +814,7 @@ def generate_scenario_difference_file(
             c_cat,
             c_unit,
             db_name,
-            exc_key_consumer,
+            None,
             s_type,
         ]
 
@@ -830,12 +852,56 @@ def generate_scenario_difference_file(
     ] = None
     df.loc[df["flow type"] == "production", list_scenarios] = 1.0
 
+    new_db, df = find_technosphere_keys(new_db, df)
+
     # return the dataframe and the new db
     return df, new_db, list_acts
 
 
+def find_technosphere_keys(db, df):
+    # erase keys for technosphere and production exchanges
+    df.loc[df["flow type"].isin(["technosphere", "production"]), "from key"] = None
+    df.loc[df["flow type"].isin(["technosphere", "production"]), "to key"] = None
+    df.loc[df["flow type"] == "biosphere", "to key"] = None
+
+    # reset all codes
+    db = reset_all_codes(db)
+
+    # create a dictionary of all activities
+    dict_act = {
+        (a["name"], a["reference product"], a["location"]): (a["database"], a["code"])
+        for a in db
+    }
+
+    # iterate through df
+    # and fill "from key" and "to key" columns
+    # if None
+
+    df.loc[df["from key"].isnull(), "from key"] = pd.Series(
+        list(
+            zip(
+                df["from activity name"],
+                df["from reference product"],
+                df["from location"],
+            )
+        )
+    ).map(dict_act)
+
+    df.loc[df["to key"].isnull(), "to key"] = pd.Series(
+        list(zip(df["to activity name"], df["to reference product"], df["to location"]))
+    ).map(dict_act)
+
+    return db, df
+
+
 def generate_superstructure_db(
-    origin_db, scenarios, db_name, filepath, version, format="excel"
+    origin_db,
+    scenarios,
+    db_name,
+    filepath,
+    version,
+    scenario_list,
+    format="excel",
 ) -> List[dict]:
     """
     Build a superstructure database from a list of databases
@@ -844,7 +910,7 @@ def generate_superstructure_db(
     :param db_name: the name of the new database
     :param filepath: the filepath of the new database
     :param version: the version of the new database
-    :param format: the format of the scenario difference file. Cna be "excel", "csv" or "feather".
+    :param format: the format of the scenario difference file. Can be "excel", "csv" or "feather".
     :return: a superstructure database
     """
 
@@ -852,7 +918,11 @@ def generate_superstructure_db(
 
     # create the dataframe
     df, new_db, _ = generate_scenario_difference_file(
-        origin_db=origin_db, scenarios=scenarios, db_name=db_name, version=version
+        origin_db=origin_db,
+        scenarios=scenarios,
+        db_name=db_name,
+        version=version,
+        scenario_list=scenario_list,
     )
 
     # remove unneeded columns "to unit"
@@ -881,21 +951,20 @@ def generate_superstructure_db(
     after = len(df)
     print(f"Dropped {before - after} duplicate(s).")
 
+    # if df is longer than the row limit of Excel,
+    # the export to Excel is not an option
+    if len(df) > 1048576:
+        format = "csv"
+        print(
+            "The scenario difference file is too long to be exported to Excel. Exporting to CSV instead."
+        )
+
     if format == "excel":
         filepath_sdf = filepath / f"scenario_diff_{db_name}.xlsx"
-        try:
-            df.to_excel(filepath_sdf, index=False)
-        except ValueError:
-            # from https://stackoverflow.com/questions/66356152/splitting-a-dataframe-into-multiple-sheets
-            GROUP_LENGTH = 1000000  # set nr of rows to slice df
-            with pd.ExcelWriter(filepath_sdf) as writer:
-                for i in range(0, len(df), GROUP_LENGTH):
-                    df[i : i + GROUP_LENGTH].to_excel(
-                        writer, sheet_name=f"Row {i}", index=False, header=True
-                    )
+        df.to_excel(filepath_sdf, index=False)
     elif format == "csv":
         filepath_sdf = filepath / f"scenario_diff_{db_name}.csv"
-        df.to_csv(filepath_sdf, index=False, sep=";")
+        df.to_csv(filepath_sdf, index=False, sep=";", encoding="utf-8-sig")
     elif format == "feather":
         filepath_sdf = filepath / f"scenario_diff_{db_name}.feather"
         df.to_feather(filepath_sdf)
@@ -934,7 +1003,6 @@ def prepare_db_for_export(
     base.database = check_amount_format(base.database)
 
     # we relink "dead" exchanges
-    # print("- relinking exchanges...")
     base.relink_datasets(
         excludes_datasets=["cobalt industry", "market group for electricity"],
         alt_names=[
@@ -947,9 +1015,51 @@ def prepare_db_for_export(
         ],
     )
 
-    # print("Done!")
+    for ds in base.database:
+        if "parameters" in ds:
+            if not isinstance(ds["parameters"], list):
+                if isinstance(ds["parameters"], dict):
+                    ds["parameters"] = [
+                        {"name": k, "amount": v} for k, v in ds["parameters"].items()
+                    ]
+                else:
+                    ds["parameters"] = [ds["parameters"]]
+            else:
+                ds["parameters"] = [
+                    {"name": k, "amount": v}
+                    for o in ds["parameters"]
+                    for k, v in o.items()
+                ]
+
+        for key, value in list(ds.items()):
+            if not value:
+                del ds[key]
+
+        ds["exchanges"] = [clean_up(exc) for exc in ds["exchanges"]]
 
     return base.database, base.cache
+
+
+def clean_up(exc):
+    """Remove keys from ``exc`` that are not in the schema."""
+
+    FORBIDDEN_FIELDS_TECH = [
+        "categories",
+    ]
+
+    FORBIDDEN_FIELDS_BIO = ["location", "product"]
+
+    for field in list(exc.keys()):
+        if exc[field] is None or exc[field] == "None":
+            del exc[field]
+            continue
+
+        if exc["type"] == "biosphere" and field in FORBIDDEN_FIELDS_BIO:
+            del exc[field]
+        if exc["type"] == "technosphere" and field in FORBIDDEN_FIELDS_TECH:
+            del exc[field]
+
+    return exc
 
 
 def _prepare_database(

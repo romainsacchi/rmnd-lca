@@ -17,9 +17,9 @@ from functools import lru_cache
 import wurst
 import yaml
 
-from . import VARIABLES_DIR
 from .data_collection import get_delimiter
 from .export import biosphere_flows_dictionary
+from .filesystem_constants import DATA_DIR, VARIABLES_DIR
 from .logger import create_logger
 from .transformation import (
     BaseTransformation,
@@ -34,7 +34,7 @@ from .transformation import (
     uuid,
     ws,
 )
-from .utils import DATA_DIR, eidb_label, get_efficiency_solar_photovoltaics
+from .utils import eidb_label, get_efficiency_solar_photovoltaics
 
 LOSS_PER_COUNTRY = DATA_DIR / "electricity" / "losses_per_country.csv"
 IAM_BIOMASS_VARS = VARIABLES_DIR / "biomass_variables.yaml"
@@ -255,7 +255,7 @@ class Electricity(BaseTransformation):
             modified_datasets,
             cache,
         )
-        mapping = InventorySet(self.database)
+        mapping = InventorySet(self.database, model=self.model)
         self.powerplant_map = mapping.generate_powerplant_map()
         # reverse dictionary of self.powerplant_map
         self.powerplant_map_rev = {}
@@ -399,6 +399,7 @@ class Electricity(BaseTransformation):
                             names=ecoinvent_technologies[technology],
                             reference_prod="electricity",
                             unit="kilowatt hour",
+                            exact_match=True,
                         )
                     )
                     counter += 1
@@ -931,6 +932,7 @@ class Electricity(BaseTransformation):
                                 names=ecoinvent_technologies[technology],
                                 reference_prod="electricity",
                                 unit="kilowatt hour",
+                                exact_match=True,
                             )
                         )
                         counter += 1
@@ -1622,9 +1624,13 @@ class Electricity(BaseTransformation):
             ):
                 exc["name"] = "market for biomass, used as fuel"
                 exc["product"] = "biomass, used as fuel"
-                exc["location"] = self.ecoinvent_to_iam_loc[dataset["location"]]
 
-        mapping = InventorySet(self.database)
+                if dataset["location"] in self.regions:
+                    exc["location"] = dataset["location"]
+                else:
+                    exc["location"] = self.ecoinvent_to_iam_loc[dataset["location"]]
+
+        mapping = InventorySet(self.database, model=self.model)
         self.powerplant_fuels_map = mapping.generate_powerplant_fuels_map()
 
     def create_region_specific_power_plants(self):
@@ -1653,14 +1659,34 @@ class Electricity(BaseTransformation):
             "Gas CHP CCS",
             "Gas CC CCS",
             "Oil CC CCS",
+            # "Oil ST",
+            # "Oil CC",
+            "Coal CF 80-20",
+            "Coal CF 50-50",
+            "Storage, Flow Battery",
+            "Storage, Hydrogen",
         ]
 
-        list_datasets_to_duplicate = [
-            dataset["name"]
-            for dataset in self.database
-            if dataset["name"]
-            in [y for k, v in self.powerplant_map.items() for y in v if k in techs]
-        ]
+        list_datasets_to_duplicate = list(
+            set(
+                [
+                    dataset["name"]
+                    for dataset in self.database
+                    if dataset["name"]
+                    in [
+                        y
+                        for k, v in self.powerplant_map.items()
+                        for y in v
+                        if k in techs
+                    ]
+                ]
+            )
+        )
+
+        list_datasets_to_duplicate.insert(
+            0,
+            "hydrogen storage, for grid-balancing",
+        )
 
         list_datasets_to_duplicate.extend(
             [
@@ -1761,7 +1787,7 @@ class Electricity(BaseTransformation):
 
         # print("Adjust efficiency of power plants...")
 
-        mapping = InventorySet(self.database)
+        mapping = InventorySet(self.database, model=self.model)
         self.fuel_map = mapping.generate_fuel_map()
         # reverse the fuel map to get a mapping from ecoinvent to premise
         self.fuel_map_reverse: Dict = {}
@@ -1893,73 +1919,71 @@ class Electricity(BaseTransformation):
         ]
 
         for tech in coal_techs:
-            datasets = ws.get_many(
-                self.database,
-                ws.either(*[ws.contains("name", n) for n in self.powerplant_map[tech]]),
-                ws.equals("unit", "kilowatt hour"),
-                ws.doesnt_contain_any("name", ["mine", "critical"]),
-            )
+            if tech in self.powerplant_map:
+                datasets = ws.get_many(
+                    self.database,
+                    ws.either(
+                        *[ws.contains("name", n) for n in self.powerplant_map[tech]]
+                    ),
+                    ws.equals("unit", "kilowatt hour"),
+                    ws.doesnt_contain_any("name", ["mine", "critical"]),
+                )
 
-            for dataset in datasets:
-                loc = dataset["location"][:2]
-                if loc in self.iam_data.coal_power_plants.country.values:
-                    # Find current efficiency
-                    ei_eff = self.find_fuel_efficiency(
-                        dataset, self.powerplant_fuels_map[tech], 3.6
-                    )
-
-                    new_eff = self.iam_data.coal_power_plants.sel(
-                        country=loc,
-                        fuel="Anthracite coal"
-                        if "hard coal" in dataset["name"]
-                        else "Lignite coal",
-                        CHP=True if "co-generation" in dataset["name"] else False,
-                        variable="efficiency",
-                    )
-
-                    if not np.isnan(new_eff.values.item(0)):
-                        wurst.change_exchanges_by_constant_factor(
-                            dataset,
-                            ei_eff / new_eff.values.item(0),
+                for dataset in datasets:
+                    loc = dataset["location"][:2]
+                    if loc in self.iam_data.coal_power_plants.country.values:
+                        # Find current efficiency
+                        ei_eff = self.find_fuel_efficiency(
+                            dataset, self.powerplant_fuels_map[tech], 3.6
                         )
 
-                        if "log parameters" not in dataset:
-                            dataset["log parameters"] = {}
-
-                        dataset["log parameters"].update(
-                            {
-                                f"ecoinvent original efficiency": ei_eff,
-                                f"Oberschelp et al. efficiency": new_eff.values.item(0),
-                                f"efficiency change": ei_eff / new_eff.values.item(0),
-                            }
-                        )
-
-                        self.update_ecoinvent_efficiency_parameter(
-                            dataset, ei_eff, new_eff.values.item(0)
-                        )
-
-                    substances = [
-                        ("CO2", "Carbon dioxide, fossil"),
-                        ("SO2", "Sulfur dioxide"),
-                        ("CH4", "Methane, fossil"),
-                        ("NOx", "Nitrogen oxides"),
-                        ("PM <2.5", "Particulate Matter, < 2.5 um"),
-                        ("PM 10 - 2.5", "Particulate Matter, > 2.5 um and < 10um"),
-                        ("PM > 10", "Particulate Matter, > 10 um"),
-                    ]
-
-                    for substance in substances:
-                        species, flow = substance
-
-                        emission_factor = self.iam_data.coal_power_plants.sel(
+                        new_eff = self.iam_data.coal_power_plants.sel(
                             country=loc,
                             fuel="Anthracite coal"
                             if "hard coal" in dataset["name"]
                             else "Lignite coal",
                             CHP=True if "co-generation" in dataset["name"] else False,
-                            variable=species,
-                        ) / (
-                            self.iam_data.coal_power_plants.sel(
+                            variable="efficiency",
+                        )
+
+                        if not np.isnan(new_eff.values.item(0)):
+                            wurst.change_exchanges_by_constant_factor(
+                                dataset,
+                                ei_eff / new_eff.values.item(0),
+                            )
+
+                            if "log parameters" not in dataset:
+                                dataset["log parameters"] = {}
+
+                            dataset["log parameters"].update(
+                                {
+                                    f"ecoinvent original efficiency": ei_eff,
+                                    f"Oberschelp et al. efficiency": new_eff.values.item(
+                                        0
+                                    ),
+                                    f"efficiency change": ei_eff
+                                    / new_eff.values.item(0),
+                                }
+                            )
+
+                            self.update_ecoinvent_efficiency_parameter(
+                                dataset, ei_eff, new_eff.values.item(0)
+                            )
+
+                        substances = [
+                            ("CO2", "Carbon dioxide, fossil"),
+                            ("SO2", "Sulfur dioxide"),
+                            ("CH4", "Methane, fossil"),
+                            ("NOx", "Nitrogen oxides"),
+                            ("PM <2.5", "Particulate Matter, < 2.5 um"),
+                            ("PM 10 - 2.5", "Particulate Matter, > 2.5 um and < 10um"),
+                            ("PM > 10", "Particulate Matter, > 10 um"),
+                        ]
+
+                        for substance in substances:
+                            species, flow = substance
+
+                            emission_factor = self.iam_data.coal_power_plants.sel(
                                 country=loc,
                                 fuel="Anthracite coal"
                                 if "hard coal" in dataset["name"]
@@ -1967,31 +1991,42 @@ class Electricity(BaseTransformation):
                                 CHP=True
                                 if "co-generation" in dataset["name"]
                                 else False,
-                                variable="generation",
+                                variable=species,
+                            ) / (
+                                self.iam_data.coal_power_plants.sel(
+                                    country=loc,
+                                    fuel="Anthracite coal"
+                                    if "hard coal" in dataset["name"]
+                                    else "Lignite coal",
+                                    CHP=True
+                                    if "co-generation" in dataset["name"]
+                                    else False,
+                                    variable="generation",
+                                )
+                                * 1e3
                             )
-                            * 1e3
-                        )
 
-                        if not np.isnan(emission_factor.values.item(0)):
-                            for exc in ws.biosphere(dataset):
-                                if exc["name"] == flow:
-                                    scaling_factor = (
-                                        emission_factor.values.item(0) / exc["amount"]
-                                    )
-                                    exc["amount"] = float(
-                                        emission_factor.values.item(0)
-                                    )
+                            if not np.isnan(emission_factor.values.item(0)):
+                                for exc in ws.biosphere(dataset):
+                                    if exc["name"] == flow:
+                                        scaling_factor = (
+                                            emission_factor.values.item(0)
+                                            / exc["amount"]
+                                        )
+                                        exc["amount"] = float(
+                                            emission_factor.values.item(0)
+                                        )
 
-                                    if "log parameters" not in dataset:
-                                        dataset["log parameters"] = {}
+                                        if "log parameters" not in dataset:
+                                            dataset["log parameters"] = {}
 
-                                    dataset["log parameters"].update(
-                                        {
-                                            f"{species} scaling factor": scaling_factor,
-                                        }
-                                    )
+                                        dataset["log parameters"].update(
+                                            {
+                                                f"{species} scaling factor": scaling_factor,
+                                            }
+                                        )
 
-                    # self.write_log(dataset=dataset, status="updated")
+                        self.write_log(dataset=dataset, status="updated")
 
     def create_missing_power_plant_datasets(self) -> None:
         """
@@ -2005,6 +2040,11 @@ class Electricity(BaseTransformation):
                     ref_prod=vars["proxy"]["reference product"],
                     empty_original_activity=False,
                 )
+
+                # if `parameters` in datasets, delete it
+                for ds in new_datasets.values():
+                    if "parameters" in ds:
+                        del ds["parameters"]
 
                 for loc, ds in new_datasets.items():
                     ds["name"] = vars["proxy"]["new name"]
@@ -2021,8 +2061,9 @@ class Electricity(BaseTransformation):
 
                 self.database.extend(new_datasets.values())
 
-        mapping = InventorySet(self.database)
+        mapping = InventorySet(self.database, model=self.model)
         self.powerplant_map = mapping.generate_powerplant_map()
+
         # reverse dictionary of self.powerplant_map
         self.powerplant_map_rev = {}
         for k, v in self.powerplant_map.items():

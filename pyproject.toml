@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "premise"
+authors = [
+  { name="Romain Sacchi", email="romain.sacchi@psi.ch" },
+  { name="Alois Dirnaichner", email="dirnaichner@pik-potsdam.de" },
+  { name=" Chris Mutel", email="cmutel@gmail.com" }
+]
+maintainers = [
+  { name="Romain Sacchi", email="romain.sacchi@psi.ch" }
+]
+description = "Coupling IAM output to ecoinvent LCA database ecoinvent for prospective LCA"
+readme = "README.md"
+dynamic = ["dependencies", "version"]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+]
+requires-python = ">=3.9,<3.12"
+
+[project.urls]
+source = "https://github.com/polca/premise"
+homepage = "https://github.com/polca/premise"
+tracker = "https://github.com/polca/premise/issues"
+
+[project.optional-dependencies]
+testing = [
+    "setuptools",
+    "pytest",
+    "pytest-cov",
+    "coveralls"
+]
+
+docs = [
+    "sphinx-rtd-theme"
+]
+bw25 = [
+    "bw2analyzer >=0.11.4",
+    "bw2calc >=2.0.dev13",
+    "bw2data >=4.0.dev31",
+    "bw2io >=0.9.dev23",
+    "bw_processing >=0.8.2",
+    "matrix_utils >=0.2.5"
+]
+
+[tool.setuptools]
+license-files = ["LICENSE"]
+include-package-data = true
+packages = ["premise"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+version = {attr = "premise.__version__"}
+
+[tool.pytest.ini_options]
+markers = [
+    # marks tests that require ecoinvent (to be disabled on Travis)
+    "ecoinvent",
+    "serial"
+]
+norecursedirs = [
+    "dist",
+    "build",
+    ".tox"
+]
+testpaths = ["tests/*.py"]
+
+[tool.flake8]
+# Some sane defaults for the code style checker flake8
+max_line_length = 88
+extend_ignore = ["E203", "W503"]
+# ^  Black-compatible
+#    E203 and W503 have edge cases handled by black
+exclude = [
+    ".tox",
+    "build",
+    "dist",
+    ".eggs",
+    "docs/conf.py",
+]

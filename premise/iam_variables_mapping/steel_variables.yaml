@@ -4,7 +4,7 @@
 steel - primary:
   iam_aliases:
     remind: Production|Industry|Steel|Primary
-    image: Production|Steel|Primary
+    image: Production|Industry|Iron and Steel|Primary
     message: Production|Primary|Steel
   energy_use_aliases:
     remind:
@@ -36,7 +36,7 @@ steel - primary:
 steel - secondary:
   iam_aliases:
     remind: Production|Industry|Steel|Secondary
-    image: Production|Steel|Secondary
+    image: Production|Industry|Iron and Steel|EAF scrap
     message: Production|Secondary|Steel
   energy_use_aliases:
     remind:

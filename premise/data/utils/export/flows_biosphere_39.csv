@@ -459,6 +459,7 @@ Methane, trichlorofluoro-, CFC-11;air;urban air close to ground;kilogram;33a6966
 Thiodicarb;soil;forestry;kilogram;a9f16b03-02bb-5f30-aa21-2516e6365b67
 Thorium-232;air;lower stratosphere + upper troposphere;kilo Becquerel;532d8b1e-14aa-45df-8f89-dd749c83635f
 Silver, 0.01% in crude ore;natural resource;in ground;kilogram;bc153c00-6c93-412f-aadc-750f2fc6f9c7
+Gas, mine, off-gas, process, coal mining;natural resource;in ground;standard cubic meter;3ed5f377-344f-423a-b5ec-9a9a1162b944
 Gas, mine, off-gas, process, coal mining;natural resource;in ground;Sm3;3ed5f377-344f-423a-b5ec-9a9a1162b944
 Cobalt II;water;ground-;kilogram;f0d1c319-249f-4a89-b0e7-3a5a90a54036
 Clofentezine;soil;agricultural;kilogram;e5d2097d-8edd-52d6-80fd-b449548e416f
@@ -2060,7 +2061,7 @@ Iron;natural resource;in ground;kilogram;8ce3ff02-7a1e-48e3-881e-3248b944f28a
 Plutonium-alpha;air;urban air close to ground;kilo Becquerel;56bfa732-8223-4091-9bbf-1dc47185a785
 Dichlorprop-P;soil;agricultural;kilogram;02dd7309-b7c2-47bb-82c8-09345be9c2bb
 Caesium-136;water;ground-, long-term;kilo Becquerel;f577fd0b-1d06-40cb-9c9f-682d12b9515f
-Gas, natural;natural resource;in ground;Sm3;7c337428-fb1b-45c7-bbb2-2ee4d29e17ba
+Gas, natural;natural resource;in ground;standard cubic meter;7c337428-fb1b-45c7-bbb2-2ee4d29e17ba
 Hydrocarbons, aliphatic, alkanes, cyclic;air;low population density, long-term;kilogram;a97ba30e-898d-4e73-bd62-ec8f636659c2
 Xylene;air;lower stratosphere + upper troposphere;kilogram;6da40876-a6ab-459e-ba17-9a5e3d4da146
 Metconazole;water;surface water;kilogram;3c1c8501-4d95-58ee-935e-44bc99853bf4

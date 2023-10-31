@@ -3,9 +3,7 @@ Integrates projections regarding emissions of hot pollutants
 from GAINS.
 """
 
-import logging.config
 from functools import lru_cache
-from pathlib import Path
 from typing import Union
 
 import numpy as np
@@ -14,6 +12,7 @@ import xarray as xr
 import yaml
 from numpy import ndarray
 
+from .filesystem_constants import DATA_DIR
 from .logger import create_logger
 from .transformation import (
     BaseTransformation,
@@ -24,7 +23,6 @@ from .transformation import (
     Set,
     ws,
 )
-from .utils import DATA_DIR
 
 logger = create_logger("emissions")
 

@@ -1,14 +1,23 @@
 """
 Implements external scenario data.
 """
+import logging
+import uuid
+from collections import defaultdict
+from pathlib import Path
+from typing import List, Union
 
-
+import numpy as np
 import wurst
-from numpy import ndarray
+import xarray as xr
+import yaml
+from wurst import searching as ws
 
 from .clean_datasets import get_biosphere_flow_uuid
+from .data_collection import IAMDataCollection
+from .filesystem_constants import DATA_DIR
 from .inventory_imports import generate_migration_maps, get_correspondence_bio_flows
-from .transformation import *
+from .transformation import BaseTransformation, get_shares_from_production_volume
 from .utils import eidb_label
 
 LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
@@ -679,14 +688,14 @@ class ExternalScenario(BaseTransformation):
 
     def fetch_supply_share(
         self, i: int, region: str, var: str, variables: list
-    ) -> ndarray:
+    ) -> np.ndarray:
         """
         Return the supply share of a given variable in a given region.
         :param i: index of the scenario
         :param region: region
         :param var: variable
         :param variables: list of all variables
-        :return: ndarray
+        :return: np.ndarray
         """
 
         return np.clip(
@@ -858,7 +867,7 @@ class ExternalScenario(BaseTransformation):
                 ineff["variable"], region, eff_data, self.year
             )
 
-            if not "includes" in ineff:
+            if "includes" not in ineff:
                 wurst.change_exchanges_by_constant_factor(datatset, scaling_factor)
 
             else:
@@ -1063,11 +1072,12 @@ class ExternalScenario(BaseTransformation):
                         else:
                             regions.remove(region)
 
-                    # if so far, a market for `World` has not been created
-                    # we need to create one then
+                    # if there's more than one region, we create a World region
                     create_world_region = True
-                    if "World" in regions or "World" in market_vars.get(
-                        "except regions", []
+                    if (
+                        "World" in regions
+                        or "World" in market_vars.get("except regions", [])
+                        or len(regions) == 1
                     ):
                         create_world_region = False
 

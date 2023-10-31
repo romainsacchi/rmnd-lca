@@ -1,9 +1,6 @@
 """
 Validates datapackages that contain external scenario data.
 """
-
-import sys
-
 import numpy as np
 import pandas as pd
 import yaml
@@ -36,11 +33,16 @@ def check_inventories(
     d_datasets = {
         (val["ecoinvent alias"]["name"], val["ecoinvent alias"]["reference product"]): {
             "exists in original database": val["ecoinvent alias"].get(
-                "exists in original database", False
+                "exists in original database", True
             ),
             "new dataset": val["ecoinvent alias"].get("new dataset", False),
             "regionalize": val["ecoinvent alias"].get("regionalize", False),
-            "except regions": val.get("except regions", []),
+            "except regions": val.get(
+                "except regions",
+                [
+                    "World",
+                ],
+            ),
             "efficiency": val.get("efficiency", []),
             "replaces": val.get("replaces", []),
             "replaces in": val.get("replaces in", []),
@@ -88,7 +90,9 @@ def check_inventories(
             and (i[0], i[1]) not in list_datasets
         ]
 
-        raise f"The following datasets are not in the inventory data: {list_missing_datasets}"
+        raise AssertionError(
+            f"The following datasets are not in the inventory data: {list_missing_datasets}"
+        ) from e
 
     # flag imported inventories
     for i, dataset in enumerate(inventory_data):
