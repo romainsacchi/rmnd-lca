@@ -550,7 +550,7 @@ class BaseTransformation:
         regions=None,
         delete_original_dataset=False,
         empty_original_activity=True,
-        exact_match = False
+        exact_match=False,
     ) -> Dict[str, dict]:
         """
         Fetch dataset proxies, given a dataset `name` and `reference product`.
