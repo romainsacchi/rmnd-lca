@@ -10,7 +10,7 @@ from typing import List, Union
 import yaml
 from wurst import searching as ws
 
-from . import DATA_DIR, VARIABLES_DIR
+from .filesystem_constants import DATA_DIR, VARIABLES_DIR
 
 POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
 FUELS_TECHS = VARIABLES_DIR / "fuels_variables.yaml"
@@ -23,11 +23,12 @@ GAINS_MAPPING = (
 )
 
 
-def get_mapping(filepath: Path, var: str) -> dict:
+def get_mapping(filepath: Path, var: str, model: str = None) -> dict:
     """
     Loa a YAML file and return a dictionary given a variable.
     :param filepath: YAML file path
     :param var: variable to return the dictionary for.
+    :param model: if provided, only return the dictionary for this model.
     :return: a dictionary
     """
 
@@ -37,7 +38,11 @@ def get_mapping(filepath: Path, var: str) -> dict:
     mapping = {}
     for key, val in techs.items():
         if var in val:
-            mapping[key] = val[var]
+            if model is None:
+                mapping[key] = val[var]
+            else:
+                if model in val.get("iam_aliases", {}):
+                    mapping[key] = val[var]
 
     return mapping
 
@@ -114,12 +119,15 @@ class InventorySet:
     These functions return the result of applying :func:`act_fltr` to the filter dictionaries.
     """
 
-    def __init__(self, database: List[dict], version: str = None) -> None:
+    def __init__(
+        self, database: List[dict], version: str = None, model: str = None
+    ) -> None:
         self.database = database
         self.version = version
+        self.model = model
 
         self.powerplant_filters = get_mapping(
-            filepath=POWERPLANT_TECHS, var="ecoinvent_aliases"
+            filepath=POWERPLANT_TECHS, var="ecoinvent_aliases", model=self.model
         )
 
         self.powerplant_fuels_filters = get_mapping(
@@ -253,4 +261,15 @@ class InventorySet:
             tech: act_fltr(database, fltr.get("fltr"), fltr.get("mask"))
             for tech, fltr in filtr.items()
         }
-        return {tech: {act["name"] for act in actlst} for tech, actlst in techs.items()}
+
+        mapping = {
+            tech: {act["name"] for act in actlst} for tech, actlst in techs.items()
+        }
+
+        # check if all keys have values
+        # if not, print warning
+        # for key, val in mapping.items():
+        #    if not val:
+        #        print(f"Warning: No activities found for {key} -- revise mapping.")
+
+        return mapping

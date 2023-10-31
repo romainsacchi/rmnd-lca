@@ -24,7 +24,7 @@ copyright = (
 author = "Romain Sacchi, Alois Dirnaichner, Chris Mutel"
 
 # The full version, including alpha/beta/rc tags
-release = "1.5.0-alpha"
+release = "1.7.2"
 
 # -- General configuration ---------------------------------------------------
 
@@ -34,6 +34,7 @@ release = "1.5.0-alpha"
 extensions = [
     "sphinx.ext.autodoc",  # Core library for html generation from docstrings
     "sphinx.ext.autosummary",  # Create neat summary tables
+    "sphinx_rtd_theme",
 ]
 autosummary_generate = True  # Turn on sphinx.ext.autosummary
 
@@ -41,21 +42,23 @@ master_doc = "index"
 
 autodoc_mock_imports = [
     "numpy",
-    "wurst==0.3.3",
-    "bw2io==0.8.7",
     "pandas",
+    "bw2io >=0.8.10",
     "bw2data",
+    "wurst",
     "xarray",
     "prettytable",
     "pycountry",
     "cryptography",
     "premise_gwp",
     "pyYaml",
-    "sparse",
+    "sparse>=0.14.0",
     "schema",
     "datapackage",
     "requests",
     "bottleneck",
+    "constructive_geometries>=0.8.2",
+    "pyarrow",
     "premise",
 ]
 
@@ -77,6 +80,6 @@ html_theme = "sphinx_rtd_theme"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+html_static_path = []
 
 # html_sidebars = { '**': ['globaltoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'] }

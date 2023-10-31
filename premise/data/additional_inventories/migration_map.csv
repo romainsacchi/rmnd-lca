@@ -31,6 +31,7 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 37;35;market for water, decarbonised;water, decarbonised;RoW;market for water, decarbonised, at user;water, decarbonised, at user;GLO
 37;35;transport, freight, sea, container ship;transport, freight, sea, container ship;GLO;transport, freight, sea, transoceanic ship;transport, freight, sea, transoceanic ship;
 37;35;market for nickel, class 1;nickel, class 1;GLO;market for nickel, 99.5%;nickel, 99.5%;
+39;36;market for nickel, class 1;nickel, class 1;GLO;market for nickel, 99.5%;nickel, 99.5%;
 35;36;market for transport, freight, sea, transoceanic tanker;transport, freight, sea, transoceanic tanker;GLO;market for transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas;transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas;
 35;36;market for water, decarbonised, at user;water, decarbonised, at user;GLO;market for water, decarbonised;water, decarbonised;DE
 36;38;market for water, decarbonised, at user;water, decarbonised, at user;GLO;market for water, decarbonised;water, decarbonised;DE
@@ -142,6 +143,8 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 36;38;market for natural gas, from medium pressure network (0.1-1 bar), at service station;natural gas, from medium pressure network (0.1-1 bar), at service station;GLO;market for natural gas, medium pressure, vehicle grade;natural gas, medium pressure, vehicle grade;
 37;35;market for natural gas, medium pressure, vehicle grade;natural gas, medium pressure, vehicle grade;GLO;market for natural gas, from medium pressure network (0.1-1 bar), at service station;natural gas, from medium pressure network (0.1-1 bar), at service station;
 37;36;market for natural gas, medium pressure, vehicle grade;natural gas, medium pressure, vehicle grade;GLO;market for natural gas, from medium pressure network (0.1-1 bar), at service station;natural gas, from medium pressure network (0.1-1 bar), at service station;
+38;36;market for natural gas, medium pressure, vehicle grade;natural gas, medium pressure, vehicle grade;GLO;market for natural gas, from medium pressure network (0.1-1 bar), at service station;natural gas, from medium pressure network (0.1-1 bar), at service station;
+39;36;market for natural gas, medium pressure, vehicle grade;natural gas, medium pressure, vehicle grade;GLO;market for natural gas, from medium pressure network (0.1-1 bar), at service station;natural gas, from medium pressure network (0.1-1 bar), at service station;
 35;37;market for potassium sulfate, as K2O;potassium sulfate, as K2O;GLO;market for potassium sulfate;potassium sulfate;RER
 36;37;market for potassium sulfate, as K2O;potassium sulfate, as K2O;GLO;market for potassium sulfate;potassium sulfate;RER
 35;37;market for nitrogen fertiliser, as N;nitrogen fertiliser, as N;GLO;market group for inorganic nitrogen fertiliser, as N;inorganic nitrogen fertiliser, as N;RER
@@ -161,8 +164,15 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 37;35;market for road maintenance;road maintenance;RER;;;GLO
 37;35;market for liquefied petroleum gas;liquefied petroleum gas;Europe without Switzerland;;;CH
 37;35;market for water, ultrapure;water, ultrapure;RER;;;GLO
+39;36;market for electric arc furnace dust;electric arc furnace dust;RER;market for dust, alloyed electric arc furnace steel;dust, alloyed electric arc furnace steel;GLO
+38;36;market for electric arc furnace dust;electric arc furnace dust;RER;market for dust, alloyed electric arc furnace steel;dust, alloyed electric arc furnace steel;GLO
 37;36;market for electric arc furnace dust;electric arc furnace dust;RER;market for dust, alloyed electric arc furnace steel;dust, alloyed electric arc furnace steel;GLO
 37;35;market for electric arc furnace dust;electric arc furnace dust;RER;market for dust, alloyed electric arc furnace steel;dust, alloyed electric arc furnace steel;GLO
+39;36;market for electric arc furnace dust;electric arc furnace dust;RoW;market for dust, alloyed electric arc furnace steel;dust, alloyed electric arc furnace steel;GLO
+38;36;market for electric arc furnace dust;electric arc furnace dust;RoW;market for dust, alloyed electric arc furnace steel;dust, alloyed electric arc furnace steel;GLO
+37;36;market for electric arc furnace dust;electric arc furnace dust;RoW;market for dust, alloyed electric arc furnace steel;dust, alloyed electric arc furnace steel;GLO
+37;35;market for electric arc furnace dust;electric arc furnace dust;RoW;market for dust, alloyed electric arc furnace steel;dust, alloyed electric arc furnace steel;GLO
+39;36;market for ammonia, anhydrous, liquid;ammonia, anhydrous, liquid;RER;market for ammonia, liquid;ammonia, liquid;RER
 37;36;market for ammonia, anhydrous, liquid;ammonia, anhydrous, liquid;RER;market for ammonia, liquid;ammonia, liquid;RER
 37;36;market for ammonia, anhydrous, liquid;ammonia, anhydrous, liquid;RoW;market for ammonia, liquid;ammonia, liquid;RoW
 37;35;market for ammonia, anhydrous, liquid;ammonia, anhydrous, liquid;RoW;market for ammonia, liquid;ammonia, liquid;RoW
@@ -220,6 +230,8 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 37;35;market for packaging, for pesticides;packaging, for pesticides;GLO;market for liquid packaging board container;liquid packaging board container;GLO
 37;35;market for concrete block;concrete block;DE;;;GLO
 37;35;market for water, completely softened;water, completely softened;RER;water production, completely softened, from decarbonised water, at user;water, completely softened, from decarbonised water, at user;
+38;36;market for ammonium sulfate;ammonium sulfate;RoW;market for ammonium sulfate, as N;ammonium sulfate, as N;GLO
+37;36;market for ammonium sulfate;ammonium sulfate;RoW;market for ammonium sulfate, as N;ammonium sulfate, as N;GLO
 37;36;market for ammonium sulfate;ammonium sulfate;RER;market for ammonium sulfate, as N;ammonium sulfate, as N;GLO
 37;35;market for ammonium sulfate;ammonium sulfate;RER;market for ammonium sulfate, as N;ammonium sulfate, as N;GLO
 37;36;transport, freight, sea, tanker for liquefied natural gas;transport, freight, sea, tanker for liquefied natural gas;RoW;;;GLO
@@ -296,6 +308,7 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 37;38;market for internal combustion engine, passenger car;internal combustion engine, for passenger car;GLO;market for internal combustion engine, passenger car;internal combustion engine, passenger car;GLO
 38;36;nuclear power plant construction, pressure water reactor, 1000MW;nuclear power plant, pressure water reactor, 1000MW;CH;nuclear power plant construction, pressure water reactor 1000MW;nuclear power plant, pressure water reactor 1000MW;CH
 38;37;nuclear power plant construction, pressure water reactor, 1000MW;nuclear power plant, pressure water reactor, 1000MW;CH;nuclear power plant construction, pressure water reactor 1000MW;nuclear power plant, pressure water reactor 1000MW;CH
+39;36;market for chemical, inorganic;chemical, inorganic;GLO;market for chemicals, inorganic;chemical, inorganic;GLO
 38;36;market for chemical, inorganic;chemical, inorganic;GLO;market for chemicals, inorganic;chemical, inorganic;GLO
 38;37;market for chemical, inorganic;chemical, inorganic;GLO;market for chemicals, inorganic;chemical, inorganic;GLO
 38;36;structural timber production;structural timber;RER;market for laminated timber element, transversally prestressed, for outdoor use;laminated timber element, transversally prestressed, for outdoor use;GLO
@@ -347,6 +360,7 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 37;39;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;RER;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;
 39;37;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;RER;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;
 38;37;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;RER;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;
+39;36;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;RER;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;
 35;39;plywood production, for outdoor use;plywood;RER;plywood production;;
 35;39;market for chemicals, inorganic;chemical, inorganic;GLO;market for chemical, inorganic;;
 36;39;market for chemicals, inorganic;chemical, inorganic;GLO;market for chemical, inorganic;;
@@ -562,6 +576,13 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 37;39;market for concrete, normal;concrete, normal;CH;market for concrete, normal strength;concrete, normal strength;CH
 37;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;RoW;treatment of wastewater, average, wastewater treatment;wastewater, average;RoW
 37;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;CH;treatment of wastewater, average, wastewater treatment;wastewater, average;CH
+39;38;treatment of wastewater, average, wastewater treatment;wastewater, average;CH;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;CH
+39;37;treatment of wastewater, average, wastewater treatment;wastewater, average;CH;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;CH
+39;36;treatment of wastewater, average, wastewater treatment;wastewater, average;CH;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;CH
+39;36;treatment of wastewater, average, wastewater treatment;wastewater, average;Europe without Switzerland;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;Europe without Switzerland
+39;38;treatment of wastewater, average, wastewater treatment;wastewater, average;RoW;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;RoW
+39;37;treatment of wastewater, average, wastewater treatment;wastewater, average;RoW;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;RoW
+39;36;treatment of wastewater, average, wastewater treatment;wastewater, average;RoW;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;RoW
 37;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;Europe without Switzerland;treatment of wastewater, average, wastewater treatment;wastewater, average;Europe without Switzerland
 38;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;RoW;treatment of wastewater, average, wastewater treatment;wastewater, average;RoW
 38;39;treatment of wastewater, average, capacity 1E9l/year;wastewater, average;CH;treatment of wastewater, average, wastewater treatment;wastewater, average;CH
@@ -614,3 +635,32 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 36;39;transmission network construction, electricity, high voltage;transmission network, long-distance;CH;transmission network construction, electricity, high voltage;transmission network, electricity, high voltage;CH
 37;39;transmission network construction, electricity, high voltage;transmission network, long-distance;CH;transmission network construction, electricity, high voltage;transmission network, electricity, high voltage;CH
 38;39;transmission network construction, electricity, high voltage;transmission network, long-distance;CH;transmission network construction, electricity, high voltage;transmission network, electricity, high voltage;CH
+39;38;market for battery cell, Li-ion, LFP;battery cell, Li-ion, LFP;GLO;market for battery cell, Li-ion;battery cell, Li-ion;GLO
+39;37;market for battery cell, Li-ion, LFP;battery cell, Li-ion, LFP;GLO;market for battery cell, Li-ion;battery cell, Li-ion;GLO
+39;36;market for battery cell, Li-ion, LFP;battery cell, Li-ion, LFP;GLO;market for battery cell, Li-ion;battery cell, Li-ion;GLO
+39;37;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;RoW;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;RoW
+39;37;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;RER;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;RER
+38;37;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;RoW;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;RoW
+38;37;heat pump production, heat and power co-generation unit, 160kW electrical;heat pump, heat and power co-generation unit, 160kW electrical;RER;heat pump production, for heat and power co-generation unit, 160kW electrical;heat pump, for heat and power co-generation unit, 160kW electrical;RER
+39;37;market for battery cell, Li-ion, NMC811;battery cell, Li-ion, NMC811;GLO;market for battery cell, Li-ion;battery cell, Li-ion;GLO
+39;36;market for battery cell, Li-ion, NMC811;battery cell, Li-ion, NMC811;GLO;market for battery cell, Li-ion;battery cell, Li-ion;GLO
+39;38;market for natural gas, burned in gas turbine;natural gas, burned in gas turbine;GLO;market for sweet gas, burned in gas turbine;sweet gas, burned in gas turbine;GLO
+39;37;market for natural gas, burned in gas turbine;natural gas, burned in gas turbine;GLO;market for sweet gas, burned in gas turbine;sweet gas, burned in gas turbine;GLO
+39;36;market for natural gas, burned in gas turbine;natural gas, burned in gas turbine;GLO;market for sweet gas, burned in gas turbine;sweet gas, burned in gas turbine;GLO
+39;36;market for concrete, normal strength;concrete, normal strength;RoW;concrete, all types to generic market for concrete, normal strength;concrete, normal;RoW
+39;37;market for concrete, normal strength;concrete, normal strength;RoW;concrete, all types to generic market for concrete, normal strength;concrete, normal;RoW
+39;38;market for concrete, normal strength;concrete, normal strength;RoW;concrete, all types to generic market for concrete, normal strength;concrete, normal;RoW
+39;36;market for cerium oxide;cerium oxide;GLO;market for cerium concentrate, 60% cerium oxide;cerium concentrate, 60% cerium oxide;GLO
+39;36;market for samarium-europium-gadolinium oxide;samarium-europium-gadolinium oxide;GLO;market for samarium europium gadolinium concentrate, 94% rare earth oxide;samarium europium gadolinium concentrate, 94% rare earth oxide;GLO
+39;36;market for potassium nitrate;potassium nitrate;RER;market for potassium nitrate;potassium nitrate;GLO
+38;36;market for solid bleached and unbleached board carton;solid bleached and unbleached board carton;RER;market for solid bleached board;solid bleached board;GLO
+38;36;market for EUR-flat pallet;EUR-flat pallet;RER;market for EUR-flat pallet;EUR-flat pallet;GLO
+38;36;treatment of spent solvent mixture, hazardous waste incineration, with energy recovery;spent solvent mixture;Europe without Switzerland;treatment of spent solvent mixture, hazardous waste incineration;spent solvent mixture;Europe without Switzerland
+38;36;market for laminated timber element, transversally prestressed, for outdoor use;laminated timber element, transversally prestressed, for outdoor use;RER;market for plywood, for outdoor use;plywood, for outdoor use;RER
+39;36;market for solid bleached and unbleached board carton;solid bleached and unbleached board carton;RER;market for solid bleached board;solid bleached board;GLO
+39;36;market for EUR-flat pallet;EUR-flat pallet;RER;market for EUR-flat pallet;EUR-flat pallet;GLO
+39;36;treatment of spent solvent mixture, hazardous waste incineration, with energy recovery;spent solvent mixture;Europe without Switzerland;treatment of spent solvent mixture, hazardous waste incineration;spent solvent mixture;Europe without Switzerland
+39;36;market for laminated timber element, transversally prestressed, for outdoor use;laminated timber element, transversally prestressed, for outdoor use;RER;market for plywood, for outdoor use;plywood, for outdoor use;RER
+38;36;market for electric arc furnace slag;electric arc furnace slag;RoW;market for slag, unalloyed electric arc furnace steel;slag, unalloyed electric arc furnace steel;GLO
+38;36;treatment of basic oxygen furnace slag, residual material landfill;basic oxygen furnace slag;GLO;treatment of basic oxygen furnace waste, residual material landfill;basic oxygen furnace waste;RoW
+39;36;market for potassium chloride;potassium chloride;RER;market for potassium chloride, industrial grade;potassium chloride, industrial grade;GLO

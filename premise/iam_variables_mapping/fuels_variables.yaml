@@ -122,9 +122,10 @@ natural gas:
         - petroleum and gas production
         - market for natural gas
         - market group for natural gas
+        - evaporation of natural gas
+
     mask:
       name:
-        - import
         - synthetic
         - burned
         - vehicle grade
@@ -137,7 +138,6 @@ natural gas:
         - vented
         - venting
         - liquids
-        - domestic
         - network
 gas, natural, in ground:
   lhv: 45
@@ -219,16 +219,10 @@ methane, fossil:
   lhv: 47.5
   co2: 0.058
   biogenic_share: 0
-  ecoinvent_aliases:
-    fltr:
-      - methane, fossil
 methane, biogenic:
   lhv: 47.5
   co2: 0.058
   biogenic_share: 1
-  ecoinvent_aliases:
-    fltr:
-      - methane, biogenic
 methane, synthetic:
   lhv: 47.5
   co2: 0.058
@@ -244,7 +238,7 @@ diesel:
   iam_aliases:
     remind: SE|Liquids|Fossil|+|Oil
     image: Secondary Energy|Consumption|Liquids|Fossil
-    message: Secondary Energy|Liquids|Oil
+    message: Secondary Energy|Liquids|Oil|Fuel
   eff_aliases:
     remind: Tech|Liquids|Fossil|Oil|Efficiency
   ecoinvent_aliases:
@@ -274,7 +268,7 @@ gasoline:
   iam_aliases:
     remind: SE|Liquids|Fossil|+|Oil
     image: Secondary Energy|Consumption|Liquids|Fossil
-    message: Secondary Energy|Liquids|Oil
+    message: Secondary Energy|Liquids|Oil|Fuel
   eff_aliases:
     remind: Tech|Liquids|Fossil|Oil|Efficiency
   ecoinvent_aliases:

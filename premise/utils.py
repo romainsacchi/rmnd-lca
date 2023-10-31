@@ -4,27 +4,21 @@ Various utils functions.
 
 import os
 import sys
+import uuid
 from functools import lru_cache
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 import pandas as pd
 import xarray as xr
 import yaml
-from bw2data import databases
-from bw2io.importers.base_lci import LCIImporter
 from country_converter import CountryConverter
 from prettytable import ALL, PrettyTable
-from wurst.linking import (
-    change_db_name,
-    check_duplicate_codes,
-    check_internal_linking,
-    link_internal,
-)
 from wurst.searching import equals, get_many
 
-from . import DATA_DIR, VARIABLES_DIR, __version__
+from . import __version__
 from .data_collection import get_delimiter
+from .filesystem_constants import DATA_DIR, DIR_CACHED_DB, VARIABLES_DIR
 from .geomap import Geomap
 
 FUELS_PROPERTIES = VARIABLES_DIR / "fuels_variables.yaml"
@@ -159,7 +153,7 @@ def get_regions_definition(model: str) -> None:
     print(table)
 
 
-def clear_existing_cache():
+def clear_existing_cache(all_versions: Optional[bool] = False) -> None:
     """Clears the cache folder, except for files which contain __version__ in name.
     Useful when updating `premise`
     or encountering issues with
@@ -167,14 +161,15 @@ def clear_existing_cache():
     """
     [
         f.unlink()
-        for f in Path(DATA_DIR / "cache").glob("*")
-        if f.is_file() and "__version__" not in f.name
+        for f in DIR_CACHED_DB.glob("*")
+        if f.is_file()
+        and (all_versions or "".join(tuple(map(str, __version__))) not in f.name)
     ]
 
 
 # clear the cache folder
-def clear_cache():
-    [f.unlink() for f in Path(DATA_DIR / "cache").glob("*") if f.is_file()]
+def clear_cache() -> None:
+    clear_existing_cache(all_versions=True)
     print("Cache folder cleared!")
 
 
@@ -260,79 +255,27 @@ def hide_messages():
     print("Keep uncertainty data?")
     print("NewDatabase(..., keep_uncertainty_data=True)")
     print("")
+    print("Disable multiprocessing?")
+    print("NewDatabase(..., use_multiprocessing=False)")
+    print("")
     print("Hide these messages?")
     print("NewDatabase(..., quiet=True)")
 
 
-class PremiseImporter(LCIImporter):
-    def __init__(self, db_name, data):
-        self.db_name = db_name
-        self.data = data
-        for act in self.data:
-            act["database"] = self.db_name
-
-    # we override `write_database`
-    # to allow existing databases
-    # to be overwritten
-    def write_database(self):
-        if self.db_name in databases:
-            print(f"Database {self.db_name} already exists: " "it will be overwritten.")
-        super().write_database()
-
-
-def clean_up(exc):
-    """Remove keys from ``exc`` that are not in the schema."""
-
-    FORBIDDEN_FIELDS_TECH = [
-        "categories",
-    ]
-
-    FORBIDDEN_FIELDS_BIO = ["location", "product"]
-
-    for field in list(exc.keys()):
-        if exc[field] is None or exc[field] == "None":
-            del exc[field]
-            continue
-
-        if exc["type"] == "biosphere" and field in FORBIDDEN_FIELDS_BIO:
-            del exc[field]
-        if exc["type"] == "technosphere" and field in FORBIDDEN_FIELDS_TECH:
-            del exc[field]
-
-    return exc
-
-
-def write_brightway2_database(data, name):
-    # Restore parameters to Brightway2 format
-    # which allows for uncertainty and comments
-
+def reset_all_codes(data):
+    """
+    Re-generate all codes in each dataset of a database
+    Remove all code for each production and technosphere exchanges
+    in each dataset.
+    """
     for ds in data:
-        if "parameters" in ds:
-            if not isinstance(ds["parameters"], list):
-                if isinstance(ds["parameters"], dict):
-                    ds["parameters"] = [
-                        {"name": k, "amount": v} for k, v in ds["parameters"].items()
-                    ]
-                else:
-                    ds["parameters"] = [ds["parameters"]]
-            else:
-                ds["parameters"] = [
-                    {"name": k, "amount": v}
-                    for o in ds["parameters"]
-                    for k, v in o.items()
-                ]
+        ds["code"] = str(uuid.uuid4())
+        for exc in ds["exchanges"]:
+            if exc["type"] in ["production", "technosphere"]:
+                if "input" in exc:
+                    del exc["input"]
 
-        for key, value in list(ds.items()):
-            if not value:
-                del ds[key]
-
-        ds["exchanges"] = [clean_up(exc) for exc in ds["exchanges"]]
-
-    change_db_name(data, name)
-    link_internal(data)
-    check_internal_linking(data)
-    check_duplicate_codes(data)
-    PremiseImporter(name, data).write_database()
+    return data
 
 
 def delete_log():
@@ -343,3 +286,19 @@ def delete_log():
     log_path = Path.cwd() / "premise.log"
     if log_path.exists():
         log_path.unlink()
+
+
+def create_scenario_list(scenarios, datapackages=None):
+    list_scenarios = [f"{s['model']} - {s['pathway']} - {s['year']}" for s in scenarios]
+
+    if "external scenarios" in scenarios[0]:
+        external_model_name = "External model"
+        for s, scenario in enumerate(scenarios):
+            for e, ext_scenario in enumerate(scenario["external scenarios"]):
+                if datapackages is not None:
+                    external_model_name = datapackages[e].descriptor.get(
+                        "name", "External model"
+                    )
+                list_scenarios[s] += f" - {external_model_name} - {ext_scenario}"
+
+    return list_scenarios

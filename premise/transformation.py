@@ -25,8 +25,9 @@ from wurst import transformations as wt
 
 from .activity_maps import InventorySet
 from .data_collection import IAMDataCollection
+from .filesystem_constants import DATA_DIR
 from .geomap import Geomap
-from .utils import DATA_DIR, get_fuel_properties
+from .utils import get_fuel_properties
 
 LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
 # directory for log files
@@ -50,6 +51,7 @@ def get_suppliers_of_a_region(
     reference_prod: str,
     unit: str,
     exclude: List[str] = None,
+    exact_match: bool = False,
 ) -> filter:
     """
     Return a list of datasets, for which the location, name,
@@ -65,8 +67,16 @@ def get_suppliers_of_a_region(
     :param exclude: list of terms to exclude
     """
 
-    filters = [
-        ws.either(*[ws.contains("name", supplier) for supplier in names]),
+    if exact_match:
+        filters = [
+            ws.either(*[ws.equals("name", supplier) for supplier in names]),
+        ]
+    else:
+        filters = [
+            ws.either(*[ws.contains("name", supplier) for supplier in names]),
+        ]
+
+    filters += [
         ws.either(*[ws.equals("location", loc) for loc in locations]),
         ws.contains("reference product", reference_prod),
         ws.equals("unit", unit),
@@ -210,10 +220,16 @@ def allocate_inputs(exc, lst):
         total = len(lst)
         pvs = [1 for _ in range(total)]
 
-    return [
-        new_exchange(exc, obj["location"], factor / total)
-        for obj, factor in zip(lst, pvs)
-    ], [p / total for p in pvs]
+    if lst[0]["name"] != exc["name"]:
+        exc["name"] = lst[0]["name"]
+
+    return (
+        [
+            new_exchange(exc, obj["location"], factor / total)
+            for obj, factor in zip(lst, pvs)
+        ],
+        [p / total for p in pvs],
+    )
 
 
 def filter_out_results(
@@ -277,10 +293,11 @@ class BaseTransformation:
     @lru_cache
     def select_multiple_suppliers(
         self,
-        possible_names,
-        dataset_location,
-        look_for=None,
-        blacklist=None,
+        possible_names: Tuple[str],
+        dataset_location: str,
+        look_for: Tuple[str] = None,
+        blacklist: Tuple[str] = None,
+        exclude_region: Tuple[str] = None,
     ):
         """
         Select multiple suppliers for a specific fuel.
@@ -296,9 +313,9 @@ class BaseTransformation:
             dataset_location,
             [*ecoinvent_regions],
             "RoW",
+            "GLO",
             "Europe without Switzerland",
             "RER",
-            "GLO",
         ]
 
         suppliers, counter = [], 0
@@ -318,6 +335,13 @@ class BaseTransformation:
             )
             extra_filters.append(
                 ws.exclude(ws.either(*[ws.contains("name", x) for x in blacklist]))
+            )
+
+        if exclude_region:
+            extra_filters.append(
+                ws.exclude(
+                    ws.either(*[ws.contains("location", x) for x in exclude_region])
+                )
             )
 
         try:
@@ -681,6 +705,7 @@ class BaseTransformation:
         :param ref_prod: dataset reference product
         :param loc_map: ecoinvent location to IAM location mapping for this activity
         :param production_variable: IAM production variable
+        :param regions: regions to empty original datasets for
         :return: Does not return anything. Just empties the original dataset.
         """
 
@@ -695,7 +720,9 @@ class BaseTransformation:
             self.database,
             ws.equals("name", name),
             ws.contains("reference product", ref_prod),
-            ws.doesnt_contain_any("location", regions),
+            ws.exclude(
+                ws.either(*[ws.equals("location", loc) for loc in self.regions])
+            ),
         )
 
         for existing_ds in existing_datasets:
@@ -1162,7 +1189,14 @@ class BaseTransformation:
             )
             for e, s in zip(allocated, shares)
         ]
-        self.cache.setdefault(location, {}).setdefault(self.model, {})[exc_key] = entry
+
+        if location not in self.cache:
+            self.cache[location] = {}
+
+        if self.model not in self.cache[location]:
+            self.cache[location][self.model] = {}
+
+        self.cache[location][self.model][exc_key] = entry
 
     def relink_technosphere_exchanges(
         self,
@@ -1250,66 +1284,23 @@ class BaseTransformation:
                         possible_datasets[0]["reference product"] == exc["product"]
                     ), f"candidate: {_(possible_datasets[0])}, exc: {_(exc)}"
 
-                    self.cache.update(
-                        {
-                            dataset["location"]: {
-                                self.model: {
-                                    (
-                                        exc["name"],
-                                        exc["product"],
-                                        exc["location"],
-                                        exc["unit"],
-                                    ): [
-                                        (
-                                            e["name"],
-                                            e["product"],
-                                            e["location"],
-                                            e["unit"],
-                                            s,
-                                        )
-                                        for e, s in zip(
-                                            [new_exchange(exc, exc["location"], 1.0)],
-                                            [1.0],
-                                        )
-                                    ]
-                                }
-                            }
-                        }
+                    # update cache
+                    self.add_new_entry_to_cache(
+                        dataset["location"],
+                        exc,
+                        [new_exchange(exc, exc["location"], 1.0)],
+                        [1.0],
                     )
 
                     new_exchanges.append(exc)
                     continue
 
                 if dataset["location"] in possible_locations:
-                    self.cache.update(
-                        {
-                            dataset["location"]: {
-                                self.model: {
-                                    (
-                                        exc["name"],
-                                        exc["product"],
-                                        exc["location"],
-                                        exc["unit"],
-                                    ): [
-                                        (
-                                            e["name"],
-                                            e["product"],
-                                            e["location"],
-                                            e["unit"],
-                                            s,
-                                        )
-                                        for e, s in zip(
-                                            [
-                                                new_exchange(
-                                                    exc, dataset["location"], 1.0
-                                                )
-                                            ],
-                                            [1.0],
-                                        )
-                                    ]
-                                }
-                            }
-                        }
+                    self.add_new_entry_to_cache(
+                        dataset["location"],
+                        exc,
+                        [new_exchange(exc, dataset["location"], 1.0)],
+                        [1.0],
                     )
 
                     exc["location"] = dataset["location"]

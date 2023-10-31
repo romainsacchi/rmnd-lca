@@ -17,6 +17,7 @@ Gas CC: 35
 Gas CC CCS: 35
 Gas CHP: 35
 Gas CHP CCS: 35
+Gas ST: 35
 Oil ST: 25
 Oil CC CCS: 25
 Oil CC: 25
@@ -26,11 +27,16 @@ Geothermal: 30
 Hydro: 130
 Hydrogen: 35
 Nuclear: 40
+Nuclear_EPR: 40
+Nuclear_SMR: 40
+Foil ST: 25
 Solar CSP: 30
+Solar CSP autonomous: 30
 Solar PV Centralized: 30
 Solar PV Residential: 30
 Wind Onshore: 25
 Wind Offshore: 25
+Wave: 25
 diesel: 35
 gasoline: 35
 diesel, synthetic, from wood: 35
@@ -65,3 +71,13 @@ hydrogen, biomass, with CCS: 35
 hydrogen, coal: 35
 hydrogen, nat. gas: 35
 hydrogen, nat. gas, with CCS: 35
+hydrogen, coal, with CCS: 35
+hydrogen, solar: 35
+cement, dry feed rotary kiln: 40
+steel - primary: 40
+steel - secondary: 40
+daccs_sorbent: 20
+biomass - residual: 35
+biomass crops - purpose grown: 35
+Storage, Hydrogen: 20
+Storage, Flow Battery: 20

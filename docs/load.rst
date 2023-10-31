@@ -162,9 +162,12 @@ This is done as follows:
     ndb.write_db_to_datapackage()
 
 This creates a zip file that contains the all the data necessary for
-other users to replicate teh databases, provided they have access
+other users to replicate the databases, provided they have access
 to the source database locally.
 
-See the library ``unfold`` for more information on data packages
-for sharing LCA databases.
+See the library <``unfold`` https://github.com/polca/unfold/tree/main>_ for more information on data packages
+for sharing LCA databases. ``unfold`` can read these data packages and create
+brightway2 databases (or superstructure databases) from them.
+``unfold`` can also fold premise databases registered in your brightway2 project
+into data packages, to be shared with and recreated by others.
 

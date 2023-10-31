@@ -5,7 +5,6 @@ and those provided by the user.
 
 import csv
 import itertools
-import sys
 import uuid
 from functools import lru_cache
 from pathlib import Path
@@ -19,9 +18,9 @@ from bw2io import CSVImporter, ExcelImporter, Migration
 from prettytable import PrettyTable
 from wurst import searching as ws
 
-from . import DATA_DIR, INVENTORY_DIR
 from .clean_datasets import remove_categories, remove_uncertainty
 from .data_collection import get_delimiter
+from .filesystem_constants import DATA_DIR, DIR_CACHED_DB, INVENTORY_DIR
 from .geomap import Geomap
 
 FILEPATH_MIGRATION_MAP = INVENTORY_DIR / "migration_map.csv"
@@ -281,7 +280,7 @@ class BaseInventoryImport:
                 )
 
         self.path = Path(path) if isinstance(path, str) else path
-        self.import_db = self.load_inventory(path)
+        self.import_db = self.load_inventory()
 
         # register migration maps
         # as imported inventories link
@@ -297,7 +296,7 @@ class BaseInventoryImport:
                         description=f"Change technosphere names due to change from {combination[0]} to {combination[1]}",
                     )
 
-    def load_inventory(self, path: Union[str, Path]) -> None:
+    def load_inventory(self) -> None:
         """Load an inventory from a specified path.
         Sets the :attr:`import_db` attribute.
         :param str path: Path to the inventory file
@@ -579,20 +578,34 @@ class BaseInventoryImport:
 
         for ds in self.import_db.data:
             # lower case name and reference product
-            if not any([x in ds["name"] for x in blakclist]):
+            # only if they are not in the blacklist
+            # and if the first word is not an acronym
+            if (
+                not any([x in ds["name"] for x in blakclist])
+                and not ds["name"].split(" ")[0].isupper()
+            ):
                 ds["name"] = ds["name"][0].lower() + ds["name"][1:]
-            if not any([x in ds["reference product"] for x in blakclist]):
+            if (
+                not any([x in ds["reference product"] for x in blakclist])
+                and not ds["reference product"].split(" ")[0].isupper()
+            ):
                 ds["reference product"] = (
                     ds["reference product"][0].lower() + ds["reference product"][1:]
                 )
 
             for exc in ds["exchanges"]:
                 if exc["type"] in ["technosphere", "production"]:
-                    if not any([x in exc["name"] for x in blakclist]):
+                    if (
+                        not any([x in exc["name"] for x in blakclist])
+                        and not exc["name"].split(" ")[0].isupper()
+                    ):
                         exc["name"] = exc["name"][0].lower() + exc["name"][1:]
 
-                    if not any(
-                        [x in exc.get("reference product", "") for x in blakclist]
+                    if (
+                        not any(
+                            [x in exc.get("reference product", "") for x in blakclist]
+                        )
+                        and not exc.get("reference product", "").split(" ")[0].isupper()
                     ):
                         if exc.get("reference product") is not None:
                             exc["reference product"] = (
@@ -600,7 +613,10 @@ class BaseInventoryImport:
                                 + exc["reference product"][1:]
                             )
 
-                    if not any([x in exc.get("product", "") for x in blakclist]):
+                    if (
+                        not any([x in exc.get("product", "") for x in blakclist])
+                        and not exc.get("product", "").split(" ")[0].isupper()
+                    ):
                         if exc.get("product") is not None:
                             exc["product"] = (
                                 exc["product"][0].lower() + exc["product"][1:]
@@ -672,8 +688,8 @@ class DefaultInventory(BaseInventoryImport):
             database, version_in, version_out, path, system_model, keep_uncertainty_data
         )
 
-    def load_inventory(self, path: Union[str, Path]) -> bw2io.ExcelImporter:
-        return ExcelImporter(path)
+    def load_inventory(self) -> bw2io.ExcelImporter:
+        return ExcelImporter(self.path)
 
     def prepare_inventory(self) -> None:
         if self.version_in != self.version_out:
@@ -759,8 +775,8 @@ class VariousVehicles(BaseInventoryImport):
         self.has_fleet = has_fleet
         self.geo = Geomap(model=model)
 
-    def load_inventory(self, path):
-        return ExcelImporter(path)
+    def load_inventory(self):
+        return ExcelImporter(self.path)
 
     def prepare_inventory(self):
         # if version_out is 3.9, migrate towards 3.8 first, then 3.9
@@ -800,13 +816,13 @@ class AdditionalInventory(BaseInventoryImport):
     def __init__(self, database, version_in, version_out, path, system_model):
         super().__init__(database, version_in, version_out, path, system_model)
 
-    def load_inventory(self, path):
-        if "http" in path:
+    def load_inventory(self):
+        # check if "http" in path
+        if "http" in str(self.path):
             # online file
             # we need to save it locally first
-            response = requests.get(path)
-            Path(DATA_DIR / "cache").mkdir(parents=True, exist_ok=True)
-            path = str(Path(DATA_DIR / "cache" / "temp.csv"))
+            response = requests.get(self.path)
+            path = DIR_CACHED_DB / "temp.csv"
             with open(path, "w", encoding="utf-8") as f:
                 writer = csv.writer(
                     f,
@@ -818,24 +834,16 @@ class AdditionalInventory(BaseInventoryImport):
                 for line in response.iter_lines():
                     writer.writerow(line.decode("utf-8").split(","))
 
-        if Path(path).suffix == ".xlsx":
-            return ExcelImporter(path)
-        elif Path(path).suffix == ".csv":
-            return CSVImporter(path)
+        if self.path.suffix == ".xlsx":
+            return ExcelImporter(self.path)
+
+        elif self.path.suffix == ".csv":
+            return CSVImporter(self.path)
+
         else:
             raise ValueError(
                 "Incorrect filetype for inventories." "Should be either .xlsx or .csv"
             )
-
-    def remove_missing_fields(self):
-        """
-        Remove any field that does not have information.
-        """
-
-        for dataset in self.import_db.data:
-            for key, value in list(dataset.items()):
-                if not value:
-                    del dataset[key]
 
     def prepare_inventory(self):
         if str(self.version_in) != self.version_out:
@@ -861,66 +869,11 @@ class AdditionalInventory(BaseInventoryImport):
                 )
             )
 
-        list_missing_prod = self.search_missing_exchanges(
-            label="type", value="production"
-        )
-
-        if len(list_missing_prod) > 0:
-            print("The following datasets are missing a `production` exchange.")
-            print("You should fix those before proceeding further.\n")
-            table = PrettyTable(
-                ["Name", "Reference product", "Location", "Unit", "File"]
-            )
-            for dataset in list_missing_prod:
-                table.add_row(
-                    [
-                        dataset.get("name", "XXXX"),
-                        dataset.get("referece product", "XXXX"),
-                        dataset.get("location", "XXXX"),
-                        dataset.get("unit", "XXXX"),
-                        self.path.name,
-                    ]
-                )
-
-            print(table)
-
-            sys.exit()
-
         self.import_db.data = remove_categories(self.import_db.data)
-        self.add_biosphere_links(delete_missing=True)
-        list_missing_ref = self.search_missing_field(field="name")
-        list_missing_ref.extend(self.search_missing_field(field="reference product"))
-        list_missing_ref.extend(self.search_missing_field(field="location"))
-        list_missing_ref.extend(self.search_missing_field(field="unit"))
-
-        if len(list_missing_ref) > 0:
-            print(
-                "The following datasets are missing an important field "
-                "(`name`, `reference product`, `location` or `unit`).\n"
-            )
-
-            print("You should fix those before proceeding further.\n")
-            table = PrettyTable(
-                ["Name", "Reference product", "Location", "Unit", "File"]
-            )
-            for dataset in list_missing_ref:
-                table.add_row(
-                    [
-                        dataset.get("name", "XXXX"),
-                        dataset.get("referece product", "XXXX"),
-                        dataset.get("location", "XXXX"),
-                        dataset.get("unit", "XXXX"),
-                        self.path.name,
-                    ]
-                )
-
-            print(table)
-
-        if len(list_missing_prod) > 0 or len(list_missing_ref) > 0:
-            sys.exit()
-
-        self.remove_missing_fields()
+        self.lower_case_technosphere_exchanges()
+        self.add_biosphere_links()
         self.add_product_field_to_exchanges()
+
         # Check for duplicates
         self.check_for_already_existing_datasets()
         self.import_db.data = check_for_duplicate_datasets(self.import_db.data)

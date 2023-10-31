@@ -48,6 +48,10 @@ natural resource:
   Bromine, in water: Bromine
   Fluorspar, in ground: Fluorspar
   Iodine, in water: Iodine
+  Water, well: Water, well, in ground
+  Vanadium: Vanadium, in ground
+  Iron, 72% in magnetite, 14% in crude ore: Iron, 72% in magnetite, 14% in crude ore, in ground
+
 
 soil:
   Cyfluthrin: Beta-cyfluthrin
@@ -93,3 +97,4 @@ water:
   Cesium-137: Caesium-137
   Cesium-134: Caesium-134
   Cesium-136: Caesium-136
+  Cobalt: Cobalt II

@@ -112,7 +112,9 @@ indicate the database name in `source_db` and its version in `source_version`:
             ],
         source_db="ecoinvent 3.7 cutoff", # <-- this is NEW.
         source_version="3.7.1", # <-- this is NEW
-        key='xxxxxxxxxxxxxxxxxxxxxxxxx'
+        key='xxxxxxxxxxxxxxxxxxxxxxxxx',
+        use_multiprocessing=True, # True by default, set to False if multiprocessing is causing troubles
+        keep_uncertainty_data=False # False by default, set to True if you want to keep ecoinvent's uncertainty data
     )
 
 Note that a cache of the database will be created the first time and
@@ -613,7 +615,7 @@ The datasets introduced are listed in the table below.
  ================================================================== ===========
   Hydrogen distribution                                              location
  ================================================================== ===========
-  Hydrogen refuelling station                                        GLO
+  hydrogen refuelling station                                        GLO
   high pressure hydrogen storage tank                                GLO
   distribution pipeline for hydrogen, dedicated hydrogen pipeline    RER
   transmission pipeline for hydrogen, dedicated hydrogen pipeline    RER
@@ -632,6 +634,19 @@ The datasets introduced are listed in the table below.
 .. _Wulf: https://www.sciencedirect.com/science/article/pii/S095965261832170X
 .. _LCI_H2_distr: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-hydrogen-distribution.xlsx
 .. _Cerniauskas: https://doi.org/10.1016/j.ijhydene.2020.02.121
+
+
+Hydrogen turbine
+****************
+
+A dataset for a hydrogen turbine is also imported, to model the production of electricity
+from hydrogen, with an efficiency of 51%. The efficiency of the H2-fed gas turbine is based
+on the parameters of Ozawa_ et al. (2019), consulted here: LCI_H2_turbine_.
+
+.. _Ozawa: https://doi.org/10.1016/j.ijhydene.2019.02.230
+.. _LCI_H2_turbine: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-hydrogen-turbine.xlsx
+
+
 
 Biofuels
 --------
@@ -942,6 +957,41 @@ These inventories can be found here: LCI_lithium_.
 .. _LCI_cobalt: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-cobalt.xlsx
 .. _LCI_lithium: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-lithium.xlsx
 
+Vanadium Redox Flow Batteries
+-----------------------------
+
+*premise* imports inventories for the production of a vanadium redox flow battery, used
+for grid-balancing, from the work of Weber_ et al. 2021.
+It is available under the following dataset:
+
+* vanadium-redox flow battery system assembly, 8.3 megawatt hour
+
+The dataset providing electricity is the following:
+
+* electricity supply, high voltage, from vanadium-redox flow battery system
+
+The power capacity for this application is 1MW and the net storage capacity 6 MWh.
+The net capacity considers the internal inefficiencies of the batteries and the
+min Sate-of-Charge, requiring a certain oversizing of the batteries.
+For providing net 6 MWh, a nominal capacity of 8.3 MWh is required for the
+VRFB with the assumed operation parameters. The assumed lifetime of the stack
+is 10 years. The lifetime of the system is 20 years or 8176
+cycle-life (49,000 MWh).
+
+.. _Weber: https://doi.org/10.1021/acs.est.8b02073
+
+These inventories can be found here: LCI_vanadium_redox_flow_batteries_.
+
+.. _LCI_vanadium_redox_flow_batteries: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-vanadium-redox-flow-battery.xlsx
+
+This publication also provides LCIs for Vanadium mining and refining from iron ore.
+The end product is vanadium pentoxide, which is available under the following dataset:
+
+* vanadium pentoxide production
+
+These inventories can be found here: LCI_vanadium_.
+
+.. _LCI_vanadium: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-vanadium.xlsx
 
 Road vehicles
 -------------

@@ -41,7 +41,7 @@ power plants on the basis of the excellent work done by Oberschelp_ et al. (2019
 to update some datasets in ecoinvent, which are, for some of them, several decades
 old. More specifically, the data provides plant-specific efficiency
 and emissions factors. We average them by country and fuel type to obtain
-volume-weighted factors. Rhe efficiency of the following datasets is updated:
+volume-weighted factors. The efficiency of the following datasets is updated:
 
 * electricity production, hard coal
 * electricity production, lignite
@@ -415,6 +415,28 @@ high voltage losses (provided by ecoinvent) of countries included in the
 IAM region with their respective current production volumes (also provided by
 ecoinvent). This is not ideal as it supposes that future country-specific
 production volumes will remain the same in respect to one another.
+
+Storage
+-------
+
+If the IAM scenario requires the use of storage, *premise* adds a storage
+dataset to the high voltage market. *premise* can add two types of storage:
+
+* storage via a large-scale flow battery (electricity supply, high voltage, from vanadium-redox flow battery system)
+* storage via the conversion of electricity to hydrogen and subsequent use in a gas turbine (electricity production, from hydrogen-fired one gigawatt gas turbine)
+
+The electricity storage via battery incurs a 33% loss. It is operated by a 8.3 MWh vanadium redox-based flow battery,
+with a lifetime of 20 years or 8176 cycle-lifes (i.e., 49,000 MWh).
+
+The storage of electricity via hydrogen is done in two steps: first, the electricity is converted to hydrogen
+via a 1MW PEM electrolyser, with an efficiency of 62%. The hydrogen is then stored in a geological cavity
+and used in a gas turbine, with an efficiency of 51%. Accounting for leakages and losses, the
+overall efficiency of the process is about 37% (i.e., 2.7 kWh necessary to deliver 1 kWh to the grid).
+
+The efficiency of the H2-fed gas turbine is based on the parameters of Ozawa_ et al. (2019).
+
+.. _Ozawa: https://doi.org/10.1016/j.ijhydene.2019.02.230
+
 
 Medium voltage regional markets
 _______________________________

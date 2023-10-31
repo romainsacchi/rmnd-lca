@@ -3,20 +3,13 @@ Integrates projections regarding direct air capture and storage.
 """
 
 import copy
-import logging.config
-from pathlib import Path
 
+import numpy as np
 import wurst
 import yaml
 
+from .filesystem_constants import DATA_DIR
 from .logger import create_logger
-from .utils import DATA_DIR
-
-logger = create_logger("dac")
-
-
-import numpy as np
-
 from .transformation import (
     BaseTransformation,
     IAMDataCollection,
@@ -25,6 +18,8 @@ from .transformation import (
     uuid,
     ws,
 )
+
+logger = create_logger("dac")
 
 HEAT_SOURCES = DATA_DIR / "fuels" / "heat_sources_map.yml"
 
@@ -37,7 +32,7 @@ def fetch_mapping(filepath: str) -> dict:
     return mapping
 
 
-def _update_dac(scenario, version, system_model, modified_datasets):
+def _update_dac(scenario, version, system_model, modified_datasets, cache=None):
     dac = DirectAirCapture(
         database=scenario["database"],
         iam_data=scenario["iam data"],
@@ -47,16 +42,18 @@ def _update_dac(scenario, version, system_model, modified_datasets):
         version=version,
         system_model=system_model,
         modified_datasets=modified_datasets,
+        cache=cache,
     )
 
     if scenario["iam data"].dac_markets is not None:
         dac.generate_dac_activities()
         scenario["database"] = dac.database
         modified_datasets = dac.modified_datasets
+        cache = dac.cache
     else:
         print("No DAC markets found in IAM data. Skipping.")
 
-    return scenario, modified_datasets
+    return scenario, modified_datasets, cache
 
 
 class DirectAirCapture(BaseTransformation):
@@ -75,6 +72,7 @@ class DirectAirCapture(BaseTransformation):
         version: str,
         system_model: str,
         modified_datasets: dict,
+        cache: dict = None,
     ):
         super().__init__(
             database,
@@ -85,6 +83,7 @@ class DirectAirCapture(BaseTransformation):
             version,
             system_model,
             modified_datasets,
+            cache,
         )
         self.database = database
         self.iam_data = iam_data
@@ -151,7 +150,8 @@ class DirectAirCapture(BaseTransformation):
                     name=ds_name,
                     ref_prod="carbon dioxide",
                     relink=False,
-                    delete_original_dataset=True,
+                    delete_original_dataset=False,
+                    empty_original_activity=False,
                 )
 
                 # loop through heat sources

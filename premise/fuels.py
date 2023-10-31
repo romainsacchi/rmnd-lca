@@ -3,9 +3,7 @@ Integrates projections regarding fuel production and supply.
 """
 
 import copy
-import logging.config
 from functools import lru_cache
-from pathlib import Path
 from typing import Union
 
 import wurst
@@ -13,7 +11,7 @@ import xarray as xr
 import yaml
 from numpy import ndarray
 
-from . import VARIABLES_DIR
+from .filesystem_constants import DATA_DIR, VARIABLES_DIR
 from .inventory_imports import get_biosphere_code
 from .logger import create_logger
 from .transformation import (
@@ -30,7 +28,7 @@ from .transformation import (
     uuid,
     ws,
 )
-from .utils import DATA_DIR, get_crops_properties
+from .utils import get_crops_properties
 
 logger = create_logger("fuel")
 
@@ -274,7 +272,7 @@ def update_dataset(dataset, supplier_key, amount):
     return dataset
 
 
-def _update_fuels(scenario, version, system_model, modified_datasets):
+def _update_fuels(scenario, version, system_model, modified_datasets, cache=None):
     fuels = Fuels(
         database=scenario["database"],
         iam_data=scenario["iam data"],
@@ -284,6 +282,7 @@ def _update_fuels(scenario, version, system_model, modified_datasets):
         version=version,
         system_model=system_model,
         modified_datasets=modified_datasets,
+        cache=cache,
     )
 
     if any(
@@ -298,10 +297,11 @@ def _update_fuels(scenario, version, system_model, modified_datasets):
         fuels.generate_fuel_markets()
         scenario["database"] = fuels.database
         modified_datasets = fuels.modified_datasets
+        cache = fuels.cache
     else:
         print("No fuel markets found in IAM data. Skipping.")
 
-    return scenario, modified_datasets
+    return scenario, modified_datasets, cache
 
 
 class Fuels(BaseTransformation):
@@ -319,6 +319,7 @@ class Fuels(BaseTransformation):
         version: str,
         system_model: str,
         modified_datasets: dict,
+        cache: dict = None,
     ):
         super().__init__(
             database,
@@ -329,6 +330,7 @@ class Fuels(BaseTransformation):
             version,
             system_model,
             modified_datasets,
+            cache,
         )
         # ecoinvent version
         self.version = version
@@ -346,20 +348,18 @@ class Fuels(BaseTransformation):
             for sub_type in sub_types
         }
 
-        self.iam_fuel_markets = xr.DataArray(
-            dims=["variables"], coords={"variables": []}
+        self.iam_fuel_markets = self.iam_data.production_volumes.sel(
+            variables=[
+                g
+                for g in [
+                    item
+                    for sublist in list(self.fuel_groups.values())
+                    for item in sublist
+                ]
+                if g
+                in self.iam_data.production_volumes.coords["variables"].values.tolist()
+            ]
         )
-        for market in [
-            self.iam_data.petrol_markets,
-            self.iam_data.diesel_markets,
-            self.iam_data.gas_markets,
-            self.iam_data.hydrogen_markets,
-        ]:
-            if market is not None:
-                self.iam_fuel_markets = xr.concat(
-                    [self.iam_fuel_markets, market],
-                    dim="variables",
-                )
 
         self.fuel_efficiencies = xr.DataArray(
             dims=["variables"], coords={"variables": []}
@@ -439,17 +439,22 @@ class Fuels(BaseTransformation):
 
         # while we do not find a result
         while len(suppliers) == 0:
-            suppliers = list(
-                get_suppliers_of_a_region(
-                    database=self.database,
-                    locations=possible_locations[counter],
-                    names=[name] if isinstance(name, str) else name,
-                    reference_prod=ref_prod,
-                    unit=unit,
-                    exclude=exclude,
+            try:
+                suppliers = list(
+                    get_suppliers_of_a_region(
+                        database=self.database,
+                        locations=possible_locations[counter],
+                        names=[name] if isinstance(name, str) else name,
+                        reference_prod=ref_prod,
+                        unit=unit,
+                        exclude=exclude,
+                    )
                 )
-            )
-            counter += 1
+                counter += 1
+            except IndexError as err:
+                raise IndexError(
+                    f"Could not find any supplier for {name} {ref_prod} in {possible_locations}."
+                ) from err
 
         suppliers = [s for s in suppliers if s]  # filter out empty lists
 
@@ -620,7 +625,7 @@ class Fuels(BaseTransformation):
                     else:
                         dataset["comment"] = string
 
-                    dataset["comment"] = (
+                    dataset["comment"] += (
                         "Region-specific hydrogen production dataset "
                         "generated by `premise`. "
                     )
@@ -1313,7 +1318,10 @@ class Fuels(BaseTransformation):
             for activity in activities:
                 if fuel == "methane, synthetic":
                     original_ds = self.fetch_proxies(
-                        name=activity, ref_prod=" ", delete_original_dataset=True
+                        name=activity,
+                        ref_prod=" ",
+                        delete_original_dataset=False,
+                        empty_original_activity=False,
                     )
 
                     for co2_type in [
@@ -1923,6 +1931,7 @@ class Fuels(BaseTransformation):
                     region=region, variables=relevant_variables
                 ).sum(dim="variables")
             )
+            .fillna(0)
             .interp(
                 year=np.arange(self.year, self.year + period + 1),
                 kwargs={"fill_value": "extrapolate"},
@@ -1932,7 +1941,9 @@ class Fuels(BaseTransformation):
         )
 
         if np.isnan(fuel_share):
-            print(f"Incorrect fuel share for {fuel} in {region}")
+            print(
+                f"Warning: incorrect fuel share for {fuel} in {region} (-> set to 0%)."
+            )
             fuel_share = 0
 
         return float(fuel_share)
@@ -2070,7 +2081,7 @@ class Fuels(BaseTransformation):
 
         # Calculate share of production volume for each region
         for r in d_act.keys():
-            if r == "World":
+            if r == "World" or (dataset["name"], r) not in self.new_fuel_markets:
                 continue
 
             share = (
@@ -2188,10 +2199,27 @@ class Fuels(BaseTransformation):
 
         string = ""
 
+        # if the sum is zero, we need to select a provider
+
+        if (
+            self.iam_fuel_markets.sel(region=region, variables=prod_vars)
+            .interp(year=self.year)
+            .sum(dim=["variables"])
+            == 0
+        ):
+            if "hydrogen" in dataset["name"].lower():
+                prod_vars = [
+                    "hydrogen, nat. gas",
+                ]
+
         for prod_var in prod_vars:
-            share = fuel_providers[prod_var]["find_share"](
-                prod_var, tuple(vars_map[fuel_category]), region, period
-            )
+            if len(prod_vars) > 1:
+                share = fuel_providers[prod_var]["find_share"](
+                    prod_var, tuple(vars_map[fuel_category]), region, period
+                )
+
+            else:
+                share = 1.0
 
             if np.isnan(share) or share <= 0:
                 continue
@@ -2211,6 +2239,8 @@ class Fuels(BaseTransformation):
 
             if "natural gas" in dataset["name"]:
                 blacklist.remove("market")
+                blacklist.append("market for natural gas, high pressure")
+                blacklist.append("market group for natural gas, high pressure")
 
             if "low-sulfur" in dataset["name"]:
                 blacklist.append("unleaded")

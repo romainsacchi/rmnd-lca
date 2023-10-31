@@ -9,7 +9,7 @@ from typing import Dict, List, Union
 import yaml
 from wurst import geomatcher
 
-from . import DATA_DIR, VARIABLES_DIR
+from .filesystem_constants import VARIABLES_DIR
 
 ECO_IAM_MAPPING = VARIABLES_DIR / "missing_geography_equivalences.yaml"
 

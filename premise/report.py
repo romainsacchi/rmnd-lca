@@ -15,10 +15,10 @@ from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 from openpyxl.utils.dataframe import dataframe_to_rows
 from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
-from pandas._libs.parsers import ParserError
 from pandas.errors import EmptyDataError
 
-from . import DATA_DIR, VARIABLES_DIR, __version__
+from . import __version__
+from .filesystem_constants import DATA_DIR, VARIABLES_DIR
 
 IAM_ELEC_VARS = VARIABLES_DIR / "electricity_variables.yaml"
 IAM_FUELS_VARS = VARIABLES_DIR / "fuels_variables.yaml"

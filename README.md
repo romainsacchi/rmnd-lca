@@ -20,6 +20,15 @@ As it now evolves towards a more IAM-neutral approach, a change of name was cons
 
 Scientific publication available here: [Sacchi et al, 2022](https://doi.org/10.1016/j.rser.2022.112311).
 
+What's new in 1.8.0?
+====================
+
+-  Added support for brightway 2.5
+-  Added support for Python 3.11
+-  Uses bw2io 0.8.10
+-  Adds electricity storage in electricity markets -- see [docs](https://premise.readthedocs.io/en/latest/transform.html#storage)
+-  Adds [scenario explorer dashboard](https://premisedash-6f5a0259c487.herokuapp.com/)
+
 What's new in 1.5.0?
 ====================
 
@@ -52,7 +61,7 @@ ecoinvent 3 to reflect projected energy policy trajectories.
 
 Requirements
 ------------
-* **Python 3.9**
+* **Python 3.9, 3.10 or 3.11**
 * License for [ecoinvent 3][1]
 * Some IAM output files come with the library and are located by default in the subdirectory "/data/iam_output_files". **If you wish to use
  those files, you need to request (by [email](mailto:romain.sacchi@psi.ch)) an encryption key from the developers**.
@@ -67,11 +76,8 @@ Two options:
 A development version with the latest advancements (but with the risks of unseen bugs),
 is available from Anaconda Cloud:
 
-    
-    conda config --append conda-forge
-    conda config --append cmutel
-    conda config --append romainsacchi
-    conda install premise
+
+    conda install -c romainsacchi premise
 
 
 For a more stable and proven version, from Pypi:
@@ -88,15 +94,20 @@ The best way is to follow [the examples from the Jupyter Notebook](https://githu
 
 # Support
 
-Do not hesitate to contact the development team at [romain.sacchi@psi.ch](mailto:romain.sacchi@psi.ch)
-or [aloisdir@pik-potsdam.de](mailto:aloisdir@pik-potsdam.de).
+Do not hesitate to contact [romain.sacchi@psi.ch](mailto:romain.sacchi@psi.ch).
 
-## Maintainers
+## Contributors
 
 * [Romain Sacchi](https://github.com/romainsacchi)
 * [Alois Dirnaichner](https://github.com/Loisel)
 * [Tom Mike Terlouw](https://github.com/tomterlouw)
 * [Laurent Vandepaer](https://github.com/lvandepaer)
+* [Chris Mutel](https://github.com/cmutel/)
+
+
+## Maintainers
+
+* [Romain Sacchi](https://github.com/romainsacchi)
 * [Chris Mutel](https://github.com/cmutel/)
 
 ## Contributing

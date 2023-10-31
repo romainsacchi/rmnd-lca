@@ -51,12 +51,14 @@ Range time
 
 Integer. Years. To measure the trend around the point where the additional
 capital will be installed, a range of n years before and after the point
-is taken as the time interval.
+is taken as the time interval. Note that if set to a value other than 0,
+the duration argument must be set to 0.
 
 Duration
 ^^^^^^^^
 
 Integer. Years. Duration over which the change in demand should be measured.
+Note that if set to a value other than 0, the range time argument must be set to 0.
 
 Foresight
 ^^^^^^^^^

@@ -5,6 +5,7 @@ as well as export it back.
 """
 
 import copy
+import logging
 import multiprocessing
 import os
 import pickle
@@ -18,7 +19,7 @@ from typing import List, Union
 import datapackage
 import yaml
 
-from . import DATA_DIR, INVENTORY_DIR, __version__
+from . import __version__
 from .cement import _update_cement
 from .clean_datasets import DatabaseCleaner
 from .data_collection import IAMDataCollection
@@ -34,6 +35,7 @@ from .export import (
 )
 from .external import ExternalScenario
 from .external_data_validation import check_external_scenarios, check_inventories
+from .filesystem_constants import DATA_DIR, DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
 from .fuels import _update_fuels
 from .inventory_imports import AdditionalInventory, DefaultInventory
 from .report import generate_change_report, generate_summary_report
@@ -41,19 +43,32 @@ from .steel import _update_steel
 from .transport import _update_vehicles
 from .utils import (
     clear_existing_cache,
+    create_scenario_list,
     eidb_label,
     hide_messages,
     info_on_utils_functions,
     load_constants,
     print_version,
     warning_about_biogenic_co2,
-    write_brightway2_database,
 )
 
-DIR_CACHED_DB = DATA_DIR / "cache"
+logger = logging.getLogger("module")
+
+import bw2data
+
+if int(bw2data.__version__[0]) >= 4:
+    from .brightway25 import write_brightway_database
+
+    logger.info("Using Brightway 2.5")
+else:
+    from .brightway2 import write_brightway_database
+
+    logger.info("Using Brightway 2")
+
 
 FILEPATH_OIL_GAS_INVENTORIES = INVENTORY_DIR / "lci-ESU-oil-and-gas.xlsx"
 FILEPATH_CARMA_INVENTORIES = INVENTORY_DIR / "lci-Carma-CCS.xlsx"
+FILEPATH_CO_FIRING_INVENTORIES = INVENTORY_DIR / "lci-co-firing-power-plants.xlsx"
 FILEPATH_CHP_INVENTORIES = INVENTORY_DIR / "lci-combined-heat-power-plant-CCS.xlsx"
 FILEPATH_CC_INVENTORIES = INVENTORY_DIR / "lci-carbon-capture.xlsx"
 FILEPATH_BIOFUEL_INVENTORIES = INVENTORY_DIR / "lci-biofuels.xlsx"
@@ -135,6 +150,10 @@ FILEPATH_NUCLEAR_SMR = INVENTORY_DIR / "lci-nuclear_SMR.xlsx"
 FILEPATH_WAVE = INVENTORY_DIR / "lci-wave_energy.xlsx"
 FILEPATH_FUEL_CELL = INVENTORY_DIR / "lci-fuel_cell.xlsx"
 FILEPATH_CSP = INVENTORY_DIR / "lci-concentrating-solar-power.xlsx"
+FILEPATH_HOME_STORAGE_BATTERIES = INVENTORY_DIR / "lci-home-batteries.xlsx"
+FILEPATH_VANADIUM = INVENTORY_DIR / "lci-vanadium.xlsx"
+FILEPATH_VANADIUM_REDOX_BATTERY = INVENTORY_DIR / "lci-vanadium-redox-flow-battery.xlsx"
+FILEPATH_HYDROGEN_TURBINE = INVENTORY_DIR / "lci-hydrogen-turbine.xlsx"
 
 config = load_constants()
 
@@ -338,7 +357,12 @@ def check_scenarios(scenario: dict, key: bytes) -> dict:
         filepath = scenario["filepath"]
         scenario["filepath"] = check_filepath(filepath)
     else:
-        scenario["filepath"] = DATA_DIR / "iam_output_files"
+        # Note: A directory path, not a file path
+        scenario["filepath"] = IAM_OUTPUT_DIR
+        if key is None:
+            raise ValueError(
+                "You need to provide the encryption key to decrypt the IAM output files provided by `premise`."
+            )
 
     scenario["model"] = check_model_name(scenario["model"])
     scenario["pathway"] = check_pathway_name(
@@ -410,23 +434,48 @@ def _update_all(
     vehicle_type,
     gains_scenario,
 ):
-    scenario, modified_datasets = _update_vehicles(
-        scenario, vehicle_type, version, system_model, modified_datasets
+    scenario, modified_datasets, cache = _update_vehicles(
+        scenario=scenario,
+        vehicle_type=vehicle_type,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
     )
-    scenario, modified_datasets = _update_electricity(
-        scenario, version, system_model, modified_datasets, use_absolute_efficiency
+    scenario, modified_datasets, cache = _update_electricity(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+        use_absolute_efficiency=use_absolute_efficiency,
+        cache=cache,
     )
-    scenario, modified_datasets = _update_dac(
-        scenario, version, system_model, modified_datasets
+    scenario, modified_datasets, cache = _update_dac(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+        cache=cache,
     )
-    scenario, modified_datasets = _update_cement(
-        scenario, version, system_model, modified_datasets
+    scenario, modified_datasets, cache = _update_cement(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+        cache=cache,
     )
-    scenario, modified_datasets = _update_steel(
-        scenario, version, system_model, modified_datasets
+    scenario, modified_datasets, cache = _update_steel(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+        cache=cache,
     )
-    scenario, modified_datasets = _update_fuels(
-        scenario, version, system_model, modified_datasets
+    scenario, modified_datasets, cache = _update_fuels(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        modified_datasets=modified_datasets,
+        cache=cache,
     )
     scenario, modified_datasets = _update_emissions(
         scenario, version, system_model, gains_scenario, modified_datasets
@@ -437,6 +486,10 @@ def _update_all(
 
 def _export_to_matrices(obj):
     obj.export_db_to_matrices()
+
+
+def _export_to_simapro(obj):
+    obj.export_db_to_simapro()
 
 
 class NewDatabase:
@@ -473,6 +526,7 @@ class NewDatabase:
         keep_uncertainty_data=False,
         gains_scenario="CLE",
         use_absolute_efficiency=False,
+        use_multiprocessing=True,
     ) -> None:
         self.source = source_db
         self.version = check_db_version(source_version)
@@ -480,6 +534,7 @@ class NewDatabase:
         self.system_model = check_system_model(system_model)
         self.system_model_args = system_args
         self.use_absolute_efficiency = use_absolute_efficiency
+        self.multiprocessing = use_multiprocessing
 
         # if version is anything other than 3.8 or 3.9
         # and system_model is "consequential"
@@ -576,8 +631,12 @@ class NewDatabase:
             scenario["database"] = copy.deepcopy(self.database)
 
         # use multiprocessing to speed up the process
-        with Pool(processes=multiprocessing.cpu_count()) as pool:
-            pool.map(_fetch_iam_data, self.scenarios)
+        if self.multiprocessing:
+            with Pool(processes=multiprocessing.cpu_count()) as pool:
+                pool.map(_fetch_iam_data, self.scenarios)
+        else:
+            for scenario in self.scenarios:
+                _fetch_iam_data(scenario)
 
         print("Done!")
 
@@ -588,13 +647,11 @@ class NewDatabase:
         :param db_name: database name
         :return: database
         """
-        # check that directory exists, otherwise create it
-        Path(DIR_CACHED_DB).mkdir(parents=True, exist_ok=True)
         # build file path
-        if db_name is None:
-            db_name = "unnamed"
+        if db_name is None and self.source_type == "ecospold":
+            db_name = f"ecospold_{self.system_model}_{self.version}"
 
-        file_name = Path(
+        file_name = (
             DIR_CACHED_DB
             / f"cached_{''.join(tuple(map( str , __version__ )))}_{db_name.strip().lower()}.pickle"
         )
@@ -618,13 +675,11 @@ class NewDatabase:
         :param db_name: database name
         :return: database
         """
-        # check that directory exists, otherwise create it
-        Path(DIR_CACHED_DB).mkdir(parents=True, exist_ok=True)
         # build file path
-        if db_name is None:
-            db_name = "unnamed"
+        if db_name is None and self.source_type == "ecospold":
+            db_name = f"ecospold_{self.system_model}_{self.version}"
 
-        file_name = Path(
+        file_name = (
             DIR_CACHED_DB
             / f"cached_{''.join(tuple(map( str , __version__ )))}_{db_name.strip().lower()}_inventories.pickle"
         )
@@ -670,14 +725,16 @@ class NewDatabase:
         filepaths = [
             (FILEPATH_OIL_GAS_INVENTORIES, "3.7"),
             (FILEPATH_CARMA_INVENTORIES, "3.5"),
+            (FILEPATH_CO_FIRING_INVENTORIES, "3.5"),
             (FILEPATH_CHP_INVENTORIES, "3.5"),
             (FILEPATH_CC_INVENTORIES, "3.9"),
             (FILEPATH_BIOGAS_INVENTORIES, "3.6"),
-            (FILEPATH_CARBON_FIBER_INVENTORIES, "3.7"),
+            (FILEPATH_CARBON_FIBER_INVENTORIES, "3.9"),
             (FILEPATH_LITHIUM, "3.8"),
             (FILEPATH_COBALT, "3.8"),
             (FILEPATH_GRAPHITE, "3.8"),
             (FILEPATH_BATTERIES, "3.8"),
+            (FILEPATH_HOME_STORAGE_BATTERIES, "3.9"),
             (FILEPATH_PHOTOVOLTAICS, "3.7"),
             (FILEPATH_HYDROGEN_INVENTORIES, "3.9"),
             (FILEPATH_HYDROGEN_SOLAR_INVENTORIES, "3.9"),
@@ -691,6 +748,7 @@ class NewDatabase:
             (FILEPATH_HYDROGEN_BIOGAS_INVENTORIES, "3.7"),
             (FILEPATH_HYDROGEN_NATGAS_INVENTORIES, "3.7"),
             (FILEPATH_HYDROGEN_WOODY_INVENTORIES, "3.7"),
+            (FILEPATH_HYDROGEN_TURBINE, "3.9"),
             (FILEPATH_SYNGAS_INVENTORIES, "3.9"),
             (FILEPATH_SYNGAS_FROM_COAL_INVENTORIES, "3.7"),
             (FILEPATH_BIOFUEL_INVENTORIES, "3.7"),
@@ -718,6 +776,8 @@ class NewDatabase:
             (FILEPATH_WAVE, "3.8"),
             (FILEPATH_FUEL_CELL, "3.9"),
             (FILEPATH_CSP, "3.9"),
+            (FILEPATH_VANADIUM, "3.8"),
+            (FILEPATH_VANADIUM_REDOX_BATTERY, "3.9"),
         ]
         for filepath in filepaths:
             # make an exception for FILEPATH_OIL_GAS_INVENTORIES
@@ -794,22 +854,36 @@ class NewDatabase:
         print("\n/////////////////////////// ELECTRICITY ////////////////////////////")
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                    self.use_absolute_efficiency,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_update_electricity, args)
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                        self.use_absolute_efficiency,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_electricity, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                scenario, self.modified_datasets, _ = _update_electricity(
+                    scenario=scenario,
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                    use_absolute_efficiency=self.use_absolute_efficiency,
+                )
 
         print("Done!\n")
 
@@ -823,21 +897,34 @@ class NewDatabase:
         print("\n//////////////////////// DIRECT AIR CAPTURE ////////////////////////")
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_update_dac, args)
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_dac, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                scenario, self.modified_datasets, _ = _update_dac(
+                    scenario=scenario,
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                )
 
         print("Done!\n")
 
@@ -849,21 +936,34 @@ class NewDatabase:
         print("\n////////////////////////////// FUELS ///////////////////////////////")
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_update_fuels, args)
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_fuels, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                scenario, self.modified_datasets, _ = _update_fuels(
+                    scenario=scenario,
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                )
 
         print("Done!\n")
 
@@ -875,21 +975,34 @@ class NewDatabase:
         print("\n///////////////////////////// CEMENT //////////////////////////////")
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_update_cement, args)
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_cement, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                scenario, self.modified_datasets, _ = _update_cement(
+                    scenario=scenario,
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                )
 
         print("Done!\n")
 
@@ -901,21 +1014,34 @@ class NewDatabase:
         print("\n////////////////////////////// STEEL //////////////////////////////")
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_update_steel, args)
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_steel, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                scenario, self.modified_datasets, _ = _update_steel(
+                    scenario=scenario,
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                )
 
         print("Done!\n")
 
@@ -927,22 +1053,36 @@ class NewDatabase:
         print("\n///////////////////////// PASSENGER CARS ///////////////////////////")
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    "car",
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_update_vehicles, args)
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        "car",
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_vehicles, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                scenario, self.modified_datasets, _ = _update_vehicles(
+                    scenario=scenario,
+                    vehicle_type="car",
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                )
 
         print("Done!\n")
 
@@ -954,22 +1094,36 @@ class NewDatabase:
         print("\n////////////////////////// TWO-WHEELERS ////////////////////////////")
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    "two wheeler",
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_update_vehicles, args)
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        "two wheeler",
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_vehicles, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                scenario, self.modified_datasets, _ = _update_vehicles(
+                    scenario=scenario,
+                    vehicle_type="two wheeler",
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                )
 
         print("Done!\n")
 
@@ -993,12 +1147,26 @@ class NewDatabase:
         ]
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            results = pool.starmap(_update_vehicles, args)
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                results = pool.starmap(_update_vehicles, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                scenario, self.modified_datasets, _ = _update_vehicles(
+                    scenario=scenario,
+                    vehicle_type="truck",
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                )
 
         print("Done!\n")
 
@@ -1011,22 +1179,36 @@ class NewDatabase:
         print("\n////////////////////////////// BUSES ///////////////////////////////")
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    "bus",
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_update_vehicles, args)
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        "bus",
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_vehicles, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                scenario, self.modified_datasets, _ = _update_vehicles(
+                    scenario=scenario,
+                    vehicle_type="bus",
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                )
 
         print("Done!\n")
 
@@ -1085,22 +1267,36 @@ class NewDatabase:
         print("\n/////////////////////////// EMISSIONS //////////////////////////////")
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    self.version,
-                    self.system_model,
-                    self.gains_scenario,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_update_emissions, args)
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        self.version,
+                        self.system_model,
+                        self.gains_scenario,
+                        self.modified_datasets,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_emissions, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                scenario, self.modified_datasets = _update_emissions(
+                    scenario=scenario,
+                    version=self.version,
+                    system_model=self.system_model,
+                    gains_scenario=self.gains_scenario,
+                    modified_datasets=self.modified_datasets,
+                )
 
         print("Done!\n")
 
@@ -1112,28 +1308,45 @@ class NewDatabase:
         print("`update_all()` will skip the following steps:")
         print("update_two_wheelers(), update_cars(), and update_buses()")
         print(
-            "If you want to update these steps, please run them separately afterwards."
+            "If you want to update these steps, "
+            "please run them separately afterwards."
         )
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                    self.use_absolute_efficiency,
-                    "truck",
-                    self.gains_scenario,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_update_all, args)
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                        self.use_absolute_efficiency,
+                        "truck",
+                        self.gains_scenario,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_all, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            self.modified_datasets.update(results[s][1])
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                scenario, self.modified_datasets = _update_all(
+                    scenario=scenario,
+                    version=self.version,
+                    system_model=self.system_model,
+                    modified_datasets=self.modified_datasets,
+                    use_absolute_efficiency=self.use_absolute_efficiency,
+                    vehicle_type="truck",
+                    gains_scenario=self.gains_scenario,
+                )
 
         self.update_external_scenario()
 
@@ -1160,23 +1373,19 @@ class NewDatabase:
 
         cache = {}
 
-        # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    cache,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_prepare_database, args)
+        for scenario in self.scenarios:
+            scenario, cache = _prepare_database(
+                scenario=scenario,
+                scenario_cache=cache,
+                version=self.version,
+                system_model=self.system_model,
+                modified_datasets=self.modified_datasets,
+            )
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            cache.update(results[s][1])
+        if hasattr(self, "datapackages"):
+            list_scenarios = create_scenario_list(self.scenarios, self.datapackages)
+        else:
+            list_scenarios = create_scenario_list(self.scenarios)
 
         self.database = generate_superstructure_db(
             origin_db=self.database,
@@ -1185,11 +1394,12 @@ class NewDatabase:
             filepath=filepath,
             version=self.version,
             format=format,
+            scenario_list=list_scenarios,
         )
 
-        write_brightway2_database(
-            self.database,
-            name,
+        write_brightway_database(
+            data=self.database,
+            name=name,
         )
 
         # generate scenario report
@@ -1199,7 +1409,7 @@ class NewDatabase:
 
     def write_db_to_brightway(self, name: [str, List[str]] = None):
         """
-        Register the new database into an open brightway2 project.
+        Register the new database into an open brightway project.
         :param name: to give a (list) of custom name(s) to the database.
         Should either be a string if there's only one database to export.
         Or a list of strings if there are several databases.
@@ -1233,30 +1443,21 @@ class NewDatabase:
                 "The number of databases does not match the number of `name` given."
             )
 
-        print("Write new database(s) to Brightway2.")
+        print("Write new database(s) to Brightway.")
 
         cache = {}
 
-        # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    cache,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_prepare_database, args)
-
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            cache.update(results[s][1])
+        for scenario in self.scenarios:
+            scenario, cache = _prepare_database(
+                scenario=scenario,
+                scenario_cache=cache,
+                version=self.version,
+                system_model=self.system_model,
+                modified_datasets=self.modified_datasets,
+            )
 
         for scen, scenario in enumerate(self.scenarios):
-            write_brightway2_database(
+            write_brightway_database(
                 scenario["database"],
                 name[scen],
             )
@@ -1306,29 +1507,18 @@ class NewDatabase:
 
         # use multiprocessing to speed up the process
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    cache,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_prepare_database, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            cache.update(results[s][1])
+        for scenario in self.scenarios:
+            scenario, cache = _prepare_database(
+                scenario=scenario,
+                scenario_cache=cache,
+                version=self.version,
+                system_model=self.system_model,
+                modified_datasets=self.modified_datasets,
+            )
 
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                Export(scenario, filepath[scen], self.version)
-                for scen, scenario in enumerate(self.scenarios)
-            ]
-            pool.map(_export_to_matrices, args)
+        for scen, scenario in enumerate(self.scenarios):
+            Export(scenario, filepath[scen], self.version).export_db_to_matrices()
 
         # generate scenario report
         self.generate_scenario_report()
@@ -1354,28 +1544,18 @@ class NewDatabase:
         cache = {}
 
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    cache,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_prepare_database, args)
 
-            for s, scenario in enumerate(self.scenarios):
-                self.scenarios[s] = results[s][0]
-                cache.update(results[s][1])
+        for scenario in self.scenarios:
+            scenario, cache = _prepare_database(
+                scenario=scenario,
+                scenario_cache=cache,
+                version=self.version,
+                system_model=self.system_model,
+                modified_datasets=self.modified_datasets,
+            )
 
-            args = [
-                (scenario, filepath[scen], self.version)
-                for scen, scenario in enumerate(self.scenarios)
-            ]
-            pool.starmap(Export().export_db_to_simapro, args)
+        for scen, scenario in enumerate(self.scenarios):
+            Export(scenario, filepath, self.version).export_db_to_simapro()
 
         # generate scenario report
         self.generate_scenario_report()
@@ -1383,42 +1563,43 @@ class NewDatabase:
         self.generate_change_report()
 
     def write_datapackage(self, name: str = f"datapackage_{date.today()}"):
+        if not isinstance(name, str):
+            raise TypeError("`name` should be a string.")
+
         cached_inventories = self.__find_cached_inventories(self.source)
 
         if not cached_inventories:
-            cache_fp = DATA_DIR / "cache" / f"cached_{self.source}_inventories.pickle"
+            cache_fp = DIR_CACHED_DB / f"cached_{self.source}_inventories.pickle"
             raise ValueError(f"No cached inventories found at {cache_fp}.")
 
         cache = {}
         # use multiprocessing to speed up the process
-        with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-            args = [
-                (
-                    scenario,
-                    cache,
-                    self.version,
-                    self.system_model,
-                    self.modified_datasets,
-                )
-                for scenario in self.scenarios
-            ]
-            results = pool.starmap(_prepare_database, args)
 
-        for s, scenario in enumerate(self.scenarios):
-            self.scenarios[s] = results[s][0]
-            cache.update(results[s][1])
+        for scenario in self.scenarios:
+            scenario, cache = _prepare_database(
+                scenario=scenario,
+                scenario_cache=cache,
+                version=self.version,
+                system_model=self.system_model,
+                modified_datasets=self.modified_datasets,
+            )
+
+        if hasattr(self, "datapackages"):
+            list_scenarios = create_scenario_list(self.scenarios, self.datapackages)
+        else:
+            list_scenarios = create_scenario_list(self.scenarios)
 
         df, extra_inventories = generate_scenario_factor_file(
             origin_db=self.database,
             scenarios=self.scenarios,
             db_name=name,
             version=self.version,
+            scenario_list=list_scenarios,
         )
 
         cached_inventories.extend(extra_inventories)
-        list_scenarios = ["original"] + [
-            f"{s['model']} - {s['pathway']} - {s['year']}" for s in self.scenarios
-        ]
+
+        list_scenarios = ["original"] + list_scenarios
 
         build_datapackage(
             df=df,

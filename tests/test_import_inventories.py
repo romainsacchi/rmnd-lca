@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from premise import INVENTORY_DIR
+from premise.filesystem_constants import INVENTORY_DIR
 from premise.inventory_imports import BaseInventoryImport, DefaultInventory
 
 FILEPATH_CARMA_INVENTORIES = INVENTORY_DIR / "lci-Carma-CCS.xlsx"

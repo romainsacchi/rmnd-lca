@@ -13,7 +13,7 @@ import xarray as xr
 import yaml
 from numpy import ndarray
 
-from premise import DATA_DIR
+from .filesystem_constants import DATA_DIR
 
 IAM_LEADTIMES = DATA_DIR / "consequential" / "leadtimes.yaml"
 IAM_LIFETIMES = DATA_DIR / "consequential" / "lifetimes.yaml"
@@ -48,7 +48,14 @@ def get_leadtime(list_tech: Tuple) -> np.ndarray:
     with open(IAM_LEADTIMES, "r", encoding="utf-8") as stream:
         dict_ = yaml.safe_load(stream)
 
-    dict_ = {k: v for k, v in dict_.items() if k in list(list_tech)}
+    # check that all technologies have a lead-time
+    if not all([k in dict_.keys() for k in list_tech]):
+        raise ValueError(
+            f"Not all technologies have a lead-time. "
+            f"Missing technologies: {set(list_tech) - set(dict_.keys())}"
+        )
+    dict_ = {k: dict_[k] for k in list(list_tech)}
+
     return np.array(list(dict_.values()), dtype=float)
 
 
@@ -143,6 +150,8 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
     :return: marginal market mixes
     """
 
+    args = args or {}
+
     range_time: int = args.get("range time", False)
     duration: int = args.get("duration", False)
     foresight: bool = args.get("foresight", False)
@@ -188,6 +197,10 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
             region=region, year=year
         ).sum(dim="variables")
 
+        # if shares contains only NaNs, we give its elements the value 1
+        if shares.isnull().all():
+            shares = xr.ones_like(shares)
+
         time_parameters = {
             (False, False, False, False): {
                 "start": year,
@@ -203,12 +216,12 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
             },
             (False, False, False, True): {
                 "start": year,
-                "end": year + leadtime,
+                "end": year + fetch_avg_leadtime(leadtime, shares),
                 "start_avg": year,
                 "end_avg": year + fetch_avg_lifetime(lifetime=leadtime, shares=shares),
             },
             (False, False, True, True): {
-                "start": year - leadtime,
+                "start": year - fetch_avg_leadtime(leadtime, shares),
                 "end": year,
                 "start_avg": year
                 - fetch_avg_lifetime(lifetime=leadtime, shares=shares),
@@ -227,8 +240,8 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                 "end_avg": year + range_time,
             },
             (True, False, False, True): {
-                "start": year + leadtime - range_time,
-                "end": year + leadtime + range_time,
+                "start": year + fetch_avg_leadtime(leadtime, shares) - range_time,
+                "end": year + fetch_avg_leadtime(leadtime, shares) + range_time,
                 "start_avg": year + fetch_avg_leadtime(leadtime, shares) - range_time,
                 "end_avg": year + fetch_avg_leadtime(leadtime, shares) + range_time,
             },
@@ -251,8 +264,8 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                 "end_avg": year + duration,
             },
             (False, True, False, True): {
-                "start": year + leadtime,
-                "end": year + leadtime + duration,
+                "start": year + fetch_avg_leadtime(leadtime, shares),
+                "end": year + fetch_avg_leadtime(leadtime, shares) + duration,
                 "start_avg": year + fetch_avg_leadtime(leadtime, shares),
                 "end_avg": year + fetch_avg_leadtime(leadtime, shares) + duration,
             },
@@ -281,8 +294,9 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
 
         except KeyError:
             print(
-                "The combination of range_time, duration, foresight, and lead_time "
-                "is not possible. Please check your input."
+                f"The combination of range_time, duration, foresight, and lead_time {range_time, duration, foresight, lead_time} "
+                "is not possible. Please check your input. Specifically, if `range_time` is non-null, `duration` must be null, "
+                "and vice versa."
             )
             continue
 

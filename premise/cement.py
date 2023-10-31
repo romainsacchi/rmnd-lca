@@ -8,20 +8,15 @@ of the wurst database to the newly created cement markets.
 
 """
 
-import logging.config
 from collections import defaultdict
-from pathlib import Path
-
-import yaml
 
 from .logger import create_logger
 from .transformation import BaseTransformation, Dict, IAMDataCollection, List, np, ws
-from .utils import DATA_DIR
 
 logger = create_logger("cement")
 
 
-def _update_cement(scenario, version, system_model, modified_datasets):
+def _update_cement(scenario, version, system_model, modified_datasets, cache=None):
     cement = Cement(
         database=scenario["database"],
         model=scenario["model"],
@@ -31,16 +26,18 @@ def _update_cement(scenario, version, system_model, modified_datasets):
         version=version,
         system_model=system_model,
         modified_datasets=modified_datasets,
+        cache=cache,
     )
 
     if scenario["iam data"].cement_markets is not None:
         cement.add_datasets_to_database()
         scenario["database"] = cement.database
         modified_datasets = cement.modified_datasets
+        cache = cement.cache
     else:
         print("No cement markets found in IAM data. Skipping.")
 
-    return scenario, modified_datasets
+    return scenario, modified_datasets, cache
 
 
 class Cement(BaseTransformation):
@@ -74,6 +71,7 @@ class Cement(BaseTransformation):
         version: str,
         system_model: str,
         modified_datasets: dict,
+        cache: dict = None,
     ):
         super().__init__(
             database,
@@ -84,6 +82,7 @@ class Cement(BaseTransformation):
             version,
             system_model,
             modified_datasets,
+            cache,
         )
         self.version = version
 
@@ -372,7 +371,7 @@ class Cement(BaseTransformation):
 
             # Carbon capture rate: share of capture of total CO2 emitted
             carbon_capture_rate = self.get_carbon_capture_rate(
-                loc=dataset["location"], sector="cement, dry feed rotary kiln"
+                loc=dataset["location"], sector="cement"
             )
 
             dataset["log parameters"].update(
