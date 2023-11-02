@@ -1,18 +1,18 @@
 import copy
 import multiprocessing
+import shutil
 from datetime import date
 from multiprocessing import Pool as ProcessPool
 from pathlib import Path
 from typing import List
-import xarray as xr
-import shutil
-import yaml
 
+import xarray as xr
+import yaml
 from datapackage import Package
 
 from . import __version__
-from .ecoinvent_modification import NewDatabase
 from .activity_maps import act_fltr
+from .ecoinvent_modification import NewDatabase
 from .export import (
     Export,
     _prepare_database,
@@ -72,7 +72,9 @@ class PathwaysDataPackage:
 
     def export_datapackage(self, name: str):
         # create matrices in current directory
-        self.datapackage.write_db_to_matrices(filepath=str(Path.cwd() / "pathways" / "inventories"))
+        self.datapackage.write_db_to_matrices(
+            filepath=str(Path.cwd() / "pathways" / "inventories")
+        )
         self.add_scenario_data()
         self.add_variables_mapping()
         self.build_datapackage(name)
@@ -96,10 +98,11 @@ class PathwaysDataPackage:
                 "unit": act["unit"],
             }
             for act in act_fltr(
-            database=database,
-            fltr=filters,
-            mask=mask,
-        )]
+                database=database,
+                fltr=filters,
+                mask=mask,
+            )
+        ]
 
     def add_variables_mapping(self):
         """
@@ -112,12 +115,20 @@ class PathwaysDataPackage:
 
         # make a list of unique variables
         vars = [
-            self.datapackage.scenarios[s]["iam data"].data.coords["variables"].values.tolist()
+            self.datapackage.scenarios[s]["iam data"]
+            .data.coords["variables"]
+            .values.tolist()
             for s in range(len(self.scenarios))
-
         ]
         # remove efficiency and emissions variables
-        vars = [[v for v in var if "efficiency" not in v.lower() and "emission" not in v.lower()] for var in vars]
+        vars = [
+            [
+                v
+                for v in var
+                if "efficiency" not in v.lower() and "emission" not in v.lower()
+            ]
+            for var in vars
+        ]
         # concatenate the list
         vars = list(set([item for sublist in vars for item in sublist]))
 
@@ -126,7 +137,9 @@ class PathwaysDataPackage:
         # iterate through all YAML files contained in the "iam_variables_mapping" folder
         # the folder is located in the same folder as this module
 
-        for file in Path(__file__).resolve().parent.glob("iam_variables_mapping/*.yaml"):
+        for file in (
+            Path(__file__).resolve().parent.glob("iam_variables_mapping/*.yaml")
+        ):
             # open the file
             with open(file, "r") as f:
                 # load the YAML file
@@ -148,7 +161,10 @@ class PathwaysDataPackage:
         # to only keep unique name, reference product and unit
         for key, val in mapping.items():
             if "dataset" in val:
-                mapping[key]["dataset"] = [dict(t) for t in {tuple(sorted(d.items())) for d in mapping[key]["dataset"]}]
+                mapping[key]["dataset"] = [
+                    dict(t)
+                    for t in {tuple(sorted(d.items())) for d in mapping[key]["dataset"]}
+                ]
 
         with open(Path.cwd() / "pathways" / "mapping" / "mapping.yaml", "w") as f:
             yaml.dump(mapping, f)
@@ -159,27 +175,39 @@ class PathwaysDataPackage:
 
         """
         # concatenate xarray across scenarios
-        array = xr.concat([self.datapackage.scenarios[s]["iam data"].data for s in range(len(self.scenarios))], dim="scenario")
+        array = xr.concat(
+            [
+                self.datapackage.scenarios[s]["iam data"].data
+                for s in range(len(self.scenarios))
+            ],
+            dim="scenario",
+        )
         # add scenario data to the xarray
-        array.coords["scenario"] = [f"{s['model'].upper()} - {s['pathway']}" for s in self.scenarios]
+        array.coords["scenario"] = [
+            f"{s['model'].upper()} - {s['pathway']}" for s in self.scenarios
+        ]
         # make sure pathways/scenario_data directory exists
         (Path.cwd() / "pathways" / "scenario_data").mkdir(parents=True, exist_ok=True)
         # save the xarray as csv
         df = array.to_dataframe().reset_index()
 
         # split the columns "scenarios" into "model" and "pathway"
-        df[['model', 'pathway']] = df['scenario'].str.split(' - ', n=1, expand=True)
-        df = df.drop(columns=['scenario'])
+        df[["model", "pathway"]] = df["scenario"].str.split(" - ", n=1, expand=True)
+        df = df.drop(columns=["scenario"])
 
-        pivoted_df = df.pivot_table(index=['model', 'pathway', 'region', 'variables'],
-                                    columns='year',
-                                    values='value',
-                                    aggfunc='sum').reset_index()
+        pivoted_df = df.pivot_table(
+            index=["model", "pathway", "region", "variables"],
+            columns="year",
+            values="value",
+            aggfunc="sum",
+        ).reset_index()
 
         # Resetting column names after pivoting
         pivoted_df.columns.name = None
 
-        pivoted_df.to_csv(Path.cwd() / "pathways" / "scenario_data" / "scenario_data.csv", index=False)
+        pivoted_df.to_csv(
+            Path.cwd() / "pathways" / "scenario_data" / "scenario_data.csv", index=False
+        )
 
     def build_datapackage(self, name: str):
         """
@@ -223,6 +251,6 @@ class PathwaysDataPackage:
         package.save(str(Path.cwd() / "pathways" / "datapackage.json"))
 
         # zip the folder
-        shutil.make_archive(name, 'zip', str(Path.cwd() / 'pathways'))
+        shutil.make_archive(name, "zip", str(Path.cwd() / "pathways"))
 
         print(f"Data package saved at {str(Path.cwd() / 'pathways' / f'{name}.zip')}")
