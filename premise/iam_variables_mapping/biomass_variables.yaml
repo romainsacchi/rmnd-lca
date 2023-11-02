@@ -9,18 +9,16 @@ biomass crops - purpose grown:
     remind: SE|Electricity|Biomass|Energy Crops
     tiam: Primary Energy|Biomass|Energy Crops
   ecoinvent_aliases:
-    name:
-      - market for wood chips
-    reference product:
-      - wood chips
+    fltr:
+      name: market for wood chips
+      reference product: wood chips
 biomass wood - purpose grown:
   iam_aliases:
     message: Primary Energy|Biomass|Fuelwood
   ecoinvent_aliases:
-    name:
-      - market for wood chips
-    reference product:
-      - wood chips
+    fltr:
+      name: market for wood chips
+      reference product: wood chips
 biomass - residual:
   iam_aliases:
     message: Primary Energy|Biomass|Residues
@@ -28,7 +26,6 @@ biomass - residual:
     remind: SE|Electricity|Biomass|Residues
     tiam: Primary Energy|Biomass|Residues
   ecoinvent_aliases:
-    name:
-      - supply of forest residue
-    reference product:
-      - forest residue
+    fltr:
+      name: supply of forest residue
+      reference product: forest residue

@@ -617,8 +617,9 @@ The datasets introduced are listed in the table below.
  ================================================================== ===========
   hydrogen refuelling station                                        GLO
   high pressure hydrogen storage tank                                GLO
-  distribution pipeline for hydrogen, dedicated hydrogen pipeline    RER
-  transmission pipeline for hydrogen, dedicated hydrogen pipeline    RER
+  pipeline, hydrogen, low pressure distribution network              RER
+  compressor assembly for transmission hydrogen pipeline             RER
+  pipeline, hydrogen, high pressure transmission network             RER
   zinc coating for hydrogen pipeline                                 RER
   hydrogenation of hydrogen                                          RER
   dehydrogenation of hydrogen                                        RER

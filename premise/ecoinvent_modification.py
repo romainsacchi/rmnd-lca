@@ -154,6 +154,8 @@ FILEPATH_HOME_STORAGE_BATTERIES = INVENTORY_DIR / "lci-home-batteries.xlsx"
 FILEPATH_VANADIUM = INVENTORY_DIR / "lci-vanadium.xlsx"
 FILEPATH_VANADIUM_REDOX_BATTERY = INVENTORY_DIR / "lci-vanadium-redox-flow-battery.xlsx"
 FILEPATH_HYDROGEN_TURBINE = INVENTORY_DIR / "lci-hydrogen-turbine.xlsx"
+FILEPATH_HYDROGEN_HEATING = INVENTORY_DIR / "lci-hydrogen-heating.xlsx"
+FILEPATH_METHANOL_HEATING = INVENTORY_DIR / "lci-methanol-heating.xlsx"
 
 config = load_constants()
 
@@ -778,6 +780,8 @@ class NewDatabase:
             (FILEPATH_CSP, "3.9"),
             (FILEPATH_VANADIUM, "3.8"),
             (FILEPATH_VANADIUM_REDOX_BATTERY, "3.9"),
+            (FILEPATH_HYDROGEN_HEATING, "3.9"),
+            (FILEPATH_METHANOL_HEATING, "3.9"),
         ]
         for filepath in filepaths:
             # make an exception for FILEPATH_OIL_GAS_INVENTORIES
@@ -1466,6 +1470,9 @@ class NewDatabase:
         # generate change report from logs
         self.generate_change_report()
 
+    def _export_to_matrices(obj):
+        obj.export_db_to_matrices()
+
     def write_db_to_matrices(self, filepath: str = None):
         """
 
@@ -1506,7 +1513,31 @@ class NewDatabase:
         cache = {}
 
         # use multiprocessing to speed up the process
-        # use multiprocessing to speed up the process
+
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        cache,
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_prepare_database, args)
+
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                cache.update(results[s][1])
+
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    Export(scenario, filepath[scen], self.version)
+                    for scen, scenario in enumerate(self.scenarios)
+                ]
+                pool.map(_export_to_matrices, args)
 
         for scenario in self.scenarios:
             scenario, cache = _prepare_database(

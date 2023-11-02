@@ -1411,15 +1411,17 @@ class Electricity(BaseTransformation):
                     )
 
     def create_biomass_markets(self) -> None:
-        # print("Create biomass markets.")
+        """
+        Create biomass markets for the regions in `self.regions`.
+        """
 
         with open(IAM_BIOMASS_VARS, "r", encoding="utf-8") as stream:
             biomass_map = yaml.safe_load(stream)
 
         # create region-specific "Supply of forest residue" datasets
         forest_residues_ds = self.fetch_proxies(
-            name=biomass_map["biomass - residual"]["ecoinvent_aliases"]["name"][0],
-            ref_prod=biomass_map["biomass - residual"]["ecoinvent_aliases"][
+            name=biomass_map["biomass - residual"]["ecoinvent_aliases"]["fltr"]["name"],
+            ref_prod=biomass_map["biomass - residual"]["ecoinvent_aliases"]["fltr"][
                 "reference product"
             ][0],
             production_variable="biomass - residual",
@@ -1528,8 +1530,8 @@ class Electricity(BaseTransformation):
                         "RoW",
                         "GLO",
                     ]
-                    possible_names = biomass_act["ecoinvent_aliases"]["name"]
-                    possible_products = biomass_act["ecoinvent_aliases"][
+                    possible_names = biomass_act["ecoinvent_aliases"]["fltr"]["name"]
+                    possible_products = biomass_act["ecoinvent_aliases"]["fltr"][
                         "reference product"
                     ]
 

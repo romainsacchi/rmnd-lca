@@ -401,6 +401,8 @@ class IAMDataCollection:
             variables=new_vars,
         )
 
+        self.data = data
+
         self.regions = data.region.values.tolist()
         self.system_model = system_model
 
