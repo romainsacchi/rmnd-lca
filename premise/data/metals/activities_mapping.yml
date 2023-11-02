@@ -9,10 +9,11 @@ ICEV:
     mask:
       - market
       - electric
-      - Biodiesel
+      - biodiesel
       - methanol
       - transport
       - low-sulfur
+      - generator
       - synthetic
       - chipper
       - pump
@@ -63,7 +64,9 @@ NMC111:
 NMC622:
   ecoinvent_aliases:
     fltr:
-      - Battery cell, NMC-622
+      - battery cell, NMC-622
+    mask:
+      - NMC111
 NMC811:
   ecoinvent_aliases:
     fltr:
@@ -109,6 +112,7 @@ PEMFC:
       - assembly
       - polymer
       - biomethane
+      - treatment
 ### How to parametrize the different shares???
 SOFC - Y:
   ecoinvent_aliases:
@@ -127,6 +131,7 @@ SOFC - Y:
       - PEM
       - natural gas
       - fuel cell production, solid oxide
+      - treatment
 #SOFC_scandium:
 ##  ecoinvent_aliases:
 ##    fltr:
