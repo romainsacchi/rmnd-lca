@@ -385,7 +385,41 @@ class BaseTransformation:
         :rtype: list
         """
 
-        return list(set([a["location"] for a in self.database]))
+        locs = list(set([a["location"] for a in self.database]))
+
+        # add Laos
+        if "LA" not in locs:
+            locs.append("LA")
+
+        # add Fiji
+        if "FJ" not in locs:
+            locs.append("FJ")
+
+        # add Guinea
+        if "GN" not in locs:
+            locs.append("GN")
+
+        # add Guyana
+        if "GY" not in locs:
+            locs.append("GY")
+
+        # add Sierra Leone
+        if "SL" not in locs:
+            locs.append("SL")
+
+        # add Solomon Islands
+        if "SB" not in locs:
+            locs.append("SB")
+
+        # add Uganda
+        if "UG" not in locs:
+            locs.append("UG")
+
+        # add Afghanistan
+        if "AF" not in locs:
+            locs.append("AF")
+
+        return locs
 
     def update_ecoinvent_efficiency_parameter(
         self, dataset: dict, old_ei_eff: float, new_eff: float
@@ -561,6 +595,7 @@ class BaseTransformation:
         production_variable=None,
         relink=True,
         regions=None,
+        geo_mapping: dict = None,
         delete_original_dataset=False,
         empty_original_activity=True,
         exact_match=True,
@@ -583,7 +618,7 @@ class BaseTransformation:
         :return: dictionary with IAM regions as keys, proxy datasets as values.
         """
 
-        d_iam_to_eco = self.region_to_proxy_dataset_mapping(
+        d_iam_to_eco = geo_mapping or self.region_to_proxy_dataset_mapping(
             name=name, ref_prod=ref_prod, regions=regions
         )
 

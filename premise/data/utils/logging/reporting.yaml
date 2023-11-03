@@ -186,6 +186,45 @@ premise_steel:
         unit: 0-1
     tab: Steel
 
+premise_metal:
+    columns:
+      timestamp:
+        name: timestamp
+        description: Timestamp of the log entry
+      module:
+        name: module
+        description: Module name
+      level:
+        name: level
+        description: Log level
+      status:
+        name: status
+        description: Status of the dataset
+      model:
+        name: model
+        description: IAM model name
+      pathway:
+        name: pathway
+        description: Pathway name
+      year:
+        name: year
+        description: Year
+      dataset:
+        name: dataset
+        description: Dataset name
+      product:
+        name: reference product
+        description: Product
+      region:
+        name: region
+        description: Region name
+      post-allocation correction:
+        name: Post-allocation correction
+        description: Correction factor applied to the initial amount of metal produced
+        unit: kilogram
+
+    tab: Metal
+
 premise_cement:
     columns:
       timestamp:

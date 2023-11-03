@@ -3,15 +3,11 @@ Integrates projections regarding use of metals in the economy from:
 -
 """
 
-import logging.config
 import uuid
 from functools import lru_cache
-from pathlib import Path
 
 import country_converter as coco
-import numpy as np
 import pandas as pd
-import wurst
 import yaml
 
 from .export import biosphere_flows_dictionary
@@ -55,12 +51,17 @@ def load_mining_shares_mapping():
 
     filepath = DATA_DIR / "metals" / "mining_shares_mapping.xlsx"
     df = pd.read_excel(filepath, sheet_name="Shares_mapping")
+
+    # replace all instances of "Year " in columns by ""
+    df.columns = df.columns.str.replace("Year ", "")
+
     return df
 
 
 def load_activities_mapping():
     """
-    Load mapping for the ecoinvent exchanges to be updated by the new metal intensities
+    Load mapping for the ecoinvent exchanges to be
+    updated by the new metal intensities
     """
 
     filepath = DATA_DIR / "metals" / "activities_mapping.xlsx"
@@ -70,7 +71,7 @@ def load_activities_mapping():
 
 # Define a function to replicate rows based on the generated activity sets
 def extend_dataframe(df, mapping):
-    """ "
+    """"
      Extend a DataFrame by duplicating rows based on a mapping dictionary.
 
     Parameters:
@@ -115,17 +116,16 @@ def get_ecoinvent_metal_factors():
     return ds
 
 
-# def load_post_allocation_correction_factors():
-#     """
-#     Load yaml file with post-allocation correction factors
-#
-#     WE ARE NOT POST-ALLOCATING ANYMORE
-#     """
-#
-#     filepath = DATA_DIR / "metals" / "post-allocation correction" / "corrections.yaml"
-#     with open(filepath, "r", encoding="utf-8") as stream:
-#         factors = yaml.safe_load(stream)
-#     return factors
+def load_post_allocation_correction_factors():
+    """
+    Load yaml file with post-allocation correction factors
+
+    """
+
+    filepath = DATA_DIR / "metals" / "post-allocation correction" / "corrections.yaml"
+    with open(filepath, "r", encoding="utf-8") as stream:
+        factors = yaml.safe_load(stream)
+    return factors
 
 
 def fetch_mapping(filepath: str) -> dict:
@@ -217,12 +217,13 @@ class Metals(BaseTransformation):
             axis=1,
         )
 
+
         # self.metals_map: Dict[str, Set] = mapping.generate_metals_map()
         # self.rev_metals_map: Dict[str, str] = rev_metals_map(self.metals_map) # 2
 
         # self.current_metal_use = get_ecoinvent_metal_factors()
 
-        # self.biosphere_flow_codes = biosphere_flows_dictionary(version=self.version)
+        self.biosphere_flow_codes = biosphere_flows_dictionary(version=self.version)
 
     def update_metals_use_in_database(self):
         """
@@ -406,17 +407,17 @@ class Metals(BaseTransformation):
                                 if metal not in dataset["log parameters"]:
                                     if condition_met:
                                         dataset["log parameters"][
-                                            f"{metal} old amount, for {act['name']}"
+                                            f"{metal} old amount"
                                         ] = old_amount
                                         dataset["log parameters"][
-                                            f"{metal} new amount for {act['name']}"
+                                            f"{metal} new amount "
                                         ] = result
                                     else:
                                         dataset["log parameters"][
-                                            f"{metal} old amount, for {act['name']}"
+                                            f"{metal} old amount"
                                         ] = 0
                                         dataset["log parameters"][
-                                            f"{metal} new amount for {act['name']}"
+                                            f"{metal} new amount"
                                         ] = result
 
                             else:
@@ -435,67 +436,77 @@ class Metals(BaseTransformation):
         else:
             print(f"\nCHECK!!!\n No matching rows for {ds_name}.")
 
-            # if "log parameters" not in dataset:
-            #     dataset["log parameters"] = {}
-            #
-            # if metal not in dataset["log parameters"]:
-            #     # dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
-            #     dataset["log parameters"][f"{metal} new amount for {}"] = act["amount"]
 
         return dataset
 
-    # def post_allocation_correction(self):
-    #     """
-    #     Correct for post-allocation in the database.
-    #     """
-    #
-    #     factors_list = load_post_allocation_correction_factors()
-    #
-    #     for dataset in factors_list:
-    #         ds = ws.get_one(
-    #             self.database,
-    #             ws.equals("name", dataset["name"]),
-    #             ws.equals("reference product", dataset["reference product"]),
-    #             ws.equals("location", dataset["location"]),
-    #             ws.equals("unit", dataset["unit"]),
-    #         )
-    #         ds["exchanges"].append(
-    #             {
-    #                 "name": dataset["additional flow"]["name"],
-    #                 "amount": dataset["additional flow"]["amount"],
-    #                 "unit": dataset["additional flow"]["unit"],
-    #                 "type": "biosphere",
-    #                 "categories": tuple(
-    #                     dataset["additional flow"]["categories"].split("::")
-    #                 ),
-    #                 "input": (
-    #                     "biosphere3",
-    #                     self.biosphere_flow_codes[
-    #                         dataset["additional flow"]["name"],
-    #                         dataset["additional flow"]["categories"].split("::")[0],
-    #                         dataset["additional flow"]["categories"].split("::")[1],
-    #                         dataset["additional flow"]["unit"],
-    #                     ],
-    #                 ),
-    #             }
-    #         )
+    def post_allocation_correction(self):
+        """
+        Correct for post-allocation in the database.
+        """
+
+        factors_list = load_post_allocation_correction_factors()
+
+        for dataset in factors_list:
+            ds = ws.get_one(
+                self.database,
+                ws.equals("name", dataset["name"]),
+                ws.equals("reference product", dataset["reference product"]),
+                ws.equals("location", dataset["location"]),
+                ws.equals("unit", dataset["unit"]),
+            )
+            ds["exchanges"].append(
+                {
+                    "name": dataset["additional flow"]["name"],
+                    "amount": dataset["additional flow"]["amount"],
+                    "unit": dataset["additional flow"]["unit"],
+                    "type": "biosphere",
+                    "categories": tuple(
+                        dataset["additional flow"]["categories"].split("::")
+                    ),
+                    "input": (
+                        "biosphere3",
+                        self.biosphere_flow_codes[
+                            dataset["additional flow"]["name"],
+                            dataset["additional flow"]["categories"].split("::")[0],
+                            dataset["additional flow"]["categories"].split("::")[1],
+                            dataset["additional flow"]["unit"],
+                        ],
+                    ),
+                }
+            )
+
+            if "log parameters" not in ds:
+                ds["log parameters"] = {}
+
+            ds["log parameters"]["post-allocation correction"] = dataset["additional flow"]["amount"]
+
+            self.write_log(ds, "updated")
 
     def create_new_mining_activity(
         self,
         name,
         reference_product,
-        new_locations
-        # self, name, reference_product, new_locations, geo_mapping
+        new_locations,
+        geography_mapping=None,
+
     ) -> dict:
         """
         Create a new mining activity in a new location.
         """
+
+        geography_mapping = {
+            k: v for k, v in geography_mapping.items()
+            if (
+                   name, reference_product, "kilogram", k
+               ) not in self.modified_datasets[(self.model, self.scenario, self.year)]["created"]
+        }
+
         # Get the original datasets
         datasets = self.fetch_proxies(
             name=name,
             ref_prod=reference_product,
             regions=new_locations.values(),
-            # geo_mapping=geo_mapping,
+            geo_mapping=geography_mapping,
         )
 
         return datasets
@@ -531,10 +542,27 @@ class Metals(BaseTransformation):
         """
         shares = {}
 
+        # we fetch the shares for each location in df
+        # and we interpolate if necessary between the columns
+        # 2020 to 2030
+
         for long_location, short_location in new_locations.items():
-            shares[(name, ref_prod, short_location)] = df.loc[
-                df["Country"] == long_location, "Year 2020"
-            ].values[0]
+            share = df.loc[
+                df["Country"] == long_location, "2020": "2030"
+            ]
+
+            # we interpolate depending on if self.year is between 2020 and 2030
+            # otherwise, we back or forward fill
+
+            if self.year < 2020:
+                share = share.iloc[:, 0]
+            elif self.year > 2030:
+                share = share.iloc[:, -1]
+            else:
+                share = share.iloc[:, self.year - 2020]
+
+            share = share.values[0]
+            shares[(name, ref_prod, short_location)] = share
 
         return shares
 
@@ -568,14 +596,14 @@ class Metals(BaseTransformation):
             # fetch shares for each location in df
             shares = self.get_shares(group, new_locations, name, ref_prod)
 
-            # geography_mapping = self.get_geo_mapping(group, new_locations)
+            geography_mapping = self.get_geo_mapping(group, new_locations)
 
             # if not, we create it
             datasets = self.create_new_mining_activity(
                 name,
                 ref_prod,
-                new_locations
-                # name, ref_prod, new_locations, geography_mapping
+                new_locations,
+                geography_mapping
             )
 
             # add new datasets to database
@@ -594,6 +622,9 @@ class Metals(BaseTransformation):
                     for dataset in datasets.values()
                 ]
             )
+
+            for dataset in datasets.values():
+                self.write_log(dataset, "created")
 
             new_exchanges.extend(
                 [
@@ -628,7 +659,7 @@ class Metals(BaseTransformation):
                         ds["unit"],
                     )
                 )
-                # self.database.remove(ds)
+                self.database.remove(ds)
 
         dataset = {
             "name": f"market for {metal[0].lower() + metal[1:]}",
@@ -658,14 +689,15 @@ class Metals(BaseTransformation):
         return dataset
 
     def create_metal_markets(self):
-        # self.post_allocation_correction()
+
+        self.post_allocation_correction()
 
         print("Creating metal markets")
 
         dataframe = load_mining_shares_mapping()
         dataframe = dataframe.loc[dataframe["Work done"] == "Yes"]
         dataframe = dataframe.loc[~dataframe["Country"].isnull()]
-        dataframe_shares = dataframe.loc[dataframe["Year 2020"] > 0]
+        dataframe_shares = dataframe
 
         for metal in dataframe_shares["Metal"].unique():
             print(f"... for {metal}.")
@@ -686,8 +718,14 @@ class Metals(BaseTransformation):
                 )
             )
 
+            self.write_log(dataset, "created")
+
+        # filter dataframe_parent to only keep rows
+        # which have a region and no values under columns from 2020 to 2030
+
         dataframe_parent = dataframe.loc[
-            (dataframe["Year 2020"].isnull()) & (~dataframe["Region"].isnull())
+            dataframe["Region"].notnull()
+            & dataframe["2020"].isnull()
         ]
 
         print("Creating additional mining processes")
@@ -697,6 +735,7 @@ class Metals(BaseTransformation):
             for (name, ref_prod), group in df_metal.groupby(
                 ["Process", "Reference product"]
             ):
+                print(f"...... for {name} - {ref_prod}.")
                 new_locations = {
                     c: self.convert_long_to_short_country_name(c)
                     for c in group["Country"].unique()
@@ -706,14 +745,14 @@ class Metals(BaseTransformation):
                     k: v for k, v in new_locations.items() if v is not None
                 }
 
-                # geography_mapping = self.get_geo_mapping(group, new_locations)
+                geography_mapping = self.get_geo_mapping(group, new_locations)
 
                 # if not, we create it
                 datasets = self.create_new_mining_activity(
                     name,
                     ref_prod,
-                    new_locations
-                    # name, ref_prod, new_locations, geography_mapping
+                    new_locations,
+                    geography_mapping=geography_mapping
                 )
 
                 self.database.extend(datasets.values())
@@ -733,152 +772,16 @@ class Metals(BaseTransformation):
                     ]
                 )
 
-    # def update_metal_use(
-    #     self,
-    #     dataset: dict,
-    #     technology: str,
-    # ) -> dict:
-    #     """
-    #       OLD FUNCTION WHERE WE WERE MODIFYING ENVIRONMENTAL FLOWS
-
-    #     Update metal use based on metal intensities data.
-    #     :param dataset: dataset to adjust metal use for
-    #     :param technology: metal intensity variable name to look up
-    #     :return: Does not return anything. Modified in place.
-    #     """
-    #
-    #     # get the list of metal factors available for this technology
-    #
-    #     if technology not in self.metals.origin_var.values:
-    #         print(f"Technology {technology} not found in metal intensity database.")
-    #         return dataset
-    #
-    #     data = self.metals.sel(origin_var=technology, variable="median").interp(
-    #         year=self.year
-    #     )
-    #     metals = [
-    #         m
-    #         for m in self.metals.metal.values
-    #         if not np.isnan(data.sel(metal=m).values)
-    #     ]
-    #
-    #     # Update biosphere exchanges according to DLR use factors
-    #
-    #     for exc in ws.biosphere(
-    #         dataset, ws.either(*[ws.equals("name", x) for x in self.rev_metals_map])
-    #     ):
-    #         print("Updating metal use for", dataset["name"], exc["name"])
-    #         metal = self.rev_metals_map[exc["name"]]
-    #         use_factor = data.sel(metal=metal).values
-    #
-    #         # check if there is a conversion factor
-    #         if dataset["name"] in self.conversion_factors["Activity"].tolist():
-    #             use_factor *= self.conversion_factors.loc[
-    #                 self.conversion_factors["Activity"] == dataset["name"],
-    #                 "Conversion_factor",
-    #             ].values[0]
-    #
-    #         else:
-    #             print(f"Conversion factor not found for {dataset['name']}.")
-    #
-    #         # update the exchange amount
-    #         if metal in self.current_metal_use.metal.values:
-    #             ecoinvent_factor = self.current_metal_use.sel(
-    #                 metal=metal,
-    #                 activity=(
-    #                     dataset["name"],
-    #                     dataset["reference product"],
-    #                     dataset["location"],
-    #                 ),
-    #             ).values
-    #         else:
-    #             ecoinvent_factor = 0
-    #
-    #         exc["amount"] += use_factor - ecoinvent_factor
-    #
-    #         if "log parameters" not in dataset:
-    #             dataset["log parameters"] = {}
-    #
-    #         if metal not in dataset["log parameters"]:
-    #             dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
-    #             dataset["log parameters"][f"{metal} new amount"] = exc["amount"]
-    #
-    #             # remove metal from metals list
-    #         metals.remove(metal)
-    #
-    #     # Add new biosphere exchanges for metals
-    #     # not present in the original dataset
-    #     for metal in metals:
-    #         use_factor = data.sel(metal=metal).values
-    #         # check if there is a conversion factor
-    #         if dataset["name"] in self.conversion_factors["Activity"].tolist():
-    #             use_factor *= self.conversion_factors.loc[
-    #                 self.conversion_factors["Activity"] == dataset["name"],
-    #                 "Conversion_factor",
-    #             ].values[0]
-    #         else:
-    #             print(f"Conversion factor not found for {dataset['name']}.")
-    #
-    #         if self.version != "3.9":
-    #             exc_id = (
-    #                 f"{metal}, in ground",
-    #                 "natural resource",
-    #                 "in ground",
-    #                 "kilogram",
-    #             )
-    #         else:
-    #             exc_id = (
-    #                 f"{metal}",
-    #                 "natural resource",
-    #                 "in ground",
-    #                 "kilogram",
-    #             )
-    #
-    #         if metal in self.current_metal_use.metal.values:
-    #             if (
-    #                 dataset["name"],
-    #                 dataset["reference product"],
-    #                 dataset["location"],
-    #             ) in self.current_metal_use.activity.values.tolist():
-    #                 ecoinvent_factor = self.current_metal_use.sel(
-    #                     metal=metal,
-    #                     activity=(
-    #                         dataset["name"],
-    #                         dataset["reference product"],
-    #                         dataset["location"],
-    #                     ),
-    #                 ).values
-    #             else:
-    #                 ecoinvent_factor = 0
-    #         else:
-    #             ecoinvent_factor = 0
-    #
-    #         exc = {
-    #             "name": f"{metal}, in ground",
-    #             "amount": use_factor - ecoinvent_factor,
-    #             "input": ("biosphere3", self.biosphere_flow_codes[exc_id]),
-    #             "type": "biosphere",
-    #             "unit": "kilogram",
-    #             "comment": (f"{ecoinvent_factor};{use_factor};{technology};{metal}"),
-    #         }
-    #
-    #         dataset["exchanges"].append(exc)
-    #
-    #         if "log parameters" not in dataset:
-    #             dataset["log parameters"] = {}
-    #
-    #         dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
-    #         dataset["log parameters"][f"{metal} new amount"] = exc["amount"]
-    #
-    #     return dataset
+                for dataset in datasets.values():
+                    self.write_log(dataset, "created")
 
     def write_log(self, dataset, status="created"):
         """
         Write log file.
         """
 
-        if "log parameters" in dataset:
-            logger.info(
-                f"{status}|{self.model}|{self.scenario}|{self.year}|"
-                f"{dataset['name']}|{dataset['location']}|"
-            )
+        logger.info(
+            f"{status}|{self.model}|{self.scenario}|{self.year}|"
+            f"{dataset['name']}|{dataset['reference product']}|{dataset['location']}|"
+            f"{dataset.get('log parameters', {}).get('post-allocation correction', '')}"
+        )
