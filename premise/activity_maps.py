@@ -49,7 +49,6 @@ def get_mapping(filepath: Path, var: str, model: str = None) -> dict:
     return mapping
 
 
-
 def act_fltr(
     database: List[dict],
     fltr: Union[str, List[str]] = None,

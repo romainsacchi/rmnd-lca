@@ -592,7 +592,6 @@ class BaseTransformation:
         ds_name, ds_ref_prod = [None, None]
 
         for region in d_iam_to_eco:
-
             # build filters
             if exact_match is True:
                 filters = [

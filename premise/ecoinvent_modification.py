@@ -38,9 +38,9 @@ from .external_data_validation import check_external_scenarios, check_inventorie
 from .filesystem_constants import DATA_DIR, DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
 from .fuels import _update_fuels
 from .inventory_imports import AdditionalInventory, DefaultInventory
+from .metals import Metals, _update_metals
 from .report import generate_change_report, generate_summary_report
 from .steel import _update_steel
-from .metals import Metals, _update_metals
 from .transport import _update_vehicles
 from .utils import (
     clear_existing_cache,
@@ -1083,7 +1083,10 @@ class NewDatabase:
                 ]
         else:
             for scenario in self.scenarios:
-                if "exclude" not in scenario or "update_metals" not in scenario["exclude"]:
+                if (
+                    "exclude" not in scenario
+                    or "update_metals" not in scenario["exclude"]
+                ):
                     metals = Metals(
                         database=scenario["database"],
                         year=scenario["year"],
