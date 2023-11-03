@@ -331,20 +331,40 @@ class Metals(BaseTransformation):
                             print(
                                 f"\nUpdating {metal_reference_product} for {act['name']}, location:{act['location']}. New value: {result}"
                             )
+
                             if dataset_metal is not None:
 
-                                exchange = {
+                                exchange_to_delete = {
                                     "product": metal_reference_product,
                                     "name": metal_activity,
                                     "type": "technosphere",
                                 }
 
-                                for exc in dataset_metal['exchanges']:
-                                    if exchange["product"] == exc["product"] and exchange["name"] == exc["name"]
-                                        print(f"Exchange for {metal_reference_product} was already present. It's been updated")
-                                        condition_met = True
-                                        old_amount = exc["amount"]
-                                        act["exchanges"].remove(exc)
+                                to_remove = []
+                                condition_met = False
+
+                                for exc in act['exchanges']:
+                                    if all(key in exc for key in ['product', 'name', 'type']):
+                                        if (exc["product"] == exchange_to_delete["product"] and
+                                                exc["name"] == exchange_to_delete["name"] and
+                                                exc["type"] == exchange_to_delete["type"]):
+                                            print(
+                                                f"Exchange for {metal_reference_product} was already present. It's been updated")
+                                            condition_met = True
+                                            to_remove.append(exc)
+                                            old_amount = exc["amount"]
+                                    else:
+                                        if exc["type"] == 'biosphere':
+                                            pass
+                                        else:
+                                            print(f"Missing one or more keys in exchange: {exc}")
+
+
+                                for item in to_remove:
+                                    try:
+                                        act['exchanges'].remove(item)
+                                    except ValueError:
+                                        print(f"Item {item} was already removed or not found in the list")
 
                                 exchange = {
                                     "uncertainty type": 0,
@@ -362,8 +382,13 @@ class Metals(BaseTransformation):
 
                                 if metal not in dataset["log parameters"]:
                                     if condition_met:
-                                    dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
-                                    dataset["log parameters"][f"{metal} new amount for {}"] = act["amount"]
+                                        dataset["log parameters"][f"{metal} old amount, for {act['name']}"] = old_amount
+                                        dataset["log parameters"][f"{metal} new amount for {act['name']}"] = result
+                                    else:
+                                        dataset["log parameters"][
+                                            f"{metal} old amount, for {act['name']}"] = 0
+                                        dataset["log parameters"][
+                                            f"{metal} new amount for {act['name']}"] = result
 
 
                             else:
