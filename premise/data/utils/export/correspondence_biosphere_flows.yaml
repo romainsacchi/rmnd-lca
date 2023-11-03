@@ -85,6 +85,7 @@ natural resource:
   Titanium, in ground: Titanium
   Zinc, in ground: Zinc
   Germanium, in ground: Germanium
+  Water, well: Water, well, in ground
 
 soil:
   Cyfluthrin: Beta-cyfluthrin
