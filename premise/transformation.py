@@ -563,6 +563,7 @@ class BaseTransformation:
         regions=None,
         delete_original_dataset=False,
         empty_original_activity=True,
+        exact_match=True,
     ) -> Dict[str, dict]:
         """
         Fetch dataset proxies, given a dataset `name` and `reference product`.
@@ -591,18 +592,34 @@ class BaseTransformation:
         ds_name, ds_ref_prod = [None, None]
 
         for region in d_iam_to_eco:
+
+            # build filters
+            if exact_match is True:
+                filters = [
+                    ws.equals("name", name),
+                    ws.equals("reference product", ref_prod),
+                ]
+            else:
+                filters = [
+                    ws.equals("name", name),
+                    ws.contains("reference product", ref_prod),
+                ]
+            filters.append(ws.equals("location", d_iam_to_eco[region]))
+
             try:
                 dataset = ws.get_one(
                     self.database,
-                    ws.equals("name", name),
-                    ws.contains("reference product", ref_prod),
-                    ws.equals("location", d_iam_to_eco[region]),
+                    *filters,
                 )
             except ws.MultipleResults as err:
+                results = ws.get_many(
+                    self.database,
+                    *filters,
+                )
                 print(
                     err,
                     "A single dataset was expected, "
-                    f"but found more than one for: {name, ref_prod}",
+                    f"but found more than one for: {name, ref_prod}, : {[(r['name'], r['reference product'], r['location']) for r in results]}",
                 )
 
             if (name, ref_prod, region, dataset["unit"]) not in self.modified_datasets[

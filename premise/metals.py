@@ -359,7 +359,6 @@ class Metals(BaseTransformation):
             ref_prod=reference_product,
             regions=new_locations.values(),
             # geo_mapping=geo_mapping,
-            exact_match=True,
         )
 
         return datasets

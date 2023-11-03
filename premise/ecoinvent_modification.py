@@ -40,6 +40,7 @@ from .fuels import _update_fuels
 from .inventory_imports import AdditionalInventory, DefaultInventory
 from .report import generate_change_report, generate_summary_report
 from .steel import _update_steel
+from .metals import Metals, _update_metals
 from .transport import _update_vehicles
 from .utils import (
     clear_existing_cache,
@@ -154,6 +155,9 @@ FILEPATH_HOME_STORAGE_BATTERIES = INVENTORY_DIR / "lci-home-batteries.xlsx"
 FILEPATH_VANADIUM = INVENTORY_DIR / "lci-vanadium.xlsx"
 FILEPATH_VANADIUM_REDOX_BATTERY = INVENTORY_DIR / "lci-vanadium-redox-flow-battery.xlsx"
 FILEPATH_HYDROGEN_TURBINE = INVENTORY_DIR / "lci-hydrogen-turbine.xlsx"
+FILEPATH_GERMANIUM = INVENTORY_DIR / "lci-germanium.xlsx"
+FILEPATH_RHENIUM = INVENTORY_DIR / "lci-rhenium.xlsx"
+FILEPATH_PGM = INVENTORY_DIR / "lci-PGM.xlsx"
 
 config = load_constants()
 
@@ -778,6 +782,9 @@ class NewDatabase:
             (FILEPATH_CSP, "3.9"),
             (FILEPATH_VANADIUM, "3.8"),
             (FILEPATH_VANADIUM_REDOX_BATTERY, "3.9"),
+            (FILEPATH_GERMANIUM, "3.9"),
+            (FILEPATH_RHENIUM, "3.9"),
+            (FILEPATH_PGM, "3.8"),
         ]
         for filepath in filepaths:
             # make an exception for FILEPATH_OIL_GAS_INVENTORIES
@@ -1042,6 +1049,54 @@ class NewDatabase:
                     system_model=self.system_model,
                     modified_datasets=self.modified_datasets,
                 )
+
+        print("Done!\n")
+
+    def update_metals(self) -> None:
+        """
+        This method will update the metals use in inventories
+        with the data from DLR.
+        """
+
+        print("\n////////////////////////////// METALS ///////////////////////////////")
+
+        # use multiprocessing to speed up the process
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_metals, args)
+
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                self.modified_datasets[
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ] = results[s][1][
+                    (scenario["model"], scenario["pathway"], scenario["year"])
+                ]
+        else:
+            for scenario in self.scenarios:
+                if "exclude" not in scenario or "update_metals" not in scenario["exclude"]:
+                    metals = Metals(
+                        database=scenario["database"],
+                        year=scenario["year"],
+                        model=scenario["model"],
+                        pathway=scenario["pathway"],
+                        iam_data=scenario["iam data"],
+                        version=self.version,
+                        system_model=self.system_model,
+                        modified_datasets=self.modified_datasets,
+                    )
+
+                    metals.create_metal_markets()
+                    scenario["database"] = metals.database
 
         print("Done!\n")
 
