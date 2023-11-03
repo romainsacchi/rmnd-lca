@@ -1098,8 +1098,12 @@ class NewDatabase:
                         modified_datasets=self.modified_datasets,
                     )
 
-
-                    _update_metals(scenario,self.version, self.system_model, self.modified_datasets)
+                    _update_metals(
+                        scenario,
+                        self.version,
+                        self.system_model,
+                        self.modified_datasets,
+                    )
                     scenario["database"] = metals.database
 
         print("Done!\n")
