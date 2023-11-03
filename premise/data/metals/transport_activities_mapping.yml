@@ -1,0 +1,238 @@
+stibnite:
+  - stibnite concentrate
+
+bauxite:
+  - Bauxite
+
+chromite:
+  - chromite ore concentrate
+
+cobalt_ore:
+  - copper-cobalt ore
+
+copper_ore:
+  - copper concentrate, sulfide ore
+
+iron_ore:
+  - iron ore concentrate
+
+lead_ore:
+  - lead concentrate
+
+manganese_ore:
+  - manganese concentrate
+
+molybdenite:
+  - molybdenite
+
+nickel_ore:
+  - nickel concentrate, 16% Ni
+
+phosphate_rock:
+  - phosphate rock, beneficiated
+
+silver_ore:
+  - silver
+
+tantalum_vanadium_niobium_ore:
+  - pyrochlore concentrate
+  - tantalum concentrate, 30% Ta2O5
+  - vanadium bearing magnetite
+
+tin_ore:
+  - tin concentrate
+
+titanium_ore:
+  - ilmenite, 54% titanium dioxide
+  - rutile, 95% titanium dioxide
+
+tungsten_ore:
+  - tungsten concentrate
+
+uranium_ore:
+  - uranium ore, as U
+
+zinc_ore:
+  - zinc concentrate
+
+aluminium_hydroxide:
+  - aluminium hydroxide
+
+aluminium_oxide:
+  - aluminium oxide, metallurgical
+
+other_hydroxide:
+  - beryllium hydroxide
+
+other_borate:
+  - calcium borates
+
+sodium_borate:
+  - sodium borates
+
+boric_oxid_acid: ### CHECK WHETHER BORIC OXIDE SHOULD BE EXCLUDED
+  - boric acid, anhydrous, powder
+  - boric oxide
+
+cobalt_hydroxide:
+  - cobalt hydroxide
+
+other_sulfate:
+  - cobalt sulfate
+  - strontium sulfate, 90% SrSO4
+
+phosphorous:
+  - phosphorus, white, liquid
+
+phosphoric_acid:
+  - phosphoric acid, fertiliser grade, without water, in 70% solution state
+
+potash:
+  - potash salt
+
+reo_scandium_yttrium: ## I left out the rare earth carbonate to avoid double counting
+  - dysprosium oxide
+  - erbium oxide
+  - europium oxide
+  - gadolinium oxide
+  - ytterbium oxide
+  - terbium oxide
+  - thulium oxide
+  - yttrium oxide
+  - samarium oxide
+  - scandium oxide
+  - praseodymium oxide
+  - neodymium oxide
+  - lutetium oxide
+  - lanthanum oxide
+  - holmium oxide
+  - cerium oxide
+  - lanthanum-cerium oxide
+
+selenium:
+  - Selenium
+
+sulfur:
+  - sulfur
+
+vanadium_oxide:
+  - vanadium pentoxide
+
+lithium_hydroxide:
+  - lithium hydroxide, battery grade
+
+other_chloride:
+
+lithium_carbonate:
+  - lithium carbonate, battery grade
+
+other_carbonate:
+
+dolomite:
+  - dolomite
+
+other_carbide:
+  -boron carbide
+
+other_fluoride:
+
+silicon:
+  - silicon, metallurgical grade
+
+antimony:
+  - antimony
+
+aluminium:
+  - Aluminium, primary, liquid
+  - aluminium, primary, ingot
+
+aluminium_cast_alloy:
+  - aluminium, cast alloy
+
+bentonite:
+  - bentonite
+
+beryllium:
+  - beryllium
+
+boron_tellurium:
+  - boron trifluoride
+  - tellurium, semiconductor-grade
+
+cadmium:
+  - Cadmium
+
+chromium:
+  - chromium
+
+cobalt:
+  - cobalt
+
+copper_anode:
+  - copper, anode
+
+copper_cathode:
+  - copper, cathode
+
+ga_ge_hf_in_nb_rh_va:
+  - gallium, semiconductor-grade
+  - germanium, concentrate
+  - hafnium, sponge
+#  - hafnium, tetrachloride
+  - indium
+  - Rhenium
+
+gold:
+  - Gold
+
+graphite:
+  - graphite
+
+pgm:
+  - iridium
+  - platinum group metal concentrate
+  - ruthenium
+
+pig_iron:
+  - pig iron
+
+lead:
+  - lead
+
+magnesium:
+  - magnesium
+
+manganese:
+  - manganese
+
+molybdenum:
+  - molybdenum
+
+nickel:
+  - nickel, class 1
+
+niobium:
+  - ferroniobium, 66% Nb
+
+palladium:
+  - palladium
+
+platinum:
+  - platinum
+
+silica_sand:
+  - silica sand
+
+tin:
+  - tin
+
+titanium: ## I exclude titanium tetrachloride and sponge
+  - titanium
+
+zinc:
+  - zinc
+
+zirconium: ### RE RUN NOTEBOOK ADDING THIS!
+  - zirconium
+
+### Missing: spodumene, sand, ZIRCONIUM (BUT IT IS THERE,810920)
