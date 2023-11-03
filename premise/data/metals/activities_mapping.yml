@@ -213,10 +213,10 @@ CdTe:
       - photovoltaic laminate, CdTe
     mask:
       - market
-pv_perovskite:
-  ecoinvent_aliases:
-    fltr:
-      - photovoltaic panel, perovskite-Si-tandem, at plant
+#pv_perovskite:
+#  ecoinvent_aliases:
+#    fltr:
+#      - photovoltaic panel, perovskite-Si-tandem, at plant
 Parabolic Trough - SF:
   ecoinvent_aliases:
     fltr:

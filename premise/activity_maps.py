@@ -14,7 +14,7 @@ from .filesystem_constants import DATA_DIR, VARIABLES_DIR
 
 POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
 FUELS_TECHS = VARIABLES_DIR / "fuels_variables.yaml"
-MATERIALS_TECHS = DATA_DIR / "utils" / "materials_vars.yml"
+MATERIALS_TECHS = DATA_DIR / "metals" / "activities_mapping.yml"
 DAC_TECHS = VARIABLES_DIR / "direct_air_capture_variables.yaml"
 CARBON_STORAGE_TECHS = VARIABLES_DIR / "carbon_storage_variables.yaml"
 CEMENT_TECHS = VARIABLES_DIR / "cement_variables.yaml"
@@ -22,7 +22,7 @@ GAINS_MAPPING = (
     DATA_DIR / "GAINS_emission_factors" / "gains_ecoinvent_sectoral_mapping.yaml"
 )
 ACTIVITIES_METALS_MAPPING = DATA_DIR / "metals" / "activities_mapping.yml"
-METALS_MAPPING = DATA_DIR / "metals" / "metals_mapping.yml"
+# METALS_MAPPING = DATA_DIR / "metals" / "metals_mapping.yml"
 
 
 def get_mapping(filepath: Path, var: str, model: str = None) -> dict:
@@ -159,9 +159,9 @@ class InventorySet:
         self.activity_metals_filters = get_mapping(
             filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
         )
-        self.metals_filters = get_mapping(
-            filepath=METALS_MAPPING, var="ecoinvent_aliases"
-        )
+        # self.metals_filters = get_mapping(
+        #     filepath=METALS_MAPPING, var="ecoinvent_aliases"
+        # )
 
     def generate_activities_using_metals_map(self) -> dict:
         """
