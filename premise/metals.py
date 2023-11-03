@@ -57,7 +57,6 @@ def load_mining_shares_mapping():
     df = pd.read_excel(filepath, sheet_name="Shares_mapping")
     return df
 
-
 def load_activities_mapping():
     """
     Load mapping for the ecoinvent exchanges to be updated by the new metal intensities
@@ -70,7 +69,7 @@ def load_activities_mapping():
 
 # Define a function to replicate rows based on the generated activity sets
 def extend_dataframe(df, mapping):
-    """ "
+    """"
      Extend a DataFrame by duplicating rows based on a mapping dictionary.
 
     Parameters:
@@ -289,55 +288,87 @@ class Metals(BaseTransformation):
                             matching_rows["Element"] == metal, "final_technology"
                         ].iloc[0]
 
-                        ### GET METAL MARKET LOCATION
-                        locations = ["World", "GLO", None]
-                        dataset_metal = None
 
-                        for location in locations:
-                            try:
-                                if location:
+                        ### GET METAL MARKET LOCATION
+                        locations = ['World', 'GLO', 'RoW']
+                        dataset_metal = None  # Initialize dataset_metal outside the loop
+
+                        # Check if metal_activity is a string and not nan
+                        if isinstance(metal_activity, str) and not pd.isna(metal_activity):
+                            for location in locations:
+                                try:
                                     dataset_metal = ws.get_one(
                                         self.database,
-                                        ws.equals("name", metal_activity),
-                                        ws.equals("location", location),
+                                        ws.equals('name', metal_activity),
+                                        ws.equals('location', location)
                                     )
-                                else:
+                                    if dataset_metal:  # If we found the dataset, break out of the loop
+                                        break
+                                except Exception as e:
+                                    print(f"Failed to get dataset for location '{location}': {e}")
+
+                            # If dataset_metal is still None, try without specifying the location
+                            if dataset_metal is None:
+                                try:
                                     dataset_metal = ws.get_one(
-                                        self.database, ws.equals("name", metal_activity)
+                                        self.database,
+                                        ws.contains('name', metal_activity)
                                     )
-                                if (
-                                    dataset_metal
-                                ):  # If we found the dataset, break out of the loop
-                                    break
-                            except (
-                                Exception
-                            ) as e:  # Replace Exception with the specific exception if possible
-                                print(
-                                    f"Failed to get dataset for location '{location}': {e}"
-                                )
-                            print(
-                                f"Dataset for metal activity '{metal_activity}' not found in any location."
-                            )
+                                except Exception as e:
+                                    print(f"Failed to get dataset without specifying location: {e}")
+                        else:
+                            print(f"Invalid metal activity: '{metal_activity}'")
+
+                        if dataset_metal is None:
+                            print(f"Dataset for metal activity '{metal_activity}' not found in any location.")
 
                         dataset_demand = ws.get_many(
                             self.database,
                             ws.equals("name", final_technology),
                         )
 
-                        for exc in dataset_demand:
+                        for act in dataset_demand:
                             print(
-                                f"\nUpdating {metal_reference_product} for {exc['name']}, location:{exc['location']}. New value: {result}"
+                                f"\nUpdating {metal_reference_product} for {act['name']}, location:{act['location']}. New value: {result}"
                             )
-                            exchange = {
-                                "uncertainty type": 0,
-                                "amount": result,
-                                "product": metal_reference_product,
-                                "name": metal_activity,
-                                "unit": "kilogram",
-                                "location": dataset_metal["location"],
-                                "type": "technosphere",
-                            }
-                            exc["exchanges"].append(exchange)
+                            if dataset_metal is not None:
+
+                                exchange = {
+                                    "product": metal_reference_product,
+                                    "name": metal_activity,
+                                    "type": "technosphere",
+                                }
+
+                                for exc in dataset_metal['exchanges']:
+                                    if exchange["product"] == exc["product"] and exchange["name"] == exc["name"]
+                                        print(f"Exchange for {metal_reference_product} was already present. It's been updated")
+                                        condition_met = True
+                                        old_amount = exc["amount"]
+                                        act["exchanges"].remove(exc)
+
+                                exchange = {
+                                    "uncertainty type": 0,
+                                    "amount": result,
+                                    "product": metal_reference_product,
+                                    "name": metal_activity,
+                                    "unit": dataset_metal["unit"],
+                                    "location": dataset_metal["location"],
+                                    "type": "technosphere",
+                                }
+                                act["exchanges"].append(exchange)
+
+                                if "log parameters" not in dataset:
+                                    dataset["log parameters"] = {}
+
+                                if metal not in dataset["log parameters"]:
+                                    if condition_met:
+                                    dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
+                                    dataset["log parameters"][f"{metal} new amount for {}"] = act["amount"]
+
+
+                            else:
+                                print(f"Could not find dataset_metal for {ds_name} with technology {technology}")
+
                     else:
                         print(
                             f"\nCHECK!!!\n Origin: {technology}, Metal: {metal}, Calculation Result: Conversion factor missing, Ecoinvent Activity: {ecoinvent_technology}, Technology: {matching_rows.loc[matching_rows['Element'] == metal, 'final_technology'].iloc[0]}"
@@ -354,7 +385,7 @@ class Metals(BaseTransformation):
             #
             # if metal not in dataset["log parameters"]:
             #     # dataset["log parameters"][f"{metal} old amount"] = ecoinvent_factor
-            #     dataset["log parameters"][f"{metal} new amount"] = exc["amount"]
+            #     dataset["log parameters"][f"{metal} new amount for {}"] = act["amount"]
 
         return dataset
 
