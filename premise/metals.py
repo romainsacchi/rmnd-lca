@@ -71,7 +71,7 @@ def load_activities_mapping():
 
 # Define a function to replicate rows based on the generated activity sets
 def extend_dataframe(df, mapping):
-    """"
+    """ "
      Extend a DataFrame by duplicating rows based on a mapping dictionary.
 
     Parameters:
@@ -216,7 +216,6 @@ class Metals(BaseTransformation):
             else row["ecoinvent_technology"],
             axis=1,
         )
-
 
         # self.metals_map: Dict[str, Set] = mapping.generate_metals_map()
         # self.rev_metals_map: Dict[str, str] = rev_metals_map(self.metals_map) # 2
@@ -436,7 +435,6 @@ class Metals(BaseTransformation):
         else:
             print(f"\nCHECK!!!\n No matching rows for {ds_name}.")
 
-
         return dataset
 
     def post_allocation_correction(self):
@@ -478,7 +476,9 @@ class Metals(BaseTransformation):
             if "log parameters" not in ds:
                 ds["log parameters"] = {}
 
-            ds["log parameters"]["post-allocation correction"] = dataset["additional flow"]["amount"]
+            ds["log parameters"]["post-allocation correction"] = dataset[
+                "additional flow"
+            ]["amount"]
 
             self.write_log(ds, "updated")
 
@@ -488,17 +488,18 @@ class Metals(BaseTransformation):
         reference_product,
         new_locations,
         geography_mapping=None,
-
     ) -> dict:
         """
         Create a new mining activity in a new location.
         """
 
         geography_mapping = {
-            k: v for k, v in geography_mapping.items()
-            if (
-                   name, reference_product, "kilogram", k
-               ) not in self.modified_datasets[(self.model, self.scenario, self.year)]["created"]
+            k: v
+            for k, v in geography_mapping.items()
+            if (name, reference_product, "kilogram", k)
+            not in self.modified_datasets[(self.model, self.scenario, self.year)][
+                "created"
+            ]
         }
 
         # Get the original datasets
@@ -547,9 +548,7 @@ class Metals(BaseTransformation):
         # 2020 to 2030
 
         for long_location, short_location in new_locations.items():
-            share = df.loc[
-                df["Country"] == long_location, "2020": "2030"
-            ]
+            share = df.loc[df["Country"] == long_location, "2020":"2030"]
 
             # we interpolate depending on if self.year is between 2020 and 2030
             # otherwise, we back or forward fill
@@ -600,10 +599,7 @@ class Metals(BaseTransformation):
 
             # if not, we create it
             datasets = self.create_new_mining_activity(
-                name,
-                ref_prod,
-                new_locations,
-                geography_mapping
+                name, ref_prod, new_locations, geography_mapping
             )
 
             # add new datasets to database
@@ -689,7 +685,6 @@ class Metals(BaseTransformation):
         return dataset
 
     def create_metal_markets(self):
-
         self.post_allocation_correction()
 
         print("Creating metal markets")
@@ -724,8 +719,7 @@ class Metals(BaseTransformation):
         # which have a region and no values under columns from 2020 to 2030
 
         dataframe_parent = dataframe.loc[
-            dataframe["Region"].notnull()
-            & dataframe["2020"].isnull()
+            dataframe["Region"].notnull() & dataframe["2020"].isnull()
         ]
 
         print("Creating additional mining processes")
@@ -749,10 +743,7 @@ class Metals(BaseTransformation):
 
                 # if not, we create it
                 datasets = self.create_new_mining_activity(
-                    name,
-                    ref_prod,
-                    new_locations,
-                    geography_mapping=geography_mapping
+                    name, ref_prod, new_locations, geography_mapping=geography_mapping
                 )
 
                 self.database.extend(datasets.values())
