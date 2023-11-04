@@ -5,13 +5,13 @@ Integrates projections regarding use of metals in the economy from:
 
 import uuid
 from functools import lru_cache
-from typing import Optional, Tuple
-from _operator import itemgetter
 from itertools import groupby
+from typing import Optional, Tuple
 
 import country_converter as coco
 import pandas as pd
 import yaml
+from _operator import itemgetter
 
 from .export import biosphere_flows_dictionary
 from .logger import create_logger
