@@ -72,6 +72,12 @@ class Geomap:
                     f"if you are not using "
                     "REMIND or IMAGE."
                 )
+        else:
+            self.geo.add_definitions(
+                {"World": ["GLO", "RoW"]}, self.model.upper()
+            )
+
+            assert (self.model.upper(), "World") in self.geo.keys(), list(self.geo.keys())
 
         self.additional_mappings = get_additional_mapping()
         self.rev_additional_mappings = {}

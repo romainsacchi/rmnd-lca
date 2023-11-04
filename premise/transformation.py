@@ -178,7 +178,6 @@ def new_exchange(exc, location, factor):
 
 
 def get_gis_match(
-    dataset,
     location,
     possible_locations,
     geomatcher,
@@ -189,17 +188,13 @@ def get_gis_match(
     with resolved_row(possible_locations, geomatcher.geo) as g:
         func = g.contained if contained else g.intersects
 
-        if dataset["location"] not in geomatcher.iam_regions:
-            gis_match = func(
-                location,
-                include_self=True,
-                exclusive=exclusive,
-                biggest_first=biggest_first,
-                only=possible_locations,
-            )
-
-        else:
-            gis_match = geomatcher.iam_to_ecoinvent_location(dataset["location"])
+        gis_match = func(
+            location,
+            include_self=True,
+            exclusive=exclusive,
+            biggest_first=biggest_first,
+            only=possible_locations,
+        )
 
     return gis_match
 
@@ -237,6 +232,10 @@ def filter_out_results(
 ) -> List[dict]:
     """Filters a list of results by a given field"""
     return [r for r in results if item_to_look_for not in r[field_to_look_at]]
+
+
+def filter_technosphere_exchanges(exchanges: list):
+    return filter(lambda x: x["type"] == "technosphere", exchanges)
 
 
 class BaseTransformation:
@@ -729,7 +728,7 @@ class BaseTransformation:
                 regions=regions,
             )
 
-        if delete_original_dataset:
+        if delete_original_dataset is True:
             # remove the dataset from `self.database`
             self.database = [
                 ds
@@ -1220,20 +1219,27 @@ class BaseTransformation:
     ) -> None:
         """
         Add an entry to the cache.
-        :param location: location
-        :param exchange: exchange
-        :param allocated: allocated
-        :param shares: shares
-        :return: cache
+        :param location: The location to which the cache entry corresponds.
+        :param exchange: The exchange dictionary containing the data to cache.
+        :param allocated: A list of dictionaries containing allocated exchanges.
+        :param shares: A list of floats representing the shares for each allocated exchange.
         """
-        if "reference product" in exchange and "product" not in exchange:
-            exchange["product"] = exchange["reference product"]
+        # Ensure 'product' key is present in exchange.
+        exchange.setdefault("product", exchange.get("reference product"))
 
-        exc_key = tuple(exchange[k] for k in ("name", "product", "location", "unit"))
+        # Create a key for the cache entry.
+        exc_key = (
+            exchange["name"],
+            exchange["product"],
+            exchange["location"],
+            exchange["unit"],
+        )
+
+        # Create the cache entry.
         entry = [
             (
-                e["name"],
-                e["product"] if "product" in e else e["reference product"],
+                e.get("name", e.get("reference product")),
+                e.get("product", e.get("reference product")),
                 e["location"],
                 e["unit"],
                 s,
@@ -1241,20 +1247,323 @@ class BaseTransformation:
             for e, s in zip(allocated, shares)
         ]
 
-        if location not in self.cache:
-            self.cache[location] = {}
+        # Initialize cache dictionary levels with setdefault.
+        location_cache = self.cache.setdefault(location, {})
+        model_cache = location_cache.setdefault(self.model, {})
 
-        if self.model not in self.cache[location]:
-            self.cache[location][self.model] = {}
+        # Add the new entry to the cache.
+        model_cache[exc_key] = entry
 
-        self.cache[location][self.model][exc_key] = entry
+    def is_exchange_in_cache(self, exchange: dict, dataset_location: str) -> bool:
+        """
+        Check if an exchange is in the cache.
+        :param exchange: The exchange dictionary to check.
+        :param dataset_location: The location of the dataset.
+        :return: True if the exchange is in the cache, False otherwise.
+
+        """
+        return (
+            exchange["name"],
+            exchange["product"],
+            exchange["location"],
+            exchange["unit"],
+        ) in self.cache.get(dataset_location, {}).get(self.model, {})
+
+    def process_cached_exchange(
+        self, exchange: dict, dataset: dict, new_exchanges: list
+    ) -> None:
+        """
+        Process a cached exchange. Adds the new exchanges to the list of new exchanges.
+        :param exchange: The exchange dictionary to process.
+        :param dataset: The dataset dictionary.
+        :param new_exchanges: The list of new exchanges to add to the dataset.
+
+        """
+        exchanges = self.cache[dataset["location"]][self.model][
+            (
+                exchange["name"],
+                exchange["product"],
+                exchange["location"],
+                exchange["unit"],
+            )
+        ]
+
+        if isinstance(exchanges, tuple):
+            exchanges = [exchanges]
+
+        new_exchanges.extend(
+            [
+                {
+                    "name": i[0],
+                    "product": i[1],
+                    "unit": i[3],
+                    "location": i[2],
+                    "type": "technosphere",
+                    "amount": exchange["amount"] * i[-1],
+                }
+                for i in exchanges
+            ]
+        )
+
+    def process_uncached_exchange(
+        self,
+        exchange: dict,
+        dataset: dict,
+        list_loc: list,
+        new_exchanges: list,
+        exclusive: bool,
+        biggest_first: bool,
+        contained: bool,
+    ):
+        """
+        Process an uncached exchange. Adds the new exchanges to the list of new exchanges.
+        :param exchange: The exchange dictionary to process.
+        :param dataset: The dataset dictionary.
+        :param list_loc: The list of locations to consider.
+        :param new_exchanges: The list of new exchanges to add to the dataset.
+        """
+
+        # This function needs to handle the logic when an exchange is not in the cache.
+        key = (exchange["name"], exchange["product"], exchange["unit"])
+        possible_datasets = [
+            x for x in self.get_possibles(key) if x["location"] in list_loc
+        ]
+
+        if len(possible_datasets) == 1:
+            self.handle_single_possible_dataset(
+                exchange, dataset, possible_datasets, new_exchanges
+            )
+        else:
+            self.handle_multiple_possible_datasets(
+                exchange,
+                dataset,
+                possible_datasets,
+                new_exchanges,
+                exclusive,
+                biggest_first,
+                contained,
+            )
+
+    def handle_single_possible_dataset(
+        self, exchange, dataset, possible_datasets, new_exchanges
+    ):
+        # If there's only one possible dataset, we can just use it
+        single_dataset = possible_datasets[0]
+
+        assert (
+            single_dataset["name"] == exchange["name"]
+        ), f"Candidate: {single_dataset}, exchange: {exchange}"
+        assert (
+            single_dataset.get("reference product") == exchange["product"]
+        ), f"Candidate: {single_dataset}, exchange: {exchange}"
+
+        # Update cache
+        self.add_new_entry_to_cache(
+            dataset["location"],
+            exchange,
+            [self.new_exchange(exchange, exchange["location"], 1.0)],
+            [1.0],
+        )
+        new_exchanges.append(exchange)
+
+    def new_exchange(self, exchange, location, amount_multiplier):
+        # Create a new exchange dictionary with the modified location and amount
+        return {
+            "name": exchange["name"],
+            "product": exchange["product"],
+            "unit": exchange["unit"],
+            "location": location,
+            "type": "technosphere",
+            "amount": exchange["amount"] * amount_multiplier,
+        }
+
+    def handle_multiple_possible_datasets(
+        self,
+        exchange: dict,
+        dataset: dict,
+        possible_datasets: list,
+        new_exchanges: list,
+        exclusive: bool,
+        biggest_first: bool,
+        contained: bool,
+    ) -> None:
+        # First, check if the dataset location itself is a possible match
+        if dataset["location"] in [ds["location"] for ds in possible_datasets]:
+            self.add_new_entry_to_cache(
+                dataset["location"],
+                exchange,
+                [self.new_exchange(exchange, dataset["location"], 1.0)],
+                [1.0],
+            )
+            exchange["location"] = dataset["location"]
+            new_exchanges.append(exchange)
+        else:
+            # If more complex GIS matching or allocation is required, we delegate to another function
+            self.process_complex_matching_and_allocation(
+                exchange,
+                dataset,
+                possible_datasets,
+                new_exchanges,
+                exclusive,
+                biggest_first,
+                contained,
+            )
+
+    def process_complex_matching_and_allocation(
+        self,
+        exchange: dict,
+        dataset: dict,
+        possible_datasets: list,
+        new_exchanges: list,
+        exclusive: bool,
+        biggest_first: bool,
+        contained: bool,
+    ) -> None:
+        # Check if the location of the dataset is within IAM regions
+        if dataset["location"] in self.geo.iam_regions:
+            self.handle_iam_region(exchange, dataset, possible_datasets, new_exchanges)
+
+        elif dataset["location"] in ["GLO", "RoW", "World"]:
+            # Handle global or rest-of-world scenarios
+            self.handle_global_and_row_scenarios(
+                exchange, dataset, possible_datasets, new_exchanges
+            )
+
+        else:
+            if len(possible_datasets) > 0:
+                # After the above checks, perform GIS matching if necessary
+                self.perform_gis_matching(
+                    exchange,
+                    dataset,
+                    possible_datasets,
+                    new_exchanges,
+                    exclusive,
+                    biggest_first,
+                    contained,
+                )
+
+        # If there's still no match found, consider the default option
+        self.handle_default_option(exchange, dataset, new_exchanges)
+
+    def handle_iam_region(self, exchange, dataset, possible_datasets, new_exchanges):
+        # In IAM regions, we need to look for possible local datasets
+        locs = [
+            iloc
+            for iloc in self.geo.iam_to_ecoinvent_location(dataset["location"])
+            if iloc in [ds["location"] for ds in possible_datasets]
+        ]
+
+        if locs:
+            kept = [ds for ds in possible_datasets if ds["location"] in locs]
+            if dataset["location"] == "World" and "GLO" in locs:
+                kept = [ds for ds in kept if ds["location"] == "GLO"]
+            allocated, share = allocate_inputs(exchange, kept)
+            new_exchanges.extend(allocated)
+            self.add_new_entry_to_cache(dataset["location"], exchange, allocated, share)
+
+    def handle_global_and_row_scenarios(
+        self, exchange, dataset, possible_datasets, new_exchanges
+    ):
+        # Handle scenarios where the location is 'GLO' or 'RoW'
+        possible_locations = [ds["location"] for ds in possible_datasets]
+        if any(loc in possible_locations for loc in ["GLO", "RoW", "World"]):
+            kept = [
+                ds
+                for ds in possible_datasets
+                if ds["location"] in ["GLO", "RoW", "World"]
+            ]
+            allocated, share = allocate_inputs(exchange, kept)
+            new_exchanges.extend(allocated)
+            self.add_new_entry_to_cache(dataset["location"], exchange, allocated, share)
+
+    def perform_gis_matching(
+        self,
+        exchange: dict,
+        dataset: dict,
+        possible_datasets: list,
+        new_exchanges: list,
+        exclusive: bool,
+        biggest_first: bool,
+        contained: bool,
+    ) -> None:
+        """
+        Perform GIS matching for a dataset with a non-IAM location.
+
+        :param exchange: The exchange dictionary to process.
+        :param dataset: The dataset dictionary.
+        :param possible_datasets: The list of possible datasets.
+        :param new_exchanges: The list of new exchanges to add to the dataset.
+        :param exclusive: Bool, default is ``True``. Don't allow overlapping locations in input providers.
+        :param biggest_first: Bool, default is ``False``. Determines search order when selecting provider locations. Only relevant if ``exclusive`` is ``True``.
+        :param contained: Bool, default is ``True``. If true, only use providers whose location is completely within the ``dataset`` location; otherwise use all intersecting locations.
+
+        """
+        # Perform GIS-based matching for location
+        location = dataset["location"]
+
+        gis_match = get_gis_match(
+            location,
+            [
+                ds["location"]
+                for ds in possible_datasets
+                if ds["location"] not in ["GLO", "World"]
+            ],
+            self.geo,
+            contained,
+            exclusive,
+            biggest_first,
+        )
+
+        kept = [
+            ds for loc in gis_match for ds in possible_datasets if ds["location"] == loc
+        ]
+
+        if kept:
+            allocated, share = allocate_inputs(exchange, kept)
+            new_exchanges.extend(allocated)
+            self.add_new_entry_to_cache(dataset["location"], exchange, allocated, share)
+
+    def handle_default_option(self, exchange, dataset, new_exchanges):
+        # Handle the default case where no better candidate is found
+
+        if not self.is_exchange_in_cache(exchange, dataset["location"]):
+            new_exchanges.append(exchange)
+            self.add_new_entry_to_cache(
+                dataset["location"], exchange, [exchange], [1.0]
+            )
+
+    def find_candidates(
+        self,
+        dataset: dict,
+        list_loc: List[str] = None,
+        exclusive=True,
+        biggest_first=False,
+        contained=False,
+    ):
+        new_exchanges = []
+
+        for exchange in filter_technosphere_exchanges(dataset["exchanges"]):
+            if self.is_exchange_in_cache(exchange, dataset["location"]):
+                self.process_cached_exchange(exchange, dataset, new_exchanges)
+            else:
+                self.process_uncached_exchange(
+                    exchange,
+                    dataset,
+                    list_loc,
+                    new_exchanges,
+                    exclusive,
+                    biggest_first,
+                    contained,
+                )
+
+        return new_exchanges
 
     def relink_technosphere_exchanges(
         self,
         dataset,
         exclusive=True,
         biggest_first=False,
-        contained=True,
+        contained=False,
     ) -> dict:
         """Find new technosphere providers based on the location of the dataset.
         Designed to be used when the dataset's location changes, or when new datasets are added.
@@ -1269,258 +1578,27 @@ class BaseTransformation:
             * ``model``: The IAM model
             * ``exclusive``: Bool, default is ``True``. Don't allow overlapping locations in input providers.
             * ``drop_invalid``: Bool, default is ``False``. Delete exchanges for which no valid provider is available.
-            * ``biggest_first``: Bool, default is ``False``. Determines search order when selecting provider locations. Only relevant is ``exclusive`` is ``True``.
+            * ``biggest_first``: Bool, default is ``False``. Determines search order when selecting provider locations. Only relevant if ``exclusive`` is ``True``.
             * ``contained``: Bool, default is ``True``. If true, only use providers whose location is completely within the ``dataset`` location; otherwise use all intersecting locations.
             * ``iam_regions``: List, lists IAM regions, if additional ones need to be defined.
         Modifies the dataset in place; returns the modified dataset."""
-
-        new_exchanges = []
-        technosphere = lambda x: x["type"] == "technosphere"
 
         list_loc = [k if isinstance(k, str) else k[1] for k in self.geo.geo.keys()] + [
             "RoW"
         ]
 
-        for exc in filter(technosphere, dataset["exchanges"]):
-            if (
-                exc["name"],
-                exc["product"],
-                exc["location"],
-                exc["unit"],
-            ) in self.cache.get(dataset["location"], {}).get(self.model, {}):
-                exchanges = self.cache[dataset["location"]][self.model][
-                    (exc["name"], exc["product"], exc["location"], exc["unit"])
-                ]
-
-                if isinstance(exchanges, tuple):
-                    exchanges = [exchanges]
-
-                new_exchanges.extend(
-                    [
-                        {
-                            "name": i[0],
-                            "product": i[1],
-                            "unit": i[3],
-                            "location": i[2],
-                            "type": "technosphere",
-                            "amount": exc["amount"] * i[-1],
-                        }
-                        for i in exchanges
-                    ]
-                )
-
-            else:
-                kept = None
-                key = (exc["name"], exc["product"], exc["unit"])
-                possible_datasets = [
-                    x for x in self.get_possibles(key) if x["location"] in list_loc
-                ]
-
-                possible_locations = [obj["location"] for obj in possible_datasets]
-
-                _ = lambda x: (
-                    x["name"],
-                    x["reference product"]
-                    if "reference product" in x
-                    else x["product"],
-                    x["location"],
-                    x["unit"],
-                )
-
-                if len(possible_datasets) == 1:
-                    assert (
-                        possible_datasets[0]["name"] == exc["name"]
-                    ), f"candidate: {_(possible_datasets[0])}, exc: {_(exc)}"
-                    assert (
-                        possible_datasets[0]["reference product"] == exc["product"]
-                    ), f"candidate: {_(possible_datasets[0])}, exc: {_(exc)}"
-
-                    # update cache
-                    self.add_new_entry_to_cache(
-                        dataset["location"],
-                        exc,
-                        [new_exchange(exc, exc["location"], 1.0)],
-                        [1.0],
-                    )
-
-                    new_exchanges.append(exc)
-                    continue
-
-                if dataset["location"] in possible_locations:
-                    self.add_new_entry_to_cache(
-                        dataset["location"],
-                        exc,
-                        [new_exchange(exc, dataset["location"], 1.0)],
-                        [1.0],
-                    )
-
-                    exc["location"] = dataset["location"]
-                    new_exchanges.append(exc)
-                    continue
-
-                if dataset["location"] in self.geo.iam_regions:
-                    if any(
-                        iloc in possible_locations
-                        for iloc in self.geo.iam_to_ecoinvent_location(
-                            dataset["location"]
-                        )
-                    ):
-                        locs = [
-                            iloc
-                            for iloc in self.geo.iam_to_ecoinvent_location(
-                                dataset["location"]
-                            )
-                            if iloc in possible_locations
-                        ]
-
-                        kept = [
-                            ds for ds in possible_datasets if ds["location"] in locs
-                        ]
-
-                        if dataset["location"] == "World" and "GLO" in locs:
-                            kept = [ds for ds in kept if ds["location"] == "GLO"]
-
-                        allocated, share = allocate_inputs(exc, kept)
-                        new_exchanges.extend(allocated)
-
-                        self.add_new_entry_to_cache(
-                            dataset["location"], exc, allocated, share
-                        )
-                        continue
-
-                if not kept and any(
-                    loc in possible_locations for loc in ["GLO", "RoW"]
-                ):
-                    kept = [
-                        ds
-                        for ds in possible_datasets
-                        if ds["location"] in ["GLO", "RoW"]
-                    ]
-                    allocated, share = allocate_inputs(exc, kept)
-                    new_exchanges.extend(allocated)
-                    continue
-
-                possible_locations = [
-                    (self.model.upper(), p) if p in self.geo.iam_regions else p
-                    for p in possible_locations
-                ]
-
-                if len(possible_datasets) > 0:
-                    location = (
-                        dataset["location"]
-                        if dataset["location"] not in self.geo.iam_regions
-                        else (self.model.upper(), dataset["location"])
-                    )
-
-                    gis_match = get_gis_match(
-                        dataset,
-                        location,
-                        possible_locations,
-                        self.geo,
-                        contained,
-                        exclusive,
-                        biggest_first,
-                    )
-
-                    kept = [
-                        ds
-                        for loc in gis_match
-                        for ds in possible_datasets
-                        if ds["location"] == loc
-                    ]
-
-                    if kept:
-                        missing_faces = self.geo.geo[location].difference(
-                            set.union(*[self.geo.geo[obj["location"]] for obj in kept])
-                        )
-                        if missing_faces and "RoW" in possible_locations:
-                            kept.extend(
-                                [
-                                    obj
-                                    for obj in possible_datasets
-                                    if obj["location"] == "RoW"
-                                ]
-                            )
-
-                    if not kept and exc["name"].startswith("market group for"):
-                        market_group_exc = exc.copy()
-                        market_group_exc["name"] = market_group_exc["name"].replace(
-                            "market group for", "market for"
-                        )
-
-                        key = (
-                            market_group_exc["name"],
-                            market_group_exc["product"],
-                            market_group_exc["unit"],
-                        )
-
-                        possible_datasets = [
-                            x
-                            for x in self.get_possibles(key)
-                            if x["location"] in list_loc
-                        ]
-
-                        possible_locations = [
-                            obj["location"] for obj in possible_datasets
-                        ]
-
-                        possible_locations = [
-                            (self.model.upper(), p) if p in self.geo.iam_regions else p
-                            for p in possible_locations
-                        ]
-
-                        location = (
-                            dataset["location"]
-                            if dataset["location"] not in self.geo.iam_regions
-                            else (self.model.upper(), dataset["location"])
-                        )
-
-                        gis_match = get_gis_match(
-                            dataset,
-                            location,
-                            possible_locations,
-                            self.geo,
-                            contained,
-                            exclusive,
-                            biggest_first,
-                        )
-
-                        kept = [
-                            ds
-                            for loc in gis_match
-                            for ds in possible_datasets
-                            if ds["location"] == loc
-                        ]
-
-                        if kept:
-                            exc = market_group_exc
-
-                    kept = possible_datasets
-
-                    allocated, share = allocate_inputs(exc, kept)
-                    new_exchanges.extend(allocated)
-
-                    # add to cache
-                    self.add_new_entry_to_cache(
-                        dataset["location"], exc, allocated, share
-                    )
-
-                else:
-                    # there's no better candidate than the initial one
-                    new_exchanges.append(exc)
-                    # add to cache
-                    self.add_new_entry_to_cache(
-                        dataset["location"],
-                        exc,
-                        [exc],
-                        [
-                            1.0,
-                        ],
-                    )
+        new_exchanges = self.find_candidates(
+            dataset,
+            list_loc=list_loc,
+            exclusive=exclusive,
+            biggest_first=biggest_first,
+            contained=contained,
+        )
 
         # make unique list of exchanges from new_exchanges
         # and sum the amounts of exchanges with the same name,
         # product, location and unit
+
         new_exchanges = [
             {
                 "name": name,
@@ -1551,8 +1629,17 @@ class BaseTransformation:
         reference product, and unit as in ``exchange``.
         Returns a generator."""
 
-        return [
+        possibles = [
             ds
             for ds in self.database
             if (ds["name"], ds["reference product"], ds["unit"]) == key
+        ]
+
+        return [
+            p
+            for p in possibles
+            if (p["name"], p["reference product"], p["location"], p["unit"])
+            not in self.modified_datasets[(self.model, self.scenario, self.year)][
+                "emptied"
+            ]
         ]

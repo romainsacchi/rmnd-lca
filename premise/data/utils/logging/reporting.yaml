@@ -222,6 +222,14 @@ premise_metal:
         name: Post-allocation correction
         description: Correction factor applied to the initial amount of metal produced
         unit: kilogram
+      old amount:
+        name: Old amount
+        description: Amount of metal used before adjustment
+        unit: kilogram
+      new amount:
+        name: New amount
+        description: Amount of metal used after adjustment
+        unit: kilogram
 
     tab: Metal
 
