@@ -6,6 +6,8 @@ Integrates projections regarding use of metals in the economy from:
 import uuid
 from functools import lru_cache
 from typing import Optional, Tuple
+from _operator import itemgetter
+from itertools import groupby
 
 import country_converter as coco
 import pandas as pd
@@ -43,6 +45,49 @@ def _update_metals(scenario, version, system_model, modified_datasets):
     metals.update_metals_use_in_database()
 
     return scenario, modified_datasets
+
+
+def load_metals_alternative_names():
+    """
+    Load dataframe with alternative names for metals
+    """
+
+    filepath = DATA_DIR / "metals" / "transport_activities_mapping.yaml"
+
+    with open(filepath, "r", encoding="utf-8") as stream:
+        out = yaml.safe_load(stream)
+
+    # this dictionary has lists as values
+
+    # create a reversed dictionary where
+    # the keys are the alternative names
+    # and the values are the metals
+
+    rev_out = {}
+
+    for k, v in out.items():
+        for i in v:
+            rev_out[i] = k
+
+    return rev_out
+
+
+def load_metals_transport():
+    """
+    Load dataframe with metals transport
+    """
+
+    filepath = DATA_DIR / "metals" / "transport_markets_data.csv"
+    df = pd.read_csv(filepath, sep=",")
+
+    # remove rows without values under Weighted Average Distance
+    df = df.loc[~df["Weighted Average Distance"].isnull()]
+    # remove rows with value 0 under Weighted Average Distance
+    df = df.loc[df["Weighted Average Distance"] != 0]
+
+    df["country"] = country_short = coco.convert(df["Origin Label"], to="ISO2")
+
+    return df
 
 
 def load_mining_shares_mapping():
@@ -276,6 +321,8 @@ class Metals(BaseTransformation):
         )
 
         self.biosphere_flow_codes = biosphere_flows_dictionary(version=self.version)
+        self.metals_transport = load_metals_transport()
+        self.alt_names = load_metals_alternative_names()
 
     def update_metals_use_in_database(self):
         """
@@ -526,6 +573,9 @@ class Metals(BaseTransformation):
             share = share.values[0]
             shares[(name, ref_prod, short_location)] = share
 
+        # normalize shares to 1
+        shares = {k: v / sum(shares.values()) for k, v in shares.items()}
+
         return shares
 
     def get_geo_mapping(self, df: pd.DataFrame, new_locations: dict) -> dict:
@@ -639,12 +689,93 @@ class Metals(BaseTransformation):
             "code": str(uuid.uuid4()),
         }
 
+        # add mining exchanges
         dataset["exchanges"].extend(self.create_region_specific_markets(df))
-
+        # add transport exchanges
+        trspt_exc = self.add_transport_to_market(dataset, metal)
+        if len(trspt_exc) > 0:
+            dataset["exchanges"].extend(trspt_exc)
         # filter out None
         dataset["exchanges"] = [exc for exc in dataset["exchanges"] if exc]
 
         return dataset
+
+    def add_transport_to_market(self, dataset, metal) -> list:
+        excs = []
+
+        origin_shares = {
+            e["location"]: e["amount"]
+            for e in dataset["exchanges"]
+            if e["type"] == "technosphere"
+        }
+
+        # multiply shares with the weighted transport distance from
+        # the transport dataset
+        for c, share in origin_shares.items():
+            if metal in self.alt_names:
+                trspt_data = self.get_weighted_average_distance(c, metal)
+                for i, row in trspt_data.iterrows():
+                    distance = row["Weighted Average Distance"]
+                    mode = row["TransportMode Label"]
+                    tkm = distance / 1000 * share  # convert to tonne-kilometers x share
+
+                    if mode == "Air":
+                        name = "transport, freight, aircraft, belly-freight, long haul"
+                        reference_product = "transport, freight, aircraft, long haul"
+                        loc = "GLO"
+                    elif mode == "Sea":
+                        name = "transport, freight, sea, container ship"
+                        reference_product = "transport, freight, sea, container ship"
+                        loc = "GLO"
+                    elif mode == "Railway":
+                        name = "market group for transport, freight train"
+                        reference_product = "transport, freight train"
+                        loc = "GLO"
+                    else:
+                        name = "market for transport, freight, lorry, unspecified"
+                        reference_product = "transport, freight, lorry, unspecified"
+                        loc = "RoW"
+
+                    excs.append(
+                        {
+                            "name": name,
+                            "product": reference_product,
+                            "location": loc,
+                            "amount": tkm,
+                            "type": "technosphere",
+                            "unit": "ton kilometer",
+                        }
+                    )
+
+            else:
+                print(
+                    f"Metal {metal} not found in alternative names. Skipping transport."
+                )
+
+        # sum up duplicates
+        excs = [
+            {
+                "name": name,
+                "product": prod,
+                "location": location,
+                "unit": unit,
+                "type": "technosphere",
+                "amount": sum([exc["amount"] for exc in exchanges]),
+            }
+            for (name, prod, location, unit), exchanges in groupby(
+                sorted(excs, key=itemgetter("name", "product", "location", "unit")),
+                key=itemgetter("name", "product", "location", "unit"),
+            )
+        ]
+
+        return excs
+
+    def get_weighted_average_distance(self, country, metal):
+        return self.metals_transport.loc[
+            (self.metals_transport["country"] == country)
+            & (self.metals_transport["Metal"] == self.alt_names[metal]),
+            ["TransportMode Label", "Weighted Average Distance"],
+        ]
 
     def create_metal_markets(self):
         self.post_allocation_correction()
