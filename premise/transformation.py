@@ -597,7 +597,8 @@ class BaseTransformation:
         geo_mapping: dict = None,
         delete_original_dataset=False,
         empty_original_activity=True,
-        exact_match=True,
+        exact_name_match=True,
+        exact_product_match=False,
     ) -> Dict[str, dict]:
         """
         Fetch dataset proxies, given a dataset `name` and `reference product`.
@@ -627,16 +628,19 @@ class BaseTransformation:
 
         for region in d_iam_to_eco:
             # build filters
-            if exact_match is True:
+            if exact_name_match is True:
                 filters = [
                     ws.equals("name", name),
-                    ws.equals("reference product", ref_prod),
                 ]
             else:
                 filters = [
-                    ws.equals("name", name),
-                    ws.contains("reference product", ref_prod),
+                    ws.contains("name", name),
                 ]
+            if exact_product_match is True:
+                filters.append(ws.equals("reference product", ref_prod))
+            else:
+                filters.append(ws.contains("reference product", ref_prod))
+
             filters.append(ws.equals("location", d_iam_to_eco[region]))
 
             try:
@@ -675,19 +679,22 @@ class BaseTransformation:
                             production_variable,
                         ]
 
-                    if all(
-                        i in self.iam_data.production_volumes.variables
-                        for i in production_variable
-                    ):
-                        prod_vol = (
-                            self.iam_data.production_volumes.sel(
-                                region=region, variables=production_variable
+                    if isinstance(production_variable, list):
+                        if all(
+                            i in self.iam_data.production_volumes.variables
+                            for i in production_variable
+                        ):
+                            prod_vol = (
+                                self.iam_data.production_volumes.sel(
+                                    region=region, variables=production_variable
+                                )
+                                .interp(year=self.year)
+                                .sum(dim="variables")
+                                .values.item(0)
                             )
-                            .interp(year=self.year)
-                            .sum(dim="variables")
-                            .values.item(0)
-                        )
 
+                    elif isinstance(production_variable, dict):
+                        prod_vol = production_variable[region]
                     else:
                         prod_vol = 1
                 else:
@@ -744,7 +751,7 @@ class BaseTransformation:
         self,
         name: str,
         ref_prod: str,
-        production_variable: str,
+        production_variable: [str, dict],
         loc_map: Dict[str, str],
         regions: List[str] = None,
     ) -> None:
@@ -769,7 +776,7 @@ class BaseTransformation:
         existing_datasets = ws.get_many(
             self.database,
             ws.equals("name", name),
-            ws.contains("reference product", ref_prod),
+            ws.equals("reference product", ref_prod),
             ws.exclude(
                 ws.either(*[ws.equals("location", loc) for loc in self.regions])
             ),
@@ -777,13 +784,13 @@ class BaseTransformation:
 
         for existing_ds in existing_datasets:
             if existing_ds["location"] in mapping:
-                iam_locs = list(mapping[existing_ds["location"]])
+                locations = list(mapping[existing_ds["location"]])
             else:
-                iam_locs = [self.ecoinvent_to_iam_loc[existing_ds["location"]]]
-                iam_locs = [loc for loc in iam_locs if loc in regions]
+                locations = [self.ecoinvent_to_iam_loc[existing_ds["location"]]]
+                locations = [loc for loc in locations if loc in regions]
 
-            if iam_locs == ["World"]:
-                iam_locs = [r for r in regions if r != "World"]
+            if locations == ["World"]:
+                locations = [r for r in regions if r != "World"]
 
             # add tag
             existing_ds["has_downstream_consumer"] = False
@@ -803,7 +810,7 @@ class BaseTransformation:
 
             _ = lambda x: x if x != 0.0 else 1.0
 
-            if len(iam_locs) == 1:
+            if len(locations) == 1:
                 existing_ds["exchanges"].append(
                     {
                         "name": existing_ds["name"],
@@ -811,34 +818,31 @@ class BaseTransformation:
                         "amount": 1.0,
                         "unit": existing_ds["unit"],
                         "uncertainty type": 0,
-                        "location": iam_locs[0],
+                        "location": locations[0],
                         "type": "technosphere",
                     }
                 )
-            else:
-                for iam_loc in iam_locs:
-                    if production_variable and all(
-                        i in self.iam_data.production_volumes.variables.values.tolist()
-                        for i in production_variable
-                    ):
-                        share = (
-                            self.iam_data.production_volumes.sel(
-                                region=iam_loc, variables=production_variable
-                            )
-                            .interp(year=self.year)
-                            .sum(dim="variables")
-                            .values.item(0)
-                        ) / _(
-                            self.iam_data.production_volumes.sel(
-                                region=iam_locs, variables=production_variable
-                            )
-                            .interp(year=self.year)
-                            .sum(dim=["variables", "region"])
-                            .values.item(0)
-                        )
 
-                    else:
-                        share = 1 / len(iam_locs)
+            elif isinstance(production_variable, str) and all(
+                i in self.iam_data.production_volumes.variables.values.tolist()
+                for i in production_variable
+            ):
+                for location in locations:
+                    share = (
+                        self.iam_data.production_volumes.sel(
+                            region=location, variables=production_variable
+                        )
+                        .interp(year=self.year)
+                        .sum(dim="variables")
+                        .values.item(0)
+                    ) / _(
+                        self.iam_data.production_volumes.sel(
+                            region=locations, variables=production_variable
+                        )
+                        .interp(year=self.year)
+                        .sum(dim=["variables", "region"])
+                        .values.item(0)
+                    )
 
                     if share > 0:
                         existing_ds["exchanges"].append(
@@ -848,10 +852,45 @@ class BaseTransformation:
                                 "amount": share,
                                 "unit": existing_ds["unit"],
                                 "uncertainty type": 0,
-                                "location": iam_loc,
+                                "location": location,
                                 "type": "technosphere",
                             }
                         )
+
+            elif isinstance(production_variable, dict):
+                existing_ds["exchanges"].extend(
+                    [
+                        {
+                            "name": existing_ds["name"],
+                            "product": existing_ds["reference product"],
+                            "amount": share,
+                            "unit": existing_ds["unit"],
+                            "uncertainty type": 0,
+                            "location": loc,
+                            "type": "technosphere",
+                        }
+                        for loc, share in production_variable.items()
+                    ]
+                )
+
+            else:
+                share = 1 / len(locations)
+
+                if share > 0:
+                    existing_ds["exchanges"].extend(
+                        [
+                            {
+                                "name": existing_ds["name"],
+                                "product": existing_ds["reference product"],
+                                "amount": share,
+                                "unit": existing_ds["unit"],
+                                "uncertainty type": 0,
+                                "location": location,
+                                "type": "technosphere",
+                            }
+                            for location in locations
+                        ]
+                    )
 
             # add dataset to emptied datasets list
             self.modified_datasets[(self.model, self.scenario, self.year)][

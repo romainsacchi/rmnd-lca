@@ -453,42 +453,48 @@ class Metals(BaseTransformation):
         factors_list = load_post_allocation_correction_factors()
 
         for dataset in factors_list:
-            ds = ws.get_one(
-                self.database,
+            filters = [
                 ws.equals("name", dataset["name"]),
                 ws.equals("reference product", dataset["reference product"]),
-                ws.equals("location", dataset["location"]),
                 ws.equals("unit", dataset["unit"]),
-            )
-            ds["exchanges"].append(
-                {
-                    "name": dataset["additional flow"]["name"],
-                    "amount": dataset["additional flow"]["amount"],
-                    "unit": dataset["additional flow"]["unit"],
-                    "type": "biosphere",
-                    "categories": tuple(
-                        dataset["additional flow"]["categories"].split("::")
-                    ),
-                    "input": (
-                        "biosphere3",
-                        self.biosphere_flow_codes[
-                            dataset["additional flow"]["name"],
-                            dataset["additional flow"]["categories"].split("::")[0],
-                            dataset["additional flow"]["categories"].split("::")[1],
-                            dataset["additional flow"]["unit"],
-                        ],
-                    ),
-                }
-            )
+            ]
 
-            if "log parameters" not in ds:
-                ds["log parameters"] = {}
+            if "location" in dataset:
+                filters.append(ws.equals("location", dataset["location"]))
 
-            ds["log parameters"]["post-allocation correction"] = dataset[
-                "additional flow"
-            ]["amount"]
+            for ds in ws.get_many(
+                self.database,
+                *filters,
+            ):
+                ds["exchanges"].append(
+                    {
+                        "name": dataset["additional flow"]["name"],
+                        "amount": dataset["additional flow"]["amount"],
+                        "unit": dataset["additional flow"]["unit"],
+                        "type": "biosphere",
+                        "categories": tuple(
+                            dataset["additional flow"]["categories"].split("::")
+                        ),
+                        "input": (
+                            "biosphere3",
+                            self.biosphere_flow_codes[
+                                dataset["additional flow"]["name"],
+                                dataset["additional flow"]["categories"].split("::")[0],
+                                dataset["additional flow"]["categories"].split("::")[1],
+                                dataset["additional flow"]["unit"],
+                            ],
+                        ),
+                    }
+                )
 
-            self.write_log(ds, "updated")
+                if "log parameters" not in ds:
+                    ds["log parameters"] = {}
+
+                ds["log parameters"]["post-allocation correction"] = dataset[
+                    "additional flow"
+                ]["amount"]
+
+                self.write_log(ds, "updated")
 
     def create_new_mining_activity(
         self,
@@ -496,6 +502,7 @@ class Metals(BaseTransformation):
         reference_product: str,
         new_locations: dict,
         geography_mapping=None,
+        shares: dict = None,
     ) -> dict:
         """
         Create a new mining activity in a new location.
@@ -510,14 +517,14 @@ class Metals(BaseTransformation):
             ]
         }
 
-        geography_mapping = {k: v for k, v in geography_mapping.items() if k != v}
-
         # Get the original datasets
         datasets = self.fetch_proxies(
             name=name,
             ref_prod=reference_product,
             regions=new_locations.values(),
             geo_mapping=geography_mapping,
+            production_variable=shares,
+            exact_product_match=True,
         )
 
         return datasets
@@ -573,9 +580,6 @@ class Metals(BaseTransformation):
             share = share.values[0]
             shares[(name, ref_prod, short_location)] = share
 
-        # normalize shares to 1
-        shares = {k: v / sum(shares.values()) for k, v in shares.items()}
-
         return shares
 
     def get_geo_mapping(self, df: pd.DataFrame, new_locations: dict) -> dict:
@@ -612,7 +616,11 @@ class Metals(BaseTransformation):
 
             # if not, we create it
             datasets = self.create_new_mining_activity(
-                name, ref_prod, new_locations, geography_mapping
+                name,
+                ref_prod,
+                new_locations,
+                geography_mapping,
+                {k[2]: v for k, v in shares.items()},
             )
 
             # add new datasets to database
@@ -638,16 +646,24 @@ class Metals(BaseTransformation):
             new_exchanges.extend(
                 [
                     {
-                        "name": dataset["name"],
-                        "product": dataset["reference product"],
-                        "location": dataset["location"],
-                        "unit": dataset["unit"],
-                        "amount": shares[(name, ref_prod, dataset["location"])],
+                        "name": k[0],
+                        "product": k[1],
+                        "location": k[2],
+                        "unit": "kilogram",
+                        "amount": share,
                         "type": "technosphere",
                     }
-                    for dataset in datasets.values()
+                    for k, share in shares.items()
                 ]
             )
+
+        # normalize amounts to 1
+        total = sum([exc["amount"] for exc in new_exchanges])
+        new_exchanges = [
+            {k: v for k, v in exc.items() if k != "amount"}
+            | {"amount": exc["amount"] / total}
+            for exc in new_exchanges
+        ]
 
         return new_exchanges
 
@@ -691,6 +707,7 @@ class Metals(BaseTransformation):
 
         # add mining exchanges
         dataset["exchanges"].extend(self.create_region_specific_markets(df))
+
         # add transport exchanges
         trspt_exc = self.add_transport_to_market(dataset, metal)
         if len(trspt_exc) > 0:
