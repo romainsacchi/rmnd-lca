@@ -32,6 +32,14 @@ handlers:
     formatter: simple
     mode: w
 
+  file_metal:
+    class: logging.FileHandler
+    level: INFO
+    filename: "export/logs/premise_metal.log"
+    encoding: utf8
+    formatter: simple
+    mode: w
+
   file_cement:
     class: logging.FileHandler
     level: INFO
@@ -78,6 +86,11 @@ loggers:
   steel:
     level: INFO
     handlers: [ file_steel ]
+    propagate: False
+
+  metal:
+    level: INFO
+    handlers: [ file_metal ]
     propagate: False
 
   cement:

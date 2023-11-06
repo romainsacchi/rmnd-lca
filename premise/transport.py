@@ -36,7 +36,6 @@ def _update_vehicles(
     vehicle_type,
     version,
     system_model,
-    modified_datasets,
     cache=None,
 ):
     trspt = Transport(
@@ -50,7 +49,6 @@ def _update_vehicles(
         vehicle_type=vehicle_type,
         relink=False,
         has_fleet=True,
-        modified_datasets=modified_datasets,
     )
 
     if vehicle_type == "car":
@@ -67,12 +65,11 @@ def _update_vehicles(
     if iam_data is not None:
         trspt.create_vehicle_markets()
         scenario["database"] = trspt.database
-        modified_datasets = trspt.modified_datasets
         cache = trspt.cache
     else:
         print(f"No markets found for {vehicle_type} in IAM data. Skipping.")
 
-    return scenario, modified_datasets, {} or cache
+    return scenario, {} or cache
 
 
 def get_average_truck_load_factors() -> Dict[str, Dict[str, Dict[str, float]]]:
@@ -470,7 +467,6 @@ class Transport(BaseTransformation):
         relink: bool,
         vehicle_type: str,
         has_fleet: bool,
-        modified_datasets: dict,
     ):
         super().__init__(
             database,
@@ -480,7 +476,6 @@ class Transport(BaseTransformation):
             year,
             version,
             system_model,
-            modified_datasets,
         )
         self.version = version
         self.relink = relink

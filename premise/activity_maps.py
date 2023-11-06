@@ -14,6 +14,7 @@ from .filesystem_constants import DATA_DIR, VARIABLES_DIR
 
 POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
 FUELS_TECHS = VARIABLES_DIR / "fuels_variables.yaml"
+METALS_TECHS = DATA_DIR / "metals" / "activities_mapping.yml"
 MATERIALS_TECHS = DATA_DIR / "utils" / "materials_vars.yml"
 DAC_TECHS = VARIABLES_DIR / "direct_air_capture_variables.yaml"
 CARBON_STORAGE_TECHS = VARIABLES_DIR / "carbon_storage_variables.yaml"
@@ -21,6 +22,8 @@ CEMENT_TECHS = VARIABLES_DIR / "cement_variables.yaml"
 GAINS_MAPPING = (
     DATA_DIR / "GAINS_emission_factors" / "gains_ecoinvent_sectoral_mapping.yaml"
 )
+ACTIVITIES_METALS_MAPPING = DATA_DIR / "metals" / "activities_mapping.yml"
+# METALS_MAPPING = DATA_DIR / "metals" / "metals_mapping.yml"
 
 
 def get_mapping(filepath: Path, var: str, model: str = None) -> dict:
@@ -154,6 +157,21 @@ class InventorySet:
             filepath=GAINS_MAPPING, var="ecoinvent_aliases"
         )
 
+        self.activity_metals_filters = get_mapping(
+            filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
+        )
+        # self.metals_filters = get_mapping(
+        #     filepath=METALS_MAPPING, var="ecoinvent_aliases"
+        # )
+
+    def generate_activities_using_metals_map(self) -> dict:
+        """
+        Filter ecoinvent processes related to metals.
+        Returns a dictionary with metal names as keys (see below) and
+        a set of related ecoinvent activities' names as values.
+        """
+        return self.generate_sets_from_filters(self.activity_metals_filters)
+
     def generate_gains_mapping_IAM(self, mapping):
         EU_to_IAM_var = get_mapping(filepath=GAINS_MAPPING, var="gains_aliases_IAM")
         new_map = defaultdict(set)
@@ -242,6 +260,14 @@ class InventorySet:
         a set of related ecoinvent activities' names as values.
         """
         return self.generate_sets_from_filters(self.materials_filters)
+
+    def generate_metals_activities_map(self) -> dict:
+        """
+        Filter ecoinvent processes related to metals.
+        Rerurns a dictionary with material names as keys (see below) and
+        a set of related ecoinvent activities' names as values.
+        """
+        return self.generate_sets_from_filters(self.activity_metals_filters)
 
     def generate_sets_from_filters(self, filtr: dict, database=None) -> dict:
         """

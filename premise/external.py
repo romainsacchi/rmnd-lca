@@ -346,7 +346,6 @@ class ExternalScenario(BaseTransformation):
         year: int,
         version: str,
         system_model: str,
-        modified_datasets: dict,
         cache: dict = None,
     ):
         """
@@ -367,7 +366,6 @@ class ExternalScenario(BaseTransformation):
             year,
             version,
             system_model,
-            modified_datasets,
         )
         self.datapackages = external_scenarios
         self.external_scenarios_data = external_scenarios_data
@@ -442,16 +440,7 @@ class ExternalScenario(BaseTransformation):
                 for _, act in new_acts.items():
                     # add to log
                     self.write_log(act)
-                    self.modified_datasets[(self.model, self.scenario, self.year)][
-                        "created"
-                    ].append(
-                        (
-                            act["name"],
-                            act["reference product"],
-                            act["location"],
-                            act["unit"],
-                        )
-                    )
+                    self.add_to_index(act)
 
             # remove "adjust efficiency" tag
             del ds["regionalize"]
@@ -1058,16 +1047,7 @@ class ExternalScenario(BaseTransformation):
 
                             self.database.append(new_market)
                             self.write_log(new_market)
-                            self.modified_datasets[
-                                (self.model, self.scenario, self.year)
-                            ]["created"].append(
-                                (
-                                    new_market["name"],
-                                    new_market["reference product"],
-                                    new_market["location"],
-                                    new_market["unit"],
-                                )
-                            )
+                            self.add_to_index(new_market)
 
                         else:
                             regions.remove(region)
@@ -1091,16 +1071,7 @@ class ExternalScenario(BaseTransformation):
                         )
                         self.database.append(world_market)
                         self.write_log(world_market)
-                        self.modified_datasets[(self.model, self.scenario, self.year)][
-                            "created"
-                        ].append(
-                            (
-                                world_market["name"],
-                                world_market["reference product"],
-                                world_market["location"],
-                                world_market["unit"],
-                            )
-                        )
+                        self.add_to_index(world_market)
 
                         regions.append("World")
 

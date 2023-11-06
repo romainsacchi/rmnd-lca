@@ -1,0 +1,243 @@
+ICEV:
+  ecoinvent_aliases:
+    fltr:
+     - passenger car production
+     - frame, blanks and saddle, for lorry
+    mask:
+      - market
+      - electric
+
+EV:
+  ecoinvent_aliases:
+    fltr:
+      - electric motor production, vehicle
+      - electric motor production
+### At this point, we assume that DDPM are used for offshore and Gearbox onshore.
+Wind-DDPM:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant
+      - wind turbine
+    mask:
+      - fixed
+      - network
+      - concrete
+      - onshore
+      - 800kW
+      - market
+Wind-Gearbox:
+  ecoinvent_aliases:
+    fltr:
+      - wind power plant
+      - wind turbine
+    mask:
+      - fixed
+      - network
+      - concrete
+      - offshore
+      - market
+LMO:
+  ecoinvent_aliases:
+    fltr:
+      name: cathode production, LiMn2O4
+    mask:
+      - market
+NMC111:
+  ecoinvent_aliases:
+    fltr:
+      - battery cell production, Li-ion, NMC111
+      - Battery cell, NMC-111
+NMC622:
+  ecoinvent_aliases:
+    fltr:
+      - battery cell, NMC-622
+    mask:
+      - NMC111
+NMC811:
+  ecoinvent_aliases:
+    fltr:
+      - battery cell production, Li-ion, NMC811
+      - Battery cell, NMC-811
+NCA:
+  ecoinvent_aliases:
+    fltr:
+      - battery cell production, Li-ion, NCA
+      - Battery cell, NCA
+LFP:
+  ecoinvent_aliases:
+    fltr:
+      - Battery cell, LFP
+      - battery cell production, Li-ion, LFP
+Lead_Acid:
+  ecoinvent_aliases:
+    fltr:
+      - battery production, lead acid
+      - lead acid battery, for lorry
+NiMH:
+  ecoinvent_aliases:
+    fltr:
+      - battery production, NiMH, rechargeable, prismatic
+## Battery technologies not found in Ecoinvent
+#LiS:
+#LiO2:
+#LCo
+PEMFC:
+  ecoinvent_aliases:
+    fltr:
+      - fuel cell production, polymer electrolyte membrane
+      - fuel cell
+      - PEM
+    mask:
+      - solid oxide
+      - Balance of Plant
+      - maintenance
+      - market
+      - hydrogen
+      - natural gas
+      - electrolyzer
+      - assembly
+      - polymer
+      - biomethane
+      - treatment
+      - truck
+      - passenger car
+      - lorry
+### How to parametrize the different shares???
+SOFC - Y:
+  ecoinvent_aliases:
+    fltr:
+      - fuel cell production
+      - stack
+      - solid oxide
+    mask:
+      - micro gas turbine
+      - market
+      - assembly
+      - biomethane
+      - Balance of Plant
+      - maintenance
+      - polymer
+      - PEM
+      - natural gas
+      - fuel cell production, solid oxide
+      - treatment
+#SOFC_scandium:
+##  ecoinvent_aliases:
+##    fltr:
+##      - fuel cell production, solid oxide
+##    mask:
+##      - micro gas turbine
+PEMEL:
+  ecoinvent_aliases:
+    fltr:
+      - electrolyzer production
+      - PEM
+    mask:
+      - Balance of Plant
+      - SOEC
+      - AEC
+      - assembly
+      - hydrogen production
+      - fuel cell
+AEL:
+  ecoinvent_aliases:
+    fltr:
+      - electrolyzer production
+      - AEC
+      - stack polymer electrolyte
+    mask:
+      - Balance of Plant
+      - PEM
+      - hydrogen production
+      - SOEC
+      - market
+      - fuel cell
+HTEL - Yttrium:
+  ecoinvent_aliases:
+    fltr:
+      - electrolyzer production
+      - SOEC
+      - stack solid oxide
+    mask:
+      - Balance of Plant
+      - PEM
+      - AEC
+      - market
+      - hydrogen production
+      - fuel cell
+### PAFC fuel cells are not found in Ecoinvent
+c-Si:
+  ecoinvent_aliases:
+    fltr:
+      - photovoltaic cell production
+      - multi-Si wafer
+      - ribbon-Si
+      - single-Si wafer
+      - photovoltaic cell, multi-Si, at plant
+      - photovoltaic cell, single-Si, at plant
+    mask:
+      - multi-Si wafer production
+      - single-Si wafer production
+      - at regional storage
+      - market
+      - electricity production
+      - laminate
+      - panel
+      - slanted-roof
+a-Si:
+  ecoinvent_aliases:
+    fltr:
+      - photovoltaic laminate production, a-Si
+      - photovoltaic laminate, micro-Si, at plant
+      - photovoltaic panel, micro-Si, at plant
+CIGS:
+  ecoinvent_aliases:
+    fltr:
+      - photovoltaic laminate production, CIS
+      - photovoltaic laminate, CIS, at plant
+CdTe:
+  ecoinvent_aliases:
+    fltr:
+      - photovoltaic laminate production, CdTe
+      - photovoltaic laminate, CdTe
+    mask:
+      - market
+#pv_perovskite:
+#  ecoinvent_aliases:
+#    fltr:
+#      - photovoltaic panel, perovskite-Si-tandem, at plant
+Parabolic Trough - SF:
+  ecoinvent_aliases:
+    fltr:
+      - collector field area
+    mask:
+      - market
+      - tower
+Parabolic Trough - PB:
+  ecoinvent_aliases:
+    fltr:
+      - power block
+    mask:
+      - market
+      - tower
+CSP Tower - SF:
+  ecoinvent_aliases:
+    fltr:
+      - collector field area
+    mask:
+      - market
+      - parabolic
+CSP Tower - PB:
+  ecoinvent_aliases:
+    fltr:
+      - power block
+    mask:
+      - market
+      - parabolic
+Nuclear:
+  ecoinvent_aliases:
+    fltr:
+      - nuclear power plant construction
+      - EPR construction
+#    mask:
+#      -

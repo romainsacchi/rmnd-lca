@@ -32,7 +32,7 @@ def fetch_mapping(filepath: str) -> dict:
     return mapping
 
 
-def _update_dac(scenario, version, system_model, modified_datasets, cache=None):
+def _update_dac(scenario, version, system_model, cache=None):
     dac = DirectAirCapture(
         database=scenario["database"],
         iam_data=scenario["iam data"],
@@ -41,19 +41,19 @@ def _update_dac(scenario, version, system_model, modified_datasets, cache=None):
         year=scenario["year"],
         version=version,
         system_model=system_model,
-        modified_datasets=modified_datasets,
         cache=cache,
     )
 
     if scenario["iam data"].dac_markets is not None:
         dac.generate_dac_activities()
         scenario["database"] = dac.database
-        modified_datasets = dac.modified_datasets
         cache = dac.cache
     else:
         print("No DAC markets found in IAM data. Skipping.")
 
-    return scenario, modified_datasets, cache
+    dac.relink_datasets()
+
+    return scenario, cache
 
 
 class DirectAirCapture(BaseTransformation):
@@ -71,7 +71,6 @@ class DirectAirCapture(BaseTransformation):
         year: int,
         version: str,
         system_model: str,
-        modified_datasets: dict,
         cache: dict = None,
     ):
         super().__init__(
@@ -82,7 +81,6 @@ class DirectAirCapture(BaseTransformation):
             year,
             version,
             system_model,
-            modified_datasets,
             cache,
         )
         self.database = database
@@ -127,16 +125,7 @@ class DirectAirCapture(BaseTransformation):
                     )
                     self.write_log(dataset)
                     # add it to list of created datasets
-                    self.modified_datasets[(self.model, self.scenario, self.year)][
-                        "created"
-                    ].append(
-                        (
-                            dataset["name"],
-                            dataset["reference product"],
-                            dataset["location"],
-                            dataset["unit"],
-                        )
-                    )
+                    self.add_to_index(dataset)
 
                 self.database.extend(new_ds.values())
 
@@ -206,16 +195,7 @@ class DirectAirCapture(BaseTransformation):
                     for dataset in list(new_ds.values()):
                         self.write_log(dataset)
                         # add it to list of created datasets
-                        self.modified_datasets[(self.model, self.scenario, self.year)][
-                            "created"
-                        ].append(
-                            (
-                                dataset["name"],
-                                dataset["reference product"],
-                                dataset["location"],
-                                dataset["unit"],
-                            )
-                        )
+                        self.add_to_index(dataset)
 
     def adjust_dac_efficiency(self, datasets, technology):
         """

@@ -12,7 +12,7 @@ from .transformation import BaseTransformation, ws
 logger = create_logger("steel")
 
 
-def _update_steel(scenario, version, system_model, modified_datasets, cache=None):
+def _update_steel(scenario, version, system_model, cache=None):
     steel = Steel(
         database=scenario["database"],
         model=scenario["model"],
@@ -21,19 +21,19 @@ def _update_steel(scenario, version, system_model, modified_datasets, cache=None
         year=scenario["year"],
         version=version,
         system_model=system_model,
-        modified_datasets=modified_datasets,
         cache=cache,
     )
 
     if scenario["iam data"].steel_markets is not None:
         steel.generate_activities()
         scenario["database"] = steel.database
-        modified_datasets = steel.modified_datasets
         cache = steel.cache
     else:
         print("No steel markets found in IAM data. Skipping.")
 
-    return scenario, modified_datasets, cache
+    steel.relink_datasets()
+
+    return scenario, cache
 
 
 class Steel(BaseTransformation):
@@ -56,7 +56,6 @@ class Steel(BaseTransformation):
         year: int,
         version: str,
         system_model: str,
-        modified_datasets: dict,
         cache: dict = None,
     ) -> None:
         super().__init__(
@@ -67,7 +66,6 @@ class Steel(BaseTransformation):
             year,
             version,
             system_model,
-            modified_datasets,
             cache,
         )
         self.version = version
@@ -82,8 +80,8 @@ class Steel(BaseTransformation):
 
         self.create_steel_markets()
         self.create_steel_production_activities()
-        self.create_pig_iron_markets()
         self.create_pig_iron_production_activities()
+        self.create_pig_iron_markets()
 
     def create_steel_markets(self):
         """
@@ -251,17 +249,7 @@ class Steel(BaseTransformation):
             # add to log
             for new_dataset in list(steel_markets.values()):
                 self.write_log(new_dataset)
-                # add it to list of created datasets
-                self.modified_datasets[(self.model, self.scenario, self.year)][
-                    "created"
-                ].append(
-                    (
-                        new_dataset["name"],
-                        new_dataset["reference product"],
-                        new_dataset["location"],
-                        new_dataset["unit"],
-                    )
-                )
+                self.add_to_index(new_dataset)
 
             list_new_steel_markets.extend(list(steel_markets.values()))
 
@@ -313,17 +301,7 @@ class Steel(BaseTransformation):
             # add to log
             for new_dataset in list(steel.values()):
                 self.write_log(new_dataset)
-                # add it to list of created datasets
-                self.modified_datasets[(self.model, self.scenario, self.year)][
-                    "created"
-                ].append(
-                    (
-                        new_dataset["name"],
-                        new_dataset["reference product"],
-                        new_dataset["location"],
-                        new_dataset["unit"],
-                    )
-                )
+                self.add_to_index(new_dataset)
 
         # adjust efficiency of secondary steel production
         # and add carbon capture and storage, if needed
@@ -338,17 +316,7 @@ class Steel(BaseTransformation):
             # add to log
             for new_dataset in list(steel.values()):
                 self.write_log(new_dataset)
-                # add it to list of created datasets
-                self.modified_datasets[(self.model, self.scenario, self.year)][
-                    "created"
-                ].append(
-                    (
-                        new_dataset["name"],
-                        new_dataset["reference product"],
-                        new_dataset["location"],
-                        new_dataset["unit"],
-                    )
-                )
+                self.add_to_index(new_dataset)
 
     def create_pig_iron_production_activities(self):
         """
@@ -375,17 +343,7 @@ class Steel(BaseTransformation):
         # add to log
         for new_dataset in list(pig_iron.values()):
             self.write_log(new_dataset)
-            # add it to list of created datasets
-            self.modified_datasets[(self.model, self.scenario, self.year)][
-                "created"
-            ].append(
-                (
-                    new_dataset["name"],
-                    new_dataset["reference product"],
-                    new_dataset["location"],
-                    new_dataset["unit"],
-                )
-            )
+            self.add_to_index(new_dataset)
 
     def create_pig_iron_markets(self):
         """
@@ -403,17 +361,7 @@ class Steel(BaseTransformation):
         # add to log
         for new_dataset in list(pig_iron_markets.values()):
             self.write_log(new_dataset)
-            # add it to list of created datasets
-            self.modified_datasets[(self.model, self.scenario, self.year)][
-                "created"
-            ].append(
-                (
-                    new_dataset["name"],
-                    new_dataset["reference product"],
-                    new_dataset["location"],
-                    new_dataset["unit"],
-                )
-            )
+            self.add_to_index(new_dataset)
 
     def adjust_process_efficiency(self, datasets):
         """
