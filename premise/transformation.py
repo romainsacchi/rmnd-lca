@@ -5,10 +5,10 @@ It provides basic methods usually used for electricity, cement, steel sector tra
 on the wurst database.
 """
 import copy
-from collections.abc import ValuesView
 import logging.config
 import uuid
 from collections import defaultdict
+from collections.abc import ValuesView
 from copy import deepcopy
 from functools import lru_cache
 from itertools import groupby, product
