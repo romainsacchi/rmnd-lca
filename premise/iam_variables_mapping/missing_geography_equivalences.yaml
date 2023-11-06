@@ -273,3 +273,10 @@ AF:
   image: SEAS
   message: PAS
   tiam: ODA
+
+# add Mauritius
+MR:
+  remind: SSA
+  image: RSAF
+  message: AFR
+  tiam: AFR

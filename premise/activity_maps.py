@@ -14,7 +14,8 @@ from .filesystem_constants import DATA_DIR, VARIABLES_DIR
 
 POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
 FUELS_TECHS = VARIABLES_DIR / "fuels_variables.yaml"
-MATERIALS_TECHS = DATA_DIR / "metals" / "activities_mapping.yml"
+METALS_TECHS = DATA_DIR / "metals" / "activities_mapping.yml"
+MATERIALS_TECHS = DATA_DIR / "utils" / "materials_vars.yml"
 DAC_TECHS = VARIABLES_DIR / "direct_air_capture_variables.yaml"
 CARBON_STORAGE_TECHS = VARIABLES_DIR / "carbon_storage_variables.yaml"
 CEMENT_TECHS = VARIABLES_DIR / "cement_variables.yaml"
@@ -259,6 +260,14 @@ class InventorySet:
         a set of related ecoinvent activities' names as values.
         """
         return self.generate_sets_from_filters(self.materials_filters)
+
+    def generate_metals_activities_map(self) -> dict:
+        """
+        Filter ecoinvent processes related to metals.
+        Rerurns a dictionary with material names as keys (see below) and
+        a set of related ecoinvent activities' names as values.
+        """
+        return self.generate_sets_from_filters(self.activity_metals_filters)
 
     def generate_sets_from_filters(self, filtr: dict, database=None) -> dict:
         """

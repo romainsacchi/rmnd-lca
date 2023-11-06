@@ -6,6 +6,7 @@ Integrates projections regarding use of metals in the economy from:
 import uuid
 from functools import lru_cache
 from itertools import groupby
+from pprint import pprint
 from typing import Optional, Tuple
 
 import country_converter as coco
@@ -29,7 +30,7 @@ from .utils import DATA_DIR
 logger = create_logger("metal")
 
 
-def _update_metals(scenario, version, system_model, modified_datasets):
+def _update_metals(scenario, version, system_model, cache=None):
     metals = Metals(
         database=scenario["database"],
         model=scenario["model"],
@@ -38,13 +39,15 @@ def _update_metals(scenario, version, system_model, modified_datasets):
         year=scenario["year"],
         version=version,
         system_model=system_model,
-        modified_datasets=modified_datasets,
+        cache=cache,
     )
 
     metals.create_metal_markets()
     metals.update_metals_use_in_database()
+    metals.relink_datasets()
+    cache = metals.cache
 
-    return scenario, modified_datasets
+    return scenario, cache
 
 
 def load_metals_alternative_names():
@@ -274,7 +277,7 @@ class Metals(BaseTransformation):
         year: int,
         version: str,
         system_model: str,
-        modified_datasets: dict,
+        cache: dict = None,
     ):
         super().__init__(
             database,
@@ -284,7 +287,7 @@ class Metals(BaseTransformation):
             year,
             version,
             system_model,
-            modified_datasets,
+            cache,
         )
 
         self.version = version
@@ -305,11 +308,14 @@ class Metals(BaseTransformation):
 
         inv = InventorySet(self.database, self.version)
 
-        self.activities_metals_map: Dict[str, Set] = inv.generate_material_map()
+        self.activities_metals_map: Dict[
+            str, Set
+        ] = inv.generate_metals_activities_map()
 
         self.rev_activities_metals_map: Dict[str, str] = rev_metals_map(
             self.activities_metals_map
         )
+
         self.extended_dataframe = extend_dataframe(
             self.activities_mapping, self.activities_metals_map
         )
@@ -348,9 +354,7 @@ class Metals(BaseTransformation):
                     ),
                 )
             )
-            metal_markets = [
-                ds for ds in metal_markets if not self.is_dataset_emptied(ds)
-            ]
+            metal_markets = [ds for ds in metal_markets if self.is_in_index(ds)]
             if metal_markets:
                 return metal_markets[0]
             else:
@@ -359,14 +363,6 @@ class Metals(BaseTransformation):
                 )
         else:
             raise ValueError(f"Invalid metal activity name: {metal_activity_name}")
-
-    def is_dataset_emptied(self, dataset):
-        return (
-            dataset["name"],
-            dataset["reference product"],
-            dataset["location"],
-            dataset["unit"],
-        ) in self.modified_datasets[(self.model, self.scenario, self.year)]["emptied"]
 
     def update_metal_use(
         self,
@@ -511,10 +507,9 @@ class Metals(BaseTransformation):
         geography_mapping = {
             k: v
             for k, v in geography_mapping.items()
-            if (name, reference_product, "kilogram", k)
-            not in self.modified_datasets[(self.model, self.scenario, self.year)][
-                "created"
-            ]
+            if not self.is_in_index(
+                {"name": name, "reference product": reference_product, "location": k}
+            )
         }
 
         # Get the original datasets
@@ -625,20 +620,7 @@ class Metals(BaseTransformation):
 
             # add new datasets to database
             self.database.extend(datasets.values())
-
-            self.modified_datasets[(self.model, self.scenario, self.year)][
-                "created"
-            ].extend(
-                [
-                    (
-                        dataset["name"],
-                        dataset["reference product"],
-                        dataset["location"],
-                        dataset["unit"],
-                    )
-                    for dataset in datasets.values()
-                ]
-            )
+            self.add_to_index(datasets.values())
 
             for dataset in datasets.values():
                 self.write_log(dataset, "created")
@@ -671,20 +653,6 @@ class Metals(BaseTransformation):
         # check if market already exists
         # if so, remove it
 
-        for ds in self.database:
-            if ds["name"] == f"market for {metal[0].lower() + metal[1:]}":
-                # add it to self.modified_datasets
-                self.modified_datasets[(self.model, self.scenario, self.year)][
-                    "emptied"
-                ].append(
-                    (
-                        ds["name"],
-                        ds["reference product"],
-                        ds["location"],
-                        ds["unit"],
-                    )
-                )
-
         dataset = {
             "name": f"market for {metal[0].lower() + metal[1:]}",
             "location": "World",
@@ -712,8 +680,21 @@ class Metals(BaseTransformation):
         trspt_exc = self.add_transport_to_market(dataset, metal)
         if len(trspt_exc) > 0:
             dataset["exchanges"].extend(trspt_exc)
+
         # filter out None
         dataset["exchanges"] = [exc for exc in dataset["exchanges"] if exc]
+
+        # remove old market dataset
+        for old_market in ws.get_many(
+            self.database,
+            ws.equals("name", dataset["name"]),
+            ws.equals("reference product", dataset["reference product"]),
+            ws.exclude(ws.equals("location", "World")),
+        ):
+            self.remove_from_index(old_market)
+            assert (
+                self.is_in_index(old_market) is False
+            ), f"Market {(old_market['name'], old_market['reference product'], old_market['location'])} still in index"
 
         return dataset
 
@@ -810,19 +791,7 @@ class Metals(BaseTransformation):
             dataset = self.create_market(metal, df_metal)
 
             self.database.append(dataset)
-
-            # add it to self.modified_datasets
-            self.modified_datasets[(self.model, self.scenario, self.year)][
-                "created"
-            ].append(
-                (
-                    dataset["name"],
-                    dataset["reference product"],
-                    dataset["location"],
-                    dataset["unit"],
-                )
-            )
-
+            self.add_to_index(dataset)
             self.write_log(dataset, "created")
 
         # filter dataframe_parent to only keep rows
@@ -857,23 +826,8 @@ class Metals(BaseTransformation):
                 )
 
                 self.database.extend(datasets.values())
-
-                # add it to self.modified_datasets
-                self.modified_datasets[(self.model, self.scenario, self.year)][
-                    "created"
-                ].extend(
-                    [
-                        (
-                            dataset["name"],
-                            dataset["reference product"],
-                            dataset["location"],
-                            dataset["unit"],
-                        )
-                        for dataset in datasets.values()
-                    ]
-                )
-
                 for dataset in datasets.values():
+                    self.add_to_index(dataset)
                     self.write_log(dataset, "created")
 
     def write_log(self, dataset, status="created"):

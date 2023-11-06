@@ -976,9 +976,7 @@ def generate_superstructure_db(
     return new_db
 
 
-def prepare_db_for_export(
-    scenario, cache, name, version, system_model, modified_datasets
-):
+def prepare_db_for_export(scenario, cache, name, version, system_model):
     base = BaseTransformation(
         database=scenario["database"],
         iam_data=scenario["iam data"],
@@ -988,7 +986,6 @@ def prepare_db_for_export(
         version=version,
         system_model=system_model,
         cache=cache,
-        modified_datasets=modified_datasets,
     )
 
     # we ensure the absence of duplicate datasets
@@ -1001,19 +998,6 @@ def prepare_db_for_export(
     base.database = remove_unused_fields(base.database)
     base.database = correct_fields_format(base.database)
     base.database = check_amount_format(base.database)
-
-    # we relink "dead" exchanges
-    base.relink_datasets(
-        excludes_datasets=["cobalt industry", "market group for electricity"],
-        alt_names=[
-            "market group for electricity, high voltage",
-            "market group for electricity, medium voltage",
-            "market group for electricity, low voltage",
-            "carbon dioxide, captured from atmosphere, with a solvent-based direct air capture system, 1MtCO2, with heat pump heat, and grid electricity",
-            "methane, from electrochemical methanation, with carbon from atmospheric carbon dioxide capture, using heat pump heat",
-            "Methane, synthetic, gaseous, 5 bar, from electrochemical methanation (H2 from electrolysis, CO2 from DAC using heat pump heat), at fuelling station, using heat pump heat",
-        ],
-    )
 
     for ds in base.database:
         if "parameters" in ds:
@@ -1062,16 +1046,13 @@ def clean_up(exc):
     return exc
 
 
-def _prepare_database(
-    scenario, scenario_cache, version, system_model, modified_datasets
-):
+def _prepare_database(scenario, scenario_cache, version, system_model):
     scenario["database"], scenario_cache = prepare_db_for_export(
         scenario,
         cache=scenario_cache,
         name="database",
         version=version,
         system_model=system_model,
-        modified_datasets=modified_datasets,
     )
 
     return scenario, scenario_cache

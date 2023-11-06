@@ -38,9 +38,7 @@ def fetch_mapping(filepath: str) -> dict:
     return mapping
 
 
-def _update_emissions(
-    scenario, version, system_model, gains_scenario, modified_datasets
-):
+def _update_emissions(scenario, version, system_model, gains_scenario):
     emissions = Emissions(
         database=scenario["database"],
         year=scenario["year"],
@@ -50,13 +48,12 @@ def _update_emissions(
         version=version,
         system_model=system_model,
         gains_scenario=gains_scenario,
-        modified_datasets=modified_datasets,
     )
 
     emissions.update_emissions_in_database()
     scenario["database"] = emissions.database
 
-    return scenario, modified_datasets
+    return scenario
 
 
 class Emissions(BaseTransformation):
@@ -75,7 +72,6 @@ class Emissions(BaseTransformation):
         version: str,
         system_model: str,
         gains_scenario: str,
-        modified_datasets: dict,
     ):
         super().__init__(
             database,
@@ -85,7 +81,6 @@ class Emissions(BaseTransformation):
             year,
             version,
             system_model,
-            modified_datasets,
         )
 
         self.version = version
