@@ -1437,9 +1437,6 @@ class NewDatabase:
         # generate change report from logs
         self.generate_change_report()
 
-    def _export_to_matrices(obj):
-        obj.export_db_to_matrices()
-
     def write_db_to_matrices(self, filepath: str = None):
         """
 
