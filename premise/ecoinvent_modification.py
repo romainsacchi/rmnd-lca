@@ -873,8 +873,8 @@ class NewDatabase:
             for s, scenario in enumerate(self.scenarios):
                 self.scenarios[s] = results[s][0]
         else:
-            for scenario in self.scenarios:
-                scenario, _ = _update_electricity(
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_electricity(
                     scenario=scenario,
                     version=self.version,
                     system_model=self.system_model,
@@ -909,8 +909,8 @@ class NewDatabase:
                 self.scenarios[s] = results[s][0]
 
         else:
-            for scenario in self.scenarios:
-                scenario, _ = _update_dac(
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_dac(
                     scenario=scenario,
                     version=self.version,
                     system_model=self.system_model,
@@ -942,8 +942,8 @@ class NewDatabase:
                 self.scenarios[s] = results[s][0]
 
         else:
-            for scenario in self.scenarios:
-                scenario, _ = _update_fuels(
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_fuels(
                     scenario=scenario,
                     version=self.version,
                     system_model=self.system_model,
@@ -975,8 +975,8 @@ class NewDatabase:
                 self.scenarios[s] = results[s][0]
 
         else:
-            for scenario in self.scenarios:
-                scenario, _ = _update_cement(
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_cement(
                     scenario=scenario,
                     version=self.version,
                     system_model=self.system_model,
@@ -1008,8 +1008,8 @@ class NewDatabase:
                 self.scenarios[s] = results[s][0]
 
         else:
-            for scenario in self.scenarios:
-                scenario, _ = _update_steel(
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_steel(
                     scenario=scenario,
                     version=self.version,
                     system_model=self.system_model,
@@ -1042,27 +1042,12 @@ class NewDatabase:
                 self.scenarios[s] = results[s][0]
 
         else:
-            for scenario in self.scenarios:
-                if (
-                    "exclude" not in scenario
-                    or "update_metals" not in scenario["exclude"]
-                ):
-                    metals = Metals(
-                        database=scenario["database"],
-                        year=scenario["year"],
-                        model=scenario["model"],
-                        pathway=scenario["pathway"],
-                        iam_data=scenario["iam data"],
-                        version=self.version,
-                        system_model=self.system_model,
-                    )
-
-                    _update_metals(
-                        scenario,
-                        self.version,
-                        self.system_model,
-                    )
-                    scenario["database"] = metals.database
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_metals(
+                    scenario,
+                    self.version,
+                    self.system_model,
+                )
 
         print("Done!\n")
 
@@ -1091,8 +1076,8 @@ class NewDatabase:
                 self.scenarios[s] = results[s][0]
 
         else:
-            for scenario in self.scenarios:
-                scenario, _ = _update_vehicles(
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_vehicles(
                     scenario=scenario,
                     vehicle_type="car",
                     version=self.version,
@@ -1126,8 +1111,8 @@ class NewDatabase:
                 self.scenarios[s] = results[s][0]
 
         else:
-            for scenario in self.scenarios:
-                scenario, _ = _update_vehicles(
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_vehicles(
                     scenario=scenario,
                     vehicle_type="two wheeler",
                     version=self.version,
@@ -1163,8 +1148,8 @@ class NewDatabase:
                 self.scenarios[s] = results[s][0]
 
         else:
-            for scenario in self.scenarios:
-                scenario, _ = _update_vehicles(
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_vehicles(
                     scenario=scenario,
                     vehicle_type="truck",
                     version=self.version,
@@ -1199,8 +1184,8 @@ class NewDatabase:
                 self.scenarios[s] = results[s][0]
 
         else:
-            for scenario in self.scenarios:
-                scenario, _ = _update_vehicles(
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_vehicles(
                     scenario=scenario,
                     vehicle_type="bus",
                     version=self.version,
@@ -1277,11 +1262,11 @@ class NewDatabase:
                 results = pool.starmap(_update_emissions, args)
 
             for s, scenario in enumerate(self.scenarios):
-                self.scenarios[s] = results[s][0]
+                self.scenarios[s] = results[s]
 
         else:
-            for scenario in self.scenarios:
-                scenario = _update_emissions(
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = _update_emissions(
                     scenario=scenario,
                     version=self.version,
                     system_model=self.system_model,
@@ -1319,11 +1304,11 @@ class NewDatabase:
                 results = pool.starmap(_update_all, args)
 
             for s, scenario in enumerate(self.scenarios):
-                self.scenarios[s] = results[s][0]
+                self.scenarios[s] = results[s]
 
         else:
-            for scenario in self.scenarios:
-                scenario = _update_all(
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = _update_all(
                     scenario=scenario,
                     version=self.version,
                     system_model=self.system_model,
@@ -1448,6 +1433,9 @@ class NewDatabase:
         # generate change report from logs
         self.generate_change_report()
 
+    def _export_to_matrices(obj):
+        obj.export_db_to_matrices()
+
     def write_db_to_matrices(self, filepath: str = None):
         """
 
@@ -1488,7 +1476,30 @@ class NewDatabase:
         cache = {}
 
         # use multiprocessing to speed up the process
-        # use multiprocessing to speed up the process
+
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        cache,
+                        self.version,
+                        self.system_model,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_prepare_database, args)
+
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+                cache.update(results[s][1])
+
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    Export(scenario, filepath[scen], self.version)
+                    for scen, scenario in enumerate(self.scenarios)
+                ]
+                pool.map(_export_to_matrices, args)
 
         for scenario in self.scenarios:
             scenario, cache = _prepare_database(
