@@ -1393,8 +1393,8 @@ class Electricity(BaseTransformation):
 
         # create region-specific "Supply of forest residue" datasets
         forest_residues_ds = self.fetch_proxies(
-            name=biomass_map["biomass - residual"]["ecoinvent_aliases"]["name"][0],
-            ref_prod=biomass_map["biomass - residual"]["ecoinvent_aliases"][
+            name=biomass_map["biomass - residual"]["ecoinvent_aliases"]["fltr"]["name"],
+            ref_prod=biomass_map["biomass - residual"]["ecoinvent_aliases"]["fltr"][
                 "reference product"
             ][0],
             production_variable="biomass - residual",
@@ -1493,8 +1493,8 @@ class Electricity(BaseTransformation):
                         "RoW",
                         "GLO",
                     ]
-                    possible_names = biomass_act["ecoinvent_aliases"]["name"]
-                    possible_products = biomass_act["ecoinvent_aliases"][
+                    possible_names = biomass_act["ecoinvent_aliases"]["fltr"]["name"]
+                    possible_products = biomass_act["ecoinvent_aliases"]["fltr"][
                         "reference product"
                     ]
 

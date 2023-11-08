@@ -177,7 +177,7 @@ def check_for_duplicates(database):
     print("One or multiple duplicates detected. Removing them...")
 
     seen = set()
-    return [
+    uniques = [
         x
         for x in database
         if (x["name"].lower(), x["reference product"].lower(), x["location"])
@@ -186,6 +186,16 @@ def check_for_duplicates(database):
             (x["name"].lower(), x["reference product"].lower(), x["location"])
         )
     ]
+
+    # print duplicates
+    duplicates = [x for x in database if x not in uniques]
+    print(f"Removed {len(duplicates)} duplicate(s).")
+    for duplicates in duplicates:
+        print(
+            f"{duplicates['name']} - {duplicates['reference product']} - {duplicates['location']}"
+        )
+
+    return uniques
 
 
 def check_amount_format(database: list) -> list:

@@ -1175,59 +1175,59 @@ class BaseTransformation:
             for e in ws.production(ccs):
                 e["name"] = e["name"].replace("cement", sector)
 
-        # relink the providers inside the dataset given the new location
-        ccs = self.relink_technosphere_exchanges(ccs)
+        if not self.is_in_index(ccs):
+            if "input" in ccs:
+                ccs.pop("input")
 
-        if "input" in ccs:
-            ccs.pop("input")
+            # we first fix the biogenic CO2 permanent storage
+            # this corresponds to the share of biogenic CO2
+            # in the fossil + biogenic CO2 emissions of the plant
 
-        # we first fix the biogenic CO2 permanent storage
-        # this corresponds to the share of biogenic CO2
-        # in the fossil + biogenic CO2 emissions of the plant
-
-        for exc in ws.biosphere(
-            ccs,
-            ws.equals("name", "Carbon dioxide, in air"),
-        ):
-            exc["amount"] = bio_co2_stored
-
-        if bio_co2_leaked > 0:
-            # then the biogenic CO2 leaked during the capture process
             for exc in ws.biosphere(
                 ccs,
-                ws.equals("name", "Carbon dioxide, non-fossil"),
+                ws.equals("name", "Carbon dioxide, in air"),
             ):
-                exc["amount"] = bio_co2_leaked
+                exc["amount"] = bio_co2_stored
 
-        # the rest of CO2 leaked is fossil
-        for exc in ws.biosphere(ccs, ws.equals("name", "Carbon dioxide, fossil")):
-            exc["amount"] = 0.11 - bio_co2_leaked
+            if bio_co2_leaked > 0:
+                # then the biogenic CO2 leaked during the capture process
+                for exc in ws.biosphere(
+                    ccs,
+                    ws.equals("name", "Carbon dioxide, non-fossil"),
+                ):
+                    exc["amount"] = bio_co2_leaked
 
-        # we adjust the heat needs by subtraction 3.66 MJ with what
-        # the plant is expected to produce as excess heat
+            # the rest of CO2 leaked is fossil
+            for exc in ws.biosphere(ccs, ws.equals("name", "Carbon dioxide, fossil")):
+                exc["amount"] = 0.11 - bio_co2_leaked
 
-        # Heat, as steam: 3.66 MJ/kg CO2 captured in 2020,
-        # decreasing to 2.6 GJ/t by 2050, by looking at
-        # the best-performing state-of-the-art technologies today
-        # https://www.globalccsinstitute.com/wp-content/uploads/2022/05/State-of-the-Art-CCS-Technologies-2022.pdf
-        # minus excess heat generated on site
-        # the contribution of excess heat is assumed to be
-        # 15% of the overall heat input with today's heat requirement
-        # (see IEA 2018 cement roadmap report)
+            # we adjust the heat needs by subtraction 3.66 MJ with what
+            # the plant is expected to produce as excess heat
 
-        heat_input = np.clip(np.interp(self.year, [2020, 2050], [3.66, 2.6]), 2.6, 3.66)
-        excess_heat_generation = 3.66 * 0.15
-        fossil_heat_input = heat_input - excess_heat_generation
+            # Heat, as steam: 3.66 MJ/kg CO2 captured in 2020,
+            # decreasing to 2.6 GJ/t by 2050, by looking at
+            # the best-performing state-of-the-art technologies today
+            # https://www.globalccsinstitute.com/wp-content/uploads/2022/05/State-of-the-Art-CCS-Technologies-2022.pdf
+            # minus excess heat generated on site
+            # the contribution of excess heat is assumed to be
+            # 15% of the overall heat input with today's heat requirement
+            # (see IEA 2018 cement roadmap report)
 
-        for exc in ws.technosphere(ccs, ws.contains("name", "steam production")):
-            exc["amount"] = fossil_heat_input
+            heat_input = np.clip(
+                np.interp(self.year, [2020, 2050], [3.66, 2.6]), 2.6, 3.66
+            )
+            excess_heat_generation = 3.66 * 0.15
+            fossil_heat_input = heat_input - excess_heat_generation
 
-        # then, we need to find local suppliers of electricity, water, steam, etc.
-        ccs = self.relink_technosphere_exchanges(ccs)
-        self.add_to_index(ccs)
+            for exc in ws.technosphere(ccs, ws.contains("name", "steam production")):
+                exc["amount"] = fossil_heat_input
 
-        # finally, we add this new dataset to the database
-        self.database.append(ccs)
+            # then, we need to find local suppliers of electricity, water, steam, etc.
+            ccs = self.relink_technosphere_exchanges(ccs)
+            self.add_to_index(ccs)
+
+            # finally, we add this new dataset to the database
+            self.database.append(ccs)
 
     def find_iam_efficiency_change(
         self,
@@ -1589,8 +1589,8 @@ class BaseTransformation:
     def handle_default_option(
         self, exchange, dataset, new_exchanges, possible_datasets
     ):
+        new_exc = None
         # Handle the default case where no better candidate is found
-
         if not self.is_exchange_in_cache(exchange, dataset["location"]):
             for default_location in ["RoW", "GLO", "World"]:
                 if default_location in [x["location"] for x in possible_datasets]:
@@ -1600,15 +1600,17 @@ class BaseTransformation:
                         if x["location"] == default_location
                     ][0]
 
-                    new_exchange = exchange.copy()
-                    new_exchange["name"] = default_dataset["name"]
-                    new_exchange["product"] = default_dataset["reference product"]
-                    new_exchange["location"] = default_dataset["location"]
+                    new_exc = exchange.copy()
+                    new_exc["name"] = default_dataset["name"]
+                    new_exc["product"] = default_dataset["reference product"]
+                    new_exc["location"] = default_dataset["location"]
+                    new_exchanges.append(new_exc)
 
-                    new_exchanges.append(new_exchange)
                     break
 
-        if not self.is_exchange_in_cache(exchange, dataset["location"]):
+        if new_exc is None and not self.is_exchange_in_cache(
+            exchange, dataset["location"]
+        ):
             new_exchanges.append(exchange)
 
     def find_candidates(
@@ -1660,6 +1662,8 @@ class BaseTransformation:
             * ``iam_regions``: List, lists IAM regions, if additional ones need to be defined.
         Modifies the dataset in place; returns the modified dataset."""
 
+        sum_before = sum([exc["amount"] for exc in dataset["exchanges"]])
+
         new_exchanges = self.find_candidates(
             dataset,
             exclusive=exclusive,
@@ -1691,6 +1695,13 @@ class BaseTransformation:
         dataset["exchanges"] = [
             exc for exc in dataset["exchanges"] if exc["type"] != "technosphere"
         ] + new_exchanges
+
+        sum_after = sum([exc["amount"] for exc in dataset["exchanges"]])
+
+        assert np.allclose(sum_before, sum_after), (
+            f"Sum of exchanges before and after relinking is not the same: {sum_before} != {sum_after}"
+            f"\n{dataset['name']}|{dataset['location']}"
+        )
 
         return dataset
 
