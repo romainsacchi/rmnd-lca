@@ -1,9 +1,11 @@
+from typing import List
+
+from wurst import searching as ws
+
+from .data_collection import IAMDataCollection
 from .filesystem_constants import DATA_DIR
 from .inventory_imports import DefaultInventory
 from .transformation import BaseTransformation
-from typing import List
-from .data_collection import IAMDataCollection
-from wurst import searching as ws
 
 LCI_HEAT = DATA_DIR / "energy" / "lci-heat.xlsx"
 FINAL_ENERGY_MAPPING = DATA_DIR / "energy" / "final_energy_mapping.xlsx"
