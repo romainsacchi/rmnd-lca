@@ -13,13 +13,7 @@ from datapackage import Package
 from . import __version__
 from .activity_maps import act_fltr
 from .ecoinvent_modification import NewDatabase
-from .export import (
-    Export,
-    _prepare_database,
-    build_datapackage,
-    generate_scenario_factor_file,
-    generate_superstructure_db,
-)
+from .energy import Energy
 
 
 class PathwaysDataPackage:
@@ -67,8 +61,23 @@ class PathwaysDataPackage:
         )
 
     def create_datapackage(self, name: str = f"pathways_{date.today()}"):
+        for scenario in self.datapackage.scenarios:
+            energy = Energy(
+                database=scenario["database"],
+                iam_data=scenario["iam data"],
+                model=scenario["model"],
+                pathway=scenario["pathway"],
+                year=scenario["year"],
+                version=self.datapackage.version,
+                system_model=self.datapackage.system_model,
+            )
+            energy.import_heating_inventories()
+            scenario["database"] = energy.database
+
         self.datapackage.update_all()
-        self.export_datapackage(name)
+        # self.export_datapackage(name)
+        names = [f"DP: {s['model'].upper()} - {s['pathway']}" for s in self.scenarios]
+        self.datapackage.write_db_to_brightway(names)
 
     def export_datapackage(self, name: str):
         # create matrices in current directory
