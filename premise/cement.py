@@ -16,7 +16,7 @@ from .transformation import BaseTransformation, Dict, IAMDataCollection, List, n
 logger = create_logger("cement")
 
 
-def _update_cement(scenario, version, system_model, modified_datasets, cache=None):
+def _update_cement(scenario, version, system_model, cache=None):
     cement = Cement(
         database=scenario["database"],
         model=scenario["model"],
@@ -25,19 +25,19 @@ def _update_cement(scenario, version, system_model, modified_datasets, cache=Non
         year=scenario["year"],
         version=version,
         system_model=system_model,
-        modified_datasets=modified_datasets,
         cache=cache,
     )
 
     if scenario["iam data"].cement_markets is not None:
         cement.add_datasets_to_database()
         scenario["database"] = cement.database
-        modified_datasets = cement.modified_datasets
         cache = cement.cache
     else:
         print("No cement markets found in IAM data. Skipping.")
 
-    return scenario, modified_datasets, cache
+    cement.relink_datasets()
+
+    return scenario, cache
 
 
 class Cement(BaseTransformation):
@@ -70,7 +70,6 @@ class Cement(BaseTransformation):
         year: int,
         version: str,
         system_model: str,
-        modified_datasets: dict,
         cache: dict = None,
     ):
         super().__init__(
@@ -81,7 +80,6 @@ class Cement(BaseTransformation):
             year,
             version,
             system_model,
-            modified_datasets,
             cache,
         )
         self.version = version
@@ -474,16 +472,7 @@ class Cement(BaseTransformation):
         for new_dataset in clinker_prod_datasets:
             self.write_log(new_dataset)
             # add it to list of created datasets
-            self.modified_datasets[(self.model, self.scenario, self.year)][
-                "created"
-            ].append(
-                (
-                    new_dataset["name"],
-                    new_dataset["reference product"],
-                    new_dataset["location"],
-                    new_dataset["unit"],
-                )
-            )
+            self.add_to_index(new_dataset)
 
         # print("Create new clinker market datasets and delete old datasets")
         clinker_market_datasets = list(
@@ -500,16 +489,7 @@ class Cement(BaseTransformation):
         for new_dataset in clinker_market_datasets:
             self.write_log(new_dataset)
             # add it to list of created datasets
-            self.modified_datasets[(self.model, self.scenario, self.year)][
-                "created"
-            ].append(
-                (
-                    new_dataset["name"],
-                    new_dataset["reference product"],
-                    new_dataset["location"],
-                    new_dataset["unit"],
-                )
-            )
+            self.add_to_index(new_dataset)
 
         # print("Create new cement market datasets")
 
@@ -537,16 +517,7 @@ class Cement(BaseTransformation):
             for new_dataset in list(new_cement_markets.values()):
                 self.write_log(new_dataset)
                 # add it to list of created datasets
-                self.modified_datasets[(self.model, self.scenario, self.year)][
-                    "created"
-                ].append(
-                    (
-                        new_dataset["name"],
-                        new_dataset["reference product"],
-                        new_dataset["location"],
-                        new_dataset["unit"],
-                    )
-                )
+                self.add_to_index(new_dataset)
 
             new_datasets.extend(list(new_cement_markets.values()))
 
@@ -581,16 +552,7 @@ class Cement(BaseTransformation):
             for new_dataset in list(new_cement_production.values()):
                 self.write_log(dataset=new_dataset, status="updated")
                 # add it to list of created datasets
-                self.modified_datasets[(self.model, self.scenario, self.year)][
-                    "created"
-                ].append(
-                    (
-                        new_dataset["name"],
-                        new_dataset["reference product"],
-                        new_dataset["location"],
-                        new_dataset["unit"],
-                    )
-                )
+                self.add_to_index(new_dataset)
 
             new_datasets.extend(list(new_cement_production.values()))
 

@@ -88,6 +88,7 @@
     categories: natural resource::in ground
     amount: 0.9288
     unit: kilogram
+
 - name: platinum group metal, extraction and refinery operations
   reference product: gold
   location: ZA
@@ -96,4 +97,131 @@
     name: Gold
     categories: natural resource::in ground
     amount: 0.9632
+    unit: kilogram
+
+- name: primary zinc production from concentrate
+  reference product: cadmium
+  unit: kilogram
+  additional flow:
+    name: Cadmium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+
+- name: cadmium production, primary
+  reference product: cadmium
+  unit: kilogram
+  additional flow:
+    name: Cadmium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+
+
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: cerium oxide
+  unit: kilogram
+  additional flow:
+    name: Cerium
+    categories: natural resource::in ground
+    amount: 0.814
+    unit: kilogram
+
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: dysprosium oxide
+  unit: kilogram
+  additional flow:
+    name: Dysprosium
+    categories: natural resource::in ground
+    amount: 0.871
+    unit: kilogram
+
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: erbium oxide
+  unit: kilogram
+  additional flow:
+    name: Erbium
+    categories: natural resource::in ground
+    amount: 0.875
+    unit: kilogram
+
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: europium oxide
+  unit: kilogram
+  additional flow:
+    name: Europium
+    categories: natural resource::in ground
+    amount: 0.864
+    unit: kilogram
+
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: gadolinium oxide
+  unit: kilogram
+  additional flow:
+    name: Gadolinium
+    categories: natural resource::in ground
+    amount: 0.868
+    unit: kilogram
+
+- name: graphite ore mining
+  reference product: graphite ore, mined
+  unit: kilogram
+  additional flow:
+    name: Graphite
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+
+- name: indium production
+  reference product: indium
+  unit: kilogram
+  additional flow:
+    name: Indium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: lanthanum oxide
+  unit: kilogram
+  additional flow:
+    name: Lanthanum
+    categories: natural resource::in ground
+    amount: 0.853
+    unit: kilogram
+
+- name: lithium carbonate production, from spodumene
+  reference product: lithium carbonate
+  unit: kilogram
+  additional flow:
+    name: Lithium
+    categories: natural resource::in ground
+    amount: 0.188
+    unit: kilogram
+
+- name: lithium carbonate production, from concentrated brine
+  reference product: lithium carbonate
+  unit: kilogram
+  additional flow:
+    name: Lithium
+    categories: natural resource::in ground
+    amount: 0.188
+    unit: kilogram
+
+- name: magnesium production, electrolysis
+  reference product: magnesium
+  unit: kilogram
+  additional flow:
+    name: Magnesium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: neodymium oxide
+  unit: kilogram
+  additional flow:
+    name: Neodymium
+    categories: natural resource::in ground
+    amount: 0.857
     unit: kilogram

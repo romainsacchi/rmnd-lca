@@ -5,7 +5,6 @@ import platformdirs
 # Directories for data which comes with Premise
 DATA_DIR = Path(__file__).resolve().parent / "data"
 INVENTORY_DIR = DATA_DIR / "additional_inventories"
-# Todo: Should this be in the data directory?
 VARIABLES_DIR = Path(__file__).resolve().parent / "iam_variables_mapping"
 IAM_OUTPUT_DIR = DATA_DIR / "iam_output_files"
 

@@ -1,26 +1,12 @@
 ICEV:
   ecoinvent_aliases:
     fltr:
-#      - passenger car production, petrol/natural gas
-#      - passenger car, diesel
-       - passenger car production
-       - diesel
-       - petrol/natural
+     - passenger car production
+     - frame, blanks and saddle, for lorry
     mask:
       - market
       - electric
-      - biodiesel
-      - methanol
-      - transport
-      - low-sulfur
-      - generator
-      - synthetic
-      - chipper
-      - pump
-      - burned
-      - machine
-      - refinery
-      - import
+
 EV:
   ecoinvent_aliases:
     fltr:
@@ -113,6 +99,9 @@ PEMFC:
       - polymer
       - biomethane
       - treatment
+      - truck
+      - passenger car
+      - lorry
 ### How to parametrize the different shares???
 SOFC - Y:
   ecoinvent_aliases:

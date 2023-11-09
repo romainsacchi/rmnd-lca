@@ -219,3 +219,64 @@ CN-NECG:
   image: CHN
   message: CHN
   tiam: CHI
+LA: # Laos
+  remind: OAS
+  image: SEAS
+  message: PAS
+  tiam: ODA
+
+# Fiji
+FJ:
+  remind: OAS
+  image: SEAS
+  message: PAS
+  tiam: ODA
+
+# Guinea
+GN:
+  remind: SSA
+  image: RSAF
+  message: AFR
+  tiam: AFR
+
+# Guyana
+GY:
+  remind: LAM
+  image: RSAM
+  message: LAM
+  tiam: CSA
+
+# Sierra Leone
+SL:
+  remind: SSA
+  image: RSAF
+  message: AFR
+  tiam: AFR
+
+# add Solomon Islands
+SB:
+  remind: OAS
+  image: SEAS
+  message: PAS
+  tiam: ODA
+
+# add Uganda
+UG:
+  remind: SSA
+  image: RSAF
+  message: AFR
+  tiam: AFR
+
+# add Afghanistan
+AF:
+  remind: OAS
+  image: SEAS
+  message: PAS
+  tiam: ODA
+
+# add Mauritius
+MR:
+  remind: SSA
+  image: RSAF
+  message: AFR
+  tiam: AFR
