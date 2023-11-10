@@ -780,7 +780,7 @@ class NewDatabase:
             (FILEPATH_VANADIUM_REDOX_BATTERY, "3.9"),
             (FILEPATH_GERMANIUM, "3.9"),
             (FILEPATH_RHENIUM, "3.9"),
-            (FILEPATH_PGM, "3.8"),
+            (FILEPATH_PGM, "3.9"),
         ]
         for filepath in filepaths:
             # make an exception for FILEPATH_OIL_GAS_INVENTORIES

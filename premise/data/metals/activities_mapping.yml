@@ -152,7 +152,8 @@ AEL:
       - SOEC
       - market
       - fuel cell
-HTEL - Yttrium:
+#HTEL - Yttrium:
+HTEL:
   ecoinvent_aliases:
     fltr:
       - electrolyzer production

@@ -247,6 +247,10 @@ Afghanistan,zinc_ore,Air,
 Afghanistan,zinc_ore,Railway,
 Afghanistan,zinc_ore,Road,
 Afghanistan,zinc_ore,Sea,
+Afghanistan,zirconium,Air,
+Afghanistan,zirconium,Railway,
+Afghanistan,zirconium,Road,
+Afghanistan,zirconium,Sea,
 Albania,aluminium,Air,2.746874514896965
 Albania,aluminium,Railway,0.0
 Albania,aluminium,Road,687.8459720368381
@@ -495,6 +499,10 @@ Albania,zinc_ore,Air,777.808398840058
 Albania,zinc_ore,Railway,0.0
 Albania,zinc_ore,Road,0.0
 Albania,zinc_ore,Sea,14450.226238524223
+Albania,zirconium,Air,
+Albania,zirconium,Railway,
+Albania,zirconium,Road,
+Albania,zirconium,Sea,
 Algeria,aluminium,Air,
 Algeria,aluminium,Railway,
 Algeria,aluminium,Road,
@@ -743,6 +751,10 @@ Algeria,zinc_ore,Air,
 Algeria,zinc_ore,Railway,
 Algeria,zinc_ore,Road,
 Algeria,zinc_ore,Sea,
+Algeria,zirconium,Air,
+Algeria,zirconium,Railway,
+Algeria,zirconium,Road,
+Algeria,zirconium,Sea,
 Angola,aluminium,Air,959.6873389221543
 Angola,aluminium,Railway,0.0
 Angola,aluminium,Road,0.0
@@ -991,6 +1003,10 @@ Angola,zinc_ore,Air,
 Angola,zinc_ore,Railway,
 Angola,zinc_ore,Road,
 Angola,zinc_ore,Sea,
+Angola,zirconium,Air,
+Angola,zirconium,Railway,
+Angola,zirconium,Road,
+Angola,zirconium,Sea,
 Argentina,aluminium,Air,1692.261360619357
 Argentina,aluminium,Railway,0.0
 Argentina,aluminium,Road,958.7463087823988
@@ -1239,6 +1255,10 @@ Argentina,zinc_ore,Air,21086.642808588596
 Argentina,zinc_ore,Railway,0.0
 Argentina,zinc_ore,Road,0.0
 Argentina,zinc_ore,Sea,2789.7592016479402
+Argentina,zirconium,Air,
+Argentina,zirconium,Railway,
+Argentina,zirconium,Road,
+Argentina,zirconium,Sea,
 Armenia,aluminium,Air,0.0
 Armenia,aluminium,Railway,0.0
 Armenia,aluminium,Road,0.0
@@ -1487,6 +1507,10 @@ Armenia,zinc_ore,Air,0.5475401041917501
 Armenia,zinc_ore,Railway,0.0
 Armenia,zinc_ore,Road,0.0
 Armenia,zinc_ore,Sea,4605.2358265401435
+Armenia,zirconium,Air,
+Armenia,zirconium,Railway,
+Armenia,zirconium,Road,
+Armenia,zirconium,Sea,
 Australia,aluminium,Air,1665.4830294163546
 Australia,aluminium,Railway,0.0
 Australia,aluminium,Road,0.0
@@ -1729,6 +1753,10 @@ Australia,zinc_ore,Air,2783.465120921188
 Australia,zinc_ore,Railway,0.0
 Australia,zinc_ore,Road,0.0
 Australia,zinc_ore,Sea,9126.770513537447
+Australia,zirconium,Air,
+Australia,zirconium,Railway,
+Australia,zirconium,Road,
+Australia,zirconium,Sea,
 Austria,aluminium,Air,10.779808582773821
 Austria,aluminium,Railway,0.0
 Austria,aluminium,Road,601.556107887557
@@ -1977,6 +2005,10 @@ Austria,zinc_ore,Air,759.6932942643887
 Austria,zinc_ore,Railway,0.0
 Austria,zinc_ore,Road,208.2035767152944
 Austria,zinc_ore,Sea,11279.011267062217
+Austria,zirconium,Air,0.0
+Austria,zirconium,Railway,0.0
+Austria,zirconium,Road,2841.549
+Austria,zirconium,Sea,0.0
 Azerbaijan,aluminium,Air,0.0
 Azerbaijan,aluminium,Railway,0.0
 Azerbaijan,aluminium,Road,3011.0976909817878
@@ -2225,6 +2257,10 @@ Azerbaijan,zinc_ore,Air,0.0
 Azerbaijan,zinc_ore,Railway,0.0
 Azerbaijan,zinc_ore,Road,1370.6542307003353
 Azerbaijan,zinc_ore,Sea,0.7181898455499158
+Azerbaijan,zirconium,Air,
+Azerbaijan,zirconium,Railway,
+Azerbaijan,zirconium,Road,
+Azerbaijan,zirconium,Sea,
 Bahamas,aluminium,Air,0.0
 Bahamas,aluminium,Railway,0.0
 Bahamas,aluminium,Road,0.0
@@ -2497,6 +2533,10 @@ Bangladesh,zinc_ore,Air,0.0
 Bangladesh,zinc_ore,Railway,0.0
 Bangladesh,zinc_ore,Road,0.0
 Bangladesh,zinc_ore,Sea,7073.323
+Bangladesh,zirconium,Air,
+Bangladesh,zirconium,Railway,
+Bangladesh,zirconium,Road,
+Bangladesh,zirconium,Sea,
 Barbados,tantalum_vanadium_niobium_ore,Air,0.0
 Barbados,tantalum_vanadium_niobium_ore,Railway,0.0
 Barbados,tantalum_vanadium_niobium_ore,Road,0.0
@@ -2749,6 +2789,10 @@ Belarus,zinc_ore,Air,
 Belarus,zinc_ore,Railway,
 Belarus,zinc_ore,Road,
 Belarus,zinc_ore,Sea,
+Belarus,zirconium,Air,
+Belarus,zirconium,Railway,
+Belarus,zirconium,Road,
+Belarus,zirconium,Sea,
 Belgium,aluminium,Air,0.010381310202092667
 Belgium,aluminium,Railway,24.643664588490896
 Belgium,aluminium,Road,1198.9152552638539
@@ -2997,6 +3041,10 @@ Belgium,zinc_ore,Air,1903.946896891164
 Belgium,zinc_ore,Railway,0.0
 Belgium,zinc_ore,Road,156.3723096564029
 Belgium,zinc_ore,Sea,520.9588413741892
+Belgium,zirconium,Air,
+Belgium,zirconium,Railway,
+Belgium,zirconium,Road,
+Belgium,zirconium,Sea,
 Belize,pig_iron,Air,0.0
 Belize,pig_iron,Railway,0.0
 Belize,pig_iron,Road,0.0
@@ -3249,6 +3297,10 @@ Bolivia (Plurinational State of),zinc_ore,Air,14813.373712898123
 Bolivia (Plurinational State of),zinc_ore,Railway,0.0
 Bolivia (Plurinational State of),zinc_ore,Road,112.97158077261861
 Bolivia (Plurinational State of),zinc_ore,Sea,6048.371891332135
+Bolivia (Plurinational State of),zirconium,Air,
+Bolivia (Plurinational State of),zirconium,Railway,
+Bolivia (Plurinational State of),zirconium,Road,
+Bolivia (Plurinational State of),zirconium,Sea,
 Bosnia and Herzegovina,aluminium,Air,0.10811241755079276
 Bosnia and Herzegovina,aluminium,Railway,10.675655967400303
 Bosnia and Herzegovina,aluminium,Road,902.1470740807141
@@ -3497,6 +3549,10 @@ Bosnia and Herzegovina,zinc_ore,Air,0.0007052116213788234
 Bosnia and Herzegovina,zinc_ore,Railway,380.4944804306896
 Bosnia and Herzegovina,zinc_ore,Road,142.2943146145181
 Bosnia and Herzegovina,zinc_ore,Sea,178.4596808951121
+Bosnia and Herzegovina,zirconium,Air,
+Bosnia and Herzegovina,zirconium,Railway,
+Bosnia and Herzegovina,zirconium,Road,
+Bosnia and Herzegovina,zirconium,Sea,
 Brazil,aluminium,Air,2540.274733018561
 Brazil,aluminium,Railway,0.0
 Brazil,aluminium,Road,947.3300431551962
@@ -3745,6 +3801,10 @@ Brazil,zinc_ore,Air,4799.653311338854
 Brazil,zinc_ore,Railway,0.0
 Brazil,zinc_ore,Road,0.0009864929722609185
 Brazil,zinc_ore,Sea,13779.649912742962
+Brazil,zirconium,Air,
+Brazil,zirconium,Railway,
+Brazil,zirconium,Road,
+Brazil,zirconium,Sea,
 British Virgin Islands,aluminium,Air,0.0
 British Virgin Islands,aluminium,Railway,0.0
 British Virgin Islands,aluminium,Road,0.0
@@ -3879,6 +3939,8 @@ Brunei Darussalam,zinc,Air,
 Brunei Darussalam,zinc,Sea,
 Brunei Darussalam,zinc_ore,Air,
 Brunei Darussalam,zinc_ore,Sea,
+Brunei Darussalam,zirconium,Air,
+Brunei Darussalam,zirconium,Sea,
 Bulgaria,aluminium,Air,0.0
 Bulgaria,aluminium,Railway,0.0
 Bulgaria,aluminium,Road,1534.8550528616356
@@ -4127,6 +4189,10 @@ Bulgaria,zinc_ore,Air,87.50387291308706
 Bulgaria,zinc_ore,Railway,0.0
 Bulgaria,zinc_ore,Road,1868.3073771533004
 Bulgaria,zinc_ore,Sea,2684.2336052326064
+Bulgaria,zirconium,Air,
+Bulgaria,zirconium,Railway,
+Bulgaria,zirconium,Road,
+Bulgaria,zirconium,Sea,
 Burkina Faso,bentonite,Air,0.0
 Burkina Faso,bentonite,Railway,0.0
 Burkina Faso,bentonite,Road,0.0
@@ -4387,6 +4453,10 @@ Cambodia,zinc_ore,Air,
 Cambodia,zinc_ore,Railway,
 Cambodia,zinc_ore,Road,
 Cambodia,zinc_ore,Sea,
+Cambodia,zirconium,Air,
+Cambodia,zirconium,Railway,
+Cambodia,zirconium,Road,
+Cambodia,zirconium,Sea,
 Cameroon,aluminium,Air,280.2972951214268
 Cameroon,aluminium,Railway,0.0
 Cameroon,aluminium,Road,8436.65760120874
@@ -4635,6 +4705,10 @@ Cameroon,zinc_ore,Air,
 Cameroon,zinc_ore,Railway,
 Cameroon,zinc_ore,Road,
 Cameroon,zinc_ore,Sea,
+Cameroon,zirconium,Air,
+Cameroon,zirconium,Railway,
+Cameroon,zirconium,Road,
+Cameroon,zirconium,Sea,
 Canada,aluminium,Air,1442.8871235788881
 Canada,aluminium,Railway,0.0
 Canada,aluminium,Road,1.4059864470332497
@@ -4883,6 +4957,10 @@ Canada,zinc_ore,Air,62.002121360367646
 Canada,zinc_ore,Railway,0.0
 Canada,zinc_ore,Road,0.05653327699482542
 Canada,zinc_ore,Sea,11033.243236438148
+Canada,zirconium,Air,0.0
+Canada,zirconium,Railway,0.0
+Canada,zirconium,Road,0.0
+Canada,zirconium,Sea,406.23046135153487
 Central African Republic,aluminium,Air,0.0
 Central African Republic,aluminium,Railway,0.0
 Central African Republic,aluminium,Road,10313.248
@@ -5131,6 +5209,10 @@ Central African Republic,zinc_ore,Air,
 Central African Republic,zinc_ore,Railway,
 Central African Republic,zinc_ore,Road,
 Central African Republic,zinc_ore,Sea,
+Central African Republic,zirconium,Air,
+Central African Republic,zirconium,Railway,
+Central African Republic,zirconium,Road,
+Central African Republic,zirconium,Sea,
 Chad,aluminium,Air,
 Chad,aluminium,Railway,
 Chad,aluminium,Road,
@@ -5379,6 +5461,10 @@ Chad,zinc_ore,Air,
 Chad,zinc_ore,Railway,
 Chad,zinc_ore,Road,
 Chad,zinc_ore,Sea,
+Chad,zirconium,Air,
+Chad,zirconium,Railway,
+Chad,zirconium,Road,
+Chad,zirconium,Sea,
 Chile,aluminium,Air,1593.5638209101066
 Chile,aluminium,Railway,0.0
 Chile,aluminium,Road,0.0
@@ -5627,6 +5713,10 @@ Chile,zinc_ore,Air,18876.59879723196
 Chile,zinc_ore,Railway,0.0
 Chile,zinc_ore,Road,0.0
 Chile,zinc_ore,Sea,3616.2077126230606
+Chile,zirconium,Air,
+Chile,zirconium,Railway,
+Chile,zirconium,Road,
+Chile,zirconium,Sea,
 China,aluminium,Air,611.8619608788057
 China,aluminium,Railway,0.0
 China,aluminium,Road,1388.3718980967983
@@ -5875,6 +5965,10 @@ China,zinc_ore,Air,9.436837735854303
 China,zinc_ore,Railway,0.0
 China,zinc_ore,Road,713.3307413119857
 China,zinc_ore,Sea,2008.359956403829
+China,zirconium,Air,28.676038894132247
+China,zirconium,Railway,0.0
+China,zirconium,Road,0.0
+China,zirconium,Sea,18158.71038304556
 "China, Hong Kong SAR",aluminium,Air,0.0
 "China, Hong Kong SAR",aluminium,Railway,0.0
 "China, Hong Kong SAR",aluminium,Road,0.0
@@ -6003,6 +6097,10 @@ China,zinc_ore,Sea,2008.359956403829
 "China, Hong Kong SAR",titanium_ore,Railway,0.0
 "China, Hong Kong SAR",titanium_ore,Road,0.0
 "China, Hong Kong SAR",titanium_ore,Sea,0.0
+"China, Hong Kong SAR",zirconium,Air,0.0
+"China, Hong Kong SAR",zirconium,Railway,0.0
+"China, Hong Kong SAR",zirconium,Road,0.0
+"China, Hong Kong SAR",zirconium,Sea,0.0
 Colombia,aluminium,Air,579.6037927496657
 Colombia,aluminium,Railway,0.0
 Colombia,aluminium,Road,0.0
@@ -6251,6 +6349,10 @@ Colombia,zinc_ore,Air,3287.7
 Colombia,zinc_ore,Railway,0.0
 Colombia,zinc_ore,Road,0.0
 Colombia,zinc_ore,Sea,0.0
+Colombia,zirconium,Air,
+Colombia,zirconium,Railway,
+Colombia,zirconium,Road,
+Colombia,zirconium,Sea,
 Congo,aluminium_cast_alloy,Air,0.0
 Congo,aluminium_cast_alloy,Railway,0.0
 Congo,aluminium_cast_alloy,Road,0.0
@@ -6527,6 +6629,10 @@ Congo,zinc,Sea,0.0
 "Congo, Dem. Rep. of the",zinc_ore,Railway,
 "Congo, Dem. Rep. of the",zinc_ore,Road,
 "Congo, Dem. Rep. of the",zinc_ore,Sea,
+"Congo, Dem. Rep. of the",zirconium,Air,
+"Congo, Dem. Rep. of the",zirconium,Railway,
+"Congo, Dem. Rep. of the",zirconium,Road,
+"Congo, Dem. Rep. of the",zirconium,Sea,
 Costa Rica,aluminium_oxide,Air,
 Costa Rica,aluminium_oxide,Railway,
 Costa Rica,aluminium_oxide,Road,
@@ -6795,6 +6901,10 @@ Croatia,zinc_ore,Air,
 Croatia,zinc_ore,Railway,
 Croatia,zinc_ore,Road,
 Croatia,zinc_ore,Sea,
+Croatia,zirconium,Air,
+Croatia,zirconium,Railway,
+Croatia,zirconium,Road,
+Croatia,zirconium,Sea,
 Cuba,aluminium,Air,972.1061910384946
 Cuba,aluminium,Railway,0.0
 Cuba,aluminium,Road,0.0
@@ -6987,6 +7097,9 @@ Cuba,zinc,Sea,
 Cuba,zinc_ore,Air,
 Cuba,zinc_ore,Road,
 Cuba,zinc_ore,Sea,
+Cuba,zirconium,Air,
+Cuba,zirconium,Road,
+Cuba,zirconium,Sea,
 Cyprus,aluminium,Air,
 Cyprus,aluminium,Road,
 Cyprus,aluminium,Sea,
@@ -7198,6 +7311,9 @@ Cyprus,zinc_ore,Air,
 Cyprus,zinc_ore,Railway,
 Cyprus,zinc_ore,Road,
 Cyprus,zinc_ore,Sea,
+Cyprus,zirconium,Air,
+Cyprus,zirconium,Road,
+Cyprus,zirconium,Sea,
 Czechia,aluminium,Air,0.04582991214080143
 Czechia,aluminium,Railway,0.0
 Czechia,aluminium,Road,673.3968825487988
@@ -7446,6 +7562,10 @@ Czechia,zinc_ore,Air,0.0
 Czechia,zinc_ore,Railway,0.0
 Czechia,zinc_ore,Road,1459.64
 Czechia,zinc_ore,Sea,0.0
+Czechia,zirconium,Air,12630.167999999998
+Czechia,zirconium,Railway,0.0
+Czechia,zirconium,Road,0.0
+Czechia,zirconium,Sea,0.0
 Côte d'Ivoire,aluminium,Air,
 Côte d'Ivoire,aluminium,Railway,
 Côte d'Ivoire,aluminium,Road,
@@ -7694,6 +7814,10 @@ Côte d'Ivoire,zinc_ore,Air,0.21784720026259213
 Côte d'Ivoire,zinc_ore,Railway,0.0
 Côte d'Ivoire,zinc_ore,Road,11872.276967973034
 Côte d'Ivoire,zinc_ore,Sea,809.8448178501078
+Côte d'Ivoire,zirconium,Air,
+Côte d'Ivoire,zirconium,Railway,
+Côte d'Ivoire,zirconium,Road,
+Côte d'Ivoire,zirconium,Sea,
 Denmark,aluminium,Air,0.0
 Denmark,aluminium,Railway,0.0
 Denmark,aluminium,Road,720.2542142179891
@@ -7942,6 +8066,10 @@ Denmark,zinc_ore,Air,
 Denmark,zinc_ore,Railway,
 Denmark,zinc_ore,Road,
 Denmark,zinc_ore,Sea,
+Denmark,zirconium,Air,
+Denmark,zirconium,Railway,
+Denmark,zirconium,Road,
+Denmark,zirconium,Sea,
 Dominican Republic,aluminium,Air,
 Dominican Republic,aluminium,Railway,
 Dominican Republic,aluminium,Road,
@@ -8190,6 +8318,10 @@ Dominican Republic,zinc_ore,Air,13283.644035455305
 Dominican Republic,zinc_ore,Railway,0.0
 Dominican Republic,zinc_ore,Road,0.0
 Dominican Republic,zinc_ore,Sea,5863.295874262985
+Dominican Republic,zirconium,Air,
+Dominican Republic,zirconium,Railway,
+Dominican Republic,zirconium,Road,
+Dominican Republic,zirconium,Sea,
 Ecuador,aluminium,Air,
 Ecuador,aluminium,Railway,
 Ecuador,aluminium,Road,
@@ -8438,6 +8570,10 @@ Ecuador,zinc_ore,Air,
 Ecuador,zinc_ore,Railway,
 Ecuador,zinc_ore,Road,
 Ecuador,zinc_ore,Sea,
+Ecuador,zirconium,Air,
+Ecuador,zirconium,Railway,
+Ecuador,zirconium,Road,
+Ecuador,zirconium,Sea,
 Egypt,aluminium,Air,329.1276249489833
 Egypt,aluminium,Railway,0.0
 Egypt,aluminium,Road,207.92258599913606
@@ -8686,6 +8822,10 @@ Egypt,zinc_ore,Air,
 Egypt,zinc_ore,Railway,
 Egypt,zinc_ore,Road,
 Egypt,zinc_ore,Sea,
+Egypt,zirconium,Air,
+Egypt,zirconium,Railway,
+Egypt,zirconium,Road,
+Egypt,zirconium,Sea,
 El Salvador,bentonite,Air,
 El Salvador,bentonite,Railway,
 El Salvador,bentonite,Road,
@@ -8946,6 +9086,10 @@ Estonia,zinc_ore,Air,
 Estonia,zinc_ore,Railway,
 Estonia,zinc_ore,Road,
 Estonia,zinc_ore,Sea,
+Estonia,zirconium,Air,
+Estonia,zirconium,Railway,
+Estonia,zirconium,Road,
+Estonia,zirconium,Sea,
 Eswatini,aluminium,Air,0.0
 Eswatini,aluminium,Railway,0.0
 Eswatini,aluminium,Road,0.0
@@ -9206,6 +9350,10 @@ Ethiopia,zinc_ore,Air,
 Ethiopia,zinc_ore,Railway,
 Ethiopia,zinc_ore,Road,
 Ethiopia,zinc_ore,Sea,
+Ethiopia,zirconium,Air,
+Ethiopia,zirconium,Railway,
+Ethiopia,zirconium,Road,
+Ethiopia,zirconium,Sea,
 Finland,aluminium,Air,544.2600192206853
 Finland,aluminium,Railway,0.0
 Finland,aluminium,Road,0.0
@@ -9454,6 +9602,10 @@ Finland,zinc_ore,Air,0.03977937776159768
 Finland,zinc_ore,Railway,0.0
 Finland,zinc_ore,Road,23.99602607467908
 Finland,zinc_ore,Sea,2582.4233876611147
+Finland,zirconium,Air,
+Finland,zirconium,Railway,
+Finland,zirconium,Road,
+Finland,zirconium,Sea,
 France,aluminium,Air,21.180684994197094
 France,aluminium,Railway,34.605909022856096
 France,aluminium,Road,19755.829414506155
@@ -9702,6 +9854,10 @@ France,zinc_ore,Air,9.683912315828891
 France,zinc_ore,Railway,0.0
 France,zinc_ore,Road,97.72625550299882
 France,zinc_ore,Sea,2523.24628876441
+France,zirconium,Air,0.0
+France,zirconium,Railway,0.0
+France,zirconium,Road,16905.41299779432
+France,zirconium,Sea,0.0
 Gabon,aluminium_cast_alloy,Air,0.0
 Gabon,aluminium_cast_alloy,Railway,0.0
 Gabon,aluminium_cast_alloy,Road,0.0
@@ -9966,6 +10122,10 @@ Georgia,zinc_ore,Air,0.0
 Georgia,zinc_ore,Railway,0.0
 Georgia,zinc_ore,Road,3931.4875828596487
 Georgia,zinc_ore,Sea,0.006365172272700402
+Georgia,zirconium,Air,
+Georgia,zirconium,Railway,
+Georgia,zirconium,Road,
+Georgia,zirconium,Sea,
 Germany,aluminium,Air,13.601896481422141
 Germany,aluminium,Railway,6.241722627224982
 Germany,aluminium,Road,1043.8365137881015
@@ -10214,6 +10374,10 @@ Germany,zinc_ore,Air,0.00364856446547319
 Germany,zinc_ore,Railway,0.0
 Germany,zinc_ore,Road,115.87285037287893
 Germany,zinc_ore,Sea,1190.595390592767
+Germany,zirconium,Air,1047.7554623170925
+Germany,zirconium,Railway,0.0
+Germany,zirconium,Road,700.5643406933445
+Germany,zirconium,Sea,2831.172392091047
 Ghana,aluminium,Air,239.4519381695786
 Ghana,aluminium,Railway,0.0
 Ghana,aluminium,Road,9185.373330894956
@@ -10462,6 +10626,10 @@ Ghana,zinc_ore,Air,0.0
 Ghana,zinc_ore,Railway,0.0
 Ghana,zinc_ore,Road,0.0
 Ghana,zinc_ore,Sea,9864.257
+Ghana,zirconium,Air,
+Ghana,zirconium,Railway,
+Ghana,zirconium,Road,
+Ghana,zirconium,Sea,
 Greece,aluminium,Air,0.00019258245936732785
 Greece,aluminium,Railway,0.0
 Greece,aluminium,Road,2391.0338183048657
@@ -10710,6 +10878,10 @@ Greece,zinc_ore,Air,0.001619547109075317
 Greece,zinc_ore,Railway,0.0
 Greece,zinc_ore,Road,2300.001789631206
 Greece,zinc_ore,Sea,84.03520381819445
+Greece,zirconium,Air,
+Greece,zirconium,Railway,
+Greece,zirconium,Road,
+Greece,zirconium,Sea,
 Guatemala,aluminium,Air,
 Guatemala,aluminium,Railway,
 Guatemala,aluminium,Road,
@@ -10958,6 +11130,10 @@ Guatemala,zinc_ore,Air,1425.8800544681098
 Guatemala,zinc_ore,Railway,0.0
 Guatemala,zinc_ore,Road,0.0
 Guatemala,zinc_ore,Sea,9622.680223707008
+Guatemala,zirconium,Air,
+Guatemala,zirconium,Railway,
+Guatemala,zirconium,Road,
+Guatemala,zirconium,Sea,
 Guinea,aluminium,Air,
 Guinea,aluminium,Railway,
 Guinea,aluminium,Road,
@@ -11206,6 +11382,10 @@ Guinea,zinc_ore,Air,
 Guinea,zinc_ore,Railway,
 Guinea,zinc_ore,Road,
 Guinea,zinc_ore,Sea,
+Guinea,zirconium,Air,
+Guinea,zirconium,Railway,
+Guinea,zirconium,Road,
+Guinea,zirconium,Sea,
 Guyana,aluminium_oxide,Air,0.0
 Guyana,aluminium_oxide,Railway,0.0
 Guyana,aluminium_oxide,Road,0.0
@@ -11462,6 +11642,10 @@ Haiti,zinc_ore,Air,
 Haiti,zinc_ore,Railway,
 Haiti,zinc_ore,Road,
 Haiti,zinc_ore,Sea,
+Haiti,zirconium,Air,
+Haiti,zirconium,Railway,
+Haiti,zirconium,Road,
+Haiti,zirconium,Sea,
 Honduras,aluminium,Air,
 Honduras,aluminium,Railway,
 Honduras,aluminium,Road,
@@ -11710,6 +11894,10 @@ Honduras,zinc_ore,Air,2467.247377776376
 Honduras,zinc_ore,Railway,0.0
 Honduras,zinc_ore,Road,0.0
 Honduras,zinc_ore,Sea,10606.670834312848
+Honduras,zirconium,Air,
+Honduras,zirconium,Railway,
+Honduras,zirconium,Road,
+Honduras,zirconium,Sea,
 Hungary,aluminium,Air,0.0
 Hungary,aluminium,Railway,0.0
 Hungary,aluminium,Road,1120.9381273538677
@@ -11958,6 +12146,10 @@ Hungary,zinc_ore,Air,0.0
 Hungary,zinc_ore,Railway,0.0
 Hungary,zinc_ore,Road,205.61386628298467
 Hungary,zinc_ore,Sea,688.21906494755
+Hungary,zirconium,Air,
+Hungary,zirconium,Railway,
+Hungary,zirconium,Road,
+Hungary,zirconium,Sea,
 Iceland,aluminium,Air,411.02000978225726
 Iceland,aluminium,Railway,0.0
 Iceland,aluminium,Road,10173.793160529482
@@ -12152,6 +12344,9 @@ Iceland,zinc,Sea,
 Iceland,zinc_ore,Air,
 Iceland,zinc_ore,Road,
 Iceland,zinc_ore,Sea,
+Iceland,zirconium,Air,
+Iceland,zirconium,Road,
+Iceland,zirconium,Sea,
 India,aluminium,Air,990.1428675680876
 India,aluminium,Railway,0.0
 India,aluminium,Road,840.0197172713115
@@ -12400,6 +12595,10 @@ India,zinc_ore,Air,0.8832061648863566
 India,zinc_ore,Railway,0.0
 India,zinc_ore,Road,0.0
 India,zinc_ore,Sea,9327.716004128988
+India,zirconium,Air,
+India,zirconium,Railway,
+India,zirconium,Road,
+India,zirconium,Sea,
 Indonesia,aluminium,Air,744.5695972511933
 Indonesia,aluminium,Railway,0.0
 Indonesia,aluminium,Road,0.0
@@ -12630,6 +12829,9 @@ Indonesia,zinc_ore,Air,3.4311894906396336
 Indonesia,zinc_ore,Railway,0.0
 Indonesia,zinc_ore,Road,0.0
 Indonesia,zinc_ore,Sea,5612.927344249429
+Indonesia,zirconium,Air,
+Indonesia,zirconium,Road,
+Indonesia,zirconium,Sea,
 Iran (Islamic Republic of),aluminium,Air,38.17379136170659
 Iran (Islamic Republic of),aluminium,Railway,0.0
 Iran (Islamic Republic of),aluminium,Road,2419.423368114884
@@ -12878,6 +13080,10 @@ Iran (Islamic Republic of),zinc_ore,Air,57.98143960848412
 Iran (Islamic Republic of),zinc_ore,Railway,0.0
 Iran (Islamic Republic of),zinc_ore,Road,0.0026689783672492616
 Iran (Islamic Republic of),zinc_ore,Sea,11592.219502739717
+Iran (Islamic Republic of),zirconium,Air,
+Iran (Islamic Republic of),zirconium,Railway,
+Iran (Islamic Republic of),zirconium,Road,
+Iran (Islamic Republic of),zirconium,Sea,
 Iraq,aluminium,Air,2.126854955900949
 Iraq,aluminium,Railway,0.0
 Iraq,aluminium,Road,1234.76819027478
@@ -13126,6 +13332,10 @@ Iraq,zinc_ore,Air,
 Iraq,zinc_ore,Railway,
 Iraq,zinc_ore,Road,
 Iraq,zinc_ore,Sea,
+Iraq,zirconium,Air,
+Iraq,zirconium,Railway,
+Iraq,zirconium,Road,
+Iraq,zirconium,Sea,
 Ireland,aluminium,Air,6.119137633108408
 Ireland,aluminium,Railway,0.0
 Ireland,aluminium,Road,6138.804913245384
@@ -13361,6 +13571,9 @@ Ireland,zinc_ore,Air,1.0263498261624515
 Ireland,zinc_ore,Railway,0.0
 Ireland,zinc_ore,Road,15163.72344857303
 Ireland,zinc_ore,Sea,21.26784502479815
+Ireland,zirconium,Air,
+Ireland,zirconium,Road,
+Ireland,zirconium,Sea,
 Israel,aluminium_cast_alloy,Air,0.0
 Israel,aluminium_cast_alloy,Railway,0.0
 Israel,aluminium_cast_alloy,Road,0.0
@@ -13673,6 +13886,10 @@ Italy,zinc_ore,Air,0.0
 Italy,zinc_ore,Railway,0.0
 Italy,zinc_ore,Road,25050.91746634479
 Italy,zinc_ore,Sea,0.006232475348747682
+Italy,zirconium,Air,11798.028999999999
+Italy,zirconium,Railway,0.0
+Italy,zirconium,Road,0.0
+Italy,zirconium,Sea,0.0
 Jamaica,aluminium,Air,
 Jamaica,aluminium,Road,
 Jamaica,aluminium,Sea,
@@ -13868,6 +14085,9 @@ Jamaica,zinc,Sea,18519.542034775455
 Jamaica,zinc_ore,Air,
 Jamaica,zinc_ore,Road,
 Jamaica,zinc_ore,Sea,
+Jamaica,zirconium,Air,
+Jamaica,zirconium,Road,
+Jamaica,zirconium,Sea,
 Japan,aluminium,Air,609.1030593290823
 Japan,aluminium,Railway,0.0
 Japan,aluminium,Road,0.0
@@ -14114,6 +14334,10 @@ Japan,zinc_ore,Air,0.7465502849492247
 Japan,zinc_ore,Railway,0.0
 Japan,zinc_ore,Road,0.0
 Japan,zinc_ore,Sea,7902.809206973886
+Japan,zirconium,Air,34.061067236109245
+Japan,zirconium,Railway,0.0
+Japan,zirconium,Road,0.0
+Japan,zirconium,Sea,4951.515604820815
 Jordan,aluminium,Air,
 Jordan,aluminium,Railway,
 Jordan,aluminium,Road,
@@ -14362,6 +14586,10 @@ Jordan,zinc_ore,Air,0.0
 Jordan,zinc_ore,Railway,0.0
 Jordan,zinc_ore,Road,0.0
 Jordan,zinc_ore,Sea,9096.552
+Jordan,zirconium,Air,
+Jordan,zirconium,Railway,
+Jordan,zirconium,Road,
+Jordan,zirconium,Sea,
 Kazakhstan,aluminium,Air,36.82569759855077
 Kazakhstan,aluminium,Railway,0.0
 Kazakhstan,aluminium,Road,5774.590036878795
@@ -14610,6 +14838,10 @@ Kazakhstan,zinc_ore,Air,0.0
 Kazakhstan,zinc_ore,Railway,0.0
 Kazakhstan,zinc_ore,Road,3.502930132196328
 Kazakhstan,zinc_ore,Sea,10869.116070855149
+Kazakhstan,zirconium,Air,
+Kazakhstan,zirconium,Railway,
+Kazakhstan,zirconium,Road,
+Kazakhstan,zirconium,Sea,
 Kenya,aluminium,Air,35.6945390625
 Kenya,aluminium,Railway,0.0
 Kenya,aluminium,Road,0.0
@@ -14858,6 +15090,10 @@ Kenya,zinc_ore,Air,
 Kenya,zinc_ore,Railway,
 Kenya,zinc_ore,Road,
 Kenya,zinc_ore,Sea,
+Kenya,zirconium,Air,
+Kenya,zirconium,Railway,
+Kenya,zirconium,Road,
+Kenya,zirconium,Sea,
 "Korea, Dem. People's Rep. of",potash,Air,0.0
 "Korea, Dem. People's Rep. of",potash,Railway,0.0
 "Korea, Dem. People's Rep. of",potash,Road,0.0
@@ -15110,6 +15346,10 @@ Kenya,zinc_ore,Sea,
 "Korea, Republic of",zinc_ore,Railway,0.0
 "Korea, Republic of",zinc_ore,Road,6.556366210281806
 "Korea, Republic of",zinc_ore,Sea,2143.3678141955716
+"Korea, Republic of",zirconium,Air,11436.735
+"Korea, Republic of",zirconium,Railway,0.0
+"Korea, Republic of",zirconium,Road,0.0
+"Korea, Republic of",zirconium,Sea,0.0
 Kuwait,pig_iron,Air,
 Kuwait,pig_iron,Railway,
 Kuwait,pig_iron,Road,
@@ -15366,6 +15606,10 @@ Kyrgyzstan,zinc_ore,Air,
 Kyrgyzstan,zinc_ore,Railway,
 Kyrgyzstan,zinc_ore,Road,
 Kyrgyzstan,zinc_ore,Sea,
+Kyrgyzstan,zirconium,Air,
+Kyrgyzstan,zirconium,Railway,
+Kyrgyzstan,zirconium,Road,
+Kyrgyzstan,zirconium,Sea,
 Lao People's Dem. Rep.,aluminium,Air,
 Lao People's Dem. Rep.,aluminium,Railway,
 Lao People's Dem. Rep.,aluminium,Road,
@@ -15614,6 +15858,10 @@ Lao People's Dem. Rep.,zinc_ore,Air,0.0552718808033739
 Lao People's Dem. Rep.,zinc_ore,Railway,0.0
 Lao People's Dem. Rep.,zinc_ore,Road,0.0
 Lao People's Dem. Rep.,zinc_ore,Sea,3306.729376507098
+Lao People's Dem. Rep.,zirconium,Air,
+Lao People's Dem. Rep.,zirconium,Railway,
+Lao People's Dem. Rep.,zirconium,Road,
+Lao People's Dem. Rep.,zirconium,Sea,
 Latvia,aluminium,Air,0.0
 Latvia,aluminium,Railway,0.0
 Latvia,aluminium,Road,1324.969060755225
@@ -15862,6 +16110,10 @@ Latvia,zinc_ore,Air,
 Latvia,zinc_ore,Railway,
 Latvia,zinc_ore,Road,
 Latvia,zinc_ore,Sea,
+Latvia,zirconium,Air,
+Latvia,zirconium,Railway,
+Latvia,zirconium,Road,
+Latvia,zirconium,Sea,
 Lebanon,aluminium,Air,190.95184930209683
 Lebanon,aluminium,Railway,0.0
 Lebanon,aluminium,Road,0.0
@@ -16110,6 +16362,10 @@ Lebanon,zinc_ore,Air,
 Lebanon,zinc_ore,Railway,
 Lebanon,zinc_ore,Road,
 Lebanon,zinc_ore,Sea,
+Lebanon,zirconium,Air,
+Lebanon,zirconium,Railway,
+Lebanon,zirconium,Road,
+Lebanon,zirconium,Sea,
 Liberia,iron_ore,Air,0.0
 Liberia,iron_ore,Railway,0.0
 Liberia,iron_ore,Road,0.0
@@ -16366,6 +16622,10 @@ Lithuania,zinc_ore,Air,
 Lithuania,zinc_ore,Railway,
 Lithuania,zinc_ore,Road,
 Lithuania,zinc_ore,Sea,
+Lithuania,zirconium,Air,
+Lithuania,zirconium,Railway,
+Lithuania,zirconium,Road,
+Lithuania,zirconium,Sea,
 Luxembourg,aluminium,Air,0.0
 Luxembourg,aluminium,Railway,0.0
 Luxembourg,aluminium,Road,0.0
@@ -16624,6 +16884,8 @@ Madagascar,zinc_ore,Air,45.57785240916405
 Madagascar,zinc_ore,Railway,0.0
 Madagascar,zinc_ore,Road,0.0
 Madagascar,zinc_ore,Sea,11532.054646923045
+Madagascar,zirconium,Air,
+Madagascar,zirconium,Sea,
 Malaysia,aluminium,Air,114.25371181472276
 Malaysia,aluminium,Railway,0.0
 Malaysia,aluminium,Road,9630.527270724642
@@ -16872,6 +17134,10 @@ Malaysia,zinc_ore,Air,0.0
 Malaysia,zinc_ore,Railway,0.0
 Malaysia,zinc_ore,Road,0.0
 Malaysia,zinc_ore,Sea,4274.014033186658
+Malaysia,zirconium,Air,
+Malaysia,zirconium,Railway,
+Malaysia,zirconium,Road,
+Malaysia,zirconium,Sea,
 Mali,aluminium,Air,
 Mali,aluminium,Railway,
 Mali,aluminium,Road,
@@ -17120,6 +17386,10 @@ Mali,zinc_ore,Air,
 Mali,zinc_ore,Railway,
 Mali,zinc_ore,Road,
 Mali,zinc_ore,Sea,
+Mali,zirconium,Air,
+Mali,zirconium,Railway,
+Mali,zirconium,Road,
+Mali,zirconium,Sea,
 Malta,aluminium,Air,0.0
 Malta,aluminium,Railway,0.0
 Malta,aluminium,Road,116872.566
@@ -17346,6 +17616,9 @@ Malta,zinc_ore,Air,
 Malta,zinc_ore,Railway,
 Malta,zinc_ore,Road,
 Malta,zinc_ore,Sea,
+Malta,zirconium,Air,
+Malta,zirconium,Road,
+Malta,zirconium,Sea,
 Mauritania,iron_ore,Air,0.0
 Mauritania,iron_ore,Railway,0.0
 Mauritania,iron_ore,Road,0.0
@@ -17598,6 +17871,10 @@ Mexico,zinc_ore,Air,648.3320878572678
 Mexico,zinc_ore,Railway,0.0
 Mexico,zinc_ore,Road,55.63734934442791
 Mexico,zinc_ore,Sea,12888.846461034185
+Mexico,zirconium,Air,
+Mexico,zirconium,Railway,
+Mexico,zirconium,Road,
+Mexico,zirconium,Sea,
 "Moldova, Republic of",aluminium,Air,
 "Moldova, Republic of",aluminium,Railway,
 "Moldova, Republic of",aluminium,Road,
@@ -17846,6 +18123,10 @@ Mexico,zinc_ore,Sea,12888.846461034185
 "Moldova, Republic of",zinc_ore,Railway,
 "Moldova, Republic of",zinc_ore,Road,
 "Moldova, Republic of",zinc_ore,Sea,
+"Moldova, Republic of",zirconium,Air,
+"Moldova, Republic of",zirconium,Railway,
+"Moldova, Republic of",zirconium,Road,
+"Moldova, Republic of",zirconium,Sea,
 Mongolia,aluminium,Air,
 Mongolia,aluminium,Railway,
 Mongolia,aluminium,Road,
@@ -18094,6 +18375,10 @@ Mongolia,zinc_ore,Air,0.0
 Mongolia,zinc_ore,Railway,0.0
 Mongolia,zinc_ore,Road,0.0
 Mongolia,zinc_ore,Sea,3328.964
+Mongolia,zirconium,Air,
+Mongolia,zirconium,Railway,
+Mongolia,zirconium,Road,
+Mongolia,zirconium,Sea,
 Montenegro,aluminium,Air,0.0
 Montenegro,aluminium,Railway,0.0
 Montenegro,aluminium,Road,1058.263867776366
@@ -18342,6 +18627,10 @@ Montenegro,zinc_ore,Air,0.0
 Montenegro,zinc_ore,Railway,0.0
 Montenegro,zinc_ore,Road,1274.37
 Montenegro,zinc_ore,Sea,0.0
+Montenegro,zirconium,Air,
+Montenegro,zirconium,Railway,
+Montenegro,zirconium,Road,
+Montenegro,zirconium,Sea,
 Morocco,aluminium,Air,0.9061826312134528
 Morocco,aluminium,Railway,0.0
 Morocco,aluminium,Road,8584.78658372282
@@ -18590,6 +18879,10 @@ Morocco,zinc_ore,Air,3898.538114044565
 Morocco,zinc_ore,Railway,0.0
 Morocco,zinc_ore,Road,86.45815701838835
 Morocco,zinc_ore,Sea,12135.19995123387
+Morocco,zirconium,Air,
+Morocco,zirconium,Railway,
+Morocco,zirconium,Road,
+Morocco,zirconium,Sea,
 Mozambique,aluminium,Air,68.71656826143061
 Mozambique,aluminium,Railway,0.0
 Mozambique,aluminium,Road,13262.20999282197
@@ -18838,6 +19131,10 @@ Mozambique,zinc_ore,Air,
 Mozambique,zinc_ore,Railway,
 Mozambique,zinc_ore,Road,
 Mozambique,zinc_ore,Sea,
+Mozambique,zirconium,Air,
+Mozambique,zirconium,Railway,
+Mozambique,zirconium,Road,
+Mozambique,zirconium,Sea,
 Myanmar,aluminium,Air,
 Myanmar,aluminium,Railway,
 Myanmar,aluminium,Road,
@@ -19086,6 +19383,10 @@ Myanmar,zinc_ore,Air,0.20798128474326694
 Myanmar,zinc_ore,Railway,0.0
 Myanmar,zinc_ore,Road,0.0013995845114300192
 Myanmar,zinc_ore,Sea,5243.140805979506
+Myanmar,zirconium,Air,
+Myanmar,zirconium,Railway,
+Myanmar,zirconium,Road,
+Myanmar,zirconium,Sea,
 Namibia,aluminium,Air,
 Namibia,aluminium,Railway,
 Namibia,aluminium,Road,
@@ -19334,6 +19635,10 @@ Namibia,zinc_ore,Air,3507.709473267867
 Namibia,zinc_ore,Railway,0.0
 Namibia,zinc_ore,Road,3.7784647372145153
 Namibia,zinc_ore,Sea,11538.359212955767
+Namibia,zirconium,Air,
+Namibia,zirconium,Railway,
+Namibia,zirconium,Road,
+Namibia,zirconium,Sea,
 Netherlands,aluminium,Air,1.5169762958289637
 Netherlands,aluminium,Railway,17.257075159462374
 Netherlands,aluminium,Road,635.0091987305407
@@ -19582,6 +19887,10 @@ Netherlands,zinc_ore,Air,0.0008562349719023238
 Netherlands,zinc_ore,Railway,0.0
 Netherlands,zinc_ore,Road,178.25422313715907
 Netherlands,zinc_ore,Sea,286.6768817484641
+Netherlands,zirconium,Air,0.0
+Netherlands,zirconium,Railway,0.0
+Netherlands,zirconium,Road,1402.537
+Netherlands,zirconium,Sea,0.0
 New Caledonia,aluminium_cast_alloy,Air,0.0
 New Caledonia,aluminium_cast_alloy,Railway,0.0
 New Caledonia,aluminium_cast_alloy,Road,0.0
@@ -19758,6 +20067,8 @@ New Zealand,zinc,Road,0.0
 New Zealand,zinc,Sea,10198.358864086047
 New Zealand,zinc_ore,Air,
 New Zealand,zinc_ore,Sea,
+New Zealand,zirconium,Air,
+New Zealand,zirconium,Sea,
 Nicaragua,aluminium,Air,
 Nicaragua,aluminium,Railway,
 Nicaragua,aluminium,Road,
@@ -20006,6 +20317,10 @@ Nicaragua,zinc_ore,Air,
 Nicaragua,zinc_ore,Railway,
 Nicaragua,zinc_ore,Road,
 Nicaragua,zinc_ore,Sea,
+Nicaragua,zirconium,Air,
+Nicaragua,zirconium,Railway,
+Nicaragua,zirconium,Road,
+Nicaragua,zirconium,Sea,
 Niger,potash,Air,0.0
 Niger,potash,Railway,0.0
 Niger,potash,Road,0.0
@@ -20258,6 +20573,10 @@ Nigeria,zinc_ore,Air,8935.025621091809
 Nigeria,zinc_ore,Railway,0.0
 Nigeria,zinc_ore,Road,20.109228281643137
 Nigeria,zinc_ore,Sea,7805.087166665443
+Nigeria,zirconium,Air,
+Nigeria,zirconium,Railway,
+Nigeria,zirconium,Road,
+Nigeria,zirconium,Sea,
 North Macedonia,aluminium,Air,0.0
 North Macedonia,aluminium,Railway,0.0
 North Macedonia,aluminium,Road,1960.6525522885056
@@ -20506,6 +20825,10 @@ North Macedonia,zinc_ore,Air,16.355738971765962
 North Macedonia,zinc_ore,Railway,18.475534115567772
 North Macedonia,zinc_ore,Road,313.67223810915766
 North Macedonia,zinc_ore,Sea,505.9203582003634
+North Macedonia,zirconium,Air,
+North Macedonia,zirconium,Railway,
+North Macedonia,zirconium,Road,
+North Macedonia,zirconium,Sea,
 Norway,aluminium,Air,3.924046345036739
 Norway,aluminium,Railway,0.01105452925534356
 Norway,aluminium,Road,746.5687963640299
@@ -20754,6 +21077,10 @@ Norway,zinc_ore,Air,
 Norway,zinc_ore,Railway,
 Norway,zinc_ore,Road,
 Norway,zinc_ore,Sea,
+Norway,zirconium,Air,
+Norway,zirconium,Railway,
+Norway,zirconium,Road,
+Norway,zirconium,Sea,
 Oman,aluminium,Air,0.0
 Oman,aluminium,Railway,0.0
 Oman,aluminium,Road,0.0
@@ -21026,6 +21353,10 @@ Pakistan,zinc_ore,Air,0.18882798402024364
 Pakistan,zinc_ore,Railway,0.0
 Pakistan,zinc_ore,Road,6248.102075100483
 Pakistan,zinc_ore,Sea,345.4415167391546
+Pakistan,zirconium,Air,
+Pakistan,zirconium,Railway,
+Pakistan,zirconium,Road,
+Pakistan,zirconium,Sea,
 Panama,aluminium,Air,
 Panama,aluminium,Railway,
 Panama,aluminium,Road,
@@ -21274,6 +21605,10 @@ Panama,zinc_ore,Air,
 Panama,zinc_ore,Railway,
 Panama,zinc_ore,Road,
 Panama,zinc_ore,Sea,
+Panama,zirconium,Air,
+Panama,zirconium,Railway,
+Panama,zirconium,Road,
+Panama,zirconium,Sea,
 Papua New Guinea,aluminium,Air,
 Papua New Guinea,aluminium,Sea,
 Papua New Guinea,aluminium_cast_alloy,Air,
@@ -21408,6 +21743,8 @@ Papua New Guinea,zinc,Air,
 Papua New Guinea,zinc,Sea,
 Papua New Guinea,zinc_ore,Air,
 Papua New Guinea,zinc_ore,Sea,
+Papua New Guinea,zirconium,Air,
+Papua New Guinea,zirconium,Sea,
 Paraguay,aluminium,Air,
 Paraguay,aluminium,Railway,
 Paraguay,aluminium,Road,
@@ -21656,6 +21993,10 @@ Paraguay,zinc_ore,Air,
 Paraguay,zinc_ore,Railway,
 Paraguay,zinc_ore,Road,
 Paraguay,zinc_ore,Sea,
+Paraguay,zirconium,Air,
+Paraguay,zirconium,Railway,
+Paraguay,zirconium,Road,
+Paraguay,zirconium,Sea,
 Peru,aluminium,Air,1989.0883853252988
 Peru,aluminium,Railway,0.0
 Peru,aluminium,Road,0.0
@@ -21904,6 +22245,10 @@ Peru,zinc_ore,Air,8605.329570606737
 Peru,zinc_ore,Railway,0.0
 Peru,zinc_ore,Road,0.019119015471365332
 Peru,zinc_ore,Sea,9102.319230245459
+Peru,zirconium,Air,
+Peru,zirconium,Railway,
+Peru,zirconium,Road,
+Peru,zirconium,Sea,
 Philippines,aluminium,Air,
 Philippines,aluminium,Sea,
 Philippines,aluminium_cast_alloy,Air,390.0190938140547
@@ -22096,6 +22441,8 @@ Philippines,zinc,Road,0.0
 Philippines,zinc,Sea,2926.9718094933583
 Philippines,zinc_ore,Air,
 Philippines,zinc_ore,Sea,
+Philippines,zirconium,Air,
+Philippines,zirconium,Sea,
 Poland,aluminium,Air,0.0
 Poland,aluminium,Railway,0.262735550532809
 Poland,aluminium,Road,558.2345785773488
@@ -22344,6 +22691,10 @@ Poland,zinc_ore,Air,0.0
 Poland,zinc_ore,Railway,0.0
 Poland,zinc_ore,Road,2188.005
 Poland,zinc_ore,Sea,0.0
+Poland,zirconium,Air,
+Poland,zirconium,Railway,
+Poland,zirconium,Road,
+Poland,zirconium,Sea,
 Portugal,aluminium,Air,0.0
 Portugal,aluminium,Railway,0.0
 Portugal,aluminium,Road,868.6836353603389
@@ -22592,6 +22943,10 @@ Portugal,zinc_ore,Air,0.13098745102772352
 Portugal,zinc_ore,Railway,0.0
 Portugal,zinc_ore,Road,543.2920967579332
 Portugal,zinc_ore,Sea,1734.6877939206859
+Portugal,zirconium,Air,
+Portugal,zirconium,Railway,
+Portugal,zirconium,Road,
+Portugal,zirconium,Sea,
 Qatar,aluminium,Air,89.91530801909886
 Qatar,aluminium,Railway,0.0
 Qatar,aluminium,Road,946.7131129545988
@@ -22840,6 +23195,10 @@ Qatar,zinc_ore,Air,
 Qatar,zinc_ore,Railway,
 Qatar,zinc_ore,Road,
 Qatar,zinc_ore,Sea,
+Qatar,zirconium,Air,
+Qatar,zirconium,Railway,
+Qatar,zirconium,Road,
+Qatar,zirconium,Sea,
 Romania,aluminium,Air,0.014486168645393396
 Romania,aluminium,Railway,3.398133639750671
 Romania,aluminium,Road,2584.34090757164
@@ -23088,6 +23447,10 @@ Romania,zinc_ore,Air,0.0
 Romania,zinc_ore,Railway,0.0
 Romania,zinc_ore,Road,0.20418173078754084
 Romania,zinc_ore,Sea,6333.679688471251
+Romania,zirconium,Air,
+Romania,zirconium,Railway,
+Romania,zirconium,Road,
+Romania,zirconium,Sea,
 Russian Federation,aluminium,Air,559.5273010723863
 Russian Federation,aluminium,Railway,8.074186730464245
 Russian Federation,aluminium,Road,2928.9043483669448
@@ -23336,6 +23699,10 @@ Russian Federation,zinc_ore,Air,2.7559210345240034e-05
 Russian Federation,zinc_ore,Railway,0.0
 Russian Federation,zinc_ore,Road,212.5103241729811
 Russian Federation,zinc_ore,Sea,11966.77493442085
+Russian Federation,zirconium,Air,3479.0699295774643
+Russian Federation,zirconium,Railway,0.0
+Russian Federation,zirconium,Road,951.2031549295774
+Russian Federation,zirconium,Sea,0.0
 Rwanda,other_hydroxide,Air,
 Rwanda,other_hydroxide,Railway,
 Rwanda,other_hydroxide,Road,
@@ -23604,6 +23971,10 @@ Saudi Arabia,zinc_ore,Air,79.78776133639926
 Saudi Arabia,zinc_ore,Railway,0.0
 Saudi Arabia,zinc_ore,Road,0.0007881350728094721
 Saudi Arabia,zinc_ore,Sea,9168.456693804803
+Saudi Arabia,zirconium,Air,
+Saudi Arabia,zirconium,Railway,
+Saudi Arabia,zirconium,Road,
+Saudi Arabia,zirconium,Sea,
 Senegal,aluminium,Air,
 Senegal,aluminium,Railway,
 Senegal,aluminium,Road,
@@ -23852,6 +24223,10 @@ Senegal,zinc_ore,Air,
 Senegal,zinc_ore,Railway,
 Senegal,zinc_ore,Road,
 Senegal,zinc_ore,Sea,
+Senegal,zirconium,Air,
+Senegal,zirconium,Railway,
+Senegal,zirconium,Road,
+Senegal,zirconium,Sea,
 Serbia,aluminium,Air,0.0
 Serbia,aluminium,Railway,0.0
 Serbia,aluminium,Road,9870.81785572477
@@ -24100,6 +24475,10 @@ Serbia,zinc_ore,Air,766.8321920345379
 Serbia,zinc_ore,Railway,35.81683222687491
 Serbia,zinc_ore,Road,364.7800149296654
 Serbia,zinc_ore,Sea,7968.7506765419275
+Serbia,zirconium,Air,
+Serbia,zirconium,Railway,
+Serbia,zirconium,Road,
+Serbia,zirconium,Sea,
 Sierra Leone,gold,Air,0.0
 Sierra Leone,gold,Railway,0.0
 Sierra Leone,gold,Road,0.0
@@ -24356,6 +24735,10 @@ Singapore,zinc_ore,Air,0.0
 Singapore,zinc_ore,Railway,0.0
 Singapore,zinc_ore,Road,0.0
 Singapore,zinc_ore,Sea,351.791
+Singapore,zirconium,Air,
+Singapore,zirconium,Railway,
+Singapore,zirconium,Road,
+Singapore,zirconium,Sea,
 Sint Maarten (Dutch part),silica_sand,Air,0.0
 Sint Maarten (Dutch part),silica_sand,Railway,0.0
 Sint Maarten (Dutch part),silica_sand,Road,0.0
@@ -24608,6 +24991,10 @@ Slovakia,zinc_ore,Air,0.0
 Slovakia,zinc_ore,Railway,0.0
 Slovakia,zinc_ore,Road,538.3508937720737
 Slovakia,zinc_ore,Sea,0.12807865957626668
+Slovakia,zirconium,Air,
+Slovakia,zirconium,Railway,
+Slovakia,zirconium,Road,
+Slovakia,zirconium,Sea,
 Slovenia,aluminium,Air,0.00044866988908421793
 Slovenia,aluminium,Railway,0.0
 Slovenia,aluminium,Road,841.950472895092
@@ -24856,6 +25243,10 @@ Slovenia,zinc_ore,Air,
 Slovenia,zinc_ore,Railway,
 Slovenia,zinc_ore,Road,
 Slovenia,zinc_ore,Sea,
+Slovenia,zirconium,Air,
+Slovenia,zirconium,Railway,
+Slovenia,zirconium,Road,
+Slovenia,zirconium,Sea,
 Somalia,aluminium,Air,
 Somalia,aluminium,Railway,
 Somalia,aluminium,Road,
@@ -25104,6 +25495,10 @@ Somalia,zinc_ore,Air,
 Somalia,zinc_ore,Railway,
 Somalia,zinc_ore,Road,
 Somalia,zinc_ore,Sea,
+Somalia,zirconium,Air,
+Somalia,zirconium,Railway,
+Somalia,zirconium,Road,
+Somalia,zirconium,Sea,
 South Africa,aluminium,Air,273.1276753033846
 South Africa,aluminium,Railway,4.718203183597016
 South Africa,aluminium,Road,12322.473796723554
@@ -25352,6 +25747,10 @@ South Africa,zinc_ore,Air,1325.7555825089732
 South Africa,zinc_ore,Railway,0.0
 South Africa,zinc_ore,Road,2766.9552872735153
 South Africa,zinc_ore,Sea,10448.973924842054
+South Africa,zirconium,Air,
+South Africa,zirconium,Railway,
+South Africa,zirconium,Road,
+South Africa,zirconium,Sea,
 Spain,aluminium,Air,0.3254398715513608
 Spain,aluminium,Railway,27.366771162059717
 Spain,aluminium,Road,14911.152862475079
@@ -25600,6 +25999,10 @@ Spain,zinc_ore,Air,351.86973225328126
 Spain,zinc_ore,Railway,0.0
 Spain,zinc_ore,Road,1922.1997629413868
 Spain,zinc_ore,Sea,2926.5432352203666
+Spain,zirconium,Air,0.0
+Spain,zirconium,Railway,0.0
+Spain,zirconium,Road,17154.822090909092
+Spain,zirconium,Sea,0.0
 Sri Lanka,aluminium,Air,0.0
 Sri Lanka,aluminium,Railway,0.0
 Sri Lanka,aluminium,Road,35415.92296381157
@@ -25797,6 +26200,9 @@ Sri Lanka,zinc,Sea,
 Sri Lanka,zinc_ore,Air,
 Sri Lanka,zinc_ore,Road,
 Sri Lanka,zinc_ore,Sea,
+Sri Lanka,zirconium,Air,
+Sri Lanka,zirconium,Road,
+Sri Lanka,zirconium,Sea,
 Sudan,aluminium,Air,
 Sudan,aluminium,Railway,
 Sudan,aluminium,Road,
@@ -26045,6 +26451,10 @@ Sudan,zinc_ore,Air,0.0
 Sudan,zinc_ore,Railway,0.0
 Sudan,zinc_ore,Road,0.0
 Sudan,zinc_ore,Sea,16298.857
+Sudan,zirconium,Air,
+Sudan,zirconium,Railway,
+Sudan,zirconium,Road,
+Sudan,zirconium,Sea,
 Sweden,aluminium,Air,0.4214043143891593
 Sweden,aluminium,Railway,0.0
 Sweden,aluminium,Road,2730.971588963753
@@ -26293,6 +26703,10 @@ Sweden,zinc_ore,Air,0.002216316990975251
 Sweden,zinc_ore,Railway,0.0
 Sweden,zinc_ore,Road,357.0933884143752
 Sweden,zinc_ore,Sea,1088.3905313486412
+Sweden,zirconium,Air,
+Sweden,zirconium,Railway,
+Sweden,zirconium,Road,
+Sweden,zirconium,Sea,
 "Switzerland, Liechtenstein",aluminium,Air,0.2604388545790175
 "Switzerland, Liechtenstein",aluminium,Railway,0.0
 "Switzerland, Liechtenstein",aluminium,Road,4455.398950370359
@@ -26541,6 +26955,10 @@ Sweden,zinc_ore,Sea,1088.3905313486412
 "Switzerland, Liechtenstein",zinc_ore,Railway,0.0
 "Switzerland, Liechtenstein",zinc_ore,Road,1.2194673498622475e-05
 "Switzerland, Liechtenstein",zinc_ore,Sea,11087.574155279439
+"Switzerland, Liechtenstein",zirconium,Air,0.0
+"Switzerland, Liechtenstein",zirconium,Railway,0.0
+"Switzerland, Liechtenstein",zirconium,Road,1013.161
+"Switzerland, Liechtenstein",zirconium,Sea,0.0
 Syrian Arab Republic,aluminium,Air,89.56019610744123
 Syrian Arab Republic,aluminium,Railway,0.0
 Syrian Arab Republic,aluminium,Road,0.0
@@ -26789,6 +27207,10 @@ Syrian Arab Republic,zinc_ore,Air,
 Syrian Arab Republic,zinc_ore,Railway,
 Syrian Arab Republic,zinc_ore,Road,
 Syrian Arab Republic,zinc_ore,Sea,
+Syrian Arab Republic,zirconium,Air,
+Syrian Arab Republic,zirconium,Railway,
+Syrian Arab Republic,zirconium,Road,
+Syrian Arab Republic,zirconium,Sea,
 Tajikistan,aluminium,Air,297.7057490530088
 Tajikistan,aluminium,Railway,0.0
 Tajikistan,aluminium,Road,4184.088453025029
@@ -27037,6 +27459,10 @@ Tajikistan,zinc_ore,Air,0.0
 Tajikistan,zinc_ore,Railway,0.0
 Tajikistan,zinc_ore,Road,9.298335671718467e-05
 Tajikistan,zinc_ore,Sea,8137.138356187602
+Tajikistan,zirconium,Air,
+Tajikistan,zirconium,Railway,
+Tajikistan,zirconium,Road,
+Tajikistan,zirconium,Sea,
 "Tanzania, United Republic of",aluminium,Air,
 "Tanzania, United Republic of",aluminium,Railway,
 "Tanzania, United Republic of",aluminium,Road,
@@ -27285,6 +27711,10 @@ Tajikistan,zinc_ore,Sea,8137.138356187602
 "Tanzania, United Republic of",zinc_ore,Railway,
 "Tanzania, United Republic of",zinc_ore,Road,
 "Tanzania, United Republic of",zinc_ore,Sea,
+"Tanzania, United Republic of",zirconium,Air,
+"Tanzania, United Republic of",zirconium,Railway,
+"Tanzania, United Republic of",zirconium,Road,
+"Tanzania, United Republic of",zirconium,Sea,
 Thailand,aluminium,Air,297.6309849491011
 Thailand,aluminium,Railway,0.0
 Thailand,aluminium,Road,9.759198404756626
@@ -27533,6 +27963,10 @@ Thailand,zinc_ore,Air,0.21697493820697994
 Thailand,zinc_ore,Railway,0.0
 Thailand,zinc_ore,Road,1.7961959022693117
 Thailand,zinc_ore,Sea,3868.2873667067356
+Thailand,zirconium,Air,
+Thailand,zirconium,Railway,
+Thailand,zirconium,Road,
+Thailand,zirconium,Sea,
 Togo,phosphate_rock,Air,0.0
 Togo,phosphate_rock,Railway,0.0
 Togo,phosphate_rock,Road,0.0
@@ -27793,6 +28227,10 @@ Tunisia,zinc_ore,Air,
 Tunisia,zinc_ore,Railway,
 Tunisia,zinc_ore,Road,
 Tunisia,zinc_ore,Sea,
+Tunisia,zirconium,Air,
+Tunisia,zirconium,Railway,
+Tunisia,zirconium,Road,
+Tunisia,zirconium,Sea,
 Turkey,aluminium,Air,3.0500208615809945
 Turkey,aluminium,Railway,0.0
 Turkey,aluminium,Road,1417.6620273987442
@@ -28041,6 +28479,10 @@ Turkey,zinc_ore,Air,1007.9635404416704
 Turkey,zinc_ore,Railway,0.0
 Turkey,zinc_ore,Road,1224.2986061868417
 Turkey,zinc_ore,Sea,5156.913206391435
+Turkey,zirconium,Air,
+Turkey,zirconium,Railway,
+Turkey,zirconium,Road,
+Turkey,zirconium,Sea,
 Turkmenistan,aluminium,Air,
 Turkmenistan,aluminium,Railway,
 Turkmenistan,aluminium,Road,
@@ -28289,6 +28731,10 @@ Turkmenistan,zinc_ore,Air,
 Turkmenistan,zinc_ore,Railway,
 Turkmenistan,zinc_ore,Road,
 Turkmenistan,zinc_ore,Sea,
+Turkmenistan,zirconium,Air,
+Turkmenistan,zirconium,Railway,
+Turkmenistan,zirconium,Road,
+Turkmenistan,zirconium,Sea,
 Uganda,aluminium,Air,
 Uganda,aluminium,Railway,
 Uganda,aluminium,Road,
@@ -28537,6 +28983,10 @@ Uganda,zinc_ore,Air,
 Uganda,zinc_ore,Railway,
 Uganda,zinc_ore,Road,
 Uganda,zinc_ore,Sea,
+Uganda,zirconium,Air,
+Uganda,zirconium,Railway,
+Uganda,zirconium,Road,
+Uganda,zirconium,Sea,
 Ukraine,aluminium,Air,0.0
 Ukraine,aluminium,Railway,0.0
 Ukraine,aluminium,Road,2801.377694367946
@@ -28785,6 +29235,10 @@ Ukraine,zinc_ore,Air,
 Ukraine,zinc_ore,Railway,
 Ukraine,zinc_ore,Road,
 Ukraine,zinc_ore,Sea,
+Ukraine,zirconium,Air,
+Ukraine,zirconium,Railway,
+Ukraine,zirconium,Road,
+Ukraine,zirconium,Sea,
 United Arab Emirates,aluminium,Air,1724.2406915484237
 United Arab Emirates,aluminium,Railway,0.0
 United Arab Emirates,aluminium,Road,511.70666883232644
@@ -29033,6 +29487,10 @@ United Arab Emirates,zinc_ore,Air,0.0
 United Arab Emirates,zinc_ore,Railway,0.0
 United Arab Emirates,zinc_ore,Road,0.0
 United Arab Emirates,zinc_ore,Sea,2913.389
+United Arab Emirates,zirconium,Air,
+United Arab Emirates,zirconium,Railway,
+United Arab Emirates,zirconium,Road,
+United Arab Emirates,zirconium,Sea,
 United Kingdom,aluminium,Air,16.13266393417602
 United Kingdom,aluminium,Railway,88.91772311516897
 United Kingdom,aluminium,Road,18419.038320065243
@@ -29281,6 +29739,10 @@ United Kingdom,zinc_ore,Air,0.033043979727701046
 United Kingdom,zinc_ore,Railway,0.0
 United Kingdom,zinc_ore,Road,38483.731648169975
 United Kingdom,zinc_ore,Sea,17.26654273943475
+United Kingdom,zirconium,Air,0.8636717405691595
+United Kingdom,zirconium,Railway,0.0
+United Kingdom,zirconium,Road,32203.639662475183
+United Kingdom,zirconium,Sea,0.0
 United States of America,aluminium,Air,1257.2895954656206
 United States of America,aluminium,Railway,0.0
 United States of America,aluminium,Road,1.206468089558393
@@ -29529,6 +29991,10 @@ United States of America,zinc_ore,Air,1361.743720710436
 United States of America,zinc_ore,Railway,0.0
 United States of America,zinc_ore,Road,118.12231032914713
 United States of America,zinc_ore,Sea,10216.655325489748
+United States of America,zirconium,Air,354.37484396319104
+United States of America,zirconium,Railway,0.0
+United States of America,zirconium,Road,0.0
+United States of America,zirconium,Sea,10170.087313608761
 Uruguay,aluminium,Air,
 Uruguay,aluminium,Railway,
 Uruguay,aluminium,Road,
@@ -29777,6 +30243,10 @@ Uruguay,zinc_ore,Air,
 Uruguay,zinc_ore,Railway,
 Uruguay,zinc_ore,Road,
 Uruguay,zinc_ore,Sea,
+Uruguay,zirconium,Air,
+Uruguay,zirconium,Railway,
+Uruguay,zirconium,Road,
+Uruguay,zirconium,Sea,
 Uzbekistan,aluminium,Air,
 Uzbekistan,aluminium,Railway,
 Uzbekistan,aluminium,Road,
@@ -30025,6 +30495,10 @@ Uzbekistan,zinc_ore,Air,
 Uzbekistan,zinc_ore,Railway,
 Uzbekistan,zinc_ore,Road,
 Uzbekistan,zinc_ore,Sea,
+Uzbekistan,zirconium,Air,
+Uzbekistan,zirconium,Railway,
+Uzbekistan,zirconium,Road,
+Uzbekistan,zirconium,Sea,
 Venezuela (Bolivarian Rep. of),aluminium,Air,21.111472679728557
 Venezuela (Bolivarian Rep. of),aluminium,Railway,0.0
 Venezuela (Bolivarian Rep. of),aluminium,Road,7878.359316176466
@@ -30273,6 +30747,10 @@ Venezuela (Bolivarian Rep. of),zinc_ore,Air,
 Venezuela (Bolivarian Rep. of),zinc_ore,Railway,
 Venezuela (Bolivarian Rep. of),zinc_ore,Road,
 Venezuela (Bolivarian Rep. of),zinc_ore,Sea,
+Venezuela (Bolivarian Rep. of),zirconium,Air,
+Venezuela (Bolivarian Rep. of),zirconium,Railway,
+Venezuela (Bolivarian Rep. of),zirconium,Road,
+Venezuela (Bolivarian Rep. of),zirconium,Sea,
 Viet Nam,aluminium,Air,302.9218148629599
 Viet Nam,aluminium,Railway,0.0
 Viet Nam,aluminium,Road,0.0
@@ -30521,6 +30999,10 @@ Viet Nam,zinc_ore,Air,0.0
 Viet Nam,zinc_ore,Railway,0.0
 Viet Nam,zinc_ore,Road,3335.9477421746833
 Viet Nam,zinc_ore,Sea,2.8986208222963668
+Viet Nam,zirconium,Air,
+Viet Nam,zirconium,Railway,
+Viet Nam,zirconium,Road,
+Viet Nam,zirconium,Sea,
 Yemen,aluminium,Air,
 Yemen,aluminium,Railway,
 Yemen,aluminium,Road,
@@ -30769,6 +31251,10 @@ Yemen,zinc_ore,Air,
 Yemen,zinc_ore,Railway,
 Yemen,zinc_ore,Road,
 Yemen,zinc_ore,Sea,
+Yemen,zirconium,Air,
+Yemen,zirconium,Railway,
+Yemen,zirconium,Road,
+Yemen,zirconium,Sea,
 Zambia,aluminium,Air,234.12977282230204
 Zambia,aluminium,Railway,0.0
 Zambia,aluminium,Road,0.0
@@ -31017,6 +31503,10 @@ Zambia,zinc_ore,Air,
 Zambia,zinc_ore,Railway,
 Zambia,zinc_ore,Road,
 Zambia,zinc_ore,Sea,
+Zambia,zirconium,Air,
+Zambia,zirconium,Railway,
+Zambia,zirconium,Road,
+Zambia,zirconium,Sea,
 Zimbabwe,aluminium,Air,
 Zimbabwe,aluminium,Railway,
 Zimbabwe,aluminium,Road,
@@ -31265,3 +31755,7 @@ Zimbabwe,zinc_ore,Air,
 Zimbabwe,zinc_ore,Railway,
 Zimbabwe,zinc_ore,Road,
 Zimbabwe,zinc_ore,Sea,
+Zimbabwe,zirconium,Air,
+Zimbabwe,zirconium,Railway,
+Zimbabwe,zirconium,Road,
+Zimbabwe,zirconium,Sea,
