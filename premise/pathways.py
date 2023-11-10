@@ -218,6 +218,10 @@ class PathwaysDataPackage:
         df[["model", "pathway"]] = df["scenario"].str.split(" - ", n=1, expand=True)
         df = df.drop(columns=["scenario"])
 
+        # if scenario_data file already exists, delete it
+        if (Path.cwd() / "pathways" / "scenario_data" / "scenario_data.csv").exists():
+            (Path.cwd() / "pathways" / "scenario_data" / "scenario_data.csv").unlink()
+
         df.to_csv(
             Path.cwd() / "pathways" / "scenario_data" / "scenario_data.csv", index=False
         )
