@@ -1486,7 +1486,6 @@ class NewDatabase:
                         cache,
                         self.version,
                         self.system_model,
-                        self.modified_datasets,
                     )
                     for scenario in self.scenarios
                 ]
@@ -1502,17 +1501,17 @@ class NewDatabase:
                     for scen, scenario in enumerate(self.scenarios)
                 ]
                 pool.map(_export_to_matrices, args)
+        else:
+            for scenario in self.scenarios:
+                scenario, cache = _prepare_database(
+                    scenario=scenario,
+                    scenario_cache=cache,
+                    version=self.version,
+                    system_model=self.system_model,
+                )
 
-        for scenario in self.scenarios:
-            scenario, cache = _prepare_database(
-                scenario=scenario,
-                scenario_cache=cache,
-                version=self.version,
-                system_model=self.system_model,
-            )
-
-        for scen, scenario in enumerate(self.scenarios):
-            Export(scenario, filepath[scen], self.version).export_db_to_matrices()
+            for scen, scenario in enumerate(self.scenarios):
+                Export(scenario, filepath[scen], self.version).export_db_to_matrices()
 
         # generate scenario report
         self.generate_scenario_report()

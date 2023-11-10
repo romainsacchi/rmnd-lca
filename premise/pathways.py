@@ -1,4 +1,5 @@
 import copy
+import json
 import multiprocessing
 import shutil
 from datetime import date
@@ -60,7 +61,9 @@ class PathwaysDataPackage:
             use_absolute_efficiency=use_absolute_efficiency,
         )
 
-    def create_datapackage(self, name: str = f"pathways_{date.today()}"):
+    def create_datapackage(
+        self, name: str = f"pathways_{date.today()}", contributors: list = None
+    ):
         for scenario in self.datapackage.scenarios:
             energy = Energy(
                 database=scenario["database"],
@@ -75,18 +78,18 @@ class PathwaysDataPackage:
             scenario["database"] = energy.database
 
         self.datapackage.update_all()
-        # self.export_datapackage(name)
-        names = [f"DP: {s['model'].upper()} - {s['pathway']}" for s in self.scenarios]
-        self.datapackage.write_db_to_brightway(names)
+        self.export_datapackage(name)
 
-    def export_datapackage(self, name: str):
+    def export_datapackage(self, name: str, contributors: list = None):
+        # first, delete the content of the "pathways" folder
+        shutil.rmtree(Path.cwd() / "pathways", ignore_errors=True)
         # create matrices in current directory
         self.datapackage.write_db_to_matrices(
             filepath=str(Path.cwd() / "pathways" / "inventories")
         )
         self.add_scenario_data()
         self.add_variables_mapping()
-        self.build_datapackage(name)
+        self.build_datapackage(name, contributors)
 
     def find_activities(self, filters: [str, list], mask: [str, list, None], database):
         """
@@ -146,6 +149,8 @@ class PathwaysDataPackage:
         # iterate through all YAML files contained in the "iam_variables_mapping" folder
         # the folder is located in the same folder as this module
 
+        model_variables = []
+
         for file in (
             Path(__file__).resolve().parent.glob("iam_variables_mapping/*.yaml")
         ):
@@ -157,14 +162,19 @@ class PathwaysDataPackage:
             for var, val in data.items():
                 if all(x in val for x in ["iam_aliases", "ecoinvent_aliases"]):
                     for model, model_var in val["iam_aliases"].items():
-                        if model_var in vars:
-                            mapping[var] = {"scenario variable": model_var}
-
-                            mapping[var]["dataset"] = self.find_activities(
-                                filters=val["ecoinvent_aliases"].get("fltr"),
-                                mask=val["ecoinvent_aliases"].get("mask"),
-                                database=self.datapackage.scenarios[0]["database"],
-                            )
+                        if model_var in vars and model in [
+                            s["model"] for s in self.scenarios
+                        ]:
+                            if model_var not in model_variables:
+                                model_variables.append(model_var)
+                                mapping[var] = {"scenario variable": model_var}
+                                mapping[var]["dataset"] = self.find_activities(
+                                    filters=val["ecoinvent_aliases"].get("fltr"),
+                                    mask=val["ecoinvent_aliases"].get("mask"),
+                                    database=self.datapackage.scenarios[0]["database"],
+                                )
+                            else:
+                                print(f"Leaving out {model_var} from {var}")
 
         # under each key, remove duplicates from list
         # to only keep unique name, reference product and unit
@@ -200,32 +210,28 @@ class PathwaysDataPackage:
         # save the xarray as csv
         df = array.to_dataframe().reset_index()
 
+        # add a unit column
+        # units are contained as an attribute of the xarray
+        df["unit"] = df["variables"].map(array.attrs["unit"])
+
         # split the columns "scenarios" into "model" and "pathway"
         df[["model", "pathway"]] = df["scenario"].str.split(" - ", n=1, expand=True)
         df = df.drop(columns=["scenario"])
 
-        pivoted_df = df.pivot_table(
-            index=["model", "pathway", "region", "variables"],
-            columns="year",
-            values="value",
-            aggfunc="sum",
-        ).reset_index()
-
-        # Resetting column names after pivoting
-        pivoted_df.columns.name = None
-
-        pivoted_df.to_csv(
+        df.to_csv(
             Path.cwd() / "pathways" / "scenario_data" / "scenario_data.csv", index=False
         )
 
-    def build_datapackage(self, name: str):
+    def build_datapackage(self, name: str, contributors: list = None):
         """
         Create and export a scenario datapackage.
         """
         # create a new datapackage
         package = Package(base_path=Path.cwd().as_posix())
         package.infer("pathways/**/*.csv")
-        package.descriptor["name"] = name.lower()
+        package.infer("pathways/**/*.yaml")
+
+        package.descriptor["name"] = name.replace(" ", "_").lower()
         package.descriptor["title"] = name.capitalize()
         package.descriptor[
             "description"
@@ -254,10 +260,44 @@ class PathwaysDataPackage:
                 "url": "https://creativecommons.org/publicdomain/zero/1.0/",
             }
         ]
+
+        if contributors is None:
+            contributors = [
+                {
+                    "title": "undefined",
+                    "name": "anonymous",
+                    "email": "anonymous@anonymous.com",
+                }
+            ]
+        else:
+            contributors = [
+                {
+                    "title": c.get("title", "undefined"),
+                    "name": c.get("name", "anonymous"),
+                    "email": c.get("email", "anonymous@anonymous.com"),
+                }
+                for c in contributors
+            ]
+        package.descriptor["contributors"] = contributors
         package.commit()
 
         # save the json file
         package.save(str(Path.cwd() / "pathways" / "datapackage.json"))
+
+        # open the json file and ensure that all resource names are slugified
+        with open(Path.cwd() / "pathways" / "datapackage.json", "r") as f:
+            data = yaml.full_load(f)
+
+        for resource in data["resources"]:
+            resource["name"] = resource["name"].replace(" ", "_").lower()
+
+        # also, remove"pathways/" from the path of each resource
+        for resource in data["resources"]:
+            resource["path"] = resource["path"].replace("pathways/", "")
+
+        # save it back as a json file
+        with open(Path.cwd() / "pathways" / "datapackage.json", "w") as fp:
+            json.dump(data, fp)
 
         # zip the folder
         shutil.make_archive(name, "zip", str(Path.cwd() / "pathways"))

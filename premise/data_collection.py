@@ -746,12 +746,11 @@ class IAMDataCollection:
             x.lower() if isinstance(x, str) else x for x in dataframe.columns
         ]
 
-        dataframe = dataframe.loc[dataframe["variable"].isin(variables)]
+        # dataframe = dataframe.loc[dataframe["variable"].isin(variables)]
 
         dataframe = dataframe.rename(columns={"variable": "variables"})
 
         # make a list of headers that are integer
-
         headers = [x for x in dataframe.columns if isinstance(x, int)]
 
         # convert the values in these columns to numeric
@@ -762,11 +761,17 @@ class IAMDataCollection:
                 id_vars=["region", "variables", "unit"],
                 var_name="year",
                 value_name="value",
-            )[["region", "variables", "year", "value"]]
+            )[["region", "variables", "year", "unit", "value"]]
             .groupby(["region", "variables", "year"])["value"]
             .mean()
             .to_xarray()
         )
+
+        # add the unit as an atribute, as a dictionary with variables as keys
+        array.attrs["unit"] = {
+            k: v
+            for k, v in dataframe.groupby("variables")["unit"].first().to_dict().items()
+        }
 
         return array
 

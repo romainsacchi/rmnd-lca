@@ -335,7 +335,6 @@ class Metals(BaseTransformation):
         Update the database with metals use factors.
         """
 
-        print("Integrating metals use factors.")
         for dataset in self.database:
             if dataset["name"] in self.rev_activities_metals_map:
                 origin_var = self.rev_activities_metals_map[dataset["name"]]
@@ -382,7 +381,7 @@ class Metals(BaseTransformation):
         ]
 
         if tech_rows.empty:
-            print(f"No matching rows for {dataset['name']}.")
+            # print(f"No matching rows for {dataset['name']}.")
             return
 
         conversion_factor = self.conversion_factors_dict.get(
@@ -423,21 +422,22 @@ class Metals(BaseTransformation):
                                 metal_activity_name
                             )
                         except ws.NoResults:
-                            print(f"Could not find dataset for {metal_activity_name}.")
+                            # print(f"Could not find dataset for {metal_activity_name}.")
                             continue
 
                         update_exchanges(metal_user, amount, dataset_metal, metal)
 
                     else:
-                        print(
-                            f"Warning: Missing data for {metal} for {dataset['name']}:"
-                        )
-                        if pd.isna(unit_converter):
-                            print(f"- unit converter")
-                        if pd.isna(metal_activity_name):
-                            print(f"- activity name")
-                        if not conversion_factor:
-                            print(f"- conversion factor")
+                        pass
+                        # print(
+                        #     f"Warning: Missing data for {metal} for {dataset['name']}:"
+                        # )
+                        # if pd.isna(unit_converter):
+                        #     print(f"- unit converter")
+                        # if pd.isna(metal_activity_name):
+                        #     print(f"- activity name")
+                        # if not conversion_factor:
+                        #     print(f"- conversion factor")
 
             self.write_log(metal_user, "updated")
 
@@ -746,9 +746,10 @@ class Metals(BaseTransformation):
                     )
 
             else:
-                print(
-                    f"Metal {metal} not found in alternative names. Skipping transport."
-                )
+                pass
+                # print(
+                #     f"Metal {metal} not found in alternative names. Skipping transport."
+                # )
 
         # sum up duplicates
         excs = [
@@ -778,7 +779,7 @@ class Metals(BaseTransformation):
     def create_metal_markets(self):
         self.post_allocation_correction()
 
-        print("Creating metal markets")
+        # print("Creating metal markets")
 
         dataframe = load_mining_shares_mapping()
         dataframe = dataframe.loc[dataframe["Work done"] == "Yes"]
@@ -786,7 +787,7 @@ class Metals(BaseTransformation):
         dataframe_shares = dataframe
 
         for metal in dataframe_shares["Metal"].unique():
-            print(f"... for {metal}.")
+            # print(f"... for {metal}.")
             df_metal = dataframe.loc[dataframe["Metal"] == metal]
             dataset = self.create_market(metal, df_metal)
 
@@ -801,14 +802,14 @@ class Metals(BaseTransformation):
             dataframe["Region"].notnull() & dataframe["2020"].isnull()
         ]
 
-        print("Creating additional mining processes")
+        # print("Creating additional mining processes")
         for metal in dataframe_parent["Metal"].unique():
             df_metal = dataframe_parent.loc[dataframe["Metal"] == metal]
 
             for (name, ref_prod), group in df_metal.groupby(
                 ["Process", "Reference product"]
             ):
-                print(f"...... for {name} - {ref_prod}.")
+                # print(f"...... for {name} - {ref_prod}.")
                 new_locations = {
                     c: self.convert_long_to_short_country_name(c)
                     for c in group["Country"].unique()

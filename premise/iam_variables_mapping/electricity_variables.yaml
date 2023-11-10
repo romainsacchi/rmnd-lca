@@ -266,6 +266,7 @@ Coal IGCC:
 Coal PC CCS:
   iam_aliases:
     message: Secondary Energy|Electricity|Coal|w/ CCS|2
+    image: Secondary Energy|Electricity|Coal|w/ CCS|2
     remind: SE|Electricity|Coal|++|Pulverised Coal w/ CC
   eff_aliases:
     message: Efficiency|Electricity|Coal|w/ CCS|2
@@ -340,8 +341,6 @@ Coal CHP:
         - ash
 
 Coal CHP CCS:
-  iam_aliases:
-    image: Secondary Energy|Electricity|Coal|w/ CCS|2
   eff_aliases:
     image: Efficiency|Electricity|Coal|w/ CCS|2
   ecoinvent_aliases:
@@ -456,7 +455,6 @@ Gas OC:
   iam_aliases:
     message: Secondary Energy|Electricity|Gas|w/o CCS|3
     remind: SE|Electricity|Gas|++|Gas Turbine
-    image: Secondary Energy|Electricity|Gas|w/o CCS|1
     tiam: Secondary Energy|Electricity|Existing gas generation|w/o CCS
   eff_aliases:
     message: Efficiency|Electricity|Gas|w/o CCS|3
