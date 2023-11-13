@@ -64,6 +64,8 @@ class PathwaysDataPackage:
     def create_datapackage(
         self, name: str = f"pathways_{date.today()}", contributors: list = None
     ):
+        self.datapackage.update_all()
+
         for scenario in self.datapackage.scenarios:
             energy = Energy(
                 database=scenario["database"],
@@ -77,7 +79,6 @@ class PathwaysDataPackage:
             energy.import_heating_inventories()
             scenario["database"] = energy.database
 
-        self.datapackage.update_all()
         self.export_datapackage(name)
 
     def export_datapackage(self, name: str, contributors: list = None):
