@@ -181,7 +181,6 @@ class InventorySet:
         """
         return self.generate_sets_from_filters(self.heat_filters)
 
-
         self.activity_metals_filters = get_mapping(
             filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
         )

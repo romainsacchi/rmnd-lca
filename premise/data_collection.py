@@ -44,10 +44,12 @@ COAL_POWER_PLANTS_DATA = DATA_DIR / "electricity" / "coal_power_emissions_2012_v
 
 def print_missing_variables(missing_vars):
     if missing_vars:
-        print(
-            f"The following variables are missing from the IAM file:"
-        )
-    table = PrettyTable(["Variable", ])
+        print(f"The following variables are missing from the IAM file:")
+    table = PrettyTable(
+        [
+            "Variable",
+        ]
+    )
     for v in missing_vars:
         table.add_row([v])
     print(table)

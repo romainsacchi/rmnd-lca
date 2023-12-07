@@ -121,12 +121,15 @@ class Steel(BaseTransformation):
                     if loc != "World":
                         # check that the production volumes are positive
                         # otherwise we skip the region
-                        if self.iam_data.production_volumes.sel(
-                            region=loc,
-                            variables=["steel - primary", "steel - secondary"]
-                        ).interp(year=self.year).sum(
-                            dim="variables"
-                        ) <= 0:
+                        if (
+                            self.iam_data.production_volumes.sel(
+                                region=loc,
+                                variables=["steel - primary", "steel - secondary"],
+                            )
+                            .interp(year=self.year)
+                            .sum(dim="variables")
+                            <= 0
+                        ):
                             continue
 
                         if self.system_model != "consequential":
@@ -199,11 +202,12 @@ class Steel(BaseTransformation):
                     loc: dataset
                     for loc, dataset in steel_markets.items()
                     if self.iam_data.production_volumes.sel(
-                        region=loc,
-                        variables=["steel - primary", "steel - secondary"]
-                    ).interp(year=self.year).sum(
-                        dim="variables"
-                    ) > 0 or loc == "World"
+                        region=loc, variables=["steel - primary", "steel - secondary"]
+                    )
+                    .interp(year=self.year)
+                    .sum(dim="variables")
+                    > 0
+                    or loc == "World"
                 }
             else:
                 for loc, dataset in steel_markets.items():
