@@ -25,7 +25,7 @@ def test_crops_properties():
 def test_fuels_properties():
     fuels_props = get_fuel_properties()
     assert type(fuels_props) == dict
-    assert fuels_props["bioethanol, wood, with CCS"]["lhv"] == 26.5
+    assert fuels_props["bioethanol, from wood, with CCS"]["lhv"] == 26.5
 
 
 def test_eff_solar_PV():

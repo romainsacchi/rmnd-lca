@@ -1,0 +1,87 @@
+exceptions:
+  - photovoltaic
+  - wind
+  - solar
+  - hydro
+  - compressed air
+  - petroleum refinery
+  - aluminium
+  - cobalt
+  - coal mine
+  - railways
+  - nuclear
+  - small modular reactor
+  - co-generation
+
+LHV:
+  hard coal: 26.4
+  # https://www.umweltbundesamt.de/sites/default/files/medien/1968/publikationen/co2_emission_factors_for_fossil_fuels_correction.pdf
+  lignite: 8.7
+  natural gas: 36
+  methane: 47.5
+  fuel element: 4199040
+  fuel elements: 4199040
+  uranium hexafluoride: 4199040
+  uranium enriched: 4199040
+  heavy fuel oil: 41.6
+  light fuel oil: 40
+  biomass: 20
+  wood chips: 18.9
+  biomethane: 47.5
+  diesel: 38
+  peat: 10
+
+
+# kg CO2 / MJ
+CO2:
+  hard coal: 0.098
+  lignite: 0.115
+  natural gas: 0.054
+  methane: 0.054
+  heavy fuel oil: 0.075
+  light fuel oil: 0.0686
+  biomass: 0.09
+  wood chips: 0.09
+  biomethane: 0.054
+  diesel: 0.0732
+  peat: 0.09
+
+fuel units:
+  - kilogram
+  - cubic meter
+
+electricity datasets:
+  - electricity production
+  - heat and power co-generation
+
+efficiencies:
+  natural gas:
+    min: 0.25
+    max: 0.65
+  methane:
+    min: 0.25
+    max: 0.65
+  biomethane:
+    min: 0.25
+    max: 0.65
+  hard coal:
+    min: 0.2
+    max: 0.55
+  lignite:
+    min: 0.2
+    max: 0.55
+  wood:
+    min: 0.15
+    max: 0.4
+  biomass:
+    min: 0.15
+    max: 0.45
+  oil:
+    min: 0.2
+    max: 0.5
+  diesel:
+    min: 0.3
+    max: 0.55
+  peat:
+    min: 0.15
+    max: 0.35

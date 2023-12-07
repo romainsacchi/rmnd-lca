@@ -1,9 +1,5 @@
-__all__ = (
-    "NewDatabase",
-    "clear_cache",
-    "get_regions_definition",
-)
-__version__ = (1, 8, 1)
+__all__ = ("NewDatabase", "clear_cache", "get_regions_definition")
+__version__ = (1, 8, 2, "dev1")
 
 
 from .ecoinvent_modification import NewDatabase

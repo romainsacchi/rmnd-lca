@@ -21,10 +21,10 @@ ship:
 
 H2 pipeline:
   vehicle:
-    - name: distribution pipeline for hydrogen, dedicated hydrogen pipeline
+    - name: pipeline, hydrogen, low pressure distribution network
       reference product: pipeline, for hydrogen distribution
       unit: kilometer
-    - name: transmission pipeline for hydrogen, dedicated hydrogen pipeline
+    - name: pipeline, hydrogen, high pressure transmission network
       reference product: pipeline, for hydrogen transmission
       unit: kilometer
   state:

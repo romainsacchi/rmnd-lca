@@ -15,6 +15,7 @@ from .transformation import (
     IAMDataCollection,
     InventorySet,
     List,
+    rescale_exchanges,
     uuid,
     ws,
 )
@@ -152,9 +153,9 @@ class DirectAirCapture(BaseTransformation):
                     ):
                         continue
 
-                    # with solvent-based DAC, we cannot use waste heat
+                    # with liquid solvent-based DAC, we cannot use waste heat
                     # because the operational temperature required is 900C
-                    if technology in ["solvent_dac", "solvent_daccs"]:
+                    if technology in ["dac_solvent", "daccs_solvent"]:
                         if heat_type == "waste heat":
                             continue
 
@@ -310,7 +311,7 @@ class DirectAirCapture(BaseTransformation):
 
             if scaling_factor_operation != 1:
                 # Scale down the energy exchanges using the scaling factor
-                wurst.change_exchanges_by_constant_factor(
+                rescale_exchanges(
                     dataset,
                     scaling_factor_operation,
                     technosphere_filters=[
@@ -319,6 +320,7 @@ class DirectAirCapture(BaseTransformation):
                         )
                     ],
                     biosphere_filters=[ws.exclude(ws.contains("type", "biosphere"))],
+                    remove_uncertainty=False,
                 )
 
             new_energy_inputs = sum(
@@ -351,7 +353,7 @@ class DirectAirCapture(BaseTransformation):
 
             if scaling_factor_infra != 1:
                 # Scale down the infra and material exchanges using the scaling factor
-                wurst.change_exchanges_by_constant_factor(
+                rescale_exchanges(
                     dataset,
                     scaling_factor_infra,
                     technosphere_filters=[
@@ -365,6 +367,7 @@ class DirectAirCapture(BaseTransformation):
                         )
                     ],
                     biosphere_filters=[ws.exclude(ws.contains("type", "biosphere"))],
+                    remove_uncertainty=False,
                 )
 
             # add in comments the scaling factor applied

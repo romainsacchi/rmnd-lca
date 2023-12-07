@@ -4,6 +4,67 @@ TRANSFORM
 A series of transformations are applied to the Life Cycle Inventory (LCI) database to align process performance
 and technology market shares with the outputs from the Integrated Assessment Model (IAM) scenario.
 
+Biomass
+"""""""
+
+Regional biomass markets
+------------------------
+
+*premise* creates regional markets for biomass which is meant to be used as fuel
+in biomass-fired powerplants or heat generators. Originally in ecoinvent, the biomass being supplied
+to biomass-fired powerplants is "purpose grown" biomass that originate forestry
+activities (called "market for wood chips" in ecoinvent). While this type of biomass
+is suitable for such purpose, it is considered a co-product of the forestry activity,
+and bears a share of the environmental burden of the process it originates from (notably
+the land footprint, emissions, potential use of chemicals, etc.).
+
+However, not all the biomass projected to be used in IAM scenarios is "purpose grown".
+In fact, significant shares are expected to originate from forestry residues. In such
+cases, the environmental burden of the forestry activity is entirely allocated to the
+determining product (e.g., timber), not to the residue, which comes "free of burden".
+
+Hence, *premise* creates average regional markets for biomass, which represents the
+average shares of "purpose grown" and "residual" biomass being fed to biomass-fired powerplants.
+
+The following market is created for each IAM region:
+
+ =================================== ==================
+  market name                         location
+ =================================== ==================
+  market for biomass, used as fuel    all IAM regions
+ =================================== ==================
+
+inside of which, the shares of "purpose grown" and "residual" biomass
+is represented by the following activities:
+
+========================== ===================================== ======================================= ===========================
+  name in premise            name in REMIND                         name in IMAGE                         name in LCI database
+========================== ===================================== ======================================= ===========================
+  biomass - purpose grown    SE|Electricity|Biomass|Energy Crops   Primary Energy|Biomass|Energy Crops    market for wood chips
+  biomass - residual         SE|Electricity|Biomass|Residues       Primary Energy|Biomass|Residues        supply of forest residue
+========================== ===================================== ======================================= ===========================
+
+The sum of those shares equal 1. The activity "supply of forest residue" includes
+the energy, embodied biogenic CO2, transport and associated emissions to chip the residual biomass
+and transport it to the powerplant, but no other forestry-related burden is included.
+
+.. note::
+
+    You can check the share of residual biomass used for power generation
+    assumed in your scenarios by generating a scenario summary report.
+
+.. note::
+
+    When running *premise* with the consequential method, the biomass market
+    is only composed of purpose-grown biomass. This is because the residual biomass
+    cannot be considered a marginal supplier for an increase in demand for biomass.
+
+
+.. code-block:: python
+
+    ndb.generate_scenario_report()
+
+
 Power generation
 """"""""""""""""
 
@@ -103,8 +164,8 @@ the different fuels used in combustion-based power plants.
   hydrogen, biomass                                                  120
   hydrogen, biomass, with CCS                                        120
   hydrogen, coal                                                     120
-  hydrogen, nat. gas                                                 120
-  hydrogen, nat. gas, with CCS                                       120
+  hydrogen, from natural gas                                                 120
+  hydrogen, from natural gas, with CCS                                       120
   hydrogen, biogas                                                   120
   hydrogen, biogas, with CCS                                         120
   hydrogen                                                           120
@@ -198,7 +259,6 @@ While non-CO2 emissions (e.g., CO) are reduced because of the reduction in fuel 
 the emission factor per energy unit remains the same (i.e., gCO/MJ natural gas)).
 It can be re-scaled using the `update_emissions` function, which updates emission factors according
 to GAINS projections.
-
 
 
  =================================================== =========== =========== =======
@@ -300,56 +360,6 @@ production pathway for a given commodity for a given scenario, year and region.
 Such datasets are called *regional markets*. Hence, a regional market for high voltage
 electricity contains the different technologies that supply electricity at high voltage
 in a given IAM region, in proportion to their respective production volumes.
-
-Regional biomass markets
-------------------------
-
-*premise* creates regional markets for biomass which is meant to be used as fuel
-in biomass-fired powerplants. Originally in ecoinvent, the biomass being supplied
-to biomass-fired powerplants is "purpose grown" biomass that originate forestry
-activities (called "market for wood chips" in ecoinvent). While this type of biomass
-is suitable for such purpose, it is considered a co-product of the forestry activity,
-and bears a share of the environmental burden of the process it originates from (notably
-the land footprint, emissions, potential use of chemicals, etc.).
-
-However, not all the biomass projected to be used in IAM scenarios is "purpose grown".
-In fact, significant shares are expected to originate from forestry residues. In such
-cases, the environmental burden of the forestry activity is entirely allocated to the
-determining product (e.g., timber), not to the residue, which comes "free of burden".
-
-Hence, *premise* creates average regional markets for biomass, which represents the
-average shares of "purpose grown" and "residual" biomass being fed to biomass-fired powerplants.
-
-The following market is created for each IAM region:
-
- =================================== ==================
-  market name                         location
- =================================== ==================
-  market for biomass, used as fuel    all IAM regions
- =================================== ==================
-
-inside of which, the shares of "purpose grown" and "residual" biomass
-is represented by the following activities:
-
-========================== ===================================== ======================================= ===========================
-  name in premise            name in REMIND                         name in IMAGE                         name in LCI database
-========================== ===================================== ======================================= ===========================
-  biomass - purpose grown    SE|Electricity|Biomass|Energy Crops   Primary Energy|Biomass|Energy Crops    market for wood chips
-  biomass - residual         SE|Electricity|Biomass|Residues       Primary Energy|Biomass|Residues        Supply of forest residue
-========================== ===================================== ======================================= ===========================
-
-The sum of those shares equal 1. The activity "Supply of forest residue" includes
-the energy, transport and associated emissions to chip the residual biomass
-and transport it to the powerplant, but no other forestry-related burden is included.
-
-.. note::
-
-    You can check the share of residual biomass used for power generation
-    assumed in your scenarios by generating a scenario summary report.
-
-.. code-block:: python
-
-    ndb.generate_scenario_report()
 
 
 Regional electricity markets
@@ -686,40 +696,10 @@ clinker production dataset, corresponding to their IAM region.
 Clinker-to-cement ratio
 +++++++++++++++++++++++
 
-Most cement datasets in ecoinvent have a determined composition in terms
-of clinker vs. supplementary cementitious materials (e.g., fly ash, blast
-furnace slag, limestone). The clinker-to-cement ratio cannot be altered
-for these cements, as it would render their label incorrect, but also
-the type of application they are meant to fulfill (e.g., precast, mortar,
-foundations).
-
-However, one dataset represents an "average" cement
-with an "average" composition. This dataset is called
-"market for cement, unspecified". This market dataset is composed
-of several types of cements, each having a clinker-to-cement ratio.
-*premise* alters the shares of each of these cement types with the
-"market for cement, unspecified" dataset so that the
-average clinker-to-cement ratio aligns with the GNR/IEA projections.
-
-GNR/IEA projections in terms of clinker-to-cement ratio are shown in the
-table below.
-
- ========================== ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= =======
-  clinker-to-cement ratio    2005    2010    2015    2020    2025    2030    2035    2040    2045    2050    2055    2060    2065    2070    2075    2080    2085    2090    2095    2100
- ========================== ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= =======
-  Canada                     81%     80%     79%     77%     76%     75%     74%     73%     71%     70%     69%     68%     66%     65%     64%     63%     62%     60%     59%     58%
-  China                      58%     58%     58%     58%     58%     58%     58%     58%     58%     58%     58%     58%     58%     58%     58%     58%     58%     58%     58%     58%
-  Europe                     73%     72%     71%     71%     70%     69%     68%     67%     67%     66%     65%     64%     64%     63%     62%     61%     60%     60%     59%     58%
-  India                      71%     70%     70%     69%     68%     68%     67%     66%     66%     65%     64%     63%     63%     62%     61%     61%     60%     59%     59%     58%
-  Japan                      80%     79%     78%     77%     75%     74%     73%     72%     71%     70%     68%     67%     66%     65%     64%     63%     61%     60%     59%     58%
-  Latin America              70%     69%     69%     68%     67%     67%     66%     66%     65%     64%     64%     63%     62%     62%     61%     61%     60%     59%     59%     58%
-  Middle East                81%     80%     79%     77%     76%     75%     74%     73%     71%     70%     69%     68%     66%     65%     64%     63%     62%     60%     59%     58%
-  Norther Europe             81%     80%     79%     77%     76%     75%     74%     73%     71%     70%     69%     68%     66%     65%     64%     63%     62%     60%     59%     58%
-  Other Asia                 80%     79%     78%     77%     75%     74%     73%     72%     71%     70%     68%     67%     66%     65%     64%     63%     61%     60%     59%     58%
-  Russia                     80%     79%     78%     77%     75%     74%     73%     72%     71%     70%     68%     67%     66%     65%     64%     63%     61%     60%     59%     58%
-  South Africa               77%     76%     75%     74%     73%     72%     71%     70%     69%     68%     67%     66%     65%     64%     63%     62%     61%     60%     59%     58%
-  United States              82%     81%     79%     78%     77%     76%     74%     73%     72%     71%     69%     68%     67%     66%     64%     63%     62%     61%     59%     58%
- ========================== ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= ======= =======
+*premise* used to modify the composition of cement markets to reflect
+a lower clinker content over time, based on external projections. This is
+no longer performed, as it is not an assumption stemming from the IAM model,
+but rather a projection of the cement industry.
 
 Original market datasets
 ________________________
@@ -1353,22 +1333,22 @@ Hence, for each IAM region, the following supply chains for hydrogen are built:
 
 - hydrogen supply, from electrolysis, by ship, as liquid, over 2000 km
 - hydrogen supply, from gasification of biomass by heatpipe reformer, by H2 pipeline, as gaseous, over 500 km
-- hydrogen supply, from ATR of nat. gas, by truck, as gaseous, over 500 km
+- hydrogen supply, from ATR of from natural gas, by truck, as gaseous, over 500 km
 - hydrogen supply, from gasification of biomass by heatpipe reformer, by truck, as liquid organic compound, over 500 km
-- hydrogen supply, from SMR of nat. gas, with CCS, by truck, as liquid organic compound, over 500 km
-- hydrogen supply, from SMR of nat. gas, with CCS, by ship, as liquid, over 2000 km
+- hydrogen supply, from SMR of from natural gas, with CCS, by truck, as liquid organic compound, over 500 km
+- hydrogen supply, from SMR of from natural gas, with CCS, by ship, as liquid, over 2000 km
 - hydrogen supply, from coal gasification, by CNG pipeline, as gaseous, over 500 km
-- hydrogen supply, from SMR of nat. gas, by ship, as liquid, over 2000 km
+- hydrogen supply, from SMR of from natural gas, by ship, as liquid, over 2000 km
 - hydrogen supply, from coal gasification, by truck, as liquid, over 500 km
 - hydrogen supply, from gasification of biomass by heatpipe reformer, by truck, as liquid, over 500 km
-- hydrogen supply, from ATR of nat. gas, with CCS, by truck, as liquid organic compound, over 500 km
-- hydrogen supply, from SMR of nat. gas, with CCS, by truck, as liquid, over 500 km
+- hydrogen supply, from ATR of from natural gas, with CCS, by truck, as liquid organic compound, over 500 km
+- hydrogen supply, from SMR of from natural gas, with CCS, by truck, as liquid, over 500 km
 - hydrogen supply, from electrolysis, by truck, as liquid organic compound, over 500 km
 - hydrogen supply, from gasification of biomass, by truck, as liquid organic compound, over 500 km
-- hydrogen supply, from SMR of nat. gas, with CCS, by truck, as gaseous, over 500 km
+- hydrogen supply, from SMR of from natural gas, with CCS, by truck, as gaseous, over 500 km
 - hydrogen supply, from SMR of biogas, with CCS, by CNG pipeline, as gaseous, over 500 km
-- hydrogen supply, from SMR of nat. gas, by truck, as gaseous, over 500 km
-- hydrogen supply, from SMR of nat. gas, by H2 pipeline, as gaseous, over 500 km
+- hydrogen supply, from SMR of from natural gas, by truck, as gaseous, over 500 km
+- hydrogen supply, from SMR of from natural gas, by H2 pipeline, as gaseous, over 500 km
 - hydrogen supply, from gasification of biomass, with CCS, by truck, as liquid organic compound, over 500 km
 - hydrogen supply, from gasification of biomass, by ship, as liquid, over 2000 km
 
@@ -1472,8 +1452,8 @@ liquid and gaseous secondary energy carriers:
   hydrogen, biomass                    SE|Hydrogen|Biomass|w/o CCS                                                                                               hydrogen supply, from gasification of biomass, by
   hydrogen, biomass, with CCS          SE|Hydrogen|Biomass|w/ CCS                                                                                                hydrogen supply, from gasification of biomass by heatpipe reformer, with CCS
   hydrogen, coal                       SE|Hydrogen|Coal|w/o CCS                                                                                                  hydrogen supply, from coal gasification, by truck, as gaseous, over 500 km
-  hydrogen, nat. gas                   SE|Hydrogen|Gas|w/o CCS                                                                                                   hydrogen supply, from SMR of nat. gas, by truck, as gaseous, over 500 km
-  hydrogen, nat. gas, with CCS         SE|Hydrogen|Gas|w/ CCS                                                                                                    hydrogen supply, from SMR of nat. gas, with CCS, by truck, as gaseous, over 500 km
+  hydrogen, from natural gas                   SE|Hydrogen|Gas|w/o CCS                                                                                                   hydrogen supply, from SMR of from natural gas, by truck, as gaseous, over 500 km
+  hydrogen, from natural gas, with CCS         SE|Hydrogen|Gas|w/ CCS                                                                                                    hydrogen supply, from SMR of from natural gas, with CCS, by truck, as gaseous, over 500 km
   biodiesel, oil                       SE|Liquids|Biomass|Biofuel|Biodiesel|w/o CCS    Secondary Energy|Consumption|Liquids|Biomass|Biodiesel|Oilcrops|w/oCCS    biodiesel production, via transesterification
   biodiesel, oil, with CCS                                                             Secondary Energy|Consumption|Liquids|Biomass|Biodiesel|Oilcrops|w/CCS     biodiesel production, via transesterification
   bioethanol, wood                     SE|Liquids|Biomass|Cellulosic|w/o CCS           Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Woody|w/oCCS         ethanol production, via fermentation, from forest
@@ -1537,6 +1517,32 @@ are modelled with the calorific value of conventional gasoline.
   Ethanol production, via fermentation, from poplar, with CCS         0.041     kilogram    WEU
   Ethanol production, via fermentation, from poplar                   0.041     kilogram    WEU
  =================================================================== ========= =========== ===========
+
+Heat
+++++
+
+Datasets that supply heat and steam via the combustion of natural gas and diesel
+are regionalized (made available for each region of the IAM model) and relinked
+to regional fuel markets. If the fuel market contains a share of non-fossil fuels,
+the CO2 emissions of the heat and steam production are split between fossil and
+non-fossil emissions. Once regionalized, the heat and steam production datasets
+relink to activities that require heat within the same region.
+
+Here is a list of the heat and steam production datasets that are regionalized:
+
+- diesel, burned in ...
+- steam production, as energy carrier, in chemical industry
+- heat production, natural gas, ...
+- heat and power co-generation, natural gas, ...
+- heat production, light fuel oil, ...
+- heat production, softwood chips from forest, ...
+- heat production, hardwood chips from forest, ...
+
+These datasets are relinked to the corresponding regionalized fuel market only
+if `.update_fuels()` has been run.
+Also, heat production datasets that use biomass as fuel input (e.g., softwood and
+hardwood chips) relink to the dataset `market for biomass, used as fuel` if
+`update_biomass()` has been run previously.
 
 
 CO2 emissions update
@@ -1925,6 +1931,97 @@ the regionalization process will select all the existing suppliers and
 allocate a supply share to each supplier based on their respective
 production volume.
 
+Here is the decision tree followed:
+
+.. _decision-tree:
+
+Decision Tree for Processing Datasets
+=====================================
+
+The process begins with a dataset that requires processing.
+
+.. contents::
+   :local:
+
+Decision: Is the Exchange in Cache?
+-----------------------------------
+
+- **Yes**
+
+  - Use :func:`process_cached_exchange`.
+
+    - Retrieve cached data.
+    - Update ``new_exchanges`` with cached data.
+
+- **No**
+
+  - Use :func:`process_uncached_exchange`.
+
+    Decision: Number of Possible Datasets
+    ------------------------------------
+
+    - **None**
+
+      - Print a warning and return.
+
+    - **One**
+
+      - Use :func:`handle_single_possible_dataset`.
+
+        - Use the single matched dataset.
+        - Update ``new_exchanges`` with this dataset information.
+
+    - **Multiple**
+
+      - Use :func:`handle_multiple_possible_datasets`.
+
+        Decision: Does Dataset Location Match Possible Dataset Locations?
+        -----------------------------------------------------------------
+
+        - **Yes**
+
+          - Use the matched dataset location.
+
+        - **No**
+
+          - Use :func:`process_complex_matching_and_allocation`.
+
+            Decision: Dataset Location Type
+            --------------------------------
+
+            - **IAM Region**
+
+              - Use :func:`handle_iam_region`.
+
+                - Match IAM region to ecoinvent locations.
+                - Update ``new_exchanges`` with IAM region-specific data.
+                - Cache the new entry.
+
+            - **Global ('GLO', 'RoW', 'World')**
+
+              - Use :func:`handle_global_and_row_scenarios`.
+
+                - Allocate inputs for global datasets.
+                - Update ``new_exchanges`` with global data.
+                - Cache the new entry.
+
+            - **Others**
+
+              - Perform GIS matching.
+
+                - Determine intersecting locations with GIS.
+                - Allocate inputs based on GIS matches.
+                - Update ``new_exchanges`` with GIS-specific data.
+                - Cache the new entry.
+
+Final Steps
+-----------
+
+- If no match is found, use :func:`handle_default_option`.
+
+  - Integrate new exchanges into the dataset.
+
+
 GAINS emission factors
 """"""""""""""""""""""
 
@@ -1995,8 +2092,10 @@ The table below shows the mapping between ecoinvent and GAINS emission flows.
 +-------------------------------------------------------------------+----------------+
 
 We consider emission factors in ecoinvent as representative of the current situation.
-Hence, we calculate a scaling factor from the GAINS emission factors for the year of
-the scenario relative to the year 2020.
+Hence, we calculate a *scaling factor* from the GAINS emission factors for the year of
+the scenario relative to the year 2020. note that premise prevents scaling factors to be
+inferior to 1 if the year is inferior to 2020. Inversely, scaling factors cannot be superior to 1
+if the year is superior to 2020.
 
 Two GAINS-IAM scenarios are available:
 
@@ -2032,5 +2131,9 @@ is automatically generated after database export.
 The report lists the datasets added, updated and emptied.
 It also gives a number of indicators relating to efficiency,
 emissions, etc. for each scenario.
+
+Finally, it also contains a "Validation" tab that lists datasets
+which potentially present erroneous values. These datasets are
+to be checked by the user.
 
 This report can also be generated manually using the `generate_change_report()` method.

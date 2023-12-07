@@ -18,6 +18,7 @@ class BW2Importer(LCIImporter):
     def write_database(self):
         if self.db_name in databases:
             print(f"Database {self.db_name} already exists: it will be overwritten.")
+            del databases[self.db_name]
         super().write_database()
 
 

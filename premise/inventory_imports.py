@@ -29,6 +29,8 @@ CORRESPONDENCE_BIO_FLOWS = (
     DATA_DIR / "utils" / "export" / "correspondence_biosphere_flows.yaml"
 )
 
+TEMP_CSV_FILE = DIR_CACHED_DB / "temp.csv"
+
 
 def get_correspondence_bio_flows():
     """
@@ -232,6 +234,58 @@ def check_amount_format(database: list) -> list:
     return database
 
 
+def check_uncertainty_data(data, filename):
+    MANDATORY_UNCERTAINTY_FIELDS = {
+        2: {"loc", "scale"},
+        3: {"loc", "scale"},
+        4: {"minimum", "maximum"},
+        5: {"loc", "minimum", "maximum"},
+        6: {"loc", "minimum", "maximum"},
+        7: {"minimum", "maximum"},
+        8: {"loc", "scale", "shape"},
+        9: {"loc", "scale", "shape"},
+        10: {"loc", "scale", "shape"},
+        11: {"loc", "scale", "shape"},
+        12: {"loc", "scale", "shape"},
+    }
+
+    rows = []
+
+    for dataset in data:
+        for exc in dataset["exchanges"]:
+            if exc["type"] in ["technosphere", "biosphere"]:
+                if "uncertainty type" not in exc:
+                    exc["uncertainty type"] = 0
+
+                if exc["uncertainty type"] not in {0, 1}:
+                    if not all(
+                        f in exc
+                        for f in MANDATORY_UNCERTAINTY_FIELDS[exc["uncertainty type"]]
+                    ):
+                        rows.append(
+                            [
+                                dataset["name"][:30],
+                                exc["name"][:30],
+                                exc["uncertainty type"],
+                                [
+                                    f
+                                    for f in MANDATORY_UNCERTAINTY_FIELDS[
+                                        exc["uncertainty type"]
+                                    ]
+                                    if f not in exc
+                                ],
+                            ]
+                        )
+    if len(rows) > 0:
+        print(
+            f"the following exchanges from {filename} are missing uncertainty information:"
+        )
+        table = PrettyTable()
+        table.field_names = ["Name", "Exchange", "Uncertainty type", "Missing param."]
+        table.add_rows(rows)
+        print(table)
+
+
 class BaseInventoryImport:
     """
     Base class for inventories that are to be merged with the wurst database.
@@ -268,6 +322,7 @@ class BaseInventoryImport:
         self.consequential_blacklist = get_consequential_blacklist()
         self.list_unlinked = []
         self.keep_uncertainty_data = keep_uncertainty_data
+        self.path = path
 
         if "http" in str(path):
             r = requests.head(path)
@@ -346,7 +401,7 @@ class BaseInventoryImport:
                 name = self.path.name
 
             for dataset in already_exist:
-                table.add_row([dataset[0][:50], dataset[1][:30], dataset[2], name])
+                table.add_row([dataset[0][:30], dataset[1][:30], dataset[2], name[:30]])
 
             print(table)
 
@@ -724,6 +779,8 @@ class DefaultInventory(BaseInventoryImport):
         if not self.keep_uncertainty_data:
             print("Remove uncertainty data.")
             self.database = remove_uncertainty(self.database)
+        else:
+            check_uncertainty_data(self.import_db.data, filename=Path(self.path).stem)
 
         # Check for duplicates
         self.check_for_already_existing_datasets()
@@ -816,16 +873,13 @@ class AdditionalInventory(BaseInventoryImport):
     def __init__(self, database, version_in, version_out, path, system_model):
         super().__init__(database, version_in, version_out, path, system_model)
 
-    def load_inventory(self):
-        # check if "http" in path
-        if "http" in str(self.path):
-            # online file
-            # we need to save it locally first
-            response = requests.get(self.path)
-            path = DIR_CACHED_DB / "temp.csv"
-            with open(path, "w", encoding="utf-8") as f:
+    def download_file(self, url, local_path):
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            with open(local_path, "w", encoding="utf-8") as file:
                 writer = csv.writer(
-                    f,
+                    file,
                     quoting=csv.QUOTE_NONE,
                     delimiter=",",
                     quotechar="'",
@@ -833,16 +887,29 @@ class AdditionalInventory(BaseInventoryImport):
                 )
                 for line in response.iter_lines():
                     writer.writerow(line.decode("utf-8").split(","))
+        except requests.RequestException as e:
+            raise ConnectionError(f"Error downloading the file: {e}")
 
-        if self.path.suffix == ".xlsx":
-            return ExcelImporter(self.path)
+    def load_inventory(self):
+        path_str = str(self.path)
 
-        elif self.path.suffix == ".csv":
-            return CSVImporter(self.path)
+        if "http" in path_str:
+            if ":/" in path_str and "://" not in path_str:
+                path_str = path_str.replace(":/", "://")
 
+            print(f"Downloading datapackage from {path_str}")
+            self.download_file(path_str, TEMP_CSV_FILE)
+            file_path = TEMP_CSV_FILE
+        else:
+            file_path = self.path
+
+        if file_path.suffix == ".xlsx":
+            return ExcelImporter(file_path)
+        elif file_path.suffix == ".csv":
+            return CSVImporter(file_path)
         else:
             raise ValueError(
-                "Incorrect filetype for inventories." "Should be either .xlsx or .csv"
+                "Incorrect filetype for inventories. Should be either .xlsx or .csv"
             )
 
     def prepare_inventory(self):

@@ -664,3 +664,10 @@ from;to;name_from;ref_prod_from;location_from;name_to;ref_prod_to;location_to
 38;36;market for electric arc furnace slag;electric arc furnace slag;RoW;market for slag, unalloyed electric arc furnace steel;slag, unalloyed electric arc furnace steel;GLO
 38;36;treatment of basic oxygen furnace slag, residual material landfill;basic oxygen furnace slag;GLO;treatment of basic oxygen furnace waste, residual material landfill;basic oxygen furnace waste;RoW
 39;36;market for potassium chloride;potassium chloride;RER;market for potassium chloride, industrial grade;potassium chloride, industrial grade;GLO
+39;36;market for hazardous waste, for underground deposit;hazardous waste, for underground deposit;RER;market for hazardous waste, for underground deposit;hazardous waste, for underground deposit;GLO
+39;36;market for hazardous waste, for underground deposit;hazardous waste, for underground deposit;RoW;market for hazardous waste, for underground deposit;hazardous waste, for underground deposit;GLO
+39;36;market for pig iron;pig iron;RoW;market for pig iron;pig iron;GLO
+39;36;market for pig iron;pig iron;RER;market for pig iron;pig iron;GLO
+39;36;market for transport, freight, lorry 16-32 metric ton, EURO3;transport, freight, lorry 16-32 metric ton, EURO3;BR;market for transport, freight, lorry 16-32 metric ton, EURO3;transport, freight, lorry 16-32 metric ton, EURO3;RoW
+39;36;market group for concrete, normal strength;concrete, normal strength;GLO;market group for concrete, normal;concrete, normal;GLO
+39;37;market for transport, freight, lorry 16-32 metric ton, EURO3;transport, freight, lorry 16-32 metric ton, EURO3;BR;market for transport, freight, lorry 16-32 metric ton, EURO3;transport, freight, lorry 16-32 metric ton, EURO3;RoW

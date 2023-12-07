@@ -6,6 +6,7 @@ steel - primary:
     remind: Production|Industry|Steel|Primary
     image: Production|Industry|Iron and Steel|Primary
     message: Production|Primary|Steel
+    gcam: Production|Industry|Steel|Primary
   energy_use_aliases:
     remind:
       - FE|Industry|Steel|++|Primary
@@ -26,6 +27,12 @@ steel - primary:
       - Final Energy|Industry|Steel|Primary|Solar
       - Final Energy|Industry|Steel|Primary|Solids|Biomass
       - Final Energy|Industry|Steel|Primary|Solids|Coal
+    gcam:
+      - Final Energy|Industry|Steel|Primary|Coal
+      - Final Energy|Industry|Steel|Primary|Electricity
+      - Final Energy|Industry|Steel|Primary|Refined Liquids
+      - Final Energy|Industry|Steel|Primary|Gas
+      - Final Energy|Industry|Steel|Primary|Biomass
 
   ecoinvent_aliases:
     fltr:
@@ -38,6 +45,7 @@ steel - secondary:
     remind: Production|Industry|Steel|Secondary
     image: Production|Industry|Iron and Steel|EAF scrap
     message: Production|Secondary|Steel
+    gcam: Production|Industry|Steel|Secondary
   energy_use_aliases:
     remind:
       - FE|Industry|Steel|++|Secondary
@@ -46,6 +54,11 @@ steel - secondary:
     message:
       - Final Energy|Industry|Steel|Secondary|Electricity
       - Final Energy|Industry|Steel|Secondary|Gases
+    gcam:
+      - Final Energy|Industry|Steel|Secondary|Coal
+      - Final Energy|Industry|Steel|Secondary|Electricity
+      - Final Energy|Industry|Steel|Secondary|Refined Liquids
+      - Final Energy|Industry|Steel|Secondary|Gas
 
   ecoinvent_aliases:
     fltr:

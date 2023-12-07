@@ -98,18 +98,3 @@ def test_remove_uncertainty():
         for exc in ds["exchanges"]:
             if "uncertainty_type" in exc:
                 assert exc["uncertainty_type"] == 0
-
-
-def test_check_for_duplicates():
-    db = dummy_db.copy()
-    db = check_for_duplicates(db)
-    assert len(db) != len(dummy_db)
-
-
-def test_check_amount_format():
-    db = dummy_db.copy()
-    db = check_amount_format(db)
-    for ds in db:
-        for exc in ds["exchanges"]:
-            assert isinstance(exc["amount"], float)
-            assert exc["amount"] == 1.0

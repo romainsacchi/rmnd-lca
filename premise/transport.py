@@ -51,14 +51,19 @@ def _update_vehicles(
         has_fleet=True,
     )
 
+    iam_data = None
     if vehicle_type == "car":
-        iam_data = scenario["iam data"].trsp_cars
+        if hasattr(scenario["iam data"], "trsp_cars"):
+            iam_data = scenario["iam data"].trsp_cars
     elif vehicle_type == "truck":
-        iam_data = scenario["iam data"].trsp_trucks
+        if hasattr(scenario["iam data"], "trsp_trucks"):
+            iam_data = scenario["iam data"].trsp_trucks
     elif vehicle_type == "bus":
-        iam_data = scenario["iam data"].trsp_buses
+        if hasattr(scenario["iam data"], "trsp_buses"):
+            iam_data = scenario["iam data"].trsp_buses
     elif vehicle_type == "two wheeler":
-        iam_data = scenario["iam data"].trsp_two_wheelers
+        if hasattr(scenario["iam data"], "trsp_two_wheelers"):
+            iam_data = scenario["iam data"].trsp_two_wheelers
     else:
         raise ValueError("Unknown vehicle type.")
 

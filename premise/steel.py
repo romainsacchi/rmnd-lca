@@ -3,11 +3,10 @@ Integrates projections regarding steel production.
 """
 from typing import Dict, List
 
-import wurst
-
 from .data_collection import IAMDataCollection
 from .logger import create_logger
-from .transformation import BaseTransformation, ws
+from .transformation import BaseTransformation, rescale_exchanges, ws
+from .validation import SteelValidation
 
 logger = create_logger("steel")
 
@@ -32,6 +31,17 @@ def _update_steel(scenario, version, system_model, cache=None):
         print("No steel markets found in IAM data. Skipping.")
 
     steel.relink_datasets()
+
+    validate = SteelValidation(
+        model=scenario["model"],
+        scenario=scenario["pathway"],
+        year=scenario["year"],
+        regions=scenario["iam data"].regions,
+        database=steel.database,
+        iam_data=scenario["iam data"],
+    )
+
+    validate.run_steel_checks()
 
     return scenario, cache
 
@@ -109,6 +119,16 @@ class Steel(BaseTransformation):
             if market == "market for steel, low-alloyed":
                 for loc, dataset in steel_markets.items():
                     if loc != "World":
+                        # check that the production volumes are positive
+                        # otherwise we skip the region
+                        if self.iam_data.production_volumes.sel(
+                            region=loc,
+                            variables=["steel - primary", "steel - secondary"]
+                        ).interp(year=self.year).sum(
+                            dim="variables"
+                        ) <= 0:
+                            continue
+
                         if self.system_model != "consequential":
                             try:
                                 primary_share = self.iam_data.production_volumes.sel(
@@ -172,6 +192,19 @@ class Steel(BaseTransformation):
                             "primary steel share": primary_share,
                             "secondary steel share": secondary_share,
                         }
+
+                # check that the production volumes are positive
+                # otherwise we remove the region dataset from steel_markets
+                steel_markets = {
+                    loc: dataset
+                    for loc, dataset in steel_markets.items()
+                    if self.iam_data.production_volumes.sel(
+                        region=loc,
+                        variables=["steel - primary", "steel - secondary"]
+                    ).interp(year=self.year).sum(
+                        dim="variables"
+                    ) > 0 or loc == "World"
+                }
             else:
                 for loc, dataset in steel_markets.items():
                     if loc != "World":
@@ -235,16 +268,17 @@ class Steel(BaseTransformation):
                     # equal share to all regions
                     share = 1 / len(regions)
 
-                steel_markets["World"]["exchanges"].append(
-                    {
-                        "name": market,
-                        "product": steel_product,
-                        "amount": share,
-                        "unit": "kilogram",
-                        "type": "technosphere",
-                        "location": region,
-                    }
-                )
+                if share > 0:
+                    steel_markets["World"]["exchanges"].append(
+                        {
+                            "name": market,
+                            "product": steel_product,
+                            "amount": share,
+                            "unit": "kilogram",
+                            "type": "technosphere",
+                            "location": region,
+                        }
+                    )
 
             # add to log
             for new_dataset in list(steel_markets.values()):
@@ -401,10 +435,75 @@ class Steel(BaseTransformation):
                     variable=sector,
                     location=dataset["location"],
                 )
+
             else:
                 scaling_factor = 1
 
-            if scaling_factor != 1:
+            if scaling_factor != 1 and scaling_factor > 0:
+                # when sector is steel - secondary, we want to make sure
+                # that the scaling down will not bring electricity consumption
+                # below the minimum value of 0.444 kWh/kg (1.6 MJ/kg)
+                # see Theoretical Minimum Energies To Produce Steel for Selected Conditions
+                # US Department of Energy, 2000
+
+                if sector == "steel - secondary":
+                    electricity = sum(
+                        [
+                            exc["amount"]
+                            for exc in ws.technosphere(dataset)
+                            if exc["unit"] == "kilowatt hour"
+                        ]
+                    )
+
+                    scaling_factor = max(0.444 / electricity, scaling_factor)
+
+                # if pig iron production, we want to make sure
+                # that the scaling down will not bring energy consumption
+                # below the minimum value of 9.0 MJ/kg
+                # see Theoretical Minimum Energies To Produce Steel for Selected Conditions
+                # US Department of Energy, 2000
+
+                if dataset["name"] == "pig iron production":
+                    energy = sum(
+                        [
+                            exc["amount"]
+                            for exc in ws.technosphere(dataset)
+                            if exc["unit"] == "megajoule"
+                        ]
+                    )
+
+                    # add input of coal
+                    energy += sum(
+                        [
+                            exc["amount"] * 26.4
+                            for exc in ws.technosphere(dataset)
+                            if "hard coal" in exc["name"] and exc["unit"] == "kilogram"
+                        ]
+                    )
+
+                    # add input of natural gas
+                    energy += sum(
+                        [
+                            exc["amount"] * 36
+                            for exc in ws.technosphere(dataset)
+                            if "natural gas" in exc["name"]
+                            and exc["unit"] == "cubic meter"
+                        ]
+                    )
+
+                    scaling_factor = max(9.0 / energy, scaling_factor)
+
+                # Scale down the fuel exchanges using the scaling factor
+                rescale_exchanges(
+                    dataset,
+                    scaling_factor,
+                    technosphere_filters=[
+                        ws.either(*[ws.contains("name", x) for x in list_fuels])
+                    ],
+                    biosphere_filters=[ws.contains("name", "Carbon dioxide, fossil")],
+                    remove_uncertainty=False,
+                )
+
                 # Update the comments
                 text = (
                     f"This dataset has been modified by `premise`, according to the performance "
@@ -413,16 +512,6 @@ class Steel(BaseTransformation):
                     f"The energy efficiency of the process has been improved by {int((1 - scaling_factor) * 100)}%."
                 )
                 dataset["comment"] = text + dataset["comment"]
-
-                # Scale down the fuel exchanges using the scaling factor
-                wurst.change_exchanges_by_constant_factor(
-                    dataset,
-                    scaling_factor,
-                    technosphere_filters=[
-                        ws.either(*[ws.contains("name", x) for x in list_fuels])
-                    ],
-                    biosphere_filters=[ws.contains("name", "Carbon dioxide, fossil")],
-                )
 
                 if "log parameters" not in dataset:
                     dataset["log parameters"] = {}
@@ -444,7 +533,8 @@ class Steel(BaseTransformation):
         """
 
         for region, dataset in datasets.items():
-            # Check if carbon capture rate data is available for this region and sector
+            # Check if carbon capture rate data is available
+            # for this region and sector
             carbon_capture_rate = self.get_carbon_capture_rate(
                 loc=dataset["location"], sector="steel"
             )
@@ -459,6 +549,8 @@ class Steel(BaseTransformation):
                     dataset, ws.contains("name", "Carbon dioxide, fossil")
                 ):
                     co2_amount = co2_flow["amount"]
+                    # consider 90% capture efficiency
+                    carbon_capture_rate *= 0.9
                     co2_emitted = co2_amount * (1 - carbon_capture_rate)
                     co2_flow["amount"] = co2_emitted
 

@@ -1,0 +1,42 @@
+heat, from diesel:
+  ecoinvent_aliases:
+    fltr: diesel, burned in
+    mask: market
+
+heat, from diesel (market):
+  ecoinvent_aliases:
+    fltr: market for diesel, burned in
+
+heat, from steam:
+  ecoinvent_aliases:
+    fltr: steam production, as energy carrier
+    mask: market
+
+heat, from steam (market):
+  ecoinvent_aliases:
+    fltr: market for heat, from steam
+
+heat, from natural gas:
+  ecoinvent_aliases:
+    fltr:
+      - heat production, natural gas
+      - heat and power co-generation, natural gas
+    mask: market
+
+heat, from natural gas (market):
+  ecoinvent_aliases:
+    fltr:
+      - market for heat, central or small-scale, natural gas
+      - market for heat, district or industrial, natural gas
+
+heat, from light fuel oil:
+  ecoinvent_aliases:
+    fltr: heat production, light fuel oil
+    mask: market
+
+heat, from wood chips:
+  ecoinvent_aliases:
+    fltr:
+      - heat production, softwood chips
+      - heat production, hardwood chips
+    mask: market

@@ -18,6 +18,7 @@ import pandas as pd
 import xarray as xr
 import yaml
 from cryptography.fernet import Fernet
+from prettytable import PrettyTable
 
 from .filesystem_constants import DATA_DIR, IAM_OUTPUT_DIR, VARIABLES_DIR
 from .marginal_mixes import consequential_method
@@ -39,6 +40,17 @@ IAM_CARBON_CAPTURE_VARS = VARIABLES_DIR / "carbon_capture_variables.yaml"
 CROPS_PROPERTIES = VARIABLES_DIR / "crops_variables.yaml"
 GAINS_GEO_MAP = VARIABLES_DIR / "gains_regions_mapping.yaml"
 COAL_POWER_PLANTS_DATA = DATA_DIR / "electricity" / "coal_power_emissions_2012_v1.csv"
+
+
+def print_missing_variables(missing_vars):
+    if missing_vars:
+        print(
+            f"The following variables are missing from the IAM file:"
+        )
+    table = PrettyTable(["Variable", ])
+    for v in missing_vars:
+        table.add_row([v])
+    print(table)
 
 
 def get_delimiter(data=None, filepath=None):
@@ -431,6 +443,8 @@ class IAMDataCollection:
             variables=new_vars,
         )
 
+        self.data = data
+
         self.regions = data.region.values.tolist()
         self.system_model = system_model
 
@@ -450,7 +464,9 @@ class IAMDataCollection:
             input_vars={
                 k: v
                 for k, v in fuel_prod_vars.items()
-                if any(x in k for x in ["gasoline", "ethanol", "methanol"])
+                if any(
+                    k.lower().startswith(x) for x in ["gasoline", "ethanol", "methanol"]
+                )
             },
             system_model=self.system_model,
         )
@@ -468,7 +484,7 @@ class IAMDataCollection:
                 k: v
                 for k, v in fuel_prod_vars.items()
                 if any(
-                    x in k
+                    k.lower().startswith(x)
                     for x in [
                         "diesel",
                     ]
@@ -489,7 +505,10 @@ class IAMDataCollection:
             input_vars={
                 k: v
                 for k, v in fuel_prod_vars.items()
-                if any(x in k for x in ["biogas", "methane", "natural gas"])
+                if any(
+                    k.lower().startswith(x)
+                    for x in ["biogas", "methane", "natural gas"]
+                )
             },
             system_model=self.system_model,
         )
@@ -500,7 +519,7 @@ class IAMDataCollection:
                 k: v
                 for k, v in fuel_prod_vars.items()
                 if any(
-                    x in k
+                    k.lower().startswith(x)
                     for x in [
                         "hydrogen",
                     ]
@@ -534,7 +553,9 @@ class IAMDataCollection:
         )
 
         self.electricity_efficiencies = self.get_iam_efficiencies(
-            data=data, efficiency_labels=electricity_eff_vars
+            data=data,
+            efficiency_labels=electricity_eff_vars,
+            use_absolute_efficiency=self.use_absolute_efficiency,
         )
 
         self.cement_efficiencies = self.get_iam_efficiencies(
@@ -744,12 +765,11 @@ class IAMDataCollection:
             x.lower() if isinstance(x, str) else x for x in dataframe.columns
         ]
 
-        dataframe = dataframe.loc[dataframe["variable"].isin(variables)]
+        # dataframe = dataframe.loc[dataframe["variable"].isin(variables)]
 
         dataframe = dataframe.rename(columns={"variable": "variables"})
 
         # make a list of headers that are integer
-
         headers = [x for x in dataframe.columns if isinstance(x, int)]
 
         # convert the values in these columns to numeric
@@ -760,11 +780,17 @@ class IAMDataCollection:
                 id_vars=["region", "variables", "unit"],
                 var_name="year",
                 value_name="value",
-            )[["region", "variables", "year", "value"]]
+            )[["region", "variables", "year", "unit", "value"]]
             .groupby(["region", "variables", "year"])["value"]
             .mean()
             .to_xarray()
         )
+
+        # add the unit as an atribute, as a dictionary with variables as keys
+        array.attrs["unit"] = {
+            k: v
+            for k, v in dataframe.groupby("variables")["unit"].first().to_dict().items()
+        }
 
         return array
 
@@ -791,9 +817,7 @@ class IAMDataCollection:
         missing_vars = set(input_vars.values()) - set(data.variables.values)
 
         if missing_vars:
-            print(
-                f"The following variables are missing from the IAM file: {list(missing_vars)}"
-            )
+            print_missing_variables(missing_vars)
 
         available_vars = list(set(input_vars.values()) - missing_vars)
 
@@ -833,6 +857,7 @@ class IAMDataCollection:
         efficiency_labels: dict = None,
         production_labels: dict = None,
         energy_labels: dict = None,
+        use_absolute_efficiency: bool = False,
     ) -> [xr.DataArray, None]:
         """
         This method retrieves efficiency values for the specified sector,
@@ -861,9 +886,7 @@ class IAMDataCollection:
         if efficiency_labels:
             missing_vars = set(efficiency_labels.values()) - set(data.variables.values)
             if missing_vars:
-                print(
-                    f"The following variables are missing from the IAM file: {list(missing_vars)}"
-                )
+                print_missing_variables(missing_vars)
 
             available_vars = list(set(efficiency_labels.values()) - missing_vars)
             rev_eff_labels = {v: k for k, v in efficiency_labels.items()}
@@ -900,7 +923,7 @@ class IAMDataCollection:
         else:
             return None
 
-        if not self.use_absolute_efficiency:
+        if use_absolute_efficiency is False:
             # efficiency expressed
             eff_data /= eff_data.sel(year=2020)
 
@@ -1099,9 +1122,7 @@ class IAMDataCollection:
         missing_vars = set(input_vars.values()) - set(data.variables.values)
 
         if missing_vars:
-            print(
-                f"The following variables are missing from the IAM file: {list(missing_vars)}"
-            )
+            print_missing_variables(missing_vars)
 
         available_vars = list(set(input_vars.values()) - missing_vars)
 

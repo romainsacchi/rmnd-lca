@@ -276,8 +276,8 @@ The table below lists the names of the new activities (only high pressure datase
 
 .. note::
 
-    This import will be removed in the future, as the original
-    ecoinvent dataset will be updated (i.e., v3.9).
+    This import does not occur when using ecoinvent v.3.9
+    as those dataset updates are already included.
 
 Photovoltaic panels
 *******************
@@ -617,8 +617,9 @@ The datasets introduced are listed in the table below.
  ================================================================== ===========
   hydrogen refuelling station                                        GLO
   high pressure hydrogen storage tank                                GLO
-  distribution pipeline for hydrogen, dedicated hydrogen pipeline    RER
-  transmission pipeline for hydrogen, dedicated hydrogen pipeline    RER
+  pipeline, hydrogen, low pressure distribution network              RER
+  compressor assembly for transmission hydrogen pipeline             RER
+  pipeline, hydrogen, high pressure transmission network             RER
   zinc coating for hydrogen pipeline                                 RER
   hydrogenation of hydrogen                                          RER
   dehydrogenation of hydrogen                                        RER
@@ -1651,8 +1652,8 @@ available in the library root folder: mappingFuels_.
   hydrogen, biomass                    SE|Hydrogen|Biomass|w/o CCS                                                                                               hydrogen supply, from gasification of biomass, by
   hydrogen, biomass, with CCS          SE|Hydrogen|Biomass|w/ CCS                                                                                                hydrogen supply, from gasification of biomass by heatpipe reformer, with CCS
   hydrogen, coal                       SE|Hydrogen|Coal|w/o CCS                                                                                                  hydrogen supply, from coal gasification, by truck, as gaseous, over 500 km
-  hydrogen, nat. gas                   SE|Hydrogen|Gas|w/o CCS                                                                                                   hydrogen supply, from SMR of nat. gas, by truck, as gaseous, over 500 km
-  hydrogen, nat. gas, with CCS         SE|Hydrogen|Gas|w/ CCS                                                                                                    hydrogen supply, from SMR of nat. gas, with CCS, by truck, as gaseous, over 500 km
+  hydrogen, from natural gas                   SE|Hydrogen|Gas|w/o CCS                                                                                                   hydrogen supply, from SMR of from natural gas, by truck, as gaseous, over 500 km
+  hydrogen, from natural gas, with CCS         SE|Hydrogen|Gas|w/ CCS                                                                                                    hydrogen supply, from SMR of from natural gas, with CCS, by truck, as gaseous, over 500 km
   biodiesel, oil                       SE|Liquids|Biomass|Biofuel|Biodiesel|w/o CCS    Secondary Energy|Consumption|Liquids|Biomass|Biodiesel|Oilcrops|w/oCCS    biodiesel production, via transesterification
   biodiesel, oil, with CCS                                                             Secondary Energy|Consumption|Liquids|Biomass|Biodiesel|Oilcrops|w/CCS     biodiesel production, via transesterification
   bioethanol, wood                     SE|Liquids|Biomass|Cellulosic|w/o CCS           Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Woody|w/oCCS         ethanol production, via fermentation, from forest
@@ -1688,6 +1689,10 @@ The production volumes considered for a given scenario can be consulted, like so
 
     ndb.scenarios[0]["iam data"].production_volumes
 
+To have an updated overview of the mapping concenring all sectors,
+refer to this file: mapping_.
+
+.. _mapping: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/mapping_overview.xlsx
 
 Efficiencies
 ------------

@@ -49,6 +49,8 @@ include premise/data/utils/export/*.yml
 include premise/data/utils/export/*.yaml
 include premise/data/utils/report/*.yaml
 include premise/data/utils/logging/*.yaml
+include premise/data/utils/validation/*.yaml
 include premise/iam_variables_mapping/*.yaml
 include premise/iam_variables_mapping/*.xlsx
+include premise/iam_variables_mapping/topologies/*.json
 include premise/data/consequential/*.yaml

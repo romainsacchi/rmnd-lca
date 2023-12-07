@@ -17,7 +17,11 @@ from .clean_datasets import get_biosphere_flow_uuid
 from .data_collection import IAMDataCollection
 from .filesystem_constants import DATA_DIR
 from .inventory_imports import generate_migration_maps, get_correspondence_bio_flows
-from .transformation import BaseTransformation, get_shares_from_production_volume
+from .transformation import (
+    BaseTransformation,
+    get_shares_from_production_volume,
+    rescale_exchanges,
+)
 from .utils import eidb_label
 
 LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
@@ -248,9 +252,10 @@ def adjust_efficiency(dataset: dict) -> dict:
                         scaling_factor = 1 / v[1][dataset["location"]]
                     except KeyError as err:
                         print(dataset["name"], dataset["location"], dataset["regions"])
-                        raise KeyError(
-                            f"No efficiency factor provided for region {dataset['location']}"
-                        ) from err
+                        print(
+                            f"No efficiency factor provided for dataset {dataset['name']} in {dataset['location']}"
+                        )
+                        scaling_factor = 1
                 else:
                     scaling_factor = 1 / v[1].get(dataset["regions"][0], 1)
                 filters = v[0]
@@ -264,12 +269,16 @@ def adjust_efficiency(dataset: dict) -> dict:
                             dataset,
                             ws.either(*[ws.contains("name", x) for x in filters]),
                         ):
-                            wurst.rescale_exchange(exc, scaling_factor)
+                            wurst.rescale_exchange(
+                                exc, scaling_factor, remove_uncertainty=False
+                            )
                     else:
                         for exc in ws.technosphere(
                             dataset,
                         ):
-                            wurst.rescale_exchange(exc, scaling_factor)
+                            wurst.rescale_exchange(
+                                exc, scaling_factor, remove_uncertainty=False
+                            )
 
                 else:
                     # adjust biosphere flows
@@ -280,12 +289,16 @@ def adjust_efficiency(dataset: dict) -> dict:
                             dataset,
                             ws.either(*[ws.contains("name", x) for x in filters]),
                         ):
-                            wurst.rescale_exchange(exc, scaling_factor)
+                            wurst.rescale_exchange(
+                                exc, scaling_factor, remove_uncertainty=False
+                            )
                     else:
                         for exc in ws.biosphere(
                             dataset,
                         ):
-                            wurst.rescale_exchange(exc, scaling_factor)
+                            wurst.rescale_exchange(
+                                exc, scaling_factor, remove_uncertainty=False
+                            )
 
     return dataset
 
@@ -857,7 +870,7 @@ class ExternalScenario(BaseTransformation):
             )
 
             if "includes" not in ineff:
-                wurst.change_exchanges_by_constant_factor(datatset, scaling_factor)
+                rescale_exchanges(datatset, scaling_factor, remove_uncertainty=False)
 
             else:
                 if "technosphere" in ineff["includes"]:
@@ -867,7 +880,9 @@ class ExternalScenario(BaseTransformation):
                             fltr.append(wurst.contains(k, v))
 
                     for exc in ws.technosphere(datatset, *(fltr or [])):
-                        wurst.rescale_exchange(exc, scaling_factor)
+                        wurst.rescale_exchange(
+                            exc, scaling_factor, remove_uncertainty=False
+                        )
 
                 if "biosphere" in ineff["includes"]:
                     fltr = []
@@ -876,7 +891,9 @@ class ExternalScenario(BaseTransformation):
                             fltr.append(wurst.contains(k, v))
 
                     for exc in ws.biosphere(datatset, *(fltr or [])):
-                        wurst.rescale_exchange(exc, scaling_factor)
+                        wurst.rescale_exchange(
+                            exc, scaling_factor, remove_uncertainty=False
+                        )
         return datatset
 
     def get_region_for_non_null_production_volume(self, i, variables):

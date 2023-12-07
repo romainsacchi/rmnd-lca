@@ -44,10 +44,10 @@ the list of geographical regions as LIST_xxx_REGIONS, with xxx
 being the IAM model name, in the file iam_variables_mapping/constants.yaml.
 
 Lastly, inform premise about the geographical definitions of
-the IAM model you are using. These definitions are already
-stored for REMIND and IMAGE, but not for new IAM models.
+the IAM model you are using.
 Create a .json file listing ISO 3166-1 alpha-2 country codes
-and their corresponding IAM regions, as shown below.
+and their corresponding IAM regions, as shown below, and store it under
+premise/iam_variables_mapping/topologies, under the name: iamname-topology.json.
 
 .. code-block:: json
     {
@@ -61,16 +61,7 @@ and their corresponding IAM regions, as shown below.
         "World": ["GLO", "RoW"]
     }
 
-Then, you need to add to the `constants.yaml` file the path
-to this file:
-
-.. code-block:: yaml
-
-    EXTRA_TOPOLOGY:
-      my_iam_name: filepath/to/the/geographical/definitions.json
-
-In the long term, this information can be integrated
-into premise so that it is not necessary to provide it manually.
+Note that the IAM region names must be identical to the ones used in the IAM scenario files.
 
 IAM scenario file
 -----------------

@@ -21,7 +21,7 @@ requirements:
     - bottleneck
     - bw2data
     - bw2io >=0.8.10
-    - constructive_geometries>=0.8.2
+    - constructive_geometries>=0.9.4
     - cryptography
     - datapackage
     - numpy
@@ -34,7 +34,7 @@ requirements:
     - requests
     - schema
     - sparse>=0.14.0
-    - wurst
+    - wurst>=0.4
     - xarray
 
 test:

@@ -5,7 +5,7 @@ Purpose
 -------
 
 *premise* enables the alignment of life cycle inventories within the ecoinvent_
-3.6-3.9 database, using either a "cut-off" or "consequential"
+3.6-3.9.1 database, using either a "cut-off" or "consequential"
 system model, to match the output results of Integrated
 Assessment Models (IAMs) such as REMIND_ or IMAGE_.
 This allows for the creation of life cycle inventory databases
@@ -119,6 +119,12 @@ Examples notebook
 
 `This notebook <https://github.com/polca/premise/blob/master/examples/examples.ipynb>`_ will show
 you everything you need to know to use *premise*.
+
+ScenarioLink plugin
+*******************
+There now exists a plugin for Activity Browser, called ScenarioLink, which allows you to
+directly download IAM scenario-based premise databases from the browser, without the use of premise.
+You can find it `here <https://github.com/polca/ScenarioLink>`_.
 
 
 Main contributors

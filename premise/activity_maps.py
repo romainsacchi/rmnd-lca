@@ -23,7 +23,7 @@ GAINS_MAPPING = (
     DATA_DIR / "GAINS_emission_factors" / "gains_ecoinvent_sectoral_mapping.yaml"
 )
 ACTIVITIES_METALS_MAPPING = DATA_DIR / "metals" / "activities_mapping.yml"
-# METALS_MAPPING = DATA_DIR / "metals" / "metals_mapping.yml"
+HEAT_TECHS = VARIABLES_DIR / "heat_variables.yaml"
 
 
 def get_mapping(filepath: Path, var: str, model: str = None) -> dict:
@@ -133,6 +133,13 @@ class InventorySet:
             filepath=POWERPLANT_TECHS, var="ecoinvent_aliases", model=self.model
         )
 
+        self.powerplant_max_efficiency = get_mapping(
+            filepath=POWERPLANT_TECHS, var="max_efficiency", model=self.model
+        )
+        self.powerplant_min_efficiency = get_mapping(
+            filepath=POWERPLANT_TECHS, var="min_efficiency", model=self.model
+        )
+
         self.powerplant_fuels_filters = get_mapping(
             filepath=POWERPLANT_TECHS, var="ecoinvent_fuel_aliases"
         )
@@ -156,6 +163,24 @@ class InventorySet:
         self.gains_filters_EU = get_mapping(
             filepath=GAINS_MAPPING, var="ecoinvent_aliases"
         )
+
+        self.activity_metals_filters = get_mapping(
+            filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
+        )
+
+        self.heat_filters = get_mapping(filepath=HEAT_TECHS, var="ecoinvent_aliases")
+
+    def generate_heat_map(self) -> dict:
+        """
+        Filter ecoinvent processes related to heat production.
+
+        :return: dictionary with heat prod. techs as keys (see below) and
+            sets of related ecoinvent activities as values.
+        :rtype: dict
+
+        """
+        return self.generate_sets_from_filters(self.heat_filters)
+
 
         self.activity_metals_filters = get_mapping(
             filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"

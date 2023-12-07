@@ -1,0 +1,280 @@
+{
+  "RUS": [
+    "AM",
+    "AZ",
+    "GE",
+    "RU"
+  ],
+  "CHN": [
+    "CN",
+    "HK",
+    "MN",
+    "MO",
+    "TW"
+  ],
+  "RSAF": [
+    "AO",
+    "BW",
+    "LS",
+    "MW",
+    "MZ",
+    "NA",
+    "SZ",
+    "TZ",
+    "ZM",
+    "ZW"
+  ],
+  "MEX": [
+    "MX"
+  ],
+  "INDO": [
+    "ID",
+    "PG",
+    "TL"
+  ],
+  "JAP": [
+    "JP"
+  ],
+  "RSAM": [
+    "AR",
+    "BO",
+    "CL",
+    "CO",
+    "EC",
+    "GF",
+    "GY",
+    "PE",
+    "PY",
+    "SR",
+    "UY",
+    "VE"
+  ],
+  "WAF": [
+    "BF",
+    "BJ",
+    "CF",
+    "CM",
+    "CV",
+    "CD",
+    "CG",
+    "CI",
+    "GA",
+    "GH",
+    "GN",
+    "GQ",
+    "GM",
+    "GW",
+    "LR",
+    "ML",
+    "MR",
+    "NE",
+    "NG",
+    "SL",
+    "SN",
+    "ST",
+    "SH",
+    "TD",
+    "TG"
+  ],
+  "UKR": [
+    "BY",
+    "MD",
+    "UA"
+  ],
+  "INDIA": [
+    "IN"
+  ],
+  "ME": [
+    "AE",
+    "BH",
+    "IL",
+    "IQ",
+    "IR",
+    "JO",
+    "KW",
+    "LB",
+    "OM",
+    "QA",
+    "SA",
+    "SY",
+    "YE"
+  ],
+  "WEU": [
+    "AD",
+    "AT",
+    "BE",
+    "CH",
+    "DE",
+    "DK",
+    "ES",
+    "FI",
+    "FR",
+    "FO",
+    "GB",
+    "GI",
+    "GR",
+    "IE",
+    "IS",
+    "IT",
+    "LI",
+    "LU",
+    "MC",
+    "MT",
+    "NL",
+    "NO",
+    "PT",
+    "SE",
+    "SM",
+    "VA"
+  ],
+  "NAF": [
+    "DZ",
+    "EG",
+    "EH",
+    "LY",
+    "MA",
+    "TN"
+  ],
+  "KOR": [
+    "KP",
+    "KR"
+  ],
+  "EAF": [
+    "BI",
+    "DJ",
+    "ER",
+    "ET",
+    "KE",
+    "KM",
+    "MG",
+    "MU",
+    "RW",
+    "RE",
+    "SC",
+    "SD",
+    "SO",
+    "UG",
+    "SS"
+  ],
+  "STAN": [
+    "KZ",
+    "KG",
+    "TJ",
+    "TM",
+    "UZ"
+  ],
+  "CEU": [
+    "AL",
+    "BA",
+    "BG",
+    "CS",
+    "CY",
+    "CZ",
+    "EE",
+    "HR",
+    "HU",
+    "LT",
+    "LV",
+    "MK",
+    "PL",
+    "RO",
+    "SI",
+    "SK",
+    "XK",
+    "ME"
+  ],
+  "RCAM": [
+    "AI",
+    "AW",
+    "BB",
+    "BM",
+    "BZ",
+    "BS",
+    "CR",
+    "DM",
+    "DO",
+    "GD",
+    "GP",
+    "GT",
+    "HN",
+    "HT",
+    "JM",
+    "KY",
+    "MQ",
+    "MS",
+    "NI",
+    "AW",
+    "CW",
+    "SX",
+    "PA",
+    "US-PR",
+    "SV",
+    "KN",
+    "LC",
+    "VC",
+    "TT",
+    "TC",
+    "VG",
+    "VI",
+    "CU"
+  ],
+  "CAN": [
+    "CA"
+  ],
+  "RSAS": [
+    "AF",
+    "BD",
+    "BT",
+    "LK",
+    "MV",
+    "NP",
+    "PK"
+  ],
+  "SAF": [
+    "ZA"
+  ],
+  "BRA": [
+    "BR"
+  ],
+  "TUR": [
+    "TR"
+  ],
+  "OCE": [
+    "AS",
+    "AU",
+    "CK",
+    "FJ",
+    "KI",
+    "MH",
+    "MP",
+    "FM",
+    "NC",
+    "NR",
+    "NU",
+    "NZ",
+    "PF",
+    "PW",
+    "SB",
+    "TK",
+    "TO",
+    "TV",
+    "VU",
+    "WS"
+  ],
+  "USA": [
+    "US",
+    "PM"
+  ],
+  "SEAS": [
+    "BN",
+    "KH",
+    "LA",
+    "MM",
+    "MY",
+    "PH",
+    "SG",
+    "TH",
+    "VN"
+  ],
+  "World": ["GLO", "RoW"]
+}
