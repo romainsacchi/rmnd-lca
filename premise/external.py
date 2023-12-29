@@ -952,8 +952,7 @@ class ExternalScenario(BaseTransformation):
 
                     if "except regions" in market_vars:
                         regions = [
-                            r for r in regions
-                            if r not in market_vars["except regions"]
+                            r for r in regions if r not in market_vars["except regions"]
                         ]
 
                     # Loop through regions

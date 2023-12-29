@@ -206,18 +206,24 @@ class DirectAirCapture(BaseTransformation):
 
         for region, dataset in datasets.items():
             if self.iam_data.dac_electricity_efficiencies is not None:
-                if region in self.iam_data.dac_electricity_efficiencies.coords["region"].values:
-                    scaling_factor = float(1 / self.iam_data.dac_electricity_efficiencies.sel(
-                        region=region
-                    ).interp(year=self.year).values)
+                if (
+                    region
+                    in self.iam_data.dac_electricity_efficiencies.coords[
+                        "region"
+                    ].values
+                ):
+                    scaling_factor = float(
+                        1
+                        / self.iam_data.dac_electricity_efficiencies.sel(region=region)
+                        .interp(year=self.year)
+                        .values
+                    )
 
                     if scaling_factor != 1:
                         rescale_exchanges(
                             dataset,
                             scaling_factor,
-                            technosphere_filters=[
-                                ws.equals("unit", "kilowatt hour")
-                            ],
+                            technosphere_filters=[ws.equals("unit", "kilowatt hour")],
                         )
 
                         # add in comments the scaling factor applied
@@ -237,19 +243,22 @@ class DirectAirCapture(BaseTransformation):
                         )
 
             if self.iam_data.dac_heat_efficiencies is not None:
-                if region in self.iam_data.dac_heat_efficiencies.coords["region"].values:
-                    scaling_factor = float(1 / self.iam_data.dac_heat_efficiencies.sel(
-                        region=region
-                    ).interp(year=self.year).values)
+                if (
+                    region
+                    in self.iam_data.dac_heat_efficiencies.coords["region"].values
+                ):
+                    scaling_factor = float(
+                        1
+                        / self.iam_data.dac_heat_efficiencies.sel(region=region)
+                        .interp(year=self.year)
+                        .values
+                    )
 
                     if scaling_factor != 1:
-
                         rescale_exchanges(
                             dataset,
                             scaling_factor,
-                            technosphere_filters=[
-                                ws.equals("unit", "megajoule")
-                            ],
+                            technosphere_filters=[ws.equals("unit", "megajoule")],
                         )
 
                         # add in comments the scaling factor applied
