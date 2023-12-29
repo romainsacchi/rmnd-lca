@@ -121,20 +121,20 @@ vanadium_oxide:
 lithium_hydroxide:
   - lithium hydroxide, battery grade
 
-# other_chloride:
+other_chloride:
 
 lithium_carbonate:
   - lithium carbonate, battery grade
 
-# other_carbonate:
+other_carbonate:
 
 dolomite:
   - dolomite
 
 other_carbide:
-  - boron carbide
+  -boron carbide
 
-# other_fluoride:
+other_fluoride:
 
 silicon:
   - silicon, metallurgical grade
@@ -177,10 +177,9 @@ copper_cathode:
 ga_ge_hf_in_nb_rh_va:
   - gallium, semiconductor-grade
   - germanium, concentrate
-  - hafnium sponge
-  - hafnium tetrachloride
+  - hafnium, sponge
+#  - hafnium, tetrachloride
   - indium
-  - indium rich leaching residues, from zinc production
   - Rhenium
 
 gold:
@@ -188,7 +187,6 @@ gold:
 
 graphite:
   - graphite
-  - graphite ore, mined
 
 pgm:
   - iridium
@@ -234,7 +232,7 @@ titanium: ## I exclude titanium tetrachloride and sponge
 zinc:
   - zinc
 
-zirconium: ### RE RUN NOTEBOOK ADDING THIS!
+zirconium:
   - zircon
 
-### Missing: spodumene, sand,
+### Missing: spodumene and sand

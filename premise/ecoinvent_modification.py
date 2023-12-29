@@ -484,7 +484,12 @@ def _update_all(
         system_model=system_model,
         cache=cache,
     )
-
+    scenario, cache = _update_metals(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        cache=cache,
+    )
     scenario, cache = _update_fuels(
         scenario=scenario,
         version=version,
