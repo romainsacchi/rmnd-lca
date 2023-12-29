@@ -2382,11 +2382,23 @@ class Fuels(BaseTransformation):
                 "gasoline",
                 "bioethanol",
             ],
-            "diesel, low-sulfur": ["diesel", "biodiesel",],
-            "natural gas": ["natural gas", "biomethane", ],
-            "hydrogen": ["hydrogen",],
-            "kerosene": ["kerosene",],
-            "liquefied petroleum gas": ["liquefied petroleum gas",],
+            "diesel, low-sulfur": [
+                "diesel",
+                "biodiesel",
+            ],
+            "natural gas": [
+                "natural gas",
+                "biomethane",
+            ],
+            "hydrogen": [
+                "hydrogen",
+            ],
+            "kerosene": [
+                "kerosene",
+            ],
+            "liquefied petroleum gas": [
+                "liquefied petroleum gas",
+            ],
         }
 
         new_datasets = []

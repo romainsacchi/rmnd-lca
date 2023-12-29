@@ -348,7 +348,9 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
             variables = get_variables(filepath["filepath"])
             if "filter" in filepath:
                 variables = [
-                    x for x in variables if any(x.startswith(y) for y in filepath["filter"])
+                    x
+                    for x in variables
+                    if any(x.startswith(y) for y in filepath["filter"])
                 ]
 
         worksheet = workbook.create_sheet(sector)
