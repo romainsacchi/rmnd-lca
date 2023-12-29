@@ -392,6 +392,13 @@ class IAMDataCollection:
             IAM_DAC_VARS, variable="iam_aliases"
         )
 
+        dac_heat_vars = self.__get_iam_variable_labels(
+            IAM_DAC_VARS, variable="heat_use_aliases"
+        )
+        dac_electricity_vars = self.__get_iam_variable_labels(
+            IAM_DAC_VARS, variable="electricity_use_aliases"
+        )
+
         biomass_prod_vars = self.__get_iam_variable_labels(
             IAM_BIOMASS_VARS, variable="iam_aliases"
         )
@@ -467,7 +474,7 @@ class IAMDataCollection:
                 k: v
                 for k, v in fuel_prod_vars.items()
                 if any(
-                    k.lower().startswith(x) for x in ["gasoline", "ethanol", "methanol"]
+                    k.lower().startswith(x) for x in ["gasoline", "ethanol", "methanol", "bioethanol"]
                 )
             },
             system_model=self.system_model,
@@ -489,6 +496,7 @@ class IAMDataCollection:
                     k.lower().startswith(x)
                     for x in [
                         "diesel",
+                        "biodiesel",
                     ]
                 )
             },
@@ -509,7 +517,7 @@ class IAMDataCollection:
                 for k, v in fuel_prod_vars.items()
                 if any(
                     k.lower().startswith(x)
-                    for x in ["biogas", "methane", "natural gas"]
+                    for x in ["biogas", "methane", "natural gas", "biomethane"]
                 )
             },
             system_model=self.system_model,
@@ -524,6 +532,36 @@ class IAMDataCollection:
                     k.lower().startswith(x)
                     for x in [
                         "hydrogen",
+                    ]
+                )
+            },
+            system_model=self.system_model,
+        )
+
+        self.kerosene_markets = self.__fetch_market_data(
+            data=data,
+            input_vars={
+                k: v
+                for k, v in fuel_prod_vars.items()
+                if any(
+                    k.lower().startswith(x)
+                    for x in [
+                        "kerosene",
+                    ]
+                )
+            },
+            system_model=self.system_model,
+        )
+
+        self.lpg_markets = self.__fetch_market_data(
+            data=data,
+            input_vars={
+                k: v
+                for k, v in fuel_prod_vars.items()
+                if any(
+                    k.lower().startswith(x)
+                    for x in [
+                        "liquefied petroleum gas",
                     ]
                 )
             },
@@ -566,48 +604,59 @@ class IAMDataCollection:
             energy_labels=cement_energy_vars,
             production_labels=cement_prod_vars,
         )
+
         self.steel_efficiencies = self.get_iam_efficiencies(
             data=data,
             production_labels=steel_prod_vars,
             energy_labels=steel_energy_vars,
             efficiency_labels=steel_eff_vars,
         )
+
         self.petrol_efficiencies = self.get_iam_efficiencies(
             data=data,
             efficiency_labels={
                 k: v
                 for k, v in fuel_eff_vars.items()
-                if any(x in k for x in ["gasoline", "ethanol", "methanol"])
+                if any(
+                    k.lower().startswith(x) for x in ["gasoline", "ethanol", "methanol", "bioethanol"]
+                )
             },
         )
+
         self.diesel_efficiencies = self.get_iam_efficiencies(
             data=data,
             efficiency_labels={
                 k: v
                 for k, v in fuel_eff_vars.items()
                 if any(
-                    x in k
+                    k.lower().startswith(x)
                     for x in [
                         "diesel",
+                        "biodiesel",
                     ]
                 )
             },
         )
+
         self.gas_efficiencies = self.get_iam_efficiencies(
             data=data,
             efficiency_labels={
                 k: v
                 for k, v in fuel_eff_vars.items()
-                if any(x in k for x in ["biogas", "methane", "natural gas"])
+                if any(
+                    k.lower().startswith(x)
+                    for x in ["biogas", "methane", "natural gas", "biomethane"]
+                )
             },
         )
+
         self.hydrogen_efficiencies = self.get_iam_efficiencies(
             data=data,
             efficiency_labels={
                 k: v
                 for k, v in fuel_eff_vars.items()
                 if any(
-                    x in k
+                    k.lower().startswith(x)
                     for x in [
                         "hydrogen",
                     ]
@@ -615,17 +664,60 @@ class IAMDataCollection:
             },
         )
 
+        self.kerosene_efficiencies = self.get_iam_efficiencies(
+            data=data,
+            efficiency_labels={
+                k: v
+                for k, v in fuel_eff_vars.items()
+                if any(
+                    k.lower().startswith(x)
+                    for x in [
+                        "kerosene",
+                    ]
+                )
+            },
+        )
+
+        self.lpg_efficiencies = self.get_iam_efficiencies(
+            data=data,
+            efficiency_labels={
+                k: v
+                for k, v in fuel_eff_vars.items()
+                if any(
+                    k.lower().startswith(x)
+                    for x in [
+                        "liquefied petroleum gas",
+                    ]
+                )
+            },
+        )
+
+        self.dac_heat_efficiencies = self.get_iam_efficiencies(
+            data=data,
+            production_labels=dac_prod_vars,
+            energy_labels=dac_heat_vars,
+        )
+
+        self.dac_electricity_efficiencies = self.get_iam_efficiencies(
+            data=data,
+            production_labels=dac_prod_vars,
+            energy_labels=dac_electricity_vars,
+        )
+
         self.land_use = self.__get_iam_production_volumes(
             data=data, input_vars=land_use_vars, fill=True
         )
+
         self.land_use_change = self.__get_iam_production_volumes(
             data=data, input_vars=land_use_change_vars, fill=True
         )
 
         self.trsp_cars = get_vehicle_fleet_composition(self.model, vehicle_type="car")
+
         self.trsp_trucks = get_vehicle_fleet_composition(
             self.model, vehicle_type="truck"
         )
+
         self.trsp_buses = get_vehicle_fleet_composition(self.model, vehicle_type="bus")
 
         self.metals = get_metals_intensity_factors_data()
@@ -816,23 +908,42 @@ class IAMDataCollection:
             data.year.values.min() <= self.year <= data.year.values.max()
         ), f"{self.year} is outside of the boundaries of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
 
-        missing_vars = set(input_vars.values()) - set(data.variables.values)
+        # check if values of input_vars are strings or lists
+        if any(isinstance(x, list) for x in input_vars.values()):
+            vars = list(chain.from_iterable(input_vars.values()))
+        else:
+            vars = list(input_vars.values())
+
+        missing_vars = set(vars) - set(data.variables.values)
 
         if missing_vars:
             print_missing_variables(missing_vars)
 
-        available_vars = list(set(input_vars.values()) - missing_vars)
+        available_vars = list(set(vars) - missing_vars)
 
         if available_vars:
             market_data = data.loc[:, available_vars, :]
         else:
             return None
 
-        rev_input_vars = {v: k for k, v in input_vars.items()}
+
+        if any(isinstance(x, list) for x in input_vars.values()):
+            rev_input_vars = {
+                x: k for k, v in input_vars.items() for x in v
+            }
+        else:
+            rev_input_vars = {v: k for k, v in input_vars.items()}
 
         market_data.coords["variables"] = [
             rev_input_vars[v] for v in market_data.variables.values
         ]
+
+        # if duplicates in market_data.coords["variables"]
+        # we sum them
+        if len(market_data.coords["variables"].values.tolist()) != len(
+            set(market_data.coords["variables"].values.tolist())
+        ):
+            market_data = market_data.groupby("variables").sum(dim="variables")
 
         if system_model == "consequential":
             market_data = consequential_method(
@@ -841,7 +952,7 @@ class IAMDataCollection:
         else:
             if normalize is True:
                 market_data /= (
-                    data.loc[:, available_vars, :]
+                    market_data
                     .groupby("region")
                     .sum(dim="variables")
                 )
@@ -875,6 +986,10 @@ class IAMDataCollection:
 
         """
 
+        efficiency_labels = efficiency_labels or {}
+        production_labels = production_labels or {}
+        energy_labels = energy_labels or {}
+
         # Check if the year specified is within the range of years given by the IAM
         # If the year specified is not contained within the range of years given by the IAM
         if self.year < data.year.values.min() or self.year > data.year.values.max():
@@ -898,29 +1013,55 @@ class IAMDataCollection:
                 eff_data.coords["variables"] = [
                     rev_eff_labels[x] for x in eff_data.variables.values
                 ]
+                # convert zero values to nan
+                # and back-fill and forward-fill missing values with nearest available
+                eff_data = eff_data.where(eff_data != 0)
+                eff_data = eff_data.bfill(dim="year")
+                eff_data = eff_data.ffill(dim="year")
+
             else:
                 return None
 
         elif production_labels and energy_labels:
             eff_data = xr.DataArray(dims=["variables"], coords={"variables": []})
             for k, v in production_labels.items():
+
                 # check that each element of energy.values() is in data.variables.values
                 # knowing that energy.values() is a list of lists
                 # and that each element of prod.values() is in data.variables.values
+                _ = lambda x: x if isinstance(x, list) else [x,]
+
                 if (
                     all(var in data.variables.values for var in energy_labels[k])
-                    and v in data.variables.values
+                    and all(x in data.variables.values for x in _(v))
                 ):
-                    d = (
-                        data.loc[:, energy_labels[k], :].sum(dim="variables")
-                        / data.loc[:, v, :]
-                    )
+                    if isinstance(v, list):
+                        d = (
+                                data.loc[:, energy_labels[k], :].sum(dim="variables")
+                                / data.loc[:, list(v), :].sum(dim="variables")
+                        )
+                        # add dimension "variables" to d
+                        d = d.expand_dims(dim="variables")
+                        # add a coordinate "variables" to d
+                        d.coords["variables"] = [k,]
+                    else:
+                        d = (
+                            data.loc[:, energy_labels[k], :].sum(dim="variables")
+                            / data.loc[:, v, :]
+                        )
+                    # convert inf to Nan
+                    d = d.where(d != np.inf)
+                    # back-fill nans
+                    d = d.bfill(dim="year")
+                    # forward-fill nans
+                    d = d.ffill(dim="year")
 
                 else:
                     # fill d with ones
                     d = xr.ones_like(data.loc[:, data.variables[0], :])
 
                 eff_data = xr.concat([eff_data, d], dim="variables")
+
             eff_data.coords["variables"] = list(production_labels.keys())
         else:
             return None
@@ -979,15 +1120,20 @@ class IAMDataCollection:
         # if variable is missing, we assume that the rate is 0
         # and that none of the  CO2 emissions are captured
 
+        if isinstance(dict_vars.get("cement - cco2", []), str):
+            dict_vars["cement - cco2"] = [dict_vars["cement - cco2"],]
+
         if not any(
             x in data.variables.values.tolist()
             for x in dict_vars.get("cement - cco2", [])
         ):
+            print("Cannot find variables for cement capture rate.")
             cement_rate = xr.DataArray(
                 np.zeros((len(data.region), len(data.year))),
                 coords=[data.region, data.year],
                 dims=["region", "year"],
             )
+
         else:
             cement_rate = data.loc[:, dict_vars["cement - cco2"], :].sum(
                 dim=["variables"]
@@ -995,10 +1141,14 @@ class IAMDataCollection:
 
         cement_rate.coords["variables"] = "cement"
 
+        if isinstance(dict_vars.get("steel - cco2", []), str):
+            dict_vars["steel - cco2"] = [dict_vars["steel - cco2"],]
+
         if not any(
             x in data.variables.values.tolist()
             for x in dict_vars.get("steel - cco2", [])
         ):
+            print("Cannot find variables for steel capture rate.")
             steel_rate = xr.DataArray(
                 np.zeros((len(data.region), len(data.year))),
                 coords=[data.region, data.year],
@@ -1048,6 +1198,7 @@ class IAMDataCollection:
                         .sum(dim=["variables", "region"])
                         .values
                     )
+
                 except ZeroDivisionError:
                     rate.loc[dict(region="World", variables="cement")] = 0
 
@@ -1065,6 +1216,7 @@ class IAMDataCollection:
                     ].sum(
                         dim=["variables", "region"]
                     )
+
                 except ZeroDivisionError:
                     rate.loc[dict(region="World", variables="steel")] = 0
 
@@ -1114,6 +1266,15 @@ class IAMDataCollection:
         different commodities (electricity, cement, etc.)
         """
 
+        def flatten_list_to_strings(input_list):
+            result = []
+            for element in input_list:
+                if isinstance(element, str):
+                    result.append(element)
+                elif isinstance(element, list):
+                    result.extend(flatten_list_to_strings(element))
+            return result
+
         # If the year specified is not contained within the range of years given by the IAM
         if self.year < data.year.values.min() or self.year > data.year.values.max():
             raise KeyError(
@@ -1121,23 +1282,43 @@ class IAMDataCollection:
                 f"of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
             )
 
-        missing_vars = set(input_vars.values()) - set(data.variables.values)
+        vars = flatten_list_to_strings(input_vars.values())
+
+        missing_vars = set(vars) - set(data.variables.values)
 
         if missing_vars:
             print_missing_variables(missing_vars)
 
-        available_vars = list(set(input_vars.values()) - missing_vars)
+        available_vars = list(set(vars) - missing_vars)
 
         if available_vars:
             data_to_return = data.loc[
-                :, [v for v in input_vars.values() if v in available_vars], :
+                :, available_vars, :
             ]
         else:
             return None
 
+        if any(isinstance(x, list) for x in input_vars.values()):
+            rev_input_vars = {}
+            for k, v in input_vars.items():
+                if isinstance(v, list):
+                    for x in v:
+                        rev_input_vars[x] = k
+                else:
+                    rev_input_vars[v] = k
+        else:
+            rev_input_vars = {v: k for k, v in input_vars.items()}
+
         data_to_return.coords["variables"] = [
-            k for k, v in input_vars.items() if v in available_vars
+            rev_input_vars[v] for v in data_to_return.variables.values
         ]
+
+        # if duplicates in market_data.coords["variables"]
+        # we sum them
+        if len(data_to_return.coords["variables"].values.tolist()) != len(
+                set(data_to_return.coords["variables"].values.tolist())
+        ):
+            data_to_return = data_to_return.groupby("variables").sum(dim="variables")
 
         if fill:
             # if fill, we fill zero values

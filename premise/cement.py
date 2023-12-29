@@ -103,6 +103,7 @@ class Cement(BaseTransformation):
 
         for exc in ws.technosphere(dataset):
             fuel_name = exc["name"]
+
             if fuel_name in self.cement_fuels_map["cement, dry feed rotary kiln"]:
                 fuel_data = self.fuels_specs[self.fuel_map_reverse[fuel_name]]
                 co2_emission = fuel_data["co2"]

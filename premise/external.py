@@ -359,7 +359,6 @@ class ExternalScenario(BaseTransformation):
         year: int,
         version: str,
         system_model: str,
-        cache: dict = None,
     ):
         """
         :param database: list of datasets representing teh database
@@ -456,7 +455,10 @@ class ExternalScenario(BaseTransformation):
                     self.add_to_index(act)
 
             # remove "adjust efficiency" tag
-            del ds["regionalize"]
+            if "adjust efficiency" in ds:
+                del ds["adjust efficiency"]
+            if "regionalize" in ds:
+                del ds["regionalize"]
 
         # some datasets might be meant to replace the supply
         # of other datasets, so we need to adjust those
@@ -499,6 +501,7 @@ class ExternalScenario(BaseTransformation):
         To be further filled with exchanges.
         :param market: dataset to use as template
         :param region: region to create the dataset for.
+        :param waste_market: True if the market is a waste market
         :return: dictionary
         """
 
@@ -565,6 +568,8 @@ class ExternalScenario(BaseTransformation):
                 1,
             )
 
+            if supply_share == 0:
+                continue
             # create a new exchange for the regional market
             # in the World market dataset
             new_excs.append(
@@ -947,7 +952,8 @@ class ExternalScenario(BaseTransformation):
 
                     if "except regions" in market_vars:
                         regions = [
-                            r for r in regions if r not in market_vars["except regions"]
+                            r for r in regions
+                            if r not in market_vars["except regions"]
                         ]
 
                     # Loop through regions
@@ -1023,7 +1029,7 @@ class ExternalScenario(BaseTransformation):
 
                                 new_excs.extend(
                                     self.write_suppliers_exchanges(
-                                        suppliers, supply_share
+                                        suppliers, float(supply_share)
                                     )
                                 )
 
@@ -1065,9 +1071,6 @@ class ExternalScenario(BaseTransformation):
                             self.database.append(new_market)
                             self.write_log(new_market)
                             self.add_to_index(new_market)
-
-                        else:
-                            regions.remove(region)
 
                     # if there's more than one region, we create a World region
                     create_world_region = True

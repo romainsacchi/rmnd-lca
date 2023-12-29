@@ -204,177 +204,69 @@ class DirectAirCapture(BaseTransformation):
         Apply a learning rate -- see Qiu et al., 2022.
         """
 
-        # learning rates for operation-related expenditures
-        # (thermal and electrical energy)
-        learning_rates_operation = {
-            "dac_solvent": 0.025,
-            "dac_sorbent": 0.025,
-            "daccs_solvent": 0.025,
-            "daccs_sorbent": 0.025,
-        }
-
-        # learning rates for
-        # infrastructure-related expenditures
-        learning_rates_infra = {
-            "dac_solvent": 0.1,
-            "dac_sorbent": 0.15,
-            "daccs_solvent": 0.1,
-            "daccs_sorbent": 0.15,
-        }
-
-        theoretical_min_operation = {
-            "dac_solvent": 0.95,
-            "dac_sorbent": 0.95,
-            "daccs_solvent": 0.95,
-            "daccs_sorbent": 0.95,
-        }
-
-        theoretical_min_infra = {
-            "dac_solvent": 0.44,
-            "dac_sorbent": 0.18,
-            "daccs_solvent": 0.44,
-            "daccs_sorbent": 0.18,
-        }
-
         for region, dataset in datasets.items():
-            # fetch cumulated deployment of DAC from IAM file
-            if "dac_solvent" in self.iam_data.production_volumes.variables.values:
-                cumulated_deployment = (
-                    np.clip(
-                        self.iam_data.production_volumes.sel(
-                            variables="dac_solvent",
+            if self.iam_data.dac_electricity_efficiencies is not None:
+                if region in self.iam_data.dac_electricity_efficiencies.coords["region"].values:
+                    scaling_factor = float(1 / self.iam_data.dac_electricity_efficiencies.sel(
+                        region=region
+                    ).interp(year=self.year).values)
+
+                    if scaling_factor != 1:
+                        rescale_exchanges(
+                            dataset,
+                            scaling_factor,
+                            technosphere_filters=[
+                                ws.equals("unit", "kilowatt hour")
+                            ],
                         )
-                        .interp(year=self.year)
-                        .sum(dim="region")
-                        .values.item()
-                        * -1,
-                        1e-3,
-                        None,
-                    )
-                    / 2
-                )  # divide by 2,
-                # as we assume sorbent and solvent are deployed equally
 
-                initial_deployment = (
-                    np.clip(
-                        self.iam_data.production_volumes.sel(
-                            variables="dac_solvent", year=2020
+                        # add in comments the scaling factor applied
+                        dataset["comment"] += (
+                            f" The electrical efficiency of the system has been "
+                            f"adjusted to match the efficiency of the "
+                            f"average DAC plant in {self.year}."
                         )
-                        .sum(dim="region")
-                        .values.item()
-                        * -1,
-                        1e-3,
-                        None,
-                    )
-                    / 2
-                )  # divide by 2,
-                # as we assume sorbent and solvent are deployed equally
-            else:
-                cumulated_deployment = 1
-                initial_deployment = 1
 
-            # the learning rate is applied per doubling
-            # of the cumulative deployment
-            # relative to 2020
+                        if "log parameters" not in dataset:
+                            dataset["log parameters"] = {}
 
-            scaling_factor_operation = (
-                1 - theoretical_min_operation[technology]
-            ) * np.power(
-                (1 - learning_rates_operation[technology]),
-                np.log2(cumulated_deployment / initial_deployment),
-            ) + theoretical_min_operation[
-                technology
-            ]
-
-            scaling_factor_infra = (1 - theoretical_min_infra[technology]) * np.power(
-                (1 - learning_rates_infra[technology]),
-                np.log2(cumulated_deployment / initial_deployment),
-            ) + theoretical_min_infra[technology]
-
-            current_energy_inputs = sum(
-                e["amount"] for e in dataset["exchanges"] if e["unit"] == "megajoule"
-            )
-            current_energy_inputs += sum(
-                e["amount"] * 3.6
-                for e in dataset["exchanges"]
-                if e["unit"] == "kilowatt hour"
-            )
-
-            if "log parameters" not in dataset:
-                dataset["log parameters"] = {}
-
-            dataset["log parameters"].update(
-                {
-                    "initial energy input per kg CO2": current_energy_inputs,
-                }
-            )
-
-            if scaling_factor_operation != 1:
-                # Scale down the energy exchanges using the scaling factor
-                rescale_exchanges(
-                    dataset,
-                    scaling_factor_operation,
-                    technosphere_filters=[
-                        ws.either(
-                            *[ws.contains("name", x) for x in ["heat", "electricity"]]
+                        dataset["log parameters"].update(
+                            {
+                                "electricity scaling factor": scaling_factor,
+                            }
                         )
-                    ],
-                    biosphere_filters=[ws.exclude(ws.contains("type", "biosphere"))],
-                    remove_uncertainty=False,
-                )
 
-            new_energy_inputs = sum(
-                e["amount"] for e in dataset["exchanges"] if e["unit"] == "megajoule"
-            )
-            new_energy_inputs += sum(
-                e["amount"] * 3.6
-                for e in dataset["exchanges"]
-                if e["unit"] == "kilowatt hour"
-            )
+            if self.iam_data.dac_heat_efficiencies is not None:
+                if region in self.iam_data.dac_heat_efficiencies.coords["region"].values:
+                    scaling_factor = float(1 / self.iam_data.dac_heat_efficiencies.sel(
+                        region=region
+                    ).interp(year=self.year).values)
 
-            dataset["log parameters"].update(
-                {
-                    "new energy input per kg CO2": new_energy_inputs,
-                }
-            )
+                    if scaling_factor != 1:
 
-            # add in comments the scaling factor applied
-            dataset["comment"] += (
-                f" Operation-related expenditures have been "
-                f"reduced by: {int((1 - scaling_factor_operation) * 100)}%."
-            )
-
-            dataset["log parameters"].update(
-                {
-                    "scaling factor operation": scaling_factor_operation,
-                    "scaling factor infrastructure": scaling_factor_infra,
-                }
-            )
-
-            if scaling_factor_infra != 1:
-                # Scale down the infra and material exchanges using the scaling factor
-                rescale_exchanges(
-                    dataset,
-                    scaling_factor_infra,
-                    technosphere_filters=[
-                        ws.exclude(
-                            ws.either(
-                                *[
-                                    ws.contains("name", x)
-                                    for x in ["heat", "electricity", "storage"]
-                                ]
-                            )
+                        rescale_exchanges(
+                            dataset,
+                            scaling_factor,
+                            technosphere_filters=[
+                                ws.equals("unit", "megajoule")
+                            ],
                         )
-                    ],
-                    biosphere_filters=[ws.exclude(ws.contains("type", "biosphere"))],
-                    remove_uncertainty=False,
-                )
 
-            # add in comments the scaling factor applied
-            dataset["comment"] += (
-                f" Infrastructure-related expenditures have been "
-                f"reduced by: {int((1 - scaling_factor_infra) * 100)}%."
-            )
+                        # add in comments the scaling factor applied
+                        dataset["comment"] += (
+                            f" The thermal efficiency of the system has been "
+                            f"adjusted to match the efficiency of the "
+                            f"average DAC plant in {self.year}."
+                        )
+
+                        if "log parameters" not in dataset:
+                            dataset["log parameters"] = {}
+
+                        dataset["log parameters"].update(
+                            {
+                                "heat scaling factor": scaling_factor,
+                            }
+                        )
 
         return datasets
 
@@ -385,8 +277,6 @@ class DirectAirCapture(BaseTransformation):
         logger.info(
             f"{status}|{self.model}|{self.scenario}|{self.year}|"
             f"{dataset['name']}|{dataset['location']}|"
-            f"{dataset.get('log parameters', {}).get('scaling factor operation', '')}|"
-            f"{dataset.get('log parameters', {}).get('scaling factor infrastructure', '')}|"
-            f"{dataset.get('log parameters', {}).get('initial energy input per kg CO2', '')}|"
-            f"{dataset.get('log parameters', {}).get('new energy input per kg CO2', '')}"
+            f"{dataset.get('log parameters', {}).get('electricity scaling factor', '')}|"
+            f"{dataset.get('log parameters', {}).get('heat scaling factor', '')}"
         )

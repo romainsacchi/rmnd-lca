@@ -16,6 +16,9 @@ sugar:
     gcam:
       temperate: sugarbeet
       tropical: sugarcane
+    tiam:
+      temperate: sugarbeet
+      tropical: sugarcane
   land_use:
     image: Land Use|Marginal|Biomass|Sugar
     gcam: Land Use|Average|Biomass|Sugar
@@ -34,6 +37,9 @@ oil:
       temperate: rapeseed
       tropical: palm oil
     gcam:
+      temperate: rapeseed
+      tropical: palm oil
+    tiam:
       temperate: rapeseed
       tropical: palm oil
   land_use:
@@ -56,12 +62,16 @@ wood:
     gcam:
       temperate: poplar
       tropical: eucalyptus
+    tiam:
+      temperate: poplar
+      tropical: eucalyptus
   land_use:
     image: Land Use|Marginal|Biomass|Woody
     gcam: Land Use|Average|Biomass|Wood
   land_use_change:
     image: Emission Factor|CO2|Energy|Supply|Biomass|Marginal|Woody
     gcam: Emission Factor|CO2|Land Use Change|Average|Biomass|Wood
+    tiam: Emission Factor|CO2|Energy|Supply|Biomass|Average|Energy crops
 grass:
   crop_type:
     image:
@@ -74,6 +84,9 @@ grass:
       temperate: switchgrass
       tropical: miscanthus
     gcam:
+      temperate: switchgrass
+      tropical: miscanthus
+    tiam:
       temperate: switchgrass
       tropical: miscanthus
   land_use:
@@ -94,6 +107,9 @@ grain:
       temperate: corn
       tropical: corn
     gcam:
+      temperate: corn
+      tropical: corn
+    tiam:
       temperate: corn
       tropical: corn
   land_use:

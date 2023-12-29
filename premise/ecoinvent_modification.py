@@ -102,6 +102,10 @@ FILEPATH_SYNFUEL_INVENTORIES = (
     INVENTORY_DIR / "lci-synfuels-from-FT-from-electrolysis.xlsx"
 )
 
+FILEPATH_SYNFUEL_INVENTORIES_FT_FROM_NG = (
+    INVENTORY_DIR / "lci-synfuels-from-FT-from-natural-gas.xlsx"
+)
+
 FILEPATH_SYNFUEL_FROM_FT_FROM_WOOD_GASIFICATION_INVENTORIES = (
     INVENTORY_DIR / "lci-synfuels-from-FT-from-wood-gasification.xlsx"
 )
@@ -492,6 +496,14 @@ def _update_all(
         system_model=system_model,
         cache=cache,
     )
+
+    scenario, cache = _update_heat(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        cache=cache,
+    )
+
     scenario = _update_emissions(
         scenario,
         version,
@@ -773,6 +785,7 @@ class NewDatabase:
             (FILEPATH_SYNGAS_FROM_COAL_INVENTORIES, "3.7"),
             (FILEPATH_BIOFUEL_INVENTORIES, "3.7"),
             (FILEPATH_SYNFUEL_INVENTORIES, "3.7"),
+            (FILEPATH_SYNFUEL_INVENTORIES_FT_FROM_NG, "3.7"),
             (
                 FILEPATH_SYNFUEL_FROM_FT_FROM_WOOD_GASIFICATION_INVENTORIES,
                 "3.7",
@@ -802,7 +815,7 @@ class NewDatabase:
             (FILEPATH_METHANOL_HEATING, "3.9"),
             (FILEPATH_GERMANIUM, "3.9"),
             (FILEPATH_RHENIUM, "3.9"),
-            (FILEPATH_PGM, "3.9"),
+            (FILEPATH_PGM, "3.8"),
         ]
         for filepath in filepaths:
             # make an exception for FILEPATH_OIL_GAS_INVENTORIES
@@ -1318,6 +1331,7 @@ class NewDatabase:
                     system_model=self.system_model,
                 )
                 external_scenario.create_custom_markets()
+                external_scenario.relink_datasets()
                 scenario["database"] = external_scenario.database
             print(f"Log file of exchanges saved under {DATA_DIR / 'logs'}.")
 

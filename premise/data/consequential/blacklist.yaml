@@ -227,3 +227,30 @@
     name: market for carbon dioxide, liquid
     reference product: carbon dioxide, liquid
     location: RoW
+
+- name: waste paper, unsorted, Recycled Content cut-off
+  reference product: waste paper, unsorted
+  unit: kilogram
+  location: GLO
+  replacement:
+    name: market for waste paper, unsorted
+    reference product: waste paper, unsorted
+    location: RoW
+
+- name: waste wood, post-consumer, Recycled Content cut-off
+  reference product: waste wood, post-consumer
+  unit: kilogram
+  location: GLO
+  replacement:
+    name: market for waste wood, post-consumer
+    reference product: waste wood, post-consumer
+    location: RoW
+
+- name: iron scrap, unsorted, Recycled Content cut-off
+  reference product: iron scrap, unsorted
+  unit: kilogram
+  location: GLO
+  replacement:
+    name: market for iron scrap, unsorted
+    reference product: iron scrap, unsorted
+    location: GLO

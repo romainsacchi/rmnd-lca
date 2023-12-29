@@ -4,7 +4,6 @@ Integrates projections regarding fuel production and supply.
 
 import copy
 from functools import lru_cache
-from pprint import pprint
 from typing import Union
 
 import wurst
@@ -45,6 +44,15 @@ LIQUID_FUEL_SOURCES = DATA_DIR / "fuels" / "liquid_fuel_activities.yml"
 FUEL_MARKETS = DATA_DIR / "fuels" / "fuel_markets.yml"
 BIOFUEL_SOURCES = DATA_DIR / "fuels" / "biofuels_activities.yml"
 FUEL_GROUPS = DATA_DIR / "fuels" / "fuel_groups.yaml"
+
+
+def load_methane_correction_list():
+    """
+    Load biomethane_correction.yaml file and return a list
+    """
+    with open(DATA_DIR / "fuels" / "biomethane_correction.yaml", "r") as f:
+        methane_correction_list = yaml.safe_load(f)
+    return methane_correction_list
 
 
 def fetch_mapping(filepath: str) -> dict:
@@ -296,6 +304,7 @@ def _update_fuels(scenario, version, system_model, cache=None):
             scenario["iam data"].hydrogen_markets,
         )
     ):
+        fuels.correct_biogas_activities()
         fuels.generate_fuel_markets()
         scenario["database"] = fuels.database
         cache = fuels.cache
@@ -375,6 +384,58 @@ class Fuels(BaseTransformation):
                 self.fuel_efficiencies = xr.concat(
                     [self.fuel_efficiencies, efficiency],
                     dim="variables",
+                )
+
+    def correct_biogas_activities(self):
+        """
+        Some activities producing biogas are not given any
+        biogenic CO2 input, leading to imbalanced carbon flows
+        when combusted.
+        """
+
+        list_biogas_activities = load_methane_correction_list()
+
+        # find datasets that have a name in the list
+        filters = [
+            ws.either(*[ws.equals("name", name) for name in list_biogas_activities]),
+        ]
+
+        biogas_datasets = ws.get_many(
+            self.database,
+            *filters,
+            ws.equals("reference product", "biogas"),
+            ws.equals("unit", "cubic meter"),
+        )
+
+        # add a flow of "Carbon dioxide, in air" to the dataset
+        # if not present. We add 1.96 kg CO2/m3 biogas.
+
+        for ds in biogas_datasets:
+            if not any(
+                exc
+                for exc in ws.biosphere(ds)
+                if exc["name"] == "Carbon dioxide, in air"
+            ):
+                ds["exchanges"].append(
+                    {
+                        "uncertainty type": 0,
+                        "amount": 1.96,
+                        "type": "biosphere",
+                        "name": "Carbon dioxide, in air",
+                        "unit": "kilogram",
+                        "categories": ("natural resource", "in air"),
+                        "input": (
+                            "biosphere3",
+                            self.biosphere_flows[
+                                (
+                                    "Carbon dioxide, in air",
+                                    "natural resource",
+                                    "in air",
+                                    "kilogram",
+                                )
+                            ],
+                        ),
+                    }
                 )
 
     def find_transport_activity(
@@ -2209,6 +2270,9 @@ class Fuels(BaseTransformation):
             if "low-sulfur" in dataset["name"]:
                 blacklist.append("unleaded")
 
+            if "petroleum gas" in dataset["name"]:
+                blacklist.remove("petroleum gas")
+
             possible_names = tuple(fuel_providers[prod_var]["fuel filters"])
 
             possible_suppliers = self.select_multiple_suppliers(
@@ -2311,10 +2375,18 @@ class Fuels(BaseTransformation):
         d_fuels = self.get_fuel_mapping()
 
         vars_map = {
-            "petrol, low-sulfur": ["petrol", "ethanol", "methanol", "gasoline"],
-            "diesel, low-sulfur": ["diesel", "biodiesel"],
-            "natural gas": ["natural gas", "biomethane"],
-            "hydrogen": ["hydrogen"],
+            "petrol, low-sulfur": [
+                "petrol",
+                "ethanol",
+                "methanol",
+                "gasoline",
+                "bioethanol",
+            ],
+            "diesel, low-sulfur": ["diesel", "biodiesel",],
+            "natural gas": ["natural gas", "biomethane", ],
+            "hydrogen": ["hydrogen",],
+            "kerosene": ["kerosene",],
+            "liquefied petroleum gas": ["liquefied petroleum gas",],
         }
 
         new_datasets = []
@@ -2434,7 +2506,7 @@ class Fuels(BaseTransformation):
         # add to database
         self.database.extend(new_datasets)
 
-        # list `market group for diesel` as "emptied"
+        # list `market group for ` as "emptied"
         datasets_to_empty = {
             "market group for diesel",
             "market group for diesel, low-sulfur",
@@ -2442,6 +2514,8 @@ class Fuels(BaseTransformation):
             "market for diesel",
             "market for natural gas, high pressure",
             "market group for natural gas, high pressure",
+            "market for kerosene",
+            "market for liquefied petroleum gas",
         }
 
         for old_ds in datasets_to_empty:

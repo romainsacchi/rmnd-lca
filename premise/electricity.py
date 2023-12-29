@@ -1844,9 +1844,7 @@ class Electricity(BaseTransformation):
                     ei_eff = self.find_fuel_efficiency(
                         new_dataset, self.powerplant_fuels_map[tech], 3.6
                     )
-                    rescale_exchanges(
-                        new_dataset, ei_eff / new_eff, remove_uncertainty=False
-                    )
+                    rescale_exchanges(new_dataset, ei_eff / new_eff)
 
                 self.database.append(new_dataset)
 
@@ -1908,9 +1906,11 @@ class Electricity(BaseTransformation):
             "renewable energy products",
             "for reuse in municipal waste incineration",
             "Swiss Federal Railways",
+            "to generic market for electricity",
         ]
 
-        # We first need to empty 'market for electricity' and 'market group for electricity' datasets
+        # We first need to empty 'market for electricity'
+        # and 'market group for electricity' datasets
         # print("Empty old electricity datasets")
 
         for dataset in ws.get_many(

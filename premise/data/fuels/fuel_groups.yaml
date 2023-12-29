@@ -12,25 +12,59 @@ gasoline:
   - methanol, from wood, with CCS
   - methanol, from grass
   - methanol, from grass, with CCS
+  - petrol, synthetic, from coal
+  - petrol, synthetic, from coal, with CCS
+  - petrol, synthetic, from electrolysis
+  -
 diesel:
   - diesel
+  - diesel, synthetic, from electrolysis
+  - diesel, synthetic, from coal
+  - diesel, synthetic, from coal, with CCS
   - diesel, synthetic, from wood
   - diesel, synthetic, from wood, with CCS
   - diesel, synthetic, from grass
   - diesel, synthetic, from grass, with CCS
+  - diesel, synthetic, from natural gas
+  - diesel, synthetic, from natural gas, with CCS
   - biodiesel, from used cooking oil
   - biodiesel, from used cooking oil, with CCS
+
 gas:
   - natural gas
   - biomethane
 
 hydrogen:
+  - hydrogen, from petroleum
   - hydrogen, from electrolysis
+  - hydrogen, from solar
+  - hydrogen, from pyrolysis
   - hydrogen, from biomass
   - hydrogen, from biomass, with CCS
   - hydrogen, from coal
   - hydrogen, from coal, with CCS
   - hydrogen, from natural gas
   - hydrogen, from natural gas, with CCS
+  - hydrogen, from biogas
+  - hydrogen, from biogas, with CCS
 
+kerosene:
+  - kerosene, from petroleum
+  - kerosene, synthetic, from electrolysis, energy allocation
+  - kerosene, synthetic, from coal, energy allocation
+  - kerosene, synthetic, from coal, energy allocation, with CCS
+  - kerosene, synthetic, from natural gas, energy allocation
+  - kerosene, synthetic, from natural gas, energy allocation, with CCS
+  - kerosene, synthetic, from biomethane, energy allocation
+  - kerosene, synthetic, from biomass, energy allocation
+  - kerosene, synthetic, from biomass, energy allocation, with CCS
 
+liquefied petroleum gas:
+  - liquefied petroleum gas
+  - liquefied petroleum gas, synthetic, from electrolysis, energy allocation
+  - liquefied petroleum gas, synthetic, from biomass
+  - liquefied petroleum gas, synthetic, from biomass, with CCS
+  - liquefied petroleum gas, synthetic, from coal
+  - liquefied petroleum gas, synthetic, from coal, with CCS
+  - liquefied petroleum gas, synthetic, from natural gas
+  - liquefied petroleum gas, synthetic, from natural gas, with CCS

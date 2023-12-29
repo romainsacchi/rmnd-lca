@@ -96,6 +96,18 @@ def fetch_data(
         "Fuel (hydrogen) - efficiency": iam_data.hydrogen_efficiencies
         if hasattr(iam_data, "hydrogen_efficiencies")
         else None,
+        "Fuel (kerosene) - generation": iam_data.production_volumes
+        if hasattr(iam_data, "production_volumes")
+        else None,
+        "Fuel (kerosene) - efficiency": iam_data.kerosene_efficiencies
+        if hasattr(iam_data, "hydrogen_efficiencies")
+        else None,
+        "Fuel (LPG) - generation": iam_data.production_volumes
+        if hasattr(iam_data, "production_volumes")
+        else None,
+        "Fuel (LPG) - efficiency": iam_data.lpg_efficiencies
+        if hasattr(iam_data, "hydrogen_efficiencies")
+        else None,
         "Cement - generation": iam_data.production_volumes
         if hasattr(iam_data, "production_volumes")
         else None,
@@ -116,6 +128,12 @@ def fetch_data(
         else None,
         "Direct Air Capture - generation": iam_data.production_volumes
         if hasattr(iam_data, "production_volumes")
+        else None,
+        "Direct Air Capture - heat eff.": iam_data.dac_heat_efficiencies
+        if hasattr(iam_data, "dac_heat_efficiencies")
+        else None,
+        "Direct Air Capture - elec eff.": iam_data.dac_electricity_efficiencies
+        if hasattr(iam_data, "dac_electricity_efficiencies")
         else None,
         "Transport (cars)": iam_data.trsp_cars
         if hasattr(iam_data, "trsp_cars")
@@ -183,31 +201,33 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
         },
         "Fuel (gasoline) - generation": {
             "filepath": IAM_FUELS_VARS,
-            "filter": ["gasoline", "ethanol"],
+            "filter": ["gasoline", "ethanol", "bioethanol", "methanol"],
         },
         "Fuel (gasoline) - efficiency": {
             "filepath": IAM_FUELS_VARS,
-            "filter": ["gasoline", "ethanol"],
+            "filter": ["gasoline", "ethanol", "bioethanol", "methanol"],
         },
         "Fuel (diesel) - generation": {
             "filepath": IAM_FUELS_VARS,
             "filter": [
                 "diesel",
+                "biodiesel",
             ],
         },
         "Fuel (diesel) - efficiency": {
             "filepath": IAM_FUELS_VARS,
             "filter": [
                 "diesel",
+                "biodiesel",
             ],
         },
         "Fuel (gas) - generation": {
             "filepath": IAM_FUELS_VARS,
-            "filter": ["natural gas", "biogas", "methane"],
+            "filter": ["natural gas", "biogas", "methane", "biomethane"],
         },
         "Fuel (gas) - efficiency": {
             "filepath": IAM_FUELS_VARS,
-            "filter": ["natural gas", "biogas", "methane"],
+            "filter": ["natural gas", "biogas", "methane", "biomethane"],
         },
         "Fuel (hydrogen) - generation": {
             "filepath": IAM_FUELS_VARS,
@@ -219,6 +239,30 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
             "filepath": IAM_FUELS_VARS,
             "filter": [
                 "hydrogen",
+            ],
+        },
+        "Fuel (kerosene) - generation": {
+            "filepath": IAM_FUELS_VARS,
+            "filter": [
+                "kerosene",
+            ],
+        },
+        "Fuel (kerosene) - efficiency": {
+            "filepath": IAM_FUELS_VARS,
+            "filter": [
+                "kerosene",
+            ],
+        },
+        "Fuel (LPG) - generation": {
+            "filepath": IAM_FUELS_VARS,
+            "filter": [
+                "liquefied petroleum gas",
+            ],
+        },
+        "Fuel (LPG) - efficiency": {
+            "filepath": IAM_FUELS_VARS,
+            "filter": [
+                "liquefied petroleum gas",
             ],
         },
         "Cement - generation": {
@@ -243,7 +287,15 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
         },
         "Direct Air Capture - generation": {
             "filepath": IAM_DACCS_VARS,
-            "variables": ["dac_solvent", "dac_sorbent"],
+            "variables": ["dac_solvent"],
+        },
+        "Direct Air Capture - heat eff.": {
+            "filepath": IAM_DACCS_VARS,
+            "variables": ["dac_solvent"],
+        },
+        "Direct Air Capture - elec eff.": {
+            "filepath": IAM_DACCS_VARS,
+            "variables": ["dac_solvent"],
         },
         "Transport (cars)": {
             "filepath": VEHICLES_MAP,
@@ -296,7 +348,7 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
             variables = get_variables(filepath["filepath"])
             if "filter" in filepath:
                 variables = [
-                    x for x in variables if any(y in x for y in filepath["filter"])
+                    x for x in variables if any(x.startswith(y) for y in filepath["filter"])
                 ]
 
         worksheet = workbook.create_sheet(sector)

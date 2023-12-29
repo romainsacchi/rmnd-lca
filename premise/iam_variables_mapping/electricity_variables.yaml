@@ -49,7 +49,7 @@ Biomass CHP (existing):
     - market for biomass, used as fuel
   eff_aliases:
     tiam: Efficiency|Electricity|Existing biomass|w/o CCS
-  exists in database: true
+  exists in database: false
   iam_aliases:
     tiam: Secondary Energy|Electricity|Biomass existing capacity|w/o CCS
   max_efficiency: 0.25

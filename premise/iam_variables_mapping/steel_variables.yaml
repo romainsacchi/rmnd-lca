@@ -7,6 +7,9 @@ steel - primary:
     image: Production|Industry|Iron and Steel|Primary
     message: Production|Primary|Steel
     gcam: Production|Industry|Steel|Primary
+    tiam:
+      - Production|Primary|Steel|w/o CCS
+      - Production|Primary|Steel|w CCS
   energy_use_aliases:
     remind:
       - FE|Industry|Steel|++|Primary
@@ -33,6 +36,19 @@ steel - primary:
       - Final Energy|Industry|Steel|Primary|Refined Liquids
       - Final Energy|Industry|Steel|Primary|Gas
       - Final Energy|Industry|Steel|Primary|Biomass
+    tiam:
+      - Final Energy|Production|Primary|Steel|w/o CCS|Solids|Fossil
+      - Final Energy|Production|Primary|Steel|w/o CCS|Gases|Fossil
+      - Final Energy|Production|Primary|Steel|w/o CCS|Solids|Biomass
+      - Final Energy|Production|Primary|Steel|w/o CCS|Electricity
+      - Final Energy|Production|Primary|Steel|w/o CCS|Heat
+      - Final Energy|Production|Primary|Steel|w/o CCS|Liquids|Fossil
+      - Final Energy|Production|Primary|Steel|w CCS|Solids|Fossil
+      - Final Energy|Production|Primary|Steel|w CCS|Gases|Fossil
+      - Final Energy|Production|Primary|Steel|w CCS|Solids|Biomass
+      - Final Energy|Production|Primary|Steel|w CCS|Electricity
+      - Final Energy|Production|Primary|Steel|w CCS|Heat
+      - Final Energy|Production|Primary|Steel|w CCS|Liquids|Fossil
 
   ecoinvent_aliases:
     fltr:
@@ -46,6 +62,9 @@ steel - secondary:
     image: Production|Industry|Iron and Steel|EAF scrap
     message: Production|Secondary|Steel
     gcam: Production|Industry|Steel|Secondary
+    tiam:
+      - Production|Secondary|Steel|w/o CCS
+      - Production|Secondary|Steel|w CCS
   energy_use_aliases:
     remind:
       - FE|Industry|Steel|++|Secondary
@@ -59,6 +78,13 @@ steel - secondary:
       - Final Energy|Industry|Steel|Secondary|Electricity
       - Final Energy|Industry|Steel|Secondary|Refined Liquids
       - Final Energy|Industry|Steel|Secondary|Gas
+    tiam:
+      - Final Energy|Production|Secondary|Steel|w/o CCS|Electricity
+      - Final Energy|Production|Secondary|Steel|w/o CCS|Gases|Fossil
+      - Final Energy|Production|Secondary|Steel|w/o CCS|Gases|Hydrogen
+      - Final Energy|Production|Secondary|Steel|w CCS|Electricity
+      - Final Energy|Production|Secondary|Steel|w CCS|Gases|Fossil
+      - Final Energy|Production|Secondary|Steel|w/o CCS|Solids|Fossil
 
   ecoinvent_aliases:
     fltr:

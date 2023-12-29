@@ -64,9 +64,11 @@ gcam:
   Brazil: tropical
   Canada: temperate
   Central America and Caribbean: tropical
+  Central Asia: temperate
   China: temperate
   Colombia: tropical
   EU-15: temperate
+  EU-12: temperate
   India: tropical
   Indonesia: tropical
   Japan: temperate
@@ -80,3 +82,28 @@ gcam:
   Southeast Asia: tropical
   Taiwan: tropical
   USA: temperate
+  Africa_Eastern: tropical
+  Africa_Southern: tropical
+  Africa_Western: tropical
+  Europe_Eastern: temperate
+  European Free Trade Association: temperate
+  Europe_Non_EU: temperate
+  South America_Northern: tropical
+  South Asia: tropical
+
+tiam:
+  AFR: tropical
+  AUS: tropical
+  CAN: temperate
+  CSA: tropical
+  CHI: temperate
+  EEU: temperate
+  FSU: temperate
+  IND: tropical
+  JPN: temperate
+  MEX: temperate
+  MEA: tropical
+  ODA: tropical
+  SKO: temperate
+  UK: temperate
+  WEU: temperate

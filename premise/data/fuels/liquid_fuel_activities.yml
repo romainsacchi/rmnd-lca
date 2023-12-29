@@ -8,15 +8,31 @@ methanol, from coal, with CCS:
 
 fischer-tropsch:
   - diesel production, synthetic, Fischer Tropsch process, hydrogen from electrolysis, energy allocation
+  - kerosene production, synthetic, Fischer Tropsch process, hydrogen from electrolysis, energy allocation
   - diesel production, synthetic, from Fischer Tropsch process, hydrogen from electrolysis, energy allocation, at fuelling station
   - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from electrolysis
   - carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from electrolysis
+
+fischer-tropsch, from natural gas:
+  - diesel production, synthetic, Fischer Tropsch process, from natural gas, energy allocation
+  - liquefied petroleum gas production, synthetic, Fischer Tropsch process, from natural gas, energy allocation
+  - kerosene production, synthetic, Fischer Tropsch process, from natural gas, energy allocation
+  - syngas production, from natural gas
+  - diesel production, synthetic, Fischer Tropsch process, from natural gas, energy allocation, with carbon capture and storage
+  - liquefied petroleum gas production, synthetic, Fischer Tropsch process, from natural gas, energy allocation, with carbon capture and storage
+  - kerosene production, synthetic, Fischer Tropsch process, from natural gas, energy allocation, with carbon capture and storage
+  - syngas production, from natural gas, with carbon capture and storage
+
 
 fischer-tropsch, from woody biomass:
   - diesel production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, energy allocation
   - diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, energy allocation, at fuelling station
   - diesel production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, with CCS, energy allocation
   - diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, with CCS, energy allocation, at fuelling station
+  - liquefied petroleum gas production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, energy allocation
+  - liquefied petroleum gas production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, energy allocation, with carbon capture and storage
+  - kerosene production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, energy allocation
+  - kerosene production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, with CCS, energy allocation
   - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from wood gasification
   - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from wood gasification, with CCS
   - carbon monoxide, from RWGS, for Fischer Tropsch process, hydrogen from wood gasification

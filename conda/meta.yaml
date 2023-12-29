@@ -21,7 +21,7 @@ requirements:
     - bottleneck
     - bw2data
     - bw2io >=0.8.10
-    - constructive_geometries>=0.9.4
+    - constructive_geometries>=0.9.5
     - cryptography
     - datapackage
     - numpy

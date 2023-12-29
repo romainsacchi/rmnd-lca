@@ -18,3 +18,15 @@ hydrogen:
   reference product: hydrogen, gaseous
   unit: kilogram
   lhv: 120
+
+kerosene:
+  name: market for kerosene
+  reference product: kerosene
+  unit: kilogram
+  lhv: 43.1
+
+liquefied petroleum gas:
+  name: market for liquefied petroleum gas
+  reference product: liquefied petroleum gas
+  unit: kilogram
+  lhv: 46.4

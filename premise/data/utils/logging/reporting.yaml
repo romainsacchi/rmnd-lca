@@ -27,21 +27,49 @@ premise_dac:
     region:
       name: region
       description: Region name
-    scaling factor operation:
-      name: Thermal and electrical scaling factor
-      description: Scaling factor the initial energy input related to operation is multiplied by
-    scaling factor infrastructure:
-      name: Infrastructure input scaling factor
-      description: Scaling factor the initial infrastructure and sorbent/solvent inputs are multiplied by
-    initial energy input per kg CO2:
-      name: Initial energy input per kg CO2 captured
-      description: Energy input per kg CO2 captured before adjustment
-      unit: MJ/kg
-    new energy input per kg CO2:
-      name: New energy input per kg CO2 captured
-      description: Energy input per kg CO2 captured after adjustment
-      unit: MJ/kg
+    electricity scaling factor:
+      name: Electrical scaling factor
+      description: Scaling factor the initial electricity input
+    heat scaling factor:
+      name: Heat scaling factor
+      description: Scaling factor the initial heat input
   tab: Direct Air Capture
+
+premise_biomass:
+    columns:
+      timestamp:
+        name: timestamp
+        description: Timestamp of the log entry
+      module:
+        name: module
+        description: Module name
+      level:
+        name: level
+        description: Log level
+      status:
+        name: status
+        description: Status of the dataset
+      model:
+        name: model
+        description: IAM model name
+      pathway:
+        name: pathway
+        description: Pathway name
+      year:
+        name: year
+        description: Year
+      dataset:
+        name: dataset
+        description: Dataset name
+      region:
+        name: region
+        description: Region name
+      biomass share:
+        name: Biomass share
+        description: Share of biomass from forestry residues vs. purpose-grown biomass
+        unit: 0-1
+
+    tab: Biomass
 
 premise_electricity:
     columns:
@@ -79,10 +107,6 @@ premise_electricity:
       new electrical efficiency:
         name: New electrical efficiency
         description: Electrical efficiency after adjustment (1 / fuel energy input)
-        unit: 0-1
-      biomass share:
-        name: Biomass share
-        description: Share of biomass from forestry residues vs. purpose-grown biomass
         unit: 0-1
       transformation loss:
         name: Transformation loss
@@ -298,14 +322,6 @@ premise_cement:
         name: Electricity consumed
         description: Electricity consumed (kWh) per kg cement
         unit: kWh/kg
-      old clinker-to-cement ratio:
-        name: Old clinker-to-cement ratio
-        description: Clinker-to-cement ratio before adjustment
-        unit: 0-1
-      new clinker-to-cement ratio:
-        name: New clinker-to-cement ratio
-        description: Clinker-to-cement ratio after adjustment
-        unit: 0-1
     tab: Cement
 
 premise_fuel:
@@ -402,6 +418,54 @@ premise_fuel:
         description: Average lower heating value of the fuel blend (MJ/kg)
         unit: MJ/kg
     tab: Fuel
+
+premise_heat:
+    columns:
+      timestamp:
+        name: timestamp
+        description: Timestamp of the log entry
+      module:
+        name: module
+        description: Module name
+      level:
+        name: level
+        description: Log level
+      status:
+        name: status
+        description: Status of the dataset
+      model:
+        name: model
+        description: IAM model name
+      pathway:
+        name: pathway
+        description: Pathway name
+      year:
+        name: year
+        description: Year
+      dataset:
+        name: dataset
+        description: Dataset name
+      region:
+        name: region
+        description: Region name
+      initial amount of fossil CO2:
+        name: Initial amount of fossil CO2
+        description: Amount of fossil CO2 emitted per unit of activity before adjustment
+        unit: kg CO2/reference flow
+      new amount of fossil CO2:
+        name: New amount of fossil CO2
+        description: Amount of fossil CO2 emitted per unit of activity after adjustment
+        unit: kg CO2/reference flow
+      initial amount of biogenic CO2:
+        name: Initial amount of biogenic CO2
+        description: Amount of biogenic CO2 emitted per unit of activity before adjustment
+        unit: kg CO2/reference flow
+      new amount of biogenic CO2:
+        name: New amount of biogenic CO2
+        description: Amount of biogenic CO2 emitted per unit of activity after adjustment
+        unit: kg CO2/reference flow
+    tab: Heat
+
 premise_emissions:
     columns:
       timestamp:
@@ -509,3 +573,40 @@ premise_external_scenarios:
         name: region
         description: Region name
     tab: External scenarios
+
+premise_validation:
+    columns:
+      timestamp:
+        name: timestamp
+        description: Timestamp of the log entry
+      module:
+        name: module
+        description: Module name
+      level:
+        name: level
+        description: Log level
+      model:
+          name: model
+          description: IAM model name
+      pathway:
+          name: pathway
+          description: Pathway name
+      year:
+          name: year
+          description: Year
+      name:
+          name: name
+          description: Name of the dataset
+      reference product:
+          name: reference product
+          description: Reference product
+      location:
+          name: location
+          description: Location
+      reason:
+          name: reason
+          description: Reason for anomaly
+      message:
+          name: message
+          description: Message
+    tab: Validation
