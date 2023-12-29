@@ -20,6 +20,7 @@ import datapackage
 import yaml
 
 from . import __version__
+from .biomass import _update_biomass
 from .cement import _update_cement
 from .clean_datasets import DatabaseCleaner
 from .data_collection import IAMDataCollection
@@ -37,6 +38,7 @@ from .external import ExternalScenario
 from .external_data_validation import check_external_scenarios, check_inventories
 from .filesystem_constants import DATA_DIR, DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
 from .fuels import _update_fuels
+from .heat import _update_heat
 from .inventory_imports import AdditionalInventory, DefaultInventory
 from .metals import Metals, _update_metals
 from .report import generate_change_report, generate_summary_report
@@ -98,6 +100,10 @@ FILEPATH_HYDROGEN_COAL_GASIFICATION_INVENTORIES = (
 )
 FILEPATH_SYNFUEL_INVENTORIES = (
     INVENTORY_DIR / "lci-synfuels-from-FT-from-electrolysis.xlsx"
+)
+
+FILEPATH_SYNFUEL_INVENTORIES_FT_FROM_NG = (
+    INVENTORY_DIR / "lci-synfuels-from-FT-from-natural-gas.xlsx"
 )
 
 FILEPATH_SYNFUEL_FROM_FT_FROM_WOOD_GASIFICATION_INVENTORIES = (
@@ -366,18 +372,19 @@ def check_scenarios(scenario: dict, key: bytes) -> dict:
         # Note: A directory path, not a file path
         scenario["filepath"] = IAM_OUTPUT_DIR
         if key is None:
-            raise ValueError(
-                "You need to provide the encryption key to decrypt the IAM output files provided by `premise`."
-            )
+            print("Reading unencrypted IAM output files.")
+        else:
+            # make sure that the key is 44 bytes long
+            if len(key) != 44:
+                raise ValueError(
+                    f"The key must be 44 bytes long, not {len(key)} bytes."
+                )
 
     scenario["model"] = check_model_name(scenario["model"])
     scenario["pathway"] = check_pathway_name(
         scenario["pathway"], scenario["filepath"], scenario["model"]
     )
     scenario["year"] = check_year(scenario["year"])
-
-    if "exclude" in scenario:
-        scenario["exclude"] = check_exclude(scenario["exclude"])
 
     return scenario
 
@@ -445,6 +452,13 @@ def _update_all(
         version=version,
         system_model=system_model,
     )
+    scenario, cache = _update_biomass(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        use_absolute_efficiency=use_absolute_efficiency,
+        cache=cache,
+    )
     scenario, cache = _update_electricity(
         scenario=scenario,
         version=version,
@@ -470,18 +484,21 @@ def _update_all(
         system_model=system_model,
         cache=cache,
     )
-    scenario, cache = _update_metals(
-        scenario=scenario,
-        version=version,
-        system_model=system_model,
-        cache=cache,
-    )
+
     scenario, cache = _update_fuels(
         scenario=scenario,
         version=version,
         system_model=system_model,
         cache=cache,
     )
+
+    scenario, cache = _update_heat(
+        scenario=scenario,
+        version=version,
+        system_model=system_model,
+        cache=cache,
+    )
+
     scenario = _update_emissions(
         scenario,
         version,
@@ -543,11 +560,15 @@ class NewDatabase:
         self.system_model_args = system_args
         self.use_absolute_efficiency = use_absolute_efficiency
         self.multiprocessing = use_multiprocessing
+        self.keep_uncertainty_data = keep_uncertainty_data
 
         # if version is anything other than 3.8 or 3.9
         # and system_model is "consequential"
         # raise an error
-        if self.version not in ["3.8", "3.9"] and self.system_model == "consequential":
+        if (
+            self.version not in ["3.8", "3.9", "3.9.1"]
+            and self.system_model == "consequential"
+        ):
             raise ValueError(
                 "Consequential system model is only available for ecoinvent 3.8 or 3.9."
             )
@@ -586,14 +607,10 @@ class NewDatabase:
 
         print("\n//////////////////// EXTRACTING SOURCE DATABASE ////////////////////")
         if use_cached_database:
-            self.database = self.__find_cached_db(
-                source_db, keep_uncertainty_data=keep_uncertainty_data
-            )
+            self.database = self.__find_cached_db(source_db)
             print("Done!")
         else:
-            self.database = self.__clean_database(
-                keep_uncertainty_data=keep_uncertainty_data
-            )
+            self.database = self.__clean_database()
 
         print("\n////////////////// IMPORTING DEFAULT INVENTORIES ///////////////////")
         if use_cached_inventories:
@@ -642,7 +659,7 @@ class NewDatabase:
 
         print("Done!")
 
-    def __find_cached_db(self, db_name: str, keep_uncertainty_data: bool) -> List[dict]:
+    def __find_cached_db(self, db_name: str) -> List[dict]:
         """
         If `use_cached_db` = True, then we look for a cached database.
         If cannot be found, we create a cache for next time.
@@ -653,9 +670,13 @@ class NewDatabase:
         if db_name is None and self.source_type == "ecospold":
             db_name = f"ecospold_{self.system_model}_{self.version}"
 
+        uncertainty_data = (
+            "w_uncertainty" if self.keep_uncertainty_data is True else "wo_uncertainty"
+        )
+
         file_name = (
             DIR_CACHED_DB
-            / f"cached_{''.join(tuple(map( str , __version__ )))}_{db_name.strip().lower()}.pickle"
+            / f"cached_{''.join(tuple(map( str , __version__ )))}_{db_name.strip().lower()}_{uncertainty_data}.pickle"
         )
 
         # check that file path leads to an existing file
@@ -666,7 +687,7 @@ class NewDatabase:
         # extract the database, pickle it for next time and return it
         print("Cannot find cached database. Will create one now for next time...")
         clear_existing_cache()
-        database = self.__clean_database(keep_uncertainty_data=keep_uncertainty_data)
+        database = self.__clean_database()
         pickle.dump(database, open(file_name, "wb"))
         return database
 
@@ -681,9 +702,13 @@ class NewDatabase:
         if db_name is None and self.source_type == "ecospold":
             db_name = f"ecospold_{self.system_model}_{self.version}"
 
+        uncertainty_data = (
+            "w_uncertainty" if self.keep_uncertainty_data is True else "wo_uncertainty"
+        )
+
         file_name = (
             DIR_CACHED_DB
-            / f"cached_{''.join(tuple(map( str , __version__ )))}_{db_name.strip().lower()}_inventories.pickle"
+            / f"cached_{''.join(tuple(map( str , __version__ )))}_{db_name.strip().lower()}_{uncertainty_data}_inventories.pickle"
         )
 
         # check that file path leads to an existing file
@@ -702,7 +727,7 @@ class NewDatabase:
         )
         return None
 
-    def __clean_database(self, keep_uncertainty_data) -> List[dict]:
+    def __clean_database(self) -> List[dict]:
         """
         Extracts the ecoinvent database, loads it into a dictionary and does a little bit of housekeeping
         (adds missing locations, reference products, etc.).
@@ -710,9 +735,9 @@ class NewDatabase:
         """
         return DatabaseCleaner(
             self.source, self.source_type, self.source_file_path, self.version
-        ).prepare_datasets(keep_uncertainty_data)
+        ).prepare_datasets(self.keep_uncertainty_data)
 
-    def __import_inventories(self, keep_uncertainty_data: bool = False) -> List[dict]:
+    def __import_inventories(self) -> List[dict]:
         """
         This method will trigger the import of a number of pickled inventories
         and merge them into the database dictionary.
@@ -755,6 +780,7 @@ class NewDatabase:
             (FILEPATH_SYNGAS_FROM_COAL_INVENTORIES, "3.7"),
             (FILEPATH_BIOFUEL_INVENTORIES, "3.7"),
             (FILEPATH_SYNFUEL_INVENTORIES, "3.7"),
+            (FILEPATH_SYNFUEL_INVENTORIES_FT_FROM_NG, "3.7"),
             (
                 FILEPATH_SYNFUEL_FROM_FT_FROM_WOOD_GASIFICATION_INVENTORIES,
                 "3.7",
@@ -798,11 +824,10 @@ class NewDatabase:
                 version_out=self.version,
                 path=filepath[0],
                 system_model=self.system_model,
-                keep_uncertainty_data=keep_uncertainty_data,
+                keep_uncertainty_data=self.keep_uncertainty_data,
             )
             datasets = inventory.merge_inventory()
             data.extend(datasets)
-
             self.database.extend(datasets)
 
         # print("Done!\n")
@@ -850,6 +875,42 @@ class NewDatabase:
             raise TypeError("Unknown data type for datapackage.")
 
         return data
+
+    def update_biomass(self) -> None:
+        """
+        This method will update the biomass markets
+        with the data from the IAM scenarios.
+
+        """
+
+        print("\n///////////////////////////// BIOMASS //////////////////////////////")
+
+        # use multiprocessing to speed up the process
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        self.version,
+                        self.system_model,
+                        self.use_absolute_efficiency,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_biomass, args)
+
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+        else:
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_biomass(
+                    scenario=scenario,
+                    version=self.version,
+                    system_model=self.system_model,
+                    use_absolute_efficiency=self.use_absolute_efficiency,
+                )
+
+        print("Done!\n")
 
     def update_electricity(self) -> None:
         """
@@ -948,6 +1009,39 @@ class NewDatabase:
         else:
             for s, scenario in enumerate(self.scenarios):
                 self.scenarios[s], _ = _update_fuels(
+                    scenario=scenario,
+                    version=self.version,
+                    system_model=self.system_model,
+                )
+
+        print("Done!\n")
+
+    def update_heat(self) -> None:
+        """
+        This method will update the heat inventories
+        with the data from the IAM scenarios.
+        """
+        print("\n////////////////////////////// HEAT ///////////////////////////////")
+
+        # use multiprocessing to speed up the process
+        if self.multiprocessing:
+            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
+                args = [
+                    (
+                        scenario,
+                        self.version,
+                        self.system_model,
+                    )
+                    for scenario in self.scenarios
+                ]
+                results = pool.starmap(_update_heat, args)
+
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s] = results[s][0]
+
+        else:
+            for s, scenario in enumerate(self.scenarios):
+                self.scenarios[s], _ = _update_heat(
                     scenario=scenario,
                     version=self.version,
                     system_model=self.system_model,
@@ -1201,44 +1295,39 @@ class NewDatabase:
     def update_external_scenario(self):
         if self.datapackages:
             for i, scenario in enumerate(self.scenarios):
-                if (
-                    "exclude" not in scenario
-                    or "update_external_scenario" not in scenario["exclude"]
-                ):
-                    for d, datapackage in enumerate(self.datapackages):
-                        if "inventories" in [r.name for r in datapackage.resources]:
-                            inventories = self.__import_additional_inventories(
-                                datapackage
-                            )
-                        else:
-                            inventories = []
+                for d, datapackage in enumerate(self.datapackages):
+                    if "inventories" in [r.name for r in datapackage.resources]:
+                        inventories = self.__import_additional_inventories(datapackage)
+                    else:
+                        inventories = []
 
-                        resource = datapackage.get_resource("config")
-                        config_file = yaml.safe_load(resource.raw_read())
+                    resource = datapackage.get_resource("config")
+                    config_file = yaml.safe_load(resource.raw_read())
 
-                        checked_inventories, checked_database = check_inventories(
-                            config_file,
-                            inventories,
-                            scenario["external data"][d],
-                            scenario["database"],
-                            scenario["year"],
-                        )
-                        scenario["database"] = checked_database
-                        scenario["database"].extend(checked_inventories)
-
-                    external_scenario = ExternalScenario(
-                        database=scenario["database"],
-                        model=scenario["model"],
-                        pathway=scenario["pathway"],
-                        iam_data=scenario["iam data"],
-                        year=scenario["year"],
-                        external_scenarios=self.datapackages,
-                        external_scenarios_data=scenario["external data"],
-                        version=self.version,
-                        system_model=self.system_model,
+                    checked_inventories, checked_database = check_inventories(
+                        config_file,
+                        inventories,
+                        scenario["external data"][d],
+                        scenario["database"],
+                        scenario["year"],
                     )
-                    external_scenario.create_custom_markets()
-                    scenario["database"] = external_scenario.database
+                    scenario["database"] = checked_database
+                    scenario["database"].extend(checked_inventories)
+
+                external_scenario = ExternalScenario(
+                    database=scenario["database"],
+                    model=scenario["model"],
+                    pathway=scenario["pathway"],
+                    iam_data=scenario["iam data"],
+                    year=scenario["year"],
+                    external_scenarios=self.datapackages,
+                    external_scenarios_data=scenario["external data"],
+                    version=self.version,
+                    system_model=self.system_model,
+                )
+                external_scenario.create_custom_markets()
+                external_scenario.relink_datasets()
+                scenario["database"] = external_scenario.database
             print(f"Log file of exchanges saved under {DATA_DIR / 'logs'}.")
 
         print("Done!\n")
@@ -1344,14 +1433,12 @@ class NewDatabase:
                 "create a super-structure database."
             )
 
-        cache = {}
-
         for scenario in self.scenarios:
-            scenario, cache = _prepare_database(
+            _prepare_database(
                 scenario=scenario,
-                scenario_cache=cache,
-                version=self.version,
-                system_model=self.system_model,
+                db_name=name,
+                original_database=self.database,
+                keep_uncertainty_data=self.keep_uncertainty_data,
             )
 
         if hasattr(self, "datapackages"):
@@ -1417,14 +1504,12 @@ class NewDatabase:
 
         print("Write new database(s) to Brightway.")
 
-        cache = {}
-
-        for scenario in self.scenarios:
-            scenario, cache = _prepare_database(
+        for s, scenario in enumerate(self.scenarios):
+            _prepare_database(
                 scenario=scenario,
-                scenario_cache=cache,
-                version=self.version,
-                system_model=self.system_model,
+                db_name=name[s],
+                original_database=self.database,
+                keep_uncertainty_data=self.keep_uncertainty_data,
             )
 
         for scen, scenario in enumerate(self.scenarios):
@@ -1481,12 +1566,7 @@ class NewDatabase:
         if self.multiprocessing:
             with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
                 args = [
-                    (
-                        scenario,
-                        cache,
-                        self.version,
-                        self.system_model,
-                    )
+                    (scenario, "database", self.database, self.keep_uncertainty_data)
                     for scenario in self.scenarios
                 ]
                 results = pool.starmap(_prepare_database, args)
@@ -1503,11 +1583,11 @@ class NewDatabase:
                 pool.map(_export_to_matrices, args)
         else:
             for scenario in self.scenarios:
-                scenario, cache = _prepare_database(
+                _prepare_database(
                     scenario=scenario,
-                    scenario_cache=cache,
-                    version=self.version,
-                    system_model=self.system_model,
+                    db_name="database",
+                    original_database=self.database,
+                    keep_uncertainty_data=self.keep_uncertainty_data,
                 )
 
             for scen, scenario in enumerate(self.scenarios):
@@ -1534,16 +1614,14 @@ class NewDatabase:
 
         print("Write Simapro import file(s).")
 
-        cache = {}
-
         # use multiprocessing to speed up the process
 
         for scenario in self.scenarios:
-            scenario, cache = _prepare_database(
+            _prepare_database(
                 scenario=scenario,
-                scenario_cache=cache,
-                version=self.version,
-                system_model=self.system_model,
+                db_name="database",
+                original_database=self.database,
+                keep_uncertainty_data=self.keep_uncertainty_data,
             )
 
         for scen, scenario in enumerate(self.scenarios):
@@ -1564,15 +1642,14 @@ class NewDatabase:
             cache_fp = DIR_CACHED_DB / f"cached_{self.source}_inventories.pickle"
             raise ValueError(f"No cached inventories found at {cache_fp}.")
 
-        cache = {}
         # use multiprocessing to speed up the process
 
         for scenario in self.scenarios:
-            scenario, cache = _prepare_database(
+            _prepare_database(
                 scenario=scenario,
-                scenario_cache=cache,
-                version=self.version,
-                system_model=self.system_model,
+                db_name=name,
+                original_database=self.database,
+                keep_uncertainty_data=self.keep_uncertainty_data,
             )
 
         if hasattr(self, "datapackages"):

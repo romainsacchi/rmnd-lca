@@ -13,10 +13,18 @@ sugar:
     message:
       temperate: sugarbeet
       tropical: sugarcane
+    gcam:
+      temperate: sugarbeet
+      tropical: sugarcane
+    tiam:
+      temperate: sugarbeet
+      tropical: sugarcane
   land_use:
     image: Land Use|Marginal|Biomass|Sugar
+    gcam: Land Use|Average|Biomass|Sugar
   land_use_change:
     image: Emission Factor|CO2|Energy|Supply|Biomass|Marginal|Sugar
+    gcam: Emission Factor|CO2|Land Use Change|Average|Biomass|Sugar
 oil:
   crop_type:
     image:
@@ -28,10 +36,18 @@ oil:
     message:
       temperate: rapeseed
       tropical: palm oil
+    gcam:
+      temperate: rapeseed
+      tropical: palm oil
+    tiam:
+      temperate: rapeseed
+      tropical: palm oil
   land_use:
     image: Land Use|Marginal|Biomass|OilCrop
+    gcam: Land Use|Average|Biomass|Oilcrops
   land_use_change:
     image: Emission Factor|CO2|Energy|Supply|Biomass|Marginal|Oilcrops
+    gcam: Emission Factor|CO2|Land Use Change|Average|Biomass|Oilcrops
 wood:
   crop_type:
     image:
@@ -43,10 +59,19 @@ wood:
     message:
       temperate: poplar
       tropical: eucalyptus
+    gcam:
+      temperate: poplar
+      tropical: eucalyptus
+    tiam:
+      temperate: poplar
+      tropical: eucalyptus
   land_use:
     image: Land Use|Marginal|Biomass|Woody
+    gcam: Land Use|Average|Biomass|Wood
   land_use_change:
     image: Emission Factor|CO2|Energy|Supply|Biomass|Marginal|Woody
+    gcam: Emission Factor|CO2|Land Use Change|Average|Biomass|Wood
+    tiam: Emission Factor|CO2|Energy|Supply|Biomass|Average|Energy crops
 grass:
   crop_type:
     image:
@@ -58,10 +83,18 @@ grass:
     message:
       temperate: switchgrass
       tropical: miscanthus
+    gcam:
+      temperate: switchgrass
+      tropical: miscanthus
+    tiam:
+      temperate: switchgrass
+      tropical: miscanthus
   land_use:
     image: Land Use|Marginal|Biomass|Grassy
+    gcam: Land Use|Average|Biomass|Grass
   land_use_change:
     image: Emission Factor|CO2|Energy|Supply|Biomass|Marginal|Grassy
+    gcam: Emission Factor|CO2|Land Use Change|Average|Biomass|Grass
 grain:
   crop_type:
     image:
@@ -73,7 +106,15 @@ grain:
     message:
       temperate: corn
       tropical: corn
+    gcam:
+      temperate: corn
+      tropical: corn
+    tiam:
+      temperate: corn
+      tropical: corn
   land_use:
     image: Land Use|Marginal|Biomass|Maize
+    gcam: Land Use|Average|Biomass|Maize
   land_use_change:
     image: Emission Factor|CO2|Energy|Supply|Biomass|Marginal|Maize
+    gcam: Emission Factor|CO2|Land Use Change|Average|Biomass|Maize

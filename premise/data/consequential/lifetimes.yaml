@@ -43,20 +43,20 @@ diesel, synthetic, from wood: 35
 diesel, synthetic, from wood, with CCS: 35
 diesel, synthetic, from grass: 35
 diesel, synthetic, from grass, with CCS: 35
-biodiesel, oil: 35
-biodiesel, oil, with CCS: 35
-bioethanol, wood: 35
-bioethanol, wood, with CCS: 35
-bioethanol, grass: 35
-bioethanol, grass, with CCS: 35
-bioethanol, grain: 35
-bioethanol, grain, with CCS: 35
-bioethanol, sugar: 35
-bioethanol, sugar, with CCS: 35
-methanol, wood: 35
-methanol, wood, with CCS: 35
-methanol, grass: 35
-methanol, grass, with CCS: 35
+biodiesel, from used cooking oil: 35
+biodiesel, from used cooking oil, with CCS: 35
+bioethanol, from wood: 35
+bioethanol, from wood, with CCS: 35
+bioethanol, from grass: 35
+bioethanol, from grass, with CCS: 35
+bioethanol, from grain: 35
+bioethanol, from grain, with CCS: 35
+bioethanol, from sugar: 35
+bioethanol, from sugar, with CCS: 35
+methanol, from wood: 35
+methanol, from wood, with CCS: 35
+methanol, from grass: 35
+methanol, from grass, with CCS: 35
 natural gas: 35
 biomethane: 35
 petrol, synthetic, from electrolysis: 35
@@ -65,14 +65,14 @@ petrol, synthetic, from coal, with CCS: 35
 diesel, synthetic, from electrolysis: 35
 diesel, synthetic, from coal: 35
 diesel, synthetic, from coal, with CCS: 35
-hydrogen, electrolysis: 35
-hydrogen, biomass: 35
-hydrogen, biomass, with CCS: 35
-hydrogen, coal: 35
-hydrogen, nat. gas: 35
-hydrogen, nat. gas, with CCS: 35
-hydrogen, coal, with CCS: 35
-hydrogen, solar: 35
+hydrogen, from electrolysis: 35
+hydrogen, from biomass: 35
+hydrogen, from biomass, with CCS: 35
+hydrogen, from coal: 35
+hydrogen, from natural gas: 35
+hydrogen, from natural gas, with CCS: 35
+hydrogen, from coal, with CCS: 35
+hydrogen, from solar: 35
 cement, dry feed rotary kiln: 40
 steel - primary: 40
 steel - secondary: 40

@@ -20591,7 +20591,7 @@ MEA hot pressing;transport;Road\Vehicle components\Powertrain\Fuel cell
 Membrane;transport;Road\Vehicle components\Powertrain\Fuel cell
 Methane production, synthetic, from electrochemical methanation;material;Fuels\Synthetic\Transformation
 methane, from coal-based hydrogen, with carbon from atmospheric CO2 capture;material;Fuels\Synthetic\Transformation
-methane, from electrochemical methanation, with carbon from atmospheric CO2 capture;material;Fuels\Synthetic\Transformation
+methane, from electrochemical methanation, with carbon from atmosphere;material;Fuels\Synthetic\Transformation
 Methanol distillation;material;Fuels\Synthetic\Transformation
 Methanol Synthesis;material;Fuels\Synthetic\Transformation
 Module fasteners;transport;Road\Vehicle components\Energy storage\Lithium-ion battery

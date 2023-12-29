@@ -14,6 +14,7 @@ SUPPORTED_MODELS:
   - image
   - message
   - tiam
+  - gcam
 
 SUPPORTED_PATHWAYS:
   - SSP2-Base
@@ -36,6 +37,7 @@ SUPPORTED_PATHWAYS:
   - static
 
 LIST_TRANSF_FUNC:
+  - update_biomass
   - update_electricity
   - update_dac
   - update_cement
@@ -45,6 +47,7 @@ LIST_TRANSF_FUNC:
   - update_trucks
   - update_buses
   - update_fuels
+  - update_heat
   - update_external_scenario
   - update_emissions
 
@@ -125,6 +128,53 @@ LIST_TIAM_REGIONS:
   - WEU
   - World
 
-EXTRA_TOPOLOGY:
-  message: /Users/romain/GitHub/premise/premise/iam_variables_mapping/MESSAGE_iso2_map.json
-  tiam: /Users/romain/GitHub/premise/premise/iam_variables_mapping/TIAM_iso2_map.json
+LIST_GCAM_REGIONS:
+  - Africa_Eastern
+  - Africa_Northern
+  - Africa_Southern
+  - Africa_Western
+  - Argentina
+  - Australia_NZ
+  - Brazil
+  - Canada
+  - Central America and Caribbean
+  - Central Asia
+  - China
+  - Colombia
+  - EU-12
+  - EU-15
+  - Europe_Eastern
+  - European Free Trade Association
+  - Europe_Non_EU
+  - India
+  - Indonesia
+  - Japan
+  - Mexico
+  - Middle East
+  - Pakistan
+  - Russia
+  - South Africa
+  - South America_Northern
+  - South America_Southern
+  - South Asia
+  - Southeast Asia
+  - South Korea
+  - Taiwan
+  - USA
+  - World
+
+
+PREFERRED_IAM_ORDER:
+  - NEU
+  - JPN
+  - CAZ
+  - IND
+  - CHA
+  - MEA
+  - REF
+  - EUR
+  - SSA
+  - LAM
+
+BLACKLIST:
+  - ME

@@ -81,6 +81,11 @@
   ],
   [
     "air",
+    "Cyclohexane",
+    "Cyclohexane (for all cycloalkanes)"
+  ],
+  [
+    "air",
     "Ethanol, 2-ethoxy-",
     "Ethylene glycol monoethyl ether"
   ],
@@ -111,8 +116,33 @@
   ],
   [
     "air",
+    "2,4-D",
+    "2,4-D amines"
+  ],
+  [
+    "air",
+    "2,4-D, dimethylamine salt",
+    "2,4-D dimethylamine salt"
+  ],
+  [
+    "air",
+    "2,4-D",
+    "2,4DB"
+  ],
+  [
+    "air",
     "Nitric oxide",
     "Nitrogen monoxide"
+  ],
+  [
+    "water",
+    "Ntrogen",
+    "Ntrogen"
+  ],
+  [
+    "air",
+    "Nitric oxide",
+    "Nitric oxide"
   ],
   [
     "air",
@@ -131,12 +161,17 @@
   ],
   [
     "air",
+    "Pentane, 2-methyl-",
+    "2-Methylpentane"
+  ],
+  [
+    "air",
     "Phenol, 2,4-dichloro-",
     "Phenol, 2,4-dichloro"
   ],
   [
     "air",
-    "Pyraclostrobin (prop)",
+    "Pyraclostrobin",
     "Pyraclostrobin"
   ],
   [
@@ -490,6 +525,11 @@
     "Aluminium, in ground"
   ],
   [
+    "water",
+    "Aluminium (III)",
+    "Aluminium III"
+  ],
+  [
     "natural resource",
     "Anhydrite",
     "Anhydrite, in ground"
@@ -503,6 +543,16 @@
     "natural resource",
     "Barite",
     "Barite, 15% in crude ore, in ground"
+  ],
+  [
+    "water",
+    "Barium (II)",
+    "Barium"
+  ],
+  [
+    "water",
+    "Barium (II)",
+    "Barium II"
   ],
   [
     "natural resource",
@@ -571,8 +621,18 @@
   ],
   [
     "natural resource",
+    "Coal, hard",
+    "Coal, hard, unspecified"
+  ],
+  [
+    "natural resource",
     "Cobalt",
     "Cobalt, in ground"
+  ],
+  [
+    "air",
+    "Cobalt (II)",
+    "Cobalt II"
   ],
   [
     "natural resource",
@@ -691,6 +751,11 @@
   ],
   [
     "natural resource",
+    "Gas, natural/m3",
+    "Gas, natural"
+  ],
+  [
+    "natural resource",
     "Gold",
     "Gold, Au 1.4E-4%, in ore, in ground"
   ],
@@ -766,6 +831,11 @@
   ],
   [
     "natural resource",
+    "Iron",
+    "Iron, 72% in magnetite, 14% in crude ore"
+  ],
+  [
+    "natural resource",
     "Kaolinite",
     "Kaolinite, 24% in crude ore, in ground"
   ],
@@ -795,6 +865,11 @@
     "Lead, Pb 0.014%, in mixed ore, in ground"
   ],
   [
+    "water",
+    "Lead II",
+    "Lead II"
+  ],
+  [
     "natural resource",
     "Lithium",
     "Lithium, 0.15% in brine, in ground"
@@ -815,9 +890,29 @@
     "Manganese, 35.7% in sedimentary deposit, 14.2% in crude ore, in ground"
   ],
   [
+    "water",
+    "Manganese (II)",
+    "Manganese II"
+  ],
+  [
     "natural resource",
     "Metamorphous rock, graphite containing",
     "Metamorphous rock, graphite containing, in ground"
+  ],
+  [
+    "water",
+    "Mercury (II)",
+    "Mercury II"
+  ],
+  [
+    "water",
+    "Molybdenum (VI)",
+    "Molybdenum VI"
+  ],
+  [
+    "water",
+    "VOC, volatile organic compounds, unspecified origin",
+    "VOC, volatile organic compounds"
   ],
   [
     "natural resource",
@@ -886,48 +981,33 @@
   ],
   [
     "natural resource",
-    "Occupation, arable",
-    "Occupation, annual crop"
+    "Occupation, agriculture",
+    "Occupation, arable"
   ],
   [
     "natural resource",
-    "Occupation, arable, greenhouse",
-    "Occupation, annual crop, greenhouse"
+    "Occupation, agriculture",
+    "Occupation, arable land, unspecified use"
   ],
   [
     "natural resource",
-    "Occupation, arable, irrigated",
-    "Occupation, annual crop, irrigated"
+    "Occupation, annual crop, greenhouse",
+    "Occupation, arable, greenhouse"
   ],
   [
     "natural resource",
-    "Occupation, arable, irrigated, intensive",
-    "Occupation, annual crop, irrigated, intensive"
+    "Occupation, annual crop, irrigated",
+    "Occupation, arable, irrigated"
   ],
   [
     "natural resource",
-    "Occupation, arable, irrigated, intensive",
-    "Occupation, permanent crop, irrigated, intensive"
+    "Occupation, annual crop, irrigated, intensive",
+    "Occupation, arable, irrigated, intensive"
   ],
   [
     "natural resource",
-    "Occupation, arable, non-irrigated",
-    "Occupation, annual crop, non-irrigated"
-  ],
-  [
-    "natural resource",
-    "Occupation, arable, non-irrigated, extensive",
-    "Occupation, annual crop, non-irrigated, extensive"
-  ],
-  [
-    "natural resource",
-    "Occupation, arable, non-irrigated, intensive",
-    "Occupation, annual crop, non-irrigated, intensive"
-  ],
-  [
-    "natural resource",
-    "Occupation, arable, non-irrigated, intensive",
-    "Occupation, permanent crop, non-irrigated, intensive"
+    "Occupation, annual crop, non-irrigated",
+    "Occupation, arable, non-irrigated"
   ],
   [
     "natural resource",
@@ -951,7 +1031,7 @@
   ],
   [
     "natural resource",
-    "Occupation, grassland, not used",
+    "Occupation, grassland, natural (non-use)",
     "Occupation, grassland, natural (non-use)"
   ],
   [
@@ -971,28 +1051,33 @@
   ],
   [
     "natural resource",
-    "Occupation, pasture and meadow",
-    "Occupation, pasture, man made"
+    "Occupation, pasture, man-made",
+    "Occupation, pasture and meadow"
   ],
   [
     "natural resource",
-    "Occupation, pasture and meadow, extensive",
-    "Occupation, pasture, man made, extensive"
+    "Occupation, pasture, man-made, extensive",
+    "Occupation, pasture and meadow, extensive"
   ],
   [
     "natural resource",
-    "Occupation, pasture and meadow, intensive",
-    "Occupation, pasture, man made, intensive"
+    "Occupation, pasture, man-made, intensive",
+    "Occupation, pasture and meadow, intensive"
   ],
   [
     "natural resource",
-    "Occupation, traffic area, rail embankment",
-    "Occupation, traffic area, rail/road embankment"
+    "Occupation, traffic area, rail/road embankment",
+    "Occupation, traffic area, rail embankment"
   ],
   [
     "natural resource",
-    "Occupation, urban/industrial fallow",
+    "Occupation, urban/industrial fallow (non-use)",
     "Occupation, urban/industrial fallow (non-use)"
+  ],
+  [
+    "natural resource",
+    "Occupation, urban, green areas",
+    "Occupation, urban, green area"
   ],
   [
     "natural resource",
@@ -1013,6 +1098,11 @@
     "natural resource",
     "Olivine",
     "Olivine, in ground"
+  ],
+  [
+    "water",
+    "Palladium (II)",
+    "Palladium II"
   ],
   [
     "natural resource",
@@ -1101,8 +1191,18 @@
   ],
   [
     "natural resource",
+    "Sand",
+    "Sand, unspecified"
+  ],
+  [
+    "natural resource",
     "Shale",
     "Shale, in ground"
+  ],
+  [
+    "water",
+    "Selenium (IV)",
+    "Selenium IV"
   ],
   [
     "natural resource",
@@ -1151,6 +1251,11 @@
   ],
   [
     "natural resource",
+    "Sodium sulfate",
+    "Sodium sulphate, various forms"
+  ],
+  [
+    "natural resource",
     "Spodumene",
     "Spodumene, in ground"
   ],
@@ -1158,6 +1263,21 @@
     "natural resource",
     "Stibnite",
     "Stibnite, in ground"
+  ],
+  [
+    "water",
+    "Strontium",
+    "Strontium"
+  ],
+  [
+    "water",
+    "Surfactants",
+    "Surfactant blend"
+  ],
+  [
+    "water",
+    "Tebupirimphos",
+    "Tebupirimfos"
   ],
   [
     "natural resource",
@@ -1201,38 +1321,38 @@
   ],
   [
     "natural resource",
-    "Transformation, from arable",
-    "Transformation, from annual crop"
+    "Transformation, from agriculture",
+    "Transformation, from arable"
   ],
   [
     "natural resource",
-    "Transformation, from arable",
+    "Transformation, from agriculture",
     "Transformation, from arable land, unspecified use"
   ],
   [
     "natural resource",
-    "Transformation, from arable, greenhouse",
-    "Transformation, from annual crop, greenhouse"
+    "Transformation, from annual crop, greenhouse",
+    "Transformation, from arable, greenhouse"
   ],
   [
     "natural resource",
-    "Transformation, from arable, irrigated, intensive",
-    "Transformation, from annual crop, irrigated, intensive"
+    "Transformation, from annual crop, irrigated, intensive",
+    "Transformation, from arable, irrigated, intensive"
   ],
   [
     "natural resource",
-    "Transformation, from arable, non-irrigated",
-    "Transformation, from annual crop, non-irrigated"
+    "Transformation, from annual crop, non-irrigated",
+    "Transformation, from arable, non-irrigated"
   ],
   [
     "natural resource",
-    "Transformation, from arable, non-irrigated, extensive",
-    "Transformation, from annual crop, non-irrigated, extensive"
+    "Transformation, from annual crop, non-irrigated, extensive",
+    "Transformation, from arable, non-irrigated, extensive"
   ],
   [
     "natural resource",
-    "Transformation, from arable, non-irrigated, intensive",
-    "Transformation, from annual crop, non-irrigated, intensive"
+    "Transformation, from annual crop, non-irrigated, intensive",
+    "Transformation, from arable, non-irrigated, intensive"
   ],
   [
     "natural resource",
@@ -1261,12 +1381,12 @@
   ],
   [
     "natural resource",
-    "Transformation, from forest, primary",
+    "Transformation, from forest, primary (non-use)",
     "Transformation, from forest, primary (non-use)"
   ],
   [
     "natural resource",
-    "Transformation, from grassland, not used",
+    "Transformation, from grassland, natural (non-use)",
     "Transformation, from grassland, natural (non-use)"
   ],
   [
@@ -1286,32 +1406,47 @@
   ],
   [
     "natural resource",
-    "Transformation, from pasture and meadow",
+    "Transformation, from pasture, man made",
     "Transformation, from pasture, man made"
   ],
   [
     "natural resource",
-    "Transformation, from pasture and meadow, extensive",
+    "Transformation, from pasture, man made, extensive",
     "Transformation, from pasture, man made, extensive"
   ],
   [
     "natural resource",
-    "Transformation, from pasture and meadow, intensive",
+    "Transformation, from pasture, man made, intensive",
     "Transformation, from pasture, man made, intensive"
   ],
   [
     "natural resource",
-    "Transformation, from permanent crops, irrigated, intensive",
+    "Transformation, from permanent crop, irrigated, intensive",
     "Transformation, from permanent crop, irrigated, intensive"
   ],
   [
     "natural resource",
-    "Transformation, from permanent crops, non-irrigated, intensive",
+    "Transformation, from permanent crop, irrigated, extensive",
+    "Transformation, from permanent crop, irrigated, extensive"
+  ],
+  [
+    "natural resource",
+    "Transformation, from permanent crop, non-irrigated, intensive",
     "Transformation, from permanent crop, non-irrigated, intensive"
   ],
   [
     "natural resource",
-    "Transformation, from sea and ocean",
+    "Occupation, seabed, infrastructure",
+    "Occupation, seabed, unspecified"
+  ],
+  [
+    "natural resource",
+    "Transformation, from seabed, unspecified",
+    "Transformation, from seabed, unspecified"
+  ],
+  [
+    "natural resource",
+    "Transformation, from seabed, unspecified",
     "Transformation, from seabed, unspecified"
   ],
   [
@@ -1326,8 +1461,13 @@
   ],
   [
     "natural resource",
-    "Transformation, to arable",
-    "Transformation, to annual crop"
+    "Transformation, from urban, green areas",
+    "Transformation, from urban, green area"
+  ],
+  [
+    "natural resource",
+    "Transformation, to annual crop, fallow",
+    "Transformation, to arable, fallow"
   ],
   [
     "natural resource",
@@ -1336,42 +1476,42 @@
   ],
   [
     "natural resource",
-    "Transformation, to arable, fallow",
+    "Transformation, to annual crop, greenhouse",
+    "Transformation, to arable, greenhouse"
+  ],
+  [
+    "natural resource",
+    "Transformation, to annual crop",
     "Transformation, to cropland fallow (non-use)"
   ],
   [
     "natural resource",
-    "Transformation, to arable, greenhouse",
-    "Transformation, to annual crop, greenhouse"
+    "Transformation, to annual crop, irrigated, extensive",
+    "Transformation, to arable, irrigated, extensive"
   ],
   [
     "natural resource",
-    "Transformation, to arable, irrigated, extensive",
-    "Transformation, to annual crop, irrigated, extensive"
+    "Transformation, to annual crop, irrigated, intensive",
+    "Transformation, to arable, irrigated, intensive"
   ],
   [
     "natural resource",
-    "Transformation, to arable, irrigated, intensive",
-    "Transformation, to annual crop, irrigated, intensive"
+    "Transformation, to annual crop, non-irrigated",
+    "Transformation, to arable, non-irrigated"
   ],
   [
     "natural resource",
-    "Transformation, to arable, non-irrigated",
-    "Transformation, to annual crop, non-irrigated"
+    "Transformation, to annual crop, non-irrigated, extensive",
+    "Transformation, to arable, non-irrigated, extensive"
   ],
   [
     "natural resource",
-    "Transformation, to arable, non-irrigated, extensive",
-    "Transformation, to annual crop, non-irrigated, extensive"
+    "Transformation, to annual crop, non-irrigated, intensive",
+    "Transformation, to arable, non-irrigated, intensive"
   ],
   [
     "natural resource",
-    "Transformation, to arable, non-irrigated, intensive",
-    "Transformation, to annual crop, non-irrigated, intensive"
-  ],
-  [
-    "natural resource",
-    "Transformation, to forest",
+    "Transformation, to forest, unspecified",
     "Transformation, to forest, unspecified"
   ],
   [
@@ -1411,53 +1551,53 @@
   ],
   [
     "natural resource",
-    "Transformation, to pasture and meadow",
+    "Transformation, to pasture, man made",
     "Transformation, to pasture, man made"
   ],
   [
     "natural resource",
-    "Transformation, to pasture and meadow, extensive",
+    "Transformation, to grassland, natural (non-use)",
     "Transformation, to grassland, natural (non-use)"
   ],
   [
     "natural resource",
-    "Transformation, to pasture and meadow, extensive",
-    "Transformation, to pasture, man made, extensive"
+    "Transformation, to pasture, man-made, extensive",
+    "Transformation, to pasture and meadow, extensive"
   ],
   [
     "natural resource",
     "Transformation, to pasture and meadow, intensive",
-    "Transformation, to pasture, man made, intensive"
+    "Transformation, to pasture and meadow, intensive"
   ],
   [
     "natural resource",
-    "Transformation, to permanent crops, irrigated, intensive",
-    "Transformation, to permanent crop, irrigated, intensive"
+    "Transformation, to permanent crop, irrigated, intensive",
+    "Transformation, to permanent crops, irrigated, intensive"
   ],
   [
     "natural resource",
-    "Transformation, to permanent crops, non-irrigated",
-    "Transformation, to permanent crop, non-irrigated"
+    "Transformation, to permanent crop, non-irrigated",
+    "Transformation, to permanent crops, non-irrigated"
   ],
   [
     "natural resource",
-    "Transformation, to permanent crops, non-irrigated, intensive",
-    "Transformation, to permanent crop, non-irrigated, intensive"
+    "Transformation, to permanent crop, non-irrigated, intensive",
+    "Transformation, to permanent crops, non-irrigated, intensive"
   ],
   [
     "natural resource",
-    "Transformation, to traffic area, rail embankment",
-    "Transformation, to traffic area, rail/road embankment"
+    "Transformation, to traffic area, rail/road embankment",
+    "Transformation, to traffic area, rail embankment"
   ],
   [
     "natural resource",
-    "Transformation, to unknown",
-    "Transformation, to unspecified"
+    "Transformation, to unspecified",
+    "Transformation, to unknown"
   ],
   [
     "natural resource",
-    "Transformation, to urban/industrial fallow",
-    "Transformation, to urban/industrial fallow (non-use)"
+    "Transformation, to urban/industrial fallow (non-use)",
+    "Transformation, to urban/industrial fallow"
   ],
   [
     "natural resource",
@@ -2551,6 +2691,21 @@
   ],
   [
     "soil",
+    "Beryllium (II)",
+    "Beryllium II"
+  ],
+  [
+    "soil",
+    "Bicarbonate, ion",
+    "Bicarbonate"
+  ],
+  [
+    "soil",
+    "Cadmium (II)",
+    "Cadmium II"
+  ],
+  [
+    "soil",
     "Chlortoluron",
     "Chlorotoluron"
   ],
@@ -2581,6 +2736,11 @@
   ],
   [
     "soil",
+    "Metaldehyde (tetramer)",
+    "Metaldehyde"
+  ],
+  [
+    "soil",
     "Oils, biogenic",
     "Oils, non-fossil"
   ],
@@ -2598,6 +2758,11 @@
     "soil",
     "Thiazole, 2-(thiocyanatemethylthio)benzo-",
     "TCMTB"
+  ],
+  [
+    "soil",
+    "Thallium (I)",
+    "Thallium I"
   ],
   [
     "soil",
@@ -2631,8 +2796,18 @@
   ],
   [
     "water",
+    "Ammonium, ion",
+    "Ammonium"
+  ],
+  [
+    "water",
     "Arsenic",
     "Arsenic, ion"
+  ],
+  [
+    "water",
+    "Arsenic, ion",
+    "Arsenic ion"
   ],
   [
     "water",
@@ -2641,8 +2816,18 @@
   ],
   [
     "water",
+    "Benzene, 1,2-dichloro-",
+    "1,2-Dichlorobenzene"
+  ],
+  [
+    "water",
     "Benzo(a)anthracene",
     "Benz(a)anthracene"
+  ],
+  [
+    "water",
+    "Antimony, ion",
+    "Antimony ion"
   ],
   [
     "water",
@@ -2661,6 +2846,61 @@
   ],
   [
     "water",
+    "Cesium",
+    "Caesium"
+  ],
+  [
+    "water",
+    "Cesium-134",
+    "Caesium-134"
+  ],
+  [
+    "water",
+    "Cesium-136",
+    "Caesium-136"
+  ],
+  [
+    "water",
+    "Cesium-137",
+    "Caesium-137"
+  ],
+  [
+    "water",
+    "Caesium",
+    "Cesium"
+  ],
+  [
+    "water",
+    "Caesium-134",
+    "Cesium-134"
+  ],
+  [
+    "water",
+    "Caesium-136",
+    "Cesium-136"
+  ],
+  [
+    "water",
+    "Caesium-137",
+    "Cesium-137"
+  ],
+  [
+    "water",
+    "Chromium (III)",
+    "Chromium III"
+  ],
+  [
+    "water",
+    "Chromium (VI)",
+    "Chromium VI"
+  ],
+  [
+    "water",
+    "Carbamic acid, N-butyl-, 2-propyn-1-yl ester",
+    "Carbamic acid, butyl-, 3-iodo-2-propynyl ester"
+  ],
+  [
+    "water",
     "Carbamic acid, butyl-, 3-iodo-2-propynyl ester",
     "Butylcarbamate, iodopropynyl"
   ],
@@ -2676,8 +2916,13 @@
   ],
   [
     "water",
-    "Copper",
+    "Copper, ion",
     "Copper, ion"
+  ],
+  [
+    "water",
+    "Copper, ion",
+    "Copper ion"
   ],
   [
     "water",
@@ -2691,8 +2936,18 @@
   ],
   [
     "water",
-    "Formic acid, thallium(1+) salt",
+    "Formic acid",
     "Formate"
+  ],
+  [
+    "water",
+    "Formic acid",
+    "Formic acid, thallium(1+) salt"
+  ],
+  [
+    "water",
+    "Formic acid, thallium(1+) salt",
+    "Formic acid"
   ],
   [
     "water",
@@ -2701,13 +2956,28 @@
   ],
   [
     "water",
-    "Iron",
+    "Hydrogen chloride",
+    "Hydrogen chloride"
+  ],
+  [
+    "water",
+    "Iron ion",
     "Iron, ion"
+  ],
+  [
+    "water",
+    "Iron ion",
+    "Iron ion"
   ],
   [
     "water",
     "Lithium",
     "Lithium, ion"
+  ],
+  [
+    "water",
+    "Lithium (I)",
+    "Lithium I"
   ],
   [
     "water",
@@ -2726,6 +2996,11 @@
   ],
   [
     "water",
+    "Nickel II",
+    "Nickel II"
+  ],
+  [
+    "water",
     "Oils, biogenic",
     "Oils, non-fossil"
   ],
@@ -2741,8 +3016,18 @@
   ],
   [
     "water",
+    "Potassium (I)",
+    "Potassium I"
+  ],
+  [
+    "water",
     "Silver",
     "Silver, ion"
+  ],
+  [
+    "water",
+    "Silver (I)",
+    "Silver I"
   ],
   [
     "water",
@@ -2756,18 +3041,38 @@
   ],
   [
     "water",
+    "Sulfur",
+    "Sulphur"
+  ],
+  [
+    "water",
     "Thiocyanate",
     "Thiocyanate, ion"
   ],
   [
     "water",
-    "Tin",
+    "Thiocyanate",
+    "Thiocyanate, ion"
+  ],
+  [
+    "water",
+    "Tin, ion",
     "Tin, ion"
   ],
   [
     "water",
-    "Titanium",
+    "Tin, ion",
+    "Tin ion"
+  ],
+  [
+    "water",
+    "Titanium, ion",
     "Titanium, ion"
+  ],
+  [
+    "water",
+    "Titanium, ion",
+    "Titanium ion"
   ],
   [
     "water",
@@ -2781,7 +3086,32 @@
   ],
   [
     "water",
+    "Vanadium (V)",
+    "Vanadium V"
+  ],
+  [
+    "water",
     "Zinc",
     "Zinc, ion"
+  ],
+  [
+    "water",
+    "Zinc (II)",
+    "Zinc II"
+  ],
+  [
+    "water",
+    "Discarded fish, demersal",
+    "Discarded fish, demersal, to ocean"
+  ],
+  [
+    "water",
+    "Discarded fish, pelagic",
+    "Discarded fish, pelagic, to ocean"
+  ],
+  [
+    "water",
+    "EDTA",
+    "EDTA, Ethylenediaminetetraacetic Acid"
   ]
 ]

@@ -6,6 +6,7 @@ import os
 import sys
 import uuid
 from functools import lru_cache
+from numbers import Number
 from pathlib import Path
 from typing import List, Optional
 
@@ -14,7 +15,8 @@ import xarray as xr
 import yaml
 from country_converter import CountryConverter
 from prettytable import ALL, PrettyTable
-from wurst.searching import equals, get_many
+from wurst import rescale_exchange
+from wurst.searching import biosphere, equals, get_many, technosphere
 
 from . import __version__
 from .data_collection import get_delimiter
@@ -24,6 +26,28 @@ from .geomap import Geomap
 FUELS_PROPERTIES = VARIABLES_DIR / "fuels_variables.yaml"
 CROPS_PROPERTIES = VARIABLES_DIR / "crops_variables.yaml"
 EFFICIENCY_RATIO_SOLAR_PV = DATA_DIR / "renewables" / "efficiency_solar_PV.csv"
+
+
+def rescale_exchanges(
+    ds,
+    value,
+    technosphere_filters=None,
+    biosphere_filters=None,
+    remove_uncertainty=False,
+):
+    """
+    Adapted from wurst's change_exchanges_by_constant_factor
+    but adds the possibility to preserve uncertainty data.
+    """
+    assert isinstance(ds, dict), "Must pass dataset dictionary document"
+    assert isinstance(value, Number), "Constant factor ``value`` must be a number"
+
+    for exc in technosphere(ds, *(technosphere_filters or [])):
+        rescale_exchange(exc, value, remove_uncertainty)
+    for exc in biosphere(ds, *(biosphere_filters or [])):
+        rescale_exchange(exc, value, remove_uncertainty)
+
+    return ds
 
 
 class HiddenPrints:
@@ -209,18 +233,6 @@ def info_on_utils_functions():
     table.hrules = ALL
     table._max_width = {"Utils functions": 50, "Description": 32}
     print(table)
-
-
-def check_database_name(data: List[dict], name: str) -> List[dict]:
-    for ds in data:
-        ds["database"] = name
-
-        for exc in ds["exchanges"]:
-            if exc["type"] in ["production", "technosphere"]:
-                if "input" in exc:
-                    del exc["input"]
-
-    return data
 
 
 def warning_about_biogenic_co2() -> None:

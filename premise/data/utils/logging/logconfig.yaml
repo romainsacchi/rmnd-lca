@@ -16,6 +16,14 @@ handlers:
     formatter: simple
     mode: w
 
+  file_biomass:
+    class: logging.FileHandler
+    level: INFO
+    filename: "export/logs/premise_biomass.log"
+    encoding: utf8
+    formatter: simple
+    mode: w
+
   file_electricity:
     class: logging.FileHandler
     level: INFO
@@ -56,6 +64,14 @@ handlers:
     formatter: simple
     mode: w
 
+  file_heat:
+    class: logging.FileHandler
+    level: INFO
+    filename: "export/logs/premise_heat.log"
+    encoding: utf8
+    formatter: simple
+    mode: w
+
   file_emissions:
     class: logging.FileHandler
     level: INFO
@@ -72,10 +88,23 @@ handlers:
     formatter: simple
     mode: w
 
+  file_validation:
+    class: logging.FileHandler
+    level: INFO
+    filename: "export/logs/premise_validation.log"
+    encoding: utf8
+    formatter: simple
+    mode: w
+
 loggers:
   dac:
     level: INFO
     handlers: [file_dac]
+    propagate: False
+
+  biomass:
+    level: INFO
+    handlers: [ file_biomass ]
     propagate: False
 
   electricity:
@@ -103,6 +132,11 @@ loggers:
     handlers: [ file_fuel ]
     propagate: False
 
+  heat:
+    level: INFO
+    handlers: [ file_heat ]
+    propagate: False
+
   emissions:
     level: INFO
     handlers: [ file_emissions ]
@@ -111,4 +145,9 @@ loggers:
   external:
     level: INFO
     handlers: [ file_external ]
+    propagate: False
+
+  validation:
+    level: INFO
+    handlers: [ file_validation ]
     propagate: False

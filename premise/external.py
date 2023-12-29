@@ -17,7 +17,11 @@ from .clean_datasets import get_biosphere_flow_uuid
 from .data_collection import IAMDataCollection
 from .filesystem_constants import DATA_DIR
 from .inventory_imports import generate_migration_maps, get_correspondence_bio_flows
-from .transformation import BaseTransformation, get_shares_from_production_volume
+from .transformation import (
+    BaseTransformation,
+    get_shares_from_production_volume,
+    rescale_exchanges,
+)
 from .utils import eidb_label
 
 LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
@@ -248,9 +252,10 @@ def adjust_efficiency(dataset: dict) -> dict:
                         scaling_factor = 1 / v[1][dataset["location"]]
                     except KeyError as err:
                         print(dataset["name"], dataset["location"], dataset["regions"])
-                        raise KeyError(
-                            f"No efficiency factor provided for region {dataset['location']}"
-                        ) from err
+                        print(
+                            f"No efficiency factor provided for dataset {dataset['name']} in {dataset['location']}"
+                        )
+                        scaling_factor = 1
                 else:
                     scaling_factor = 1 / v[1].get(dataset["regions"][0], 1)
                 filters = v[0]
@@ -264,12 +269,16 @@ def adjust_efficiency(dataset: dict) -> dict:
                             dataset,
                             ws.either(*[ws.contains("name", x) for x in filters]),
                         ):
-                            wurst.rescale_exchange(exc, scaling_factor)
+                            wurst.rescale_exchange(
+                                exc, scaling_factor, remove_uncertainty=False
+                            )
                     else:
                         for exc in ws.technosphere(
                             dataset,
                         ):
-                            wurst.rescale_exchange(exc, scaling_factor)
+                            wurst.rescale_exchange(
+                                exc, scaling_factor, remove_uncertainty=False
+                            )
 
                 else:
                     # adjust biosphere flows
@@ -280,12 +289,16 @@ def adjust_efficiency(dataset: dict) -> dict:
                             dataset,
                             ws.either(*[ws.contains("name", x) for x in filters]),
                         ):
-                            wurst.rescale_exchange(exc, scaling_factor)
+                            wurst.rescale_exchange(
+                                exc, scaling_factor, remove_uncertainty=False
+                            )
                     else:
                         for exc in ws.biosphere(
                             dataset,
                         ):
-                            wurst.rescale_exchange(exc, scaling_factor)
+                            wurst.rescale_exchange(
+                                exc, scaling_factor, remove_uncertainty=False
+                            )
 
     return dataset
 
@@ -346,7 +359,6 @@ class ExternalScenario(BaseTransformation):
         year: int,
         version: str,
         system_model: str,
-        cache: dict = None,
     ):
         """
         :param database: list of datasets representing teh database
@@ -443,7 +455,10 @@ class ExternalScenario(BaseTransformation):
                     self.add_to_index(act)
 
             # remove "adjust efficiency" tag
-            del ds["regionalize"]
+            if "adjust efficiency" in ds:
+                del ds["adjust efficiency"]
+            if "regionalize" in ds:
+                del ds["regionalize"]
 
         # some datasets might be meant to replace the supply
         # of other datasets, so we need to adjust those
@@ -486,6 +501,7 @@ class ExternalScenario(BaseTransformation):
         To be further filled with exchanges.
         :param market: dataset to use as template
         :param region: region to create the dataset for.
+        :param waste_market: True if the market is a waste market
         :return: dictionary
         """
 
@@ -552,6 +568,8 @@ class ExternalScenario(BaseTransformation):
                 1,
             )
 
+            if supply_share == 0:
+                continue
             # create a new exchange for the regional market
             # in the World market dataset
             new_excs.append(
@@ -857,7 +875,7 @@ class ExternalScenario(BaseTransformation):
             )
 
             if "includes" not in ineff:
-                wurst.change_exchanges_by_constant_factor(datatset, scaling_factor)
+                rescale_exchanges(datatset, scaling_factor, remove_uncertainty=False)
 
             else:
                 if "technosphere" in ineff["includes"]:
@@ -867,7 +885,9 @@ class ExternalScenario(BaseTransformation):
                             fltr.append(wurst.contains(k, v))
 
                     for exc in ws.technosphere(datatset, *(fltr or [])):
-                        wurst.rescale_exchange(exc, scaling_factor)
+                        wurst.rescale_exchange(
+                            exc, scaling_factor, remove_uncertainty=False
+                        )
 
                 if "biosphere" in ineff["includes"]:
                     fltr = []
@@ -876,7 +896,9 @@ class ExternalScenario(BaseTransformation):
                             fltr.append(wurst.contains(k, v))
 
                     for exc in ws.biosphere(datatset, *(fltr or [])):
-                        wurst.rescale_exchange(exc, scaling_factor)
+                        wurst.rescale_exchange(
+                            exc, scaling_factor, remove_uncertainty=False
+                        )
         return datatset
 
     def get_region_for_non_null_production_volume(self, i, variables):
@@ -930,7 +952,8 @@ class ExternalScenario(BaseTransformation):
 
                     if "except regions" in market_vars:
                         regions = [
-                            r for r in regions if r not in market_vars["except regions"]
+                            r for r in regions
+                            if r not in market_vars["except regions"]
                         ]
 
                     # Loop through regions
@@ -1006,7 +1029,7 @@ class ExternalScenario(BaseTransformation):
 
                                 new_excs.extend(
                                     self.write_suppliers_exchanges(
-                                        suppliers, supply_share
+                                        suppliers, float(supply_share)
                                     )
                                 )
 
@@ -1048,9 +1071,6 @@ class ExternalScenario(BaseTransformation):
                             self.database.append(new_market)
                             self.write_log(new_market)
                             self.add_to_index(new_market)
-
-                        else:
-                            regions.remove(region)
 
                     # if there's more than one region, we create a World region
                     create_world_region = True

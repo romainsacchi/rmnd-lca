@@ -58,6 +58,22 @@ Fuel (hydrogen) - efficiency:
   label: Efficiency gains (2020 = 1)
   expl_text: Energy efficiency gains per technology relative to 2020. Used to calibrate the efficiency of the (bio)fuel-producing datasets.
   offset: 5
+Fuel (kerosene) - generation:
+  label: Exajoules (EJ)
+  expl_text: Generated volumes of kerosene fuel, per technology. Used to calculate fuel supply mixes.
+  offset: 5
+Fuel (kerosene) - efficiency:
+  label: Efficiency gains (2020 = 1)
+  expl_text: Energy efficiency gains per technology relative to 2020. Used to calibrate the efficiency of the (bio)fuel-producing datasets.
+  offset: 5
+Fuel (LPG) - generation:
+  label: Exajoules (EJ)
+  expl_text: Generated volumes of kerosene fuel, per technology. Used to calculate fuel supply mixes.
+  offset: 5
+Fuel (LPG) - efficiency:
+  label: Efficiency gains (2020 = 1)
+  expl_text: Energy efficiency gains per technology relative to 2020. Used to calibrate the efficiency of the (bio)fuel-producing datasets.
+  offset: 5
 Cement - generation:
   label: Millions of tons (MT)
   expl_text: Generated volumes of cement.
@@ -85,6 +101,14 @@ Steel - CCS:
 Direct Air Capture - generation:
   label: Millions of tons of CO2 (Mt CO2, cumul.)
   expl_text: Cumulated mass of CO2 removed by direct air capture. Used to calculate the learning rate of DAC systems. Assumes that sorbent- and solvent-based DAC systems are equally used.
+  offset: 10
+Direct Air Capture - heat eff.:
+  label: Efficiency gains (2020 = 1)
+  expl_text: Heat efficiency gains relative to 2020. Used to calibrate the efficiency of the DAC datasets.
+  offset: 10
+Direct Air Capture - elec eff.:
+  label: Efficiency gains (2020 = 1)
+  expl_text: Electricity efficiency gains relative to 2020. Used to calibrate the efficiency of the DAC datasets.
   offset: 10
 Transport (cars):
   label: Vehicle-kilometers (million)

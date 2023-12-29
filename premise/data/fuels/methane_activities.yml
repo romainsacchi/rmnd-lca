@@ -3,5 +3,5 @@ methane, from biomass:
   - biomethane production, from biogas upgrading, using amine scrubbing
   - biomethane, gaseous, 5 bar, from sewage sludge fermentation, at fuelling station
 methane, synthetic:
-  - methane, from electrochemical methanation, with carbon from atmospheric carbon dioxide capture
-  - methane, from biological methanation, with carbon from atmospheric carbon dioxide capture
+  - methane, from electrochemical methanation, with carbon from atmosphere
+  - methane, from biological methanation, with carbon from atmosphere

@@ -10,24 +10,35 @@ air:
   Mercury II: Mercury
   Zinc II: Zinc
   Antimony: Antimony ion
+  Antimony ion: Antimony
   Arsenic: Arsenic ion
+  Arsenic ion: Arsenic
   Barium: Barium II
+  Barium II: Barium
   Cadmium: Cadmium II
+  Cadmium II: Cadmium
   Chromium: Chromium III
   Cobalt: Cobalt II
+  Cobalt II: Cobalt
   Copper: Copper ion
   Hydrogen chloride: Hydrochloric acid
   Lead: Lead II
+  Lead II: Lead
   Manganese: Manganese II
+  Manganese II: Manganese
   Mercury: Mercury II
   Molybdenum: Molybdenum VI
+  Molybdenum VI: Molybdenum
   NMVOC, non-methane volatile organic compounds, unspecified origin: NMVOC, non-methane volatile organic compounds
   Nickel: Nickel II
   Selenium: Selenium IV
+  Selenium IV: Selenium
   Vanadium: Vanadium V
   Zinc: Zinc II
   Particulates, < 2.5 um: Particulate Matter, < 2.5 um
+  Particulate Matter, < 2.5 um: Particulates, < 2.5 um
   Particulates, > 10 um: Particulate Matter, > 10 um
+  Particulate Matter, > 10 um: Particulates, > 10 um
   Particulates, > 2.5 um, and < 10um: Particulate Matter, > 2.5 um and < 10um
   Potassium: Potassium I
   Ethene: Ethylene
@@ -35,55 +46,91 @@ air:
   Silver: Silver I
   Tin: Tin ion
   Iron: Iron ion
+  Iron ion: Iron
   Cesium-137: Caesium-137
   Cesium-134: Caesium-134
   Cesium-136: Caesium-136
   Beryllium: Beryllium II
+  Beryllium II: Beryllium
   VOC, volatile organic compounds, unspecified origin: VOC, volatile organic compounds
+  VOC, volatile organic compounds: VOC, volatile organic compounds, unspecified origin
 
 natural resource:
   Iridium: Iridium, in ground
+  Rhenium: Rhenium, in ground
   Lithium, in ground: Lithium
+  Lithium: Lithium, in ground
   Cobalt, in ground: Cobalt
+  Cobalt: Cobalt, in ground
   Copper, in ground: Copper
+  Copper: Copper, in ground
   Oil, crude, in ground: Oil, crude
+  Oil, crude: Oil, crude, in ground
   Bromine, in water: Bromine
   Fluorspar, in ground: Fluorspar
+  Fluorspar: Fluorspar, in ground
   Iodine, in water: Iodine
   Ruthenium, in ground: Ruthenium
   Rhodium, in ground: Rhodium
   Platinum, in ground: Platinum
+  Platinum: Platinum, in ground
   Nickel, in ground: Nickel
+  Nickel: Nickel, in ground
   Palladium, in ground: Palladium
   Gangue, in ground: Gangue
+  Gangue: Gangue, in ground
   Selenium, in ground: Selenium
+  Selenium: Selenium, in ground
   Tellurium, in ground: Tellurium
+  Tellurium: Tellurium, in ground
   Molybdenum, in ground: Molybdenum
+  Molybdenum: Molybdenum, in ground
   Gold, in ground: Gold
+  Gold: Gold, in ground
   Silver, in ground: Silver
+  Silver: Silver, in ground
   Rhenium, in ground: Rhenium
   Iridium, in ground: Iridium
   Iron, 72% in magnetite, 14% in crude ore, in ground: Iron, 72% in magnetite, 14% in crude ore
   Vanadium, in ground: Vanadium
   Aluminium, in ground: Aluminium
+  Aluminium: Aluminium, in ground
   Barium, in ground: Barium
+  Barium: Barium, in ground
   Cadmium, in ground: Cadmium
+  Cadmium: Cadmium, in ground
   Calcium, in ground: Calcium
+  Calcium: Calcium, in ground
   Chromium, in ground: Chromium
+  Chromium: Chromium, in ground
   Dolomite, in ground: Dolomite
+  Dolomite: Dolomite, in ground
   Iron, in ground: Iron
+  Iron: Iron, in ground
   Lead, in ground: Lead
+  Lead: Lead, in ground
   Magnesium, in ground: Magnesium
+  Magnesium: Magnesium, in ground
   Manganese, in ground: Manganese
+  Manganese: Manganese, in ground
   Mercury, in ground: Mercury
+  Mercury: Mercury, in ground
   Phosphorus, in ground: Phosphorus
+  Phosphorus: Phosphorus, in ground
   Potassium, in ground: Potassium
+  Potassium: Potassium, in ground
   Sand, unspecified, in ground: Sand, unspecified
+  Sand, unspecified: Sand, unspecified, in ground
   Sodium, in ground: Sodium
+  Sodium: Sodium, in ground
   Strontium, in ground: Strontium
+  Strontium: Strontium, in ground
   Sulfur, in ground: Sulfur
+  Sulfur: Sulfur, in ground
   Titanium, in ground: Titanium
+  Titanium: Titanium, in ground
   Zinc, in ground: Zinc
+  Zinc: Zinc, in ground
   Germanium, in ground: Germanium
   Water, well: Water, well, in ground
   Vanadium: Vanadium, in ground
@@ -93,41 +140,64 @@ natural resource:
 soil:
   Cyfluthrin: Beta-cyfluthrin
   Cadmium: Cadmium II
+  Cadmium II: Cadmium
   Chromium: Chromium III
+  Chromium III: Chromium
   Copper: Copper ion
+  Copper ion: Copper
   Lead: Lead II
+  Lead II: Lead
   Mercury: Mercury II
+  Mercury II: Mercury
   Nickel: Nickel II
+  Nickel II: Nickel
   Zinc: Zinc II
+  Zinc II: Zinc
   Arsenic: Arsenic ion
+  Arsenic ion: Arsenic
   Tebupirimphos: Tebupirimfos
   Pyraclostrobin (prop): Pyraclostrobin
   Carfentrazone ethyl ester: Carfentrazone-ethyl
   Iprodion: Iprodione
   Quizalofop ethyl ester: Quizalofop-ethyl
   Manganese: Manganese II
+  Manganese II: Manganese
 
 
 water:
   AOX, Adsorbable Organic Halogen as Cl: AOX, Adsorbable Organic Halogen
   Aluminium: Aluminium III
+  Aluminium III: Aluminium
   Arsenic, ion: Arsenic ion
+  Arsenic ion: Arsenic, ion
   Barium: Barium II
   Calcium, ion: Calcium II
+  Calcium II: Calcium, ion
   Chromium, ion: Chromium III
+  Chromium III: Chromium, ion
   Iron, ion: Iron ion
+  Iron ion: Iron, ion
   Manganese: Manganese II
+  Manganese II: Manganese
   Potassium, ion: Potassium I
+  Potassium I: Potassium, ion
   Sodium, ion: Sodium I
+  Sodium I: Sodium, ion
   Zinc, ion: Zinc II
+  Zinc II: Zinc, ion
   Lithium, ion: Lithium I
   Cadmium, ion: Cadmium II
+  Cadmium II: Cadmium, ion
   Ethene: Ethylene
   Copper, ion: Copper ion
   Lead: Lead II
+  Lead II: Lead
   Mercury: Mercury II
+  Mercury II: Mercury
   Nickel, ion: Nickel II
+  Nickel II: Nickel, ion
   Ammonium, ion: Ammonium
+  Ammonium: Ammonium, ion
   Iron: Iron ion
   Nickel: Nickel II
   Molybdenum: Molybdenum VI
@@ -137,7 +207,13 @@ water:
   Cesium-134: Caesium-134
   Cesium-136: Caesium-136
   Cobalt: Cobalt II
+  Cobalt II: Cobalt
   Tin, ion: Tin ion
   Antimony: Antimony ion
   Selenium: Selenium IV
+  Selenium IV: Selenium
   Thallium: Thallium I
+  Antimony ion: Antimony
+  Copper ion: Copper, ion
+
+
