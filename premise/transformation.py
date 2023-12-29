@@ -389,13 +389,10 @@ class BaseTransformation:
                 )
                 counter += 1
         except IndexError:
-
             suppliers = list(
                 ws.get_many(
                     self.database,
-                    ws.either(
-                        *[ws.contains("name", sup) for sup in possible_names]
-                    ),
+                    ws.either(*[ws.contains("name", sup) for sup in possible_names]),
                     *extra_filters,
                 )
             )
@@ -1788,7 +1785,6 @@ class BaseTransformation:
         for exc in dataset["exchanges"]:
             if exc["type"] == "technosphere":
                 exchanges_before[exc["name"]] += exc["amount"]
-
 
         new_exchanges = self.find_candidates(
             dataset,
