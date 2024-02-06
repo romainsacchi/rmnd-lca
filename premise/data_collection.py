@@ -1023,8 +1023,8 @@ class IAMDataCollection:
                 # check that each element of energy.values() is in data.variables.values
                 # knowing that energy.values() is a list of lists
                 # and that each element of prod.values() is in data.variables.values
-                _ = (
-                    lambda x: x
+                _ = lambda x: (
+                    x
                     if isinstance(x, list)
                     else [
                         x,

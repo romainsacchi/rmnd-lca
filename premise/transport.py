@@ -688,9 +688,9 @@ class Transport(BaseTransformation):
                                 "transport, freight, lorry, unspecified" + cycle
                             )
                     else:
-                        exc[
-                            "name"
-                        ] = "transport, freight, lorry, unspecified, long haul"
+                        exc["name"] = (
+                            "transport, freight, lorry, unspecified, long haul"
+                        )
 
                     exc["product"] = "transport, freight, lorry"
                     exc["location"] = self.geo.ecoinvent_to_iam_location(

@@ -1,6 +1,7 @@
 """
 Integrates projections regarding steel production.
 """
+
 from typing import Dict, List
 
 from .data_collection import IAMDataCollection

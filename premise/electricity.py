@@ -618,9 +618,11 @@ class Electricity(BaseTransformation):
                         "amount": (1 - solar_amount) * (1 + distr_loss),
                         "type": "technosphere",
                         "product": "electricity, medium voltage",
-                        "name": "market group for electricity, medium voltage"
-                        if period == 0
-                        else f"market group for electricity, medium voltage, {period}-year period",
+                        "name": (
+                            "market group for electricity, medium voltage"
+                            if period == 0
+                            else f"market group for electricity, medium voltage, {period}-year period"
+                        ),
                         "unit": "kilowatt hour",
                         "location": region,
                     }
@@ -633,9 +635,11 @@ class Electricity(BaseTransformation):
                         "amount": transf_loss,
                         "type": "technosphere",
                         "product": "electricity, low voltage",
-                        "name": "market group for electricity, low voltage"
-                        if period == 0
-                        else f"market group for electricity, low voltage, {period}-year period",
+                        "name": (
+                            "market group for electricity, low voltage"
+                            if period == 0
+                            else f"market group for electricity, low voltage, {period}-year period"
+                        ),
                         "unit": "kilowatt hour",
                         "location": region,
                     }
@@ -749,9 +753,11 @@ class Electricity(BaseTransformation):
                         "amount": 1 + distr_loss,
                         "type": "technosphere",
                         "product": "electricity, high voltage",
-                        "name": "market group for electricity, high voltage"
-                        if period == 0
-                        else f"market group for electricity, high voltage, {period}-year period",
+                        "name": (
+                            "market group for electricity, high voltage"
+                            if period == 0
+                            else f"market group for electricity, high voltage, {period}-year period"
+                        ),
                         "unit": "kilowatt hour",
                         "location": region,
                     }
@@ -764,9 +770,11 @@ class Electricity(BaseTransformation):
                         "amount": transf_loss,
                         "type": "technosphere",
                         "product": "electricity, medium voltage",
-                        "name": "market group for electricity, medium voltage"
-                        if period == 0
-                        else f"market group for electricity, medium voltage, {period}-year period",
+                        "name": (
+                            "market group for electricity, medium voltage"
+                            if period == 0
+                            else f"market group for electricity, medium voltage, {period}-year period"
+                        ),
                         "unit": "kilowatt hour",
                         "location": region,
                     }
@@ -1707,9 +1715,11 @@ class Electricity(BaseTransformation):
 
                         new_eff = self.iam_data.coal_power_plants.sel(
                             country=loc,
-                            fuel="Anthracite coal"
-                            if "hard coal" in dataset["name"]
-                            else "Lignite coal",
+                            fuel=(
+                                "Anthracite coal"
+                                if "hard coal" in dataset["name"]
+                                else "Lignite coal"
+                            ),
                             CHP=True if "co-generation" in dataset["name"] else False,
                             variable="efficiency",
                         )
@@ -1750,22 +1760,30 @@ class Electricity(BaseTransformation):
 
                             emission_factor = self.iam_data.coal_power_plants.sel(
                                 country=loc,
-                                fuel="Anthracite coal"
-                                if "hard coal" in dataset["name"]
-                                else "Lignite coal",
-                                CHP=True
-                                if "co-generation" in dataset["name"]
-                                else False,
+                                fuel=(
+                                    "Anthracite coal"
+                                    if "hard coal" in dataset["name"]
+                                    else "Lignite coal"
+                                ),
+                                CHP=(
+                                    True
+                                    if "co-generation" in dataset["name"]
+                                    else False
+                                ),
                                 variable=species,
                             ) / (
                                 self.iam_data.coal_power_plants.sel(
                                     country=loc,
-                                    fuel="Anthracite coal"
-                                    if "hard coal" in dataset["name"]
-                                    else "Lignite coal",
-                                    CHP=True
-                                    if "co-generation" in dataset["name"]
-                                    else False,
+                                    fuel=(
+                                        "Anthracite coal"
+                                        if "hard coal" in dataset["name"]
+                                        else "Lignite coal"
+                                    ),
+                                    CHP=(
+                                        True
+                                        if "co-generation" in dataset["name"]
+                                        else False
+                                    ),
                                     variable="generation",
                                 )
                                 * 1e3

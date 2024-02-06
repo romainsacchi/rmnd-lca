@@ -1,6 +1,7 @@
 """
 Implements external scenario data.
 """
+
 import logging
 import uuid
 from collections import defaultdict
