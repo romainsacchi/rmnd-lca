@@ -826,7 +826,10 @@ class NewDatabase:
             },
             "steel": {"func": _update_steel, "args": (self.version, self.system_model)},
             "fuels": {"func": _update_fuels, "args": (self.version, self.system_model)},
-            "metals": {"func": _update_metals, "args": (self.version, self.system_model)},
+            "metals": {
+                "func": _update_metals,
+                "args": (self.version, self.system_model),
+            },
             "heat": {"func": _update_heat, "args": (self.version, self.system_model)},
             "emissions": {
                 "func": _update_emissions,

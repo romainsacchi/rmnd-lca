@@ -134,7 +134,6 @@ def get_metals_intensity_factors_data() -> xr.DataArray:
     return array
 
 
-
 @lru_cache
 def get_gains_IAM_data(model, gains_scenario):
     filepath = Path(
