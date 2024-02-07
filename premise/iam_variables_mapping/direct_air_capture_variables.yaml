@@ -8,12 +8,12 @@ dac_solvent:
   iam_aliases:
     remind: 'Emi|CO2|Cumulated|CDR|DACCS'
     image: Carbon Capture|Storage|Direct Air Capture|Cumulative
-    tiam: Carbon Capture|Storage|Direct Air Capture
+    tiam-ucl: Carbon Capture|Storage|Direct Air Capture
   heat_use_aliases:
-    tiam:
+    tiam-ucl:
       - Secondary Energy|Consumption|Direct Air Capture|Heat
   electricity_use_aliases:
-    tiam:
+    tiam-ucl:
       - Secondary Energy|Consumption|Direct Air Capture|Electricity
   ecoinvent_aliases:
     fltr:

@@ -202,8 +202,8 @@ def fetch_data(
         return iam_data.sel(
             variables=[v for v in variable if v in iam_data.coords["variables"].values]
         )
-    else:
-        return None
+
+    return None
 
 
 def generate_summary_report(scenarios: list, filename: Path) -> None:
@@ -421,6 +421,9 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
                     variable=variables,
                 )
 
+                if "CCS" in sector and iam_data is not None:
+                    iam_data = iam_data * 100
+
                 if iam_data is None:
                     continue
 
@@ -441,7 +444,7 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
                 row += 2
 
                 for region in scenario["iam data"].regions:
-                    if sector == "GMST" and region != "World":
+                    if sector in ["GMST", "CO2"] and region != "World":
                         continue
 
                     worksheet.cell(column=col, row=row, value=region)
@@ -542,7 +545,7 @@ def generate_change_report(source, version, source_type, system_model):
     ]
 
     # fetch YAML file containing the reporting metadata
-    with open(LOG_REPORTING_FILEPATH, "r") as f:
+    with open(LOG_REPORTING_FILEPATH, encoding="utf-8") as f:
         metadata = yaml.load(f, Loader=yaml.FullLoader)
 
     # create a first tab

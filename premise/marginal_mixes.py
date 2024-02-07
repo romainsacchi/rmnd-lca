@@ -33,7 +33,14 @@ def get_lifetime(list_tech: Tuple) -> np.ndarray:
 
     dict_ = {k: v for k, v in dict_.items() if k in list_tech}
 
-    return np.array(list(dict_.values()), dtype=float)
+    val = []
+    for tech in list_tech:
+        if tech in dict_.keys():
+            val.append(dict_[tech])
+        else:
+            print(f"WARNING: {tech} not found in lifetimes.yaml")
+
+    return np.array(val, dtype=float)
 
 
 @lru_cache
@@ -48,15 +55,16 @@ def get_leadtime(list_tech: Tuple) -> np.ndarray:
     with open(IAM_LEADTIMES, "r", encoding="utf-8") as stream:
         dict_ = yaml.safe_load(stream)
 
-    # check that all technologies have a lead-time
-    if not all([k in dict_.keys() for k in list_tech]):
-        raise ValueError(
-            f"Not all technologies have a lead-time. "
-            f"Missing technologies: {set(list_tech) - set(dict_.keys())}"
-        )
     dict_ = {k: dict_[k] for k in list(list_tech)}
 
-    return np.array(list(dict_.values()), dtype=float)
+    val = []
+    for tech in list_tech:
+        if tech in dict_.keys():
+            val.append(dict_[tech])
+        else:
+            print(f"WARNING: {tech} not found in leadtimes.yaml")
+
+    return np.array(val, dtype=float)
 
 
 def fetch_avg_leadtime(leadtime: np.ndarray, shares: [np.ndarray, xr.DataArray]) -> int:
@@ -71,7 +79,7 @@ def fetch_avg_capital_replacement_rate(avg_lifetime: int, data: xr.DataArray) ->
     """
     Calculate the average capital replacement rate of a market.
     """
-    return (-1 / avg_lifetime * data.sum(dim="variables").values).item(0) or 0.0
+    return (-1 / avg_lifetime) or 0.0
 
 
 def fetch_capital_replacement_rates(
@@ -156,7 +164,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
     duration: int = args.get("duration", False)
     foresight: bool = args.get("foresight", False)
     lead_time: int = args.get("lead time", False)
-    capital_repl_rate: bool = args.get("capital replacement rate", False)
+    capital_repl_rate: bool = args.get("capital replacement rate", True)
     measurement: int = args.get("measurement", 0)
     weighted_slope_start: float = args.get("weighted slope start", 0.75)
     weighted_slope_end: float = args.get("weighted slope end", 1.0)
@@ -181,12 +189,13 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
             "variables": data.variables,
         },
     )
-    data_full.loc[dict(year=data.year)] = data
+    data_full.loc[{"year": data.year}] = data
     # interpolation is done using cubic spline interpolation
     data_full = data_full.interpolate_na(dim="year", method="akima")
 
     techs = tuple(data_full.variables.values.tolist())
     leadtime = get_leadtime(techs)
+    lifetime = get_lifetime(techs)
 
     for region in data.coords["region"].values:
         # we don't yet know the exact start year
@@ -206,7 +215,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                 "start": year,
                 "end": year + fetch_avg_leadtime(leadtime, shares),
                 "start_avg": year,
-                "end_avg": year + fetch_avg_lifetime(lifetime=leadtime, shares=shares),
+                "end_avg": year + fetch_avg_lifetime(lifetime=lifetime, shares=shares),
             },
             (False, False, True, False): {
                 "start": year - fetch_avg_leadtime(leadtime, shares),
@@ -218,13 +227,13 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                 "start": year,
                 "end": year + fetch_avg_leadtime(leadtime, shares),
                 "start_avg": year,
-                "end_avg": year + fetch_avg_lifetime(lifetime=leadtime, shares=shares),
+                "end_avg": year + fetch_avg_lifetime(lifetime=lifetime, shares=shares),
             },
             (False, False, True, True): {
                 "start": year - fetch_avg_leadtime(leadtime, shares),
                 "end": year,
                 "start_avg": year
-                - fetch_avg_lifetime(lifetime=leadtime, shares=shares),
+                - fetch_avg_lifetime(lifetime=lifetime, shares=shares),
                 "end_avg": year,
             },
             (True, False, False, False): {
@@ -278,19 +287,14 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
         }
 
         try:
-            start = time_parameters[
+            params = time_parameters[
                 (bool(range_time), bool(duration), foresight, lead_time)
-            ]["start"]
-            end = time_parameters[
-                (bool(range_time), bool(duration), foresight, lead_time)
-            ]["end"]
+            ]
+            start = params["start"]
+            end = params["end"]
 
-            avg_start = time_parameters[
-                (bool(range_time), bool(duration), foresight, lead_time)
-            ]["start_avg"]
-            avg_end = time_parameters[
-                (bool(range_time), bool(duration), foresight, lead_time)
-            ]["end_avg"]
+            avg_start = params["start_avg"]
+            avg_end = params["end_avg"]
 
         except KeyError:
             print(
@@ -308,7 +312,6 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
 
         # we first need to calculate the average capital replacement rate of the market
         # which is here defined as the inverse of the production-weighted average lifetime
-        lifetime = get_lifetime(techs)
 
         # again was put in to deal with Nan values in data
         avg_lifetime = fetch_avg_lifetime(lifetime, shares)
@@ -358,7 +361,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                     year=end,
                 )
 
-            market_shares.loc[dict(region=region)] = (
+            market_shares.loc[{"region": region}] = (
                 (data_end.values - data_start.values) / (end - start)
             )[:, None]
 
@@ -371,7 +374,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
 
                 # subtract the capital replacement (which is negative) rate
                 # to the changes market share
-                market_shares.loc[dict(region=region)] -= cap_repl_rate[:, None]
+                market_shares.loc[{"region": region}] -= cap_repl_rate[:, None]
 
         if measurement == 1:
             if isinstance(end, np.ndarray):
@@ -395,7 +398,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
 
             coeff = masked_data.polyfit(dim="year", deg=1)
 
-            market_shares.loc[dict(region=region)] = coeff.polyfit_coefficients[
+            market_shares.loc[{"region": region}] = coeff.polyfit_coefficients[
                 0
             ].values[:, None]
 
@@ -408,7 +411,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
 
                 # subtract the capital replacement (which is negative) rate
                 # to the changes market share
-                market_shares.loc[dict(region=region)] -= cap_repl_rate[:, None]
+                market_shares.loc[{"region": region}] -= cap_repl_rate[:, None]
 
         if measurement == 2:
             if isinstance(end, np.ndarray):
@@ -474,7 +477,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
 
             baseline_area = data_start * n
 
-            market_shares.loc[dict(region=region)] = (
+            market_shares.loc[{"region": region}] = (
                 (total_area - baseline_area) / n
             ).values[:, None]
 
@@ -492,7 +495,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
 
                 # subtract the capital replacement (which is negative) rate
                 # to the changes market share
-                market_shares.loc[dict(region=region)] -= cap_repl_rate[:, None]
+                market_shares.loc[{"region": region}] -= cap_repl_rate[:, None]
 
         if measurement == 3:
             if isinstance(end, np.ndarray):
@@ -588,7 +591,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                 split_year,
             )
 
-            market_shares.loc[dict(region=region)] = (slope + slope * split_year)[
+            market_shares.loc[{"region": region}] = (slope + slope * split_year)[
                 :, None
             ]
 
@@ -602,7 +605,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
             split_years = range(avg_start, avg_end)
             for split_year in split_years:
                 market_shares_split = xr.zeros_like(market_shares)
-                market_shares_split.loc[dict(region=region)] = (
+                market_shares_split.loc[{"region": region}] = (
                     data_full.sel(region=region, year=split_year + 1)
                     - data_full.sel(region=region, year=split_year)
                 ).values[:, None]
@@ -614,7 +617,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                     # In cases where a technology is fully phased out somewhere during the time interval we do not want to add capital replacement rate
                     mask = data_full.sel(region=region, year=split_year) != 0
                     cap_repl_rate = cap_repl_rate * mask.values
-                    market_shares_split.loc[dict(region=region)] -= cap_repl_rate[
+                    market_shares_split.loc[{"region": region}] -= cap_repl_rate[
                         :, None
                     ]
 
@@ -622,33 +625,33 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                     capital_repl_rate and volume_change < avg_cap_repl_rate
                 ):
                     # we remove suppliers with a positive growth
-                    market_shares_split.loc[dict(region=region)].values[
-                        market_shares_split.loc[dict(region=region)].values > 0
+                    market_shares_split.loc[{"region": region}].values[
+                        market_shares_split.loc[{"region": region}].values > 0
                     ] = 0
                     market_shares_split.loc[
-                        dict(region=region)
-                    ] /= market_shares_split.loc[dict(region=region)].sum(
+                        {"region": region}
+                    ] /= market_shares_split.loc[{"region": region}].sum(
                         dim="variables"
                     )
                     # we reverse the sign so that the suppliers are still seen as negative in the next step
-                    market_shares_split.loc[dict(region=region)] *= -1
+                    market_shares_split.loc[{"region": region}] *= -1
 
                 else:
                     # we remove suppliers with a negative growth
-                    market_shares_split.loc[dict(region=region)].values[
-                        market_shares_split.loc[dict(region=region)].values < 0
+                    market_shares_split.loc[{"region": region}].values[
+                        market_shares_split.loc[{"region": region}].values < 0
                     ] = 0
                     market_shares_split.loc[
-                        dict(region=region)
-                    ] /= market_shares_split.loc[dict(region=region)].sum(
+                        {"region": region}
+                    ] /= market_shares_split.loc[{"region": region}].sum(
                         dim="variables"
                     )
 
-                market_shares.loc[dict(region=region)] += market_shares_split.loc[
-                    dict(region=region)
+                market_shares.loc[{"region": region}] += market_shares_split.loc[
+                    {"region": region}
                 ]
 
-            market_shares.loc[dict(region=region)] /= n[:, None]
+            market_shares.loc[{"region": region}] /= n[:, None]
 
         if measurement == 5:
             # if the capital replacement rate is not used,
@@ -681,7 +684,7 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
                     year=end,
                 )
 
-            market_shares.loc[dict(region=region)] = (
+            market_shares.loc[{"region": region}] = (
                 (data_end.values - data_start.values) / (end - start)
             )[:, None]
 
@@ -694,47 +697,47 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
 
                 # subtract the capital replacement (which is negative) rate
                 # to the changes market share
-                market_shares.loc[dict(region=region)] -= cap_repl_rate[:, None]
+                market_shares.loc[{"region": region}] -= cap_repl_rate[:, None]
 
             if (not capital_repl_rate and volume_change < 0) or (
                 capital_repl_rate and volume_change < avg_cap_repl_rate
             ):
                 # we remove suppliers with a positive growth
-                market_shares.loc[dict(region=region)].values[
-                    market_shares.loc[dict(region=region)].values >= 0
+                market_shares.loc[{"region": region}].values[
+                    market_shares.loc[{"region": region}].values >= 0
                 ] = 0
                 # we keep suppliers with a negative growth
                 # we use negative 1 so that in the next step they are still seen as negative
-                market_shares.loc[dict(region=region)].values[
-                    market_shares.loc[dict(region=region)].values < 0
+                market_shares.loc[{"region": region}].values[
+                    market_shares.loc[{"region": region}].values < 0
                 ] = -1
                 # and use their production volume as their indicator
-                market_shares.loc[dict(region=region)] *= data_start.values[:, None]
+                market_shares.loc[{"region": region}] *= data_start.values[:, None]
             # increasing market or
             # market decreasing slowlier than the
             # capital renewal rate
             else:
                 # we remove suppliers with a negative growth
-                market_shares.loc[dict(region=region)].values[
-                    market_shares.loc[dict(region=region)].values <= 0
+                market_shares.loc[{"region": region}].values[
+                    market_shares.loc[{"region": region}].values <= 0
                 ] = 0
                 # we keep suppliers with a positive growth
-                market_shares.loc[dict(region=region)].values[
-                    market_shares.loc[dict(region=region)].values > 0
+                market_shares.loc[{"region": region}].values[
+                    market_shares.loc[{"region": region}].values > 0
                 ] = 1
                 # and use their production volume as their indicator
-                market_shares.loc[dict(region=region)] *= data_start.values[:, None]
+                market_shares.loc[{"region": region}] *= data_start.values[:, None]
 
-        market_shares.loc[dict(region=region)] = market_shares.loc[
-            dict(region=region)
+        market_shares.loc[{"region": region}] = market_shares.loc[
+            {"region": region}
         ].round(3)
 
         # we remove NaNs and np.inf
-        market_shares.loc[dict(region=region)].values[
-            market_shares.loc[dict(region=region)].values == np.inf
+        market_shares.loc[{"region": region}].values[
+            market_shares.loc[{"region": region}].values == np.inf
         ] = 0
-        market_shares.loc[dict(region=region)] = market_shares.loc[
-            dict(region=region)
+        market_shares.loc[{"region": region}] = market_shares.loc[
+            {"region": region}
         ].fillna(0)
 
         # market decreasing faster than the average capital renewal rate
@@ -745,24 +748,25 @@ def consequential_method(data: xr.DataArray, year: int, args: dict) -> xr.DataAr
             capital_repl_rate and volume_change < avg_cap_repl_rate
         ):
             # we remove suppliers with a positive growth
-            market_shares.loc[dict(region=region)].values[
-                market_shares.loc[dict(region=region)].values > 0
+            market_shares.loc[{"region": region}].values[
+                market_shares.loc[{"region": region}].values > 0
             ] = 0
             # we reverse the sign of negative growth suppliers
-            market_shares.loc[dict(region=region)] *= -1
-            market_shares.loc[dict(region=region)] /= market_shares.loc[
-                dict(region=region)
+            market_shares.loc[{"region": region}] *= -1
+            market_shares.loc[{"region": region}] /= market_shares.loc[
+                {"region": region}
             ].sum(dim="variables")
+
         # increasing market or
         # market decreasing slowlier than the
         # capital renewal rate
         else:
             # we remove suppliers with a negative growth
-            market_shares.loc[dict(region=region)].values[
-                market_shares.loc[dict(region=region)].values < 0
+            market_shares.loc[{"region": region}].values[
+                market_shares.loc[{"region": region}].values < 0
             ] = 0
-            market_shares.loc[dict(region=region)] /= market_shares.loc[
-                dict(region=region)
+            market_shares.loc[{"region": region}] /= market_shares.loc[
+                {"region": region}
             ].sum(dim="variables")
 
     return market_shares

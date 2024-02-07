@@ -840,7 +840,7 @@ They introduce the following datasets:
   carbon dioxide, captured at cement production plant, for subsequent reuse                                        RER
  =============================================================================================================== ===========
 
-Using the transformation function `update_dac()`, *premise* creates various configurations of these processes,
+Using the transformation function `update("dac")`, *premise* creates various configurations of these processes,
 using different sources for heat (industrial steam heat, high-temp heat
 pump heat and excess heat), which are found under the following names, for each IAM region:
 

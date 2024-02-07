@@ -7,7 +7,7 @@ biomass crops - purpose grown:
     image: Primary Energy|Biomass|Energy Crops
     message: Primary Energy|Biomass|Energy Crops
     remind: SE|Electricity|Biomass|Energy Crops
-    tiam: Primary Energy|Biomass|Energy Crops
+    tiam-ucl: Primary Energy|Biomass|Energy Crops
     gcam: Production|Energy|Biomass|Energy Crops
   ecoinvent_aliases:
     fltr:
@@ -25,7 +25,7 @@ biomass - residual:
     message: Primary Energy|Biomass|Residues
     image: Primary Energy|Biomass|Residues
     remind: SE|Electricity|Biomass|Residues
-    tiam: Primary Energy|Biomass|Residues
+    tiam-ucl: Primary Energy|Biomass|Residues
     gcam: Production|Energy|Biomass|Residues
   ecoinvent_aliases:
     fltr:

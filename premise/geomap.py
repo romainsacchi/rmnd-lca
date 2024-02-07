@@ -6,7 +6,7 @@ the IAM locations and ecoinvent locations.
 import json
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
 import yaml
 from constructive_geometries import Geomatcher
@@ -59,13 +59,13 @@ class Geomap:
         topology_path = TOPOLOGIES_DIR / f"{model.lower()}-topology.json"
         if topology_path.exists():
             return cls.load_json(topology_path)
-        else:
-            raise FileNotFoundError(
-                f"Geographical definition file for the model '{model.upper()}' not found."
-            )
+
+        raise FileNotFoundError(
+            f"Geographical definition file for the model '{model.upper()}' not found."
+        )
 
     @classmethod
-    def get_additional_mapping(cls) -> Dict[str, str]:
+    def get_additional_mapping(cls) -> Dict[str, dict]:
         """
         Return a dictionary with additional ecoinvent to IAM mappings.
         """
@@ -85,7 +85,7 @@ class Geomap:
 
         self.rev_additional_mappings = defaultdict(list)
         for ecoinvent, iam in self.additional_mappings.items():
-            for model, iam_region in iam.items():
+            for iam_region in iam.values():
                 self.rev_additional_mappings[iam_region].append(ecoinvent)
 
         self.iam_regions = [
@@ -104,7 +104,7 @@ class Geomap:
                           the IAM region should be returned. By default, `contained` is True.
         :return: list of names of ecoinvent regions
         """
-        location_tuple = (self.model.upper(), location)
+        location_tuple = (str(self.model.upper()), location)
 
         # Start with additional mappings that might exist
         ecoinvent_locations = []
@@ -116,9 +116,12 @@ class Geomap:
         if location_tuple not in self.geo:
             raise ValueError(f"The IAM location '{location}' is not recognized.")
 
-        searchfunc = self.geo.contained if contained else self.geo.intersects
+        def get_search_func(loc):
+            if contained:
+                return self.geo.contained(loc)
+            return self.geo.intersects(loc)
 
-        for region in searchfunc(location_tuple):
+        for region in get_search_func(location_tuple):
             # Skip tuple regions from unsupported models
             if (
                 isinstance(region, tuple)
@@ -130,6 +133,9 @@ class Geomap:
 
         if location_tuple != (self.model.upper(), "World"):
             ecoinvent_locations = [e for e in ecoinvent_locations if e != "GLO"]
+
+        # remove if ``location`` is in the list
+        ecoinvent_locations = [e for e in ecoinvent_locations if e != location]
 
         return ecoinvent_locations
 
@@ -180,7 +186,10 @@ class Geomap:
         """
         Find IAM regions that are within, intersect with, or are contained by an ecoinvent location.
         """
-        for method in [self.geo.within, self.geo.intersects, self.geo.contained]:
+        # iterate through self.geo.within, self.geo.intersects, self.geo.contained
+        # and return the first IAM region found
+
+        for method in (self.geo.within, self.geo.intersects, self.geo.contained):
             iam_locations = [
                 region[1]
                 for region in method(location)

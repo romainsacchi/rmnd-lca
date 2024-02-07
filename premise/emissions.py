@@ -84,30 +84,32 @@ class Emissions(BaseTransformation):
         )
 
         self.version = version
-        self.gains_EU = self.prepare_data(iam_data.gains_data_EU)
-        self.gains_IAM = self.prepare_data(iam_data.gains_data_IAM)
+        self.gains_europe = self.prepare_data(iam_data.gains_data_EU)
+        self.gains_global = self.prepare_data(iam_data.gains_data_IAM)
         self.ei_pollutants = fetch_mapping(EI_POLLUTANTS)
         self.gains_pollutant = {v: k for k, v in self.ei_pollutants.items()}
         self.gains_sectors = fetch_mapping(GAINS_SECTORS)
         self.gains_scenario = gains_scenario
 
         mapping = InventorySet(self.database)
-        self.gains_map_EU: Dict[str, Set] = mapping.generate_gains_mapping()
-        self.gains_map_IAM: Dict[str, Set] = mapping.generate_gains_mapping_IAM(
-            mapping=self.gains_map_EU
+        self.gains_map_europe: Dict[str, Set] = mapping.generate_gains_mapping()
+        self.gains_map_global: Dict[str, Set] = mapping.generate_gains_mapping_IAM(
+            mapping=self.gains_map_europe
         )
-        self.rev_gains_map_EU, self.rev_gains_map_IAM = {}, {}
+        self.rev_gains_map_europe, self.rev_gains_map_global = {}, {}
 
-        for s in self.gains_map_EU:
-            for t in self.gains_map_EU[s]:
-                self.rev_gains_map_EU[t] = s
+        for s in self.gains_map_europe:
+            for t in self.gains_map_europe[s]:
+                self.rev_gains_map_europe[t] = s
 
-        for s in self.gains_map_IAM:
-            for t in self.gains_map_IAM[s]:
-                self.rev_gains_map_IAM[t] = s
+        for s in self.gains_map_global:
+            for t in self.gains_map_global[s]:
+                self.rev_gains_map_global[t] = s
 
     def prepare_data(self, data):
-        _ = lambda x: xr.where((np.isnan(x)) | (x == 0), 1, x)
+
+        def _(x):
+            return xr.where((np.isnan(x)) | (x == 0), 1, x)
 
         data = data.interp(year=[self.year]) / _(
             data.loc[
@@ -126,31 +128,31 @@ class Emissions(BaseTransformation):
         # print("Integrating GAINS EU emission factors.")
         for ds in self.database:
             if (
-                ds["name"] in self.rev_gains_map_EU
-                and ds["location"] in self.gains_EU.coords["region"]
+                ds["name"] in self.rev_gains_map_europe
+                and ds["location"] in self.gains_europe.coords["region"]
             ):
-                gains_sector = self.rev_gains_map_EU[ds["name"]]
+                gains_sector = self.rev_gains_map_europe[ds["name"]]
                 self.update_pollutant_emissions(
                     ds,
                     gains_sector,
                     model="GAINS-EU",
-                    regions=self.gains_EU.region.values,
+                    regions=self.gains_europe.region.values,
                 )
                 self.write_log(ds, status="updated")
 
         # print("Integrating GAINS IAM emission factors.")
         for ds in self.database:
             if (
-                ds["name"] in self.rev_gains_map_IAM
+                ds["name"] in self.rev_gains_map_global
                 and self.ecoinvent_to_iam_loc[ds["location"]]
-                in self.gains_IAM.coords["region"]
+                in self.gains_global.coords["region"]
             ):
-                gains_sector = self.rev_gains_map_IAM[ds["name"]]
+                gains_sector = self.rev_gains_map_global[ds["name"]]
                 self.update_pollutant_emissions(
                     ds,
                     gains_sector,
                     model="GAINS-IAM",
-                    regions=self.gains_IAM.region.values,
+                    regions=self.gains_global.region.values,
                 )
 
                 self.write_log(ds, status="updated")
@@ -221,7 +223,7 @@ class Emissions(BaseTransformation):
         :return: a scaling factor
         """
 
-        data = self.gains_EU if model == "GAINS-EU" else self.gains_IAM
+        data = self.gains_europe if model == "GAINS-EU" else self.gains_global
 
         key_exists = all(
             k in data.coords[dim].values
@@ -250,8 +252,7 @@ class Emissions(BaseTransformation):
                 scaling_factor = 1.0
 
             return float(scaling_factor)
-        else:
-            return 1.0
+        return 1.0
 
     def write_log(self, dataset, status="created"):
         """

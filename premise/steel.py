@@ -6,13 +6,14 @@ from typing import Dict, List
 
 from .data_collection import IAMDataCollection
 from .logger import create_logger
-from .transformation import BaseTransformation, rescale_exchanges, ws
+from .transformation import BaseTransformation, ws
+from .utils import rescale_exchanges
 from .validation import SteelValidation
 
 logger = create_logger("steel")
 
 
-def _update_steel(scenario, version, system_model, cache=None):
+def _update_steel(scenario, version, system_model):
     steel = Steel(
         database=scenario["database"],
         model=scenario["model"],
@@ -21,30 +22,29 @@ def _update_steel(scenario, version, system_model, cache=None):
         year=scenario["year"],
         version=version,
         system_model=system_model,
-        cache=cache,
+        cache=scenario.get("cache"),
+        index=scenario.get("index"),
     )
 
     if scenario["iam data"].steel_markets is not None:
         steel.generate_activities()
+        steel.relink_datasets()
         scenario["database"] = steel.database
-        cache = steel.cache
+        scenario["cache"] = steel.cache
+        scenario["index"] = steel.index
+        validate = SteelValidation(
+            model=scenario["model"],
+            scenario=scenario["pathway"],
+            year=scenario["year"],
+            regions=scenario["iam data"].regions,
+            database=steel.database,
+            iam_data=scenario["iam data"],
+        )
+        validate.run_steel_checks()
     else:
         print("No steel markets found in IAM data. Skipping.")
 
-    steel.relink_datasets()
-
-    validate = SteelValidation(
-        model=scenario["model"],
-        scenario=scenario["pathway"],
-        year=scenario["year"],
-        regions=scenario["iam data"].regions,
-        database=steel.database,
-        iam_data=scenario["iam data"],
-    )
-
-    validate.run_steel_checks()
-
-    return scenario, cache
+    return scenario
 
 
 class Steel(BaseTransformation):
@@ -68,6 +68,7 @@ class Steel(BaseTransformation):
         version: str,
         system_model: str,
         cache: dict = None,
+        index: dict = None,
     ) -> None:
         super().__init__(
             database,
@@ -78,6 +79,7 @@ class Steel(BaseTransformation):
             version,
             system_model,
             cache,
+            index,
         )
         self.version = version
 
@@ -456,11 +458,9 @@ class Steel(BaseTransformation):
 
                 if sector == "steel - secondary":
                     electricity = sum(
-                        [
-                            exc["amount"]
-                            for exc in ws.technosphere(dataset)
-                            if exc["unit"] == "kilowatt hour"
-                        ]
+                        exc["amount"]
+                        for exc in ws.technosphere(dataset)
+                        if exc["unit"] == "kilowatt hour"
                     )
 
                     scaling_factor = max(0.444 / electricity, scaling_factor)
@@ -473,30 +473,23 @@ class Steel(BaseTransformation):
 
                 if dataset["name"] == "pig iron production":
                     energy = sum(
-                        [
-                            exc["amount"]
-                            for exc in ws.technosphere(dataset)
-                            if exc["unit"] == "megajoule"
-                        ]
+                        exc["amount"]
+                        for exc in ws.technosphere(dataset)
+                        if exc["unit"] == "megajoule"
                     )
 
                     # add input of coal
                     energy += sum(
-                        [
-                            exc["amount"] * 26.4
-                            for exc in ws.technosphere(dataset)
-                            if "hard coal" in exc["name"] and exc["unit"] == "kilogram"
-                        ]
+                        exc["amount"] * 26.4
+                        for exc in ws.technosphere(dataset)
+                        if "hard coal" in exc["name"] and exc["unit"] == "kilogram"
                     )
 
                     # add input of natural gas
                     energy += sum(
-                        [
-                            exc["amount"] * 36
-                            for exc in ws.technosphere(dataset)
-                            if "natural gas" in exc["name"]
-                            and exc["unit"] == "cubic meter"
-                        ]
+                        exc["amount"] * 36
+                        for exc in ws.technosphere(dataset)
+                        if "natural gas" in exc["name"] and exc["unit"] == "cubic meter"
                     )
 
                     scaling_factor = max(9.0 / energy, scaling_factor)

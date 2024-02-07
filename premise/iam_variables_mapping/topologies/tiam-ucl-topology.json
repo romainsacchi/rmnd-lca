@@ -1,5 +1,5 @@
 {
-    "AFR": [
+  "AFR": [
     "DZ",
     "AO",
     "BJ",
@@ -54,16 +54,16 @@
     "ZM",
     "ZW"
     ],
-    
+
  "AUS": [
     "AU",
     "NZ"
      ],
-    
+
  "CAN": [
     "CA"
      ],
-    
+
  "CSA": [
     "AI",
     "AG",
@@ -102,16 +102,14 @@
     "SR",
     "TT",
     "UY",
-    "VE",
-    "CW"
+    "VE"
     ],
-    
+
  "CHI": [
     "CN",
-    "TW",
-    "HK"
+    "TW"
     ],
-    
+
  "EEU": [
     "BA",
     "BG",
@@ -124,10 +122,9 @@
     "RS",
     "SK",
     "SI",
-    "MK",
-    "XK"
+    "MK"
     ],
-    
+
  "FSU": [
     "AM",
     "AZ",
@@ -145,19 +142,19 @@
     "UA",
     "UZ"
     ],
-    
+
  "IND": [
     "IN"
     ],
-    
+
  "JPN": [
     "JP"
     ],
-    
+
  "MEX": [
     "MX"
     ],
-    
+
  "MEA": [
     "BH",
     "BN",
@@ -174,10 +171,9 @@
     "SY",
     "TR",
     "AE",
-    "YE",
-    "IQ"
+    "YE"
     ],
-    
+
  "ODA": [
     "AF",
     "AS",
@@ -210,19 +206,19 @@
     "VU",
     "VN"
     ],
-    
+
  "SKO": [
     "KR"
     ],
-    
+
  "UK": [
     "GB"
     ],
-    
+
  "USA": [
     "US"
     ],
-    
+
  "WEU": [
     "AL",
     "AD",
@@ -251,208 +247,5 @@
     "CH",
     "VA"
      ],
-  "World": [
-    "DZ",
-    "AO",
-    "BJ",
-    "BW",
-    "BF",
-    "BI",
-    "CM",
-    "CV",
-    "CF",
-    "TD",
-    "KM",
-    "CG",
-    "CI",
-    "CD",
-    "DJ",
-    "EG",
-    "GQ",
-    "ER",
-    "ET",
-    "GA",
-    "GM",
-    "GH",
-    "GN",
-    "GW",
-    "KE",
-    "LS",
-    "LR",
-    "LY",
-    "MG",
-    "MW",
-    "ML",
-    "MR",
-    "MA",
-    "MZ",
-    "NA",
-    "NE",
-    "NG",
-    "RW",
-    "ST",
-    "SN",
-    "SC",
-    "SL",
-    "SO",
-    "ZA",
-    "SS",
-    "SD",
-    "SZ",
-    "TG",
-    "TN",
-    "UG",
-    "TZ",
-    "ZM",
-    "ZW",
-    "AU",
-    "NZ",
-    "CA",
-    "AI",
-    "AG",
-    "AR",
-    "AW",
-    "BS",
-    "BB",
-    "BZ",
-    "BM",
-    "BO",
-    "BR",
-    "KY",
-    "CL",
-    "CO",
-    "CR",
-    "CU",
-    "DM",
-    "DO",
-    "EC",
-    "SV",
-    "FK",
-    "GD",
-    "GT",
-    "GY",
-    "HT",
-    "HN",
-    "JM",
-    "MQ",
-    "NI",
-    "PA",
-    "PY",
-    "PE",
-    "KN",
-    "LC",
-    "VC",
-    "SR",
-    "TT",
-    "UY",
-    "VE",
-    "CN",
-    "TW",
-    "BA",
-    "BG",
-    "HR",
-    "CZ",
-    "HU",
-    "ME",
-    "PL",
-    "RO",
-    "RS",
-    "SK",
-    "SI",
-    "MK",
-    "AM",
-    "AZ",
-    "BY",
-    "EE",
-    "GE",
-    "KZ",
-    "KG",
-    "LV",
-    "LT",
-    "MD",
-    "RU",
-    "TJ",
-    "TM",
-    "UA",
-    "UZ",
-    "IN",
-    "JP",
-    "MX",
-    "BH",
-    "BN",
-    "CY",
-    "IR",
-    "IL",
-    "JO",
-    "KW",
-    "LB",
-    "PS",
-    "OM",
-    "QA",
-    "SA",
-    "SY",
-    "TR",
-    "AE",
-    "YE",
-    "AF",
-    "AS",
-    "BD",
-    "BT",
-    "KH",
-    "KP",
-    "FJ",
-    "PF",
-    "ID",
-    "KI",
-    "LA",
-    "MY",
-    "MV",
-    "MU",
-    "MN",
-    "MM",
-    "NP",
-    "NC",
-    "PK",
-    "PG",
-    "PH",
-    "WS",
-    "SG",
-    "SB",
-    "LK",
-    "TH",
-    "TL",
-    "TO",
-    "VU",
-    "VN",
-    "KR",
-    "GB",
-    "US",
-    "AL",
-    "AD",
-    "AT",
-    "BE",
-    "DK",
-    "FO",
-    "FI",
-    "FR",
-    "DE",
-    "GI",
-    "GR",
-    "GL",
-    "IS",
-    "IE",
-    "IT",
-    "LU",
-    "MT",
-    "MC",
-    "NL",
-    "NO",
-    "PT",
-    "SM",
-    "ES",
-    "SE",
-    "CH",
-    "VA"
-  ]
-
+  "World": ["GLO", "RoW"]
 }

@@ -51,27 +51,29 @@ Example
     ]
 
 
-The function **ndb.update_external_scenario()** can be called after that
+The function **ndb.update("external")** can be called after that
 to implement the user-defined scenario in the database.
 
 .. code-block:: python
 
-    ndb.update_external_scenario()
+    ndb.update("external")
 
 Of course, if you wish your database to also integrate the projections
-of the global IAM model, you can run the function **ndb.update_all()**.
+of the global IAM model, you can run the function **ndb.update()**.
 
 .. code-block:: python
 
-    ndb.update_all()
+    ndb.update()
 
 Or if you just want the IAM projections relating to, for example, electricity and steel:
 
 .. code-block:: python
 
-    ndb.update_electricity()
-    ndb.update_steel()
-    ndb.update_external_scenario()
+    ndb.update([
+        "electricity",
+        "steel",
+        "external"
+    ])
 
 Once the integrations are complete, you can export your databases to
 Brightway2, within the activated project:

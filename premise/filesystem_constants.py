@@ -1,3 +1,7 @@
+"""
+This module contains constants for the filesystem paths used by Premise.
+"""
+
 from pathlib import Path
 
 import platformdirs

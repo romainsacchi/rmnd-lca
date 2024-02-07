@@ -36,6 +36,7 @@ requirements:
     - sparse>=0.14.0
     - wurst>=0.4
     - xarray
+    - tqdm
 
 test:
   imports:

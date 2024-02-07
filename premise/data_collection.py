@@ -21,6 +21,7 @@ from cryptography.fernet import Fernet
 from prettytable import PrettyTable
 
 from .filesystem_constants import DATA_DIR, IAM_OUTPUT_DIR, VARIABLES_DIR
+from .geomap import Geomap
 from .marginal_mixes import consequential_method
 
 IAM_ELEC_VARS = VARIABLES_DIR / "electricity_variables.yaml"
@@ -44,7 +45,7 @@ COAL_POWER_PLANTS_DATA = DATA_DIR / "electricity" / "coal_power_emissions_2012_v
 
 def print_missing_variables(missing_vars):
     if missing_vars:
-        print(f"The following variables are missing from the IAM file:")
+        print("The following variables are missing from the IAM file:")
     table = PrettyTable(
         [
             "Variable",
@@ -55,11 +56,12 @@ def print_missing_variables(missing_vars):
     print(table)
 
 
-def get_delimiter(data=None, filepath=None):
+def get_delimiter(data=None, filepath=None) -> str:
     sniffer = csv.Sniffer()
     if filepath:
-        data = open(filepath, "r").readline()
-    delimiter = sniffer.sniff(data).delimiter
+        with open(filepath, "r", encoding="utf-8") as stream:
+            data = stream.readline()
+    delimiter = str(sniffer.sniff(data).delimiter)
     return delimiter
 
 
@@ -73,6 +75,33 @@ def get_crops_properties() -> dict:
         crop_props = yaml.safe_load(stream)
 
     return crop_props
+
+
+def get_oil_product_volumes(model) -> pd.DataFrame:
+    """
+    Load the file `oil_product_volumes.csv` that contains recent oil product volumes
+    consumed in each country. This file is used to estimate the split of gasoline, diesel, LPG and kerosene
+    from the `liquid fossil` category in the IAM data.
+    """
+    filepath = DATA_DIR / "fuels" / "oil_product_volumes.csv"
+    df = pd.read_csv(
+        filepath,
+        delimiter=get_delimiter(filepath=filepath),
+        low_memory=False,
+        na_filter=False,
+    )
+
+    geo = Geomap(model=model)
+
+    df["region"] = df.apply(lambda x: geo.ecoinvent_to_iam_location(x.country), axis=1)
+    df = df.drop("country", axis=1)
+    df = df.groupby(["region"]).sum()
+    # add the world
+    df.loc["World"] = df.sum()
+    # normalize by the sum
+    df = df.div(df.sum(axis=1), axis=0)
+
+    return df
 
 
 def get_metals_intensity_factors_data() -> xr.DataArray:
@@ -103,6 +132,7 @@ def get_metals_intensity_factors_data() -> xr.DataArray:
     array = array.ffill(dim="year")
 
     return array
+
 
 
 @lru_cache
@@ -446,10 +476,16 @@ class IAMDataCollection:
         # flatten the list of lists
         new_vars = flatten(new_vars)
 
+        # if "liquid fossil fuels" is in the list of fuel variables
+        # we add the split of gasoline, diesel, LPG and kerosene
+        # to `data`, because it means it's not already in the IAM file.
         data = self.__get_iam_data(
             key=key,
             filedir=filepath_iam_files,
             variables=new_vars,
+            split_fossil_liquid_fuels=(
+                fuel_prod_vars if "liquid fossil fuels" in fuel_prod_vars else None
+            ),
         )
 
         self.data = data
@@ -475,18 +511,17 @@ class IAMDataCollection:
                 for k, v in fuel_prod_vars.items()
                 if any(
                     k.lower().startswith(x)
-                    for x in ["gasoline", "ethanol", "methanol", "bioethanol"]
+                    for x in [
+                        "gasoline",
+                        "ethanol",
+                        "methanol",
+                        "bioethanol",
+                        "petrol,",
+                    ]
                 )
             },
             system_model=self.system_model,
         )
-        if self.petrol_markets is not None:
-            # divide the volume of "gasoline" by 2
-            self.petrol_markets.loc[dict(variables="gasoline")] /= 2
-            # normalize by the sum
-            self.petrol_markets = self.petrol_markets / self.petrol_markets.sum(
-                dim="variables"
-            )
 
         self.diesel_markets = self.__fetch_market_data(
             data=data,
@@ -503,13 +538,6 @@ class IAMDataCollection:
             },
             system_model=self.system_model,
         )
-        if self.diesel_markets is not None:
-            # divide the volume of "gasoline" by 2
-            self.diesel_markets.loc[dict(variables="diesel")] /= 2
-            # normalize by the sum
-            self.diesel_markets = self.diesel_markets / self.diesel_markets.sum(
-                dim="variables"
-            )
 
         self.gas_markets = self.__fetch_market_data(
             data=data,
@@ -763,7 +791,11 @@ class IAMDataCollection:
         return dict_vars
 
     def __get_iam_data(
-        self, key: bytes, filedir: Path, variables: List
+        self,
+        key: bytes,
+        filedir: Path,
+        variables: List,
+        split_fossil_liquid_fuels: dict = None,
     ) -> xr.DataArray:
         """
         Read the IAM result file and return an `xarray` with dimensions:
@@ -847,8 +879,8 @@ class IAMDataCollection:
 
         # identify the lowest and highest column name that is numeric
         # and consider it the minimum year
-        self.min_year = min([x for x in dataframe.columns if isinstance(x, int)])
-        self.max_year = max([x for x in dataframe.columns if isinstance(x, int)])
+        self.min_year = min(x for x in dataframe.columns if isinstance(x, int))
+        self.max_year = max(x for x in dataframe.columns if isinstance(x, int))
 
         dataframe = dataframe.reset_index()
 
@@ -861,7 +893,28 @@ class IAMDataCollection:
             x.lower() if isinstance(x, str) else x for x in dataframe.columns
         ]
 
-        # dataframe = dataframe.loc[dataframe["variable"].isin(variables)]
+        # if split_fossil_liquid_fuels is not None
+        # we add the split of gasoline, diesel, LPG and kerosene
+
+        if split_fossil_liquid_fuels is not None:
+            # get the split of gasoline, diesel, LPG and kerosene
+            df = get_oil_product_volumes(self.model)
+            variable_liquid_fuel = split_fossil_liquid_fuels["liquid fossil fuels"]
+
+            for fuel_var, iam_var in split_fossil_liquid_fuels.items():
+                if iam_var not in dataframe["variable"].unique():
+                    new_fuel_df = dataframe.loc[
+                        dataframe["variable"] == variable_liquid_fuel
+                    ]
+                    fuel_share = df[fuel_var].reindex(new_fuel_df["region"])
+                    new_fuel_df.loc[:, "variable"] = iam_var
+                    new_fuel_df.loc[
+                        :, new_fuel_df.select_dtypes(include=["number"]).columns[0] :
+                    ] *= fuel_share.values[:, np.newaxis]
+                    dataframe = pd.concat([dataframe, new_fuel_df])
+
+        # filter out unused variables
+        dataframe = dataframe.loc[dataframe["variable"].isin(variables)]
 
         dataframe = dataframe.rename(columns={"variable": "variables"})
 
@@ -882,11 +935,10 @@ class IAMDataCollection:
             .to_xarray()
         )
 
-        # add the unit as an atribute, as a dictionary with variables as keys
-        array.attrs["unit"] = {
-            k: v
-            for k, v in dataframe.groupby("variables")["unit"].first().to_dict().items()
-        }
+        # add the unit as an attribute, as a dictionary with variables as keys
+        array.attrs["unit"] = dict(
+            dataframe.groupby("variables")["unit"].first().to_dict().items()
+        )
 
         return array
 
@@ -1020,6 +1072,7 @@ class IAMDataCollection:
         elif production_labels and energy_labels:
             eff_data = xr.DataArray(dims=["variables"], coords={"variables": []})
             for k, v in production_labels.items():
+
                 # check that each element of energy.values() is in data.variables.values
                 # knowing that energy.values() is a list of lists
                 # and that each element of prod.values() is in data.variables.values
@@ -1252,6 +1305,9 @@ class IAMDataCollection:
         # we ensure that the rate can only be between 0 and 1
         rate.values = np.clip(rate, 0, 1)
 
+        # values under 0.001 are considered as 0
+        rate = xr.where(rate < 0.001, 0, rate)
+
         return rate
 
     def __get_iam_production_volumes(
@@ -1347,7 +1403,13 @@ class IAMDataCollection:
                 BytesIO(scenario_data),
             )
             # set headers from first row
-            df.columns = resource.headers
+            try:
+                df.columns = resource.headers
+            except ValueError as err:
+                raise ValueError(
+                    f"The number of headers in scenario data file are not correct. {err}"
+                    f"Check that the values in the scenario data file are separated by commas, not semicolons."
+                ) from err
 
             resource = dp.get_resource("config")
             config_file = yaml.safe_load(resource.raw_read())
@@ -1455,9 +1517,9 @@ class IAMDataCollection:
                             ref_years[y] = array.year.values.min()
 
                     for v, y in ref_years.items():
-                        array.loc[dict(variables=v)] = array.loc[
-                            dict(variables=v)
-                        ] / array.loc[dict(variables=v)].sel(year=int(y))
+                        array.loc[{"variables": v}] = array.loc[
+                            {"variables": v}
+                        ] / array.loc[{"variables": v}].sel(year=int(y))
 
                     # convert NaNs to ones
                     array = array.fillna(1)

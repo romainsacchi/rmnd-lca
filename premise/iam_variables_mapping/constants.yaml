@@ -13,7 +13,7 @@ SUPPORTED_MODELS:
   - remind
   - image
   - message
-  - tiam
+  - tiam-ucl
   - gcam
 
 SUPPORTED_PATHWAYS:
@@ -110,7 +110,7 @@ LIST_IMAGE_REGIONS:
   - WEU
   - World
 
-LIST_TIAM_REGIONS:
+LIST_TIAM-UCL_REGIONS:
   - AFR
   - AUS
   - CAN

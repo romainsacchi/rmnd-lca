@@ -17,7 +17,7 @@ cement - co2:
       - Emissions|CO2|Energy|Demand|Industry|Non-Metallic Minerals|Cement
     gcam:
       - Emissions|CO2|Industry|Cement|Gross|Cement
-    tiam:
+    tiam-ucl:
       - Emissions|CO2|Energy|Demand|Industry|Non-metallic
 cement - cco2:
   iam_aliases:
@@ -30,7 +30,7 @@ cement - cco2:
       - CCS|Industry|Industrial Processes|Non-Metallic Minerals
     gcam:
       - Emissions|CO2|Industry|Cement|Sequestered|Cement CCS
-    tiam:
+    tiam-ucl:
       - Carbon Capture|Storage|Industry|Non-metallic
 steel - co2:
   iam_aliases:
@@ -49,7 +49,7 @@ steel - co2:
       - Emissions|CO2|Industry|Steel|Gross|EAF with DRI CCS
       - Emissions|CO2|Industry|Steel|Gross|EAF with scrap
       - Emissions|CO2|Industry|Steel|Gross|EAF with scrap CCS
-    tiam:
+    tiam-ucl:
       - Emissions|CO2|Energy|Demand|Industry|Iron and steel
       - Emissions|CO2|Industrial Processes|Iron and steel
 steel - cco2:
@@ -63,5 +63,5 @@ steel - cco2:
       - Emissions|CO2|Industry|Steel|Sequestered|BLASTFUR CCS with hydrogen
       - Emissions|CO2|Industry|Steel|Sequestered|EAF with DRI CCS
       - Emissions|CO2|Industry|Steel|Sequestered|EAF with scrap CCS
-    tiam:
+    tiam-ucl:
       - Carbon Capture|Storage|Industry|Iron and steel

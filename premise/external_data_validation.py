@@ -2,6 +2,8 @@
 Validates datapackages that contain external scenario data.
 """
 
+from typing import Union
+
 import numpy as np
 import pandas as pd
 import yaml
@@ -9,15 +11,160 @@ from datapackage import exceptions, validate
 from schema import And, Optional, Schema, Use
 from wurst import searching as ws
 
-from .external import flag_activities_to_adjust
 from .geomap import Geomap
 from .utils import load_constants
 
 config = load_constants()
 
 
+def find_iam_efficiency_change(
+    variable: Union[str, list], location: str, efficiency_data, year: int
+) -> float:
+    """
+    Return the relative change in efficiency for `variable` in `location`
+    relative to 2020.
+    :param variable: IAM variable name
+    :param location: IAM region
+    :return: relative efficiency change (e.g., 1.05)
+    """
+
+    scaling_factor = 1
+
+    if variable in efficiency_data.variables.values:
+        scaling_factor = (
+            efficiency_data.sel(region=location, variables=variable).interp(year=year)
+        ).values.item(0)
+
+        if scaling_factor in (np.nan, np.inf):
+            scaling_factor = 1
+
+    return scaling_factor
+
+
+def flag_activities_to_adjust(
+    dataset: dict, scenario_data: dict, year: int, dataset_vars: dict
+) -> dict:
+    """
+    Flag datasets that will need to be adjusted.
+    :param dataset: dataset to be adjusted
+    :param scenario_data: external scenario data
+    :param year: year of the external scenario
+    :param dataset_vars: variables of the dataset
+    :return: dataset with additional info on variables to adjust
+    """
+
+    regions = scenario_data["production volume"].region.values.tolist()
+    if "except regions" in dataset_vars:
+        regions = [r for r in regions if r not in dataset_vars["except regions"]]
+
+    dataset["regions"] = regions
+
+    # add potential technosphere or biosphere filters
+    if "efficiency" in dataset_vars:
+        if len(dataset_vars["efficiency"]) > 0:
+
+            dataset["adjust efficiency"] = True
+
+            d_tech_filters = {
+                k.get("variable"): [
+                    k.get("includes").get("technosphere"),
+                    {
+                        region: find_iam_efficiency_change(
+                            k["variable"],
+                            region,
+                            scenario_data["efficiency"],
+                            year,
+                        )
+                        for region in regions
+                    },
+                ]
+                for k in dataset_vars["efficiency"]
+                if "technosphere" in k.get("includes", {})
+            }
+
+            d_tech_filters.update(
+                {
+                    k.get("variable"): [
+                        None,
+                        {
+                            region: find_iam_efficiency_change(
+                                k["variable"],
+                                region,
+                                scenario_data["efficiency"],
+                                year,
+                            )
+                            for region in regions
+                        },
+                    ]
+                    for k in dataset_vars["efficiency"]
+                    if "includes" not in k
+                }
+            )
+
+            d_bio_filters = {
+                k.get("variable"): [
+                    k.get("includes").get("biosphere"),
+                    {
+                        region: find_iam_efficiency_change(
+                            k["variable"],
+                            region,
+                            scenario_data["efficiency"],
+                            year,
+                        )
+                        for region in regions
+                    },
+                ]
+                for k in dataset_vars["efficiency"]
+                if "biosphere" in k.get("includes", {})
+            }
+
+            d_bio_filters.update(
+                {
+                    k.get("variable"): [
+                        None,
+                        {
+                            region: find_iam_efficiency_change(
+                                k["variable"],
+                                region,
+                                scenario_data["efficiency"],
+                                year,
+                            )
+                            for region in regions
+                        },
+                    ]
+                    for k in dataset_vars["efficiency"]
+                    if "includes" not in k
+                }
+            )
+
+            if d_tech_filters:
+                dataset["technosphere filters"] = d_tech_filters
+
+            if d_bio_filters:
+                dataset["biosphere filters"] = d_bio_filters
+
+    if dataset_vars["replaces"]:
+        dataset["replaces"] = dataset_vars["replaces"]
+
+    if dataset_vars["replaces in"]:
+        dataset["replaces in"] = dataset_vars["replaces in"]
+
+    if dataset_vars["replacement ratio"] != 1.0:
+        dataset["replacement ratio"] = dataset_vars["replacement ratio"]
+
+    if dataset_vars["regionalize"]:
+        dataset["regionalize"] = dataset_vars["regionalize"]
+
+    if "production volume variable" in dataset_vars:
+        dataset["production volume variable"] = dataset_vars[
+            "production volume variable"
+        ]
+
+    return dataset
+
+
 def check_inventories(
-    config: dict,
+    configuration: dict,
     inventory_data: list,
     scenario_data: dict,
     database: list,
@@ -25,7 +172,7 @@ def check_inventories(
 ):
     """
     Check that the inventory data is valid.
-    :param config: config file
+    :param configuration: config file
     :param inventory_data: inventory data to check
     :param scenario_data: external scenario data
     :param year: scenario year
@@ -52,10 +199,10 @@ def check_inventories(
                 "variable"
             ),
         }
-        for val in config["production pathways"].values()
+        for val in configuration["production pathways"].values()
     }
 
-    if "regionalize" in config:
+    if "regionalize" in configuration:
         d_datasets.update(
             {
                 (val["name"], val["reference product"]): {
@@ -64,13 +211,15 @@ def check_inventories(
                     ),
                     "regionalize": True,
                     "new dataset": False,
-                    "except regions": config["regionalize"].get("except regions", []),
+                    "except regions": configuration["regionalize"].get(
+                        "except regions", []
+                    ),
                     "efficiency": val.get("efficiency", []),
                     "replaces": val.get("replaces", []),
                     "replaces in": val.get("replaces in", []),
                     "replacement ratio": val.get("replacement ratio", 1),
                 }
-                for val in config["regionalize"]["datasets"]
+                for val in configuration["regionalize"]["datasets"]
             }
         )
 
@@ -131,16 +280,16 @@ def check_datapackage(datapackages: list):
             i.name for i in datapackage.resources
         ] and "scenario_data" not in [i.name for i in datapackage.resources]:
             raise ValueError(
-                f"If the resource 'config' is present in the datapackage,"
-                f"so must the resource 'scenario_data'."
+                "If the resource 'config' is present in the datapackage,"
+                "so must the resource 'scenario_data'."
             )
 
         if "scenario_data" in [
             i.name for i in datapackage.resources
         ] and "config" not in [i.name for i in datapackage.resources]:
             raise ValueError(
-                f"If the resource 'scenario_data' is present in the datapackage,"
-                f" so must the resource 'config'."
+                "If the resource 'scenario_data' is present in the datapackage,"
+                " so must the resource 'config'."
             )
 
         assert (
@@ -162,16 +311,16 @@ def check_datapackage(datapackages: list):
             )
 
 
-def list_all_iam_regions(config):
+def list_all_iam_regions(configuration):
     """
     List all IAM regions in the config file.
-    :param config: config file
+    :param configuration: config file
     :return: list of IAM regions
     """
 
     list_regions = []
 
-    for k, v in config.items():
+    for k, v in configuration.items():
         if k.startswith("LIST_"):
             list_regions.extend(v)
 
@@ -280,6 +429,7 @@ def check_config_file(datapackages):
                                 Optional("operator"): str,
                             }
                         ],
+                        Optional("is fuel"): dict,
                         Optional("replacement ratio"): float,
                         Optional("waste market"): bool,
                         Optional("efficiency"): [
@@ -337,11 +487,11 @@ def check_config_file(datapackages):
                         )
                         for a in market["includes"]
                     ]
-                except KeyError:
+                except KeyError as err:
                     raise ValueError(
                         "One of more providers listed under `markets/includes` is/are not listed "
                         "under `production pathways`."
-                    )
+                    ) from err
 
     needs_imported_inventories = [False for _ in datapackages]
 
@@ -380,15 +530,13 @@ def check_scenario_data_file(datapackages, iam_scenarios):
                     print(
                         f"{iam_scen} can be used with more than one external scenarios: {lst_ext_scen}."
                     )
-                    print(
-                        f"Choose the scenario to associate {iam_scen} with: {[(i, j) for i, j in enumerate(lst_ext_scen)]}."
-                    )
+                    print(f"Choose the scenario to associate {iam_scen} with:")
+                    for s, scen in enumerate(lst_ext_scen):
+                        print(f"{s} - {scen}")
                     usr_input = ""
 
-                    while usr_input not in [
-                        str(i) for i in range(0, len(lst_ext_scen))
-                    ]:
-                        usr_input = input("Scenario no.: ")
+                    while usr_input not in list(range(len(lst_ext_scen))):
+                        usr_input = int(input("Scenario no.: "))
                     rev_scenarios[iam_scen] = [lst_ext_scen[int(usr_input)]]
 
         for iam_scen in iam_scenarios:
@@ -430,7 +578,7 @@ def check_scenario_data_file(datapackages, iam_scenarios):
             )
 
         years_cols = []
-        for h, header in enumerate(scenario_headers):
+        for header in scenario_headers:
             try:
                 years_cols.append(int(header))
             except ValueError:
@@ -515,7 +663,7 @@ def check_scenario_data_file(datapackages, iam_scenarios):
                 "The following scenarios listed in the json file "
                 "are not available in the scenario data file:"
             )
-            print(set([s for s in scenarios if s not in available_scenarios]))
+            print(set(s for s in scenarios if s not in available_scenarios))
             raise ValueError(
                 f"One or several scenarios are not available in the scenario file no. {i + 1}."
             )
@@ -597,7 +745,7 @@ def get_recursively(search_dict, field):
     return fields_found
 
 
-def check_external_scenarios(datapackage: list, iam_scenarios: list) -> list:
+def check_external_scenarios(datapackage: list, iam_scenarios: list) -> tuple:
     """
     Check that all required keys and values are found to add a custom scenario.
     :param datapackage: scenario dictionary
@@ -616,8 +764,10 @@ def check_external_scenarios(datapackage: list, iam_scenarios: list) -> list:
     return datapackage, iam_scenarios
 
 
-def fetch_dataset_description_from_production_pathways(config, item):
-    for p, v in config["production pathways"].items():
+def fetch_dataset_description_from_production_pathways(
+    configuration: dict, item: str
+) -> tuple:
+    for p, v in configuration["production pathways"].items():
         if p == item:
             if "exists in original database" not in v["ecoinvent alias"]:
                 v["ecoinvent alias"].update({"exists in original database": True})
@@ -631,3 +781,4 @@ def fetch_dataset_description_from_production_pathways(config, item):
                 v["ecoinvent alias"]["exists in original database"],
                 v["ecoinvent alias"]["new dataset"],
             )
+    return None, None, None, None

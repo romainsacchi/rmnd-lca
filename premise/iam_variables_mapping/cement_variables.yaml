@@ -7,7 +7,7 @@ cement, dry feed rotary kiln:
     image: Production|Industry|Cement|Dry feed rotary kiln
     message: Production|Non-Metallic Minerals|Cement
     gcam: Production|Industry|Cement
-    tiam: Production|Cement
+    tiam-ucl: Production|Cement
 
   energy_use_aliases:
     remind: FE|Industry|+++|Cement
@@ -37,7 +37,7 @@ cement, dry feed rotary kiln:
       - Final Energy|Industry|Cement|Gas
       - Final Energy|Industry|Cement|Biomass
       - Final Energy|Industry|Cement|Refined Liquids
-    tiam:
+    tiam-ucl:
       - Final Energy|Industry|Non-Metallic|Electricity
       - Final Energy|Industry|Non-Metallic|Gases
       - Final Energy|Industry|Non-Metallic|Heat

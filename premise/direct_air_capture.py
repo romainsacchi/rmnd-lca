@@ -4,8 +4,6 @@ Integrates projections regarding direct air capture and storage.
 
 import copy
 
-import numpy as np
-import wurst
 import yaml
 
 from .filesystem_constants import DATA_DIR
@@ -15,10 +13,10 @@ from .transformation import (
     IAMDataCollection,
     InventorySet,
     List,
-    rescale_exchanges,
     uuid,
     ws,
 )
+from .utils import rescale_exchanges
 
 logger = create_logger("dac")
 
@@ -33,7 +31,7 @@ def fetch_mapping(filepath: str) -> dict:
     return mapping
 
 
-def _update_dac(scenario, version, system_model, cache=None):
+def _update_dac(scenario, version, system_model):
     dac = DirectAirCapture(
         database=scenario["database"],
         iam_data=scenario["iam data"],
@@ -42,19 +40,20 @@ def _update_dac(scenario, version, system_model, cache=None):
         year=scenario["year"],
         version=version,
         system_model=system_model,
-        cache=cache,
+        cache=scenario.get("cache"),
+        index=scenario.get("index"),
     )
 
     if scenario["iam data"].dac_markets is not None:
         dac.generate_dac_activities()
+        dac.relink_datasets()
         scenario["database"] = dac.database
-        cache = dac.cache
+        scenario["cache"] = dac.cache
+        scenario["index"] = dac.index
     else:
         print("No DAC markets found in IAM data. Skipping.")
 
-    dac.relink_datasets()
-
-    return scenario, cache
+    return scenario
 
 
 class DirectAirCapture(BaseTransformation):
@@ -73,6 +72,7 @@ class DirectAirCapture(BaseTransformation):
         version: str,
         system_model: str,
         cache: dict = None,
+        index: dict = None,
     ):
         super().__init__(
             database,
@@ -83,6 +83,7 @@ class DirectAirCapture(BaseTransformation):
             version,
             system_model,
             cache,
+            index,
         )
         self.database = database
         self.iam_data = iam_data
@@ -188,7 +189,7 @@ class DirectAirCapture(BaseTransformation):
                         )
 
                     # adjust efficiency, if needed
-                    new_ds = self.adjust_dac_efficiency(new_ds, technology)
+                    new_ds = self.adjust_dac_efficiency(new_ds)
 
                     self.database.extend(new_ds.values())
 
@@ -198,7 +199,7 @@ class DirectAirCapture(BaseTransformation):
                         # add it to list of created datasets
                         self.add_to_index(dataset)
 
-    def adjust_dac_efficiency(self, datasets, technology):
+    def adjust_dac_efficiency(self, datasets):
         """
         Fetch the cumulated deployment of DAC from IAM file.
         Apply a learning rate -- see Qiu et al., 2022.
@@ -255,6 +256,7 @@ class DirectAirCapture(BaseTransformation):
                     )
 
                     if scaling_factor != 1:
+
                         rescale_exchanges(
                             dataset,
                             scaling_factor,

@@ -17,7 +17,7 @@ logger = create_logger("validation")
 def load_electricity_keys():
     # load electricity keys from data/utils/validation/electricity.yaml
 
-    with open(DATA_DIR / "utils/validation/electricity.yaml") as f:
+    with open(DATA_DIR / "utils/validation/electricity.yaml", encoding="utf-8") as f:
         electricity_keys = yaml.safe_load(f)
 
     return electricity_keys
@@ -26,7 +26,7 @@ def load_electricity_keys():
 def load_waste_keys():
     # load waste keys from data/utils/validation/waste flows.yaml
 
-    with open(DATA_DIR / "utils/validation/waste flows.yaml") as f:
+    with open(DATA_DIR / "utils/validation/waste flows.yaml", encoding="utf-8") as f:
         waste_keys = yaml.safe_load(f)
 
     return waste_keys
@@ -35,7 +35,9 @@ def load_waste_keys():
 def load_waste_flows_exceptions():
     # load waste flows exceptions.yaml from data/utils/validation/waste flows exceptions.yaml
 
-    with open(DATA_DIR / "utils/validation/waste flows exceptions.yaml") as f:
+    with open(
+        DATA_DIR / "utils/validation/waste flows exceptions.yaml", encoding="utf-8"
+    ) as f:
         waste_flows_exceptions = yaml.safe_load(f)
 
     return waste_flows_exceptions
@@ -44,7 +46,9 @@ def load_waste_flows_exceptions():
 def load_circular_exceptions():
     # load circular exceptions.yaml from data/utils/validation/circular exceptions.yaml.yaml
 
-    with open(DATA_DIR / "utils/validation/circular exceptions.yaml") as f:
+    with open(
+        DATA_DIR / "utils/validation/circular exceptions.yaml", encoding="utf-8"
+    ) as f:
         circular_exceptions = yaml.safe_load(f)
 
     return circular_exceptions
@@ -142,7 +146,11 @@ class BaseDatasetValidator:
         for ds in original_activities:
             if ds not in new_activities:
                 message = f"Dataset {ds} was lost during transformation"
-                self.write_log(ds, "lost dataset", message)
+                self.write_log(
+                    {"name": ds[0], "reference product": ds[1], "location": ds[2]},
+                    "lost dataset",
+                    message,
+                )
 
         # Ensure no datasets have null or empty values for required keys
         required_keys = ["name", "location", "reference product", "unit", "exchanges"]
@@ -387,7 +395,6 @@ class BaseDatasetValidator:
     def save_log(self):
         # Save the validation log
         if self.validation_log:
-            print("Anomalies found: check the change report.")
             for entry in self.validation_log:
                 logger.info(
                     f"{self.model}|{self.scenario}|{self.year}|"
@@ -412,8 +419,9 @@ class BaseDatasetValidator:
         self.check_amount_format()
         self.reformat_parameters()
         self.check_uncertainty()
-
         self.save_log()
+        if self.validation_log:
+            print("Anomalies found: check the change report.")
 
 
 class ElectricityValidation(BaseDatasetValidator):
@@ -490,7 +498,7 @@ class ElectricityValidation(BaseDatasetValidator):
                         )
                         or not input_exc[0]["location"] in self.regions
                     ):
-                        message = f"Electricity market input is incorrect."
+                        message = "Electricity market input is incorrect."
                         self.write_log(
                             dataset, "incorrect old electricity market input", message
                         )
@@ -508,14 +516,14 @@ class ElectricityValidation(BaseDatasetValidator):
         # according to the ecoinvent-IAM geo-linking rules
         if dataset_loc in ["RER", "Europe without Switzerland", "FR"]:
             if exc_loc not in ["EUR", "WEU", "EU-15"]:
-                message = f"Electricity market input has incorrect location."
+                message = "Electricity market input has incorrect location."
                 self.write_log(
                     {"location": dataset_loc},
                     "incorrect old electricity market input",
                     message,
                 )
         if exc_loc != self.geo.ecoinvent_to_iam_location(dataset_loc):
-            message = f"Electricity market input has incorrect location."
+            message = "Electricity market input has incorrect location."
             self.write_log(
                 {"location": dataset_loc},
                 "incorrect old electricity market input",
@@ -546,9 +554,11 @@ class ElectricityValidation(BaseDatasetValidator):
                 and ds["location"] != "World"
             ):
                 hydro_sum = sum(
-                    x["amount"]
-                    for x in ds["exchanges"]
-                    if x["name"].startswith("electricity production, hydro")
+                    [
+                        x["amount"]
+                        for x in ds["exchanges"]
+                        if x["name"].startswith("electricity production, hydro")
+                    ]
                 )
 
                 # check that hydro_sum is roughly equal to the IAM hydro share

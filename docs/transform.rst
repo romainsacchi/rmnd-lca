@@ -85,7 +85,7 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_electricity()
+    ndb.update("electricity")
 
 
 Efficiency adjustment
@@ -257,7 +257,7 @@ emissions outputs, are re-scaled by 1/1.03 (=0.97).
 
 While non-CO2 emissions (e.g., CO) are reduced because of the reduction in fuel consumption,
 the emission factor per energy unit remains the same (i.e., gCO/MJ natural gas)).
-It can be re-scaled using the `update_emissions` function, which updates emission factors according
+It can be re-scaled using the `.update("emissions")` function, which updates emission factors according
 to GAINS projections.
 
 
@@ -684,7 +684,7 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_cement()
+    ndb.update("cement")
 
 
 
@@ -752,7 +752,7 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_steel()
+    ndb.update("steel")"
 
 
 
@@ -925,10 +925,10 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_two_wheelers()
-    ndb.update_cars()
-    ndb.update_trucks()
-    ndb.update_buses()
+    ndb.update("two_wheelers")
+    ndb.update("cars")
+    ndb.update("trucks")
+    ndb.update("buses")
 
 
 *premise* imports inventories for transport activity operated by:
@@ -1147,7 +1147,7 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_dac()
+    ndb.update("dac")
 
 
 
@@ -1209,7 +1209,7 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_fuels()
+    ndb.update("fuels")
 
 
 
@@ -1539,10 +1539,10 @@ Here is a list of the heat and steam production datasets that are regionalized:
 - heat production, hardwood chips from forest, ...
 
 These datasets are relinked to the corresponding regionalized fuel market only
-if `.update_fuels()` has been run.
+if `.update("fuels")` has been run.
 Also, heat production datasets that use biomass as fuel input (e.g., softwood and
 hardwood chips) relink to the dataset `market for biomass, used as fuel` if
-`update_biomass()` has been run previously.
+`update("biomass")` has been run previously.
 
 
 CO2 emissions update
@@ -2025,7 +2025,7 @@ Final Steps
 GAINS emission factors
 """"""""""""""""""""""
 
-When using `update_emissions()`, emission factors from the GAINS-EU_ and GAINS-IAM_ models are used to scale
+When using `update("emissions")`, emission factors from the GAINS-EU_ and GAINS-IAM_ models are used to scale
 non-CO2 emissions in various datasets.
 
 .. _GAINS-EU: https://gains.iiasa.ac.at/gains/EUN/index.login

@@ -4,149 +4,149 @@ AFRI_EAST:
   message: AFR
   remind: SSA
   image: EAF
-  tiam: AFR
+  tiam-ucl: AFR
   gcam: "South Africa"
 AFRI_NORT:
   message: AFR
   remind: MEA
   image: NAF
-  tiam: AFR
+  tiam-ucl: AFR
   gcam: "South Africa"
 AFRI_WEST:
   message: AFR
   remind: SSA
   image: WAF
-  tiam: AFR
+  tiam-ucl: AFR
   gcam: "South Africa"
 ASIA_STAN:
   message: PAS
   remind: OAS
   image: STAN
-  tiam: ODA
+  tiam-ucl: ODA
   gcam: "Southeast Asia"
 BRAZ_WHOL:
   message: LAM
   remind: LAM
   image: BRA
-  tiam: CSA
+  tiam-ucl: CSA
   gcam: Brazil
 CANA_WHOL:
   message: NAM
   remind: CAZ
   image: CAN
-  tiam: CAN
+  tiam-ucl: CAN
   gcam: Canada
 CEAM_REST:
   message: LAM
   remind: LAM
   image: RCAM
-  tiam: CSA
+  tiam-ucl: CSA
   gcam: "Central America and Caribbean"
 CENT_EURO:
   message: EEU
   remind: EUR
   image: CEU
-  tiam: EEU
+  tiam-ucl: EEU
   gcam: EU-15
 CHIN_PLUS:
   message: CHN
   remind: CHA
   image: CHN
-  tiam: CHI
+  tiam-ucl: CHI
   gcam: China
 INDI_WHOL:
   message: SAS
   remind: IND
   image: INDIA
-  tiam: CHI
+  tiam-ucl: CHI
   gcam: India
 INDO_PLUS:
   message: PAS
   remind: OAS
   image: INDO
-  tiam: ODA
+  tiam-ucl: ODA
   gcam: Indonesia
 JAPA_WHOL:
   message: PAO
   remind: JPN
   image: JAP
-  tiam: JAP
+  tiam-ucl: JAP
   gcam: Japan
 KORE_AALL:
   message: PAS
   remind: OAS
   image: KOR
-  tiam: SKO
+  tiam-ucl: SKO
   gcam: "South Korea"
 LAME_REST:
   message: LAM
   remind: LAM
   image: RSAM
-  tiam: CSA
+  tiam-ucl: CSA
   gcam: "South America_Southern"
 MEXI_WHOL:
   message: LAM
   remind: LAM
   image: MEX
-  tiam: MEX
+  tiam-ucl: MEX
   gcam: Mexico
 MIDD_EAST:
   message: MEA
   remind: MEA
   image: ME
-  tiam: MEA
+  tiam-ucl: MEA
   gcam: "Middle East"
 OCEA_WHOL:
   message: PAO
   remind: CAZ
   image: OCE
-  tiam: AUS
+  tiam-ucl: AUS
   gcam: Australia_NZ
 RUSS_PLUS:
   message: FSU
   remind: REF
   image: RUS
-  tiam: FSU
+  tiam-ucl: FSU
   gcam: Russia
 SAFR_WHOL:
   message: AFR
   remind: SSA
   image: SAF
-  tiam: AFR
+  tiam-ucl: AFR
   gcam: "South Africa"
 SOEA_ASIA:
   message: PAS
   remind: OAS
   image: SEAS
-  tiam: ODA
+  tiam-ucl: ODA
   gcam: "Southeast Asia"
 SOUA_REST:
   message: SAS
   remind: OAS
   image: RSAS
-  tiam: ODA
+  tiam-ucl: ODA
   gcam: "Southeast Asia"
 TURK_WHOL:
   message: WEU
   remind: MEA
   image: TUR
-  tiam: MEA
+  tiam-ucl: MEA
   gcam: "Middle East"
 UKRA_PLUS:
   message: FSU
   remind: REF
   image: UKR
-  tiam: FSU
+  tiam-ucl: FSU
   gcam: EU-15
 USAM_WHOL:
   message: NAM
   remind: USA
   image: USA
-  tiam: USA
+  tiam-ucl: USA
   gcam: USA
 WEST_EURO:
   message: WEU
   remind: NEU
   image: WEU
-  tiam: WEU
+  tiam-ucl: WEU
   gcam: EU-15

@@ -17,7 +17,7 @@ from wurst import transformations as wt
 from .filesystem_constants import DATA_DIR, IAM_OUTPUT_DIR, INVENTORY_DIR
 from .inventory_imports import VariousVehicles
 from .transformation import BaseTransformation, IAMDataCollection
-from .utils import eidb_label
+from .utils import HiddenPrints, eidb_label
 
 FILEPATH_FLEET_COMP = IAM_OUTPUT_DIR / "fleet_files" / "fleet_all_vehicles.csv"
 FILEPATH_IMAGE_TRUCKS_FLEET_COMP = (
@@ -31,13 +31,7 @@ FILEPATH_TRUCK_LOAD_FACTORS = DATA_DIR / "transport" / "avg_load_factors.yaml"
 FILEPATH_VEHICLES_MAP = DATA_DIR / "transport" / "vehicles_map.yaml"
 
 
-def _update_vehicles(
-    scenario,
-    vehicle_type,
-    version,
-    system_model,
-    cache=None,
-):
+def _update_vehicles(scenario, vehicle_type, version, system_model):
     trspt = Transport(
         database=scenario["database"],
         year=scenario["year"],
@@ -49,6 +43,7 @@ def _update_vehicles(
         vehicle_type=vehicle_type,
         relink=False,
         has_fleet=True,
+        index=scenario.get("index"),
     )
 
     iam_data = None
@@ -70,11 +65,12 @@ def _update_vehicles(
     if iam_data is not None:
         trspt.create_vehicle_markets()
         scenario["database"] = trspt.database
-        cache = trspt.cache
+        scenario["cache"] = trspt.cache
+        scenario["index"] = trspt.index
     else:
         print(f"No markets found for {vehicle_type} in IAM data. Skipping.")
 
-    return scenario, {} or cache
+    return scenario
 
 
 def get_average_truck_load_factors() -> Dict[str, Dict[str, Dict[str, float]]]:
@@ -85,7 +81,7 @@ def get_average_truck_load_factors() -> Dict[str, Dict[str, Dict[str, float]]]:
     """
     with open(FILEPATH_TRUCK_LOAD_FACTORS, "r", encoding="utf-8") as stream:
         out = yaml.safe_load(stream)
-    return out
+        return out
 
 
 def get_vehicles_mapping() -> Dict[str, dict]:
@@ -97,7 +93,7 @@ def get_vehicles_mapping() -> Dict[str, dict]:
     """
     with open(FILEPATH_VEHICLES_MAP, "r", encoding="utf-8") as stream:
         out = yaml.safe_load(stream)
-    return out
+        return out
 
 
 def normalize_exchange_amounts(list_act: List[dict]) -> List[dict]:
@@ -145,7 +141,6 @@ def create_fleet_vehicles(
     :param regions: IAM regions
     :return: list of fleet average vehicle datasets
     """
-    # print("Create fleet average vehicles...")
 
     vehicles_map = get_vehicles_mapping()
 
@@ -162,18 +157,18 @@ def create_fleet_vehicles(
     # fleet data does not go below 2015
     if year < 2015:
         year = 2015
-        print(
-            "Vehicle fleet data is not available before 2015. "
-            "Hence, 2015 is used as fleet year."
-        )
+        # print(
+        #    "Vehicle fleet data is not available before 2015. "
+        #    "Hence, 2015 is used as fleet year."
+        # )
 
     # fleet data does not go beyond 2050
     if year > 2050:
         year = 2050
-        print(
-            "Vehicle fleet data is not available beyond 2050. "
-            "Hence, 2050 is used as fleet year."
-        )
+        # print(
+        #    "Vehicle fleet data is not available beyond 2050. "
+        #    "Hence, 2050 is used as fleet year."
+        # )
 
     # We filter electric vehicles by year of manufacture
     available_years = np.arange(2000, 2055, 5)
@@ -305,9 +300,7 @@ def create_fleet_vehicles(
                         }
                     ],
                     "code": str(uuid.uuid4().hex),
-                    "database": eidb_label(
-                        model, scenario, year, version, system_model
-                    ),
+                    "database": "premise",
                     "comment": f"Fleet-average vehicle for the year {year}, "
                     f"for the region {region}.",
                 }
@@ -472,6 +465,7 @@ class Transport(BaseTransformation):
         relink: bool,
         vehicle_type: str,
         has_fleet: bool,
+        index: dict = None,
     ):
         super().__init__(
             database,
@@ -481,6 +475,7 @@ class Transport(BaseTransformation):
             year,
             version,
             system_model,
+            index,
         )
         self.version = version
         self.relink = relink
@@ -502,21 +497,22 @@ class Transport(BaseTransformation):
             filepath = FILEPATH_TWO_WHEELERS
 
         # load carculator inventories
-        various_veh = VariousVehicles(
-            database=self.database,
-            version_in="3.7",
-            version_out=self.version,
-            path=filepath,
-            year=self.year,
-            regions=self.regions,
-            model=self.model,
-            scenario=self.scenario,
-            vehicle_type=self.vehicle_type,
-            has_fleet=True,
-            system_model=self.system_model,
-        )
+        with HiddenPrints():
+            various_veh = VariousVehicles(
+                database=self.database,
+                version_in="3.7",
+                version_out=self.version,
+                path=filepath,
+                year=self.year,
+                regions=self.regions,
+                model=self.model,
+                scenario=self.scenario,
+                vehicle_type=self.vehicle_type,
+                has_fleet=True,
+                system_model=self.system_model,
+            )
 
-        various_veh.prepare_inventory()
+            various_veh.prepare_inventory()
 
         return various_veh
 
@@ -698,3 +694,6 @@ class Transport(BaseTransformation):
                     )
 
         self.database = datasets.merge_inventory()
+
+        for ds in datasets.import_db.data:
+            self.add_to_index(ds)
