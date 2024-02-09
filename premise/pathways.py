@@ -10,8 +10,8 @@ from datapackage import Package
 
 from . import __version__
 from .activity_maps import act_fltr
-from .new_database import NewDatabase
 from .energy import Energy
+from .new_database import NewDatabase
 
 
 class PathwaysDataPackage:

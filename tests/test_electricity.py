@@ -1,6 +1,7 @@
 # content of test_electricity.py
 import os
 from pathlib import Path
+
 import pytest
 
 from premise.data_collection import IAMDataCollection
