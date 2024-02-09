@@ -59,6 +59,7 @@ Concentration Pathway (RCP)—and a year (e.g., SSP1, Base, 2035).
 
     A summary report of the main variables of the scenarios
     selected is generated automatically after each database export.
+    There is also an `online dashboard <https://premisedash-6f5a0259c487.herokuapp.com/>`_.
     You can also generate it manually:
 
 .. python::
@@ -141,8 +142,9 @@ If you wish to clear that cache folder, do:
 From ecospold2 files
 --------------------
 
-To extract from a set of ecospold2 files, you need to point to the location of those files
-in `source_file_path`, as well as indicate the database format in `source_type`:
+To extract from a set of ecospold2 files, you need to point to the location of
+those files in `source_file_path`, as well as indicate the database format in
+`source_type`:
 
 .. code-block:: python
 
@@ -600,7 +602,6 @@ They are necessary to model the distribution of hydrogen:
 * via truck, in a liquid state
 * hydrogen refuelling station
 
-
 Small and large storage solutions are also provided:
 * high pressure hydrogen storage tank
 * geological storage tank
@@ -642,19 +643,18 @@ Hydrogen turbine
 
 A dataset for a hydrogen turbine is also imported, to model the production of electricity
 from hydrogen, with an efficiency of 51%. The efficiency of the H2-fed gas turbine is based
-on the parameters of Ozawa_ et al. (2019), consulted here: LCI_H2_turbine_.
+on the parameters of Ozawa_ et al. (2019), accessible here: LCI_H2_turbine_.
 
 .. _Ozawa: https://doi.org/10.1016/j.ijhydene.2019.02.230
 .. _LCI_H2_turbine: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-hydrogen-turbine.xlsx
-
 
 
 Biofuels
 --------
 
 Inventories for energy crops- and residues-based production of bioethanol and biodiesel
-are imported, and can be consulted here: LCI_biofuels_. They include the farming of the crop,
-the conversion of hte biomass to fuel, as well as its distribution. The conversion process
+are imported, and can be accessed here: LCI_biofuels_. They include the farming of the crop,
+the conversion of the biomass to fuel, as well as its distribution. The conversion process
 often leads to the production of co-products (dried distiller's grain, electricity, CO2, bagasse.).
 Hence, energy, economic and system expansion partitioning approaches are available.
 These inventories originate from several different sources
@@ -854,7 +854,7 @@ pump heat and excess heat), which are found under the following names, for each 
   carbon dioxide, captured from atmosphere, with a sorbent-based direct air capture system, 100ktCO2, with heat pump heat, and grid electricity            all IAM regions
  ======================================================================================================================================================= ==================
 
-Note that only solid sorbent DAC can use waste heat, as teh heat requirement for liquid solvent DAC
+Note that only solid sorbent DAC can use waste heat, as the heat requirement for liquid solvent DAC
 is too high (~900 C)
 
 Li-ion batteries

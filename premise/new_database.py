@@ -9,11 +9,8 @@ import logging
 import multiprocessing
 import os
 import pickle
-import sys
 from datetime import date
-from functools import partial
 from multiprocessing import Pool as ProcessPool
-from multiprocessing import cpu_count
 from multiprocessing.pool import ThreadPool as Pool
 from pathlib import Path
 from typing import List, Union
@@ -43,7 +40,7 @@ from .filesystem_constants import DATA_DIR, DIR_CACHED_DB, IAM_OUTPUT_DIR, INVEN
 from .fuels import _update_fuels
 from .heat import _update_heat
 from .inventory_imports import AdditionalInventory, DefaultInventory
-from .metals import Metals, _update_metals
+from .metals import _update_metals
 from .report import generate_change_report, generate_summary_report
 from .steel import _update_steel
 from .transport import _update_vehicles

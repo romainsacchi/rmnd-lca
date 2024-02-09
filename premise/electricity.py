@@ -32,7 +32,6 @@ from .transformation import (
 from .utils import get_efficiency_solar_photovoltaics, rescale_exchanges
 from .validation import ElectricityValidation
 
-LOSS_PER_COUNTRY = DATA_DIR / "electricity" / "losses_per_country.csv"
 POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
 
 logger = create_logger("electricity")
@@ -141,7 +140,7 @@ def get_production_weighted_losses(
         )
 
         transf_loss += (
-            dict_loss["Transformation loss high voltage"]
+            dict_loss.get("Transformation loss high voltage", 0)
             * dict_loss["Production volume"]
         )
 
@@ -169,12 +168,13 @@ def get_production_weighted_losses(
                 "Production volume": 0,
             },
         )
+
         transf_loss += (
-            dict_loss["Transformation loss medium voltage"]
+            dict_loss.get("Transformation loss medium voltage", 0)
             * dict_loss["Production volume"]
         )
         distr_loss += (
-            dict_loss["Transmission loss to medium voltage"]
+            dict_loss.get("Transmission loss to medium voltage", 0)
             * dict_loss["Production volume"]
         )
         cumul_prod += dict_loss["Production volume"]
@@ -195,11 +195,11 @@ def get_production_weighted_losses(
             },
         )
         transf_loss += (
-            dict_loss["Transformation loss low voltage"]
+            dict_loss.get("Transformation loss low voltage", 0)
             * dict_loss["Production volume"]
         )
         distr_loss += (
-            dict_loss["Transmission loss to low voltage"]
+            dict_loss.get("Transmission loss to low voltage", 0)
             * dict_loss["Production volume"]
         )
         cumul_prod += dict_loss["Production volume"]

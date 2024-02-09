@@ -102,10 +102,11 @@ def fetch_volume_change(data: xr.DataArray, start_year: int, end_year: int) -> n
     """
     Calculate the volume change of a market.
     """
+
     return (
         (
-            data.sel(year=end_year).sum(dim="variables")
-            - data.sel(year=start_year).sum(dim="variables")
+            data.interp(year=end_year).sum(dim="variables")
+            - data.interp(year=start_year).sum(dim="variables")
         )
         / (end_year - start_year)
     ).values

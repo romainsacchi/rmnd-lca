@@ -93,6 +93,11 @@ Efficiency adjustment
 
 The energy conversion efficiency of power plant datasets for specific technologies is adjusted
 to align with the efficiency changes indicated by the IAM scenario.
+Two approaches are posisble:
+* application of a scaling factor to the inputs of the dataset relative to the current efficiency
+* application of a scaling factor to the inputs of the dataset to match the absolute efficiency given by the IAM scenario
+
+The first approach (default) preserves
 
 Combustion-based powerplants
 ----------------------------
@@ -791,7 +796,7 @@ Typical fuel inputs for these process are natural gas, coal, coal-based coke.
 Emissions of (fossil) CO2 are scaled accordingly.
 
 Regarding the production of secondary steel (using EAF),
-*premise* adjusts the input of electricity based on teh scaling factor
+*premise* adjusts the input of electricity based on the scaling factor
 provided by the IAM scenario.
 
 
@@ -823,7 +828,7 @@ from the steel sector in a given region and year is sequestered and stored,
 The datatset used to that effect is from Meunier_ et al., 2020.
 The dataset described the capture of CO2 from a cement plant, not a steel mill,
 but it is assumed to be an acceptable approximation since the CO2 concentration
-in teh flue gases should not be significantly different.
+in the flue gases should not be significantly different.
 
 To that dataset, *premise* adds another dataset that models the storage
 of the CO2 underground, from Volkart_ et al, 2013.

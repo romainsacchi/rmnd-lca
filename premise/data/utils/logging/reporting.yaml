@@ -389,14 +389,10 @@ premise_fuel:
         name: Electricity for hydrogen pre-cooling
         description: Electricity for hydrogen pre-cooling (kWh) per kg fuel at fuelling station
         unit: kWh/kg
-      initial biomass per kg biofuel:
-        name: Initial biomass per kg biofuel
-        description: Biomass per kg biofuel before adjustment
-        unit: kg biomass/kg biofuel
-      final biomass per kg biofuel:
-        name: Final biomass per kg biofuel
-        description: Biomass per kg biofuel after adjustment
-        unit: kg biomass/kg biofuel
+      fuel conversion efficiency:
+        name: Change in fuel conversion efficiency
+        description: Change in fuel conversion efficiency (scaling factor)
+        unit: 0-1
       land footprint:
         name: Land footprint
         description: Land footprint (m2) per kg crop
