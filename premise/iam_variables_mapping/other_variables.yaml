@@ -3,23 +3,23 @@ gdp:
     message: GDP|PPP
     remind: GDP|PPP
     image: GDP|PPP
-    tiam: GDP|PPP
+    tiam-ucl: GDP|PPP
 
 population:
   iam_aliases:
     message: Population
     remind: Population
     image: Population
-    tiam: POP
+    tiam-ucl: Population
 
 GMST:
   iam_aliases:
     remind: Temperature|Global Mean
     image: Temperature|Global Mean
-    tiam: Temperature|Global Mean
+    tiam-ucl: Temperature|Global Mean
 CO2:
   iam_aliases:
     remind: Emi|CO2
     image: Emissions|CO2
     message: Emissions|CO2
-    tiam: Emissions|CO2
+    tiam-ucl: Emissions|CO2

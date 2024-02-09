@@ -308,9 +308,9 @@ class Metals(BaseTransformation):
 
         inv = InventorySet(self.database, self.version)
 
-        self.activities_metals_map: Dict[
-            str, Set
-        ] = inv.generate_metals_activities_map()
+        self.activities_metals_map: Dict[str, Set] = (
+            inv.generate_metals_activities_map()
+        )
 
         self.rev_activities_metals_map: Dict[str, str] = rev_metals_map(
             self.activities_metals_map
@@ -320,9 +320,11 @@ class Metals(BaseTransformation):
             self.activities_mapping, self.activities_metals_map
         )
         self.extended_dataframe["final_technology"] = self.extended_dataframe.apply(
-            lambda row: row["demanding_process"]
-            if pd.notna(row["demanding_process"]) and row["demanding_process"] != ""
-            else row["ecoinvent_technology"],
+            lambda row: (
+                row["demanding_process"]
+                if pd.notna(row["demanding_process"]) and row["demanding_process"] != ""
+                else row["ecoinvent_technology"]
+            ),
             axis=1,
         )
 

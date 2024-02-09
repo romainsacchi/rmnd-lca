@@ -16,7 +16,7 @@ from .validation import CementValidation
 logger = create_logger("cement")
 
 
-def _update_cement(scenario, version, system_model, cache=None):
+def _update_cement(scenario, version, system_model):
     cement = Cement(
         database=scenario["database"],
         model=scenario["model"],
@@ -25,30 +25,31 @@ def _update_cement(scenario, version, system_model, cache=None):
         year=scenario["year"],
         version=version,
         system_model=system_model,
-        cache=cache,
+        cache=scenario.get("cache"),
+        index=scenario.get("index"),
     )
 
     if scenario["iam data"].cement_markets is not None:
         cement.add_datasets_to_database()
+        cement.relink_datasets()
         scenario["database"] = cement.database
-        cache = cement.cache
+        scenario["index"] = cement.index
+        scenario["cache"] = cement.cache
+
+        validate = CementValidation(
+            model=scenario["model"],
+            scenario=scenario["pathway"],
+            year=scenario["year"],
+            regions=scenario["iam data"].regions,
+            database=cement.database,
+            iam_data=scenario["iam data"],
+        )
+
+        validate.run_cement_checks()
     else:
         print("No cement markets found in IAM data. Skipping.")
 
-    cement.relink_datasets()
-
-    validate = CementValidation(
-        model=scenario["model"],
-        scenario=scenario["pathway"],
-        year=scenario["year"],
-        regions=scenario["iam data"].regions,
-        database=cement.database,
-        iam_data=scenario["iam data"],
-    )
-
-    validate.run_cement_checks()
-
-    return scenario, cache
+    return scenario
 
 
 class Cement(BaseTransformation):
@@ -65,9 +66,10 @@ class Cement(BaseTransformation):
     :ivar database: wurst database, which is a list of dictionaries
     :ivar iam_data: IAM data
     :ivar model: name of the IAM model (e.g., "remind", "image")
-    :ivar pathway: name of the IAM pathway (e.g., "SSP2-Base")
+    :ivar pathway: name of the IAM scenario (e.g., "SSP2-19")
     :ivar year: year of the pathway (e.g., 2030)
     :ivar version: version of ecoinvent database (e.g., "3.7")
+    :ivar system_model: name of the system model (e.g., "attributional", "consequential")
 
     """
 
@@ -81,6 +83,7 @@ class Cement(BaseTransformation):
         version: str,
         system_model: str,
         cache: dict = None,
+        index: dict = None,
     ):
         super().__init__(
             database,
@@ -91,6 +94,7 @@ class Cement(BaseTransformation):
             version,
             system_model,
             cache,
+            index,
         )
         self.version = version
 
@@ -137,18 +141,14 @@ class Cement(BaseTransformation):
         """
 
         bio_co2 = sum(
-            [
-                e["amount"]
-                for e in dataset["exchanges"]
-                if e["name"] == "Carbon dioxide, non-fossil"
-            ]
+            e["amount"]
+            for e in dataset["exchanges"]
+            if e["name"] == "Carbon dioxide, non-fossil"
         )
         non_bio_co2 = sum(
-            [
-                e["amount"]
-                for e in dataset["exchanges"]
-                if e["name"] == "Carbon dioxide, fossil"
-            ]
+            e["amount"]
+            for e in dataset["exchanges"]
+            if e["name"] == "Carbon dioxide, fossil"
         )
 
         return bio_co2 / (bio_co2 + non_bio_co2)
@@ -165,7 +165,7 @@ class Cement(BaseTransformation):
                     energy_details[exc["name"]]["fossil CO2"] *= scaling_factor
                     energy_details[exc["name"]]["biogenic CO2"] *= scaling_factor
 
-        new_energy_input = sum([d["energy"] for d in energy_details.values()])
+        new_energy_input = sum(d["energy"] for d in energy_details.values())
 
         dataset["log parameters"].update(
             {
@@ -175,7 +175,7 @@ class Cement(BaseTransformation):
 
         return dataset
 
-    def rescale_emissions(self, dataset, energy_details, scaling_factor):
+    def rescale_emissions(self, dataset: dict, energy_details: dict) -> dict:
         for exc in ws.biosphere(dataset, ws.contains("name", "Carbon dioxide")):
             if "non-fossil" in exc["name"].lower():
                 dataset["log parameters"].update(
@@ -236,17 +236,15 @@ class Cement(BaseTransformation):
             energy_details = self.fetch_current_energy_details(dataset)
 
             current_energy_input_per_ton_clinker = sum(
-                [d["energy"] for d in energy_details.values()]
+                d["energy"] for d in energy_details.values()
             )
 
             # fetch the amount of biogenic CO2 emissions
             bio_CO2 = sum(
-                [
-                    e["amount"]
-                    for e in ws.biosphere(
-                        dataset, ws.contains("name", "Carbon dioxide, non-fossil")
-                    )
-                ]
+                e["amount"]
+                for e in ws.biosphere(
+                    dataset, ws.contains("name", "Carbon dioxide, non-fossil")
+                )
             )
 
             # back-calculate the amount of waste fuel from
@@ -318,6 +316,8 @@ class Cement(BaseTransformation):
                 location=dataset["location"],
             )
 
+            new_energy_input_per_ton_clinker = 0
+
             if not np.isnan(scaling_factor) and scaling_factor > 0.0:
                 # calculate new thermal energy
                 # consumption per kg clinker
@@ -344,9 +344,7 @@ class Cement(BaseTransformation):
                 )
 
                 # rescale combustion-related CO2 emissions
-                dataset = self.rescale_emissions(
-                    dataset, energy_details, scaling_factor
-                )
+                dataset = self.rescale_emissions(dataset, energy_details)
 
             # Carbon capture rate: share of capture of total CO2 emitted
             carbon_capture_rate = self.get_carbon_capture_rate(
@@ -530,8 +528,6 @@ class Cement(BaseTransformation):
             new_datasets.extend(list(new_cement_production.values()))
 
         self.database.extend(new_datasets)
-
-        print("Done!")
 
     def write_log(self, dataset, status="created"):
         """

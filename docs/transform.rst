@@ -85,7 +85,7 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_electricity()
+    ndb.update("electricity")
 
 
 Efficiency adjustment
@@ -93,6 +93,11 @@ Efficiency adjustment
 
 The energy conversion efficiency of power plant datasets for specific technologies is adjusted
 to align with the efficiency changes indicated by the IAM scenario.
+Two approaches are posisble:
+* application of a scaling factor to the inputs of the dataset relative to the current efficiency
+* application of a scaling factor to the inputs of the dataset to match the absolute efficiency given by the IAM scenario
+
+The first approach (default) preserves
 
 Combustion-based powerplants
 ----------------------------
@@ -257,7 +262,7 @@ emissions outputs, are re-scaled by 1/1.03 (=0.97).
 
 While non-CO2 emissions (e.g., CO) are reduced because of the reduction in fuel consumption,
 the emission factor per energy unit remains the same (i.e., gCO/MJ natural gas)).
-It can be re-scaled using the `update_emissions` function, which updates emission factors according
+It can be re-scaled using the `.update("emissions")` function, which updates emission factors according
 to GAINS projections.
 
 
@@ -684,7 +689,7 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_cement()
+    ndb.update("cement")
 
 
 
@@ -752,7 +757,7 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_steel()
+    ndb.update("steel")"
 
 
 
@@ -791,7 +796,7 @@ Typical fuel inputs for these process are natural gas, coal, coal-based coke.
 Emissions of (fossil) CO2 are scaled accordingly.
 
 Regarding the production of secondary steel (using EAF),
-*premise* adjusts the input of electricity based on teh scaling factor
+*premise* adjusts the input of electricity based on the scaling factor
 provided by the IAM scenario.
 
 
@@ -823,7 +828,7 @@ from the steel sector in a given region and year is sequestered and stored,
 The datatset used to that effect is from Meunier_ et al., 2020.
 The dataset described the capture of CO2 from a cement plant, not a steel mill,
 but it is assumed to be an acceptable approximation since the CO2 concentration
-in teh flue gases should not be significantly different.
+in the flue gases should not be significantly different.
 
 To that dataset, *premise* adds another dataset that models the storage
 of the CO2 underground, from Volkart_ et al, 2013.
@@ -925,10 +930,10 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_two_wheelers()
-    ndb.update_cars()
-    ndb.update_trucks()
-    ndb.update_buses()
+    ndb.update("two_wheelers")
+    ndb.update("cars")
+    ndb.update("trucks")
+    ndb.update("buses")
 
 
 *premise* imports inventories for transport activity operated by:
@@ -1147,7 +1152,7 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_dac()
+    ndb.update("dac")
 
 
 
@@ -1209,7 +1214,7 @@ Run
         source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
-    ndb.update_fuels()
+    ndb.update("fuels")
 
 
 
@@ -1539,10 +1544,10 @@ Here is a list of the heat and steam production datasets that are regionalized:
 - heat production, hardwood chips from forest, ...
 
 These datasets are relinked to the corresponding regionalized fuel market only
-if `.update_fuels()` has been run.
+if `.update("fuels")` has been run.
 Also, heat production datasets that use biomass as fuel input (e.g., softwood and
 hardwood chips) relink to the dataset `market for biomass, used as fuel` if
-`update_biomass()` has been run previously.
+`update("biomass")` has been run previously.
 
 
 CO2 emissions update
@@ -2025,7 +2030,7 @@ Final Steps
 GAINS emission factors
 """"""""""""""""""""""
 
-When using `update_emissions()`, emission factors from the GAINS-EU_ and GAINS-IAM_ models are used to scale
+When using `update("emissions")`, emission factors from the GAINS-EU_ and GAINS-IAM_ models are used to scale
 non-CO2 emissions in various datasets.
 
 .. _GAINS-EU: https://gains.iiasa.ac.at/gains/EUN/index.login

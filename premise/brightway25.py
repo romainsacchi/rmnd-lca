@@ -1,3 +1,7 @@
+"""
+This module contains functions to write a Brightway 2.5 database.
+"""
+
 import itertools
 from copy import copy
 
@@ -7,7 +11,18 @@ from wurst.linking import change_db_name, check_internal_linking, link_internal
 
 
 class BW25Importer(LCIImporter):
-    def __init__(self, db_name, data):
+    """
+    Class to write a Brightway 2.5 database from a Wurst database.
+    """
+
+    def __init__(self, db_name: str, data: list) -> None:
+        """
+        :param db_name: Name of the database to write
+        :type db_name: str
+        :param data: Wurst database
+        :type data: list
+        """
+        super().__init__(db_name)
         self.db_name = db_name
         self.data = data
         for act in self.data:
@@ -17,7 +32,14 @@ class BW25Importer(LCIImporter):
     # to allow existing databases
     # to be overwritten
     def write_database(self):
+        """
+        Write a Brightway 2.5 database from a Wurst database.
+        """
+
         def no_exchange_generator(data):
+            """
+            Remove exchanges from data.
+            """
             for ds in data:
                 cp = copy(ds)
                 cp["exchanges"] = []
@@ -77,7 +99,7 @@ class BW25Importer(LCIImporter):
         )
 
 
-def write_brightway_database(data, name):
+def write_brightway_database(data: list, name: str) -> None:
     # Restore parameters to Brightway2 format
     # which allows for uncertainty and comments
     change_db_name(data, name)

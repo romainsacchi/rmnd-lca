@@ -99,7 +99,10 @@ def remove_nones(database: List[dict]) -> List[dict]:
     :type database: list
 
     """
-    exists = lambda x: {k: v for k, v in x.items() if v is not None}
+
+    def exists(x):
+        return {k: v for k, v in x.items() if v is not None}
+
     for dataset in database:
         dataset["exchanges"] = [exists(exc) for exc in dataset["exchanges"]]
 
@@ -154,7 +157,9 @@ class DatabaseCleaner:
 
         if source_type == "ecospold":
             # The ecospold data needs to be formatted
-            ecoinvent = bw2io.SingleOutputEcospold2Importer(source_file_path, source_db)
+            ecoinvent = bw2io.SingleOutputEcospold2Importer(
+                str(source_file_path), source_db
+            )
             ecoinvent.apply_strategies()
             self.database = ecoinvent.data
             # Location field is added to exchanges

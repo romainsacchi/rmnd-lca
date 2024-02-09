@@ -153,7 +153,7 @@ In theory, there is consistency between the IAM scenario and pLCA database
 when 100% of the IAM variables and related projections are integrated
 into the pLCA database.
 
-This is not the case today, as ``premise`` only integrates a subset of IAM variables, namely those that relate to:
+This is not the case today, as ``premise`` only integrates a subset of IAM variables, notably those that relate to:
 
 - power production
 - steel production

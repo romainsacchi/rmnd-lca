@@ -1,3 +1,7 @@
+"""
+Module to create a logger with the given handler.
+"""
+
 import logging.config
 from pathlib import Path
 
@@ -16,7 +20,7 @@ if not Path(DIR_LOG_REPORT).exists():
 
 def create_logger(handler):
     """Create a logger with the given handler."""
-    with open(LOG_CONFIG, "r") as f:
+    with open(LOG_CONFIG, encoding="utf-8") as f:
         config = yaml.safe_load(f.read())
         logging.config.dictConfig(config)
 

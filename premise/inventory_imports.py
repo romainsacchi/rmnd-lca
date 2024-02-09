@@ -39,11 +39,9 @@ def get_correspondence_bio_flows():
 
     with open(CORRESPONDENCE_BIO_FLOWS, "r", encoding="utf-8") as stream:
         flows = yaml.safe_load(stream)
+        return flows
 
-    return flows
 
-
-@lru_cache
 def get_biosphere_code(version) -> dict:
     """
     Retrieve a dictionary with biosphere flow names and uuid codes.
@@ -58,24 +56,18 @@ def get_biosphere_code(version) -> dict:
     if not Path(fp).is_file():
         raise FileNotFoundError("The dictionary of biosphere flows could not be found.")
 
-    csv_dict = {}
-
     with open(fp, encoding="utf-8") as file:
         input_dict = csv.reader(
             file,
             delimiter=get_delimiter(filepath=fp),
         )
-        for row in input_dict:
-            csv_dict[(row[0], row[1], row[2], row[3])] = row[4]
-
-    return csv_dict
+        return {(row[0], row[1], row[2], row[3]): row[4] for row in input_dict}
 
 
 def get_consequential_blacklist():
     with open(FILEPATH_CONSEQUENTIAL_BLACKLIST, "r", encoding="utf-8") as stream:
         flows = yaml.safe_load(stream)
-
-    return flows
+        return flows
 
 
 @lru_cache
@@ -116,7 +108,7 @@ def generate_migration_maps(origin: str, destination: str) -> Dict[str, list]:
                     data["location"] = row[4]
                 response["data"].append(((row[5], row[6], row[7]), data))
 
-    return response
+        return response
 
 
 def check_for_duplicate_datasets(data: List[dict]) -> List[dict]:
@@ -354,7 +346,6 @@ class BaseInventoryImport:
     def load_inventory(self) -> None:
         """Load an inventory from a specified path.
         Sets the :attr:`import_db` attribute.
-        :param str path: Path to the inventory file
         :returns: Nothing.
         """
         return None
@@ -578,11 +569,10 @@ class BaseInventoryImport:
 
         return None
 
-    def add_biosphere_links(self, delete_missing: bool = False) -> None:
+    def add_biosphere_links(self) -> None:
         """Add links for biosphere exchanges to :attr:`import_db`
         Modifies the :attr:`import_db` attribute in place.
 
-        :param delete_missing: whether unlinked exchanges should be deleted or not.
         """
         for x in self.import_db.data:
             for y in x["exchanges"]:
@@ -636,12 +626,12 @@ class BaseInventoryImport:
             # only if they are not in the blacklist
             # and if the first word is not an acronym
             if (
-                not any([x in ds["name"] for x in blakclist])
+                not any(x in ds["name"] for x in blakclist)
                 and not ds["name"].split(" ")[0].isupper()
             ):
                 ds["name"] = ds["name"][0].lower() + ds["name"][1:]
             if (
-                not any([x in ds["reference product"] for x in blakclist])
+                not any(x in ds["reference product"] for x in blakclist)
                 and not ds["reference product"].split(" ")[0].isupper()
             ):
                 ds["reference product"] = (
@@ -651,14 +641,14 @@ class BaseInventoryImport:
             for exc in ds["exchanges"]:
                 if exc["type"] in ["technosphere", "production"]:
                     if (
-                        not any([x in exc["name"] for x in blakclist])
+                        not any(x in exc["name"] for x in blakclist)
                         and not exc["name"].split(" ")[0].isupper()
                     ):
                         exc["name"] = exc["name"][0].lower() + exc["name"][1:]
 
                     if (
                         not any(
-                            [x in exc.get("reference product", "") for x in blakclist]
+                            x in exc.get("reference product", "") for x in blakclist
                         )
                         and not exc.get("reference product", "").split(" ")[0].isupper()
                     ):
@@ -669,7 +659,7 @@ class BaseInventoryImport:
                             )
 
                     if (
-                        not any([x in exc.get("product", "") for x in blakclist])
+                        not any(x in exc.get("product", "") for x in blakclist)
                         and not exc.get("product", "").split(" ")[0].isupper()
                     ):
                         if exc.get("product") is not None:
@@ -860,8 +850,6 @@ class VariousVehicles(BaseInventoryImport):
     def merge_inventory(self):
         self.database.extend(self.import_db.data)
 
-        # print("Done!")
-
         return self.database
 
 
@@ -873,7 +861,7 @@ class AdditionalInventory(BaseInventoryImport):
     def __init__(self, database, version_in, version_out, path, system_model):
         super().__init__(database, version_in, version_out, path, system_model)
 
-    def download_file(self, url, local_path):
+    def download_file(self, url, local_path) -> None:
         try:
             response = requests.get(url)
             response.raise_for_status()
@@ -888,7 +876,7 @@ class AdditionalInventory(BaseInventoryImport):
                 for line in response.iter_lines():
                     writer.writerow(line.decode("utf-8").split(","))
         except requests.RequestException as e:
-            raise ConnectionError(f"Error downloading the file: {e}")
+            raise ConnectionError(f"Error downloading the file: {e}") from e
 
     def load_inventory(self):
         path_str = str(self.path)
@@ -896,8 +884,6 @@ class AdditionalInventory(BaseInventoryImport):
         if "http" in path_str:
             if ":/" in path_str and "://" not in path_str:
                 path_str = path_str.replace(":/", "://")
-
-            print(f"Downloading datapackage from {path_str}")
             self.download_file(path_str, TEMP_CSV_FILE)
             file_path = TEMP_CSV_FILE
         else:
@@ -905,12 +891,12 @@ class AdditionalInventory(BaseInventoryImport):
 
         if file_path.suffix == ".xlsx":
             return ExcelImporter(file_path)
-        elif file_path.suffix == ".csv":
+        if file_path.suffix == ".csv":
             return CSVImporter(file_path)
-        else:
-            raise ValueError(
-                "Incorrect filetype for inventories. Should be either .xlsx or .csv"
-            )
+
+        raise ValueError(
+            "Incorrect filetype for inventories. Should be either .xlsx or .csv"
+        )
 
     def prepare_inventory(self):
         if str(self.version_in) != self.version_out:

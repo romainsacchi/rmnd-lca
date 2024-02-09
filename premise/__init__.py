@@ -1,12 +1,7 @@
-__all__ = (
-    "NewDatabase",
-    "clear_cache",
-    "get_regions_definition",
-    "PathwaysDataPackage",
-)
-__version__ = (1, 8, 2, "dev3")
+__all__ = ("NewDatabase", "clear_cache", "get_regions_definition")
+__version__ = (2, 0, 0, "dev1")
 
 
-from .ecoinvent_modification import NewDatabase
+from .new_database import NewDatabase
 from .pathways import PathwaysDataPackage
 from .utils import clear_cache, get_regions_definition

@@ -169,6 +169,8 @@ class InventorySet:
             filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
         )
 
+        self.heat_filters = get_mapping(filepath=HEAT_TECHS, var="ecoinvent_aliases")
+
     def generate_heat_map(self) -> dict:
         """
         Filter ecoinvent processes related to heat production.
@@ -179,6 +181,13 @@ class InventorySet:
 
         """
         return self.generate_sets_from_filters(self.heat_filters)
+
+        self.activity_metals_filters = get_mapping(
+            filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
+        )
+        # self.metals_filters = get_mapping(
+        #     filepath=METALS_MAPPING, var="ecoinvent_aliases"
+        # )
 
     def generate_activities_using_metals_map(self) -> dict:
         """
