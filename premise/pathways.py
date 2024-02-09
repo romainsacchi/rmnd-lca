@@ -1,9 +1,6 @@
-import copy
 import json
-import multiprocessing
 import shutil
 from datetime import date
-from multiprocessing import Pool as ProcessPool
 from pathlib import Path
 from typing import List
 
@@ -13,7 +10,7 @@ from datapackage import Package
 
 from . import __version__
 from .activity_maps import act_fltr
-from .ecoinvent_modification import NewDatabase
+from .new_database import NewDatabase
 from .energy import Energy
 
 

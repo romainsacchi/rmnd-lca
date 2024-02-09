@@ -1,0 +1,66 @@
+from electrolysis:
+  name: hydrogen production, gaseous, 30 bar, from PEM electrolysis, from grid electricity
+  var: hydrogen, from electrolysis
+  feedstock name: electricity, low voltage
+  feedstock unit: kilowatt hour
+  floor value: 48.0
+from SMR of biogas, with CCS:
+  name: hydrogen production, steam methane reforming, from biomethane, high and low temperature, with CCS (MDEA, 98% eff.), 26 bar
+  var: hydrogen, from biogas, with CCS
+  feedstock name: biomethane
+  feedstock unit: kilogram
+  floor value: 3.2
+from SMR of biogas:
+  name: hydrogen production, steam methane reforming, from biomethane, high and low temperature, 26 bar
+  var: hydrogen, from biogas
+  feedstock name: biomethane
+  feedstock unit: kilogram
+  floor value: 3.2
+from SMR of natural gas:
+  name: hydrogen production, steam methane reforming of natural gas, 25 bar
+  var: hydrogen, from natural gas
+  feedstock name: natural gas
+  feedstock unit: cubic meter
+  floor value: 3.5
+from SMR of natural gas, with CCS:
+  name: hydrogen production, steam methane reforming of natural gas, with CCS (MDEA, 98% eff.), 25 bar
+  var: hydrogen, from natural gas, with CCS
+  feedstock name: natural gas
+  feedstock unit: cubic meter
+  floor value: 3.5
+from gasification of biomass, with CCS:
+  name: hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant
+  var: hydrogen, from biomass, with CCS
+  feedstock name: wood chips
+  feedstock unit: kilogram
+  floor value: 7
+from gasification of biomass:
+  name: hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant
+  var: hydrogen, from biomass
+  feedstock name: wood chips
+  feedstock unit: kilogram
+  floor value: 7
+from coal gasification:
+  name: hydrogen production, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant
+  var: hydrogen, from coal
+  feedstock name: hard coal
+  feedstock unit: kilogram
+  floor value: 5
+from coal gasification, with CCS:
+  name: hydrogen production, gaseous, 30 bar, from hard coal gasification and reforming, with CCS, at coal gasification plant
+  var: hydrogen, from coal, with CCS
+  feedstock name: hard coal
+  feedstock unit: kilogram
+  floor value: 5
+from pyrolysis:
+  name: hydrogen production, gaseous, 100 bar, from methane pyrolysis
+  var: hydrogen, from pyrolysis
+  feedstock name: natural gas
+  feedstock unit: cubic meter
+  floor value: 6.5
+from thermochemical water splitting:
+  name: hydrogen production, gaseous, 25 bar, from thermochemical water splitting, at solar tower
+  var: hydrogen, from solar
+  feedstock name: Energy, solar, converted
+  feedstock unit: megajoule
+  floor value: 180

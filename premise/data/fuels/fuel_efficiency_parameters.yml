@@ -1,0 +1,136 @@
+petrol, synthetic, from coal:
+  feedstock name: methanol distillation, hydrogen from coal gasification
+  feedstock unit: kilogram
+  floor value: 2.0
+
+petrol, synthetic, from coal, with CCS:
+  feedstock name: methanol distillation, hydrogen from coal gasification, with CCS
+  feedstock unit: kilogram
+  floor value: 2.0
+
+petrol, synthetic, from electrolysis:
+  feedstock name: methanol distillation, hydrogen from electrolysis, CO2 from DAC
+  feedstock unit: kilogram
+  floor value:  2.0
+
+diesel, synthetic, from electrolysis:
+  feedstock name:
+    - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from electrolysis
+    - methanol distillation, hydrogen from electrolysis, CO2 from DAC
+  feedstock unit: kilogram
+  floor value: 2.0
+
+diesel, synthetic, from coal:
+  feedstock name:
+    - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from coal gasification
+    - methanol distillation, hydrogen from coal gasification
+  feedstock unit: kilogram
+  floor value: 2.0
+
+diesel, synthetic, from coal, with CCS:
+  feedstock name:
+    - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from coal gasification, with CCS
+    - methanol distillation, hydrogen from coal gasification, with CCS
+  feedstock unit: kilogram
+  floor value: 2.0
+
+diesel, synthetic, from wood:
+  feedstock name: syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from wood gasification
+  feedstock unit: kilogram
+  floor value: 2.0
+
+diesel, synthetic, from wood, with CCS:
+  feedstock name: syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from wood gasification, with CCS
+  feedstock unit: kilogram
+  floor value: 2.0
+
+diesel, synthetic, from grass:
+  feedstock name:
+  feedstock unit:
+  floor value:
+
+diesel, synthetic, from grass, with CCS:
+  feedstock name:
+  feedstock unit:
+  floor value:
+
+diesel, synthetic, from natural gas:
+  feedstock name: syngas production, from natural gas
+  feedstock unit: kilogram
+  floor value: 2.0
+
+diesel, synthetic, from natural gas, with CCS:
+  feedstock name: syngas production, from natural gas, with carbon capture and storage
+  feedstock unit: kilogram
+  floor value: 2.0
+
+kerosene, synthetic, from electrolysis, energy allocation:
+  feedstock name:
+    - methanol distillation, hydrogen from electrolysis, CO2 from DAC
+    - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from electrolysis
+  feedstock unit: kilogram
+  floor value: 2.0
+
+kerosene, synthetic, from coal, energy allocation:
+  feedstock name:
+    - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from coal gasification
+    - methanol distillation, hydrogen from coal gasification
+  feedstock unit: kilogram
+  floor value: 2.0
+
+kerosene, synthetic, from coal, energy allocation, with CCS:
+  feedstock name:
+    - syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from coal gasification, with CCS
+    - methanol distillation, hydrogen from coal gasification, with CCS
+  feedstock unit: kilogram
+  floor value: 2.0
+
+kerosene, synthetic, from natural gas, energy allocation:
+  feedstock name: syngas production, from natural gas
+  feedstock unit: kilogram
+  floor value: 2.0
+
+kerosene, synthetic, from natural gas, energy allocation, with CCS:
+  feedstock name: syngas production, from natural gas, with carbon capture and storage
+  feedstock unit: kilogram
+  floor value: 2.0
+
+kerosene, synthetic, from biomass, energy allocation:
+  feedstock name: market for wood chips, dry, measured as dry mass
+  feedstock unit: kilogram
+  floor value: 4.0
+
+kerosene, synthetic, from biomass, energy allocation, with CCS:
+  feedstock name: market for wood chips, dry, measured as dry mass
+  feedstock unit: kilogram
+  floor value: 4.0
+
+liquefied petroleum gas, synthetic, from biomass:
+  feedstock name: syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from wood gasification
+  feedstock unit: kilogram
+  floor value: 2.0
+
+liquefied petroleum gas, synthetic, from biomass, with CCS:
+  feedstock name: syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from wood gasification, with CCS
+  feedstock unit: kilogram
+  floor value: 2.0
+
+liquefied petroleum gas, synthetic, from coal:
+  feedstock name: syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from coal gasification
+  feedstock unit: kilogram
+  floor value: 2.0
+
+liquefied petroleum gas, synthetic, from coal, with CCS:
+  feedstock name: syngas, RWGS, Production, for Fischer Tropsch process, hydrogen from coal gasification, with CCS
+  feedstock unit: kilogram
+  floor value: 2.0
+
+liquefied petroleum gas, synthetic, from natural gas:
+  feedstock name: syngas production, from natural gas
+  feedstock unit: kilogram
+  floor value: 2.0
+
+liquefied petroleum gas, synthetic, from natural gas, with CCS:
+  feedstock name: syngas production, from natural gas, with carbon capture and storage
+  feedstock unit: kilogram
+  floor value: 2.0
