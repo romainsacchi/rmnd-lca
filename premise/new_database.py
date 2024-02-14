@@ -34,9 +34,9 @@ from .export import (
     generate_scenario_factor_file,
     generate_superstructure_db,
 )
-from .external import ExternalScenario, _update_external_scenarios
-from .external_data_validation import check_external_scenarios, check_inventories
-from .filesystem_constants import DATA_DIR, DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
+from .external import _update_external_scenarios
+from .external_data_validation import check_external_scenarios
+from .filesystem_constants import DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
 from .fuels import _update_fuels
 from .heat import _update_heat
 from .inventory_imports import AdditionalInventory, DefaultInventory
@@ -44,7 +44,6 @@ from .report import generate_change_report, generate_summary_report
 from .steel import _update_steel
 from .transport import _update_vehicles
 from .utils import (
-    HiddenPrints,
     clear_existing_cache,
     create_scenario_list,
     eidb_label,

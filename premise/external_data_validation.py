@@ -179,7 +179,7 @@ def check_inventories(
     """
 
     d_datasets = {
-        (val["ecoinvent alias"]["name"], val["ecoinvent alias"]["reference product"]): {
+        (val["ecoinvent alias"]["name"].lower(), val["ecoinvent alias"]["reference product"].lower()): {
             "exists in original database": val["ecoinvent alias"].get(
                 "exists in original database", True
             ),
@@ -205,7 +205,7 @@ def check_inventories(
     if "regionalize" in configuration:
         d_datasets.update(
             {
-                (val["name"], val["reference product"]): {
+                (val["name"].lower(), val["reference product"].lower()): {
                     "exists in original database": val.get(
                         "exists in original database", False
                     ),
@@ -246,10 +246,9 @@ def check_inventories(
 
     # flag imported inventories
     for i, dataset in enumerate(inventory_data):
-        if (dataset["name"], dataset["reference product"]) in d_datasets:
+        if (dataset["name"].lower(), dataset["reference product"].lower()) in d_datasets:
             dataset["custom scenario dataset"] = True
-            data_vars = d_datasets[(dataset["name"], dataset["reference product"])]
-
+            data_vars = d_datasets[(dataset["name"].lower(), dataset["reference product"].lower())]
             inventory_data[i] = flag_activities_to_adjust(
                 dataset, scenario_data, year, data_vars
             )
