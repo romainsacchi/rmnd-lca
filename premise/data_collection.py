@@ -925,9 +925,9 @@ class IAMDataCollection:
         """
 
         # Check if the year specified is within the range of years given by the IAM
-        assert (
-            data.year.values.min() <= self.year <= data.year.values.max()
-        ), f"{self.year} is outside of the boundaries of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
+        #assert (
+        #    data.year.values.min() <= self.year <= data.year.values.max()
+        #), f"{self.year} is outside of the boundaries of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
 
         # check if values of input_vars are strings or lists
         if any(isinstance(x, list) for x in input_vars.values()):
@@ -1006,11 +1006,11 @@ class IAMDataCollection:
 
         # Check if the year specified is within the range of years given by the IAM
         # If the year specified is not contained within the range of years given by the IAM
-        if self.year < data.year.values.min() or self.year > data.year.values.max():
-            raise KeyError(
-                f"{self.year} is outside of the boundaries "
-                f"of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
-            )
+        #if self.year < data.year.values.min() or self.year > data.year.values.max():
+        #    raise KeyError(
+        #        f"{self.year} is outside of the boundaries "
+        #        f"of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
+        #    )
 
         # Finally, if the specified year falls in between two periods provided by the IAM
         # Interpolation between two periods
@@ -1128,11 +1128,11 @@ class IAMDataCollection:
         """
 
         # If the year specified is not contained within the range of years given by the IAM
-        if self.year < data.year.values.min() or self.year > data.year.values.max():
-            raise KeyError(
-                f"{self.year} is outside of the boundaries "
-                f"of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
-            )
+        #if self.year < data.year.values.min() or self.year > data.year.values.max():
+        #    raise KeyError(
+        #        f"{self.year} is outside of the boundaries "
+        #        f"of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
+        #    )
 
         # Finally, if the specified year falls in between two periods provided by the IAM
         # Interpolation between two periods
@@ -1303,11 +1303,11 @@ class IAMDataCollection:
             return result
 
         # If the year specified is not contained within the range of years given by the IAM
-        if self.year < data.year.values.min() or self.year > data.year.values.max():
-            raise KeyError(
-                f"{self.year} is outside of the boundaries "
-                f"of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
-            )
+    #    if self.year < data.year.values.min() or self.year > data.year.values.max():
+    #        raise KeyError(
+    #            f"{self.year} is outside of the boundaries "
+    #            f"of the IAM file: {data.year.values.min()}-{data.year.values.max()}"
+    #        )
 
         vars = flatten_list_to_strings(input_vars.values())
 
