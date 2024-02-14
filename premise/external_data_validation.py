@@ -179,7 +179,10 @@ def check_inventories(
     """
 
     d_datasets = {
-        (val["ecoinvent alias"]["name"].lower(), val["ecoinvent alias"]["reference product"].lower()): {
+        (
+            val["ecoinvent alias"]["name"].lower(),
+            val["ecoinvent alias"]["reference product"].lower(),
+        ): {
             "exists in original database": val["ecoinvent alias"].get(
                 "exists in original database", True
             ),
@@ -246,9 +249,14 @@ def check_inventories(
 
     # flag imported inventories
     for i, dataset in enumerate(inventory_data):
-        if (dataset["name"].lower(), dataset["reference product"].lower()) in d_datasets:
+        if (
+            dataset["name"].lower(),
+            dataset["reference product"].lower(),
+        ) in d_datasets:
             dataset["custom scenario dataset"] = True
-            data_vars = d_datasets[(dataset["name"].lower(), dataset["reference product"].lower())]
+            data_vars = d_datasets[
+                (dataset["name"].lower(), dataset["reference product"].lower())
+            ]
             inventory_data[i] = flag_activities_to_adjust(
                 dataset, scenario_data, year, data_vars
             )
