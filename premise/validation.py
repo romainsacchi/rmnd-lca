@@ -153,12 +153,37 @@ class BaseDatasetValidator:
                 )
 
         # Ensure no datasets have null or empty values for required keys
-        required_keys = ["name", "location", "reference product", "unit", "exchanges"]
+        required_activity_keys = [
+            "name",
+            "location",
+            "reference product",
+            "unit",
+            "exchanges",
+        ]
         for dataset in self.database:
-            for key in required_keys:
+            for key in required_activity_keys:
                 if key not in dataset or not dataset[key]:
                     message = f"Dataset {dataset.get('name', 'Unknown')} is missing required key: {key}"
                     self.write_log(dataset, "missing key", message)
+
+            # Making sure that every technosphere exchange has a `product` field
+            for exc in dataset.get("exchanges", []):
+                if exc["type"] == "technosphere" and exc.get("product") is None:
+                    # find it in new_activities based on the name and location
+                    # of the exchange
+                    candidate = [
+                        x
+                        for x in new_activities
+                        if x[0] == exc["name"] and x[2] == exc["location"]
+                    ]
+                    if len(candidate) == 1:
+                        exc["product"] = candidate[0][1]
+                    elif len(candidate) > 1:
+                        message = f"Exchange {exc['name']} in {dataset['name']} has multiple possible products: {candidate}."
+                        self.write_log(dataset, "multiple exchange products", message)
+                    else:
+                        message = f"Exchange {exc['name']} in {dataset['name']} is missing the 'product' key."
+                        self.write_log(dataset, "missing exchange product", message)
 
     def check_for_orphaned_datasets(self):
         # check the presence of orphan datasets

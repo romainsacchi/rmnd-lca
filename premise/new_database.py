@@ -544,14 +544,12 @@ class NewDatabase:
 
             scenario["database"] = copy.deepcopy(self.database)
 
-        print("\n")
         print("- Extracting source database")
         if use_cached_database:
             self.database = self.__find_cached_db(source_db)
         else:
             self.database = self.__clean_database()
 
-        print("\n")
         print("- Extracting inventories")
         if use_cached_inventories:
             data = self.__find_cached_inventories(source_db)
@@ -561,12 +559,10 @@ class NewDatabase:
             self.__import_inventories()
 
         if self.additional_inventories:
-            print("\n")
             print("- Importing additional inventories")
             data = self.__import_additional_inventories(self.additional_inventories)
             self.database.extend(data)
 
-        print("\n")
         print("- Fetching IAM data")
         # use multiprocessing to speed up the process
         if self.multiprocessing:
@@ -576,7 +572,6 @@ class NewDatabase:
             for scenario in self.scenarios:
                 _fetch_iam_data(scenario)
 
-        print("\n")
         print("Done!")
 
     def __find_cached_db(self, db_name: str) -> List[dict]:

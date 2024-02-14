@@ -7,6 +7,13 @@ v3.8 and 3.9, with a focus on electricity and fuel markets.
 This work is based on a publication with available
 at https://doi.org/10.1016/j.rser.2023.113830
 
+If you use this module, please cite the publication:
+
+*Ben Maes, Romain Sacchi, Bernhard Steubing, Massimo Pizzol, Amaryllis Audenaert, Bart Craeye, Matthias Buyle,*
+**Prospective consequential life cycle assessment: Identifying the future marginal suppliers using integrated assessment models,**
+Renewable and Sustainable Energy Reviews,
+Volume 188, 2023, doi: 10.1016/j.rser.2023.113830
+
 Currently, the identification of marginal supplying
 technologies is limited
 to the electricity and fuel sectors.

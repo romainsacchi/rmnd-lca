@@ -471,6 +471,7 @@ class IAMDataCollection:
             data=data,
             input_vars=electricity_prod_vars,
             system_model=self.system_model,
+            sector="electricity",
         )
 
         self.petrol_markets = self.__fetch_market_data(
@@ -490,6 +491,7 @@ class IAMDataCollection:
                 )
             },
             system_model=self.system_model,
+            sector="petrol",
         )
 
         self.diesel_markets = self.__fetch_market_data(
@@ -506,6 +508,7 @@ class IAMDataCollection:
                 )
             },
             system_model=self.system_model,
+            sector="diesel",
         )
 
         self.gas_markets = self.__fetch_market_data(
@@ -519,6 +522,7 @@ class IAMDataCollection:
                 )
             },
             system_model=self.system_model,
+            sector="gas",
         )
 
         self.hydrogen_markets = self.__fetch_market_data(
@@ -534,6 +538,7 @@ class IAMDataCollection:
                 )
             },
             system_model=self.system_model,
+            sector="hydrogen",
         )
 
         self.kerosene_markets = self.__fetch_market_data(
@@ -549,6 +554,7 @@ class IAMDataCollection:
                 )
             },
             system_model=self.system_model,
+            sector="kerosene",
         )
 
         self.lpg_markets = self.__fetch_market_data(
@@ -564,30 +570,41 @@ class IAMDataCollection:
                 )
             },
             system_model=self.system_model,
+            sector="lpg",
         )
 
         self.cement_markets = self.__fetch_market_data(
-            data=data, input_vars=cement_prod_vars, system_model="cutoff"
+            data=data,
+            input_vars=cement_prod_vars,
+            system_model="cutoff",
+            sector="cement",
         )
         self.steel_markets = self.__fetch_market_data(
-            data=data, input_vars=steel_prod_vars, system_model="cutoff"
+            data=data, input_vars=steel_prod_vars, system_model="cutoff", sector="steel"
         )
         self.dac_markets = self.__fetch_market_data(
-            data=data, input_vars=dac_prod_vars, system_model="cutoff"
+            data=data, input_vars=dac_prod_vars, system_model="cutoff", sector="dac"
         )
         self.biomass_markets = self.__fetch_market_data(
-            data=data, input_vars=biomass_prod_vars, system_model="cutoff"
+            data=data,
+            input_vars=biomass_prod_vars,
+            system_model="cutoff",
+            sector="biomass",
         )
 
         self.carbon_capture_rate = self.__get_carbon_capture_rate(
             dict_vars=self.__get_iam_variable_labels(
-                IAM_CARBON_CAPTURE_VARS, variable="iam_aliases"
+                IAM_CARBON_CAPTURE_VARS,
+                variable="iam_aliases",
             ),
             data=data,
         )
 
         self.other_vars = self.__fetch_market_data(
-            data=data, input_vars=other_vars, normalize=False, system_model="cutoff"
+            data=data,
+            input_vars=other_vars,
+            normalize=False,
+            system_model="cutoff",
         )
 
         self.electricity_efficiencies = self.get_iam_efficiencies(
@@ -915,6 +932,7 @@ class IAMDataCollection:
         input_vars: dict,
         system_model: str,
         normalize: bool = True,
+        sector: str = None,
     ) -> [xr.DataArray, None]:
         """
         This method retrieves the market share for each technology,
@@ -965,7 +983,7 @@ class IAMDataCollection:
 
         if system_model == "consequential":
             market_data = consequential_method(
-                market_data, self.year, self.system_model_args
+                market_data, self.year, self.system_model_args, sector
             )
         else:
             if normalize is True:
