@@ -584,7 +584,7 @@ def check_scenario_data_file(datapackages, iam_scenarios):
             except ValueError:
                 continue
 
-        if not all(2005 <= y <= 2100 for y in years_cols):
+        if not all(1860 <= y <= 2100 for y in years_cols):
             raise ValueError(
                 f"One or several of the years provided in the scenario data file no. {i + 1} are "
                 "out of boundaries (2005 - 2100)."
