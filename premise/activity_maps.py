@@ -95,11 +95,12 @@ def act_fltr(
         else:
             filters.append(ws.contains(field, value))
 
-    for field, value in mask.items():
-        if isinstance(value, list):
-            filters.extend([ws.exclude(ws.contains(field, v)) for v in value])
-        else:
-            filters.append(ws.exclude(ws.contains(field, value)))
+    if mask:
+        for field, value in mask.items():
+            if isinstance(value, list):
+                filters.extend([ws.exclude(ws.contains(field, v)) for v in value])
+            else:
+                filters.append(ws.exclude(ws.contains(field, value)))
 
     return list(ws.get_many(database, *filters))
 

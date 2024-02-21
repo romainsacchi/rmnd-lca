@@ -193,6 +193,7 @@ def check_inventories(
             ),
             "new dataset": val["ecoinvent alias"].get("new dataset", False),
             "regionalize": val["ecoinvent alias"].get("regionalize", False),
+            "mask": val["ecoinvent alias"].get("mask", None),
             "except regions": val.get(
                 "except regions",
                 [
@@ -255,17 +256,16 @@ def check_inventories(
 
     # flag imported inventories
     for i, dataset in enumerate(inventory_data):
-        if (
-            dataset["name"].lower(),
-            dataset["reference product"].lower(),
-        ) in d_datasets:
-            dataset["custom scenario dataset"] = True
-            data_vars = d_datasets[
-                (dataset["name"].lower(), dataset["reference product"].lower())
-            ]
-            inventory_data[i] = flag_activities_to_adjust(
-                dataset, scenario_data, year, data_vars
-            )
+        key = (dataset["name"].lower(), dataset["reference product"].lower())
+        if key in d_datasets:
+            if d_datasets[key]["exists in original database"] is False:
+                dataset["custom scenario dataset"] = True
+                data_vars = d_datasets[
+                    (dataset["name"].lower(), dataset["reference product"].lower())
+                ]
+                inventory_data[i] = flag_activities_to_adjust(
+                    dataset, scenario_data, year, data_vars
+                )
 
     # flag inventories present in the original database
     for key, val in d_datasets.items():
@@ -276,6 +276,14 @@ def check_inventories(
                 if ds["name"].lower() == key[0]
                 and ds["reference product"].lower() == key[1]
             ]
+
+            # if a mask is provided, we want to use it
+            if val.get("mask"):
+                potential_candidates = [
+                    ds
+                    for ds in potential_candidates
+                    if val["mask"] not in ds["name"]
+                ]
 
             if len(potential_candidates) == 0:
                 # maybe it is in inventory_data
@@ -442,6 +450,7 @@ def check_config_file(datapackages):
                             "name": str,
                             "reference product": str,
                             Optional("exists in original database"): bool,
+                            Optional("mask"): str,
                             Optional("new dataset"): bool,
                             Optional("regionalize"): bool,
                             Optional("ratio"): float,

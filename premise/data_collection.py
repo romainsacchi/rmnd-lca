@@ -1463,6 +1463,11 @@ class IAMDataCollection:
                 # convert year dim to int64
                 array.coords["year"] = array.coords["year"].astype(np.int64)
 
+                # add the unit as an attribute, as a dictionary with variables as keys
+                array.attrs["unit"] = dict(
+                    subset.groupby("variables")["unit"].first().to_dict().items()
+                )
+
                 data[i]["production volume"] = array
                 regions = subset["region"].unique().tolist()
                 data[i]["regions"] = regions
@@ -1508,6 +1513,10 @@ class IAMDataCollection:
                     # convert year dim to int64
                     array.coords["year"] = array.coords["year"].astype(np.int64)
 
+                    array.attrs["unit"] = dict(
+                        subset.groupby("variables")["unit"].first().to_dict().items()
+                    )
+
                     ref_years = {}
 
                     if "production pathways" in config_file:
@@ -1542,6 +1551,8 @@ class IAMDataCollection:
                     array = array.fillna(1)
 
                     data[i]["efficiency"] = array
+
+            data[i]["config"] = config_file
 
         return data
 
