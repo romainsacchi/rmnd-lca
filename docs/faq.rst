@@ -4,6 +4,59 @@ Frequently Asked Questions
 Here are some frequently asked questions about ``premise``.
 If you have a question that is not answered here, please contact us.
 
+
+Ecoinvent
+---------
+
+What is ecoinvent?
+___________________
+
+Ecoinvent is a database of life cycle inventory data, which is used to calculate the environmental impacts of products and services. It is the most widely used LCI database in the world, and is maintained by the ecoinvent association, in Zurich, Switzerland.
+
+What is the ecoinvent version used in ``premise``?
+__________________________________________________
+
+``premise`` can use the following system models:
+
+* cut-off
+* consequential
+
+from version 3.6 to 3.9.1.
+
+How does ``premise`` use ecoinvent?
+__________________________________
+
+``premise`` adds and modifies inventories of the ecoinvent database,
+to represent the future state of the world, as projected by an Integrated Assessment Model (IAM).
+It does so by duplicating existing inventories and modifying them to represent
+the future state of the world.
+It also adds new inventories, when necessary.
+
+Can I share the modified ecoinvent database?
+___________________________________________
+
+No. The modified ecoinvent database is a derivative work of the ecoinvent database,
+and cannot be shared. However, you can share the IAM scenario and the code used to modify the ecoinvent database.
+
+Can I share results obtained with the modified ecoinvent database?
+__________________________________________________________________
+
+Yes. You can share the results obtained with the modified ecoinvent database.
+
+Can I use the modified ecoinvent database for commercial purposes?
+__________________________________________________________________
+
+While premise's license allows its use for commercial purposes, you need to check the ecoinvent license to see
+if it allows the use of the modified ecoinvent database for commercial purposes.
+
+How can I share modified ecoinvent databases?
+_____________________________________________
+
+*premise* allows producing "datapackages" that contains the required multiplication factors
+to be applied to the ecoinvent database, for other users to reproduce the modified ecoinvent database.
+These datapackages can be shared freely, as they do not contain any ecoinvent data.
+
+
 IAM models
 ----------
 

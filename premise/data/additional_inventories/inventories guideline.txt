@@ -1,0 +1,57 @@
+# Formatting rules for life-cycle inventories
+
+## Fields
+
+Fields `code`, `database` are not necessary.
+Fields `name`, `reference product`, `unit`, `location`, `type` are mandatory.
+Fields `comment` and `source` are strongly recommended.
+
+## Activity names
+
+1. Activity names should be lower case.
+2. Production, assembly and manufacture processes should have the corresponding term in the name. E.g., "battery cell production, by XXX method".
+3. Adhere as much as possible to naming conventions in ecoinvent. E.g., for an EoL process, "treatment of battery cell".
+4. Acronyms in names should be avoided, unless the process is only knowm by its acronym. E.g., "HDPE film production" is OK, but "high-density polyethylene film production" is better.
+5. The name should give a description of the dataset and be self-explanatory.
+6. If the dataset is about the compoent of a larger system, it should be mentioned. E.g., "battery cell production, for stationary residential LFP battery system".
+
+## Reference product
+
+1. Should describe the reference flow. E.g., if the name is "treatment of battery cell", the reference product should be "used battery cell". Or if the name is "battery cell production, by XXX method", the reference product should be "battery cell, produced by XXX".
+2. Acronyms should be avoided, unless the product is only and mostly known by its acronomy. E.g., "battery cell, NMC" is OK.
+
+## Location
+
+1. Think of the appropriate geographical scope of the dataset. If the process described receives inputs from one countrry only, the `location` fields should probably be specific to that country (and not European, for example).
+2. If the process in the original publication is specific to a country, try to see if it is possible to adapt it to either the European region, or globally (by changing the inputs' suppliers accordingly), supposing the specificities of a region does not affect the inventories.
+
+## Comment
+
+1. The comment section should be as descriptive as possible. The source for the inventories should be made prominent (including the DOI). If the dataset describes a commodity, the lifetime should be mentioned. Any performance-related specifications relevant to modelling should be mentioned (e.g., the energy density, in kWh/kg, for battery cells). The maturity and modernity of the technology should be mentioned, if known. The description should be so that we do not need ot read the original publication to know what the process or product is about.
+
+## Source
+
+1. In addition to specifying the publication origin in the `comment` section, it is nice to have it specified separately in a `source` field as well.
+
+## Exchanges
+
+1. Mandatory fields are: `name`, `amount`, `reference product` for technosphere flows, `categories` for biosphere flows, `unit`, `location` for technosphere flows, `type` (technosphere, biosphere or production).
+2. The field `database` is not necessary.
+3. The field `comment` is strongly recommended, as it helps doucment how specific exchanges are modelled.
+4. Uncertainty-related fields (`uncertainty type`, `loc`, `scale`, `min`, `max`, etc.) are nice-to-have and should be added whenever possible.
+5. The `production` exchange should be first, then `technosphere` exchanges and finally `biosphere` exchanges.
+6. The `production` exchange's `name`, `reference product`, `unit` and `location` should be similar to the values given at the activity level.
+7. Try as much as possible to preserve the formula used to calculate the `amount` (i.e., avoid placing calculated values). This helps other users understanding how numbers are obtained. Also, describe the formula or values used in the `comment` section of the exchange.
+8. Try to add uncertainty data if available and if time permits. If not, follow ecoinvent quality guidelines (see Uncertainty chapter) to add uncertainty data.
+
+## Carbon, mass, energy, water and land balances
+
+1. Often neglected, check every dataset and make sure that mass, energy, carbon, water and land balances appear correct. If the datasets are allocated, mass and carbon flows cannot be balanced. But, for example, if water is consumed in the process, check that it is either evaporated (Water to air) or released (Water to water), unless embodied in the product. Same for land: if the dataset describes a plant, make sure you include land-related flows such as "Occupation, xxx" as well as "Transformation, from xxx" and "Transformation, to xxx".
+
+## Transport
+
+1. If not using "market" datasets, make sure transport operations are included.
+
+## Infrastructure
+
+1. Make sure infrastructure (factory, assembly hall, etc.) are properly represented (even if not present in the original publication). This is important for the consistency of the database and land use calculations.

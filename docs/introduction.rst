@@ -16,6 +16,14 @@ under future policy scenarios for any year between 2005 and 2100.
 .. _IMAGE: https://models.pbl.nl/image/index.php/Welcome_to_IMAGE_3.2_Documentation
 
 
+.. note::
+
+    The ecoinvent database is not included in this package. You need to have a valid license for ecoinvent 3.6-3.9.1 to use *premise*.
+    Also, please read carefully ecoinvent's EULA_ before using *premise*.
+
+.. _EULA: https://ecoinvent.org/app/uploads/2024/01/EULA_new_branding_08_11_2023.pdf
+
+
 Workflow
 --------
 

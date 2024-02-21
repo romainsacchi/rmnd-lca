@@ -20,13 +20,20 @@ import datapackage
 from tqdm import tqdm
 
 from . import __version__
-from .biomass import _update_biomass
-from .cement import _update_cement
+
 from .clean_datasets import DatabaseCleaner
 from .data_collection import IAMDataCollection
+from .biomass import _update_biomass
+from .cement import _update_cement
 from .direct_air_capture import _update_dac
 from .electricity import _update_electricity
 from .emissions import _update_emissions
+from .fuels import _update_fuels
+from .heat import _update_heat
+from .steel import _update_steel
+from .metals import _update_metals
+from .transport import _update_vehicles
+from .external import _update_external_scenarios
 from .export import (
     Export,
     _prepare_database,
@@ -34,18 +41,14 @@ from .export import (
     generate_scenario_factor_file,
     generate_superstructure_db,
 )
-from .external import ExternalScenario, _update_external_scenarios
-from .external_data_validation import check_external_scenarios, check_inventories
-from .filesystem_constants import DATA_DIR, DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
-from .fuels import _update_fuels
-from .heat import _update_heat
+
+from .external_data_validation import check_external_scenarios
+from .filesystem_constants import DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
+
 from .inventory_imports import AdditionalInventory, DefaultInventory
-from .metals import _update_metals
 from .report import generate_change_report, generate_summary_report
-from .steel import _update_steel
-from .transport import _update_vehicles
+
 from .utils import (
-    HiddenPrints,
     clear_existing_cache,
     create_scenario_list,
     eidb_label,
@@ -161,7 +164,7 @@ FILEPATH_WAVE = INVENTORY_DIR / "lci-wave_energy.xlsx"
 FILEPATH_FUEL_CELL = INVENTORY_DIR / "lci-fuel_cell.xlsx"
 FILEPATH_CSP = INVENTORY_DIR / "lci-concentrating-solar-power.xlsx"
 FILEPATH_HOME_STORAGE_BATTERIES = INVENTORY_DIR / "lci-home-batteries.xlsx"
-# FILEPATH_VANADIUM = INVENTORY_DIR / "lci-vanadium.xlsx"
+FILEPATH_VANADIUM = INVENTORY_DIR / "lci-vanadium.xlsx"
 FILEPATH_VANADIUM_REDOX_BATTERY = INVENTORY_DIR / "lci-vanadium-redox-flow-battery.xlsx"
 FILEPATH_HYDROGEN_TURBINE = INVENTORY_DIR / "lci-hydrogen-turbine.xlsx"
 FILEPATH_HYDROGEN_HEATING = INVENTORY_DIR / "lci-hydrogen-heating.xlsx"
@@ -547,40 +550,35 @@ class NewDatabase:
 
             scenario["database"] = copy.deepcopy(self.database)
 
-        # tdqm progress bar for the extraction of database, import of inventories and IAM data
-        bar = tqdm(total=3, desc="Extracting source database", position=0, ncols=70)
-        with HiddenPrints():
-            if use_cached_database:
-                self.database = self.__find_cached_db(source_db)
-            else:
-                self.database = self.__clean_database()
-            bar.update(1)
-            bar.set_description("Importing default inventories")
+        print("- Extracting source database")
+        if use_cached_database:
+            self.database = self.__find_cached_db(source_db)
+        else:
+            self.database = self.__clean_database()
 
-            if use_cached_inventories:
-                data = self.__find_cached_inventories(source_db)
-                if data is not None:
-                    self.database.extend(data)
-            else:
-                self.__import_inventories()
-            bar.update(1)
-
-            if self.additional_inventories:
-                bar.set_description("Importing additional inventories")
-                data = self.__import_additional_inventories(self.additional_inventories)
+        print("- Extracting inventories")
+        if use_cached_inventories:
+            data = self.__find_cached_inventories(source_db)
+            if data is not None:
                 self.database.extend(data)
-                bar.update(1)
+        else:
+            self.__import_inventories()
 
-            bar.set_description("Extracting IAM data")
-            # use multiprocessing to speed up the process
-            if self.multiprocessing:
-                with Pool(processes=multiprocessing.cpu_count()) as pool:
-                    pool.map(_fetch_iam_data, self.scenarios)
-            else:
-                for scenario in self.scenarios:
-                    _fetch_iam_data(scenario)
-            bar.update(1)
-            bar.close()
+        if self.additional_inventories:
+            print("- Importing additional inventories")
+            data = self.__import_additional_inventories(self.additional_inventories)
+            self.database.extend(data)
+
+        print("- Fetching IAM data")
+        # use multiprocessing to speed up the process
+        if self.multiprocessing:
+            with Pool(processes=multiprocessing.cpu_count()) as pool:
+                pool.map(_fetch_iam_data, self.scenarios)
+        else:
+            for scenario in self.scenarios:
+                _fetch_iam_data(scenario)
+
+        print("Done!")
 
     def __find_cached_db(self, db_name: str) -> List[dict]:
         """
@@ -732,7 +730,7 @@ class NewDatabase:
             (FILEPATH_WAVE, "3.8"),
             (FILEPATH_FUEL_CELL, "3.9"),
             (FILEPATH_CSP, "3.9"),
-            # (FILEPATH_VANADIUM, "3.8"),
+            (FILEPATH_VANADIUM, "3.8"),
             (FILEPATH_VANADIUM_REDOX_BATTERY, "3.9"),
             (FILEPATH_HYDROGEN_HEATING, "3.9"),
             (FILEPATH_METHANOL_HEATING, "3.9"),

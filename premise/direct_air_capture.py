@@ -220,6 +220,9 @@ class DirectAirCapture(BaseTransformation):
                         .values
                     )
 
+                    # bound the scaling factor to 1.5 and 0.5
+                    scaling_factor = max(0.5, min(1.5, scaling_factor))
+
                     if scaling_factor != 1:
                         rescale_exchanges(
                             dataset,
@@ -254,6 +257,9 @@ class DirectAirCapture(BaseTransformation):
                         .interp(year=self.year)
                         .values
                     )
+
+                    # bound the scaling factor to 1.5 and 0.5
+                    scaling_factor = max(0.5, min(1.5, scaling_factor))
 
                     if scaling_factor != 1:
 

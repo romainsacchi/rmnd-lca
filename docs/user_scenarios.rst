@@ -384,6 +384,14 @@ Consider the following example from the *config.yaml* file:
     replaces in:
       - location: DE
 
+    is fuel:
+      petrol:
+        Carbon dioxide, fossil: 3.15
+        Carbon dioxide, non-fossil: 0.0
+      bioethanol:
+        Carbon dioxide, fossil: 0.0
+        Carbon dioxide, non-fossil: 3.15
+
 This tells **premise** to build a market dataset named **market for ammonia (APS)**
 with the reference product **ammonia, anhydrous, liquid** and the unit
 **kilogram**. The market should be composed of the production routes
@@ -400,6 +408,11 @@ only be replaced in the regions indicated in the **replaces in** parameter.
 But **replaces in** is flexible. For example, instead of a region, you can
 indicate a string that should be contain in the *name* or *reference product* of activities
 to update.
+
+The **is fuel** parameter is optional. It indicates that the market is a fuel market.
+The **petrol** and **bioethanol** parameters indicate the emissions associated with
+the production of petrol and bioethanol, respectively. The emissions are in kg CO2 per kg of fuel.
+Indicating this will adjust the indicated flows in any activity that uses the market as a supplier.
 
 .. code-block:: yaml
 

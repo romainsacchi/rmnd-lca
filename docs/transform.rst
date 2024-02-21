@@ -1157,40 +1157,10 @@ Run
 
 
 *premise* creates different region-specific Direct Air Capture (DAC)
-datasets. If the cumulative DAC deployment is available from the IAM scenario, *premise* applies a learning rate on the input
-of thermal and electrical energy as well as infrastructure
-relative to 2020 (see SI of Qiu_ et al., 2022).
+datasets, based on the inventories from Qiu_ et al., 2022.
 
-The learning indicates the percentage improvement applied
-for every doubling of the cumulated deployment capacity,
-relative to 2020.
-
-The following table shows the learning rates applied for
-DAC systems for energy inputs:
-
-+--------------------------------------------------+-------------------+-------------------+
-| Technology                                       | Solvent-based DAC | Sorbent-based DAC |
-+==================================================+===================+===================+
-| Learning rate                                    | 2.50%             | 2.50%             |
-+--------------------------------------------------+-------------------+-------------------+
-| Theoretical minimum (relative to initial value)  | 95%               | 95%               |
-+--------------------------------------------------+-------------------+-------------------+
-
-The following table shows the learning rates applied for
-DAC systems for infrastructure inputs (materials, chemicals, system):
-
-+-------------------------------------------------+-------------------+-------------------+
-| Technology                                      | Solvent-based DAC | Sorbent-based DAC |
-+=================================================+===================+===================+
-| Learning rate                                   | 10.00%            | 15.00%            |
-+--------------------------------------------------+-------------------+-------------------+
-| Theoretical minimum (relative to initial value) | 44%               | 18%               |
-+-------------------------------------------------+-------------------+-------------------+
-
-A scaling factor is calculated from applying the above learning rates
-to the cumulative DAC deployment in the IAM scenario. The scaling factor
-is then applied to the input of thermal and electrical energy as well as
-infrastructure relative to 2020.
+If provided by the IAM scenario, *premise* scales the inputs of electricity
+and heat of the DAC datasets to reflect changes in efficiency.
 
 .. _Qiu: https://doi.org/10.1038/s41467-022-31146-1
 
@@ -1940,8 +1910,8 @@ Here is the decision tree followed:
 
 .. _decision-tree:
 
-Decision Tree for Processing Datasets
-=====================================
+**Decision Tree for Processing Datasets**
+
 
 The process begins with a dataset that requires processing.
 
