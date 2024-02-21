@@ -20,20 +20,13 @@ import datapackage
 from tqdm import tqdm
 
 from . import __version__
-
-from .clean_datasets import DatabaseCleaner
-from .data_collection import IAMDataCollection
 from .biomass import _update_biomass
 from .cement import _update_cement
+from .clean_datasets import DatabaseCleaner
+from .data_collection import IAMDataCollection
 from .direct_air_capture import _update_dac
 from .electricity import _update_electricity
 from .emissions import _update_emissions
-from .fuels import _update_fuels
-from .heat import _update_heat
-from .steel import _update_steel
-from .metals import _update_metals
-from .transport import _update_vehicles
-from .external import _update_external_scenarios
 from .export import (
     Export,
     _prepare_database,
@@ -41,13 +34,16 @@ from .export import (
     generate_scenario_factor_file,
     generate_superstructure_db,
 )
-
+from .external import _update_external_scenarios
 from .external_data_validation import check_external_scenarios
 from .filesystem_constants import DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
-
+from .fuels import _update_fuels
+from .heat import _update_heat
 from .inventory_imports import AdditionalInventory, DefaultInventory
+from .metals import _update_metals
 from .report import generate_change_report, generate_summary_report
-
+from .steel import _update_steel
+from .transport import _update_vehicles
 from .utils import (
     clear_existing_cache,
     create_scenario_list,
