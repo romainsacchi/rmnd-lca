@@ -59,9 +59,9 @@ class PathwaysDataPackage:
         )
 
     def create_datapackage(
-            self,
-            name: str = f"pathways_{date.today()}",
-            contributors: list = None,
+        self,
+        name: str = f"pathways_{date.today()}",
+        contributors: list = None,
     ):
         self.datapackage.update("trucks")
         self.datapackage.update("external")
@@ -92,7 +92,9 @@ class PathwaysDataPackage:
         self.add_variables_mapping()
         self.build_datapackage(name, contributors)
 
-    def find_activities(self, filters: [str, list], database, mask: [str, list, None] = None):
+    def find_activities(
+        self, filters: [str, list], database, mask: [str, list, None] = None
+    ):
         """
         Find activities in the database.
 
@@ -106,7 +108,11 @@ class PathwaysDataPackage:
         """
         # remove unwanted keys, anything other than "name", "reference product" and "unit"
         if isinstance(filters, dict):
-            filters = {k: v for k, v in filters.items() if k in ["name", "reference product", "unit"]}
+            filters = {
+                k: v
+                for k, v in filters.items()
+                if k in ["name", "reference product", "unit"]
+            }
 
         return [
             {
@@ -171,7 +177,7 @@ class PathwaysDataPackage:
         model_variables = []
 
         for file in (
-                Path(__file__).resolve().parent.glob("iam_variables_mapping/*.yaml")
+            Path(__file__).resolve().parent.glob("iam_variables_mapping/*.yaml")
         ):
             # open the file
             with open(file, "r") as f:
@@ -203,14 +209,22 @@ class PathwaysDataPackage:
                     if "production pathways" in config:
                         for var in config["production pathways"]:
                             if var not in mapping:
-                                var_name = config["production pathways"][var]["production volume"]["variable"]
+                                var_name = config["production pathways"][var][
+                                    "production volume"
+                                ]["variable"]
                                 mapping[var] = {"scenario variable": var_name}
-                                filters = config["production pathways"][var].get("ecoinvent alias")
-                                mask=config["production pathways"][var].get("ecoinvent alias").get("mask")
+                                filters = config["production pathways"][var].get(
+                                    "ecoinvent alias"
+                                )
+                                mask = (
+                                    config["production pathways"][var]
+                                    .get("ecoinvent alias")
+                                    .get("mask")
+                                )
                                 mapping[var]["dataset"] = self.find_activities(
                                     filters=filters,
                                     database=scenario["database"],
-                                    mask=mask
+                                    mask=mask,
                                 )
 
         # under each key, remove duplicates from list
@@ -232,27 +246,32 @@ class PathwaysDataPackage:
         """
         # concatenate xarray across IAM scenarios
         scenario_data = [
-                self.datapackage.scenarios[s]["iam data"].data
-                for s in range(len(self.scenarios))
-            ]
+            self.datapackage.scenarios[s]["iam data"].data
+            for s in range(len(self.scenarios))
+        ]
 
         # add scenario data from external scenarios
         list_extra_scenarios = []
         extra_units = {}
         for scenario in self.scenarios:
             if "external data" in scenario:
-                if f"{scenario['model'].upper()} - {scenario['pathway']}" not in list_extra_scenarios:
-                    list_extra_scenarios.append(f"{scenario['model'].upper()} - {scenario['pathway']}")
+                if (
+                    f"{scenario['model'].upper()} - {scenario['pathway']}"
+                    not in list_extra_scenarios
+                ):
+                    list_extra_scenarios.append(
+                        f"{scenario['model'].upper()} - {scenario['pathway']}"
+                    )
                     for s in scenario["external data"].values():
                         scenario_data.append(s["production volume"])
                         extra_units.update(s["production volume"].attrs["unit"])
 
-        array = xr.concat(
-            scenario_data, dim="scenario"
-        )
+        array = xr.concat(scenario_data, dim="scenario")
 
         # add scenario data to the xarray
-        scenarios = [f"{s['model'].upper()} - {s['pathway']}" for s in self.scenarios] + list_extra_scenarios
+        scenarios = [
+            f"{s['model'].upper()} - {s['pathway']}" for s in self.scenarios
+        ] + list_extra_scenarios
         array.coords["scenario"] = scenarios
 
         # make sure pathways/scenario_data directory exists

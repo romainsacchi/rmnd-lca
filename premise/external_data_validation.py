@@ -280,9 +280,7 @@ def check_inventories(
             # if a mask is provided, we want to use it
             if val.get("mask"):
                 potential_candidates = [
-                    ds
-                    for ds in potential_candidates
-                    if val["mask"] not in ds["name"]
+                    ds for ds in potential_candidates if val["mask"] not in ds["name"]
                 ]
 
             if len(potential_candidates) == 0:
