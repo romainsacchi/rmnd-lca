@@ -20,6 +20,19 @@ As it now evolves towards a more IAM-neutral approach, a change of name was cons
 
 Scientific publication available here: [Sacchi et al, 2022](https://doi.org/10.1016/j.rser.2022.112311).
 
+
+What's new in 2.0.0?
+====================
+
+- Adds .write_db_to_olca(), which produces a slightly modified version of a Simapro CSV database file which can then be imported in OpenLCA. The use of the SimaPro_Import.csv mapping file must be selected.
+- Marginal mixes were wrong because the average lifetime of the mix was calculated using the technology-specific lead time values instead of lifetime values.
+- Fix issue with CCS implementation in IMAGE scenarios
+- Fix several issues with external/custom scenarios linking algorithm.
+- Drops DAC efficiency improvement based on cumulated deployment. Uses directly efficiency variables now (if provided).
+- Improves documentation for consequential modelling.
+- Code-breaking change: update functions are now called like so: .update(xxx). For example, to update the electricity sector: .update(["electricity",]). To update all sectors: .update().
+- Changes minimum Python requirement to 3.10
+
 What's new in 1.8.0?
 ====================
 
@@ -61,8 +74,8 @@ ecoinvent 3 to reflect projected energy policy trajectories.
 
 Requirements
 ------------
-* **Python 3.9, 3.10 or 3.11**
-* License for [ecoinvent 3][1]
+* **Python 3.10 or 3.11**
+* License for [ecoinvent 3][1]. Please note that the ecoinvent database is not included in this package. Also, read ecoinvent's [GDPR & EULA](https://ecoinvent.org/gdpr-eula/).
 * Some IAM output files come with the library and are located by default in the subdirectory "/data/iam_output_files". **If you wish to use
  those files, you need to request (by [email](mailto:romain.sacchi@psi.ch)) an encryption key from the developers**.
  A file path can be specified to fetch IAM output files elsewhere on your computer.

@@ -1910,8 +1910,8 @@ Here is the decision tree followed:
 
 .. _decision-tree:
 
-Decision Tree for Processing Datasets
-=====================================
+**Decision Tree for Processing Datasets**
+
 
 The process begins with a dataset that requires processing.
 

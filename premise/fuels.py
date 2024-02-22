@@ -2466,6 +2466,26 @@ class Fuels(BaseTransformation):
             ):
                 self.remove_from_index(ds)
 
+        # generate supply datasets for hydrogen
+        hydrogen_supply = self.fetch_proxies(
+            name="hydrogen supply, distributed by pipeline",
+            ref_prod="hydrogen, gaseous, from pipeline",
+            exact_name_match=True,
+        )
+
+        for region, dataset in hydrogen_supply.items():
+            # replace the input of hydrogen by an input of hydrogen market
+            for exc in ws.technosphere(dataset):
+                if exc["name"] == "market for hydrogen, gaseous":
+                    exc["location"] = region
+
+            # add to log
+            self.write_log(dataset)
+            # add it to list of created datasets
+            self.add_to_index(dataset)
+            # add it to database
+            self.database.append(dataset)
+
         self.relink_activities_to_new_markets()
 
     def write_log(self, dataset, status="created"):

@@ -93,6 +93,14 @@ Supported sources of ecoinvent
 .. _brightway2: https://brightway.dev/
 
 
+.. note::
+
+        The ecoinvent database is not included in *premise*.
+        You need to have a valid license to download and use it.
+        Also, please read carefully ecoinvent's EULA_ before using *premise*.
+
+.. _EULA: https://ecoinvent.org/app/uploads/2024/01/EULA_new_branding_08_11_2023.pdf
+
 
 From a brightway2 project
 -------------------------
