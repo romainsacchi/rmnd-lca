@@ -150,8 +150,8 @@ FILEPATH_LITHIUM = INVENTORY_DIR / "lci-lithium.xlsx"
 FILEPATH_COBALT = INVENTORY_DIR / "lci-cobalt.xlsx"
 FILEPATH_GRAPHITE = INVENTORY_DIR / "lci-graphite.xlsx"
 FILEPATH_BATTERIES = INVENTORY_DIR / "lci-batteries.xlsx"
-FILEPATH_SIB_BATTERY = INVENTORY_DIR / "lci-batteries-SIB.xlsx"
-FILEPATH_LIS_BATTERY = INVENTORY_DIR / "lci-batteries-LiS.xlsx"
+#FILEPATH_SIB_BATTERY = INVENTORY_DIR / "lci-batteries-SIB.xlsx"
+#FILEPATH_LIS_BATTERY = INVENTORY_DIR / "lci-batteries-LiS.xlsx"
 FILEPATH_PHOTOVOLTAICS = INVENTORY_DIR / "lci-PV.xlsx"
 FILEPATH_BIGCC = INVENTORY_DIR / "lci-BIGCC.xlsx"
 FILEPATH_NUCLEAR_EPR = INVENTORY_DIR / "lci-nuclear_EPR.xlsx"
@@ -680,8 +680,8 @@ class NewDatabase:
             (FILEPATH_COBALT, "3.8"),
             (FILEPATH_GRAPHITE, "3.8"),
             (FILEPATH_BATTERIES, "3.8"),
-            (FILEPATH_LIS_BATTERY, "3.9"),
-            (FILEPATH_SIB_BATTERY, "3.9"),
+            #(FILEPATH_LIS_BATTERY, "3.9"),
+            #(FILEPATH_SIB_BATTERY, "3.9"),
             (FILEPATH_HOME_STORAGE_BATTERIES, "3.9"),
             (FILEPATH_PHOTOVOLTAICS, "3.7"),
             (FILEPATH_HYDROGEN_INVENTORIES, "3.9"),
