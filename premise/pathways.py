@@ -255,7 +255,7 @@ class PathwaysDataPackage:
         # add scenario data from external scenarios
         list_extra_scenarios = []
         extra_units = {}
-        for scenario in  self.datapackage.scenarios:
+        for scenario in self.datapackage.scenarios:
             if "external data" in scenario:
                 if (
                     f"{scenario['model'].upper()} - {scenario['pathway']}"
