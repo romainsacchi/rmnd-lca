@@ -30,6 +30,7 @@ class PathwaysDataPackage:
         external_scenarios: list = None,
         gains_scenario="CLE",
         use_absolute_efficiency=False,
+        use_multiprocessing=True,
     ):
         self.years = years
         self.scenarios = []
@@ -56,6 +57,7 @@ class PathwaysDataPackage:
             external_scenarios=external_scenarios,
             gains_scenario=gains_scenario,
             use_absolute_efficiency=use_absolute_efficiency,
+            use_multiprocessing=use_multiprocessing,
         )
 
     def create_datapackage(
@@ -253,7 +255,7 @@ class PathwaysDataPackage:
         # add scenario data from external scenarios
         list_extra_scenarios = []
         extra_units = {}
-        for scenario in self.scenarios:
+        for scenario in  self.datapackage.scenarios:
             if "external data" in scenario:
                 if (
                     f"{scenario['model'].upper()} - {scenario['pathway']}"
