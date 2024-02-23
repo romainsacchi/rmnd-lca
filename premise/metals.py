@@ -30,7 +30,7 @@ from .utils import DATA_DIR
 logger = create_logger("metal")
 
 
-def _update_metals(scenario, version, system_model, cache=None):
+def _update_metals(scenario, version, system_model):
     metals = Metals(
         database=scenario["database"],
         model=scenario["model"],
@@ -39,15 +39,18 @@ def _update_metals(scenario, version, system_model, cache=None):
         year=scenario["year"],
         version=version,
         system_model=system_model,
-        cache=cache,
+        cache=scenario.get("cache"),
+        index=scenario.get("index"),
     )
 
     metals.create_metal_markets()
     metals.update_metals_use_in_database()
     metals.relink_datasets()
-    cache = metals.cache
+    scenario["database"] = metals.database
+    scenario["cache"] = metals.cache
+    scenario["index"] = metals.index
 
-    return scenario, cache
+    return scenario
 
 
 def load_metals_alternative_names():
@@ -278,6 +281,7 @@ class Metals(BaseTransformation):
         version: str,
         system_model: str,
         cache: dict = None,
+        index: dict = None,
     ):
         super().__init__(
             database,
@@ -288,6 +292,7 @@ class Metals(BaseTransformation):
             version,
             system_model,
             cache,
+            index,
         )
 
         self.version = version
