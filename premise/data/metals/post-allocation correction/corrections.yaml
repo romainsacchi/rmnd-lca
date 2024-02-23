@@ -3,10 +3,31 @@
   location: ZA
   unit: kilogram
   additional flow:
-    name: Palladium
-    categories: natural resource::in ground
-    amount: 0.8848
-    unit: kilogram
+    - name: Palladium
+      categories: natural resource::in ground
+      amount: 0.8848
+      unit: kilogram
+    - name: Platinum
+      categories: natural resource::in ground
+      amount: -0.19475
+      unit: kilogram
+    - name: Rhodium
+      categories: natural resource::in ground
+      amount: -0.0259
+      unit: kilogram
+    - name: Nickel
+      categories: natural resource::in ground
+      amount: -31.3881
+      unit: kilogram
+    - name: Gold
+      categories: natural resource::in ground
+      amount: -0.00807
+      unit: kilogram
+    - name: Copper
+      categories: natural resource::in ground
+      amount: -71.8524
+      unit: kilogram
+
 - name: platinum group metal mine operation, ore with high palladium content
   reference product: palladium
   location: RU
