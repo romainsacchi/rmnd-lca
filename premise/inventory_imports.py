@@ -619,6 +619,7 @@ class BaseInventoryImport:
             "SOx",
             "N-",
             "EUR",
+            "Mannheim",
         ]
 
         for ds in self.import_db.data:
