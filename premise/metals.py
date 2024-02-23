@@ -464,26 +464,27 @@ class Metals(BaseTransformation):
                 self.database,
                 *filters,
             ):
-                ds["exchanges"].append(
-                    {
-                        "name": dataset["additional flow"]["name"],
-                        "amount": dataset["additional flow"]["amount"],
-                        "unit": dataset["additional flow"]["unit"],
-                        "type": "biosphere",
-                        "categories": tuple(
-                            dataset["additional flow"]["categories"].split("::")
-                        ),
-                        "input": (
-                            "biosphere3",
-                            self.biosphere_flow_codes[
-                                dataset["additional flow"]["name"],
-                                dataset["additional flow"]["categories"].split("::")[0],
-                                dataset["additional flow"]["categories"].split("::")[1],
-                                dataset["additional flow"]["unit"],
-                            ],
-                        ),
-                    }
-                )
+                for flow in dataset["additional flow"]:
+                    ds["exchanges"].append(
+                        {
+                            "name": flow["name"],
+                            "amount": flow["amount"],
+                            "unit": flow["unit"],
+                            "type": "biosphere",
+                            "categories": tuple(
+                                flow["categories"].split("::")
+                            ),
+                            "input": (
+                                "biosphere3",
+                                self.biosphere_flow_codes[
+                                    flow["name"],
+                                    flow["categories"].split("::")[0],
+                                    flow["categories"].split("::")[1],
+                                    flow["unit"],
+                                ],
+                            ),
+                        }
+                    )
 
                 if "log parameters" not in ds:
                     ds["log parameters"] = {}
