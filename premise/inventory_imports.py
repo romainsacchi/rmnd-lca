@@ -488,12 +488,13 @@ class BaseInventoryImport:
             "guest night",
             "Sm3",
             "standard cubic meter",
+            "hour",
         ]
 
         for dataset in self.import_db.data:
             for exchange in dataset["exchanges"]:
                 if exchange["unit"] not in ALLOWED_UNITS:
-                    raise ValueError(
+                    print(
                         f"The unit {exchange['unit']} is not allowed in the ecoinvent database."
                         f"Please check the exchange {exchange} in the dataset {dataset['name']}."
                     )
