@@ -568,6 +568,14 @@ premise_external_scenarios:
       region:
         name: region
         description: Region name
+      technosphere scaling factor:
+        name: Technosphere scaling factor
+        description: Scaling factor applied on the initial amount of technosphere flow inputs
+        unit: unitless
+      biosphere scaling factor:
+        name: Biosphere scaling factor
+        description: Scaling factor applied on the initial amount of biosphere flow inputs
+        unit: unitless
     tab: External scenarios
 
 premise_validation:

@@ -11,11 +11,21 @@ from typing import Dict, List, Tuple, Union
 
 import bw2io
 import wurst
+import yaml
 from bw2data.database import DatabaseChooser
 from wurst import searching as ws
 
 from .data_collection import get_delimiter
 from .filesystem_constants import DATA_DIR
+
+
+def load_methane_correction_list():
+    """
+    Load biomethane_correction.yaml file and return a list
+    """
+    with open(DATA_DIR / "fuels" / "biomethane_correction.yaml", encoding="utf-8") as f:
+        methane_correction_list = yaml.safe_load(f)
+    return methane_correction_list
 
 
 def remove_uncertainty(database):
@@ -373,6 +383,88 @@ class DatabaseCleaner:
                 exc for exc in dataset["exchanges"] if "delete" not in exc
             ]
 
+    def correct_biogas_activities(self):
+        """
+        Some activities producing biogas are not given any
+        biogenic CO2 or energy input, leading to imbalanced carbon and energy flows
+        when combusted.
+        """
+
+        list_biogas_activities = load_methane_correction_list()
+        biosphere_codes = get_biosphere_flow_uuid(self.version)
+
+        # find datasets that have a name in the list
+        filters = [
+            ws.either(*[ws.equals("name", name) for name in list_biogas_activities]),
+        ]
+
+        biogas_datasets = ws.get_many(
+            self.database,
+            *filters,
+            ws.equals("reference product", "biogas"),
+            ws.equals("unit", "cubic meter"),
+        )
+
+        # add a flow of "Carbon dioxide, in air" to the dataset
+        # if not present. We add 1.96 kg CO2/m3 biogas.
+
+        for ds in biogas_datasets:
+            # Add CO2 uptake
+            if not any(
+                exc
+                for exc in ws.biosphere(ds)
+                if exc["name"] == "Carbon dioxide, in air"
+            ):
+                ds["exchanges"].append(
+                    {
+                        "uncertainty type": 0,
+                        "amount": 1.96,
+                        "type": "biosphere",
+                        "name": "Carbon dioxide, in air",
+                        "unit": "kilogram",
+                        "categories": ("natural resource", "in air"),
+                        "input": (
+                            "biosphere3",
+                            biosphere_codes[
+                                (
+                                    "Carbon dioxide, in air",
+                                    "natural resource",
+                                    "in air",
+                                    "kilogram",
+                                )
+                            ],
+                        ),
+                    }
+                )
+
+            # Add primary energy flow
+            if not any(
+                exc
+                for exc in ws.biosphere(ds)
+                if exc["name"] == "Energy, gross calorific value, in biomass"
+            ):
+                ds["exchanges"].append(
+                    {
+                        "uncertainty type": 0,
+                        "amount": 22.73,
+                        "type": "biosphere",
+                        "name": "Energy, gross calorific value, in biomass",
+                        "unit": "megajoule",
+                        "categories": ("natural resource", "biotic"),
+                        "input": (
+                            "biosphere3",
+                            biosphere_codes[
+                                (
+                                    "Energy, gross calorific value, in biomass",
+                                    "natural resource",
+                                    "biotic",
+                                    "megajoule",
+                                )
+                            ],
+                        ),
+                    }
+                )
+
     def prepare_datasets(self, keep_uncertainty_data) -> List[dict]:
         """
         Clean datasets for all databases listed in
@@ -397,6 +489,9 @@ class DatabaseCleaner:
         # Remove empty exchanges
         print("Remove empty exchanges.")
         remove_nones(self.database)
+
+        # correct carbon and energy balance
+        self.correct_biogas_activities()
 
         # Remove uncertainty data
         if not keep_uncertainty_data:

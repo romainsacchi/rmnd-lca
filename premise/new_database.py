@@ -34,9 +34,9 @@ from .export import (
     generate_scenario_factor_file,
     generate_superstructure_db,
 )
-from .external import ExternalScenario, _update_external_scenarios
-from .external_data_validation import check_external_scenarios, check_inventories
-from .filesystem_constants import DATA_DIR, DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
+from .external import _update_external_scenarios
+from .external_data_validation import check_external_scenarios
+from .filesystem_constants import DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
 from .fuels import _update_fuels
 from .heat import _update_heat
 from .inventory_imports import AdditionalInventory, DefaultInventory
@@ -45,7 +45,6 @@ from .report import generate_change_report, generate_summary_report
 from .steel import _update_steel
 from .transport import _update_vehicles
 from .utils import (
-    HiddenPrints,
     clear_existing_cache,
     create_scenario_list,
     eidb_label,
@@ -547,40 +546,35 @@ class NewDatabase:
 
             scenario["database"] = copy.deepcopy(self.database)
 
-        # tdqm progress bar for the extraction of database, import of inventories and IAM data
-        bar = tqdm(total=3, desc="Extracting source database", position=0, ncols=70)
-        with HiddenPrints():
-            if use_cached_database:
-                self.database = self.__find_cached_db(source_db)
-            else:
-                self.database = self.__clean_database()
-            bar.update(1)
-            bar.set_description("Importing default inventories")
+        print("- Extracting source database")
+        if use_cached_database:
+            self.database = self.__find_cached_db(source_db)
+        else:
+            self.database = self.__clean_database()
 
-            if use_cached_inventories:
-                data = self.__find_cached_inventories(source_db)
-                if data is not None:
-                    self.database.extend(data)
-            else:
-                self.__import_inventories()
-            bar.update(1)
-
-            if self.additional_inventories:
-                bar.set_description("Importing additional inventories")
-                data = self.__import_additional_inventories(self.additional_inventories)
+        print("- Extracting inventories")
+        if use_cached_inventories:
+            data = self.__find_cached_inventories(source_db)
+            if data is not None:
                 self.database.extend(data)
-                bar.update(1)
+        else:
+            self.__import_inventories()
 
-            bar.set_description("Extracting IAM data")
-            # use multiprocessing to speed up the process
-            if self.multiprocessing:
-                with Pool(processes=multiprocessing.cpu_count()) as pool:
-                    pool.map(_fetch_iam_data, self.scenarios)
-            else:
-                for scenario in self.scenarios:
-                    _fetch_iam_data(scenario)
-            bar.update(1)
-            bar.close()
+        if self.additional_inventories:
+            print("- Importing additional inventories")
+            data = self.__import_additional_inventories(self.additional_inventories)
+            self.database.extend(data)
+
+        print("- Fetching IAM data")
+        # use multiprocessing to speed up the process
+        if self.multiprocessing:
+            with Pool(processes=multiprocessing.cpu_count()) as pool:
+                pool.map(_fetch_iam_data, self.scenarios)
+        else:
+            for scenario in self.scenarios:
+                _fetch_iam_data(scenario)
+
+        print("Done!")
 
     def __find_cached_db(self, db_name: str) -> List[dict]:
         """

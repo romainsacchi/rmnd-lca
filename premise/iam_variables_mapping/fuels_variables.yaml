@@ -685,6 +685,9 @@ biodiesel, from used cooking oil:
         - economic
         - capture
         - station
+        - algae
+        - palm
+        - rapeseed
 
 biodiesel, from used cooking oil, with CCS:
   lhv: 38
@@ -854,6 +857,7 @@ bioethanol, from grain:
         - processing
         - synthetic
         - hydration
+        - starch
 
 bioethanol, from grain, with CCS:
   lhv: 26.5
