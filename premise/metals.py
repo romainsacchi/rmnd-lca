@@ -490,7 +490,6 @@ class Metals(BaseTransformation):
                 for flow in dataset["additional flow"]:
                     ds["log parameters"]["post-allocation correction"] = flow["amount"]
 
-
                 self.write_log(ds, "updated")
 
     def create_new_mining_activity(
