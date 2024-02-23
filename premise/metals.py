@@ -471,9 +471,7 @@ class Metals(BaseTransformation):
                             "amount": flow["amount"],
                             "unit": flow["unit"],
                             "type": "biosphere",
-                            "categories": tuple(
-                                flow["categories"].split("::")
-                            ),
+                            "categories": tuple(flow["categories"].split("::")),
                             "input": (
                                 "biosphere3",
                                 self.biosphere_flow_codes[
