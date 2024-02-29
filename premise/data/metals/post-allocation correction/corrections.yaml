@@ -1,249 +1,2169 @@
-- name: platinum group metal, extraction and refinery operations
-  reference product: palladium
-  location: ZA
+- name: bauxite mine operation
+  reference product: bauxite
+  location: GLO
   unit: kilogram
   additional flow:
-    - name: Palladium
-      categories: natural resource::in ground
-      amount: 0.8848
-      unit: kilogram
-    - name: Platinum
-      categories: natural resource::in ground
-      amount: -0.19475
-      unit: kilogram
-    - name: Rhodium
-      categories: natural resource::in ground
-      amount: -0.0259
-      unit: kilogram
-    - name: Nickel
-      categories: natural resource::in ground
-      amount: -31.3881
-      unit: kilogram
-    - name: Gold
-      categories: natural resource::in ground
-      amount: -0.00807
-      unit: kilogram
-    - name: Copper
-      categories: natural resource::in ground
-      amount: -71.8524
-      unit: kilogram
-
-- name: platinum group metal mine operation, ore with high palladium content
-  reference product: palladium
-  location: RU
-  unit: kilogram
-  additional flow:
-    - name: Palladium
-      categories: natural resource::in ground
-      amount: 0.9067
-      unit: kilogram
-- name: platinum group metal, extraction and refinery operations
-  reference product: platinum
-  location: ZA
-  unit: kilogram
-  additional flow:
-    - name: Platinum
-      categories: natural resource::in ground
-      amount: 0.2886
-      unit: kilogram
-- name: platinum group metal mine operation, ore with high palladium content
-  reference product: platinum
-  location: RU
-  unit: kilogram
-  additional flow:
-    - name: Platinum
-      categories: natural resource::in ground
-      amount: 0.8833
-      unit: kilogram
-- name: platinum group metal, extraction and refinery operations
-  reference product: rhodium
-  location: ZA
-  unit: kilogram
-  additional flow:
-    - name: Rhodium
-      categories: natural resource::in ground
-      amount: 0.8907
-      unit: kilogram
-- name: platinum group metal mine operation, ore with high palladium content
-  reference product: rhodium
-  location: RU
-  unit: kilogram
-  additional flow:
-    - name: Rhodium
-      categories: natural resource::in ground
-      amount: 0.9893
-      unit: kilogram
-- name: platinum group metal mine operation, ore with high palladium content
-  reference product: copper, cathode
-  location: RU
-  unit: kilogram
-  additional flow:
-    - name: Copper
-      categories: natural resource::in ground
-      amount: 0.7391
-      unit: kilogram
-- name: platinum group metal mine operation, ore with high palladium content
-  reference product: nickel, class 1
-  location: RU
-  unit: kilogram
-  additional flow:
-    - name: Nickel
-      categories: natural resource::in ground
-      amount: 0.3663
-      unit: kilogram
-- name: platinum group metal, extraction and refinery operations
-  reference product: copper, cathode
-  location: ZA
-  unit: kilogram
-  additional flow:
-    - name: Copper
-      categories: natural resource::in ground
-      amount: 0.9519
-      unit: kilogram
-- name: platinum group metal, extraction and refinery operations
-  reference product: nickel, class 1
-  location: ZA
-  unit: kilogram
-  additional flow:
-    - name: Nickel
-      categories: natural resource::in ground
-      amount: 0.9288
-      unit: kilogram
-
-- name: platinum group metal, extraction and refinery operations
-  reference product: gold
-  location: ZA
-  unit: kilogram
-  additional flow:
-    - name: Gold
-      categories: natural resource::in ground
-      amount: 0.9632
-      unit: kilogram
-
-- name: primary zinc production from concentrate
-  reference product: cadmium
-  unit: kilogram
-  additional flow:
-    - name: Cadmium
-      categories: natural resource::in ground
-      amount: 1.0
-      unit: kilogram
-
+  - name: Gallium
+    categories: natural resource::in ground
+    amount: -6.6e-05
+    unit: kilogram
 - name: cadmium production, primary
   reference product: cadmium
+  location: RoW
   unit: kilogram
   additional flow:
-    - name: Cadmium
-      categories: natural resource::in ground
-      amount: 1.0
-      unit: kilogram
-
-
-- name: rare earth oxides production, from rare earth carbonate concentrate
-  reference product: cerium oxide
+  - name: Cadmium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: cadmium production, primary
+  reference product: cadmium
+  location: CA-QC
   unit: kilogram
   additional flow:
-    - name: Cerium
-      categories: natural resource::in ground
-      amount: 0.814
-      unit: kilogram
-
-- name: rare earth oxides production, from rare earth carbonate concentrate
-  reference product: dysprosium oxide
+  - name: Cadmium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: primary zinc production from concentrate
+  reference product: cadmium
+  location: RoW
   unit: kilogram
   additional flow:
-    - name: Dysprosium
-      categories: natural resource::in ground
-      amount: 0.871
-      unit: kilogram
-
-- name: rare earth oxides production, from rare earth carbonate concentrate
-  reference product: erbium oxide
+  - name: Cadmium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: chromite ore concentrate
+  reference product: chromite ore concentrate
+  location: KZ
   unit: kilogram
   additional flow:
-    - name: Erbium
-      categories: natural resource::in ground
-      amount: 0.875
-      unit: kilogram
-
-- name: rare earth oxides production, from rare earth carbonate concentrate
-  reference product: europium oxide
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.0959375
+    unit: kilogram
+- name: chromite ore concentrate
+  reference product: chromite ore concentrate
+  location: RoW
   unit: kilogram
   additional flow:
-    - name: Europium
-      categories: natural resource::in ground
-      amount: 0.864
-      unit: kilogram
-
-- name: rare earth oxides production, from rare earth carbonate concentrate
-  reference product: gadolinium oxide
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.102401601067378
+    unit: kilogram
+- name: copper-cobalt mining, industrial, economic allocation
+  reference product: copper-cobalt ore
+  location: CD
   unit: kilogram
   additional flow:
-    - name: Gadolinium
-      categories: natural resource::in ground
-      amount: 0.868
-      unit: kilogram
-
-- name: graphite ore mining
-  reference product: graphite ore, mined
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -0.024
+    unit: kilogram
+- name: zinc mine operation
+  reference product: copper concentrate, sulfide ore
+  location: GLO
   unit: kilogram
   additional flow:
-    - name: Graphite
-      categories: natural resource::in ground
-      amount: 1.0
-      unit: kilogram
-
+  - name: Aluminium
+    categories: natural resource::in ground
+    amount: -0.00325235909173776
+    unit: kilogram
+  - name: Barium
+    categories: natural resource::in ground
+    amount: -1.72879291730401e-05
+    unit: kilogram
+  - name: Cadmium
+    categories: natural resource::in ground
+    amount: -0.00010696094118737
+    unit: kilogram
+  - name: Calcium
+    categories: natural resource::in ground
+    amount: -0.113030344680947
+    unit: kilogram
+  - name: Chromium
+    categories: natural resource::in ground
+    amount: -4.01724638206232e-06
+    unit: kilogram
+  - name: Dolomite
+    categories: natural resource::in ground
+    amount: -3.45246834281154e-06
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -1.59347049950029e-06
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.00407944076140435
+    unit: kilogram
+  - name: Lead
+    categories: natural resource::in ground
+    amount: -0.194585050447246
+    unit: kilogram
+  - name: Magnesium
+    categories: natural resource::in ground
+    amount: -0.064611865612673
+    unit: kilogram
+  - name: Manganese
+    categories: natural resource::in ground
+    amount: -0.000235269790518527
+    unit: kilogram
+  - name: Mercury
+    categories: natural resource::in ground
+    amount: -3.31454121361441e-08
+    unit: kilogram
+  - name: Nickel
+    categories: natural resource::in ground
+    amount: -2.45014475496241e-06
+    unit: kilogram
+  - name: Phosphorus
+    categories: natural resource::in ground
+    amount: -2.77974799905135e-05
+    unit: kilogram
+  - name: Potassium
+    categories: natural resource::in ground
+    amount: -0.00407322162990678
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000332347384151065
+    unit: kilogram
+  - name: Sodium
+    categories: natural resource::in ground
+    amount: -0.000124373130415708
+    unit: kilogram
+  - name: Strontium
+    categories: natural resource::in ground
+    amount: -4.38415828640398e-05
+    unit: kilogram
+  - name: Titanium
+    categories: natural resource::in ground
+    amount: -0.000153601363052792
+    unit: kilogram
+  - name: Vanadium
+    categories: natural resource::in ground
+    amount: -4.16027568122419e-06
+    unit: kilogram
+- name: molybdenite mine operation
+  reference product: copper concentrate, sulfide ore
+  location: GLO
+  unit: kilogram
+  additional flow:
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: -0.0353630818719035
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: copper concentrate, sulfide ore
+  location: AU
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.72112728716503e-06
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.000800925721195006
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -9.6872131423075e-05
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -6.89681074763839e-05
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: copper concentrate, sulfide ore
+  location: CA
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.68387956804913e-06
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: -0.00119618431333791
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.000789962376541312
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -9.55461126225494e-05
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -6.81218952962989e-05
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: copper concentrate, sulfide ore
+  location: CL
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.58923118411185e-06
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: -0.00423593798515411
+    unit: kilogram
+  - name: Rhenium
+    categories: natural resource::in ground
+    amount: -2.09464591593615e-06
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.000762103949806746
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -9.21766301543822e-05
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -6.56524392229419e-05
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: copper concentrate, sulfide ore
+  location: CN
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.07379863273819e-06
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: -0.0207895000722185
+    unit: kilogram
+  - name: Rhenium
+    categories: natural resource::in ground
+    amount: -3.69591112394996e-07
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.000610393594365629
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -7.38272313254798e-05
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -5.25996264500623e-05
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: copper concentrate, sulfide ore
+  location: ID
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.721127288337e-06
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.000800925721539955
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -9.6872131464797e-05
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -6.89352569682007e-05
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: copper concentrate, sulfide ore
+  location: KZ
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.72112728559371e-06
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.000800925720732509
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -9.68721313671361e-05
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -6.90961585106651e-05
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: copper concentrate, sulfide ore
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.53513560436569e-06
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: -0.0059741527506189
+    unit: kilogram
+  - name: Rhenium
+    categories: natural resource::in ground
+    amount: -1.02470607201672e-06
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: 0.000937688812422786
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -9.13763162892251e-05
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -6.30096729074731e-05
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: copper concentrate, sulfide ore
+  location: RU
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.67862124541592e-06
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: -0.00136511699992592
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.000788414662890738
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -9.53589163368066e-05
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -6.78825421833729e-05
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: copper concentrate, sulfide ore
+  location: US
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.21189428722619e-06
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: -0.0163544428504858
+    unit: kilogram
+  - name: Rhenium
+    categories: natural resource::in ground
+    amount: -2.72574047508097e-06
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.00065104011692501
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -7.87434366252524e-05
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -5.60655117800042e-05
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: copper concentrate, sulfide ore
+  location: ZM
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.72112728769976e-06
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.000800925721352397
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -9.68721314421114e-05
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -6.90214033025195e-05
+    unit: kilogram
+- name: processing of anode slime from electrorefining of copper, anode
+  reference product: gold
+  location: GLO
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -392.3735301413139
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: gold-silver mine operation with refinery
+  reference product: gold
+  location: CA-QC
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -0.11135433822097007
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.639263649563298
+    unit: kilogram
+- name: gold-silver mine operation with refinery
+  reference product: gold
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -0.15708930225054996
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.549351890543369
+    unit: kilogram
+- name: gold-silver mine operation with refinery
+  reference product: gold
+  location: PG
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -0.0967013420242
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -1.11671826674403
+    unit: kilogram
+- name: primary zinc production from concentrate
+  reference product: gold
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: silver-gold mine operation with refinery
+  reference product: gold
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: 0.20697906796695797
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -29.7044683888655
+    unit: kilogram
+- name: silver-gold mine operation with refinery
+  reference product: gold
+  location: CL
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: 0.20697906796695797
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -29.7044683888656
+    unit: kilogram
+- name: zirconium and hafnium tetrachloride production, from zircon
+  reference product: hafnium tetrachloride
+  location: US
+  unit: kilogram
+  additional flow:
+  - name: Hafnium
+    categories: natural resource::in ground
+    amount: 0.5508610488821137
+    unit: kilogram
+- name: zirconium and hafnium tetrachloride production, from zircon
+  reference product: hafnium tetrachloride
+  location: FR
+  unit: kilogram
+  additional flow:
+  - name: Hafnium
+    categories: natural resource::in ground
+    amount: 0.5459266553825194
+    unit: kilogram
+- name: zirconium and hafnium tetrachloride production, from zircon
+  reference product: hafnium tetrachloride
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Hafnium
+    categories: natural resource::in ground
+    amount: 0.5459266553825194
+    unit: kilogram
 - name: indium production
   reference product: indium
+  location: RoW
   unit: kilogram
   additional flow:
-    - name: Indium
-      categories: natural resource::in ground
-      amount: 1.0
-      unit: kilogram
-
-- name: rare earth oxides production, from rare earth carbonate concentrate
-  reference product: lanthanum oxide
+  - name: Indium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: indium production
+  reference product: indium
+  location: RER
   unit: kilogram
   additional flow:
-    - name: Lanthanum
-      categories: natural resource::in ground
-      amount: 0.853
-      unit: kilogram
-
-- name: lithium carbonate production, from spodumene
-  reference product: lithium carbonate
+  - name: Indium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: niobium mine operation and beneficiation, from pyrochlore ore
+  reference product: iron ore concentrate
+  location: BR
   unit: kilogram
   additional flow:
-    - name: Lithium
-      categories: natural resource::in ground
-      amount: 0.188
-      unit: kilogram
-
-- name: lithium carbonate production, from concentrated brine
-  reference product: lithium carbonate
+  - name: Iron
+    categories: natural resource::in ground
+    amount: 0.599986710903142
+    unit: kilogram
+  - name: Niobium
+    categories: natural resource::in ground
+    amount: -0.0027360936915372
+    unit: kilogram
+- name: vanadium-titanomagnetite mine operation and beneficiation
+  reference product: iron ore concentrate
+  location: CN
   unit: kilogram
   additional flow:
-    - name: Lithium
-      categories: natural resource::in ground
-      amount: 0.188
-      unit: kilogram
-
-- name: magnesium production, electrolysis
+  - name: Iron
+    categories: natural resource::in ground
+    amount: 0.236081272852177
+    unit: kilogram
+  - name: Titanium
+    categories: natural resource::in ground
+    amount: -0.0733676579676695
+    unit: kilogram
+- name: scandium oxide production, from rare earth tailings
+  reference product: iron ore concentrate
+  location: CN-NM
+  unit: kilogram
+  additional flow:
+  - name: Iron
+    categories: natural resource::in ground
+    amount: 0.65
+    unit: kilogram
+- name: rare earth element mine operation and beneficiation, bastnaesite and monazite
+    ore
+  reference product: iron ore concentrate
+  location: CN-NM
+  unit: kilogram
+  additional flow:
+  - name: Cerium
+    categories: natural resource::in ground
+    amount: -0.0115103933078645
+    unit: kilogram
+  - name: Europium
+    categories: natural resource::in ground
+    amount: -4.6041578091406e-05
+    unit: kilogram
+  - name: Gadolinium
+    categories: natural resource::in ground
+    amount: -0.00016114550733325
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: 0.523385572321948
+    unit: kilogram
+  - name: Lanthanum
+    categories: natural resource::in ground
+    amount: -0.00529478092097823
+    unit: kilogram
+  - name: Neodymium
+    categories: natural resource::in ground
+    amount: -0.00425884552582829
+    unit: kilogram
+  - name: Niobium
+    categories: natural resource::in ground
+    amount: -0.000260146607268333
+    unit: kilogram
+- name: rare earth oxides production, from rare earth oxide concentrate, 70% REO
+  reference product: iron ore concentrate
+  location: CN-SC
+  unit: kilogram
+  additional flow:
+  - name: Iron
+    categories: natural resource::in ground
+    amount: 0.65
+    unit: kilogram
+- name: niobium mine operation and beneficiation, from pyrochlore ore
+  reference product: iron ore concentrate
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Iron
+    categories: natural resource::in ground
+    amount: 0.599986710903142
+    unit: kilogram
+  - name: Niobium
+    categories: natural resource::in ground
+    amount: -0.0027360936915372
+    unit: kilogram
+- name: zinc mine operation
+  reference product: lead concentrate
+  location: GLO
+  unit: kilogram
+  additional flow:
+  - name: Aluminium
+    categories: natural resource::in ground
+    amount: -0.00145547077806355
+    unit: kilogram
+  - name: Barium
+    categories: natural resource::in ground
+    amount: -7.73656137433087e-06
+    unit: kilogram
+  - name: Cadmium
+    categories: natural resource::in ground
+    amount: -4.78663394481486e-05
+    unit: kilogram
+  - name: Calcium
+    categories: natural resource::in ground
+    amount: -0.0505824723154014
+    unit: kilogram
+  - name: Chromium
+    categories: natural resource::in ground
+    amount: -1.79776726752799e-06
+    unit: kilogram
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -0.0112648069145067
+    unit: kilogram
+  - name: Dolomite
+    categories: natural resource::in ground
+    amount: -1.54502213421544e-06
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -7.1309768765103e-07
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.00182560001881369
+    unit: kilogram
+  - name: Lead
+    categories: natural resource::in ground
+    amount: 0.5329207917128655
+    unit: kilogram
+  - name: Magnesium
+    categories: natural resource::in ground
+    amount: -0.0289146061867258
+    unit: kilogram
+  - name: Manganese
+    categories: natural resource::in ground
+    amount: -0.00010528613089826
+    unit: kilogram
+  - name: Mercury
+    categories: natural resource::in ground
+    amount: -1.48329804398242e-08
+    unit: kilogram
+  - name: Nickel
+    categories: natural resource::in ground
+    amount: -1.09646997526588e-06
+    unit: kilogram
+  - name: Phosphorus
+    categories: natural resource::in ground
+    amount: -1.24397148927308e-05
+    unit: kilogram
+  - name: Potassium
+    categories: natural resource::in ground
+    amount: -0.00182281688081929
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000148729550505839
+    unit: kilogram
+  - name: Sodium
+    categories: natural resource::in ground
+    amount: -5.56585087286992e-05
+    unit: kilogram
+  - name: Strontium
+    categories: natural resource::in ground
+    amount: -1.96196486681817e-05
+    unit: kilogram
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: -0.00479219953513281
+    unit: kilogram
+  - name: Titanium
+    categories: natural resource::in ground
+    amount: -6.87385030644383e-05
+    unit: kilogram
+  - name: Vanadium
+    categories: natural resource::in ground
+    amount: -1.8617746417032e-06
+    unit: kilogram
+  - name: Zinc
+    categories: natural resource::in ground
+    amount: -0.407267923716403
+    unit: kilogram
+- name: gold-silver mine operation and beneficiation
+  reference product: lead concentrate
+  location: CA-QC
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -0.0189386369221299
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.26043600852491e-05
+    unit: kilogram
+  - name: Lead
+    categories: natural resource::in ground
+    amount: 0.5859115728449487
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000515327921923679
+    unit: kilogram
+  - name: Zinc
+    categories: natural resource::in ground
+    amount: -0.292586270179951
+    unit: kilogram
+- name: silver mine operation with extraction
+  reference product: lead concentrate
+  location: PE
+  unit: kilogram
+  additional flow:
+  - name: Lead
+    categories: natural resource::in ground
+    amount: 0.5269596425094968
+    unit: kilogram
+  - name: Magnesium
+    categories: natural resource::in ground
+    amount: -0.971787390312322
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.00514682436309058
+    unit: kilogram
+  - name: Zinc
+    categories: natural resource::in ground
+    amount: -0.118816323406469
+    unit: kilogram
+- name: zinc mine operation
+  reference product: bulk lead-zinc concentrate
+  location: GLO
+  unit: kilogram
+  additional flow:
+  - name: Aluminium
+    categories: natural resource::in ground
+    amount: -0.00140514865009858
+    unit: kilogram
+  - name: Barium
+    categories: natural resource::in ground
+    amount: -7.4690738800056e-06
+    unit: kilogram
+  - name: Cadmium
+    categories: natural resource::in ground
+    amount: -4.62113862225478e-05
+    unit: kilogram
+  - name: Calcium
+    categories: natural resource::in ground
+    amount: -0.0488336102406668
+    unit: kilogram
+  - name: Chromium
+    categories: natural resource::in ground
+    amount: -1.73561042051239e-06
+    unit: kilogram
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -0.0108753322073562
+    unit: kilogram
+  - name: Dolomite
+    categories: natural resource::in ground
+    amount: -1.49160381574523e-06
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -6.88442714407777e-07
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.00176248086922705
+    unit: kilogram
+  - name: Lead
+    categories: natural resource::in ground
+    amount: 0.4632056079985146
+    unit: kilogram
+  - name: Magnesium
+    categories: natural resource::in ground
+    amount: -0.0279148990579294
+    unit: kilogram
+  - name: Manganese
+    categories: natural resource::in ground
+    amount: -0.000101645918925714
+    unit: kilogram
+  - name: Mercury
+    categories: natural resource::in ground
+    amount: -1.43201380310005e-08
+    unit: kilogram
+  - name: Nickel
+    categories: natural resource::in ground
+    amount: -1.05856010909977e-06
+    unit: kilogram
+  - name: Phosphorus
+    categories: natural resource::in ground
+    amount: -1.20096183671842e-05
+    unit: kilogram
+  - name: Potassium
+    categories: natural resource::in ground
+    amount: -0.00175979395674841
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000143587305408562
+    unit: kilogram
+  - name: Sodium
+    categories: natural resource::in ground
+    amount: -5.37341453949942e-05
+    unit: kilogram
+  - name: Strontium
+    categories: natural resource::in ground
+    amount: -1.89413097514627e-05
+    unit: kilogram
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: -0.0046265117852479
+    unit: kilogram
+  - name: Titanium
+    categories: natural resource::in ground
+    amount: -6.63619058840189e-05
+    unit: kilogram
+  - name: Vanadium
+    categories: natural resource::in ground
+    amount: -1.79740477377198e-06
+    unit: kilogram
+- name: primary zinc production from concentrate
+  reference product: lead concentrate
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Lead
+    categories: natural resource::in ground
+    amount: 0.625
+    unit: kilogram
+- name: spodumene production
+  reference product: spodumene
+  location: AU
+  unit: kilogram
+  additional flow:
+  - name: Spodumene
+    categories: natural resource::in ground
+    amount: 0.01493386925527096
+    unit: kilogram
+- name: spodumene production
+  reference product: spodumene
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Spodumene
+    categories: natural resource::in ground
+    amount: 0.014925725745488005
+    unit: kilogram
+- name: magnesium production, pidgeon process
   reference product: magnesium
+  location: CN
   unit: kilogram
   additional flow:
-    - name: Magnesium
-      categories: natural resource::in ground
-      amount: 1.0
-      unit: kilogram
-
+  - name: Magnesium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: molybdenite
+  location: CA
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -1.96573406594615
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -1.86598908292273e-05
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: 0.5611018471337181
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.00549227762711146
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000664292113520494
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -0.000473623013655924
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: molybdenite
+  location: CL
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -1.89663891803078
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -1.80018402473541e-05
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: 0.5399677126743755
+    unit: kilogram
+  - name: Rhenium
+    categories: natural resource::in ground
+    amount: -1.45631959729349e-05
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.0052985896510452
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000640865512805806
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -0.000456453919600818
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: molybdenite
+  location: CN
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -1.52089871976201
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -1.44182535421377e-05
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: 0.4248777268729701
+    unit: kilogram
+  - name: Rhenium
+    categories: natural resource::in ground
+    amount: -2.56961224745128e-06
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.00424381107457866
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000513289826100104
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -0.000365703177929752
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: molybdenite
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -1.85049985251652
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -1.76257363325495e-05
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: 0.5278826332440416
+    unit: kilogram
+  - name: Rhenium
+    categories: natural resource::in ground
+    amount: -7.12435224870281e-06
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.00651935767904645
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000635301265612776
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -0.000438079872001636
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: molybdenite
+  location: RU
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -1.96196514784737
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -1.86233319137496e-05
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: 0.5599273289002076
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.00548151702216539
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000662990616129485
+    unit: kilogram
+- name: copper mine operation and beneficiation, sulfide ore
+  reference product: molybdenite
+  location: US
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -1.62064358946319
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -1.53783748036926e-05
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: 0.4557128226664311
+    unit: kilogram
+  - name: Rhenium
+    categories: natural resource::in ground
+    amount: -1.89509321876122e-05
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: -0.00452640932621969
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000547470143011458
+    unit: kilogram
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: -0.000389800027376073
+    unit: kilogram
+- name: molybdenite mine operation
+  reference product: molybdenite
+  location: GLO
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -2.1558579680408
+    unit: kilogram
+  - name: Molybdenum
+    categories: natural resource::in ground
+    amount: 0.32355371494250706
+    unit: kilogram
+- name: nickel mine operation and benefication to nickel concentrate, 16% Ni
+  reference product: nickel concentrate, 16% Ni
+  location: CA-QC
+  unit: kilogram
+  additional flow:
+  - name: Cobalt
+    categories: natural resource::in ground
+    amount: -0.003607
+    unit: kilogram
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -0.04905
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -7.44083922908026e-07
+    unit: kilogram
+  - name: Palladium
+    categories: natural resource::in ground
+    amount: -1.18077579897536e-05
+    unit: kilogram
+  - name: Platinum
+    categories: natural resource::in ground
+    amount: -3.41546718711881e-06
+    unit: kilogram
+  - name: Rhodium
+    categories: natural resource::in ground
+    amount: -1.15881922420102e-06
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -1.31739448646011e-05
+    unit: kilogram
+- name: cobalt production
+  reference product: nickel concentrate, 16% Ni
+  location: GLO
+  unit: kilogram
+  additional flow:
+  - name: Aluminium
+    categories: natural resource::in ground
+    amount: -0.0864277568534557
+    unit: kilogram
+  - name: Arsenic
+    categories: natural resource::in ground
+    amount: -0.000211362404829422
+    unit: kilogram
+  - name: Calcium
+    categories: natural resource::in ground
+    amount: -0.0133158315042536
+    unit: kilogram
+  - name: Chromium
+    categories: natural resource::in ground
+    amount: -0.0292639597079859
+    unit: kilogram
+  - name: Cobalt
+    categories: natural resource::in ground
+    amount: -0.00980401690653674
+    unit: kilogram
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -0.20702479923231
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -6.34122691683611e-09
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -2.9149312341301
+    unit: kilogram
+  - name: Lead
+    categories: natural resource::in ground
+    amount: -0.000211362404829422
+    unit: kilogram
+  - name: Magnesium
+    categories: natural resource::in ground
+    amount: -0.136368343791884
+    unit: kilogram
+  - name: Manganese
+    categories: natural resource::in ground
+    amount: -0.0157944730805547
+    unit: kilogram
+  - name: Nickel
+    categories: natural resource::in ground
+    amount: 0.04761316300047601
+    unit: kilogram
+  - name: Silicon
+    categories: natural resource::in ground
+    amount: -0.532039742869289
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -1.1414208450305e-07
+    unit: kilogram
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: -1.52792847635376
+    unit: kilogram
+  - name: Zinc
+    categories: natural resource::in ground
+    amount: -0.000422724809658844
+    unit: kilogram
+- name: cobalt production
+  reference product: nickel, class 1
+  location: GLO
+  unit: kilogram
+  additional flow:
+  - name: Aluminium
+    categories: natural resource::in ground
+    amount: -0.608426442202904
+    unit: kilogram
+  - name: Arsenic
+    categories: natural resource::in ground
+    amount: -0.00148793027457443
+    unit: kilogram
+  - name: Calcium
+    categories: natural resource::in ground
+    amount: -0.0937396072981901
+    unit: kilogram
+  - name: Chromium
+    categories: natural resource::in ground
+    amount: -0.206009822979538
+    unit: kilogram
+  - name: Cobalt
+    categories: natural resource::in ground
+    amount: -0.0690174469743023
+    unit: kilogram
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -1.4573947841578
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -4.46404057293038e-08
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -20.5202738635809
+    unit: kilogram
+  - name: Lead
+    categories: natural resource::in ground
+    amount: -0.00148793027457443
+    unit: kilogram
+  - name: Magnesium
+    categories: natural resource::in ground
+    amount: -0.959993748108962
+    unit: kilogram
+  - name: Manganese
+    categories: natural resource::in ground
+    amount: -0.111188527999928
+    unit: kilogram
+  - name: Nickel
+    categories: natural resource::in ground
+    amount: 0.20882913226592403
+    unit: kilogram
+  - name: Silicon
+    categories: natural resource::in ground
+    amount: -3.74540610157657
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -8.0352730312747e-07
+    unit: kilogram
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: -10.7561751068546
+    unit: kilogram
+  - name: Zinc
+    categories: natural resource::in ground
+    amount: -0.00297586054914887
+    unit: kilogram
+- name: platinum group metal mine operation, ore with high palladium content
+  reference product: palladium
+  location: RU
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -409.247210980011
+    unit: kilogram
+  - name: Nickel
+    categories: natural resource::in ground
+    amount: -295.439700061413
+    unit: kilogram
+  - name: Palladium
+    categories: natural resource::in ground
+    amount: 0.9067698067121378
+    unit: kilogram
+  - name: Platinum
+    categories: natural resource::in ground
+    amount: -0.0319580687225964
+    unit: kilogram
+  - name: Rhodium
+    categories: natural resource::in ground
+    amount: -0.00255204721453827
+    unit: kilogram
+- name: platinum group metal, mine and concentration operations
+  reference product: platinum group metal concentrate
+  location: ZA
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -0.038
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -4.27e-06
+    unit: kilogram
+  - name: Nickel
+    categories: natural resource::in ground
+    amount: -0.0166
+    unit: kilogram
+  - name: Palladium
+    categories: natural resource::in ground
+    amount: 0.0005288299634148183
+    unit: kilogram
+  - name: Platinum
+    categories: natural resource::in ground
+    amount: 0.0001447803601218551
+    unit: kilogram
+  - name: Rhodium
+    categories: natural resource::in ground
+    amount: -1.37e-05
+    unit: kilogram
+- name: platinum group metal mine operation, ore with high palladium content
+  reference product: platinum
+  location: RU
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -1494.76818194827
+    unit: kilogram
+  - name: Nickel
+    categories: natural resource::in ground
+    amount: -1079.08826618175
+    unit: kilogram
+  - name: Palladium
+    categories: natural resource::in ground
+    amount: -0.340521627966305
+    unit: kilogram
+  - name: Platinum
+    categories: natural resource::in ground
+    amount: 0.883273720623141
+    unit: kilogram
+  - name: Rhodium
+    categories: natural resource::in ground
+    amount: -0.00932130720203696
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: dysprosium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Dysprosium
+    categories: natural resource::in ground
+    amount: 0.871313672922252
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: dysprosium oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Dysprosium
+    categories: natural resource::in ground
+    amount: 0.871313672922252
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: erbium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Erbium
+    categories: natural resource::in ground
+    amount: 0.8745157090646715
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: erbium oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Erbium
+    categories: natural resource::in ground
+    amount: 0.8745157090646715
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: europium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Europium
+    categories: natural resource::in ground
+    amount: 0.8636084653679161
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: europium oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Europium
+    categories: natural resource::in ground
+    amount: 0.8636084653679161
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: gadolinium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Gadolinium
+    categories: natural resource::in ground
+    amount: 0.8675862068965517
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: gadolinium oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Gadolinium
+    categories: natural resource::in ground
+    amount: 0.8675862068965517
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: ytterbium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Ytterbium
+    categories: natural resource::in ground
+    amount: 0.8782004110736126
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: ytterbium oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Ytterbium
+    categories: natural resource::in ground
+    amount: 0.8782004110736126
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: terbium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Terbium
+    categories: natural resource::in ground
+    amount: 0.8687989390207536
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: terbium oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Terbium
+    categories: natural resource::in ground
+    amount: 0.8687989390207536
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: thulium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Thulium
+    categories: natural resource::in ground
+    amount: 0.8756052646132586
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: thulium oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Thulium
+    categories: natural resource::in ground
+    amount: 0.8756052646132586
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: yttrium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Yttrium
+    categories: natural resource::in ground
+    amount: 0.7874335120810835
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: yttrium oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Yttrium
+    categories: natural resource::in ground
+    amount: 0.7874335120810835
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: samarium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Samarium
+    categories: natural resource::in ground
+    amount: 0.8623537508602891
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: samarium oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Samarium
+    categories: natural resource::in ground
+    amount: 0.8623537508602891
+    unit: kilogram
+- name: scandium oxide production, from rare earth tailings
+  reference product: scandium oxide
+  location: CN-NM
+  unit: kilogram
+  additional flow:
+  - name: Scandium
+    categories: natural resource::in ground
+    amount: 0.6519721577726217
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: praseodymium oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Praseodymium
+    categories: natural resource::in ground
+    amount: 0.8544639984864256
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: praseodymium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Praseodymium
+    categories: natural resource::in ground
+    amount: 0.8544639984864256
+    unit: kilogram
 - name: rare earth oxides production, from rare earth carbonate concentrate
   reference product: neodymium oxide
+  location: RoW
   unit: kilogram
   additional flow:
-    - name: Neodymium
-      categories: natural resource::in ground
-      amount: 0.857
-      unit: kilogram
-
+  - name: Neodymium
+    categories: natural resource::in ground
+    amount: 0.8573483434576384
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: neodymium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Neodymium
+    categories: natural resource::in ground
+    amount: 0.8573483434576384
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: lutetium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Lutetium
+    categories: natural resource::in ground
+    amount: 0.8793769821126116
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: lanthanum oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Lanthanum
+    categories: natural resource::in ground
+    amount: 0.8526752969068503
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: lanthanum oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Lanthanum
+    categories: natural resource::in ground
+    amount: 0.8526752969068503
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: holmium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Indium
+    categories: natural resource::in ground
+    amount: 0.8729690395908926
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: cerium oxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Cerium
+    categories: natural resource::in ground
+    amount: 0.8140788770364173
+    unit: kilogram
+- name: rare earth oxides production, from rare earth carbonate concentrate
+  reference product: cerium oxide
+  location: CN-FJ
+  unit: kilogram
+  additional flow:
+  - name: Cerium
+    categories: natural resource::in ground
+    amount: 0.8140788770364173
+    unit: kilogram
+- name: processing of anode slime from electrorefining of copper, anode
+  reference product: selenium
+  location: GLO
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -0.4061925476950092
+    unit: kilogram
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: selenium production
+  reference product: selenium
+  location: RER
+  unit: kilogram
+  additional flow:
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: selenium production
+  reference product: selenium
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Selenium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: silicon production, metallurgical grade
+  reference product: silicon, metallurgical grade
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Silicon
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: silicon production, metallurgical grade
+  reference product: silicon, metallurgical grade
+  location: 'NO'
+  unit: kilogram
+  additional flow:
+  - name: Silicon
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: processing of anode slime from electrorefining of copper, anode
+  reference product: silver
+  location: GLO
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -5.080942236245389
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: gold-silver mine operation with refinery
+  reference product: silver
+  location: PG
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -0.014156223687061
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: 0.9855853977982032
+    unit: kilogram
+- name: gold-silver mine operation with refinery
+  reference product: silver
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -0.0149357116298693
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: 0.9929089644122363
+    unit: kilogram
+- name: gold-silver mine operation with refinery
+  reference product: silver
+  location: CA-QC
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -0.0143453645989015
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: 0.9917483832001864
+    unit: kilogram
+- name: primary zinc production from concentrate
+  reference product: silver
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Silver
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: silver-gold mine operation with refinery
+  reference product: silver
+  location: CL
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -0.010236316189475
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: 0.616574647167038
+    unit: kilogram
+- name: silver-gold mine operation with refinery
+  reference product: silver
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -0.010236316189475
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: 0.616574647167038
+    unit: kilogram
+- name: sulfur production, petroleum refinery operation
+  reference product: sulfur
+  location: BR
+  unit: kilogram
+  additional flow:
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: sulfur production, petroleum refinery operation
+  reference product: sulfur
+  location: CO
+  unit: kilogram
+  additional flow:
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: sulfur production, petroleum refinery operation
+  reference product: sulfur
+  location: Europe without Switzerland
+  unit: kilogram
+  additional flow:
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: sulfur production, petroleum refinery operation
+  reference product: sulfur
+  location: IN
+  unit: kilogram
+  additional flow:
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: sulfur production, petroleum refinery operation
+  reference product: sulfur
+  location: PE
+  unit: kilogram
+  additional flow:
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: sulfur production, petroleum refinery operation
+  reference product: sulfur
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: sulfur production, petroleum refinery operation
+  reference product: sulfur
+  location: ZA
+  unit: kilogram
+  additional flow:
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: primary zinc production from concentrate
+  reference product: sulfur
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: niobium mine operation and beneficiation, from pyrochlore ore
+  reference product: pyrochlore concentrate
+  location: BR
+  unit: kilogram
+  additional flow:
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -12.7487313573057
+    unit: kilogram
+- name: niobium mine operation and beneficiation, from pyrochlore ore
+  reference product: pyrochlore concentrate
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -12.7487313573057
+    unit: kilogram
+- name: scandium oxide production, from rare earth tailings
+  reference product: pyrochlore concentrate
+  location: CN-NM
+  unit: kilogram
+  additional flow:
+  - name: Niobium
+    categories: natural resource::in ground
+    amount: 0.4403837471783296
+    unit: kilogram
+- name: tellurium production, semiconductor-grade
+  reference product: tellurium, semiconductor-grade
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: tellurium production, semiconductor-grade
+  reference product: tellurium, semiconductor-grade
+  location: CA-QC
+  unit: kilogram
+  additional flow:
+  - name: Tellurium
+    categories: natural resource::in ground
+    amount: 1.0
+    unit: kilogram
+- name: heavy mineral sand quarry operation
+  reference product: ilmenite, 54% titanium dioxide
+  location: AU
+  unit: kilogram
+  additional flow:
+  - name: Hafnium
+    categories: natural resource::in ground
+    amount: -0.00114361637336249
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.0543851446083633
+    unit: kilogram
+  - name: Silicon
+    categories: natural resource::in ground
+    amount: -0.0176047055950541
+    unit: kilogram
+  - name: Zirconium
+    categories: natural resource::in ground
+    amount: -0.0571808191369708
+    unit: kilogram
+- name: ilmenite - magnetite mine operation
+  reference product: ilmenite, 54% titanium dioxide
+  location: GLO
+  unit: kilogram
+  additional flow:
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.587562866950633
+    unit: kilogram
+- name: heavy mineral sand quarry operation
+  reference product: ilmenite, 54% titanium dioxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Hafnium
+    categories: natural resource::in ground
+    amount: -0.00114361637336249
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.0543851446083633
+    unit: kilogram
+  - name: Silicon
+    categories: natural resource::in ground
+    amount: -0.0176047055950541
+    unit: kilogram
+  - name: Zirconium
+    categories: natural resource::in ground
+    amount: -0.0571808191369708
+    unit: kilogram
+- name: heavy mineral sand quarry operation
+  reference product: rutile, 95% titanium dioxide
+  location: AU
+  unit: kilogram
+  additional flow:
+  - name: Hafnium
+    categories: natural resource::in ground
+    amount: -0.00740605591023816
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.352198019403711
+    unit: kilogram
+  - name: Silicon
+    categories: natural resource::in ground
+    amount: -0.114008016111995
+    unit: kilogram
+  - name: Zirconium
+    categories: natural resource::in ground
+    amount: -0.370302798548153
+    unit: kilogram
+- name: heavy mineral sand quarry operation
+  reference product: rutile, 95% titanium dioxide
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Hafnium
+    categories: natural resource::in ground
+    amount: -0.00740605591023816
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.352198019403711
+    unit: kilogram
+  - name: Silicon
+    categories: natural resource::in ground
+    amount: -0.114008016111995
+    unit: kilogram
+  - name: Zirconium
+    categories: natural resource::in ground
+    amount: -0.370302798548153
+    unit: kilogram
+- name: heavy mineral sand quarry operation
+  reference product: rutile, 95% titanium dioxide
+  location: ZA
+  unit: kilogram
+  additional flow:
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.520165998274866
+    unit: kilogram
+  - name: Zirconium
+    categories: natural resource::in ground
+    amount: -0.16135705494499
+    unit: kilogram
+- name: zinc mine operation
+  reference product: zinc concentrate
+  location: GLO
+  unit: kilogram
+  additional flow:
+  - name: Aluminium
+    categories: natural resource::in ground
+    amount: -0.00147095450974507
+    unit: kilogram
+  - name: Barium
+    categories: natural resource::in ground
+    amount: -7.81886521873865e-06
+    unit: kilogram
+  - name: Cadmium
+    categories: natural resource::in ground
+    amount: -4.83755558252566e-05
+    unit: kilogram
+  - name: Calcium
+    categories: natural resource::in ground
+    amount: -0.0511205837230121
+    unit: kilogram
+  - name: Chromium
+    categories: natural resource::in ground
+    amount: -1.8168924512251e-06
+    unit: kilogram
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -0.0113846452859376
+    unit: kilogram
+  - name: Dolomite
+    categories: natural resource::in ground
+    amount: -1.56145853989859e-06
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -7.20683833264339e-07
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.00184502129560958
+    unit: kilogram
+  - name: Lead
+    categories: natural resource::in ground
+    amount: -0.0880055828433806
+    unit: kilogram
+  - name: Magnesium
+    categories: natural resource::in ground
+    amount: -0.0292222083802016
+    unit: kilogram
+  - name: Manganese
+    categories: natural resource::in ground
+    amount: -0.000106406196120582
+    unit: kilogram
+  - name: Mercury
+    categories: natural resource::in ground
+    amount: -1.49907781040777e-08
+    unit: kilogram
+  - name: Nickel
+    categories: natural resource::in ground
+    amount: -1.10813454947083e-06
+    unit: kilogram
+  - name: Phosphorus
+    categories: natural resource::in ground
+    amount: -1.25720522852066e-05
+    unit: kilogram
+  - name: Potassium
+    categories: natural resource::in ground
+    amount: -0.00184220854976418
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000150311779766539
+    unit: kilogram
+  - name: Sodium
+    categories: natural resource::in ground
+    amount: -5.62506205236854e-05
+    unit: kilogram
+  - name: Strontium
+    categories: natural resource::in ground
+    amount: -1.98283683348645e-05
+    unit: kilogram
+  - name: Sulfur
+    categories: natural resource::in ground
+    amount: -0.00484318038125124
+    unit: kilogram
+  - name: Titanium
+    categories: natural resource::in ground
+    amount: -6.94697637353365e-05
+    unit: kilogram
+  - name: Vanadium
+    categories: natural resource::in ground
+    amount: -1.88158075491281e-06
+    unit: kilogram
+  - name: Zinc
+    categories: natural resource::in ground
+    amount: 0.17839943879725195
+    unit: kilogram
+- name: gold-silver mine operation and beneficiation
+  reference product: zinc concentrate
+  location: CA-QC
+  unit: kilogram
+  additional flow:
+  - name: Copper
+    categories: natural resource::in ground
+    amount: -0.0191401117830037
+    unit: kilogram
+  - name: Gold
+    categories: natural resource::in ground
+    amount: -2.28448320010496e-05
+    unit: kilogram
+  - name: Lead
+    categories: natural resource::in ground
+    amount: -0.0344510699971263
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.000520810133859037
+    unit: kilogram
+  - name: Zinc
+    categories: natural resource::in ground
+    amount: 0.29430110992451797
+    unit: kilogram
+- name: silver mine operation with extraction
+  reference product: zinc concentrate
+  location: PE
+  unit: kilogram
+  additional flow:
+  - name: Lead
+    categories: natural resource::in ground
+    amount: -0.0940301485276363
+    unit: kilogram
+  - name: Magnesium
+    categories: natural resource::in ground
+    amount: -0.982125554039049
+    unit: kilogram
+  - name: Silver
+    categories: natural resource::in ground
+    amount: -0.00520157781376175
+    unit: kilogram
+  - name: Zinc
+    categories: natural resource::in ground
+    amount: 0.46991967315303695
+    unit: kilogram
+- name: heavy mineral sand quarry operation
+  reference product: zircon
+  location: AU
+  unit: kilogram
+  additional flow:
+  - name: Hafnium
+    categories: natural resource::in ground
+    amount: -0.0101361543675531
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.482028968710239
+    unit: kilogram
+  - name: Silicon
+    categories: natural resource::in ground
+    amount: -0.156034853700221
+    unit: kilogram
+  - name: Titanium
+    categories: natural resource::in ground
+    amount: -0.662776102126587
+    unit: kilogram
+- name: heavy mineral sand quarry operation
+  reference product: zircon
+  location: RoW
+  unit: kilogram
+  additional flow:
+  - name: Hafnium
+    categories: natural resource::in ground
+    amount: -0.0101361543675531
+    unit: kilogram
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.482028968710239
+    unit: kilogram
+  - name: Silicon
+    categories: natural resource::in ground
+    amount: -0.156034853700221
+    unit: kilogram
+  - name: Titanium
+    categories: natural resource::in ground
+    amount: -0.662776102126587
+    unit: kilogram
+- name: heavy mineral sand quarry operation and titania slag production
+  reference product: zircon
+  location: ZA
+  unit: kilogram
+  additional flow:
+  - name: Iron
+    categories: natural resource::in ground
+    amount: -0.711915075874285
+    unit: kilogram
+  - name: Titanium
+    categories: natural resource::in ground
+    amount: -0.85718053673914
+    unit: kilogram

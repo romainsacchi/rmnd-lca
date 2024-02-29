@@ -77,9 +77,21 @@ NiMH:
   ecoinvent_aliases:
     fltr:
       - battery production, NiMH, rechargeable, prismatic
+LiS:
+  ecoinvent_aliases:
+    fltr:
+      - battery cell assembly, for LiS battery
+      - Battery cell, LiS
+    mask:
+      - market
+LiO2:
+    ecoinvent_aliases:
+        fltr:
+        - battery cell production, Li-O2
+        - Battery cell, Li-O2
+        mask:
+        - market
 ## Battery technologies not found in Ecoinvent
-#LiS:
-#LiO2:
 #LCo
 PEMFC:
   ecoinvent_aliases:
@@ -139,6 +151,8 @@ PEMEL:
       - assembly
       - hydrogen production
       - fuel cell
+      - residential
+      - methanol
 AEL:
   ecoinvent_aliases:
     fltr:
@@ -152,8 +166,8 @@ AEL:
       - SOEC
       - market
       - fuel cell
-#HTEL - Yttrium:
-HTEL:
+HTEL - Yttrium:
+#HTEL:
   ecoinvent_aliases:
     fltr:
       - electrolyzer production
@@ -207,13 +221,13 @@ CdTe:
 #  ecoinvent_aliases:
 #    fltr:
 #      - photovoltaic panel, perovskite-Si-tandem, at plant
-Parabolic Trough - SF:
-  ecoinvent_aliases:
-    fltr:
-      - collector field area
-    mask:
-      - market
-      - tower
+#Parabolic Trough - SF:
+#  ecoinvent_aliases:
+#    fltr:
+#      - collector field area
+#    mask:
+#      - market
+#      - tower
 Parabolic Trough - PB:
   ecoinvent_aliases:
     fltr:
@@ -221,13 +235,13 @@ Parabolic Trough - PB:
     mask:
       - market
       - tower
-CSP Tower - SF:
-  ecoinvent_aliases:
-    fltr:
-      - collector field area
-    mask:
-      - market
-      - parabolic
+#CSP Tower - SF:
+#  ecoinvent_aliases:
+#    fltr:
+#      - collector field area
+#    mask:
+#      - market
+#      - parabolic
 CSP Tower - PB:
   ecoinvent_aliases:
     fltr:
