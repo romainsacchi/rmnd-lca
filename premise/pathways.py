@@ -270,6 +270,13 @@ class PathwaysDataPackage:
 
         array = xr.concat(scenario_data, dim="scenario")
 
+        # make sure all the years exist
+        # other interpolate
+        array = array.interp(
+            year=self.years,
+            kwargs={"fill_value": "extrapolate"},
+        )
+
         # add scenario data to the xarray
         scenarios = [
             f"{s['model'].upper()} - {s['pathway']}" for s in self.scenarios
