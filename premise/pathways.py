@@ -67,7 +67,7 @@ class PathwaysDataPackage:
     ):
         #self.datapackage.update("trucks")
         #self.datapackage.update("external")
-        self.datapackage.update()
+        self.datapackage.update("metals")
 
         for scenario in self.datapackage.scenarios:
             energy = Energy(

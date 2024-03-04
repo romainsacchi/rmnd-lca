@@ -9,7 +9,6 @@ import pandas as pd
 import yaml
 from datapackage import exceptions, validate
 from schema import And, Optional, Schema, Use
-from wurst import searching as ws
 
 from .geomap import Geomap
 from .utils import load_constants
@@ -62,7 +61,6 @@ def flag_activities_to_adjust(
     # add potential technosphere or biosphere filters
     if "efficiency" in dataset_vars:
         if len(dataset_vars["efficiency"]) > 0:
-
             dataset["adjust efficiency"] = True
 
             d_tech_filters = {
@@ -142,6 +140,18 @@ def flag_activities_to_adjust(
 
             if d_bio_filters:
                 dataset["biosphere filters"] = d_bio_filters
+
+        # define exclusion filters
+        for k in dataset_vars["efficiency"]:
+            if "excludes" in k:
+                if "technosphere" in k.get("excludes", {}):
+                    dataset["excludes technosphere"] = {
+                        k["variable"]: k["excludes"]["technosphere"]
+                    }
+                if "biosphere" in k.get("excludes", {}):
+                    dataset["excludes biosphere"] = {
+                        k["variable"]: k["excludes"]["biosphere"]
+                    }
 
     if dataset_vars["replaces"]:
         dataset["replaces"] = dataset_vars["replaces"]
@@ -463,6 +473,10 @@ def check_config_file(datapackages):
                                     Optional("technosphere"): list,
                                     Optional("biosphere"): list,
                                 },
+                                Optional("excludes"): {
+                                    Optional("technosphere"): list,
+                                    Optional("biosphere"): list,
+                                },
                             }
                         ],
                         Optional("except regions"): And(
@@ -546,6 +560,10 @@ def check_config_file(datapackages):
                                     Use(int), lambda n: 2005 <= n <= 2100
                                 ),
                                 Optional("includes"): {
+                                    Optional("technosphere"): list,
+                                    Optional("biosphere"): list,
+                                },
+                                Optional("excludes"): {
                                     Optional("technosphere"): list,
                                     Optional("biosphere"): list,
                                 },

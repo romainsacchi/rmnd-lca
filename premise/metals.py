@@ -30,7 +30,7 @@ from .utils import DATA_DIR
 logger = create_logger("metal")
 
 
-def _update_metals(scenario, version, system_model, cache=None):
+def _update_metals(scenario, version, system_model):
     metals = Metals(
         database=scenario["database"],
         model=scenario["model"],
@@ -39,15 +39,18 @@ def _update_metals(scenario, version, system_model, cache=None):
         year=scenario["year"],
         version=version,
         system_model=system_model,
-        cache=cache,
+        cache=scenario.get("cache"),
+        index=scenario.get("index"),
     )
 
     metals.create_metal_markets()
     metals.update_metals_use_in_database()
     metals.relink_datasets()
-    cache = metals.cache
+    scenario["database"] = metals.database
+    scenario["cache"] = metals.cache
+    scenario["index"] = metals.index
 
-    return scenario, cache
+    return scenario
 
 
 def load_metals_alternative_names():
@@ -278,6 +281,7 @@ class Metals(BaseTransformation):
         version: str,
         system_model: str,
         cache: dict = None,
+        index: dict = None,
     ):
         super().__init__(
             database,
@@ -288,6 +292,7 @@ class Metals(BaseTransformation):
             version,
             system_model,
             cache,
+            index,
         )
 
         self.version = version
@@ -464,33 +469,31 @@ class Metals(BaseTransformation):
                 self.database,
                 *filters,
             ):
-                ds["exchanges"].append(
-                    {
-                        "name": dataset["additional flow"]["name"],
-                        "amount": dataset["additional flow"]["amount"],
-                        "unit": dataset["additional flow"]["unit"],
-                        "type": "biosphere",
-                        "categories": tuple(
-                            dataset["additional flow"]["categories"].split("::")
-                        ),
-                        "input": (
-                            "biosphere3",
-                            self.biosphere_flow_codes[
-                                dataset["additional flow"]["name"],
-                                dataset["additional flow"]["categories"].split("::")[0],
-                                dataset["additional flow"]["categories"].split("::")[1],
-                                dataset["additional flow"]["unit"],
-                            ],
-                        ),
-                    }
-                )
+                for flow in dataset["additional flow"]:
+                    ds["exchanges"].append(
+                        {
+                            "name": flow["name"],
+                            "amount": flow["amount"],
+                            "unit": flow["unit"],
+                            "type": "biosphere",
+                            "categories": tuple(flow["categories"].split("::")),
+                            "input": (
+                                "biosphere3",
+                                self.biosphere_flow_codes[
+                                    flow["name"],
+                                    flow["categories"].split("::")[0],
+                                    flow["categories"].split("::")[1],
+                                    flow["unit"],
+                                ],
+                            ),
+                        }
+                    )
 
                 if "log parameters" not in ds:
                     ds["log parameters"] = {}
 
-                ds["log parameters"]["post-allocation correction"] = dataset[
-                    "additional flow"
-                ]["amount"]
+                for flow in dataset["additional flow"]:
+                    ds["log parameters"]["post-allocation correction"] = flow["amount"]
 
                 self.write_log(ds, "updated")
 

@@ -453,6 +453,52 @@ class BaseInventoryImport:
                         results.append(ex)
         return results
 
+    def check_units(self) -> None:
+        """
+        Check that the units of the exchanges are compliant
+        with the ecoinvent database.
+        :returns: Nothing
+        """
+
+        ALLOWED_UNITS = [
+            "kilogram",
+            "cubic meter",
+            "cubic meter-year",
+            "kilowatt hour",
+            "kilometer",
+            "ton kilometer",
+            "ton-kilometer",
+            "megajoule",
+            "unit",
+            "square meter",
+            "kilowatt hour",
+            "square meter-year",
+            "meter",
+            "vehicle-kilometer",
+            "person-kilometer",
+            "person kilometer",
+            "passenger-kilometer",
+            "meter-year",
+            "kilo Becquerel",
+            "kilogram day",
+            "kg*day",
+            "hectare",
+            "kilometer-year",
+            "litre",
+            "guest night",
+            "Sm3",
+            "standard cubic meter",
+            "hour",
+        ]
+
+        for dataset in self.import_db.data:
+            for exchange in dataset["exchanges"]:
+                if exchange["unit"] not in ALLOWED_UNITS:
+                    print(
+                        f"The unit {exchange['unit']} is not allowed in the ecoinvent database."
+                        f"Please check the exchange {exchange} in the dataset {dataset['name']}."
+                    )
+
     def add_product_field_to_exchanges(self) -> None:
         """Add the `product` key to the production and
         technosphere exchanges in :attr:`import_db`.
@@ -619,6 +665,7 @@ class BaseInventoryImport:
             "SOx",
             "N-",
             "EUR",
+            "Mannheim",
         ]
 
         for ds in self.import_db.data:
@@ -764,6 +811,7 @@ class DefaultInventory(BaseInventoryImport):
         self.lower_case_technosphere_exchanges()
         self.add_biosphere_links()
         self.add_product_field_to_exchanges()
+        self.check_units()
 
         # Remove uncertainty data
         if not self.keep_uncertainty_data:
