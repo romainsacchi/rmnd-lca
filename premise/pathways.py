@@ -65,8 +65,8 @@ class PathwaysDataPackage:
         name: str = f"pathways_{date.today()}",
         contributors: list = None,
     ):
-        #self.datapackage.update("trucks")
-        #self.datapackage.update("external")
+        # self.datapackage.update("trucks")
+        # self.datapackage.update("external")
         self.datapackage.update("metals")
 
         for scenario in self.datapackage.scenarios:
