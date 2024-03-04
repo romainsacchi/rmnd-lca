@@ -65,8 +65,8 @@ class PathwaysDataPackage:
         name: str = f"pathways_{date.today()}",
         contributors: list = None,
     ):
-        #self.datapackage.update("trucks")
-        #self.datapackage.update("external")
+        # self.datapackage.update("trucks")
+        # self.datapackage.update("external")
         self.datapackage.update()
 
         for scenario in self.datapackage.scenarios:
@@ -266,19 +266,21 @@ class PathwaysDataPackage:
                         f"{scenario['model'].upper()} - {scenario['pathway']}"
                     )
                     for s in scenario["external data"].values():
-                        scenario_data.append(s["production volume"].interp(
-                            year=self.years,
-                            kwargs={"fill_value": "extrapolate"},
-                        ))
+                        scenario_data.append(
+                            s["production volume"].interp(
+                                year=self.years,
+                                kwargs={"fill_value": "extrapolate"},
+                            )
+                        )
                         extra_units.update(s["production volume"].attrs["unit"])
 
         array = xr.concat(scenario_data, dim="scenario")
         # make sure all the years exist
         # otherwise interpolate
-        #array = array.interp(
+        # array = array.interp(
         #    year=self.years,
         #    kwargs={"fill_value": "extrapolate"},
-        #)
+        # )
 
         # add scenario data to the xarray
         scenarios = [
