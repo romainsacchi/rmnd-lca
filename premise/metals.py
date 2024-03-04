@@ -113,11 +113,14 @@ def load_mining_shares_mapping():
 def load_activities_mapping():
     """
     Load mapping for the ecoinvent exchanges to be
-    updated by the new metal intensities
+    updated by the new metal intensities. Only rows
+    where filter was set to yes are considered.
     """
 
     filepath = DATA_DIR / "metals" / "activities_mapping.xlsx"
     df = pd.read_excel(filepath, sheet_name="activities_mapping")
+    df = df.loc[(df["filter"] == "Yes") | (df["filter"] == "yes")]
+
     return df
 
 
@@ -346,7 +349,6 @@ class Metals(BaseTransformation):
         for dataset in self.database:
             if dataset["name"] in self.rev_activities_metals_map:
                 origin_var = self.rev_activities_metals_map[dataset["name"]]
-
                 self.update_metal_use(dataset, origin_var)
 
     @lru_cache()
@@ -389,7 +391,7 @@ class Metals(BaseTransformation):
         ]
 
         if tech_rows.empty:
-            print(f"No matching rows for {dataset['name']}.")
+            print(f"No matching rows for {dataset['name']}, {dataset['location']}.")
             return
 
         conversion_factor = self.conversion_factors_dict.get(
@@ -401,52 +403,79 @@ class Metals(BaseTransformation):
             .values
         )
 
-        final_technology = tech_rows["final_technology"].iloc[0]
-        metal_users = ws.get_many(self.database, ws.equals("name", final_technology))
+        unique_final_technologies = tech_rows["final_technology"].unique()
 
-        for metal_user in metal_users:
-            for metal in available_metals:
-                if metal in tech_rows["Element"].values:
-                    metal_row = tech_rows[tech_rows["Element"] == metal].iloc[0]
-                    unit_converter = metal_row.get("unit_convertor")
-                    metal_activity_name = metal_row["Activity"]
+        for final_technology in unique_final_technologies:
 
-                    # Ensure that all necessary data is present
-                    if (
-                        pd.notna(unit_converter)
-                        and pd.notna(metal_activity_name)
-                        and conversion_factor
-                    ):
-                        median_value = self.precomputed_medians.sel(
-                            metal=metal, origin_var=technology
-                        ).item()
-                        amount = median_value * unit_converter * conversion_factor
+            demanding_process_rows = tech_rows[
+                (tech_rows["final_technology"] == final_technology)
+                & tech_rows["demanding_process"].notna()
+            ]
 
-                        # Use a try-except block
-                        # to handle the lookup of
-                        # the metal market dataset once
-                        try:
-                            dataset_metal = self.get_metal_market_dataset(
-                                metal_activity_name
-                            )
-                        except ws.NoResults:
-                            print(f"Could not find dataset for {metal_activity_name}.")
-                            continue
-
-                        update_exchanges(metal_user, amount, dataset_metal, metal)
-
-                    else:
-                        print(
-                            f"Warning: Missing data for {metal} for {dataset['name']}:"
+            if not demanding_process_rows.empty:
+                for index, row in demanding_process_rows.iterrows():
+                    self.process_metal_update(
+                        row, dataset, conversion_factor, final_technology, technology
+                    )
+            else:
+                tech_specific_rows = tech_rows[
+                    tech_rows["final_technology"] == final_technology
+                ]
+                for metal in available_metals:
+                    if metal in tech_specific_rows["Element"].values:
+                        metal_row = tech_specific_rows[
+                            tech_specific_rows["Element"] == metal
+                        ].iloc[0]
+                        self.process_metal_update(
+                            metal_row,
+                            dataset,
+                            conversion_factor,
+                            final_technology,
+                            technology,
                         )
-                        if pd.isna(unit_converter):
-                            print(f"- unit converter")
-                        if pd.isna(metal_activity_name):
-                            print(f"- activity name")
-                        if not conversion_factor:
-                            print(f"- conversion factor")
 
-            self.write_log(metal_user, "updated")
+    def process_metal_update(
+        self, metal_row, dataset, conversion_factor, final_technology, technology
+    ):
+        """
+        Process the update for a given metal and technology.
+        """
+        unit_converter = metal_row.get("unit_convertor")
+        metal_activity_name = metal_row["Activity"]
+
+        if (
+            pd.notna(unit_converter)
+            and pd.notna(metal_activity_name)
+            and conversion_factor
+        ):
+            median_value = self.precomputed_medians.sel(
+                metal=metal_row["Element"], origin_var=technology
+            ).item()
+            amount = median_value * unit_converter * conversion_factor
+
+            try:
+                dataset_metal = self.get_metal_market_dataset(metal_activity_name)
+            except ws.NoResults:
+                print(f"Could not find dataset for {metal_activity_name}.")
+                return
+            metal_users = ws.get_many(
+                self.database, ws.equals("name", final_technology)
+            )
+            for metal_user in metal_users:
+                update_exchanges(
+                    metal_user, amount, dataset_metal, metal_row["Element"]
+                )
+                self.write_log(metal_user, "updated")
+        else:
+            print(
+                f"Warning: Missing data for {metal_row['Element']} for {dataset['name']}:"
+            )
+            if pd.isna(unit_converter):
+                print("- unit converter")
+            if pd.isna(metal_activity_name):
+                print("- activity name")
+            if not conversion_factor:
+                print("- conversion factor")
 
     def post_allocation_correction(self):
         """
