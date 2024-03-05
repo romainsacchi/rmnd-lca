@@ -970,12 +970,6 @@ class ExternalScenario(BaseTransformation):
                                 *[fetch_loc(loc) for loc in list(self.geo.geo.keys())],
                             ]
 
-                            potential_suppliers = self.fetch_potential_suppliers(
-                                possible_locations, name, ref_prod
-                            )
-
-                            # supply share = production volume of that technology in this region
-                            # over production volume of all technologies in this region
 
                             try:
                                 supply_share = self.fetch_supply_share(
@@ -990,6 +984,14 @@ class ExternalScenario(BaseTransformation):
                                 continue
 
                             if supply_share > 0:
+
+                                potential_suppliers = self.fetch_potential_suppliers(
+                                    possible_locations, name, ref_prod
+                                )
+
+                                # supply share = production volume of that technology in this region
+                                # over production volume of all technologies in this region
+
                                 suppliers = get_shares_from_production_volume(
                                     potential_suppliers
                                 )
