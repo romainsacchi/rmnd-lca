@@ -970,7 +970,6 @@ class ExternalScenario(BaseTransformation):
                                 *[fetch_loc(loc) for loc in list(self.geo.geo.keys())],
                             ]
 
-
                             try:
                                 supply_share = self.fetch_supply_share(
                                     i, region, var, production_variables
