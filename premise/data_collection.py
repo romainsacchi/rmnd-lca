@@ -892,9 +892,13 @@ class IAMDataCollection:
                     ]
                     fuel_share = df[fuel_var].reindex(new_fuel_df["region"])
                     new_fuel_df.loc[:, "variable"] = iam_var
-                    new_fuel_df.loc[
-                        :, new_fuel_df.select_dtypes(include=["number"]).columns[0] :
-                    ] *= fuel_share.values[:, np.newaxis]
+
+                    cols = [c for c in new_fuel_df.columns if isinstance(c, int)]
+                    with pd.option_context("mode.copy_on_write", True):
+                        new_fuel_df.loc[:, cols] = (
+                            new_fuel_df.loc[:, cols].astype(float)
+                            * fuel_share.values[:, np.newaxis]
+                        )
                     dataframe = pd.concat([dataframe, new_fuel_df])
 
         # filter out unused variables

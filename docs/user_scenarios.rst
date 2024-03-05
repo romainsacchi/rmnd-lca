@@ -297,11 +297,16 @@ Consider the following example:
           name: ammonia production, hydrogen from methane pyrolysis
           # reference product of the original dataset
           reference product: ammonia, anhydrous, liquid
+          # indicate some string that should not be contained in the dataset name
+          mask: solid
           # indicate whether the dataset exists in the original database
           # or if it should be sourced from the inventories folder
           exists in original database: False
           # indicate whether a region-specific version of the dataset should be created
           regionalize: True
+          # indicate if the production volume from the scenario data should be multiplied by a factor
+          # to account, for exmaple, for a difference in units relative to the other inputs (e.g., here, cubic meter instead of kilogram)
+          ratio: 0.78
 
 This excerpt from the config.yaml file indicates that the variable
 **Production|Ammonia|Methane Pyrolysis** in the scenario data file
@@ -332,10 +337,15 @@ Also, consider this other example from the *config.yaml* file:
       - variable: Efficiency|Hydrogen|Alkaline Electrolysis (electricity)
         reference year: 2020
         includes:
-          # efficiency gains will only apply to flows whose name
+          # efficiency gains will only apply to technosphere flows whose name
           # contains `electricity`
           technosphere:
             - electricity
+        excludes:
+            # but not to flows whose name contains `renewable` and `hydro`
+            technosphere:
+                - renewable
+                - hydro
 
 This is essentially the same as above, but it indicates that the
 variable **Efficiency|Hydrogen|Alkaline Electrolysis (electricity)** in the scenario
@@ -381,9 +391,12 @@ Consider the following example from the *config.yaml* file:
     replaces:
       - name: market for ammonia, anhydrous, liquid
         reference product: ammonia, anhydrous, liquid
+    # but only in German datasets
     replaces in:
       - location: DE
 
+    # indicates that the market is a fuel market and emissions of activities
+    # using this market as a supplier should be adjusted
     is fuel:
       petrol:
         Carbon dioxide, fossil: 3.15
@@ -391,6 +404,15 @@ Consider the following example from the *config.yaml* file:
       bioethanol:
         Carbon dioxide, fossil: 0.0
         Carbon dioxide, non-fossil: 3.15
+
+    # we also want to manually add some emissions to the market
+    add:
+      - name: market for electricity, low voltage
+        reference product: electricity, low voltage
+        amount: 0.0067
+
+    # If true, flip signs
+    waste market: False
 
 This tells **premise** to build a market dataset named **market for ammonia (APS)**
 with the reference product **ammonia, anhydrous, liquid** and the unit
