@@ -1029,6 +1029,16 @@ class ExternalScenario(BaseTransformation):
 
                             new_market["exchanges"].extend(new_excs)
 
+
+
+                            # check if there are variables that
+                            # relate to inefficiencies or losses
+
+                            self.database.append(new_market)
+                            self.write_log(new_market)
+                            self.add_to_index(new_market)
+                            market_status[region] = True
+
                             # check if we should add some additional exchanges
                             if "add" in market_vars:
                                 for additional_exc in market_vars["add"]:
@@ -1039,21 +1049,13 @@ class ExternalScenario(BaseTransformation):
                                     )
                                     new_market["exchanges"].extend(add_excs)
 
-                            # check if there are variables that
-                            # relate to inefficiencies or losses
-
                             if "efficiency" in market_vars:
                                 efficiency_data = self.external_scenarios_data[i][
                                     "efficiency"
                                 ]
-                                new_market = self.adjust_efficiency_of_new_markets(
+                                self.adjust_efficiency_of_new_markets(
                                     new_market, market_vars, region, efficiency_data
                                 )
-
-                            self.database.append(new_market)
-                            self.write_log(new_market)
-                            self.add_to_index(new_market)
-                            market_status[region] = True
 
                         else:
                             print(
