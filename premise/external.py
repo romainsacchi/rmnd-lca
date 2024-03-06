@@ -1029,8 +1029,6 @@ class ExternalScenario(BaseTransformation):
 
                             new_market["exchanges"].extend(new_excs)
 
-
-
                             # check if there are variables that
                             # relate to inefficiencies or losses
 
