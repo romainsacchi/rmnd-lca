@@ -64,10 +64,12 @@ class PathwaysDataPackage:
         self,
         name: str = f"pathways_{date.today()}",
         contributors: list = None,
+        transformations: list = None,
     ):
-        # self.datapackage.update("trucks")
-        # self.datapackage.update("external")
-        self.datapackage.update("metals")
+        if transformations:
+            self.datapackage.update(transformations)
+        else:
+            self.datapackage.update()
 
         for scenario in self.datapackage.scenarios:
             energy = Energy(
