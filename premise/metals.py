@@ -476,25 +476,34 @@ class Metals(BaseTransformation):
                 self.database,
                 *filters,
             ):
+
                 for flow in dataset["additional flow"]:
-                    ds["exchanges"].append(
-                        {
-                            "name": flow["name"],
-                            "amount": flow["amount"],
-                            "unit": flow["unit"],
-                            "type": "biosphere",
-                            "categories": tuple(flow["categories"].split("::")),
-                            "input": (
-                                "biosphere3",
-                                self.biosphere_flow_codes[
-                                    flow["name"],
-                                    flow["categories"].split("::")[0],
-                                    flow["categories"].split("::")[1],
-                                    flow["unit"],
-                                ],
-                            ),
-                        }
-                    )
+                    # check first if flow already exists
+                    if len(list(
+                        [e for e in ds["exchanges"] if e["name"] == flow["name"] and e["categories"] == tuple(flow["categories"].split("::"))]
+                    )) > 0:
+                        for exc in ds["exchanges"]:
+                            if exc["name"] == flow["name"] and exc["categories"] == tuple(flow["categories"].split("::")):
+                                exc["amount"] += flow["amount"]
+                    else:
+                        ds["exchanges"].append(
+                            {
+                                "name": flow["name"],
+                                "amount": flow["amount"],
+                                "unit": flow["unit"],
+                                "type": "biosphere",
+                                "categories": tuple(flow["categories"].split("::")),
+                                "input": (
+                                    "biosphere3",
+                                    self.biosphere_flow_codes[
+                                        flow["name"],
+                                        flow["categories"].split("::")[0],
+                                        flow["categories"].split("::")[1],
+                                        flow["unit"],
+                                    ],
+                                ),
+                            }
+                        )
 
                 if "log parameters" not in ds:
                     ds["log parameters"] = {}
