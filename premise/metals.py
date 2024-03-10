@@ -104,7 +104,7 @@ def load_mining_shares_mapping():
     filepath = DATA_DIR / "metals" / "mining_shares_mapping.xlsx"
     df = pd.read_excel(filepath, sheet_name="Shares_mapping")
 
-    #TODO: find a solution to this, because pig iron
+    # TODO: find a solution to this, because pig iron
     # market creation conflicts with .update_steel()
     # for now, remove pig iron from the dataframe
     df = df.loc[df["Reference product"] != "pig iron"]
@@ -350,7 +350,7 @@ class Metals(BaseTransformation):
         Update the database with metals use factors.
         """
 
-        #print("Integrating metals use factors.")
+        # print("Integrating metals use factors.")
         for dataset in self.database:
             if dataset["name"] in self.rev_activities_metals_map:
                 origin_var = self.rev_activities_metals_map[dataset["name"]]

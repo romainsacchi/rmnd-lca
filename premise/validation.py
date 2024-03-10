@@ -821,7 +821,6 @@ class SteelValidation(BaseDatasetValidator):
                             message,
                         )
 
-
     def check_steel_energy_use(self):
         # check that low-alloyed steel produced by EAF
         # use at least 0.4 MWh electricity per kg of steel
