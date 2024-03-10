@@ -974,7 +974,9 @@ class ExternalScenario(BaseTransformation):
                                 supply_share = self.fetch_supply_share(
                                     i, region, var, production_variables
                                 )
-                                supply_share *= ratio
+                                # we should not use `ratio` here
+                                # otherwise it messes up with the shares
+                                # supply_share *= ratio
 
                             except KeyError:
                                 print(
@@ -1015,6 +1017,13 @@ class ExternalScenario(BaseTransformation):
                                         }
                                     )
 
+                                # we flag new exchanges associated to a `ratio`
+                                # so that we can adjust them later
+
+                                if ratio != 1:
+                                    for exc in new_excs[-len(suppliers) :]:
+                                        exc["ratio"] = ratio
+
                         if len(new_excs) > 0:
                             total = 0
 
@@ -1026,6 +1035,13 @@ class ExternalScenario(BaseTransformation):
                                     # if this is a waste market, we need to
                                     # flip the sign of the amount
                                     exc["amount"] *= -1
+
+                            # check for exchanges for which a ratio was provided
+                            # and adjust them
+                            for exc in new_excs:
+                                if "ratio" in exc:
+                                    exc["amount"] *= exc["ratio"]
+                                    del exc["ratio"]
 
                             new_market["exchanges"].extend(new_excs)
 
