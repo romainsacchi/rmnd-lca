@@ -91,10 +91,10 @@ class Steel(BaseTransformation):
         :return: Returns a modified database with newly added steel activities for the corresponding year
         """
 
-        self.create_steel_markets()
-        self.create_steel_production_activities()
         self.create_pig_iron_production_activities()
         self.create_pig_iron_markets()
+        self.create_steel_markets()
+        self.create_steel_production_activities()
 
     def create_steel_markets(self):
         """
@@ -367,12 +367,10 @@ class Steel(BaseTransformation):
         Create region-specific pig iron production activities.
         """
 
-        # print("Create pig iron production datasets")
-
         pig_iron = self.fetch_proxies(
             name="pig iron production",
             ref_prod="pig iron",
-            production_variable=["steel - primary"],
+            production_variable=["steel - primary", ],
         )
 
         # adjust efficiency of pig iron production
@@ -398,7 +396,7 @@ class Steel(BaseTransformation):
         pig_iron_markets = self.fetch_proxies(
             name="market for pig iron",
             ref_prod="pig iron",
-            production_variable=["steel - primary"],
+            production_variable=["steel - primary", ],
         )
         self.database.extend(list(pig_iron_markets.values()))
 

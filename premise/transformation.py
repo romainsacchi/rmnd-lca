@@ -812,12 +812,14 @@ class BaseTransformation:
 
         regions = regions or self.regions
 
+
         mapping = {}
         if loc_map:
             mapping = defaultdict(set)
             for v in loc_map.values():
                 if self.geo.ecoinvent_to_iam_location(v) in loc_map.keys():
                     mapping[v].add(self.geo.ecoinvent_to_iam_location(v))
+
         existing_datasets = ws.get_many(
             self.database,
             ws.equals("name", name),
@@ -875,18 +877,18 @@ class BaseTransformation:
                 )
 
             elif isinstance(production_variable, list) and all(
-                i in self.iam_data.production_volumes.variables.values.tolist()
-                for i in production_variable
+                    i in self.iam_data.production_volumes.variables.values.tolist()
+                    for i in production_variable
             ):
                 for location in locations:
                     share = (
-                        self.iam_data.production_volumes.sel(
-                            region=location, variables=production_variable
-                        )
-                        .interp(year=self.year)
-                        .sum(dim="variables")
-                        .values.item(0)
-                    ) / _(
+                                self.iam_data.production_volumes.sel(
+                                    region=location, variables=production_variable
+                                )
+                                .interp(year=self.year)
+                                .sum(dim="variables")
+                                .values.item(0)
+                            ) / _(
                         self.iam_data.production_volumes.sel(
                             region=locations, variables=production_variable
                         )
@@ -947,6 +949,7 @@ class BaseTransformation:
 
             # add log
             self.write_log(dataset=existing_ds, status="empty")
+
 
     def relink_datasets(self, excludes_datasets=None, alt_names=None):
         """

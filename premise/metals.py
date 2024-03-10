@@ -104,6 +104,11 @@ def load_mining_shares_mapping():
     filepath = DATA_DIR / "metals" / "mining_shares_mapping.xlsx"
     df = pd.read_excel(filepath, sheet_name="Shares_mapping")
 
+    #TODO: find a solution to this, because pig iron
+    # market creation conflicts with .update_steel()
+    # for now, remove pig iron from the dataframe
+    df = df.loc[df["Reference product"] != "pig iron"]
+
     # replace all instances of "Year " in columns by ""
     df.columns = df.columns.str.replace("Year ", "")
 
@@ -345,7 +350,7 @@ class Metals(BaseTransformation):
         Update the database with metals use factors.
         """
 
-        print("Integrating metals use factors.")
+        #print("Integrating metals use factors.")
         for dataset in self.database:
             if dataset["name"] in self.rev_activities_metals_map:
                 origin_var = self.rev_activities_metals_map[dataset["name"]]
@@ -547,14 +552,18 @@ class Metals(BaseTransformation):
         }
 
         # Get the original datasets
-        datasets = self.fetch_proxies(
-            name=name,
-            ref_prod=reference_product,
-            regions=new_locations.values(),
-            geo_mapping=geography_mapping,
-            production_variable=shares,
-            exact_product_match=True,
-        )
+        try:
+            datasets = self.fetch_proxies(
+                name=name,
+                ref_prod=reference_product,
+                regions=new_locations.values(),
+                geo_mapping=geography_mapping,
+                production_variable=shares,
+                exact_product_match=True,
+            )
+        except ws.NoResults:
+            print(f"Could not find original datasets for {name} - {reference_product}.")
+            return {}
 
         return datasets
 
@@ -652,12 +661,13 @@ class Metals(BaseTransformation):
                 {k[2]: v for k, v in shares.items()},
             )
 
-            # add new datasets to database
-            self.database.extend(datasets.values())
-            self.add_to_index(datasets.values())
+            if datasets:
+                # add new datasets to database
+                self.database.extend(datasets.values())
+                self.add_to_index(datasets.values())
 
-            for dataset in datasets.values():
-                self.write_log(dataset, "created")
+                for dataset in datasets.values():
+                    self.write_log(dataset, "created")
 
             new_exchanges.extend(
                 [
@@ -812,7 +822,7 @@ class Metals(BaseTransformation):
     def create_metal_markets(self):
         self.post_allocation_correction()
 
-        print("Creating metal markets")
+        # print("Creating metal markets")
 
         dataframe = load_mining_shares_mapping()
         dataframe = dataframe.loc[dataframe["Work done"] == "Yes"]
@@ -820,7 +830,7 @@ class Metals(BaseTransformation):
         dataframe_shares = dataframe
 
         for metal in dataframe_shares["Metal"].unique():
-            print(f"... for {metal}.")
+            # print(f"... for {metal}.")
             df_metal = dataframe.loc[dataframe["Metal"] == metal]
             dataset = self.create_market(metal, df_metal)
 
@@ -835,14 +845,14 @@ class Metals(BaseTransformation):
             dataframe["Region"].notnull() & dataframe["2020"].isnull()
         ]
 
-        print("Creating additional mining processes")
+        # print("Creating additional mining processes")
         for metal in dataframe_parent["Metal"].unique():
             df_metal = dataframe_parent.loc[dataframe["Metal"] == metal]
 
             for (name, ref_prod), group in df_metal.groupby(
                 ["Process", "Reference product"]
             ):
-                print(f"...... for {name} - {ref_prod}.")
+                # print(f"...... for {name} - {ref_prod}.")
                 new_locations = {
                     c: self.convert_long_to_short_country_name(c)
                     for c in group["Country"].unique()
@@ -859,10 +869,11 @@ class Metals(BaseTransformation):
                     name, ref_prod, new_locations, geography_mapping=geography_mapping
                 )
 
-                self.database.extend(datasets.values())
-                for dataset in datasets.values():
-                    self.add_to_index(dataset)
-                    self.write_log(dataset, "created")
+                if datasets:
+                    self.database.extend(datasets.values())
+                    for dataset in datasets.values():
+                        self.add_to_index(dataset)
+                        self.write_log(dataset, "created")
 
     def write_log(self, dataset, status="created"):
         """
