@@ -930,7 +930,7 @@ class IAMDataCollection:
                     dataframe = pd.concat([dataframe, new_fuel_df])
 
         # filter out unused variables
-        dataframe = dataframe.loc[dataframe["variable"].isin(variables)]
+        #dataframe = dataframe.loc[dataframe["variable"].isin(variables)]
 
         dataframe = dataframe.rename(columns={"variable": "variables"})
 
