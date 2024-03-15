@@ -501,11 +501,24 @@ class Metals(BaseTransformation):
 
                 for flow in dataset["additional flow"]:
                     # check first if flow already exists
-                    if len(list(
-                        [e for e in ds["exchanges"] if e["name"] == flow["name"] and e["categories"] == tuple(flow["categories"].split("::"))]
-                    )) > 0:
+                    if (
+                        len(
+                            list(
+                                [
+                                    e
+                                    for e in ds["exchanges"]
+                                    if e["name"] == flow["name"]
+                                    and e["categories"]
+                                    == tuple(flow["categories"].split("::"))
+                                ]
+                            )
+                        )
+                        > 0
+                    ):
                         for exc in ds["exchanges"]:
-                            if exc["name"] == flow["name"] and exc["categories"] == tuple(flow["categories"].split("::")):
+                            if exc["name"] == flow["name"] and exc[
+                                "categories"
+                            ] == tuple(flow["categories"].split("::")):
                                 exc["amount"] += flow["amount"]
                     else:
                         ds["exchanges"].append(
