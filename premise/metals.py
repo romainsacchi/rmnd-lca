@@ -408,21 +408,35 @@ class Metals(BaseTransformation):
         for final_technology in unique_final_technologies:
 
             demanding_process_rows = tech_rows[
-                (tech_rows["final_technology"] == final_technology) &
-                tech_rows["demanding_process"].notna()
+                (tech_rows["final_technology"] == final_technology)
+                & tech_rows["demanding_process"].notna()
             ]
 
             if not demanding_process_rows.empty:
-                for index,row in demanding_process_rows.iterrows():
-                    self.process_metal_update(row, dataset, conversion_factor, final_technology, technology)
+                for index, row in demanding_process_rows.iterrows():
+                    self.process_metal_update(
+                        row, dataset, conversion_factor, final_technology, technology
+                    )
             else:
-                tech_specific_rows = tech_rows[tech_rows["final_technology"] == final_technology]
+                tech_specific_rows = tech_rows[
+                    tech_rows["final_technology"] == final_technology
+                ]
                 for metal in available_metals:
                     if metal in tech_specific_rows["Element"].values:
-                        metal_row = tech_specific_rows[tech_specific_rows["Element"] == metal].iloc[0]
-                        self.process_metal_update(metal_row, dataset, conversion_factor, final_technology, technology)
+                        metal_row = tech_specific_rows[
+                            tech_specific_rows["Element"] == metal
+                        ].iloc[0]
+                        self.process_metal_update(
+                            metal_row,
+                            dataset,
+                            conversion_factor,
+                            final_technology,
+                            technology,
+                        )
 
-    def process_metal_update(self, metal_row, dataset, conversion_factor, final_technology, technology):
+    def process_metal_update(
+        self, metal_row, dataset, conversion_factor, final_technology, technology
+    ):
         """
         Process the update for a given metal and technology.
         """
@@ -430,11 +444,13 @@ class Metals(BaseTransformation):
         metal_activity_name = metal_row["Activity"]
 
         if (
-                pd.notna(unit_converter)
-                and pd.notna(metal_activity_name)
-                and conversion_factor):
-            median_value = self.precomputed_medians.sel(metal=metal_row["Element"],
-                                                        origin_var=technology).item()
+            pd.notna(unit_converter)
+            and pd.notna(metal_activity_name)
+            and conversion_factor
+        ):
+            median_value = self.precomputed_medians.sel(
+                metal=metal_row["Element"], origin_var=technology
+            ).item()
             amount = median_value * unit_converter * conversion_factor
 
             try:
@@ -442,12 +458,18 @@ class Metals(BaseTransformation):
             except ws.NoResults:
                 print(f"Could not find dataset for {metal_activity_name}.")
                 return
-            metal_users = ws.get_many(self.database, ws.equals("name", final_technology))
+            metal_users = ws.get_many(
+                self.database, ws.equals("name", final_technology)
+            )
             for metal_user in metal_users:
-                update_exchanges(metal_user, amount, dataset_metal, metal_row["Element"])
+                update_exchanges(
+                    metal_user, amount, dataset_metal, metal_row["Element"]
+                )
                 self.write_log(metal_user, "updated")
         else:
-            print(f"Warning: Missing data for {metal_row['Element']} for {dataset['name']}:")
+            print(
+                f"Warning: Missing data for {metal_row['Element']} for {dataset['name']}:"
+            )
             if pd.isna(unit_converter):
                 print("- unit converter")
             if pd.isna(metal_activity_name):
