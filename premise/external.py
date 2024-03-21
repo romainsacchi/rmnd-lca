@@ -828,9 +828,12 @@ class ExternalScenario(BaseTransformation):
         self, datatset: dict, variables: dict, region: str, eff_data: xr.DataArray
     ) -> dict:
         for ineff in variables["efficiency"]:
-            scaling_factor = 1 / find_iam_efficiency_change(
-                ineff["variable"], region, eff_data, self.year
-            )
+            try:
+                scaling_factor = 1 / find_iam_efficiency_change(
+                    ineff["variable"], region, eff_data, self.year
+                )
+            except ZeroDivisionError:
+                scaling_factor = 1
 
             if "includes" not in ineff:
                 rescale_exchanges(datatset, scaling_factor, remove_uncertainty=False)
