@@ -833,7 +833,7 @@ class ExternalScenario(BaseTransformation):
                     ineff["variable"], region, eff_data, self.year
                 )
             except ZeroDivisionError:
-                scaling_factor = 1
+                scaling_factor = 0
 
             if "includes" not in ineff:
                 rescale_exchanges(datatset, scaling_factor, remove_uncertainty=False)
