@@ -709,7 +709,6 @@ class ExternalScenario(BaseTransformation):
                         ws.equals("location", possible_locations[counter]),
                     )
                 )
-
                 counter += 1
         except IndexError:
             print("Cannot find -> ", name, ref_prod, possible_locations)
