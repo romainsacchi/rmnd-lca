@@ -1,4 +1,4 @@
-__all__ = ("NewDatabase", "clear_cache", "get_regions_definition")
+__all__ = ("NewDatabase", "PathwaysDataPackage", "clear_cache", "get_regions_definition")
 __version__ = (2, 0, 2)
 
 
