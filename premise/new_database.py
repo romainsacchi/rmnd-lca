@@ -869,6 +869,11 @@ class NewDatabase:
                 for s in list(sector_update_methods.keys())
                 if s not in ["buses", "cars", "two_wheelers"]
             ]
+
+            # if no datapackages are provided, we skip the external sector
+            if self.datapackages is None:
+                sectors.remove("external")
+
             print(
                 "`update()` will skip the following sectors: 'buses', 'cars', 'two_wheelers'."
             )

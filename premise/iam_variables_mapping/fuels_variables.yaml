@@ -753,7 +753,7 @@ bioethanol, from wood, with CCS:
     image: Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Woody|w/CCS
   eff_aliases:
     gcam: Efficiency|Refined Liquids|Biomass|Ethanol|Cellulose|w/CCS
-    remind: SE|Liquids|Biomass|Cellulosic|+|w/o CC
+    remind: Tech|Liquids|Biomass|Cellulosic|w/o CC|Efficiency
     image: Efficiency|Liquids|Biomass|Ethanol|Woody|w/ CCS
   ecoinvent_aliases:
     fltr:
@@ -1084,18 +1084,21 @@ liquefied petroleum gas, synthetic, from coal, with CCS:
     tiam-ucl: Efficiency|Liquids|Coal|FT fuel mix (diesel, kerosene, naptha, ELC)|w CCS
 
 
-uranium, enriched 3.8%, in fuel element for light water reactor:
+uranium, enriched 3.8%:
   lhv: 4199040
-nuclear fuel element, for boiling water reactor, uo2 3.8%:
+nuclear fuel element, for boiling water reactor:
+  ecoinvent_aliases:
+    fltr:
+      - nuclear fuel element, for boiling water reactor
+      - market for uranium, enriched 3.8%
+
   lhv: 4147200
-nuclear fuel element, for boiling water reactor, uo2 4.0%:
-  lhv: 4147200
-nuclear fuel element, for pressure water reactor, uo2 3.8%:
+nuclear fuel element, for pressure water reactor:
   lhv: 4579200
-nuclear fuel element, for pressure water reactor, uo2 4.0%:
-  lhv: 4579200
-nuclear fuel element, for pressure water reactor, uo2 4.2%:
-  lhv: 4579200
+  ecoinvent_aliases:
+    fltr:
+      - nuclear fuel element, for pressure water reactor
+      - market for uranium hexafluoride
 uranium hexafluoride:
   lhv: 709166
 enriched uranium, 4.2%:

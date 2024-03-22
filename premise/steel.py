@@ -367,12 +367,12 @@ class Steel(BaseTransformation):
         Create region-specific pig iron production activities.
         """
 
+        # print("Create pig iron production datasets")
+
         pig_iron = self.fetch_proxies(
             name="pig iron production",
             ref_prod="pig iron",
-            production_variable=[
-                "steel - primary",
-            ],
+            production_variable=["steel - primary"],
         )
 
         # adjust efficiency of pig iron production
@@ -398,9 +398,7 @@ class Steel(BaseTransformation):
         pig_iron_markets = self.fetch_proxies(
             name="market for pig iron",
             ref_prod="pig iron",
-            production_variable=[
-                "steel - primary",
-            ],
+            production_variable=["steel - primary"],
         )
         self.database.extend(list(pig_iron_markets.values()))
 

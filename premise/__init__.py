@@ -1,10 +1,5 @@
-__all__ = (
-    "NewDatabase",
-    "clear_cache",
-    "get_regions_definition",
-    "PathwaysDataPackage",
-)
-__version__ = (2, 0, 1)
+__all__ = ("NewDatabase", "clear_cache", "get_regions_definition")
+__version__ = (2, 0, 2)
 
 
 from .new_database import NewDatabase
