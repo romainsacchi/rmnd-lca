@@ -551,8 +551,13 @@ class Metals(BaseTransformation):
             )
         }
 
+        if len(geography_mapping) == 0:
+            print(f"Activity {name} - {reference_product} already exists in all locations {list(geography_mapping.keys())}.")
+            return {}
+
         # Get the original datasets
         try:
+
             datasets = self.fetch_proxies(
                 name=name,
                 ref_prod=reference_product,

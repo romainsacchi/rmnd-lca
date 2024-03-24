@@ -25,6 +25,7 @@ from .transformation import (
     List,
     Tuple,
     get_suppliers_of_a_region,
+    find_fuel_efficiency,
     np,
     uuid,
     ws,
@@ -1775,8 +1776,12 @@ class Electricity(BaseTransformation):
                     loc = dataset["location"][:2]
                     if loc in self.iam_data.coal_power_plants.country.values:
                         # Find current efficiency
-                        ei_eff = self.find_fuel_efficiency(
-                            dataset, self.powerplant_fuels_map[tech], 3.6
+                        ei_eff = find_fuel_efficiency(
+                            dataset=dataset,
+                            fuel_filters=self.powerplant_fuels_map[tech],
+                            energy_out=3.6,
+                            fuel_specs=self.fuels_specs,
+                            fuel_map_reverse=self.fuel_map_reverse
                         )
 
                         new_eff = self.iam_data.coal_power_plants.sel(
@@ -1919,8 +1924,12 @@ class Electricity(BaseTransformation):
                     # update efficiency
                     if "new efficiency" in variable["proxy"]:
                         new_eff = variable["proxy"]["new efficiency"]
-                        ei_eff = self.find_fuel_efficiency(
-                            new_dataset, self.powerplant_fuels_map[tech], 3.6
+                        ei_eff = find_fuel_efficiency(
+                            dataset=new_dataset,
+                            fuel_filters=self.powerplant_fuels_map[tech],
+                            energy_out=3.6,
+                            fuel_specs=self.fuels_specs,
+                            fuel_map_reverse=self.fuel_map_reverse,
                         )
                         rescale_exchanges(new_dataset, ei_eff / new_eff)
 

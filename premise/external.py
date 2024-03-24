@@ -25,8 +25,9 @@ from .inventory_imports import (
     get_biosphere_code,
     get_correspondence_bio_flows,
 )
-from .transformation import BaseTransformation, get_shares_from_production_volume
-from .utils import HiddenPrints, rescale_exchanges
+from .transformation import BaseTransformation, get_shares_from_production_volume, find_fuel_efficiency
+from .utils import HiddenPrints, rescale_exchanges, get_fuel_properties
+from .activity_maps import InventorySet
 
 LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
 
@@ -150,7 +151,7 @@ def get_recursively(search_dict: dict, field: str) -> list:
     return fields_found
 
 
-def adjust_efficiency(dataset: dict) -> dict:
+def adjust_efficiency(dataset: dict, fuels_specs: dict, fuel_map_reverse: dict) -> dict:
     """
     Adjust the input-to-output efficiency of a dataset and return it back.
     :param dataset: dataset to be adjusted
@@ -165,20 +166,48 @@ def adjust_efficiency(dataset: dict) -> dict:
                 if dataset["location"] not in v[1]:
                     continue
 
-                # the scaling factor is the inverse of the efficiency change
-                if len(dataset["regions"]) > 1:
-                    try:
-                        scaling_factor = 1 / v[1][dataset["location"]]
-                    except KeyError:
-                        print(
-                            f"No efficiency factor provided for dataset {dataset['name']} in {dataset['location']}"
+                absolute_efficiency = dataset.get("absolute efficiency", {k: {}}).get(k, False)
+
+                if absolute_efficiency is True:
+
+                    # first, fetch expected efficiency
+                    expected_efficiency = v[1][dataset["location"]]
+
+                    # then, fetch the current efficiency
+                    current_efficiency = dataset.get("current efficiency")
+                    if current_efficiency is None:
+                        current_efficiency = find_fuel_efficiency(
+                            dataset=dataset,
+                            energy_out=3.6 if dataset["unit"] == "kilowatt hour" else 1,
+                            fuel_specs=fuels_specs,
+                            fuel_map_reverse=fuel_map_reverse,
                         )
-                        scaling_factor = 1
+                        dataset["current efficiency"] = current_efficiency
+
+                    if expected_efficiency in [0, 1] or current_efficiency in [0, 1]:
+                        continue
+
+                    # finally, calculate the scaling factor
+                    scaling_factor = current_efficiency / expected_efficiency
+
+                    if scaling_factor >= 1.5:
+                        print(f"Warning: Efficiency factor for {dataset['name'][:50]} in {dataset['location']} is {scaling_factor}.")
+
                 else:
-                    try:
-                        scaling_factor = 1 / v[1].get(dataset["regions"][0], 1)
-                    except ZeroDivisionError:
-                        scaling_factor = 1
+                    # the scaling factor is the inverse of the efficiency change
+                    if len(dataset["regions"]) > 1:
+                        try:
+                            scaling_factor = 1 / v[1][dataset["location"]]
+                        except KeyError:
+                            print(
+                                f"No efficiency factor provided for dataset {dataset['name']} in {dataset['location']}"
+                            )
+                            scaling_factor = 1
+                    else:
+                        try:
+                            scaling_factor = 1 / v[1].get(dataset["regions"][0], 1)
+                        except ZeroDivisionError:
+                            scaling_factor = 1
 
                 if v[0]:
                     filters.append(ws.either(*[ws.contains("name", x) for x in v[0]]))
@@ -323,6 +352,13 @@ class ExternalScenario(BaseTransformation):
         self.datapackages = external_scenarios
         self.external_scenarios_data = external_scenarios_data
         self.biosphere_flows = get_biosphere_code(self.version)
+        self.fuel_specs = get_fuel_properties()
+        mapping = InventorySet(self.database)
+        self.fuel_map = mapping.generate_fuel_map()
+        self.fuel_map_reverse= {}
+        for key, value in self.fuel_map.items():
+            for v in list(value):
+                self.fuel_map_reverse[v] = key
 
         for datapackage_number, datapackage in enumerate(self.datapackages):
             external_scenario_regions = self.external_scenarios_data[
@@ -432,7 +468,7 @@ class ExternalScenario(BaseTransformation):
             ws.either(*[ws.contains("name", name) for name in ds_names]),
         ):
             if len(dataset["location"]) > 1:
-                adjust_efficiency(dataset)
+                adjust_efficiency(dataset, fuels_specs=self.fuel_specs, fuel_map_reverse=self.fuel_map_reverse)
                 if dataset.get("log parameters", {}).get(
                     "technosphere scaling factor"
                 ) or dataset.get("log parameters", {}).get("biosphere scaling factor"):
@@ -834,7 +870,6 @@ class ExternalScenario(BaseTransformation):
 
             if "includes" not in ineff:
                 rescale_exchanges(datatset, scaling_factor, remove_uncertainty=False)
-
             else:
                 if "technosphere" in ineff["includes"]:
                     fltr = []
@@ -1158,20 +1193,25 @@ class ExternalScenario(BaseTransformation):
         fuel_amount = 0
 
         if replaces_in is not None:
+            list_fltr = []
             for k in replaces_in:
-                list_fltr = []
                 operator = k.get("operator", "equals")
+                excludes = k.get("excludes", False)
                 for field in ["name", "reference product", "location", "unit"]:
                     if field in k:
-                        if field == "location":
+                        if operator == "equals":
                             list_fltr.append(ws.equals(field, k[field]))
                         else:
-                            if operator == "equals":
-                                list_fltr.append(ws.equals(field, k[field]))
-                            else:
-                                list_fltr.append(ws.contains(field, k[field]))
                             list_fltr.append(ws.contains(field, k[field]))
-                datasets.extend(list(ws.get_many(self.database, *list_fltr)))
+                if excludes:
+                    for x, y in excludes.items():
+                        if operator == "equals":
+                            list_fltr.append(ws.exclude(ws.equals(x, y)))
+                        else:
+                            list_fltr.append(ws.exclude(ws.contains(x, y)))
+
+            datasets.extend(list(ws.get_many(self.database, *list_fltr)))
+
         else:
             datasets = self.database
 

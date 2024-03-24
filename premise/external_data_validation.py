@@ -135,11 +135,19 @@ def flag_activities_to_adjust(
                 }
             )
 
+            d_absolute_eff = {
+                k.get("variable"): k.get("absolute", False)
+                for k in dataset_vars["efficiency"]
+            }
+
             if d_tech_filters:
                 dataset["technosphere filters"] = d_tech_filters
 
             if d_bio_filters:
                 dataset["biosphere filters"] = d_bio_filters
+
+            if d_absolute_eff:
+                dataset["absolute efficiency"] = d_absolute_eff
 
         # define exclusion filters
         for k in dataset_vars["efficiency"]:
@@ -489,6 +497,7 @@ def check_config_file(datapackages):
                                     Optional("technosphere"): list,
                                     Optional("biosphere"): list,
                                 },
+                                Optional("absolute"): bool,
                             }
                         ],
                         Optional("except regions"): And(
@@ -504,14 +513,7 @@ def check_config_file(datapackages):
                                 Optional("operator"): str,
                             }
                         ],
-                        Optional("replaces in"): [
-                            {
-                                Optional("name"): str,
-                                Optional("reference product"): str,
-                                Optional("location"): str,
-                                Optional("operator"): str,
-                            }
-                        ],
+                        Optional("replaces in"): list,
                         Optional("replacement ratio"): float,
                     },
                 },
@@ -554,14 +556,7 @@ def check_config_file(datapackages):
                                 Optional("operator"): str,
                             }
                         ],
-                        Optional("replaces in"): [
-                            {
-                                Optional("name"): str,
-                                Optional("reference product"): str,
-                                Optional("location"): str,
-                                Optional("operator"): str,
-                            }
-                        ],
+                        Optional("replaces in"): list,
                         Optional("is fuel"): dict,
                         Optional("replacement ratio"): float,
                         Optional("waste market"): bool,
