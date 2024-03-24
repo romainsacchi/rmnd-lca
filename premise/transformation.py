@@ -223,8 +223,13 @@ def filter_out_results(
 def filter_technosphere_exchanges(exchanges: list):
     return filter(lambda x: x["type"] == "technosphere", exchanges)
 
+
 def calculate_input_energy(
-    fuel_name: str, fuel_amount: float, fuel_unit: str, fuels_specs: dict, fuel_map_reverse: dict
+    fuel_name: str,
+    fuel_amount: float,
+    fuel_unit: str,
+    fuels_specs: dict,
+    fuel_map_reverse: dict,
 ) -> float:
     """
     Returns the amount of energy entering the conversion process, in MJ
@@ -248,8 +253,13 @@ def calculate_input_energy(
     # if already in MJ
     return fuel_amount * lhv
 
+
 def find_fuel_efficiency(
-    dataset: dict, energy_out: float, fuel_specs: dict, fuel_map_reverse: dict, fuel_filters: List[str] = None,
+    dataset: dict,
+    energy_out: float,
+    fuel_specs: dict,
+    fuel_map_reverse: dict,
+    fuel_filters: List[str] = None,
 ) -> float:
     """
     This method calculates the efficiency value set initially, in case it is not specified in the parameter
@@ -269,7 +279,11 @@ def find_fuel_efficiency(
             np.asarray(
                 [
                     calculate_input_energy(
-                        exc["name"], exc["amount"], exc["unit"], fuel_specs, fuel_map_reverse
+                        exc["name"],
+                        exc["amount"],
+                        exc["unit"],
+                        fuel_specs,
+                        fuel_map_reverse,
                     )
                     for exc in dataset["exchanges"]
                     if exc["name"] in fuel_filters
@@ -281,9 +295,7 @@ def find_fuel_efficiency(
     )
 
     if energy_input == 0:
-        print(
-            f"Warning: {dataset['name'], dataset['location']} has no energy input"
-        )
+        print(f"Warning: {dataset['name'], dataset['location']} has no energy input")
 
     if energy_input != 0 and float(energy_out) != 0:
         current_efficiency = float(energy_out) / energy_input
@@ -299,6 +311,7 @@ def find_fuel_efficiency(
         dataset["parameters"] = {"efficiency": current_efficiency}
 
     return current_efficiency
+
 
 class BaseTransformation:
     """

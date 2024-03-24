@@ -24,8 +24,8 @@ from .transformation import (
     InventorySet,
     List,
     Tuple,
-    get_suppliers_of_a_region,
     find_fuel_efficiency,
+    get_suppliers_of_a_region,
     np,
     uuid,
     ws,
@@ -1781,7 +1781,7 @@ class Electricity(BaseTransformation):
                             fuel_filters=self.powerplant_fuels_map[tech],
                             energy_out=3.6,
                             fuel_specs=self.fuels_specs,
-                            fuel_map_reverse=self.fuel_map_reverse
+                            fuel_map_reverse=self.fuel_map_reverse,
                         )
 
                         new_eff = self.iam_data.coal_power_plants.sel(

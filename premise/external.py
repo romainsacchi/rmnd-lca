@@ -15,6 +15,7 @@ import yaml
 from datapackage import Package
 from wurst import searching as ws
 
+from .activity_maps import InventorySet
 from .clean_datasets import get_biosphere_flow_uuid
 from .data_collection import IAMDataCollection
 from .external_data_validation import check_inventories, find_iam_efficiency_change
@@ -25,9 +26,12 @@ from .inventory_imports import (
     get_biosphere_code,
     get_correspondence_bio_flows,
 )
-from .transformation import BaseTransformation, get_shares_from_production_volume, find_fuel_efficiency
-from .utils import HiddenPrints, rescale_exchanges, get_fuel_properties
-from .activity_maps import InventorySet
+from .transformation import (
+    BaseTransformation,
+    find_fuel_efficiency,
+    get_shares_from_production_volume,
+)
+from .utils import HiddenPrints, get_fuel_properties, rescale_exchanges
 
 LOG_CONFIG = DATA_DIR / "utils" / "logging" / "logconfig.yaml"
 
@@ -166,7 +170,9 @@ def adjust_efficiency(dataset: dict, fuels_specs: dict, fuel_map_reverse: dict) 
                 if dataset["location"] not in v[1]:
                     continue
 
-                absolute_efficiency = dataset.get("absolute efficiency", {k: {}}).get(k, False)
+                absolute_efficiency = dataset.get("absolute efficiency", {k: {}}).get(
+                    k, False
+                )
 
                 if absolute_efficiency is True:
 
@@ -191,7 +197,9 @@ def adjust_efficiency(dataset: dict, fuels_specs: dict, fuel_map_reverse: dict) 
                     scaling_factor = current_efficiency / expected_efficiency
 
                     if scaling_factor >= 1.5:
-                        print(f"Warning: Efficiency factor for {dataset['name'][:50]} in {dataset['location']} is {scaling_factor}.")
+                        print(
+                            f"Warning: Efficiency factor for {dataset['name'][:50]} in {dataset['location']} is {scaling_factor}."
+                        )
 
                 else:
                     # the scaling factor is the inverse of the efficiency change
@@ -355,7 +363,7 @@ class ExternalScenario(BaseTransformation):
         self.fuel_specs = get_fuel_properties()
         mapping = InventorySet(self.database)
         self.fuel_map = mapping.generate_fuel_map()
-        self.fuel_map_reverse= {}
+        self.fuel_map_reverse = {}
         for key, value in self.fuel_map.items():
             for v in list(value):
                 self.fuel_map_reverse[v] = key
@@ -468,7 +476,11 @@ class ExternalScenario(BaseTransformation):
             ws.either(*[ws.contains("name", name) for name in ds_names]),
         ):
             if len(dataset["location"]) > 1:
-                adjust_efficiency(dataset, fuels_specs=self.fuel_specs, fuel_map_reverse=self.fuel_map_reverse)
+                adjust_efficiency(
+                    dataset,
+                    fuels_specs=self.fuel_specs,
+                    fuel_map_reverse=self.fuel_map_reverse,
+                )
                 if dataset.get("log parameters", {}).get(
                     "technosphere scaling factor"
                 ) or dataset.get("log parameters", {}).get("biosphere scaling factor"):

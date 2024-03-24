@@ -729,7 +729,7 @@ class NewDatabase:
             (FILEPATH_CSP, "3.9"),
             (FILEPATH_VANADIUM, "3.9"),
             (FILEPATH_VANADIUM_REDOX_BATTERY, "3.9"),
-            #(FILEPATH_SIB_BATTERY, "3.9"),
+            # (FILEPATH_SIB_BATTERY, "3.9"),
             (FILEPATH_HYDROGEN_HEATING, "3.9"),
             (FILEPATH_METHANOL_HEATING, "3.9"),
             (FILEPATH_GERMANIUM, "3.9"),

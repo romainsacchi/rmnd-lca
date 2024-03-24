@@ -1480,7 +1480,9 @@ class IAMDataCollection:
                 if "production pathways" in config_file:
                     for k, variable in config_file["production pathways"].items():
                         try:
-                            variables[k] = [e["variable"] for e in variable["efficiency"]]
+                            variables[k] = [
+                                e["variable"] for e in variable["efficiency"]
+                            ]
                         except KeyError:
                             continue
 
@@ -1553,7 +1555,6 @@ class IAMDataCollection:
                             # use the earliest year in `array`
                             values["reference year"] = array.coords["year"].values.min()
 
-
                     for variable, values in ref_years.items():
                         reference_year = values["reference year"]
                         absolute = values["absolute"]
@@ -1561,19 +1562,21 @@ class IAMDataCollection:
                         if absolute:
                             # we consider efficiencies as given
                             # back-fill nans
-                            array.loc[{"variables": variable}] = array.loc[{"variables": variable}].bfill(
-                                dim="year"
-                            )
+                            array.loc[{"variables": variable}] = array.loc[
+                                {"variables": variable}
+                            ].bfill(dim="year")
                             # forward-fill nans
-                            array.loc[{"variables": variable}] = array.loc[{"variables": variable}].ffill(
-                                dim="year"
-                            )
+                            array.loc[{"variables": variable}] = array.loc[
+                                {"variables": variable}
+                            ].ffill(dim="year")
                             pass
                         else:
                             # we normalize efficiencies
                             array.loc[{"variables": variable}] = array.loc[
                                 {"variables": variable}
-                            ] / array.loc[{"variables": variable}].sel(year=int(reference_year))
+                            ] / array.loc[{"variables": variable}].sel(
+                                year=int(reference_year)
+                            )
 
                             # convert NaNs to ones
                             array = array.fillna(1)
