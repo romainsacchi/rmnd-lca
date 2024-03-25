@@ -258,7 +258,7 @@ def update_exchanges(
         "unit": new_provider["unit"],
         "location": new_provider["location"],
         "type": "technosphere",
-        "uncertainty_type" : 0  # assumes no uncertainty
+        "uncertainty_type": 0  # assumes no uncertainty
     }
 
     if min_value is not None and max_value is not None:
@@ -267,6 +267,7 @@ def update_exchanges(
                 new_exchange.update(
                     {
                         "uncertainty type": 5,
+                        "loc": new_amount,
                         "minimum": min_value,
                         "maximum": max_value,
                         "preserve uncertainty": True,
