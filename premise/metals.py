@@ -216,6 +216,8 @@ def update_exchanges(
     new_amount: float,
     new_provider: dict,
     metal: str,
+    min_value: Optional[float] = None,
+    max_value: Optional[float] = None,
 ) -> dict:
     """
     Update exchanges for a given activity.
@@ -250,14 +252,27 @@ def update_exchanges(
     ]
 
     new_exchange = {
-        "uncertainty type": 0,
         "amount": new_amount,
         "product": new_provider["reference product"],
         "name": new_provider["name"],
         "unit": new_provider["unit"],
         "location": new_provider["location"],
         "type": "technosphere",
+        "uncertainty_type" : 0  # assumes no uncertainty
     }
+
+    if min_value is not None and max_value is not None:
+        if min_value != max_value:
+            if min_value <= new_amount <= max_value:
+                new_exchange.update(
+                    {
+                        "uncertainty type": 5,
+                        "minimum": min_value,
+                        "maximum": max_value,
+                        "preserve uncertainty": True,
+                    }
+                )
+
     activity["exchanges"].append(new_exchange)
 
     # Log changes
@@ -302,7 +317,7 @@ class Metals(BaseTransformation):
 
         self.metals = iam_data.metals  # 1
         # Precompute the median values for each metal and origin_var for the year 2020
-        self.precomputed_medians = self.metals.sel(variable="median").interp(
+        self.precomputed_medians = self.metals.interp(
             year=self.year, method="nearest", kwargs={"fill_value": "extrapolate"}
         )
 
@@ -448,24 +463,33 @@ class Metals(BaseTransformation):
             and pd.notna(metal_activity_name)
             and conversion_factor
         ):
-            median_value = self.precomputed_medians.sel(
+            use_factors = self.precomputed_medians.sel(
                 metal=metal_row["Element"], origin_var=technology
-            ).item()
-            amount = median_value * unit_converter * conversion_factor
-
-            try:
-                dataset_metal = self.get_metal_market_dataset(metal_activity_name)
-            except ws.NoResults:
-                print(f"Could not find dataset for {metal_activity_name}.")
-                return
-            metal_users = ws.get_many(
-                self.database, ws.equals("name", final_technology)
             )
-            for metal_user in metal_users:
-                update_exchanges(
-                    metal_user, amount, dataset_metal, metal_row["Element"]
+            median_value = use_factors.sel(variable="median").item() * unit_converter * conversion_factor
+            min_value = use_factors.sel(variable="min").item() * unit_converter * conversion_factor
+            max_value = use_factors.sel(variable="median").item() * unit_converter * conversion_factor
+
+            if median_value != 0:
+
+                try:
+                    dataset_metal = self.get_metal_market_dataset(metal_activity_name)
+                except ws.NoResults:
+                    print(f"Could not find dataset for {metal_activity_name}.")
+                    return
+                metal_users = ws.get_many(
+                    self.database, ws.equals("name", final_technology)
                 )
-                self.write_log(metal_user, "updated")
+                for metal_user in metal_users:
+                    update_exchanges(
+                        activity=metal_user,
+                        new_amount=median_value,
+                        new_provider=dataset_metal,
+                        metal=metal_row["Element"],
+                        min_value=min_value,
+                        max_value=max_value,
+                    )
+                    self.write_log(metal_user, "updated")
         else:
             print(
                 f"Warning: Missing data for {metal_row['Element']} for {dataset['name']}:"

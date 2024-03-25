@@ -122,14 +122,17 @@ def get_metals_intensity_factors_data() -> xr.DataArray:
         id_vars=["metal", "year", "origin_var"],
         value_vars=["mean", "median", "min", "max"],
     )
+
     array = (
         df.groupby(["metal", "origin_var", "year", "variable"])
         .mean()["value"]
         .to_xarray()
     )
+
     array = array.interpolate_na(dim="year", method="nearest", fill_value="extrapolate")
     array = array.bfill(dim="year")
     array = array.ffill(dim="year")
+    array = array.fillna(0)
 
     return array
 
