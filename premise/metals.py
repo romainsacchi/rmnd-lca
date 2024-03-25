@@ -467,9 +467,21 @@ class Metals(BaseTransformation):
             use_factors = self.precomputed_medians.sel(
                 metal=metal_row["Element"], origin_var=technology
             )
-            median_value = use_factors.sel(variable="median").item() * unit_converter * conversion_factor
-            min_value = use_factors.sel(variable="min").item() * unit_converter * conversion_factor
-            max_value = use_factors.sel(variable="median").item() * unit_converter * conversion_factor
+            median_value = (
+                use_factors.sel(variable="median").item()
+                * unit_converter
+                * conversion_factor
+            )
+            min_value = (
+                use_factors.sel(variable="min").item()
+                * unit_converter
+                * conversion_factor
+            )
+            max_value = (
+                use_factors.sel(variable="median").item()
+                * unit_converter
+                * conversion_factor
+            )
 
             if median_value != 0:
 
