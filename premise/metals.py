@@ -258,7 +258,7 @@ def update_exchanges(
         "unit": new_provider["unit"],
         "location": new_provider["location"],
         "type": "technosphere",
-        "uncertainty_type" : 0  # assumes no uncertainty
+        "uncertainty_type": 0,  # assumes no uncertainty
     }
 
     if min_value is not None and max_value is not None:
@@ -466,9 +466,21 @@ class Metals(BaseTransformation):
             use_factors = self.precomputed_medians.sel(
                 metal=metal_row["Element"], origin_var=technology
             )
-            median_value = use_factors.sel(variable="median").item() * unit_converter * conversion_factor
-            min_value = use_factors.sel(variable="min").item() * unit_converter * conversion_factor
-            max_value = use_factors.sel(variable="median").item() * unit_converter * conversion_factor
+            median_value = (
+                use_factors.sel(variable="median").item()
+                * unit_converter
+                * conversion_factor
+            )
+            min_value = (
+                use_factors.sel(variable="min").item()
+                * unit_converter
+                * conversion_factor
+            )
+            max_value = (
+                use_factors.sel(variable="median").item()
+                * unit_converter
+                * conversion_factor
+            )
 
             if median_value != 0:
 
