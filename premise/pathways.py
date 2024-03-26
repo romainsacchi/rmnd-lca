@@ -86,12 +86,12 @@ class PathwaysDataPackage:
             scenario["database"] = energy.database
 
         self.export_datapackage(
-            name=name,
-            contributors=contributors,
-            export_uncertainty=export_uncertainty
+            name=name, contributors=contributors, export_uncertainty=export_uncertainty
         )
 
-    def export_datapackage(self, name: str, contributors: list = None, export_uncertainty=False):
+    def export_datapackage(
+        self, name: str, contributors: list = None, export_uncertainty=False
+    ):
         # first, delete the content of the "pathways" folder
         shutil.rmtree(Path.cwd() / "pathways", ignore_errors=True)
 
