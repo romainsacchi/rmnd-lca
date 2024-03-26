@@ -1654,8 +1654,12 @@ class Electricity(BaseTransformation):
                     continue
 
                 # Find current efficiency
-                ei_eff = dict_technology["current_eff_func"](
-                    dataset, dict_technology["fuel filters"], 3.6
+                ei_eff = find_fuel_efficiency(
+                    dataset=dataset,
+                    fuel_filters=dict_technology["fuel filters"],
+                    energy_out=3.6,
+                    fuel_specs=self.fuels_specs,
+                    fuel_map_reverse=self.fuel_map_reverse,
                 )
                 new_efficiency = 0
 

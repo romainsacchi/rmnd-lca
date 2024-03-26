@@ -599,7 +599,7 @@ class BaseTransformation:
         return {
             tech: {
                 "IAM_eff_func": self.find_iam_efficiency_change,
-                "current_eff_func": self.find_fuel_efficiency,
+                "current_eff_func": find_fuel_efficiency,
                 "technology filters": activity_map[tech],
                 "fuel filters": fuels_map[tech],
             }

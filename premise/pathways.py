@@ -65,6 +65,7 @@ class PathwaysDataPackage:
         name: str = f"pathways_{date.today()}",
         contributors: list = None,
         transformations: list = None,
+        export_uncertainty=False,
     ):
         if transformations:
             self.datapackage.update(transformations)
@@ -84,14 +85,20 @@ class PathwaysDataPackage:
             energy.import_heating_inventories()
             scenario["database"] = energy.database
 
-        self.export_datapackage(name)
+        self.export_datapackage(
+            name=name,
+            contributors=contributors,
+            export_uncertainty=export_uncertainty
+        )
 
-    def export_datapackage(self, name: str, contributors: list = None):
+    def export_datapackage(self, name: str, contributors: list = None, export_uncertainty=False):
         # first, delete the content of the "pathways" folder
         shutil.rmtree(Path.cwd() / "pathways", ignore_errors=True)
+        print(export_uncertainty)
         # create matrices in current directory
         self.datapackage.write_db_to_matrices(
-            filepath=str(Path.cwd() / "pathways" / "inventories")
+            filepath=str(Path.cwd() / "pathways" / "inventories"),
+            export_uncertainty_data=export_uncertainty,
         )
         self.add_scenario_data()
         self.add_variables_mapping()
@@ -277,12 +284,6 @@ class PathwaysDataPackage:
                         extra_units.update(s["production volume"].attrs["unit"])
 
         array = xr.concat(scenario_data, dim="scenario")
-        # make sure all the years exist
-        # otherwise interpolate
-        # array = array.interp(
-        #    year=self.years,
-        #    kwargs={"fill_value": "extrapolate"},
-        # )
 
         # add scenario data to the xarray
         scenarios = [
