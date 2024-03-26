@@ -1566,12 +1566,12 @@ production volumes of each electricity-producing technology is used to
 determine the gross supply mix of the market.
 
 
-The table below shows the correspondence between *premise*, REMIND, IMAGE
+The table below shows a non-exhaustive list of correspondences between *premise*, REMIND, IMAGE
 and LCI terminology, regarding electricity producing technologies. *premise*
 production volumes given for secondary energy carriers for electricity.
 The mapping file is available in the library root folder: mappingElec_.
 
-.. _mappingElec: https://github.com/polca/premise/blob/master/premise/data/electricity/electricity_tech_vars.yml
+.. _mappingElec: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/electricity_variables.yaml
 
 
  ========================== ===================================== ================================================= ===================================================================================================
@@ -1606,14 +1606,13 @@ The mapping file is available in the library root folder: mappingElec_.
   Solar PV Residential                                             Secondary Energy|Electricity|Solar|PV|2           electricity production, photovoltaic, residential
   Wind Onshore               SE|Electricity|Wind|Onshore           Secondary Energy|Electricity|Wind|1               electricity production, wind, <1MW turbine, onshore
   Wind Offshore              SE|Electricity|Wind|Offshore          Secondary Energy|Electricity|Wind|2               electricity production, wind, 1-3MW turbine, offshore
-  biomass - purpose grown    SE|Electricity|Biomass|Energy Crops   Primary Energy|Biomass|Energy Crops               market for wood chips
-  biomass - residual         SE|Electricity|Biomass|Residues       Primary Energy|Biomass|Residues                   Supply of forest residue
  ========================== ===================================== ================================================= ===================================================================================================
 
 .. note::
 
     IAMs do not necessarily display the same variety of technologies.
-    For example, REMIND does not provide a variable for residential PV production.
+    For example, REMIND does not provide a variable for residential PV production while
+    IMAGE does.
 
 
 .. note::
@@ -1750,8 +1749,8 @@ derives efficiencies by dividing the the final energy demand by the production v
 and steel is not always given as such. The mapping files are
 available in the library root folder: mappingCement_ and mappingSteel_.
 
-.. _mappingCement: https://github.com/polca/premise/blob/master/premise/data/cement/cement_tech_vars.yml
-.. _mappingSteel: https://github.com/polca/premise/blob/master/premise/data/steel/steel_tech_vars.yml
+.. _mappingCement: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/cement_variables.yaml
+.. _mappingSteel: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/steel_variables.yaml
 
  ==================== ========================================== ==============================
   name in premise      name in REMIND                              name in IMAGE
@@ -1765,7 +1764,7 @@ The table below shows the correspondence between *premise*, REMIND, IMAGE,
 regarding efficiency variables for fuels producing technologies. The mapping file is
 available in the library root folder: mappingFuels_.
 
-.. _mappingFuels: https://github.com/polca/premise/blob/master/premise/data/fuels/fuel_tech_vars.yml
+.. _mappingFuels: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/fuel_variables.yaml
 
  ==================================== ======================================================================= ========================================================
   name in premise                      name in REMIND                                                           name in IMAGE
@@ -1823,7 +1822,7 @@ is used to adjust the inventories of crop farming datasets. The table below show
 used to that effect. The mapping file is
 available in the library root folder: mappingCrops_.
 
-.. _mappingCrops: https://github.com/polca/premise/blob/master/premise/data/fuels/crops_properties.yml
+.. _mappingCrops: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/crops_variables.yaml
 
  ========================= ========================== ========================================== =============================================================
   Crop family in premise    Crop type in premise       Land use variable in IMAGE [Ha/GJ-Prim]    Land use change variable in IMAGE [kg CO2/GJ-Prim]
@@ -1879,8 +1878,7 @@ Data sources external to the IAM
 *premise* tries to adhere to the IAM scenario data as much as possible. There are
 however a number of cases where external data sources are used. This is notably the case
 for non-CO2 pollutants emissions for different sectors (electricity, steel and cement),
-fuel mixes and power generation for the cement industry, as well as expected efficiency gains
-for photovoltaic panels.
+as well as expected efficiency gains for photovoltaic panels.
 
 Air emissions
 *************
@@ -1900,15 +1898,6 @@ EXTRACT section.
 
 .. _GAINS-EU: https://gains.iiasa.ac.at/gains/EUN/index.login
 .. _GAINS-IAM: https://gains.iiasa.ac.at/gains/IAM/index.login
-
-
-Cement production
-*****************
-
-A number of parameters to model future clinker/cement production is sourced from the
-IAM file, such as:
-
-* The expected change in fuel efficiency for clinker production.
 
 
 Photovoltaic panels

@@ -158,10 +158,10 @@ def adjust_efficiency(dataset: dict) -> dict:
     """
 
     # loop through the type of flows to adjust
-    filters = []
     for eff_type in ["technosphere", "biosphere"]:
         if f"{eff_type} filters" in dataset:
             for k, v in dataset[f"{eff_type} filters"].items():
+                filters = []
                 if dataset["location"] not in v[1]:
                     continue
 
@@ -970,18 +970,13 @@ class ExternalScenario(BaseTransformation):
                                 *[fetch_loc(loc) for loc in list(self.geo.geo.keys())],
                             ]
 
-                            potential_suppliers = self.fetch_potential_suppliers(
-                                possible_locations, name, ref_prod
-                            )
-
-                            # supply share = production volume of that technology in this region
-                            # over production volume of all technologies in this region
-
                             try:
                                 supply_share = self.fetch_supply_share(
                                     i, region, var, production_variables
                                 )
-                                supply_share *= ratio
+                                # we should not use `ratio` here
+                                # otherwise it messes up with the shares
+                                # supply_share *= ratio
 
                             except KeyError:
                                 print(
@@ -990,6 +985,14 @@ class ExternalScenario(BaseTransformation):
                                 continue
 
                             if supply_share > 0:
+
+                                potential_suppliers = self.fetch_potential_suppliers(
+                                    possible_locations, name, ref_prod
+                                )
+
+                                # supply share = production volume of that technology in this region
+                                # over production volume of all technologies in this region
+
                                 suppliers = get_shares_from_production_volume(
                                     potential_suppliers
                                 )
@@ -1014,6 +1017,13 @@ class ExternalScenario(BaseTransformation):
                                         }
                                     )
 
+                                # we flag new exchanges associated to a `ratio`
+                                # so that we can adjust them later
+
+                                if ratio != 1:
+                                    for exc in new_excs[-len(suppliers) :]:
+                                        exc["ratio"] = ratio
+
                         if len(new_excs) > 0:
                             total = 0
 
@@ -1026,7 +1036,22 @@ class ExternalScenario(BaseTransformation):
                                     # flip the sign of the amount
                                     exc["amount"] *= -1
 
+                            # check for exchanges for which a ratio was provided
+                            # and adjust them
+                            for exc in new_excs:
+                                if "ratio" in exc:
+                                    exc["amount"] *= exc["ratio"]
+                                    del exc["ratio"]
+
                             new_market["exchanges"].extend(new_excs)
+
+                            # check if there are variables that
+                            # relate to inefficiencies or losses
+
+                            self.database.append(new_market)
+                            self.write_log(new_market)
+                            self.add_to_index(new_market)
+                            market_status[region] = True
 
                             # check if we should add some additional exchanges
                             if "add" in market_vars:
@@ -1038,21 +1063,13 @@ class ExternalScenario(BaseTransformation):
                                     )
                                     new_market["exchanges"].extend(add_excs)
 
-                            # check if there are variables that
-                            # relate to inefficiencies or losses
-
                             if "efficiency" in market_vars:
                                 efficiency_data = self.external_scenarios_data[i][
                                     "efficiency"
                                 ]
-                                new_market = self.adjust_efficiency_of_new_markets(
+                                self.adjust_efficiency_of_new_markets(
                                     new_market, market_vars, region, efficiency_data
                                 )
-
-                            self.database.append(new_market)
-                            self.write_log(new_market)
-                            self.add_to_index(new_market)
-                            market_status[region] = True
 
                         else:
                             print(

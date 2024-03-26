@@ -7,6 +7,26 @@ and technology market shares with the outputs from the Integrated Assessment Mod
 Biomass
 """""""
 
+Run
+
+.. code-block:: python
+
+    from premise import *
+    import brightway2 as bw
+
+    bw.projects.set_current("my_project)
+
+    ndb = NewDatabase(
+        scenarios=[
+                {"model":"remind", "pathway":"SSP2-Base", "year":2028}
+            ],
+        source_db="ecoinvent 3.7 cutoff",
+        source_version="3.7.1",
+        key='xxxxxxxxxxxxxxxxxxxxxxxxx'
+    )
+    ndb.update("biomass")
+
+
 Regional biomass markets
 ------------------------
 
@@ -565,6 +585,25 @@ Cement production
 The modelling of future improvements in the cement sector is relatively
 simple at the moment, and does not involve the emergence of new
 technologies (e.g., electric kilns).
+
+Run
+
+.. code-block:: python
+
+    from premise import *
+    import brightway2 as bw
+
+    bw.projects.set_current("my_project)
+
+    ndb = NewDatabase(
+        scenarios=[
+                {"model":"remind", "pathway":"SSP2-Base", "year":2028}
+            ],
+        source_db="ecoinvent 3.7 cutoff",
+        source_version="3.7.1",
+        key='xxxxxxxxxxxxxxxxxxxxxxxxx'
+    )
+    ndb.update("cement")
 
 Dataset proxies
 +++++++++++++++
@@ -1496,6 +1535,25 @@ are modelled with the calorific value of conventional gasoline.
 Heat
 ++++
 
+Run
+
+.. code-block:: python
+
+    from premise import *
+    import brightway2 as bw
+
+    bw.projects.set_current("my_project)
+
+    ndb = NewDatabase(
+        scenarios=[
+                {"model":"remind", "pathway":"SSP2-Base", "year":2028}
+            ],
+        source_db="ecoinvent 3.7 cutoff",
+        source_version="3.7.1",
+        key='xxxxxxxxxxxxxxxxxxxxxxxxx'
+    )
+    ndb.update("heat")
+
 Datasets that supply heat and steam via the combustion of natural gas and diesel
 are regionalized (made available for each region of the IAM model) and relinked
 to regional fuel markets. If the fuel market contains a share of non-fossil fuels,
@@ -1999,6 +2057,25 @@ Final Steps
 
 GAINS emission factors
 """"""""""""""""""""""
+
+Run
+
+.. code-block:: python
+
+    from premise import *
+    import brightway2 as bw
+
+    bw.projects.set_current("my_project)
+
+    ndb = NewDatabase(
+        scenarios=[
+                {"model":"remind", "pathway":"SSP2-Base", "year":2028}
+            ],
+        source_db="ecoinvent 3.7 cutoff",
+        source_version="3.7.1",
+        key='xxxxxxxxxxxxxxxxxxxxxxxxx'
+    )
+    ndb.update("emissions")
 
 When using `update("emissions")`, emission factors from the GAINS-EU_ and GAINS-IAM_ models are used to scale
 non-CO2 emissions in various datasets.

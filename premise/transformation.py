@@ -510,7 +510,6 @@ class BaseTransformation:
         if fuel_unit in ["kilogram", "cubic meter"]:
             try:
                 lhv = self.fuels_specs[self.fuel_map_reverse[fuel_name]]["lhv"]
-
             except KeyError:
                 lhv = 0
         elif fuel_unit == "kilowatt hour":
@@ -534,23 +533,6 @@ class BaseTransformation:
         :return: the efficiency value set initially
         """
 
-        # not_allowed = ["thermal"]
-        # key = []
-        # if "parameters" in dataset:
-        #     key = list(
-        #         key
-        #         for key in dataset["parameters"]
-        #         if "efficiency" in key and not any(item in key for item in not_allowed)
-        #     )
-        #
-        # if len(key) > 0:
-        #     if "parameters" in dataset:
-        #         dataset["parameters"]["efficiency"] = dataset["parameters"][key[0]]
-        #     else:
-        #         dataset["parameters"] = {"efficiency": dataset["parameters"][key[0]]}
-        #
-        #     return dataset["parameters"][key[0]]
-
         energy_input = np.sum(
             np.sum(
                 np.asarray(
@@ -561,11 +543,16 @@ class BaseTransformation:
                         for exc in dataset["exchanges"]
                         if exc["name"] in fuel_filters
                         and exc["type"] == "technosphere"
-                        and exc["amount"] > 0
+                        and exc["amount"] > 0.0
                     ]
                 )
             )
         )
+
+        if energy_input == 0:
+            print(
+                f"Warning: {dataset['name'], dataset['location']} has no energy input"
+            )
 
         if energy_input != 0 and float(energy_out) != 0:
             current_efficiency = float(energy_out) / energy_input

@@ -10,15 +10,29 @@
 
 <p align="center">
   <a href="https://badge.fury.io/py/premise" target="_blank"><img src="https://badge.fury.io/py/premise.svg"></a>
+  <a href="https://anaconda.org/conda-forge/premise" target="_blank"><img src="https://img.shields.io/conda/vn/conda-forge/premise.svg"></a>
   <a href="https://github.com/polca/premise" target="_blank"><img src="https://github.com/polca/premise/actions/workflows/main.yml/badge.svg?branch=master"></a>
   <a href="https://coveralls.io/github/polca/premise" target="_blank"><img src="https://coveralls.io/repos/github/polca/premise/badge.svg"></a>
   <a href="https://premise.readthedocs.io/en/latest/" target="_blank"><img src="https://readthedocs.org/projects/premise/badge/?version=latest"></a>
 </p>
- 
-Previously named *rmnd-lca*. *rmnd-lca* was designed to work with the IAM model REMIND only.
-As it now evolves towards a more IAM-neutral approach, a change of name was considered.
 
-Scientific publication available here: [Sacchi et al, 2022](https://doi.org/10.1016/j.rser.2022.112311).
+``premise`` is a Python tool for prospective life cycle assessment. 
+It allows users to project the ecoinvent 3 database into the future, 
+using scenarios from Integrated Assessment Models (IAMs). It does so by 
+modifying the ecoinvent database to reflect projected energy policy trajectories, include emerging
+technologies, modify market shares as well as technologies' efficiency.
+
+Among others, it can be used to assess the environmental impacts of future energy systems,
+and to compare different energy policies. It includes a set of IAM scenarios
+and a set of tools to create custom scenarios.
+
+The tool was designed to be user-friendly and to allow for reproducible results. 
+While it is built on the [brightway2 framework](https://docs.brightway.dev/en/latest/), 
+its outputs can naturally be used in [Activity Browser](https://github.com/LCA-ActivityBrowser/activity-browser), 
+but also in other LCA software, such as SimaPro, OpenLCA, or directly in Python.
+
+The tool is described in the following scientific publication: [Sacchi et al, 2022](https://doi.org/10.1016/j.rser.2022.112311).
+
 
 
 What's new in 2.0.0?
@@ -89,8 +103,7 @@ Two options:
 A development version with the latest advancements (but with the risks of unseen bugs),
 is available from Anaconda Cloud:
 
-
-    conda install -c romainsacchi premise
+    conda install -c conda-forge premise
 
 
 For a more stable and proven version, from Pypi:

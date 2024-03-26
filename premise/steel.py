@@ -91,10 +91,10 @@ class Steel(BaseTransformation):
         :return: Returns a modified database with newly added steel activities for the corresponding year
         """
 
-        self.create_steel_markets()
-        self.create_steel_production_activities()
         self.create_pig_iron_production_activities()
         self.create_pig_iron_markets()
+        self.create_steel_markets()
+        self.create_steel_production_activities()
 
     def create_steel_markets(self):
         """
