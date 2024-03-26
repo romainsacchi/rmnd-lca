@@ -1109,11 +1109,7 @@ class NewDatabase:
                 )
 
             for scen, scenario in enumerate(self.scenarios):
-                Export(
-                    scenario,
-                    filepath[scen],
-                    self.version
-                ).export_db_to_matrices(
+                Export(scenario, filepath[scen], self.version).export_db_to_matrices(
                     export_uncertainty=export_uncertainty_data
                 )
 

@@ -1054,7 +1054,6 @@ class Export:
 
         return list_exchanges, list_uncertainty
 
-
     def create_B_matrix_coordinates(self):
         index_B = create_index_of_biosphere_flows_matrix(self.version)
         rev_index_B = self.create_rev_index_of_B_matrix(self.version)
@@ -1101,7 +1100,9 @@ class Export:
             os.makedirs(self.filepath)
 
         # Export A matrix
-        rows, uncertainty = self.create_A_matrix_coordinates(export_uncertainty=export_uncertainty)
+        rows, uncertainty = self.create_A_matrix_coordinates(
+            export_uncertainty=export_uncertainty
+        )
 
         with open(self.filepath / "A_matrix.csv", "w", encoding="utf-8") as file:
             writer = csv.writer(
@@ -1115,7 +1116,9 @@ class Export:
 
         if export_uncertainty is True:
             print("Exporting uncertainty data...", len(uncertainty))
-            with open(self.filepath / "A_matrix_uncertainty.csv", "w", encoding="utf-8") as file:
+            with open(
+                self.filepath / "A_matrix_uncertainty.csv", "w", encoding="utf-8"
+            ) as file:
                 writer = csv.writer(
                     file,
                     delimiter=";",

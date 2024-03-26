@@ -10,7 +10,15 @@ of the wurst database to the newly created cement markets.
 from collections import defaultdict
 
 from .logger import create_logger
-from .transformation import BaseTransformation, calculate_input_energy, Dict, IAMDataCollection, List, np, ws
+from .transformation import (
+    BaseTransformation,
+    Dict,
+    IAMDataCollection,
+    List,
+    calculate_input_energy,
+    np,
+    ws,
+)
 from .validation import CementValidation
 
 logger = create_logger("cement")
