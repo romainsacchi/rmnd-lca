@@ -94,7 +94,7 @@ class PathwaysDataPackage:
     def export_datapackage(self, name: str, contributors: list = None, export_uncertainty=False):
         # first, delete the content of the "pathways" folder
         shutil.rmtree(Path.cwd() / "pathways", ignore_errors=True)
-        print(export_uncertainty)
+
         # create matrices in current directory
         self.datapackage.write_db_to_matrices(
             filepath=str(Path.cwd() / "pathways" / "inventories"),
