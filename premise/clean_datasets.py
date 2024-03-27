@@ -47,10 +47,11 @@ def remove_uncertainty(database):
         for exc in dataset["exchanges"]:
             if "uncertainty type" in exc:
                 if exc["uncertainty type"] != 0:
-                    exc["uncertainty type"] = 0
-                    for key in keys_to_remove:
-                        if key in exc:
-                            del exc[key]
+                    if exc.get("preserve uncertainty", False) is False:
+                        exc["uncertainty type"] = 0
+                        for key in keys_to_remove:
+                            if key in exc:
+                                del exc[key]
     return database
 
 

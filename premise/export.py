@@ -1047,6 +1047,7 @@ class Export:
                                     exc.get("shape"),
                                     exc.get("minimum"),
                                     exc.get("maximum"),
+                                    True if exc.get("loc") < 0 else False,
                                 ]
                                 list_uncertainty.append(uncertainty)
         except KeyError:
@@ -1096,6 +1097,7 @@ class Export:
 
         :param export_uncertainty: if True, export uncertainty data
         """
+
         if not os.path.exists(self.filepath):
             os.makedirs(self.filepath)
 
@@ -1114,11 +1116,9 @@ class Export:
             for row in rows:
                 writer.writerow(row)
 
-        print(export_uncertainty, len(uncertainty))
         if export_uncertainty is True:
-            print("Exporting uncertainty data...", len(uncertainty))
             with open(
-                self.filepath / "A_matrix_uncertainty.csv", "w", encoding="utf-8"
+                    self.filepath / "A_matrix_uncertainty.csv", "w", encoding="utf-8"
             ) as file:
                 writer = csv.writer(
                     file,
@@ -1135,6 +1135,7 @@ class Export:
                         "shape",
                         "minimum",
                         "maximum",
+                        "negative"
                     ]
                 )
                 for row in uncertainty:

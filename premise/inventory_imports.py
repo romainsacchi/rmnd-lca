@@ -807,7 +807,6 @@ class DefaultInventory(BaseInventoryImport):
             )
 
         self.import_db.data = remove_categories(self.import_db.data)
-
         self.lower_case_technosphere_exchanges()
         self.add_biosphere_links()
         self.add_product_field_to_exchanges()
