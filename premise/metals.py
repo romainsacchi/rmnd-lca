@@ -6,7 +6,6 @@ Integrates projections regarding use of metals in the economy from:
 import uuid
 from functools import lru_cache
 from itertools import groupby
-from pprint import pprint
 from typing import Optional, Tuple
 
 import country_converter as coco
@@ -361,7 +360,6 @@ class Metals(BaseTransformation):
         Update the database with metals use factors.
         """
 
-        print("Integrating metals use factors.")
         for dataset in self.database:
             if dataset["name"] in self.rev_activities_metals_map:
                 origin_var = self.rev_activities_metals_map[dataset["name"]]
@@ -871,15 +869,12 @@ class Metals(BaseTransformation):
     def create_metal_markets(self):
         self.post_allocation_correction()
 
-        print("Creating metal markets")
-
         dataframe = load_mining_shares_mapping()
         dataframe = dataframe.loc[dataframe["Work done"] == "Yes"]
         dataframe = dataframe.loc[~dataframe["Country"].isnull()]
         dataframe_shares = dataframe
 
         for metal in dataframe_shares["Metal"].unique():
-            print(f"... for {metal}.")
             df_metal = dataframe.loc[dataframe["Metal"] == metal]
             dataset = self.create_market(metal, df_metal)
 
@@ -894,14 +889,12 @@ class Metals(BaseTransformation):
             dataframe["Region"].notnull() & dataframe["2020"].isnull()
         ]
 
-        print("Creating additional mining processes")
         for metal in dataframe_parent["Metal"].unique():
             df_metal = dataframe_parent.loc[dataframe["Metal"] == metal]
 
             for (name, ref_prod), group in df_metal.groupby(
                 ["Process", "Reference product"]
             ):
-                print(f"...... for {name} - {ref_prod}.")
                 new_locations = {
                     c: self.convert_long_to_short_country_name(c)
                     for c in group["Country"].unique()
