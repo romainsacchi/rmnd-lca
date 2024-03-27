@@ -10,6 +10,7 @@ from pprint import pprint
 from typing import Optional, Tuple
 
 import country_converter as coco
+import numpy as np
 import pandas as pd
 import yaml
 from _operator import itemgetter
@@ -226,6 +227,8 @@ def update_exchanges(
     :param new_amount: Result of the calculation
     :param new_provider: Dataset of the new provider
     :param metal: Metal name
+    :param min_value: Minimum value for uncertainty
+    :param max_value: Maximum value for uncertainty
     :return: Updated activity
     """
     # fetch old amount
@@ -482,7 +485,7 @@ class Metals(BaseTransformation):
                 * conversion_factor
             )
 
-            if median_value != 0:
+            if median_value != 0 and not np.isnan(median_value):
 
                 try:
                     dataset_metal = self.get_metal_market_dataset(metal_activity_name)
