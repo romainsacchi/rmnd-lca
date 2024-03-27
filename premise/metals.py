@@ -104,11 +104,6 @@ def load_mining_shares_mapping():
     filepath = DATA_DIR / "metals" / "mining_shares_mapping.xlsx"
     df = pd.read_excel(filepath, sheet_name="Shares_mapping")
 
-    # TODO: find a solution to this, because pig iron
-    # market creation conflicts with .update_steel()
-    # for now, remove pig iron from the dataframe
-    df = df.loc[df["Reference product"] != "pig iron"]
-
     # replace all instances of "Year " in columns by ""
     df.columns = df.columns.str.replace("Year ", "")
 
@@ -221,6 +216,8 @@ def update_exchanges(
     new_amount: float,
     new_provider: dict,
     metal: str,
+    min_value: Optional[float] = None,
+    max_value: Optional[float] = None,
 ) -> dict:
     """
     Update exchanges for a given activity.
@@ -255,14 +252,28 @@ def update_exchanges(
     ]
 
     new_exchange = {
-        "uncertainty type": 0,
         "amount": new_amount,
         "product": new_provider["reference product"],
         "name": new_provider["name"],
         "unit": new_provider["unit"],
         "location": new_provider["location"],
         "type": "technosphere",
+        "uncertainty_type": 0,  # assumes no uncertainty
     }
+
+    if min_value is not None and max_value is not None:
+        if min_value != max_value:
+            if min_value <= new_amount <= max_value:
+                new_exchange.update(
+                    {
+                        "uncertainty type": 5,
+                        "loc": new_amount,
+                        "minimum": min_value,
+                        "maximum": max_value,
+                        "preserve uncertainty": True,
+                    }
+                )
+
     activity["exchanges"].append(new_exchange)
 
     # Log changes
@@ -307,7 +318,7 @@ class Metals(BaseTransformation):
 
         self.metals = iam_data.metals  # 1
         # Precompute the median values for each metal and origin_var for the year 2020
-        self.precomputed_medians = self.metals.sel(variable="median").interp(
+        self.precomputed_medians = self.metals.interp(
             year=self.year, method="nearest", kwargs={"fill_value": "extrapolate"}
         )
 
@@ -321,7 +332,7 @@ class Metals(BaseTransformation):
 
         inv = InventorySet(self.database, self.version)
 
-        self.activities_metals_map: Dict[str, Set] = (
+        self.activities_metals_map: Dict[str, Set] = (  # 2
             inv.generate_metals_activities_map()
         )
 
@@ -350,7 +361,6 @@ class Metals(BaseTransformation):
         Update the database with metals use factors.
         """
 
-        # print("Integrating metals use factors.")
         for dataset in self.database:
             if dataset["name"] in self.rev_activities_metals_map:
                 origin_var = self.rev_activities_metals_map[dataset["name"]]
@@ -453,24 +463,45 @@ class Metals(BaseTransformation):
             and pd.notna(metal_activity_name)
             and conversion_factor
         ):
-            median_value = self.precomputed_medians.sel(
+            use_factors = self.precomputed_medians.sel(
                 metal=metal_row["Element"], origin_var=technology
-            ).item()
-            amount = median_value * unit_converter * conversion_factor
-
-            try:
-                dataset_metal = self.get_metal_market_dataset(metal_activity_name)
-            except ws.NoResults:
-                print(f"Could not find dataset for {metal_activity_name}.")
-                return
-            metal_users = ws.get_many(
-                self.database, ws.equals("name", final_technology)
             )
-            for metal_user in metal_users:
-                update_exchanges(
-                    metal_user, amount, dataset_metal, metal_row["Element"]
+            median_value = (
+                use_factors.sel(variable="median").item()
+                * unit_converter
+                * conversion_factor
+            )
+            min_value = (
+                use_factors.sel(variable="min").item()
+                * unit_converter
+                * conversion_factor
+            )
+            max_value = (
+                use_factors.sel(variable="max").item()
+                * unit_converter
+                * conversion_factor
+            )
+
+            if median_value != 0:
+
+                try:
+                    dataset_metal = self.get_metal_market_dataset(metal_activity_name)
+                except ws.NoResults:
+                    print(f"Could not find dataset for {metal_activity_name}.")
+                    return
+                metal_users = ws.get_many(
+                    self.database, ws.equals("name", final_technology)
                 )
-                self.write_log(metal_user, "updated")
+                for metal_user in metal_users:
+                    update_exchanges(
+                        activity=metal_user,
+                        new_amount=median_value,
+                        new_provider=dataset_metal,
+                        metal=metal_row["Element"],
+                        min_value=min_value,
+                        max_value=max_value,
+                    )
+                    self.write_log(metal_user, "updated")
         else:
             print(
                 f"Warning: Missing data for {metal_row['Element']} for {dataset['name']}:"
@@ -503,25 +534,47 @@ class Metals(BaseTransformation):
                 self.database,
                 *filters,
             ):
+
                 for flow in dataset["additional flow"]:
-                    ds["exchanges"].append(
-                        {
-                            "name": flow["name"],
-                            "amount": flow["amount"],
-                            "unit": flow["unit"],
-                            "type": "biosphere",
-                            "categories": tuple(flow["categories"].split("::")),
-                            "input": (
-                                "biosphere3",
-                                self.biosphere_flow_codes[
-                                    flow["name"],
-                                    flow["categories"].split("::")[0],
-                                    flow["categories"].split("::")[1],
-                                    flow["unit"],
-                                ],
-                            ),
-                        }
-                    )
+                    # check first if flow already exists
+                    if (
+                        len(
+                            list(
+                                [
+                                    e
+                                    for e in ds["exchanges"]
+                                    if e["name"] == flow["name"]
+                                    and e["categories"]
+                                    == tuple(flow["categories"].split("::"))
+                                ]
+                            )
+                        )
+                        > 0
+                    ):
+                        for exc in ds["exchanges"]:
+                            if exc["name"] == flow["name"] and exc[
+                                "categories"
+                            ] == tuple(flow["categories"].split("::")):
+                                exc["amount"] += flow["amount"]
+                    else:
+                        ds["exchanges"].append(
+                            {
+                                "name": flow["name"],
+                                "amount": flow["amount"],
+                                "unit": flow["unit"],
+                                "type": "biosphere",
+                                "categories": tuple(flow["categories"].split("::")),
+                                "input": (
+                                    "biosphere3",
+                                    self.biosphere_flow_codes[
+                                        flow["name"],
+                                        flow["categories"].split("::")[0],
+                                        flow["categories"].split("::")[1],
+                                        flow["unit"],
+                                    ],
+                                ),
+                            }
+                        )
 
                 if "log parameters" not in ds:
                     ds["log parameters"] = {}
@@ -551,26 +604,15 @@ class Metals(BaseTransformation):
             )
         }
 
-        if len(geography_mapping) == 0:
-            print(
-                f"Activity {name} - {reference_product} already exists in all locations {list(geography_mapping.keys())}."
-            )
-            return {}
-
         # Get the original datasets
-        try:
-
-            datasets = self.fetch_proxies(
-                name=name,
-                ref_prod=reference_product,
-                regions=new_locations.values(),
-                geo_mapping=geography_mapping,
-                production_variable=shares,
-                exact_product_match=True,
-            )
-        except ws.NoResults:
-            print(f"Could not find original datasets for {name} - {reference_product}.")
-            return {}
+        datasets = self.fetch_proxies(
+            name=name,
+            ref_prod=reference_product,
+            regions=new_locations.values(),
+            geo_mapping=geography_mapping,
+            production_variable=shares,
+            exact_product_match=True,
+        )
 
         return datasets
 
@@ -668,13 +710,12 @@ class Metals(BaseTransformation):
                 {k[2]: v for k, v in shares.items()},
             )
 
-            if datasets:
-                # add new datasets to database
-                self.database.extend(datasets.values())
-                self.add_to_index(datasets.values())
+            # add new datasets to database
+            self.database.extend(datasets.values())
+            self.add_to_index(datasets.values())
 
-                for dataset in datasets.values():
-                    self.write_log(dataset, "created")
+            for dataset in datasets.values():
+                self.write_log(dataset, "created")
 
             new_exchanges.extend(
                 [
@@ -829,15 +870,12 @@ class Metals(BaseTransformation):
     def create_metal_markets(self):
         self.post_allocation_correction()
 
-        # print("Creating metal markets")
-
         dataframe = load_mining_shares_mapping()
         dataframe = dataframe.loc[dataframe["Work done"] == "Yes"]
         dataframe = dataframe.loc[~dataframe["Country"].isnull()]
         dataframe_shares = dataframe
 
         for metal in dataframe_shares["Metal"].unique():
-            # print(f"... for {metal}.")
             df_metal = dataframe.loc[dataframe["Metal"] == metal]
             dataset = self.create_market(metal, df_metal)
 
@@ -852,14 +890,12 @@ class Metals(BaseTransformation):
             dataframe["Region"].notnull() & dataframe["2020"].isnull()
         ]
 
-        # print("Creating additional mining processes")
         for metal in dataframe_parent["Metal"].unique():
             df_metal = dataframe_parent.loc[dataframe["Metal"] == metal]
 
             for (name, ref_prod), group in df_metal.groupby(
                 ["Process", "Reference product"]
             ):
-                # print(f"...... for {name} - {ref_prod}.")
                 new_locations = {
                     c: self.convert_long_to_short_country_name(c)
                     for c in group["Country"].unique()
@@ -876,11 +912,10 @@ class Metals(BaseTransformation):
                     name, ref_prod, new_locations, geography_mapping=geography_mapping
                 )
 
-                if datasets:
-                    self.database.extend(datasets.values())
-                    for dataset in datasets.values():
-                        self.add_to_index(dataset)
-                        self.write_log(dataset, "created")
+                self.database.extend(datasets.values())
+                for dataset in datasets.values():
+                    self.add_to_index(dataset)
+                    self.write_log(dataset, "created")
 
     def write_log(self, dataset, status="created"):
         """
