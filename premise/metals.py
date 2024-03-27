@@ -6,6 +6,7 @@ Integrates projections regarding use of metals in the economy from:
 import uuid
 from functools import lru_cache
 from itertools import groupby
+from pprint import pprint
 from typing import Optional, Tuple
 
 import country_converter as coco
@@ -476,7 +477,7 @@ class Metals(BaseTransformation):
                 * conversion_factor
             )
             max_value = (
-                use_factors.sel(variable="median").item()
+                use_factors.sel(variable="max").item()
                 * unit_converter
                 * conversion_factor
             )
