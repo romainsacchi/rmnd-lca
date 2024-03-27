@@ -361,7 +361,9 @@ class BaseDatasetValidator:
             for exc in dataset["exchanges"]:
                 # check that `amount` is of type `float`
                 if np.isnan(exc["amount"]):
-                    ValueError(f"Amount is NaN in exchange {exc} in dataset {dataset['name'], dataset['location']}")
+                    ValueError(
+                        f"Amount is NaN in exchange {exc} in dataset {dataset['name'], dataset['location']}"
+                    )
                 if not isinstance(exc["amount"], float):
                     exc["amount"] = float(exc["amount"])
 
