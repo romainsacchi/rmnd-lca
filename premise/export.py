@@ -1118,7 +1118,7 @@ class Export:
 
         if export_uncertainty is True:
             with open(
-                    self.filepath / "A_matrix_uncertainty.csv", "w", encoding="utf-8"
+                self.filepath / "A_matrix_uncertainty.csv", "w", encoding="utf-8"
             ) as file:
                 writer = csv.writer(
                     file,
@@ -1135,7 +1135,7 @@ class Export:
                         "shape",
                         "minimum",
                         "maximum",
-                        "negative"
+                        "negative",
                     ]
                 )
                 for row in uncertainty:
