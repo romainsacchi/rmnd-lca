@@ -964,7 +964,7 @@ class Export:
         )
         self.bio_dict = biosphere_flows_dictionary(self.version)
 
-    def create_A_matrix_coordinates(self, export_uncertainty=False) -> tuple:
+    def create_A_matrix_coordinates(self) -> list:
         """
         Create the coordinates of the A matrix.
 
@@ -972,7 +972,6 @@ class Export:
         """
         index_A = create_index_of_A_matrix(self.db)
         list_exchanges = []
-        list_uncertainty = []
 
         try:
             for ds in self.db:
@@ -997,6 +996,15 @@ class Export:
                                 )
                             ],
                             exc["amount"],
+                            exc.get("uncertainty type", 0),
+                            exc.get("loc"),
+                            exc.get("scale"),
+                            exc.get("shape"),
+                            exc.get("minimum"),
+                            exc.get("maximum"),
+                            True if exc["amount"] < 0 else False,
+                            False,
+
                         ]
                         list_exchanges.append(row)
 
@@ -1018,42 +1026,23 @@ class Export:
                                     exc["location"],
                                 )
                             ],
-                            exc["amount"] * -1,
+                            exc["amount"],
+                            exc.get("uncertainty type", 0),
+                            exc.get("loc"),
+                            exc.get("scale"),
+                            exc.get("shape"),
+                            exc.get("minimum"),
+                            exc.get("maximum"),
+                            True if exc["amount"] < 0 else False,
+                            True,
                         ]
                         list_exchanges.append(row)
 
-                        if export_uncertainty is True:
-                            if exc.get("uncertainty type", 0) != 0:
-                                uncertainty = [
-                                    index_A[
-                                        (
-                                            ds["name"],
-                                            ds["reference product"],
-                                            ds["unit"],
-                                            ds["location"],
-                                        )
-                                    ],
-                                    index_A[
-                                        (
-                                            exc["name"],
-                                            exc["product"],
-                                            exc["unit"],
-                                            exc["location"],
-                                        )
-                                    ],
-                                    exc["uncertainty type"],
-                                    exc.get("loc"),
-                                    exc.get("scale"),
-                                    exc.get("shape"),
-                                    exc.get("minimum"),
-                                    exc.get("maximum"),
-                                    True if exc.get("loc") < 0 else False,
-                                ]
-                                list_uncertainty.append(uncertainty)
+
         except KeyError:
             print(f"KeyError for {exc} in {ds['name']}")
 
-        return list_exchanges, list_uncertainty
+        return list_exchanges
 
     def create_B_matrix_coordinates(self):
         index_B = create_index_of_biosphere_flows_matrix(self.version)
@@ -1079,7 +1068,15 @@ class Export:
                                 )
                             ],
                             ind_B,
-                            exc["amount"] * -1,
+                            exc["amount"],
+                            exc.get("uncertainty type", 0),
+                            exc.get("loc"),
+                            exc.get("scale"),
+                            exc.get("shape"),
+                            exc.get("minimum"),
+                            exc.get("maximum"),
+                            True if exc["amount"] < 0 else False,
+                            True,
                         ]
                     except KeyError:
                         print(
@@ -1091,7 +1088,7 @@ class Export:
                     list_rows.append(row)
         return list_rows
 
-    def export_db_to_matrices(self, export_uncertainty=False):
+    def export_db_to_matrices(self):
         """
         Export the database to A and B matrices.
 
@@ -1102,9 +1099,7 @@ class Export:
             os.makedirs(self.filepath)
 
         # Export A matrix
-        rows, uncertainty = self.create_A_matrix_coordinates(
-            export_uncertainty=export_uncertainty
-        )
+        rows = self.create_A_matrix_coordinates()
 
         with open(self.filepath / "A_matrix.csv", "w", encoding="utf-8") as file:
             writer = csv.writer(
@@ -1112,34 +1107,9 @@ class Export:
                 delimiter=";",
                 lineterminator="\n",
             )
-            writer.writerow(["index of activity", "index of product", "value"])
+            writer.writerow(["index of activity", "index of product", "value", "uncertainty type", "loc", "scale", "shape", "minimum", "maximum", "negative", "flip"])
             for row in rows:
                 writer.writerow(row)
-
-        if export_uncertainty is True:
-            with open(
-                self.filepath / "A_matrix_uncertainty.csv", "w", encoding="utf-8"
-            ) as file:
-                writer = csv.writer(
-                    file,
-                    delimiter=";",
-                    lineterminator="\n",
-                )
-                writer.writerow(
-                    [
-                        "index of activity",
-                        "index of product",
-                        "uncertainty type",
-                        "loc",
-                        "scale",
-                        "shape",
-                        "minimum",
-                        "maximum",
-                        "negative",
-                    ]
-                )
-                for row in uncertainty:
-                    writer.writerow(row)
 
         # Export A index
         with open(self.filepath / "A_matrix_index.csv", "w", encoding="utf-8") as file:
@@ -1162,7 +1132,7 @@ class Export:
                 delimiter=";",
                 lineterminator="\n",
             )
-            writer.writerow(["index of activity", "index of biosphere flow", "value"])
+            writer.writerow(["index of activity", "index of biosphere flow", "value", "uncertainty type", "loc", "scale", "shape", "minimum", "maximum", "negative", "flip"])
             rows = self.create_B_matrix_coordinates()
             for row in rows:
                 writer.writerow(row)

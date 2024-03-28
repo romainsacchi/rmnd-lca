@@ -65,7 +65,6 @@ class PathwaysDataPackage:
         name: str = f"pathways_{date.today()}",
         contributors: list = None,
         transformations: list = None,
-        export_uncertainty=False,
     ):
         if transformations:
             self.datapackage.update(transformations)
@@ -86,11 +85,11 @@ class PathwaysDataPackage:
             scenario["database"] = energy.database
 
         self.export_datapackage(
-            name=name, contributors=contributors, export_uncertainty=export_uncertainty
+            name=name, contributors=contributors,
         )
 
     def export_datapackage(
-        self, name: str, contributors: list = None, export_uncertainty=False
+        self, name: str, contributors: list = None,
     ):
         # first, delete the content of the "pathways" folder
         shutil.rmtree(Path.cwd() / "pathways", ignore_errors=True)
@@ -98,7 +97,7 @@ class PathwaysDataPackage:
         # create matrices in current directory
         self.datapackage.write_db_to_matrices(
             filepath=str(Path.cwd() / "pathways" / "inventories"),
-            export_uncertainty_data=export_uncertainty,
+
         )
         self.add_scenario_data()
         self.add_variables_mapping()

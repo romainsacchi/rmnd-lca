@@ -432,7 +432,7 @@ def check_time_horizon(time_horizon: int) -> int:
 
 
 def _export_to_matrices(obj):
-    obj.export_db_to_matrices(export_uncertainty=True)
+    obj.export_db_to_matrices()
 
 
 def _export_to_simapro(obj):
@@ -1041,7 +1041,7 @@ class NewDatabase:
         # generate change report from logs
         self.generate_change_report()
 
-    def write_db_to_matrices(self, filepath: str = None, export_uncertainty_data=False):
+    def write_db_to_matrices(self, filepath: str = None):
         """
 
         Exports the new database as a sparse matrix representation in csv files.
@@ -1109,9 +1109,7 @@ class NewDatabase:
                 )
 
             for scen, scenario in enumerate(self.scenarios):
-                Export(scenario, filepath[scen], self.version).export_db_to_matrices(
-                    export_uncertainty=export_uncertainty_data
-                )
+                Export(scenario, filepath[scen], self.version).export_db_to_matrices()
 
         # generate scenario report
         self.generate_scenario_report()
