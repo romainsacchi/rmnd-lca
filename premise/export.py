@@ -997,13 +997,13 @@ class Export:
                             ],
                             exc["amount"],
                             exc.get("uncertainty type", 0),
-                            exc.get("loc"),
+                            exc["loc"] if "loc" in exc else exc["amount"],
                             exc.get("scale"),
                             exc.get("shape"),
                             exc.get("minimum"),
                             exc.get("maximum"),
-                            True if exc["amount"] < 0 else False,
-                            False,
+                            1 if exc["amount"] < 0 else 0,
+                            0,
                         ]
                         list_exchanges.append(row)
 
@@ -1027,13 +1027,13 @@ class Export:
                             ],
                             exc["amount"],
                             exc.get("uncertainty type", 0),
-                            exc.get("loc"),
+                            exc["loc"] if "loc" in exc else exc["amount"],
                             exc.get("scale"),
                             exc.get("shape"),
                             exc.get("minimum"),
                             exc.get("maximum"),
-                            True if exc["amount"] < 0 else False,
-                            True,
+                            1 if exc["amount"] < 0 else 0,
+                            1,
                         ]
                         list_exchanges.append(row)
 
@@ -1068,13 +1068,13 @@ class Export:
                             ind_B,
                             exc["amount"],
                             exc.get("uncertainty type", 0),
-                            exc.get("loc"),
+                            exc["loc"] if "loc" in exc else exc["amount"],
                             exc.get("scale"),
                             exc.get("shape"),
                             exc.get("minimum"),
                             exc.get("maximum"),
-                            True if exc["amount"] < 0 else False,
-                            True,
+                            1 if exc["amount"] < 0 else 0,
+                            1,
                         ]
                     except KeyError:
                         print(
