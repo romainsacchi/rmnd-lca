@@ -85,11 +85,14 @@ class PathwaysDataPackage:
             scenario["database"] = energy.database
 
         self.export_datapackage(
-            name=name, contributors=contributors,
+            name=name,
+            contributors=contributors,
         )
 
     def export_datapackage(
-        self, name: str, contributors: list = None,
+        self,
+        name: str,
+        contributors: list = None,
     ):
         # first, delete the content of the "pathways" folder
         shutil.rmtree(Path.cwd() / "pathways", ignore_errors=True)
@@ -97,7 +100,6 @@ class PathwaysDataPackage:
         # create matrices in current directory
         self.datapackage.write_db_to_matrices(
             filepath=str(Path.cwd() / "pathways" / "inventories"),
-
         )
         self.add_scenario_data()
         self.add_variables_mapping()

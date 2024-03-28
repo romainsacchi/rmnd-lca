@@ -1004,7 +1004,6 @@ class Export:
                             exc.get("maximum"),
                             True if exc["amount"] < 0 else False,
                             False,
-
                         ]
                         list_exchanges.append(row)
 
@@ -1037,7 +1036,6 @@ class Export:
                             True,
                         ]
                         list_exchanges.append(row)
-
 
         except KeyError:
             print(f"KeyError for {exc} in {ds['name']}")
@@ -1107,7 +1105,21 @@ class Export:
                 delimiter=";",
                 lineterminator="\n",
             )
-            writer.writerow(["index of activity", "index of product", "value", "uncertainty type", "loc", "scale", "shape", "minimum", "maximum", "negative", "flip"])
+            writer.writerow(
+                [
+                    "index of activity",
+                    "index of product",
+                    "value",
+                    "uncertainty type",
+                    "loc",
+                    "scale",
+                    "shape",
+                    "minimum",
+                    "maximum",
+                    "negative",
+                    "flip",
+                ]
+            )
             for row in rows:
                 writer.writerow(row)
 
@@ -1132,7 +1144,21 @@ class Export:
                 delimiter=";",
                 lineterminator="\n",
             )
-            writer.writerow(["index of activity", "index of biosphere flow", "value", "uncertainty type", "loc", "scale", "shape", "minimum", "maximum", "negative", "flip"])
+            writer.writerow(
+                [
+                    "index of activity",
+                    "index of biosphere flow",
+                    "value",
+                    "uncertainty type",
+                    "loc",
+                    "scale",
+                    "shape",
+                    "minimum",
+                    "maximum",
+                    "negative",
+                    "flip",
+                ]
+            )
             rows = self.create_B_matrix_coordinates()
             for row in rows:
                 writer.writerow(row)
