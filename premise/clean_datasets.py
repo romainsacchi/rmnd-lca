@@ -8,9 +8,9 @@ import csv
 import pprint
 from pathlib import Path
 from typing import Dict, List, Tuple, Union
-import numpy as np
 
 import bw2io
+import numpy as np
 import wurst
 import yaml
 from bw2data.database import DatabaseChooser

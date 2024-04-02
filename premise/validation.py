@@ -131,7 +131,6 @@ class BaseDatasetValidator:
                             message = f"Exchange {exc['name']} has incomplete uncertainty data."
                             self.write_log(ds, "incomplete uncertainty data", message)
 
-
     def check_datasets_integrity(self):
         # Verify no unintended loss of datasets
         original_activities = [
