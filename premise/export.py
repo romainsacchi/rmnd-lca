@@ -1027,7 +1027,11 @@ class Export:
                             ],
                             exc["amount"],
                             exc.get("uncertainty type", 0),
-                            exc["loc"] if exc.get("uncertainty type", 0) not in [0, 1] else exc["amount"],
+                            (
+                                exc["loc"]
+                                if exc.get("uncertainty type", 0) not in [0, 1]
+                                else exc["amount"]
+                            ),
                             exc.get("scale"),
                             exc.get("shape"),
                             exc.get("minimum"),
@@ -1068,7 +1072,11 @@ class Export:
                             ind_B,
                             exc["amount"],
                             exc.get("uncertainty type", 0),
-                            exc["loc"] if exc.get("uncertainty type", 0) not in [0, 1] else exc["amount"],
+                            (
+                                exc["loc"]
+                                if exc.get("uncertainty type", 0) not in [0, 1]
+                                else exc["amount"]
+                            ),
                             exc.get("scale"),
                             exc.get("shape"),
                             exc.get("minimum"),
