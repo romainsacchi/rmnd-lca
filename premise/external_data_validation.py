@@ -280,7 +280,8 @@ def check_inventories(
     def find_candidates_by_key(data, key):
         """Filter data for items matching the key (name and reference product)."""
         return [
-            item for item in data
+            item
+            for item in data
             if item["name"] == key[0] and item["reference product"] == key[1]
         ]
 
@@ -310,8 +311,13 @@ def check_inventories(
         This includes checking for direct matches, containment, intersection,
         and mapping between different geographic naming conventions.
         """
-        short_listed = {r: None for r in scenario_data["production volume"].region.values}
-        fallback_locations = ["GLO", "RoW", ]
+        short_listed = {
+            r: None for r in scenario_data["production volume"].region.values
+        }
+        fallback_locations = [
+            "GLO",
+            "RoW",
+        ]
 
         # First, try to match candidates directly based on location
         for candidate in potential_candidates:
@@ -351,13 +357,18 @@ def check_inventories(
         # and teh candidate chosen
 
         from prettytable import PrettyTable
+
         table = PrettyTable()
         table.field_names = ["Region", "Candidates considered", "Candidate chosen"]
         for region, candidate in short_listed.items():
-            table.add_row([region, [p["location"] for p in  potential_candidates], candidate["location"]])
+            table.add_row(
+                [
+                    region,
+                    [p["location"] for p in potential_candidates],
+                    candidate["location"],
+                ]
+            )
         print(table)
-
-
 
         return short_listed
 
@@ -366,11 +377,15 @@ def check_inventories(
         short_listed = perform_region_checks(candidates, scenario_data)
         return short_listed
 
-    def adjust_candidates_or_raise_error(candidates, scenario_data, key, year, val, inventory_data):
+    def adjust_candidates_or_raise_error(
+        candidates, scenario_data, key, year, val, inventory_data
+    ):
         """Adjust candidates if possible or raise an error if no valid candidates are found."""
         if not candidates:
             if not find_candidates_by_key(inventory_data, key):
-                raise ValueError(f"Dataset {key[0]} and {key[1]} is not found in the original database.")
+                raise ValueError(
+                    f"Dataset {key[0]} and {key[1]} is not found in the original database."
+                )
             return  # Skip further processing if no candidates found.
 
         if len(candidates) == 1:
@@ -386,8 +401,12 @@ def check_inventories(
     for key, val in d_datasets.items():
         if val.get("exists in original database"):
             mask = val.get("mask")
-            potential_candidates = identify_potential_candidates(database, inventory_data, key, mask)
-            adjust_candidates_or_raise_error(potential_candidates, scenario_data, key, year, val, inventory_data)
+            potential_candidates = identify_potential_candidates(
+                database, inventory_data, key, mask
+            )
+            adjust_candidates_or_raise_error(
+                potential_candidates, scenario_data, key, year, val, inventory_data
+            )
 
     return inventory_data, database
 
