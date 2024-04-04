@@ -833,6 +833,7 @@ class ExternalScenario(BaseTransformation):
                 )
             except ZeroDivisionError:
                 scaling_factor = 0
+                print("set scaling factor to 0 to avoid divison by 0")
 
             if "includes" not in ineff:
                 rescale_exchanges(datatset, scaling_factor, remove_uncertainty=False)
