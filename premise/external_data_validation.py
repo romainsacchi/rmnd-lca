@@ -277,119 +277,117 @@ def check_inventories(
                     dataset, scenario_data, year, data_vars
                 )
 
-    # flag inventories present in the original database
+    def find_candidates_by_key(data, key):
+        """Filter data for items matching the key (name and reference product)."""
+        return [
+            item for item in data
+            if item["name"] == key[0] and item["reference product"] == key[1]
+        ]
+
+    def filter_candidates_by_mask(candidates, mask):
+        """Exclude candidates containing the mask in their name."""
+        return [candidate for candidate in candidates if mask not in candidate["name"]]
+
+    def identify_potential_candidates(database, inventory_data, key, mask):
+        """Identify and return potential candidates based on key and mask."""
+        candidates = find_candidates_by_key(database + inventory_data, key)
+        if mask:
+            candidates = filter_candidates_by_mask(candidates, mask)
+        return candidates
+
+    def adjust_candidate(candidate, scenario_data, year, val):
+        """Adjust a single candidate with scenario data."""
+        flag_activities_to_adjust(candidate, scenario_data, year, val)
+
+    def handle_single_candidate(candidates, scenario_data, year, val):
+        """Handle case where there is exactly one candidate."""
+        adjust_candidate(candidates[0], scenario_data, year, val)
+
+    def perform_region_checks(potential_candidates, scenario_data):
+        """
+        Perform geographic region checks to shortlist candidates.
+
+        This includes checking for direct matches, containment, intersection,
+        and mapping between different geographic naming conventions.
+        """
+        short_listed = {r: None for r in scenario_data["production volume"].region.values}
+        fallback_locations = ["GLO", "RoW", ]
+
+        # First, try to match candidates directly based on location
+        for candidate in potential_candidates:
+            candidate_location = candidate["location"]
+            if candidate_location in short_listed:
+                short_listed[candidate_location] = candidate
+
+        # Perform containment and intersection checks
+        for region in short_listed:
+            while short_listed[region] is None:
+                for candidate in potential_candidates:
+
+                    candidate_location = candidate["location"]
+
+                    if candidate_location in geo.iam_regions:
+                        if region in geo.iam_to_ecoinvent_location(candidate_location):
+                            if short_listed[region] is None:
+                                short_listed[region] = candidate
+                    # Check for containment
+                    elif region in geo.geo.contained(candidate_location):
+                        if short_listed[region] is None:
+                            short_listed[region] = candidate
+                    # Check for intersection
+                    elif region in geo.geo.intersects(candidate_location):
+                        if short_listed[region] is None:
+                            short_listed[region] = candidate
+                    # Check for ecoinvent to IAM location mapping
+                    elif region in geo.ecoinvent_to_iam_location(candidate_location):
+                        if short_listed[region] is None:
+                            short_listed[region] = candidate
+                    # Check for IAM to ecoinvent location mapping
+                    elif candidate_location in fallback_locations:
+                        if short_listed[region] is None:
+                            short_listed[region] = candidate
+
+        # print a prettytable that shows, for each region, the candidates considered
+        # and teh candidate chosen
+
+        from prettytable import PrettyTable
+        table = PrettyTable()
+        table.field_names = ["Region", "Candidates considered", "Candidate chosen"]
+        for region, candidate in short_listed.items():
+            table.add_row([region, [p["location"] for p in  potential_candidates], candidate["location"]])
+        print(table)
+
+
+
+        return short_listed
+
+    def short_list_candidates(candidates, scenario_data):
+        """Shortlist candidates based on region logic."""
+        short_listed = perform_region_checks(candidates, scenario_data)
+        return short_listed
+
+    def adjust_candidates_or_raise_error(candidates, scenario_data, key, year, val, inventory_data):
+        """Adjust candidates if possible or raise an error if no valid candidates are found."""
+        if not candidates:
+            if not find_candidates_by_key(inventory_data, key):
+                raise ValueError(f"Dataset {key[0]} and {key[1]} is not found in the original database.")
+            return  # Skip further processing if no candidates found.
+
+        if len(candidates) == 1:
+            handle_single_candidate(candidates, scenario_data, year, val)
+        else:
+            short_listed = short_list_candidates(candidates, scenario_data)
+            for region, ds in short_listed.items():
+                if ds is not None:
+                    adjust_candidate(ds, scenario_data, year, val)
+                else:
+                    print(f"No candidate found for {key[0]} and {key[1]} for {region}.")
+
     for key, val in d_datasets.items():
         if val.get("exists in original database"):
-            potential_candidates = [
-                ds
-                for ds in database + inventory_data
-                if ds["name"] == key[0] and ds["reference product"] == key[1]
-            ]
-
-            # if a mask is provided, we want to use it
-            if val.get("mask"):
-                potential_candidates = [
-                    ds for ds in potential_candidates if val["mask"] not in ds["name"]
-                ]
-
-            if len(potential_candidates) == 0:
-                # maybe it is in inventory_data
-                if (
-                    len(
-                        [
-                            d
-                            for d in inventory_data
-                            if d["name"] == key[0] and d["reference product"] == key[1]
-                        ]
-                    )
-                    == 0
-                ):
-                    raise ValueError(
-                        f"Dataset {key[0]} and {key[1]} is not found in the original database."
-                    )
-                else:
-                    continue
-            elif len(potential_candidates) == 1:
-                potential_candidates[0] = flag_activities_to_adjust(
-                    potential_candidates[0], scenario_data, year, val
-                )
-
-            else:
-                # we want to short list the candidates
-                # that make the most sense according to `regions`
-                short_listed = {
-                    r: None for r in scenario_data["production volume"].region.values
-                }
-                for potential_candidate in potential_candidates:
-                    if (
-                        potential_candidate["location"]
-                        in scenario_data["production volume"].region.values
-                    ):
-                        short_listed[potential_candidate["location"]] = (
-                            potential_candidate
-                        )
-
-                # check if any remaining candidates to find
-                if None in short_listed.values():
-                    for region in short_listed:
-                        if short_listed[region] is None:
-                            for potential_candidate in potential_candidates:
-
-                                try:
-                                    if region in geo.geo.contained(
-                                        potential_candidate["location"]
-                                    ):
-                                        short_listed[region] = potential_candidate
-                                        break
-                                except KeyError:
-                                    continue
-
-                                try:
-                                    if region in geo.geo.intersects(
-                                        potential_candidate["location"]
-                                    ):
-                                        short_listed[region] = potential_candidate
-                                        break
-                                except KeyError:
-                                    continue
-
-                                if region in geo.ecoinvent_to_iam_location(
-                                    potential_candidate["location"]
-                                ):
-                                    short_listed[region] = potential_candidate
-                                    break
-
-                if None in short_listed.values():
-                    # check with IAM regions
-                    for region in short_listed:
-                        if short_listed[region] is None:
-                            for potential_candidate in potential_candidates:
-                                if region in geo.map_ecoinvent_to_iam(
-                                    potential_candidate["location"]
-                                ):
-                                    short_listed[region] = potential_candidate
-                                    break
-
-                if None in short_listed.values():
-                    # resort to candidates with locations "GLO", "RoW", "World" and "GLO"
-                    for region in short_listed:
-                        if short_listed[region] is None:
-                            for fallback_location in ["GLO", "RoW", "World"]:
-                                for potential_candidate in potential_candidates:
-                                    if (
-                                        potential_candidate["location"]
-                                        == fallback_location
-                                    ):
-                                        short_listed[region] = potential_candidate
-                                        break
-
-                for loc, ds in short_listed.items():
-                    if ds is not None:
-                        flag_activities_to_adjust(ds, scenario_data, year, val)
-                    else:
-                        print(
-                            f"No candidate found for {key[0]} and {key[1]} for {loc}."
-                        )
+            mask = val.get("mask")
+            potential_candidates = identify_potential_candidates(database, inventory_data, key, mask)
+            adjust_candidates_or_raise_error(potential_candidates, scenario_data, key, year, val, inventory_data)
 
     return inventory_data, database
 
