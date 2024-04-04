@@ -384,14 +384,16 @@ def check_inventories(
 
 import sys
 
+
 def check_datapackage(datapackages):
     for datapackage in datapackages:
         try:
             validate(datapackage.descriptor)
         except exceptions.ValidationError as exception:
-            sys.stderr.write(str(exception.errors))  # Print the validation errors to the error output
+            sys.stderr.write(
+                str(exception.errors)
+            )  # Print the validation errors to the error output
             raise exception
-
 
     for d, datapackage in enumerate(datapackages):
         if "config" in [
