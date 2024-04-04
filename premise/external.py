@@ -158,10 +158,10 @@ def adjust_efficiency(dataset: dict) -> dict:
     """
 
     # loop through the type of flows to adjust
-    filters = []
     for eff_type in ["technosphere", "biosphere"]:
         if f"{eff_type} filters" in dataset:
             for k, v in dataset[f"{eff_type} filters"].items():
+                filters = []
                 if dataset["location"] not in v[1]:
                     continue
 
@@ -709,6 +709,7 @@ class ExternalScenario(BaseTransformation):
                         ws.equals("location", possible_locations[counter]),
                     )
                 )
+
                 counter += 1
         except IndexError:
             print("Cannot find -> ", name, ref_prod, possible_locations)
@@ -827,13 +828,9 @@ class ExternalScenario(BaseTransformation):
         self, datatset: dict, variables: dict, region: str, eff_data: xr.DataArray
     ) -> dict:
         for ineff in variables["efficiency"]:
-            try:
-                scaling_factor = 1 / find_iam_efficiency_change(
-                    ineff["variable"], region, eff_data, self.year
-                )
-            except ZeroDivisionError:
-                scaling_factor = 0
-                print("set scaling factor to 0 to avoid divison by 0")
+            scaling_factor = 1 / find_iam_efficiency_change(
+                ineff["variable"], region, eff_data, self.year
+            )
 
             if "includes" not in ineff:
                 rescale_exchanges(datatset, scaling_factor, remove_uncertainty=False)

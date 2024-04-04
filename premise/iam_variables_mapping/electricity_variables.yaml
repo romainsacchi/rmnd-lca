@@ -259,6 +259,7 @@ Coal IGCC:
     fltr:
     - market for hard coal
     - lignite mine operation
+    - market for lignite
     mask:
       name:
       - factory
@@ -289,6 +290,7 @@ Coal IGCC CCS:
     fltr:
     - market for hard coal
     - lignite mine operation
+    - market for lignite
     mask:
       name:
       - factory
@@ -356,6 +358,7 @@ Coal PC CCS:
     fltr:
     - market for hard coal
     - lignite mine operation
+    - market for lignite
     mask:
       name:
       - factory
@@ -457,6 +460,7 @@ Foil ST:
     fltr:
     - market for heavy fuel oil
     - market group for heavy fuel oil
+    - market for diesel
     mask:
       name:
       - burned
@@ -475,6 +479,7 @@ Gas CC:
     - market for natural gas, high pressure
     - market for natural gas, medium pressure
     - market for natural gas, low pressure
+    - market group for natural gas
     mask:
     - liquids
     - liquefied
@@ -692,10 +697,10 @@ Nuclear:
       - EPR
   ecoinvent_fuel_aliases:
     fltr:
-    - market for uranium, enriched
-    - market for nuclear fuel element, for pressure water reactor
-    - market for nuclear fuel element, for boiling water reactor
-    - market for uranium hexafluoride
+      - market for uranium
+      - market for nuclear fuel element, for pressure water reactor
+      - market for nuclear fuel element, for boiling water reactor
+      - market for uranium hexafluoride
   eff_aliases:
     gcam: Efficiency|Electricity|Gen_II_LWR
     image: Efficiency|Electricity|Nuclear
@@ -737,6 +742,7 @@ Oil CC:
     fltr:
     - market for heavy fuel oil
     - market group for heavy fuel oil
+    - market for diesel
     mask:
       name: burned
   eff_aliases:
@@ -813,6 +819,7 @@ Oil ST:
     fltr:
     - market for heavy fuel oil
     - market group for heavy fuel oil
+    - market for diesel
     mask:
       name: burned
   eff_aliases:

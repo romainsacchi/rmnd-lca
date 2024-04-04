@@ -1386,8 +1386,6 @@ class Export:
                         "Record",
                     ):
                         writer.writerow(["Unspecified"])
-                    if item == "Literature references":
-                        writer.writerow(["Ecoinvent 3"])
                     if item == "System description":
                         writer.writerow(["Ecoinvent v3"])
                     if item == "Infrastructure":
@@ -1623,28 +1621,6 @@ class Export:
             writer.writerow([])
             writer.writerow(["End"])
             writer.writerow([])
-
-            # Literature reference
-            writer.writerow(["Literature reference"])
-            writer.writerow([])
-            writer.writerow(["Name"])
-            writer.writerow(["Ecoinvent"])
-            writer.writerow([])
-            writer.writerow(["Documentation link"])
-            writer.writerow(["https://www.ecoinvent.org"])
-            writer.writerow([])
-            writer.writerow(["Comment"])
-            writer.writerow(
-                ["Pre-print available at: https://www.psi.ch/en/media/57994/download"]
-            )
-            writer.writerow([])
-            writer.writerow(["Category"])
-            writer.writerow(["Ecoinvent 3"])
-            writer.writerow([])
-            writer.writerow(["Description"])
-            description = "modified by premise"
-
-            writer.writerow([description])
 
         csvFile.close()
 

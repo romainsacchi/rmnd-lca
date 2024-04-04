@@ -788,6 +788,39 @@ class SteelValidation(BaseDatasetValidator):
                         message,
                     )
 
+    def check_pig_iron_input(self):
+        """
+        Check that the input of "market for pig iron" in "steel production, converter, low-alloyed"
+        has the correct location.
+        """
+
+        for ds in self.database:
+            if (
+                ds["name"] == "steel production, converter, low-alloyed"
+                and ds["location"] in self.regions
+            ):
+                pig_iron = [
+                    x
+                    for x in ds["exchanges"]
+                    if x["name"] == "market for pig iron"
+                    and x["type"] == "technosphere"
+                ]
+                if not pig_iron:
+                    message = "No input of pig iron found."
+                    self.write_log(
+                        ds,
+                        "no input of pig iron",
+                        message,
+                    )
+                else:
+                    if pig_iron[0]["location"] != ds["location"]:
+                        message = f"Input of pig iron has incorrect location: {pig_iron[0]['location']}."
+                        self.write_log(
+                            ds,
+                            "incorrect pig iron input location",
+                            message,
+                        )
+
     def check_steel_energy_use(self):
         # check that low-alloyed steel produced by EAF
         # use at least 0.4 MWh electricity per kg of steel
@@ -873,6 +906,7 @@ class SteelValidation(BaseDatasetValidator):
     def run_steel_checks(self):
         self.check_steel_markets()
         self.check_steel_energy_use()
+        self.check_pig_iron_input()
         self.save_log()
 
 
