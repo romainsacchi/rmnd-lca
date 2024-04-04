@@ -382,13 +382,16 @@ def check_inventories(
     return inventory_data, database
 
 
-def check_datapackage(datapackages: list):
-    # validate package descriptor
+import sys
+
+def check_datapackage(datapackages):
     for datapackage in datapackages:
         try:
             validate(datapackage.descriptor)
         except exceptions.ValidationError as exception:
+            sys.stderr.write(str(exception.errors))  # Print the validation errors to the error output
             raise exception
+
 
     for d, datapackage in enumerate(datapackages):
         if "config" in [
