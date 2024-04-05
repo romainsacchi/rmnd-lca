@@ -311,55 +311,58 @@ def check_inventories(
         This includes checking for direct matches, containment, intersection,
         and mapping between different geographic naming conventions.
         """
+        # Create a shortlist dictionary with None as initial values
         short_listed = {
             r: None for r in scenario_data["production volume"].region.values
         }
-        fallback_locations = [
-            "GLO",
-            "RoW",
-        ]
 
-        # First, try to match candidates directly based on location
-        for candidate in potential_candidates:
-            candidate_location = candidate["location"]
-            if candidate_location in short_listed:
-                short_listed[candidate_location] = candidate
+        print("short_listed", short_listed)
 
-        # Perform containment and intersection checks
+        # Convert potential_candidates to a dictionary for O(1) lookups by location
+        candidates_by_location = {c["location"]: c for c in potential_candidates}
+
+        # Sort candidate locations once, considering fallback_locations
+        fallback_locations = ["GLO", "RoW"]
+        sorted_candidate_locations = sorted(
+            candidates_by_location.keys(),
+            key=lambda x: x in fallback_locations,
+        )
+
+        # Function to check and assign the first matching candidate
+        def assign_candidate_if_empty(region, loc):
+            if short_listed[region] is None and loc in candidates_by_location:
+                short_listed[region] = candidates_by_location[loc]
+
+        # Direct matching
         for region in short_listed:
-            while short_listed[region] is None:
-                for candidate in potential_candidates:
+            assign_candidate_if_empty(region, region)
 
-                    candidate_location = candidate["location"]
+        # Other geographic checks
+        for region in short_listed:
+            if short_listed[region] is not None:
+                continue  # Skip if already assigned
 
-                    if candidate_location in geo.iam_regions:
-                        if region in geo.iam_to_ecoinvent_location(candidate_location):
-                            if short_listed[region] is None:
-                                short_listed[region] = candidate
-                    # Check for containment
-                    elif region in geo.geo.contained(candidate_location):
-                        if short_listed[region] is None:
-                            short_listed[region] = candidate
-                    # Check for intersection
-                    elif region in geo.geo.intersects(candidate_location):
-                        if short_listed[region] is None:
-                            short_listed[region] = candidate
-                    # Check for ecoinvent to IAM location mapping
-                    elif region in geo.ecoinvent_to_iam_location(candidate_location):
-                        if short_listed[region] is None:
-                            short_listed[region] = candidate
-                    # Check for IAM to ecoinvent location mapping
-                    elif candidate_location in fallback_locations:
-                        if short_listed[region] is None:
-                            short_listed[region] = candidate
+            for location in sorted_candidate_locations:
+                # Perform various geographic checks
+                if location in geo.iam_regions:
+                    if region in geo.iam_to_ecoinvent_location(location):
+                        assign_candidate_if_empty(region, location)
+                elif any([
+                    region in geo.geo.contained(location),
+                    region in geo.geo.intersects(location),
+                    region in geo.ecoinvent_to_iam_location(location),
+                    (location in fallback_locations and short_listed[region] is None)
+                ]):
+                    assign_candidate_if_empty(region, location)
 
         # print a prettytable that shows, for each region, the candidates considered
-        # and teh candidate chosen
+        # and the candidate chosen
 
         from prettytable import PrettyTable
 
         table = PrettyTable()
         table.field_names = ["Region", "Candidates considered", "Candidate chosen"]
+        table._max_width = {"Region": 5, "Candidates considered": 50, "Candidate chosen": 5}
         for region, candidate in short_listed.items():
             table.add_row(
                 [
