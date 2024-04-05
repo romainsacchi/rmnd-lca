@@ -135,11 +135,19 @@ def flag_activities_to_adjust(
                 }
             )
 
+            d_absolute_eff = {
+                k.get("variable"): k.get("absolute", False)
+                for k in dataset_vars["efficiency"]
+            }
+
             if d_tech_filters:
                 dataset["technosphere filters"] = d_tech_filters
 
             if d_bio_filters:
                 dataset["biosphere filters"] = d_bio_filters
+
+            if d_absolute_eff:
+                dataset["absolute efficiency"] = d_absolute_eff
 
         # define exclusion filters
         for k in dataset_vars["efficiency"]:
@@ -316,8 +324,6 @@ def check_inventories(
             r: None for r in scenario_data["production volume"].region.values
         }
 
-        print("short_listed", short_listed)
-
         # Convert potential_candidates to a dictionary for O(1) lookups by location
         candidates_by_location = {c["location"]: c for c in potential_candidates}
 
@@ -328,59 +334,80 @@ def check_inventories(
             key=lambda x: x in fallback_locations,
         )
 
+        reasons = {}
+
         # Function to check and assign the first matching candidate
         def assign_candidate_if_empty(region, loc):
             if short_listed[region] is None and loc in candidates_by_location:
                 short_listed[region] = candidates_by_location[loc]
 
-        # Direct matching
+
+        # Define check functions
+        def direct_match(region, location):
+            if region == location:
+                reasons[region] = "direct match"
+            return region == location
+
+        def iam_match(region, location):
+            if location in geo.iam_regions:
+                reasons[region] = "IAM match"
+                return region in geo.iam_to_ecoinvent_location(location)
+            return False
+
+        def contained_match(region, location):
+            if location not in geo.iam_regions:
+                try:
+                    if region in geo.geo.contained(location):
+                        reasons[region] = "contained match"
+                    return region in geo.geo.contained(location)
+                except KeyError:
+                    return False
+            return False
+
+        def intersects_match(region, location):
+            if location not in geo.iam_regions:
+                try:
+                    if region in geo.geo.intersects(location):
+                        reasons[region] = "intersects match"
+                    return region in geo.geo.intersects(location)
+                except KeyError:
+                    return False
+            return False
+
+        def ecoinvent_match(region, location):
+            if geo.ecoinvent_to_iam_location(location) == "World":
+                return False
+
+            if region == geo.ecoinvent_to_iam_location(location):
+                reasons[region] = "ecoinvent to IAM match"
+            return region == geo.ecoinvent_to_iam_location(location)
+
+        def fallback_match(region, location):
+            if location in fallback_locations:
+                reasons[region] = "fallback match"
+            return location in fallback_locations
+
+        # Ordered list of check functions
+        check_functions = [
+            direct_match,
+            iam_match,
+            contained_match,
+            intersects_match,
+            ecoinvent_match,
+            fallback_match,
+        ]
+
+        # Perform checks in order of preference
         for region in short_listed:
-            assign_candidate_if_empty(region, region)
-
-        # Other geographic checks
-        for region in short_listed:
-            if short_listed[region] is not None:
-                continue  # Skip if already assigned
-
-            for location in sorted_candidate_locations:
-                # Perform various geographic checks
-                if location in geo.iam_regions:
-                    if region in geo.iam_to_ecoinvent_location(location):
-                        assign_candidate_if_empty(region, location)
-                elif any(
-                    [
-                        region in geo.geo.contained(location),
-                        region in geo.geo.intersects(location),
-                        region in geo.ecoinvent_to_iam_location(location),
-                        (
-                            location in fallback_locations
-                            and short_listed[region] is None
-                        ),
-                    ]
-                ):
-                    assign_candidate_if_empty(region, location)
-
-        # print a prettytable that shows, for each region, the candidates considered
-        # and the candidate chosen
-
-        from prettytable import PrettyTable
-
-        table = PrettyTable()
-        table.field_names = ["Region", "Candidates considered", "Candidate chosen"]
-        table._max_width = {
-            "Region": 5,
-            "Candidates considered": 50,
-            "Candidate chosen": 5,
-        }
-        for region, candidate in short_listed.items():
-            table.add_row(
-                [
-                    region,
-                    [p["location"] for p in potential_candidates],
-                    candidate["location"],
-                ]
-            )
-        print(table)
+            if short_listed[region] is None:
+                for location in sorted_candidate_locations:
+                    for check_func in check_functions:
+                        if check_func(region, location):
+                            assign_candidate_if_empty(region, location)
+                            break
+                    else:
+                        continue
+                    break
 
         return short_listed
 
@@ -518,6 +545,7 @@ def check_config_file(datapackages):
                                     Optional("technosphere"): list,
                                     Optional("biosphere"): list,
                                 },
+                                Optional("absolute"): bool,
                             }
                         ],
                         Optional("except regions"): And(
@@ -533,14 +561,7 @@ def check_config_file(datapackages):
                                 Optional("operator"): str,
                             }
                         ],
-                        Optional("replaces in"): [
-                            {
-                                Optional("name"): str,
-                                Optional("reference product"): str,
-                                Optional("location"): str,
-                                Optional("operator"): str,
-                            }
-                        ],
+                        Optional("replaces in"): list,
                         Optional("replacement ratio"): float,
                     },
                 },
@@ -583,14 +604,7 @@ def check_config_file(datapackages):
                                 Optional("operator"): str,
                             }
                         ],
-                        Optional("replaces in"): [
-                            {
-                                Optional("name"): str,
-                                Optional("reference product"): str,
-                                Optional("location"): str,
-                                Optional("operator"): str,
-                            }
-                        ],
+                        Optional("replaces in"): list,
                         Optional("is fuel"): dict,
                         Optional("replacement ratio"): float,
                         Optional("waste market"): bool,
