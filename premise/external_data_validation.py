@@ -403,7 +403,10 @@ def check_inventories(
                     for check_func in check_functions:
                         if check_func(region, location):
                             # check the dataset was not previously emptied
-                            if candidates_by_location[location].get("emptied", False) is False:
+                            if (
+                                candidates_by_location[location].get("emptied", False)
+                                is False
+                            ):
                                 assign_candidate_if_empty(region, location)
                                 break
                     else:
