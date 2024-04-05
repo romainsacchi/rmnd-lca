@@ -341,7 +341,6 @@ def check_inventories(
             if short_listed[region] is None and loc in candidates_by_location:
                 short_listed[region] = candidates_by_location[loc]
 
-
         # Define check functions
         def direct_match(region, location):
             if region == location:
