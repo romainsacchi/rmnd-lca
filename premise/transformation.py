@@ -834,6 +834,7 @@ class BaseTransformation:
             existing_ds["exchanges"] = [
                 e for e in existing_ds["exchanges"] if e["type"] == "production"
             ]
+            existing_ds["emptied"] = True
 
             # for cases where external scenarios are used
             if "adjust efficiency" in existing_ds:
