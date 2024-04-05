@@ -347,12 +347,17 @@ def check_inventories(
                 if location in geo.iam_regions:
                     if region in geo.iam_to_ecoinvent_location(location):
                         assign_candidate_if_empty(region, location)
-                elif any([
-                    region in geo.geo.contained(location),
-                    region in geo.geo.intersects(location),
-                    region in geo.ecoinvent_to_iam_location(location),
-                    (location in fallback_locations and short_listed[region] is None)
-                ]):
+                elif any(
+                    [
+                        region in geo.geo.contained(location),
+                        region in geo.geo.intersects(location),
+                        region in geo.ecoinvent_to_iam_location(location),
+                        (
+                            location in fallback_locations
+                            and short_listed[region] is None
+                        ),
+                    ]
+                ):
                     assign_candidate_if_empty(region, location)
 
         # print a prettytable that shows, for each region, the candidates considered
@@ -362,7 +367,11 @@ def check_inventories(
 
         table = PrettyTable()
         table.field_names = ["Region", "Candidates considered", "Candidate chosen"]
-        table._max_width = {"Region": 5, "Candidates considered": 50, "Candidate chosen": 5}
+        table._max_width = {
+            "Region": 5,
+            "Candidates considered": 50,
+            "Candidate chosen": 5,
+        }
         for region, candidate in short_listed.items():
             table.add_row(
                 [
