@@ -122,14 +122,17 @@ def get_metals_intensity_factors_data() -> xr.DataArray:
         id_vars=["metal", "year", "origin_var"],
         value_vars=["mean", "median", "min", "max"],
     )
+
     array = (
         df.groupby(["metal", "origin_var", "year", "variable"])
         .mean()["value"]
         .to_xarray()
     )
+
     array = array.interpolate_na(dim="year", method="nearest", fill_value="extrapolate")
     array = array.bfill(dim="year")
     array = array.ffill(dim="year")
+    array = array.fillna(0)
 
     return array
 
@@ -1411,10 +1414,18 @@ class IAMDataCollection:
 
         return data_to_return
 
-    def get_external_data(self, datapackages):
+    def get_external_data(self, external_scenarios: list):
+        """
+        Fetch data from external sources.
+        :param external_scenarios: a list of dictionaries
+        with keys "scenario" and "data"
+        :return: a dictionary with data
+
+        """
         data = {}
 
-        for i, dp in enumerate(datapackages):
+        for i, external_scenario in enumerate(external_scenarios):
+            scenario, dp = external_scenario["scenario"], external_scenario["data"]
             data[i] = {}
 
             resource = dp.get_resource("scenario_data")
@@ -1437,16 +1448,14 @@ class IAMDataCollection:
 
             if "production pathways" in config_file:
                 variables = {}
-                for k, variable in config_file["production pathways"].items():
+                for k, v in config_file["production pathways"].items():
                     try:
-                        variables[k] = variable["production volume"]["variable"]
+                        variables[k] = v["production volume"]["variable"]
                     except KeyError:
                         continue
 
                 subset = df.loc[
-                    (df["model"] == self.model)
-                    & (df["pathway"] == self.pathway)
-                    & (df["scenario"] == self.external_scenarios[i])
+                    (df["scenario"] == scenario)
                     & (df["variables"].isin(variables.values())),
                     "region":,
                 ]
@@ -1478,11 +1487,9 @@ class IAMDataCollection:
 
                 variables = {}
                 if "production pathways" in config_file:
-                    for k, variable in config_file["production pathways"].items():
+                    for k, v in config_file["production pathways"].items():
                         try:
-                            variables[k] = [
-                                e["variable"] for e in variable["efficiency"]
-                            ]
+                            variables[k] = [e["variable"] for e in v["efficiency"]]
                         except KeyError:
                             continue
 
@@ -1497,9 +1504,7 @@ class IAMDataCollection:
 
                 if len(variables) > 0:
                     subset = df.loc[
-                        (df["model"] == self.model)
-                        & (df["pathway"] == self.pathway)
-                        & (df["scenario"] == self.external_scenarios[i])
+                        (df["scenario"] == scenario)
                         & (df["variables"].isin(list(chain(*variables.values())))),
                         "region":,
                     ]
@@ -1526,8 +1531,8 @@ class IAMDataCollection:
                     ref_years = {}
 
                     if "production pathways" in config_file:
-                        for variable in config_file["production pathways"].values():
-                            for e, f in variable.items():
+                        for v in config_file["production pathways"].values():
+                            for e, f in v.items():
                                 if e == "efficiency":
                                     for x in f:
                                         ref_years[x["variable"]] = {

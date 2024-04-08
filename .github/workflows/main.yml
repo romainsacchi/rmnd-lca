@@ -68,7 +68,7 @@ jobs:
         uses: gabrielfalcao/pyenv-action@v13
         with:
           default: 3.10.6
-          command: pip install -U pip
+          command: pip install -U pip  # upgrade pip after installing python
 
       - name: create environment
         run: pyenv local 3.10.6 && python -mvenv .venv390

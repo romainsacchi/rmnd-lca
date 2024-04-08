@@ -23,6 +23,19 @@ under future policy scenarios for any year between 2005 and 2100.
 
 .. _EULA: https://ecoinvent.org/app/uploads/2024/01/EULA_new_branding_08_11_2023.pdf
 
+Publication
+-----------
+
+The methodology behind *premise* is described in the following publication:
+
+R. Sacchi, T. Terlouw, K. Siala, A. Dirnaichner, C. Bauer, B. Cox, C. Mutel, V. Daioglou, G. Luderer,
+PRospective EnvironMental Impact asSEment (premise): A streamlined approach to producing databases for prospective life cycle assessment using integrated assessment models,
+Renewable and Sustainable Energy Reviews, 2022, https://doi.org/10.1016/j.rser.2022.112311.
+
+.. note::
+
+    If you use *premise* in your research, please cite the above publication.
+
 
 Workflow
 --------

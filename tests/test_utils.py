@@ -10,9 +10,15 @@ def test_ei_db_label():
     year = 2012
     version = "3.9"
     system_model = "cutoff"
+    scenario = {
+        "model": model,
+        "pathway": pathway,
+        "year": year,
+        "external scenarios": [{"scenario": "test"}],
+    }
     assert (
-        eidb_label(model, pathway, year, version, system_model)
-        == f"ecoinvent_{system_model}_{version}_{model}_{pathway}_{year}"
+        eidb_label(scenario, version, system_model)
+        == f"ecoinvent_{system_model}_{version}_{model}_{pathway}_{year}_test"
     )
 
 

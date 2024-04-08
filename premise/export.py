@@ -10,6 +10,7 @@ import os
 import re
 import uuid
 from collections import defaultdict
+from datetime import datetime
 from functools import lru_cache
 from multiprocessing.pool import ThreadPool as Pool
 from pathlib import Path
@@ -26,6 +27,7 @@ from scipy import sparse as nsp
 from . import __version__
 from .data_collection import get_delimiter
 from .filesystem_constants import DATA_DIR
+from .geomap import Geomap
 from .inventory_imports import get_correspondence_bio_flows
 from .utils import reset_all_codes
 from .validation import BaseDatasetValidator
@@ -324,17 +326,22 @@ def correct_biosphere_flow(name, cat, unit, version):
 
     bio_dict = biosphere_flows_dictionary(version)
 
-    if len(cat) > 1:
-        main_cat = cat[0]
-        sub_cat = cat[1]
-    else:
-        main_cat = cat[0]
-        sub_cat = "unspecified"
+    try:
 
-    if (name, main_cat, sub_cat, unit) not in bio_dict:
-        if bio_flows_correspondence.get(main_cat, {}).get(name, {}):
-            name = bio_flows_correspondence[main_cat][name]
-            return bio_dict[(name, main_cat, sub_cat, unit)]
+        if len(cat) > 1:
+            main_cat = cat[0]
+            sub_cat = cat[1]
+        else:
+            main_cat = cat[0]
+            sub_cat = "unspecified"
+
+        if (name, main_cat, sub_cat, unit) not in bio_dict:
+            if bio_flows_correspondence.get(main_cat, {}).get(name, {}):
+                name = bio_flows_correspondence[main_cat][name]
+                return bio_dict[(name, main_cat, sub_cat, unit)]
+    except:
+        print(name, cat, unit, version)
+        raise
     return bio_dict[(name, main_cat, sub_cat, unit)]
 
 
@@ -877,13 +884,13 @@ def generate_superstructure_db(
         )
 
     if file_format == "excel":
-        filepath_sdf = filepath / f"scenario_diff_{db_name}.xlsx"
+        filepath_sdf = filepath / f"scenario_diff_{db_name}_{datetime.now()}.xlsx"
         df.to_excel(filepath_sdf, index=False)
     elif file_format == "csv":
-        filepath_sdf = filepath / f"scenario_diff_{db_name}.csv"
+        filepath_sdf = filepath / f"scenario_diff_{db_name}_{datetime.now()}.csv"
         df.to_csv(filepath_sdf, index=False, sep=";", encoding="utf-8-sig")
     elif file_format == "feather":
-        filepath_sdf = filepath / f"scenario_diff_{db_name}.feather"
+        filepath_sdf = filepath / f"scenario_diff_{db_name}_{datetime.now()}.feather"
         df.to_feather(filepath_sdf)
     else:
         raise ValueError(f"Unknown format {file_format}")
@@ -893,12 +900,59 @@ def generate_superstructure_db(
     return new_db
 
 
+def check_geographical_linking(scenario, original_database):
+
+    # geo = Geomap(scenario["model"])
+
+    index = scenario["index"]
+    database = scenario["database"]
+    original_datasets = [
+        (a["name"], a["reference product"], a["location"]) for a in original_database
+    ]
+
+    datasets_to_check = [
+        ds
+        for ds in database
+        if (ds["name"], ds["reference product"], ds["location"])
+        not in original_datasets
+    ]
+
+    FORBIDDEN = ["import", "mix", "transport"]
+
+    for ds in datasets_to_check:
+        if ds["location"] not in ["GLO", "RoW", "World"]:
+            if "market" not in ds["name"]:
+                for exc in ds["exchanges"]:
+                    if exc["type"] == "technosphere":
+                        if not any(x in exc["name"] for x in FORBIDDEN) and not any(
+                            x in ds["name"] for x in FORBIDDEN
+                        ):
+                            if exc["location"] != ds["location"]:
+                                # check if exchange from the same location as the dataset is available
+                                key = (exc["name"], exc["product"])
+                                if ds["location"] in [
+                                    k["location"] for k in index.get(key, [])
+                                ]:
+                                    # if ds["location"] not in geo.iam_to_ecoinvent_location(exc["location"]):
+                                    if (exc["name"], exc["product"]) != (
+                                        ds["name"],
+                                        ds["reference product"],
+                                    ):
+                                        # there is a better match available
+                                        exc["location"] = ds["location"]
+
+    return scenario
+
+
 def prepare_db_for_export(
     scenario, name, original_database, keep_uncertainty_data=False
 ):
     """
     Prepare a database for export.
     """
+
+    # ensuring that all geographically appropriate exchanges are present
+    scenario = check_geographical_linking(scenario, original_database)
 
     # validate the database
     validator = BaseDatasetValidator(
