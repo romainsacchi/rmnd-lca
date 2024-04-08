@@ -607,6 +607,9 @@ class Metals(BaseTransformation):
             )
         }
 
+        if len(geography_mapping) == 0:
+            return {}
+
         # Get the original datasets
         datasets = self.fetch_proxies(
             name=name,
@@ -614,6 +617,7 @@ class Metals(BaseTransformation):
             regions=new_locations.values(),
             geo_mapping=geography_mapping,
             production_variable=shares,
+            exact_name_match=True,
             exact_product_match=True,
         )
 

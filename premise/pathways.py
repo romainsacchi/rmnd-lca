@@ -27,7 +27,6 @@ class PathwaysDataPackage:
         additional_inventories: List[dict] = None,
         system_model: str = "cutoff",
         system_args: dict = None,
-        external_scenarios: list = None,
         gains_scenario="CLE",
         use_absolute_efficiency=False,
         use_multiprocessing=True,
@@ -54,7 +53,6 @@ class PathwaysDataPackage:
             additional_inventories=additional_inventories,
             system_model=system_model,
             system_args=system_args,
-            external_scenarios=external_scenarios,
             gains_scenario=gains_scenario,
             use_absolute_efficiency=use_absolute_efficiency,
             use_multiprocessing=use_multiprocessing,
@@ -159,7 +157,7 @@ class PathwaysDataPackage:
 
         # extend to variables in external scenarios
         for scenario in self.scenarios:
-            if "external data" in scenario:
+            if "external scenarios" in scenario:
                 for s in scenario["external data"]:
                     vars.extend(
                         [
@@ -216,7 +214,7 @@ class PathwaysDataPackage:
 
         # if external scenarios, extend mapping with external data
         for scenario in self.datapackage.scenarios:
-            if "external data" in scenario:
+            if "external scenarios" in scenario:
                 for s in scenario["external data"].values():
                     config = s["config"]
                     if "production pathways" in config:
