@@ -983,3 +983,12 @@ class AdditionalInventory(BaseInventoryImport):
 
         if self.list_unlinked:
             self.display_unlinked_exchanges()
+
+    def merge_inventory(self) -> List[dict]:
+        """Prepare :attr:`import_db` and merge the inventory to the ecoinvent :attr:`database`.
+        Calls :meth:`prepare_inventory`. Changes the :attr:`database` attribute.
+        :returns: Nothing
+        """
+
+        self.prepare_inventory()
+        return self.import_db.data

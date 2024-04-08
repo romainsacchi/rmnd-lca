@@ -633,6 +633,7 @@ class BaseTransformation:
         empty_original_activity=True,
         exact_name_match=True,
         exact_product_match=False,
+        unlist=True,
     ) -> Dict[str, dict]:
         """
         Fetch dataset proxies, given a dataset `name` and `reference product`.
@@ -690,70 +691,81 @@ class BaseTransformation:
                 raise ws.MultipleResults(
                     err,
                     "A single dataset was expected, "
-                    f"but found more than one for: {name, ref_prod}, : {[(r['name'], r['reference product'], r['location']) for r in results]}",
+                    f"but found more than one for: "
+                    f"{name, ref_prod}, : {[(r['name'], r['reference product'], r['location']) for r in results]}",
                 )
 
-            if not self.is_in_index(dataset, region):
-                d_act[region] = copy.deepcopy(dataset)
-                d_act[region]["location"] = region
-                d_act[region]["code"] = str(uuid.uuid4().hex)
+            # if not self.is_in_index(dataset, region):
+            if self.is_in_index(dataset, region):
+                # delete original dataset from the database
+                self.database = [
+                    d
+                    for d in self.database
+                    if (d["name"], d["reference product"], d["location"])
+                    != (dataset["name"], dataset["reference product"], region)
+                ]
 
-                for exc in ws.production(d_act[region]):
-                    if "input" in exc:
-                        del exc["input"]
-                    if "location" in exc:
-                        exc["location"] = region
+            d_act[region] = copy.deepcopy(dataset)
+            d_act[region]["location"] = region
+            d_act[region]["code"] = str(uuid.uuid4().hex)
 
-                if "input" in d_act[region]:
-                    del d_act[region]["input"]
+            for exc in ws.production(d_act[region]):
+                if "input" in exc:
+                    del exc["input"]
+                if "location" in exc:
+                    exc["location"] = region
 
-                if production_variable is not None:
-                    # Add `production volume` field
-                    if isinstance(production_variable, str):
-                        production_variable = [
-                            production_variable,
-                        ]
+            if "input" in d_act[region]:
+                del d_act[region]["input"]
 
-                    if isinstance(production_variable, list):
-                        if all(
-                            i in self.iam_data.production_volumes.variables
-                            for i in production_variable
-                        ):
-                            prod_vol = (
-                                self.iam_data.production_volumes.sel(
-                                    region=region, variables=production_variable
-                                )
-                                .interp(year=self.year)
-                                .sum(dim="variables")
-                                .values.item(0)
+            if production_variable is not None:
+                # Add `production volume` field
+                if isinstance(production_variable, str):
+                    production_variable = [
+                        production_variable,
+                    ]
+
+                if isinstance(production_variable, list):
+                    if all(
+                        i in self.iam_data.production_volumes.variables
+                        for i in production_variable
+                    ):
+                        prod_vol = (
+                            self.iam_data.production_volumes.sel(
+                                region=region, variables=production_variable
                             )
-                        else:
-                            prod_vol = 1
-
-                    elif isinstance(production_variable, dict):
-                        prod_vol = production_variable[region]
+                            .interp(year=self.year)
+                            .sum(dim="variables")
+                            .values.item(0)
+                        )
                     else:
                         prod_vol = 1
+
+                elif isinstance(production_variable, dict):
+                    prod_vol = production_variable[region]
                 else:
                     prod_vol = 1
+            else:
+                prod_vol = 1
 
-                for prod in ws.production(d_act[region]):
-                    prod["location"] = region
-                    prod["production volume"] = prod_vol
+            for prod in ws.production(d_act[region]):
+                prod["location"] = region
+                prod["production volume"] = prod_vol
 
-                if relink:
-                    d_act[region] = self.relink_technosphere_exchanges(d_act[region])
+            if relink:
+                d_act[region] = self.relink_technosphere_exchanges(d_act[region])
 
-                ds_name = d_act[region]["name"]
-                ds_ref_prod = d_act[region]["reference product"]
+            ds_name = d_act[region]["name"]
+            ds_ref_prod = d_act[region]["reference product"]
 
-        # add dataset to emptied datasets list
-        for ds in ws.get_many(
-            self.database,
-            ws.equals("name", ds_name),
-            ws.equals("reference product", ds_ref_prod),
-        ):
-            self.remove_from_index(ds)
+        if unlist is True:
+            # remove dataset from index
+            for ds in ws.get_many(
+                self.database,
+                ws.equals("name", ds_name),
+                ws.equals("reference product", ds_ref_prod),
+            ):
+                self.remove_from_index(ds)
 
         # empty original datasets
         # and make them link to new regional datasets

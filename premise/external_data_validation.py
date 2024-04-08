@@ -4,10 +4,11 @@ Validates datapackages that contain external scenario data.
 
 from typing import Union
 
+import datapackage
 import numpy as np
 import pandas as pd
 import yaml
-from datapackage import exceptions, validate
+from datapackage import Package, exceptions, validate
 from schema import And, Optional, Schema, Use
 
 from .geomap import Geomap
@@ -41,7 +42,7 @@ def find_iam_efficiency_change(
 
 
 def flag_activities_to_adjust(
-    dataset: dict, scenario_data: dict, year: int, dataset_vars: dict
+    dataset: dict, scenario_data: dict, year: int, dataset_vars: dict, region=None
 ) -> dict:
     """
     Flag datasets that will need to be adjusted.
@@ -172,6 +173,12 @@ def flag_activities_to_adjust(
 
     if dataset_vars["regionalize"]:
         dataset["regionalize"] = dataset_vars["regionalize"]
+
+    if region is not None:
+        if "region mapping" not in dataset:
+            dataset["region mapping"] = {region: dataset["location"]}
+        else:
+            dataset["region mapping"].update({region: dataset["location"]})
 
     if "production volume variable" in dataset_vars:
         dataset["production volume variable"] = dataset_vars[
@@ -304,9 +311,9 @@ def check_inventories(
             candidates = filter_candidates_by_mask(candidates, mask)
         return candidates
 
-    def adjust_candidate(candidate, scenario_data, year, val):
+    def adjust_candidate(candidate, scenario_data, year, val, region=None):
         """Adjust a single candidate with scenario data."""
-        flag_activities_to_adjust(candidate, scenario_data, year, val)
+        flag_activities_to_adjust(candidate, scenario_data, year, val, region)
 
     def handle_single_candidate(candidates, scenario_data, year, val):
         """Handle case where there is exactly one candidate."""
@@ -398,7 +405,7 @@ def check_inventories(
 
         # Perform checks in order of preference
         for region in short_listed:
-            if short_listed[region] is None:
+            while short_listed[region] is None:
                 for location in sorted_candidate_locations:
                     for check_func in check_functions:
                         if check_func(region, location):
@@ -409,9 +416,6 @@ def check_inventories(
                             ):
                                 assign_candidate_if_empty(region, location)
                                 break
-                    else:
-                        continue
-                    break
 
         return short_listed
 
@@ -437,7 +441,7 @@ def check_inventories(
             short_listed = short_list_candidates(candidates, scenario_data)
             for region, ds in short_listed.items():
                 if ds is not None:
-                    adjust_candidate(ds, scenario_data, year, val)
+                    adjust_candidate(ds, scenario_data, year, val, region)
                 else:
                     print(f"No candidate found for {key[0]} and {key[1]} for {region}.")
 
@@ -454,48 +458,45 @@ def check_inventories(
     return inventory_data, database
 
 
-def check_datapackage(datapackages: list):
+def check_datapackage(datapackage: datapackage.Package):
     # validate package descriptor
-    for datapackage in datapackages:
-        try:
-            validate(datapackage.descriptor)
-        except exceptions.ValidationError as exception:
-            raise exception
 
-    for d, datapackage in enumerate(datapackages):
-        if "config" in [
-            i.name for i in datapackage.resources
-        ] and "scenario_data" not in [i.name for i in datapackage.resources]:
-            raise ValueError(
-                "If the resource 'config' is present in the datapackage,"
-                "so must the resource 'scenario_data'."
-            )
+    try:
+        validate(datapackage.descriptor)
+    except exceptions.ValidationError as exception:
+        raise exception
 
-        if "scenario_data" in [
-            i.name for i in datapackage.resources
-        ] and "config" not in [i.name for i in datapackage.resources]:
-            raise ValueError(
-                "If the resource 'scenario_data' is present in the datapackage,"
-                " so must the resource 'config'."
-            )
+    if "config" in [i.name for i in datapackage.resources] and "scenario_data" not in [
+        i.name for i in datapackage.resources
+    ]:
+        raise ValueError(
+            "If the resource 'config' is present in the datapackage,"
+            "so must the resource 'scenario_data'."
+        )
 
-        assert (
-            datapackage.descriptor["ecoinvent"]["version"]
-            in config["SUPPORTED_EI_VERSIONS"]
-        ), f"The ecoinvent version in datapackage  {d + 1} is not supported. Must be one of {config['SUPPORTED_EI_VERSIONS']}."
+    if "scenario_data" in [i.name for i in datapackage.resources] and "config" not in [
+        i.name for i in datapackage.resources
+    ]:
+        raise ValueError(
+            "If the resource 'scenario_data' is present in the datapackage,"
+            " so must the resource 'config'."
+        )
 
-        if (
-            sum(
-                s.name == y.name
-                for s in datapackage.resources
-                for y in datapackage.resources
-            )
-            / len(datapackage.resources)
-            > 1
-        ):
-            raise ValueError(
-                f"Two or more resources in datapackage {d + 1} are similar."
-            )
+    assert (
+        datapackage.descriptor["ecoinvent"]["version"]
+        in config["SUPPORTED_EI_VERSIONS"]
+    ), f"The ecoinvent version in datapackage  {d + 1} is not supported. Must be one of {config['SUPPORTED_EI_VERSIONS']}."
+
+    if (
+        sum(
+            s.name == y.name
+            for s in datapackage.resources
+            for y in datapackage.resources
+        )
+        / len(datapackage.resources)
+        > 1
+    ):
+        raise ValueError(f"Two or more resources in datapackage {d + 1} are similar.")
 
 
 def list_all_iam_regions(configuration):
@@ -514,128 +515,80 @@ def list_all_iam_regions(configuration):
     return list_regions
 
 
-def check_config_file(datapackages):
-    for i, dp in enumerate(datapackages):
-        resource = dp.get_resource("config")
-        config_file = yaml.safe_load(resource.raw_read())
+def check_config_file(datapackage: datapackage.Package) -> int:
 
-        file_schema = Schema(
-            {
-                "production pathways": {
-                    str: {
-                        "production volume": {
-                            "variable": str,
-                        },
-                        "ecoinvent alias": {
-                            "name": str,
-                            "reference product": str,
-                            Optional("exists in original database"): bool,
-                            Optional("mask"): str,
-                            Optional("new dataset"): bool,
-                            Optional("regionalize"): bool,
-                            Optional("ratio"): float,
-                        },
-                        Optional("efficiency"): [
-                            {
-                                "variable": str,
-                                Optional("reference year"): And(
-                                    Use(int), lambda n: 2005 <= n <= 2100
-                                ),
-                                Optional("includes"): {
-                                    Optional("technosphere"): list,
-                                    Optional("biosphere"): list,
-                                },
-                                Optional("excludes"): {
-                                    Optional("technosphere"): list,
-                                    Optional("biosphere"): list,
-                                },
-                                Optional("absolute"): bool,
-                            }
-                        ],
-                        Optional("except regions"): And(
-                            list,
-                            Use(list),
-                            lambda s: all(i in list_all_iam_regions(config) for i in s),
-                        ),
-                        Optional("replaces"): [
-                            {
-                                "name": str,
-                                "product": str,
-                                Optional("location"): str,
-                                Optional("operator"): str,
-                            }
-                        ],
-                        Optional("replaces in"): list,
-                        Optional("replacement ratio"): float,
+    resource = datapackage.get_resource("config")
+    config_file = yaml.safe_load(resource.raw_read())
+
+    file_schema = Schema(
+        {
+            "production pathways": {
+                str: {
+                    "production volume": {
+                        "variable": str,
                     },
-                },
-                Optional("markets"): [
-                    {
+                    "ecoinvent alias": {
                         "name": str,
                         "reference product": str,
-                        "unit": str,
-                        "includes": And(
-                            list,
-                            Use(list),
-                            lambda s: all(
-                                i in config_file["production pathways"] for i in s
+                        Optional("exists in original database"): bool,
+                        Optional("mask"): str,
+                        Optional("new dataset"): bool,
+                        Optional("regionalize"): bool,
+                        Optional("ratio"): float,
+                    },
+                    Optional("efficiency"): [
+                        {
+                            "variable": str,
+                            Optional("reference year"): And(
+                                Use(int), lambda n: 2005 <= n <= 2100
                             ),
-                        ),
-                        Optional("add"): [
-                            {
-                                Optional("name"): str,
-                                Optional("reference product"): str,
-                                Optional("categories"): str,
-                                Optional("unit"): str,
-                                Optional("amount"): float,
-                            }
-                        ],
-                        Optional("except regions"): And(
-                            list,
-                            Use(list),
-                            lambda s: all(
-                                i
-                                in config["LIST_REMIND_REGIONS"]
-                                + config["LIST_IMAGE_REGIONS"]
-                                for i in s
-                            ),
-                        ),
-                        Optional("replaces"): [
-                            {
-                                "name": str,
-                                "product": str,
-                                Optional("location"): str,
-                                Optional("operator"): str,
-                            }
-                        ],
-                        Optional("replaces in"): list,
-                        Optional("is fuel"): dict,
-                        Optional("replacement ratio"): float,
-                        Optional("waste market"): bool,
-                        Optional("efficiency"): [
-                            {
-                                "variable": str,
-                                Optional("reference year"): And(
-                                    Use(int), lambda n: 2005 <= n <= 2100
-                                ),
-                                Optional("includes"): {
-                                    Optional("technosphere"): list,
-                                    Optional("biosphere"): list,
-                                },
-                                Optional("excludes"): {
-                                    Optional("technosphere"): list,
-                                    Optional("biosphere"): list,
-                                },
-                            }
-                        ],
-                    }
-                ],
-                Optional("regionalize"): {
-                    "datasets": [
+                            Optional("includes"): {
+                                Optional("technosphere"): list,
+                                Optional("biosphere"): list,
+                            },
+                            Optional("excludes"): {
+                                Optional("technosphere"): list,
+                                Optional("biosphere"): list,
+                            },
+                            Optional("absolute"): bool,
+                        }
+                    ],
+                    Optional("except regions"): And(
+                        list,
+                        Use(list),
+                        lambda s: all(i in list_all_iam_regions(config) for i in s),
+                    ),
+                    Optional("replaces"): [
                         {
                             "name": str,
-                            "reference product": str,
-                            Optional("exists in original database"): bool,
+                            "product": str,
+                            Optional("location"): str,
+                            Optional("operator"): str,
+                        }
+                    ],
+                    Optional("replaces in"): list,
+                    Optional("replacement ratio"): float,
+                },
+            },
+            Optional("markets"): [
+                {
+                    "name": str,
+                    "reference product": str,
+                    "unit": str,
+                    "includes": And(
+                        list,
+                        Use(list),
+                        lambda s: all(
+                            i in config_file["production pathways"] for i in s
+                        ),
+                    ),
+                    Optional("add"): [
+                        {
+                            Optional("name"): str,
+                            Optional("reference product"): str,
+                            Optional("categories"): str,
+                            Optional("unit"): str,
+                            Optional("amount"): float,
                         }
                     ],
                     Optional("except regions"): And(
@@ -648,259 +601,198 @@ def check_config_file(datapackages):
                             for i in s
                         ),
                     ),
-                },
-            }
-        )
+                    Optional("replaces"): [
+                        {
+                            "name": str,
+                            "product": str,
+                            Optional("location"): str,
+                            Optional("operator"): str,
+                        }
+                    ],
+                    Optional("replaces in"): list,
+                    Optional("is fuel"): dict,
+                    Optional("replacement ratio"): float,
+                    Optional("waste market"): bool,
+                    Optional("efficiency"): [
+                        {
+                            "variable": str,
+                            Optional("reference year"): And(
+                                Use(int), lambda n: 2005 <= n <= 2100
+                            ),
+                            Optional("includes"): {
+                                Optional("technosphere"): list,
+                                Optional("biosphere"): list,
+                            },
+                            Optional("excludes"): {
+                                Optional("technosphere"): list,
+                                Optional("biosphere"): list,
+                            },
+                        }
+                    ],
+                }
+            ],
+            Optional("regionalize"): {
+                "datasets": [
+                    {
+                        "name": str,
+                        "reference product": str,
+                        Optional("exists in original database"): bool,
+                    }
+                ],
+                Optional("except regions"): And(
+                    list,
+                    Use(list),
+                    lambda s: all(
+                        i
+                        in config["LIST_REMIND_REGIONS"] + config["LIST_IMAGE_REGIONS"]
+                        for i in s
+                    ),
+                ),
+            },
+        }
+    )
 
-        file_schema.validate(config_file)
+    file_schema.validate(config_file)
 
-        if "markets" in config_file:
-            # check that providers composing the market
-            # are listed
+    if "markets" in config_file:
+        # check that providers composing the market
+        # are listed
 
-            for market in config_file["markets"]:
-                try:
-                    [
-                        (
-                            config_file["production pathways"][a]["ecoinvent alias"][
-                                "name"
-                            ],
-                            config_file["production pathways"][a]["ecoinvent alias"][
-                                "reference product"
-                            ],
-                        )
-                        for a in market["includes"]
-                    ]
-                except KeyError as err:
-                    raise ValueError(
-                        "One of more providers listed under `markets/includes` is/are not listed "
-                        "under `production pathways`."
-                    ) from err
-
-    needs_imported_inventories = [False for _ in datapackages]
-
-    for i, dp in enumerate(datapackages):
-        resource = dp.get_resource("config")
-        config_file = yaml.safe_load(resource.raw_read())
-
-        if len(list(config_file["production pathways"].keys())) != sum(
-            get_recursively(
-                config_file["production pathways"], "exists in original database"
-            )
-        ):
-            needs_imported_inventories[i] = True
-
-    return sum(needs_imported_inventories)
-
-
-def check_scenario_data_file(datapackages, iam_scenarios):
-    for i, dp in enumerate(datapackages):
-        scenarios = dp.descriptor["scenarios"]
-
-        rev_scenarios = {}
-
-        for scenario, lst_iam_scen in scenarios.items():
-            for iam_scen in lst_iam_scen:
-                if (iam_scen["model"], iam_scen["pathway"]) not in rev_scenarios:
-                    rev_scenarios[(iam_scen["model"], iam_scen["pathway"])] = [scenario]
-                else:
-                    rev_scenarios[(iam_scen["model"], iam_scen["pathway"])].append(
-                        scenario
-                    )
-
-        for iam_scen, lst_ext_scen in rev_scenarios.items():
-            if len(lst_ext_scen) > 1:
-                if iam_scen in [(x["model"], x["pathway"]) for x in iam_scenarios]:
-                    print(
-                        f"{iam_scen} can be used with more than one external scenarios: {lst_ext_scen}."
-                    )
-                    print(f"Choose the scenario to associate {iam_scen} with:")
-                    for s, scen in enumerate(lst_ext_scen):
-                        print(f"{s} - {scen}")
-                    usr_input = ""
-
-                    while usr_input not in list(range(len(lst_ext_scen))):
-                        usr_input = int(input("Scenario no.: "))
-                    rev_scenarios[iam_scen] = [lst_ext_scen[int(usr_input)]]
-
-        for iam_scen in iam_scenarios:
+        for market in config_file["markets"]:
             try:
-                if "external scenarios" in iam_scen:
-                    iam_scen["external scenarios"].append(
-                        rev_scenarios[(iam_scen["model"], iam_scen["pathway"])][0]
+                [
+                    (
+                        config_file["production pathways"][a]["ecoinvent alias"][
+                            "name"
+                        ],
+                        config_file["production pathways"][a]["ecoinvent alias"][
+                            "reference product"
+                        ],
                     )
-                else:
-                    iam_scen["external scenarios"] = [
-                        rev_scenarios[(iam_scen["model"], iam_scen["pathway"])][0]
-                    ]
+                    for a in market["includes"]
+                ]
             except KeyError as err:
-                raise KeyError(
-                    f"External scenario no. {i + 1} is not compatible with {iam_scen['model'], iam_scen['pathway']}."
+                raise ValueError(
+                    "One of more providers listed under `markets/includes` is/are not listed "
+                    "under `production pathways`."
                 ) from err
 
-        resource = dp.get_resource("scenario_data")
-        scenario_data = resource.read()
-        scenario_headers = resource.headers
+    needs_imported_inventories = False
 
-        df = pd.DataFrame(scenario_data, columns=scenario_headers)
+    resource = datapackage.get_resource("config")
+    config_file = yaml.safe_load(resource.raw_read())
 
-        resource = dp.get_resource("config")
-        config_file = yaml.safe_load(resource.raw_read())
+    if len(list(config_file["production pathways"].keys())) != sum(
+        get_recursively(
+            config_file["production pathways"], "exists in original database"
+        )
+    ):
+        needs_imported_inventories = True
 
-        mandatory_fields = [
-            "model",
-            "pathway",
-            "scenario",
-            "region",
-            "variables",
-            "unit",
-        ]
-        if not all(v in df.columns for v in mandatory_fields):
-            raise ValueError(
-                f"One or several mandatory column are missing "
-                f"in the scenario data file no. {i + 1}. Mandatory columns: {mandatory_fields}."
-            )
+    return needs_imported_inventories
 
-        years_cols = []
-        for header in scenario_headers:
-            try:
-                years_cols.append(int(header))
-            except ValueError:
-                continue
 
-        if not all(1860 <= y <= 2100 for y in years_cols):
-            raise ValueError(
-                f"One or several of the years provided in the scenario data file no. {i + 1} are "
-                "out of boundaries (2005 - 2100)."
-            )
+def check_scenario_data_file(
+    datapackage: datapackage.Package, scenario: str
+) -> Package:
 
-        if not all(
-            min(years_cols) <= y <= max(years_cols)
-            for y in [s["year"] for s in iam_scenarios]
-        ):
-            raise ValueError(
-                f"The list of years you wish to create a database for are not entirely covered"
-                f" by the scenario data file no. {i + 1}."
-            )
+    scenarios = datapackage.descriptor["scenarios"]
+    resource = datapackage.get_resource("scenario_data")
+    scenario_data = resource.read()
+    scenario_headers = resource.headers
 
-        if len(pd.isnull(df).sum()[pd.isnull(df).sum() > 0]) > 0:
-            raise ValueError(
-                f"The following columns in the scenario data file no. {i + 1}"
-                f"contains empty cells.\n{pd.isnull(df).sum()[pd.isnull(df).sum() > 0]}."
-            )
+    df = pd.DataFrame(scenario_data, columns=scenario_headers)
 
-        if any(
-            m not in df["model"].unique() for m in [s["model"] for s in iam_scenarios]
-        ):
-            raise ValueError(
-                f"One or several model name(s) in the list of scenarios to create "
-                f"is/are not found in the scenario data file no. {i + 1}. "
-            )
+    resource = datapackage.get_resource("config")
+    config_file = yaml.safe_load(resource.raw_read())
 
-        if any(
-            s not in df["pathway"].unique()
-            for s in [p["pathway"] for p in iam_scenarios]
-        ):
-            raise ValueError(
-                f"One or several pathway name(s) in the scenario data file no. {i + 1} "
-                "is/are not found in the list of scenarios to create."
-            )
+    mandatory_fields = [
+        "scenario",
+        "region",
+        "variables",
+        "unit",
+    ]
+    if not all(v in df.columns for v in mandatory_fields):
+        raise ValueError(
+            f"One or several mandatory column are missing "
+            f"in the scenario data file no. {i + 1}. Mandatory columns: {mandatory_fields}."
+        )
 
-        if any(
-            m not in df["pathway"].unique()
-            for m in [s["pathway"] for s in iam_scenarios]
-        ):
-            raise ValueError(
-                f"One or several pathway name(s) in the list of scenarios to create "
-                f"is/are not found in the scenario data file no. {i + 1}."
-            )
-
-        d_regions = {}
-
-        for model in config["SUPPORTED_MODELS"]:
-            for k, v in config.items():
-                if k.startswith("LIST_") and model.lower() in k.lower():
-                    d_regions[model] = v
-
-        list_ei_locs = [
-            i if isinstance(i, str) else i[-1]
-            for i in list(Geomap(model="remind").geo.keys())
-        ]
-
-        for irow, r in df.iterrows():
-            if (
-                r["region"] not in d_regions[r["model"]]
-                and r["region"] not in list_ei_locs
-            ):
-                raise ValueError(
-                    f"Region {r['region']} indicated "
-                    f"in row {irow} is not a valid region for model {r['model'].upper()}"
-                    f"and is not found within ecoinvent locations."
-                )
-
-        available_scenarios = df["scenario"].unique()
-
-        if not all(
-            s in available_scenarios for s in scenarios
-        ):  # check that all scenarios are available in the scenario file
-            print(
-                "The following scenarios listed in the json file "
-                "are not available in the scenario data file:"
-            )
-            print(set(s for s in scenarios if s not in available_scenarios))
-            raise ValueError(
-                f"One or several scenarios are not available in the scenario file no. {i + 1}."
-            )
-
-        # check that all scenarios in `iam_scenarios` are listed in `scenarios`
-
-        if not any(
-            (iam_s["model"], iam_s["pathway"])
-            in [(t["model"], t["pathway"]) for s in scenarios.values() for t in s]
-            for iam_s in iam_scenarios
-        ):
-            raise ValueError(
-                f"One or several scenarios are not available in the external scenario file no. {i + 1}."
-            )
-
-        if not all(
-            v in df["variables"].unique()
-            for v in get_recursively(config_file, "variable")
-        ):
-            list_unfound_variables = [
-                p
-                for p in get_recursively(config_file, "variable")
-                if p not in df["variables"].unique()
-            ]
-
-            raise ValueError(
-                "The following variables from the configuration file "
-                f"cannot be found in the scenario file no. {i + 1}.: {list_unfound_variables}"
-            )
-
-        if not all(
-            v in df["variables"].unique()
-            for v in get_recursively(config_file, "variable")
-        ):
-            missing_variables = [
-                v
-                for v in get_recursively(config_file, "variable")
-                if v not in df["variables"].unique()
-            ]
-            raise ValueError(
-                f"One or several variable names in the configuration file {i + 1} "
-                f"cannot be found in the scenario data file: {missing_variables}."
-            )
-
+    years_cols = []
+    for header in scenario_headers:
         try:
-            np.array_equal(df.iloc[:, 6:], df.iloc[:, 6:].astype(float))
-        except ValueError as e:
-            raise TypeError(
-                f"All values provided in the time series must be numerical "
-                f"in the scenario data file no. {i + 1}."
-            ) from e
+            years_cols.append(int(header))
+        except ValueError:
+            continue
 
-    return datapackages, iam_scenarios
+    if not all(2005 <= y <= 2100 for y in years_cols):
+        raise ValueError(
+            f"One or several of the years provided in the scenario data file no. {i + 1} are "
+            "out of boundaries (2005 - 2100)."
+        )
+
+    if len(pd.isnull(df).sum()[pd.isnull(df).sum() > 0]) > 0:
+        raise ValueError(
+            f"The following columns in the scenario data file no. {i + 1}"
+            f"contains empty cells.\n{pd.isnull(df).sum()[pd.isnull(df).sum() > 0]}."
+        )
+
+    available_scenarios = df["scenario"].unique()
+
+    if not all(
+        s in available_scenarios for s in scenarios
+    ):  # check that all scenarios are available in the scenario file
+        print(
+            "The following scenarios listed in the json file "
+            "are not available in the scenario data file:"
+        )
+        print(set(s for s in scenarios if s not in available_scenarios))
+        raise ValueError(
+            f"One or several scenarios are not available in the scenario file."
+        )
+
+    if scenario not in available_scenarios:
+        raise ValueError(
+            f"The scenario {scenario} is not available in the scenario file."
+            f"Available scenarios are: {available_scenarios}."
+        )
+
+    if not all(
+        v in df["variables"].unique() for v in get_recursively(config_file, "variable")
+    ):
+        list_unfound_variables = [
+            p
+            for p in get_recursively(config_file, "variable")
+            if p not in df["variables"].unique()
+        ]
+
+        raise ValueError(
+            "The following variables from the configuration file "
+            f"cannot be found in the scenario file no. {i + 1}.: {list_unfound_variables}"
+        )
+
+    if not all(
+        v in df["variables"].unique() for v in get_recursively(config_file, "variable")
+    ):
+        missing_variables = [
+            v
+            for v in get_recursively(config_file, "variable")
+            if v not in df["variables"].unique()
+        ]
+        raise ValueError(
+            f"One or several variable names in the configuration file {i + 1} "
+            f"cannot be found in the scenario data file: {missing_variables}."
+        )
+
+    try:
+        np.array_equal(df.iloc[:, 6:], df.iloc[:, 6:].astype(float))
+    except ValueError as e:
+        raise TypeError(
+            f"All values provided in the time series must be numerical "
+            f"in the scenario data file no. {i + 1}."
+        ) from e
+
+    return datapackage
 
 
 def get_recursively(search_dict, field):
@@ -929,23 +821,27 @@ def get_recursively(search_dict, field):
     return fields_found
 
 
-def check_external_scenarios(datapackage: list, iam_scenarios: list) -> tuple:
+def check_external_scenarios(external_scenarios: list) -> list:
     """
-    Check that all required keys and values are found to add a custom scenario.
-    :param datapackage: scenario dictionary
-    :return: scenario dictionary
+    Check external scenarios.
+    :param external_scenarios: external scenario data
+
+    :return: external scenario data, IAM scenario data
     """
 
-    # Validate datapackage
-    check_datapackage(datapackage)
+    for external_scenario in external_scenarios:
+        # Validate datapackage
+        check_datapackage(external_scenario["data"])
 
-    # Validate yaml config file
-    check_config_file(datapackage)
+        # Validate yaml config file
+        check_config_file(external_scenario["data"])
 
-    # Validate scenario data
-    datapackage, iam_scenarios = check_scenario_data_file(datapackage, iam_scenarios)
+        # Validate scenario data
+        external_scenario["data"] = check_scenario_data_file(
+            external_scenario["data"], external_scenario["scenario"]
+        )
 
-    return datapackage, iam_scenarios
+    return external_scenarios
 
 
 def fetch_dataset_description_from_production_pathways(

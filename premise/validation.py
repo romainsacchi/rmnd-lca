@@ -802,8 +802,9 @@ class SteelValidation(BaseDatasetValidator):
                 pig_iron = [
                     x
                     for x in ds["exchanges"]
-                    if x["name"] == "market for pig iron"
+                    if "pig iron" in x["name"]
                     and x["type"] == "technosphere"
+                    and x["amount"] > 0
                 ]
                 if not pig_iron:
                     message = "No input of pig iron found."

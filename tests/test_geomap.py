@@ -29,8 +29,7 @@ class TestGeomap(unittest.TestCase):
         self.assertGreater(len(locations), 0)
 
     def test_iam_to_ecoinvent_location_invalid(self):
-        with self.assertRaises(ValueError):
-            self.geomap.iam_to_ecoinvent_location("foo")
+        assert self.geomap.iam_to_ecoinvent_location("foo") == []
 
     def test_ecoinvent_to_iam_location_valid(self):
         iam_location = self.geomap.ecoinvent_to_iam_location("FR")

@@ -375,6 +375,17 @@ def check_scenarios(scenario: dict, key: bytes) -> dict:
     )
     scenario["year"] = check_year(scenario["year"])
 
+    if "external scenarios" in scenario:
+        assert isinstance(scenario["external scenarios"], list)
+
+        # ensure both keys `data` and `scenario` are present
+        for external_scenario in scenario["external scenarios"]:
+            assert all(key in external_scenario for key in ["data", "scenario"])
+
+        scenario["external scenarios"] = check_external_scenarios(
+            scenario["external scenarios"]
+        )
+
     return scenario
 
 
@@ -517,11 +528,10 @@ class NewDatabase:
             self.additional_inventories = None
 
         if external_scenarios:
-            self.datapackages, self.scenarios = check_external_scenarios(
-                external_scenarios, self.scenarios
+            print(
+                "External scenarios should now be given as part of the scenarios list. "
+                "E.g., {'external scenarios': ['scenario': 'A', 'data': datapackage]}"
             )
-        else:
-            self.datapackages = None
 
         def _fetch_iam_data(scenario):
             data = IAMDataCollection(
@@ -538,8 +548,10 @@ class NewDatabase:
             )
             scenario["iam data"] = data
 
-            if self.datapackages:
-                scenario["external data"] = data.get_external_data(self.datapackages)
+            if "external scenarios" in scenario:
+                scenario["external data"] = data.get_external_data(
+                    scenario["external scenarios"]
+                )
 
             scenario["database"] = copy.deepcopy(self.database)
 
@@ -838,11 +850,6 @@ class NewDatabase:
                 "args": (
                     self.version,
                     self.system_model,
-                    (
-                        [x.base_path for x in self.datapackages]
-                        if self.datapackages
-                        else None
-                    ),
                 ),
             },
         }
@@ -858,10 +865,6 @@ class NewDatabase:
                 for s in list(sector_update_methods.keys())
                 if s not in ["buses", "cars", "two_wheelers"]
             ]
-
-            # if no datapackages are provided, we skip the external sector
-            if self.datapackages is None:
-                sectors.remove("external")
 
             print(
                 "`update()` will skip the following sectors: 'buses', 'cars', 'two_wheelers'."
@@ -884,11 +887,6 @@ class NewDatabase:
         with tqdm(total=len(sectors), desc="Updating sectors", ncols=70) as pbar_outer:
             for sector in sectors:
                 pbar_outer.set_description(f"Updating: {sector}")
-                if sector == "external" and self.datapackages is None:
-                    print(
-                        "External scenarios (datapackages) are not provided. Skipped."
-                    )
-                    continue
 
                 # Prepare the function and arguments
                 update_func = sector_update_methods[sector]["func"]
@@ -902,6 +900,20 @@ class NewDatabase:
                         tasks = [
                             (scenario,) + fixed_args for scenario in self.scenarios
                         ]
+
+                        # we cannot pickle the datapackage contained under "external scenarios" in each scenario
+                        # so we replace it by the file path of the datapackage before processing
+
+                        for task in tasks:
+                            if "external scenarios" in task[0]:
+                                for external_scenario in task[0]["external scenarios"]:
+                                    if isinstance(
+                                        external_scenario["data"],
+                                        datapackage.DataPackage,
+                                    ):
+                                        external_scenario["data"] = external_scenario[
+                                            "data"
+                                        ].base_path
 
                         # Use starmap for preserving the order of tasks
                         results = pool.starmap(update_func, tasks)
@@ -948,10 +960,7 @@ class NewDatabase:
                 keep_uncertainty_data=self.keep_uncertainty_data,
             )
 
-        if hasattr(self, "datapackages"):
-            list_scenarios = create_scenario_list(self.scenarios, self.datapackages)
-        else:
-            list_scenarios = create_scenario_list(self.scenarios)
+        list_scenarios = create_scenario_list(self.scenarios)
 
         self.database = generate_superstructure_db(
             origin_db=self.database,
@@ -995,12 +1004,9 @@ class NewDatabase:
         else:
             name = [
                 eidb_label(
-                    scenario["model"],
-                    scenario["pathway"],
-                    scenario["year"],
+                    scenario,
                     version=self.version,
                     system_model=self.system_model,
-                    datapackages=self.datapackages,
                 )
                 for scenario in self.scenarios
             ]
@@ -1025,6 +1031,7 @@ class NewDatabase:
                 scenario["database"],
                 name[scen],
             )
+
         # generate scenario report
         self.generate_scenario_report()
         # generate change report from logs
@@ -1192,10 +1199,7 @@ class NewDatabase:
                 keep_uncertainty_data=self.keep_uncertainty_data,
             )
 
-        if hasattr(self, "datapackages"):
-            list_scenarios = create_scenario_list(self.scenarios, self.datapackages)
-        else:
-            list_scenarios = create_scenario_list(self.scenarios)
+        list_scenarios = create_scenario_list(self.scenarios)
 
         df, extra_inventories = generate_scenario_factor_file(
             origin_db=self.database,
