@@ -710,9 +710,10 @@ class BaseTransformation:
                     f"{name, ref_prod}, : {[(r['name'], r['reference product'], r['location']) for r in results]}",
                 )
             except ws.NoResults as err:
-                print(f"No dataset found for {name, ref_prod} in {d_iam_to_eco[region]}",)
+                print(
+                    f"No dataset found for {name, ref_prod} in {d_iam_to_eco[region]}",
+                )
                 continue
-
 
             # if not self.is_in_index(dataset, region):
             if self.is_in_index(dataset, region):
