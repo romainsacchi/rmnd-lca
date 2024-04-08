@@ -79,12 +79,9 @@ class HiddenPrints:
 
 
 def eidb_label(
-    model: str,
-    scenario: str,
-    year: int,
+    scenario: dict,
     version: str,
     system_model: str = "cutoff",
-    datapackages=None,
 ) -> str:
     """
     Return a label to name a scenario.
@@ -96,10 +93,12 @@ def eidb_label(
     :return: scenario label, str.
     """
 
-    if datapackages is None:
-        name = f"ecoinvent_{system_model}_{version}_{model}_{scenario}_{year}"
-    else:
-        name = f"ecoinvent_{system_model}_{version}_{model}_{scenario}_{year}_{'_'.join([dp.descriptor.get('name', 'External model') for dp in datapackages])}"
+    name = f"ecoinvent_{system_model}_{version}_{scenario['model']}_{scenario['pathway']}_{scenario['year']}"
+
+    if "external scenarios" in scenario:
+        for ext_scenario in scenario["external scenarios"]:
+            name += f"_{ext_scenario['scenario']}"
+
     return name
 
 
@@ -324,17 +323,17 @@ def delete_log():
         log_path.unlink()
 
 
-def create_scenario_list(scenarios, datapackages=None):
-    list_scenarios = [f"{s['model']} - {s['pathway']} - {s['year']}" for s in scenarios]
+def create_scenario_list(scenarios: list) -> list:
 
-    if "external scenarios" in scenarios[0]:
-        external_model_name = "External model"
-        for s, scenario in enumerate(scenarios):
-            for e, ext_scenario in enumerate(scenario["external scenarios"]):
-                if datapackages is not None:
-                    external_model_name = datapackages[e].descriptor.get(
-                        "name", "External model"
-                    )
-                list_scenarios[s] += f" - {external_model_name} - {ext_scenario}"
+    list_scenarios = []
+
+    for scenario in scenarios:
+        name = f"{scenario['model']} - {scenario['pathway']} - {scenario['year']}"
+
+        if "external scenarios" in scenario:
+            for ext_scenario in scenario["external scenarios"]:
+                name += f" - {ext_scenario['scenario']}"
+
+        list_scenarios.append(name)
 
     return list_scenarios

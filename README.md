@@ -32,6 +32,7 @@ its outputs can naturally be used in [Activity Browser](https://github.com/LCA-A
 but also in other LCA software, such as SimaPro, OpenLCA, or directly in Python.
 
 The tool is described in the following scientific publication: [Sacchi et al, 2022](https://doi.org/10.1016/j.rser.2022.112311).
+If this tool helps you in your research, please consider citing this publication.
 
 
 

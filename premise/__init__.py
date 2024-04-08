@@ -1,6 +1,6 @@
 __all__ = ("NewDatabase", "clear_cache", "get_regions_definition")
-__version__ = (2, 0, 2)
+__version__ = (2, 1, 0, "dev0")
 
 
-from .new_database import NewDatabase
-from .utils import clear_cache, get_regions_definition
+from premise.new_database import NewDatabase
+from premise.utils import clear_cache, get_regions_definition

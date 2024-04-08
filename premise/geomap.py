@@ -114,7 +114,7 @@ class Geomap:
 
         # Check if the IAM location is valid to prevent KeyError
         if location_tuple not in self.geo:
-            raise ValueError(f"The IAM location '{location}' is not recognized.")
+            return []
 
         def get_search_func(loc):
             if contained:

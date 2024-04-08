@@ -1414,10 +1414,18 @@ class IAMDataCollection:
 
         return data_to_return
 
-    def get_external_data(self, datapackages):
+    def get_external_data(self, external_scenarios: list):
+        """
+        Fetch data from external sources.
+        :param external_scenarios: a list of dictionaries
+        with keys "scenario" and "data"
+        :return: a dictionary with data
+
+        """
         data = {}
 
-        for i, dp in enumerate(datapackages):
+        for i, external_scenario in enumerate(external_scenarios):
+            scenario, dp = external_scenario["scenario"], external_scenario["data"]
             data[i] = {}
 
             resource = dp.get_resource("scenario_data")
@@ -1447,9 +1455,7 @@ class IAMDataCollection:
                         continue
 
                 subset = df.loc[
-                    (df["model"] == self.model)
-                    & (df["pathway"] == self.pathway)
-                    & (df["scenario"] == self.external_scenarios[i])
+                    (df["scenario"] == scenario)
                     & (df["variables"].isin(variables.values())),
                     "region":,
                 ]
@@ -1493,9 +1499,7 @@ class IAMDataCollection:
 
                 if len(variables) > 0:
                     subset = df.loc[
-                        (df["model"] == self.model)
-                        & (df["pathway"] == self.pathway)
-                        & (df["scenario"] == self.external_scenarios[i])
+                        (df["scenario"] == scenario)
                         & (df["variables"].isin(list(chain(*variables.values())))),
                         "region":,
                     ]
