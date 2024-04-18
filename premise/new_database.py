@@ -9,7 +9,7 @@ import logging
 import multiprocessing
 import os
 import pickle
-from datetime import date
+from datetime import datetime
 from multiprocessing import Pool as ProcessPool
 from multiprocessing.pool import ThreadPool as Pool
 from pathlib import Path
@@ -40,8 +40,8 @@ from .filesystem_constants import DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
 from .fuels import _update_fuels
 from .heat import _update_heat
 from .inventory_imports import AdditionalInventory, DefaultInventory
-from .metals import _update_metals
 from .report import generate_change_report, generate_summary_report
+from .metals import _update_metals
 from .steel import _update_steel
 from .transport import _update_vehicles
 from .utils import (
@@ -57,14 +57,13 @@ from .utils import (
 
 logger = logging.getLogger("module")
 
+
 if int(bw2data.__version__[0]) >= 4:
     from .brightway25 import write_brightway_database
 
-    logger.info("Using Brightway 2.5")
 else:
     from .brightway2 import write_brightway_database
 
-    logger.info("Using Brightway 2")
 
 FILEPATH_OIL_GAS_INVENTORIES = INVENTORY_DIR / "lci-ESU-oil-and-gas.xlsx"
 FILEPATH_CARMA_INVENTORIES = INVENTORY_DIR / "lci-Carma-CCS.xlsx"
@@ -944,7 +943,7 @@ class NewDatabase:
 
     def write_superstructure_db_to_brightway(
         self,
-        name: str = f"super_db_{date.today()}",
+        name: str = f"super_db_{datetime.now().strftime('%d-%m-%Y %H-%M')} (v.{str(__version__)})",
         filepath: str = None,
         file_format: str = "excel",
     ) -> None:
@@ -1191,7 +1190,10 @@ class NewDatabase:
         # generate change report from logs
         self.generate_change_report()
 
-    def write_datapackage(self, name: str = f"datapackage_{date.today()}"):
+    def write_datapackage(
+        self,
+        name: str = f"datapackage_{datetime.now().strftime('%d-%m-%Y %H-%M')} (v.{str(__version__)})",
+    ):
         if not isinstance(name, str):
             raise TypeError("`name` should be a string.")
 
@@ -1240,7 +1242,7 @@ class NewDatabase:
     def generate_scenario_report(
         self,
         filepath: [str, Path] = None,
-        name: str = f"scenario_report_{date.today()}.xlsx",
+        name: str = f"scenario_report_{datetime.now().strftime('%d-%m-%Y %H-%M')} (v.{str(__version__)}).xlsx",
     ):
         """
         Generate a report of the scenarios.

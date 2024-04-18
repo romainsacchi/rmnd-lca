@@ -884,13 +884,13 @@ def generate_superstructure_db(
         )
 
     if file_format == "excel":
-        filepath_sdf = filepath / f"scenario_diff_{db_name}_{datetime.now()}.xlsx"
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.xlsx"
         df.to_excel(filepath_sdf, index=False)
     elif file_format == "csv":
-        filepath_sdf = filepath / f"scenario_diff_{db_name}_{datetime.now()}.csv"
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.csv"
         df.to_csv(filepath_sdf, index=False, sep=";", encoding="utf-8-sig")
     elif file_format == "feather":
-        filepath_sdf = filepath / f"scenario_diff_{db_name}_{datetime.now()}.feather"
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.feather"
         df.to_feather(filepath_sdf)
     else:
         raise ValueError(f"Unknown format {file_format}")
@@ -1337,7 +1337,7 @@ class Export:
         headers = [
             "{SimaPro 9.1.1.7}",
             "{processes}",
-            "{Project: premise import" + f"{datetime.datetime.today():%d.%m.%Y}" + "}",
+            "{Project: premise import" + f"{datetime.today():%d.%m.%Y}" + "}",
             "{CSV Format version: 9.0.0}",
             "{CSV separator: Semicolon}",
             "{Decimal separator: .}",
@@ -1480,7 +1480,7 @@ class Export:
                         writer.writerow([ds["location"]])
 
                     if item == "Date":
-                        writer.writerow([f"{datetime.datetime.today():%d.%m.%Y}"])
+                        writer.writerow([f"{datetime.today():%d.%m.%Y}"])
 
                     if item == "Comment":
                         if ds["name"] in dict_refs:

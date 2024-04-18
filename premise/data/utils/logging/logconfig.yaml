@@ -14,7 +14,7 @@ handlers:
     filename: "export/logs/premise_dac.log"
     encoding: utf8
     formatter: simple
-    mode: w
+    mode: a
 
   file_biomass:
     class: logging.FileHandler
@@ -22,7 +22,7 @@ handlers:
     filename: "export/logs/premise_biomass.log"
     encoding: utf8
     formatter: simple
-    mode: w
+    mode: a
 
   file_electricity:
     class: logging.FileHandler
@@ -30,7 +30,7 @@ handlers:
     filename: "export/logs/premise_electricity.log"
     encoding: utf8
     formatter: simple
-    mode: w
+    mode: a
 
   file_steel:
     class: logging.FileHandler
@@ -38,7 +38,7 @@ handlers:
     filename: "export/logs/premise_steel.log"
     encoding: utf8
     formatter: simple
-    mode: w
+    mode: a
 
   file_metal:
     class: logging.FileHandler
@@ -46,7 +46,7 @@ handlers:
     filename: "export/logs/premise_metal.log"
     encoding: utf8
     formatter: simple
-    mode: w
+    mode: a
 
   file_cement:
     class: logging.FileHandler
@@ -54,7 +54,7 @@ handlers:
     filename: "export/logs/premise_cement.log"
     encoding: utf8
     formatter: simple
-    mode: w
+    mode: a
 
   file_fuel:
     class: logging.FileHandler
@@ -62,7 +62,7 @@ handlers:
     filename: "export/logs/premise_fuel.log"
     encoding: utf8
     formatter: simple
-    mode: w
+    mode: a
 
   file_heat:
     class: logging.FileHandler
@@ -70,7 +70,7 @@ handlers:
     filename: "export/logs/premise_heat.log"
     encoding: utf8
     formatter: simple
-    mode: w
+    mode: a
 
   file_emissions:
     class: logging.FileHandler
@@ -78,7 +78,7 @@ handlers:
     filename: "export/logs/premise_emissions.log"
     encoding: utf8
     formatter: simple
-    mode: w
+    mode: a
 
   file_external:
     class: logging.FileHandler
@@ -86,7 +86,7 @@ handlers:
     filename: "export/logs/premise_external_scenarios.log"
     encoding: utf8
     formatter: simple
-    mode: w
+    mode: a
 
   file_validation:
     class: logging.FileHandler
@@ -94,7 +94,7 @@ handlers:
     filename: "export/logs/premise_validation.log"
     encoding: utf8
     formatter: simple
-    mode: w
+    mode: a
 
 loggers:
   dac:

@@ -65,8 +65,8 @@ def _update_external_scenarios(
             for dp in scenario["external scenarios"]
         ]
 
+        configurations = {}
         for d, data_package in enumerate(datapackages):
-
             inventories = []
             if "inventories" in [r.name for r in data_package.resources]:
                 if data_package.get_resource("inventories"):
@@ -82,7 +82,7 @@ def _update_external_scenarios(
             resource = data_package.get_resource("config")
             config_file = yaml.safe_load(resource.raw_read())
 
-            checked_inventories, checked_database = check_inventories(
+            checked_inventories, checked_database, configuration = check_inventories(
                 configuration=config_file,
                 inventory_data=inventories,
                 scenario_data=scenario["external data"][d],
@@ -93,6 +93,7 @@ def _update_external_scenarios(
 
             scenario["database"] = checked_database
             scenario["database"].extend(checked_inventories)
+            configurations.update(configuration)
 
         external_scenario = ExternalScenario(
             database=scenario["database"],
@@ -104,12 +105,14 @@ def _update_external_scenarios(
             external_scenarios_data=scenario["external data"],
             version=version,
             system_model=system_model,
+            configurations=configurations,
         )
         external_scenario.create_markets()
         external_scenario.relink_datasets()
         scenario["database"] = external_scenario.database
         scenario["index"] = external_scenario.index
         scenario["cache"] = external_scenario.cache
+        scenario["configurations"] = configurations
 
     return scenario
 
@@ -199,7 +202,14 @@ def adjust_efficiency(dataset: dict, fuels_specs: dict, fuel_map_reverse: dict) 
                         )
                         dataset["current efficiency"] = current_efficiency
 
-                    if expected_efficiency in [0, 1] or current_efficiency in [0, 1]:
+                    if expected_efficiency in [0.0, 1.0] or current_efficiency in [
+                        0.0,
+                        1.0,
+                    ]:
+                        print(
+                            f"Stopping: Efficiency factor for {dataset['name']} in {dataset['location']} is {current_efficiency}"
+                            f"and expected efficiency is {expected_efficiency}."
+                        )
                         continue
 
                     # finally, calculate the scaling factor
@@ -209,6 +219,14 @@ def adjust_efficiency(dataset: dict, fuels_specs: dict, fuel_map_reverse: dict) 
                         print(
                             f"Warning: Efficiency factor for {dataset['name'][:50]} in {dataset['location']} is {scaling_factor}."
                         )
+
+                    # log the old and new efficiency
+                    if "log parameters" not in dataset:
+                        dataset["log parameters"] = {}
+
+                    dataset["log parameters"][f"old efficiency"] = current_efficiency
+                    dataset["log parameters"][f"new efficiency"] = expected_efficiency
+                    dataset["comment"] += f" Original efficiency: {current_efficiency:.2f}. New efficiency: {expected_efficiency:.2f}."
 
                 else:
                     # the scaling factor is the inverse of the efficiency change
@@ -346,6 +364,7 @@ class ExternalScenario(BaseTransformation):
         year: int,
         version: str,
         system_model: str,
+        configurations: dict = {},
     ):
         """
         :param database: list of datasets representing teh database
@@ -377,22 +396,22 @@ class ExternalScenario(BaseTransformation):
             for v in list(value):
                 self.fuel_map_reverse[v] = key
 
+        external_scenario_regions = []
         for datapackage_number, datapackage in enumerate(self.datapackages):
-            external_scenario_regions = self.external_scenarios_data[
-                datapackage_number
-            ]["regions"]
-            # Open corresponding config file
-            resource = datapackage.get_resource("config")
-            config_file = yaml.safe_load(resource.raw_read())
-            ds_names = get_recursively(config_file, "name")
+            external_scenario_regions.append(
+                self.external_scenarios_data[datapackage_number]["regions"]
+            )
+        ds_names = get_recursively(configurations, "name")
+
+        for data in self.external_scenarios_data.values():
             self.regionalize_inventories(
-                ds_names, external_scenario_regions, datapackage_number
+                ds_names, external_scenario_regions, data
             )
         self.dict_bio_flows = get_biosphere_flow_uuid(self.version)
         self.outdated_flows = get_correspondence_bio_flows()
 
     def regionalize_inventories(
-        self, ds_names, regions, datapackage_number: int
+        self, ds_names, regions, data: dict
     ) -> None:
         """
         Produce IAM region-specific version of the dataset.
@@ -421,30 +440,24 @@ class ExternalScenario(BaseTransformation):
 
                 # add production volume
                 if ds.get("production volume variable"):
-                    if (
-                        ds["production volume variable"]
-                        in self.external_scenarios_data[datapackage_number][
-                            "production volume"
-                        ].variables.values
-                    ):
-                        for region, act in new_acts.items():
-                            if (
-                                region
-                                in self.external_scenarios_data[datapackage_number][
+                    for region, act in new_acts.items():
+                        if (
+                            region
+                            in data[
+                                "production volume"
+                            ].region.values
+                        ):
+                            act["production volume"] = (
+                                data[
                                     "production volume"
-                                ].region.values
-                            ):
-                                act["production volume"] = (
-                                    self.external_scenarios_data[datapackage_number][
-                                        "production volume"
-                                    ]
-                                    .sel(
-                                        region=region,
-                                        variables=ds["production volume variable"],
-                                    )
-                                    .interp(year=self.year)
-                                    .values
+                                ]
+                                .sel(
+                                    region=region,
+                                    variables=ds["production volume variable"],
                                 )
+                                .interp(year=self.year)
+                                .values
+                            )
 
                 # add new datasets to database
                 self.database.extend(new_acts.values())
@@ -489,15 +502,22 @@ class ExternalScenario(BaseTransformation):
             ws.either(*[ws.contains("name", name) for name in ds_names]),
         ):
             if len(dataset["location"]) > 1:
-                adjust_efficiency(
+                dataset = adjust_efficiency(
                     dataset,
                     fuels_specs=self.fuel_specs,
                     fuel_map_reverse=self.fuel_map_reverse,
                 )
-                if dataset.get("log parameters", {}).get(
-                    "technosphere scaling factor"
-                ) or dataset.get("log parameters", {}).get("biosphere scaling factor"):
+                if any(
+                    x in dataset.get("log parameters", {}).keys()
+                    for x in [
+                        "technosphere scaling factor",
+                        "biosphere scaling factor",
+                        "old efficiency",
+                        "new efficiency",
+                    ]
+                ):
                     self.write_log(dataset, status="updated")
+
             del dataset["adjust efficiency"]
 
     def get_market_dictionary_structure(
@@ -1529,5 +1549,7 @@ class ExternalScenario(BaseTransformation):
             f"{status}|{self.model}|{self.scenario}|{self.year}|"
             f"{dataset['name']}|{dataset['location']}|"
             f"{dataset.get('log parameters', {}).get('technosphere scaling factor')}|"
-            f"{dataset.get('log parameters', {}).get('biosphere scaling factor')}"
+            f"{dataset.get('log parameters', {}).get('biosphere scaling factor')}|"
+            f"{dataset.get('log parameters', {}).get('old efficiency')}|"
+            f"{dataset.get('log parameters', {}).get('new efficiency')}"
         )

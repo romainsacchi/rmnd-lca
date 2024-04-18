@@ -1,8 +1,9 @@
 """
 Validates datapackages that contain external scenario data.
 """
-
-from typing import Union
+import copy
+from collections import defaultdict
+from typing import Union, List
 
 import datapackage
 import numpy as np
@@ -10,6 +11,9 @@ import pandas as pd
 import yaml
 from datapackage import Package, exceptions, validate
 from schema import And, Optional, Schema, Use
+import wurst.searching as ws
+from prettytable import PrettyTable
+import uuid
 
 from .geomap import Geomap
 from .utils import load_constants
@@ -195,7 +199,7 @@ def check_inventories(
     database: list,
     year: int,
     model: str,
-):
+) -> tuple:
     """
     Check that the inventory data is valid.
     :param configuration: config file
@@ -205,6 +209,44 @@ def check_inventories(
     :param year: scenario year
     :param model: IAM model
     """
+
+    # Initialize a defaultdict to count occurrences of each dataset
+    dataset_usage = defaultdict(list)
+
+    # Iterate over the production pathways
+    for variable, pathway in configuration["production pathways"].items():
+        # Extract the relevant keys for the dataset
+        dataset_key = (
+            pathway["ecoinvent alias"]["name"],
+            pathway["ecoinvent alias"]["reference product"]
+        )
+
+        # Increment the usage count
+        dataset_usage[dataset_key].append(variable)
+
+    if any(len(x)>1 for x in dataset_usage.values()):
+        d = {}
+        rows = []
+        for k, v in dataset_usage.items():
+            if len(v) > 1:
+                rows.append((k[0][:50], k[1][:50]))
+                for _, val in enumerate(v[1:]):
+                    d[val] = k
+
+        # print a Prettytable
+        print("The following datasets will be duplicated:")
+        table = PrettyTable()
+        # adjust width of columns
+        table.field_names = ["Name", "Reference product"]
+        table._max_width = {"Name" : 50, "Reference product" : 50}
+        for row in rows:
+            table.add_row(row)
+        print(table)
+
+        for k, v in d.items():
+            configuration["production pathways"][k]["ecoinvent alias"]["duplicate"] = True
+            configuration["production pathways"][k]["ecoinvent alias"]["name"] += f"_{k}"
+
 
     geo = Geomap(model=model)
 
@@ -217,6 +259,7 @@ def check_inventories(
                 "exists in original database", True
             ),
             "new dataset": val["ecoinvent alias"].get("new dataset", False),
+            "duplicate": val["ecoinvent alias"].get("duplicate", False),
             "regionalize": val["ecoinvent alias"].get("regionalize", False),
             "mask": val["ecoinvent alias"].get("mask", None),
             "except regions": val.get(
@@ -264,7 +307,9 @@ def check_inventories(
         assert all(
             (i[0], i[1]) in list_datasets
             for i, v in d_datasets.items()
-            if not v["exists in original database"] and not v.get("new dataset")
+            if not v["exists in original database"]
+            and not v.get("new dataset")
+            and not v.get("duplicate")
         )
     except AssertionError as e:
         list_missing_datasets = [
@@ -281,6 +326,7 @@ def check_inventories(
             f"{[list_datasets]}"
         ) from e
 
+
     # flag imported inventories
     for i, dataset in enumerate(inventory_data):
         key = (dataset["name"], dataset["reference product"])
@@ -291,6 +337,7 @@ def check_inventories(
                 inventory_data[i] = flag_activities_to_adjust(
                     dataset, scenario_data, year, data_vars
                 )
+
 
     def find_candidates_by_key(data, key):
         """Filter data for items matching the key (name and reference product)."""
@@ -425,8 +472,8 @@ def check_inventories(
         return short_listed
 
     def adjust_candidates_or_raise_error(
-        candidates, scenario_data, key, year, val, inventory_data
-    ):
+        candidates, scenario_data, key, year, val, inventory_data,
+    ) -> None | list:
         """Adjust candidates if possible or raise an error if no valid candidates are found."""
         if not candidates:
             if not find_candidates_by_key(inventory_data, key):
@@ -437,6 +484,7 @@ def check_inventories(
 
         if len(candidates) == 1:
             handle_single_candidate(candidates, scenario_data, year, val)
+            return candidates
         else:
             short_listed = short_list_candidates(candidates, scenario_data)
             for region, ds in short_listed.items():
@@ -444,18 +492,38 @@ def check_inventories(
                     adjust_candidate(ds, scenario_data, year, val, region)
                 else:
                     print(f"No candidate found for {key[0]} and {key[1]} for {region}.")
+            return list(short_listed.values())
 
     for key, val in d_datasets.items():
         if val.get("exists in original database"):
             mask = val.get("mask")
+
+            duplicate_name = None
+            if val.get("duplicate") is True:
+                duplicate_name = key[0]
+                key = (key[0].split("_")[0], key[1])
+
+
             potential_candidates = identify_potential_candidates(
                 database, inventory_data, key, mask
             )
-            adjust_candidates_or_raise_error(
-                potential_candidates, scenario_data, key, year, val, inventory_data
+            candidates = adjust_candidates_or_raise_error(
+                potential_candidates, scenario_data, key, year, val, inventory_data,
             )
 
-    return inventory_data, database
+            if duplicate_name:
+                for candidate in candidates:
+                    # deep copy the candidate
+                    ds = copy.deepcopy(candidate)
+                    ds["code"] = str(uuid.uuid4().hex)
+                    ds["name"] = duplicate_name
+                    for exc in ws.production(
+                        ds
+                    ):
+                        exc["name"] = duplicate_name
+                    database.append(ds)
+
+    return inventory_data, database, configuration
 
 
 def check_datapackage(datapackage: datapackage.Package):
@@ -485,7 +553,7 @@ def check_datapackage(datapackage: datapackage.Package):
     assert (
         datapackage.descriptor["ecoinvent"]["version"]
         in config["SUPPORTED_EI_VERSIONS"]
-    ), f"The ecoinvent version in datapackage  {d + 1} is not supported. Must be one of {config['SUPPORTED_EI_VERSIONS']}."
+    ), f"The ecoinvent version in the datapackage is not supported. Must be one of {config['SUPPORTED_EI_VERSIONS']}."
 
     if (
         sum(
@@ -496,7 +564,7 @@ def check_datapackage(datapackage: datapackage.Package):
         / len(datapackage.resources)
         > 1
     ):
-        raise ValueError(f"Two or more resources in datapackage {d + 1} are similar.")
+        raise ValueError(f"Two or more resources in the datapackage are similar.")
 
 
 def list_all_iam_regions(configuration):
@@ -715,7 +783,7 @@ def check_scenario_data_file(
     if not all(v in df.columns for v in mandatory_fields):
         raise ValueError(
             f"One or several mandatory column are missing "
-            f"in the scenario data file no. {i + 1}. Mandatory columns: {mandatory_fields}."
+            f"in the scenario data file. Mandatory columns: {mandatory_fields}."
         )
 
     years_cols = []
@@ -727,13 +795,13 @@ def check_scenario_data_file(
 
     if not all(2005 <= y <= 2100 for y in years_cols):
         raise ValueError(
-            f"One or several of the years provided in the scenario data file no. {i + 1} are "
+            f"One or several of the years provided in the scenario data file are "
             "out of boundaries (2005 - 2100)."
         )
 
     if len(pd.isnull(df).sum()[pd.isnull(df).sum() > 0]) > 0:
         raise ValueError(
-            f"The following columns in the scenario data file no. {i + 1}"
+            f"The following columns in the scenario data "
             f"contains empty cells.\n{pd.isnull(df).sum()[pd.isnull(df).sum() > 0]}."
         )
 
@@ -768,7 +836,7 @@ def check_scenario_data_file(
 
         raise ValueError(
             "The following variables from the configuration file "
-            f"cannot be found in the scenario file no. {i + 1}.: {list_unfound_variables}"
+            f"cannot be found in the scenario file.: {list_unfound_variables}"
         )
 
     if not all(
@@ -780,7 +848,7 @@ def check_scenario_data_file(
             if v not in df["variables"].unique()
         ]
         raise ValueError(
-            f"One or several variable names in the configuration file {i + 1} "
+            f"One or several variable names in the configuration file "
             f"cannot be found in the scenario data file: {missing_variables}."
         )
 
@@ -789,7 +857,7 @@ def check_scenario_data_file(
     except ValueError as e:
         raise TypeError(
             f"All values provided in the time series must be numerical "
-            f"in the scenario data file no. {i + 1}."
+            f"in the scenario data file."
         ) from e
 
     return datapackage

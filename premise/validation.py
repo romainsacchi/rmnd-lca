@@ -100,7 +100,8 @@ class BaseDatasetValidator:
         self.regions = regions
         self.db_name = db_name
         self.geo = Geomap(model)
-        self.validation_log = []
+        self.minor_issues_log = []
+        self.major_issues_log = []
         self.keep_uncertainty_data = keep_uncertainty_data
 
     def check_uncertainty(self):
@@ -129,7 +130,7 @@ class BaseDatasetValidator:
                             ]
                         ):
                             message = f"Exchange {exc['name']} has incomplete uncertainty data."
-                            self.write_log(ds, "incomplete uncertainty data", message)
+                            self.log_issue(ds, "incomplete uncertainty data", message)
 
     def check_datasets_integrity(self):
         # Verify no unintended loss of datasets
@@ -146,10 +147,11 @@ class BaseDatasetValidator:
         for ds in original_activities:
             if ds not in new_activities:
                 message = f"Dataset {ds} was lost during transformation"
-                self.write_log(
+                self.log_issue(
                     {"name": ds[0], "reference product": ds[1], "location": ds[2]},
                     "lost dataset",
                     message,
+                    issue_type="major",
                 )
 
         # Ensure no datasets have null or empty values for required keys
@@ -164,7 +166,7 @@ class BaseDatasetValidator:
             for key in required_activity_keys:
                 if key not in dataset or not dataset[key]:
                     message = f"Dataset {dataset.get('name', 'Unknown')} is missing required key: {key}"
-                    self.write_log(dataset, "missing key", message)
+                    self.log_issue(dataset, "missing key", message, issue_type="major")
 
             # Making sure that every technosphere exchange has a `product` field
             for exc in dataset.get("exchanges", []):
@@ -180,10 +182,20 @@ class BaseDatasetValidator:
                         exc["product"] = candidate[0][1]
                     elif len(candidate) > 1:
                         message = f"Exchange {exc['name']} in {dataset['name']} has multiple possible products: {candidate}."
-                        self.write_log(dataset, "multiple exchange products", message)
+                        self.log_issue(
+                            dataset,
+                            "multiple exchange products",
+                            message,
+                            issue_type="major",
+                        )
                     else:
                         message = f"Exchange {exc['name']} in {dataset['name']} is missing the 'product' key."
-                        self.write_log(dataset, "missing exchange product", message)
+                        self.log_issue(
+                            dataset,
+                            "missing exchange product",
+                            message,
+                            issue_type="major",
+                        )
 
     def check_for_orphaned_datasets(self):
         # check the presence of orphan datasets
@@ -199,7 +211,7 @@ class BaseDatasetValidator:
                 x not in dataset["name"] for x in ["market for", "market group for"]
             ):
                 message = f"Orphaned dataset found: {dataset['name']}"
-                self.write_log(dataset, "orphaned dataset", message)
+                self.log_issue(dataset, "orphaned dataset", message)
 
     def check_new_location(self):
         original_locations = set([ds["location"] for ds in self.original_database])
@@ -209,7 +221,7 @@ class BaseDatasetValidator:
             if loc not in original_locations:
                 if loc not in self.regions:
                     message = f"New location found: {loc}"
-                    self.write_log({"location": loc}, "new location", message)
+                    self.log_issue({"location": loc}, "new location", message)
 
     def validate_dataset_structure(self):
         # Check that all datasets have a list of exchanges and each exchange has a type
@@ -218,15 +230,35 @@ class BaseDatasetValidator:
                 message = (
                     f"Dataset {dataset['name']} does not have a list of exchanges."
                 )
-                self.write_log(dataset, "missing exchanges", message)
+                self.log_issue(
+                    dataset, "missing exchanges", message, issue_type="major"
+                )
 
             for exchange in dataset.get("exchanges", []):
                 if "type" not in exchange:
                     message = f"Exchange in dataset {dataset['name']} is missing the 'type' key."
-                    self.write_log(dataset, "missing exchange type", message)
+                    self.log_issue(
+                        dataset, "missing exchange type", message, issue_type="major"
+                    )
 
                 if not isinstance(exchange["amount"], float):
                     exchange["amount"] = float(exchange["amount"])
+
+            # if list of exchanges is 2, and the two exchanges are identical
+            if len(dataset.get("exchanges", [])) == 2:
+                if (
+                    dataset["exchanges"][0]["name"],
+                    dataset["exchanges"][0].get("product"),
+                    dataset["exchanges"][0].get("location"),
+                ) == (
+                    dataset["exchanges"][1]["name"],
+                    dataset["exchanges"][1].get("product"),
+                    dataset["exchanges"][1].get("location"),
+                ):
+                    message = f"Dataset {dataset['name']} has two identical exchanges."
+                    self.log_issue(
+                        dataset, "identical exchanges", message, issue_type="major"
+                    )
 
     def verify_data_consistency(self):
         # Check for negative amounts in exchanges that should only have positive amounts
@@ -243,7 +275,7 @@ class BaseDatasetValidator:
                             [x in exchange["product"].lower() for x in WASTE_KEYS]
                         ):
                             message = f"Dataset {dataset['name']} has a negative production amount."
-                            self.write_log(dataset, "negative production", message)
+                            self.log_issue(dataset, "negative production", message)
 
                 if (
                     any(item in WASTE_KEYS for item in exchange["name"].split())
@@ -254,7 +286,7 @@ class BaseDatasetValidator:
                 ):
                     if exchange.get("amount", 0) > 0:
                         message = f"Positive technosphere amount for a possible waste exchange {exchange['name']}, {exchange['amount']}."
-                        self.write_log(dataset, "positive waste", message)
+                        self.log_issue(dataset, "positive waste", message)
 
     def check_relinking_logic(self):
         # Verify that technosphere exchanges link to existing datasets
@@ -274,7 +306,9 @@ class BaseDatasetValidator:
                     not in dataset_names
                 ):
                     message = f"Dataset {dataset['name']} links to a non-existing dataset: {exchange['name']}."
-                    self.write_log(dataset, "non-existing dataset", message)
+                    self.log_issue(
+                        dataset, "non-existing dataset", message, issue_type="major"
+                    )
 
     def check_for_duplicates(self):
         """Check for the presence of duplicates"""
@@ -300,10 +334,11 @@ class BaseDatasetValidator:
             for x in set(activities):
                 if activities.count(x) > 1:
                     message = f"Duplicate found (and removed): {x}"
-                    self.write_log(
+                    self.log_issue(
                         {"name": x[0], "reference product": x[1], "location": x[2]},
                         "duplicate",
                         message,
+                        issue_type="major",
                     )
 
     def check_for_circular_references(self):
@@ -325,7 +360,7 @@ class BaseDatasetValidator:
                         and dataset["name"] not in circular_exceptions
                     ):
                         message = f"Dataset {dataset['name']} potentially has a circular reference to itself."
-                        self.write_log(dataset, "circular reference", message)
+                        self.log_issue(dataset, "circular reference", message)
 
     def check_database_name(self):
         for ds in self.database:
@@ -415,12 +450,19 @@ class BaseDatasetValidator:
 
             ds["exchanges"] = [clean_up(exc) for exc in ds["exchanges"]]
 
-    def write_log(self, dataset, reason, message):
-        self.validation_log.append(
+    def log_issue(self, dataset, reason, message, issue_type="minor"):
+
+        if issue_type == "minor":
+            log = self.minor_issues_log
+        else:
+            log = self.major_issues_log
+
+        log.append(
             {
                 "name": dataset.get("name"),
                 "reference product": dataset.get("reference product"),
                 "location": dataset.get("location"),
+                "severity": issue_type,
                 "reason": reason,
                 "message": message,
             }
@@ -428,13 +470,12 @@ class BaseDatasetValidator:
 
     def save_log(self):
         # Save the validation log
-        if self.validation_log:
-            for entry in self.validation_log:
-                logger.info(
-                    f"{self.model}|{self.scenario}|{self.year}|"
-                    f"{entry['name']}|{entry['reference product']}|"
-                    f"{entry['location']}|{entry['reason']}|{entry['message']}"
-                )
+        for entry in self.minor_issues_log + self.major_issues_log:
+            logger.info(
+                f"{self.model}|{self.scenario}|{self.year}|"
+                f"{entry['name']}|{entry['reference product']}|"
+                f"{entry['location']}|{entry['severity']}|{entry['reason']}|{entry['message']}"
+            )
 
     def run_all_checks(self):
         # Run all checks
@@ -454,8 +495,10 @@ class BaseDatasetValidator:
         self.reformat_parameters()
         self.check_uncertainty()
         self.save_log()
-        if self.validation_log:
-            print("Anomalies found: check the change report.")
+        if len(self.minor_issues_log) > 0:
+            print("Minor anomalies found: check the change report.")
+        if len(self.major_issues_log) > 0:
+            print("---> MAJOR anomalies found: check the change report.")
 
 
 class ElectricityValidation(BaseDatasetValidator):
@@ -487,8 +530,11 @@ class ElectricityValidation(BaseDatasetValidator):
                 )
                 if total < 0.99 or total > 1.15:
                     message = f"Electricity market inputs sum to {total}."
-                    self.write_log(
-                        dataset, "electricity market not summing to 1", message
+                    self.log_issue(
+                        dataset,
+                        "electricity market not summing to 1",
+                        message,
+                        issue_type="major",
                     )
 
     def check_old_datasets(self):
@@ -520,10 +566,11 @@ class ElectricityValidation(BaseDatasetValidator):
                 ]
                 if len(input_exc) != 1:
                     message = f"Electricity market has {len(input_exc)} inputs."
-                    self.write_log(
+                    self.log_issue(
                         dataset,
                         "old electricity market has more than one input",
                         message,
+                        issue_type="major",
                     )
                 else:
                     if (
@@ -533,8 +580,11 @@ class ElectricityValidation(BaseDatasetValidator):
                         or not input_exc[0]["location"] in self.regions
                     ):
                         message = "Electricity market input is incorrect."
-                        self.write_log(
-                            dataset, "incorrect old electricity market input", message
+                        self.log_issue(
+                            dataset,
+                            "incorrect old electricity market input",
+                            message,
+                            issue_type="major",
                         )
 
                     # check the location of the input
@@ -551,14 +601,14 @@ class ElectricityValidation(BaseDatasetValidator):
         if dataset_loc in ["RER", "Europe without Switzerland", "FR"]:
             if exc_loc not in ["EUR", "WEU", "EU-15"]:
                 message = "Electricity market input has incorrect location."
-                self.write_log(
+                self.log_issue(
                     {"location": dataset_loc},
                     "incorrect old electricity market input",
                     message,
                 )
         if exc_loc != self.geo.ecoinvent_to_iam_location(dataset_loc):
             message = "Electricity market input has incorrect location."
-            self.write_log(
+            self.log_issue(
                 {"location": dataset_loc},
                 "incorrect old electricity market input",
                 message,
@@ -600,10 +650,11 @@ class ElectricityValidation(BaseDatasetValidator):
                 share = hydro_share.sel(region=ds["location"]).values.item(0)
                 if math.isclose(hydro_sum, share, rel_tol=0.1) is False:
                     message = f"Electricity market hydro share is incorrect: {hydro_sum} instead of {share}."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "incorrect electricity market hydro share",
                         message,
+                        issue_type="major",
                     )
 
         # check that the sum of photovoltaic electricity input and
@@ -635,10 +686,11 @@ class ElectricityValidation(BaseDatasetValidator):
 
                 if pv_sum + mv_sum < 1:
                     message = f"Electricity market PV and MV share is incorrect: {pv_sum + mv_sum} instead of > 1."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "incorrect electricity market PV and MV share",
                         message,
+                        issue_type="major",
                     )
 
     def check_efficiency(self):
@@ -711,7 +763,7 @@ class ElectricityValidation(BaseDatasetValidator):
 
                     if not eff["min"] <= efficiency <= eff["max"]:
                         message = f"Current eff.: {efficiency}. Min: {eff['min']}. Max: {eff['max']}."
-                        self.write_log(
+                        self.log_issue(
                             ds,
                             "electricity efficiency possibly incorrect",
                             message,
@@ -719,7 +771,7 @@ class ElectricityValidation(BaseDatasetValidator):
 
                 if not math.isclose(co2, actual_co2, rel_tol=0.2):
                     message = f"Current CO2: {actual_co2}. Expected: {co2}."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "CO2 emissions possibly incorrect",
                         message,
@@ -757,10 +809,11 @@ class SteelValidation(BaseDatasetValidator):
                 )
                 if total < 0.99 or total > 1.1:
                     message = f"Steel market inputs sum to {total}."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "steel market inputs do not sum to 1",
                         message,
+                        issue_type="major",
                     )
 
             # check that the inputs of EAF steel matches the IAM projections
@@ -791,10 +844,11 @@ class SteelValidation(BaseDatasetValidator):
                 # check that the total is roughly equal to the IAM projection
                 if math.isclose(total, eaf_steel, rel_tol=0.01) is False:
                     message = f"Input of secondary steel incorrect: {total} instead of {eaf_steel}."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "incorrect secondary steel market input",
                         message,
+                        issue_type="major",
                     )
 
     def check_pig_iron_input(self):
@@ -817,18 +871,20 @@ class SteelValidation(BaseDatasetValidator):
                 ]
                 if not pig_iron:
                     message = "No input of pig iron found."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "no input of pig iron",
                         message,
+                        issue_type="major",
                     )
                 else:
                     if pig_iron[0]["location"] != ds["location"]:
                         message = f"Input of pig iron has incorrect location: {pig_iron[0]['location']}."
-                        self.write_log(
+                        self.log_issue(
                             ds,
                             "incorrect pig iron input location",
                             message,
+                            issue_type="major",
                         )
 
     def check_steel_energy_use(self):
@@ -853,18 +909,20 @@ class SteelValidation(BaseDatasetValidator):
 
                 if electricity < 0.443:
                     message = f"Electricity use for steel production is too low: {electricity}."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "electricity use for EAF steel production too low",
                         message,
+                        issue_type="major",
                     )
 
                 if electricity > 0.8:
                     message = f"Electricity use for EAF steel production is too high: {electricity}."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "electricity use for steel production too high",
                         message,
+                        issue_type="major",
                     )
         # check pig iron production datasets
         # against expected values
@@ -907,10 +965,11 @@ class SteelValidation(BaseDatasetValidator):
                     message = (
                         f"Energy use for pig iron production is too low: {energy}."
                     )
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "energy use for pig iron production too low",
                         message,
+                        issue_type="major",
                     )
 
     def run_steel_checks(self):
@@ -946,10 +1005,11 @@ class CementValidation(BaseDatasetValidator):
                 )
                 if total < 0.99 or total > 1.1:
                     message = f"Cement market inputs sum to {total}."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "cement market inputs do not sum to 1",
                         message,
+                        issue_type="major",
                     )
 
     def check_clinker_energy_use(self):
@@ -1044,10 +1104,11 @@ class CementValidation(BaseDatasetValidator):
 
                 if energy < 2.99:
                     message = f"Energy use for clinker production is too low: {energy}."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "energy use for clinker production too low",
                         message,
+                        issue_type="major",
                     )
 
     def run_cement_checks(self):
@@ -1080,10 +1141,11 @@ class BiomassValidation(BaseDatasetValidator):
                 )
                 if total < 0.99 or total > 1.1:
                     message = f"Biomass market inputs sum to {total}."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "biomass market inputs do not sum to 1",
                         message,
+                        issue_type="major",
                     )
 
     def check_residual_biomass_share(self):
@@ -1127,10 +1189,11 @@ class BiomassValidation(BaseDatasetValidator):
                     is False
                 ):
                     message = f"Residual biomass share incorrect: {residual_biomass / total} instead of {expected_share}."
-                    self.write_log(
+                    self.log_issue(
                         ds,
                         "incorrect residual biomass share",
                         message,
+                        issue_type="major",
                     )
 
     def run_biomass_checks(self):

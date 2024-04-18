@@ -295,7 +295,19 @@ def find_fuel_efficiency(
     )
 
     if energy_input == 0:
-        print(f"Warning: {dataset['name'], dataset['location']} has no energy input")
+        # try to see if we find instead direct energy flows in "megajoule" or "kilowatt hour"
+        energy_input = np.sum(
+            np.asarray(
+                [
+                    exc["amount"] if exc["unit"] == "megajoule" else exc["amount"] * 3.6
+                    for exc in dataset["exchanges"]
+                    if exc["type"] == "technosphere"
+                    and exc["unit"] in ["megajoule", "kilowatt hour"]
+                ]
+            )
+        )
+        if energy_input == 0:
+            print(f"Warning: {dataset['name'], dataset['location']} has no energy input")
 
     if energy_input != 0 and float(energy_out) != 0:
         current_efficiency = float(energy_out) / energy_input
@@ -709,11 +721,6 @@ class BaseTransformation:
                     f"but found more than one for: "
                     f"{name, ref_prod}, : {[(r['name'], r['reference product'], r['location']) for r in results]}",
                 )
-            except ws.NoResults as err:
-                print(
-                    f"No dataset found for {name, ref_prod} in {d_iam_to_eco[region]}",
-                )
-                continue
 
             # if not self.is_in_index(dataset, region):
             if self.is_in_index(dataset, region):

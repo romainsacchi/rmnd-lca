@@ -214,29 +214,27 @@ class PathwaysDataPackage:
 
         # if external scenarios, extend mapping with external data
         for scenario in self.datapackage.scenarios:
-            if "external scenarios" in scenario:
-                for s in scenario["external data"].values():
-                    config = s["config"]
-                    if "production pathways" in config:
-                        for var in config["production pathways"]:
-                            if var not in mapping:
-                                var_name = config["production pathways"][var][
-                                    "production volume"
-                                ]["variable"]
-                                mapping[var] = {"scenario variable": var_name}
-                                filters = config["production pathways"][var].get(
-                                    "ecoinvent alias"
-                                )
-                                mask = (
-                                    config["production pathways"][var]
-                                    .get("ecoinvent alias")
-                                    .get("mask")
-                                )
-                                mapping[var]["dataset"] = self.find_activities(
-                                    filters=filters,
-                                    database=scenario["database"],
-                                    mask=mask,
-                                )
+            configuration = scenario["configurations"]
+            if "production pathways" in configuration:
+                for var in configuration["production pathways"]:
+                    if var not in mapping:
+                        var_name = configuration["production pathways"][var][
+                            "production volume"
+                        ]["variable"]
+                        mapping[var] = {"scenario variable": var_name}
+                        filters = configuration["production pathways"][var].get(
+                            "ecoinvent alias"
+                        )
+                        mask = (
+                            configuration["production pathways"][var]
+                            .get("ecoinvent alias")
+                            .get("mask")
+                        )
+                        mapping[var]["dataset"] = self.find_activities(
+                            filters=filters,
+                            database=scenario["database"],
+                            mask=mask,
+                        )
 
         # under each key, remove duplicates from list
         # to only keep unique name, reference product and unit

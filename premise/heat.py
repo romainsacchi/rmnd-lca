@@ -121,6 +121,8 @@ class Heat(BaseTransformation):
 
         """
 
+        created_datasets = []
+
         for heat_datasets in self.heat_techs.values():
             for dataset in ws.get_many(
                 self.database,
@@ -128,6 +130,12 @@ class Heat(BaseTransformation):
                 ws.equals("unit", "megajoule"),
                 ws.doesnt_contain_any("location", self.regions),
             ):
+
+                if dataset["name"] in created_datasets:
+                    continue
+
+                created_datasets.append(dataset["name"])
+
                 new_ds = self.fetch_proxies(
                     name=dataset["name"],
                     ref_prod=dataset["reference product"],
