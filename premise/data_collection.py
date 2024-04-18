@@ -937,7 +937,7 @@ class IAMDataCollection:
                     dataframe = pd.concat([dataframe, new_fuel_df])
 
         # filter out unused variables
-        dataframe = dataframe.loc[dataframe["variable"].isin(variables)]
+        # dataframe = dataframe.loc[dataframe["variable"].isin(variables)]
 
         dataframe = dataframe.rename(columns={"variable": "variables"})
 
@@ -1476,6 +1476,11 @@ class IAMDataCollection:
                 # convert year dim to int64
                 array.coords["year"] = array.coords["year"].astype(np.int64)
 
+                # add the unit as an attribute, as a dictionary with variables as keys
+                array.attrs["unit"] = dict(
+                    subset.groupby("variables")["unit"].first().to_dict().items()
+                )
+
                 data[i]["production volume"] = array
                 regions = subset["region"].unique().tolist()
                 data[i]["regions"] = regions
@@ -1519,6 +1524,10 @@ class IAMDataCollection:
                     # convert year dim to int64
                     array.coords["year"] = array.coords["year"].astype(np.int64)
 
+                    array.attrs["unit"] = dict(
+                        subset.groupby("variables")["unit"].first().to_dict().items()
+                    )
+
                     ref_years = {}
 
                     if "production pathways" in config_file:
@@ -1526,33 +1535,60 @@ class IAMDataCollection:
                             for e, f in v.items():
                                 if e == "efficiency":
                                     for x in f:
-                                        ref_years[x["variable"]] = x.get(
-                                            "reference year", None
-                                        )
+                                        ref_years[x["variable"]] = {
+                                            "reference year": x.get(
+                                                "reference year", None
+                                            ),
+                                            "absolute": x.get("absolute", False),
+                                        }
 
                     if "markets" in config_file:
                         for market in config_file["markets"]:
                             for e, f in market.items():
                                 if f == "efficiency":
                                     for x in f["efficiency"]:
-                                        ref_years[x["variable"]] = x.get(
-                                            "reference year", None
-                                        )
+                                        ref_years[x["variable"]] = {
+                                            "reference year": x.get(
+                                                "reference year", None
+                                            ),
+                                            "absolute": x.get("absolute", False),
+                                        }
 
-                    for y, ref_year in ref_years.items():
-                        if ref_year is None:
+                    for variable, values in ref_years.items():
+                        reference_year = values["reference year"]
+                        if reference_year is None:
                             # use the earliest year in `array`
-                            ref_years[y] = array.year.values.min()
+                            values["reference year"] = array.coords["year"].values.min()
 
-                    for v, y in ref_years.items():
-                        array.loc[{"variables": v}] = array.loc[
-                            {"variables": v}
-                        ] / array.loc[{"variables": v}].sel(year=int(y))
+                    for variable, values in ref_years.items():
+                        reference_year = values["reference year"]
+                        absolute = values["absolute"]
 
-                    # convert NaNs to ones
-                    array = array.fillna(1)
+                        if absolute:
+                            # we consider efficiencies as given
+                            # back-fill nans
+                            array.loc[{"variables": variable}] = array.loc[
+                                {"variables": variable}
+                            ].bfill(dim="year")
+                            # forward-fill nans
+                            array.loc[{"variables": variable}] = array.loc[
+                                {"variables": variable}
+                            ].ffill(dim="year")
+                            pass
+                        else:
+                            # we normalize efficiencies
+                            array.loc[{"variables": variable}] = array.loc[
+                                {"variables": variable}
+                            ] / array.loc[{"variables": variable}].sel(
+                                year=int(reference_year)
+                            )
+
+                            # convert NaNs to ones
+                            array = array.fillna(1)
 
                     data[i]["efficiency"] = array
+
+            data[i]["config"] = config_file
 
         return data
 

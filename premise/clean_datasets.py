@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Dict, List, Tuple, Union
 
 import bw2io
+import numpy as np
 import wurst
 import yaml
 from bw2data.database import DatabaseChooser
@@ -41,16 +42,21 @@ def remove_uncertainty(database):
         "pedigree",
         "minimum",
         "maximum",
+        "shape",
     ]
 
+    def set_defaults(exchange):
+        """Set default values for the exchange."""
+        exchange["loc"] = exchange["amount"]
+        for key in ["scale", "shape", "minimum", "maximum"]:
+            exchange[key] = np.nan
+
     for dataset in database:
-        for exc in dataset["exchanges"]:
-            if "uncertainty type" in exc:
-                if exc["uncertainty type"] != 0:
-                    exc["uncertainty type"] = 0
-                    for key in keys_to_remove:
-                        if key in exc:
-                            del exc[key]
+        for exchange in dataset["exchanges"]:
+            if exchange.get("preserve uncertainty", False) is False:
+                exchange["uncertainty type"] = 0
+                set_defaults(exchange)
+
     return database
 
 

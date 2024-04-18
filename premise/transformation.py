@@ -224,6 +224,109 @@ def filter_technosphere_exchanges(exchanges: list):
     return filter(lambda x: x["type"] == "technosphere", exchanges)
 
 
+def calculate_input_energy(
+    fuel_name: str,
+    fuel_amount: float,
+    fuel_unit: str,
+    fuels_specs: dict,
+    fuel_map_reverse: dict,
+) -> float:
+    """
+    Returns the amount of energy entering the conversion process, in MJ
+    :param fuel_name: name of the liquid, gaseous or solid fuel
+    :param fuel_amount: amount of fuel input
+    :param fuel_unit: unit of fuel
+    :return: amount of fuel energy, in MJ
+    """
+
+    # if fuel input other than MJ
+    if fuel_unit in ["kilogram", "cubic meter"]:
+        try:
+            lhv = fuels_specs[fuel_map_reverse[fuel_name]]["lhv"]
+        except KeyError:
+            lhv = 0
+    elif fuel_unit == "kilowatt hour":
+        lhv = 3.6
+    else:
+        lhv = 1
+
+    # if already in MJ
+    return fuel_amount * lhv
+
+
+def find_fuel_efficiency(
+    dataset: dict,
+    energy_out: float,
+    fuel_specs: dict,
+    fuel_map_reverse: dict,
+    fuel_filters: List[str] = None,
+) -> float:
+    """
+    This method calculates the efficiency value set initially, in case it is not specified in the parameter
+    field of the dataset. In Carma datasets, fuel inputs are expressed in megajoules instead of kilograms.
+
+    :param dataset: a wurst dataset of an electricity-producing technology
+    :param fuel_filters: wurst filter to filter fuel input exchanges
+    :param energy_out: the amount of energy expect as output, in MJ
+    :return: the efficiency value set initially
+    """
+
+    if fuel_filters is None:
+        fuel_filters = list(fuel_map_reverse.keys())
+
+    energy_input = np.sum(
+        np.sum(
+            np.asarray(
+                [
+                    calculate_input_energy(
+                        exc["name"],
+                        exc["amount"],
+                        exc["unit"],
+                        fuel_specs,
+                        fuel_map_reverse,
+                    )
+                    for exc in dataset["exchanges"]
+                    if exc["name"] in fuel_filters
+                    and exc["type"] == "technosphere"
+                    and exc["amount"] > 0.0
+                ]
+            )
+        )
+    )
+
+    if energy_input == 0:
+        # try to see if we find instead direct energy flows in "megajoule" or "kilowatt hour"
+        energy_input = np.sum(
+            np.asarray(
+                [
+                    exc["amount"] if exc["unit"] == "megajoule" else exc["amount"] * 3.6
+                    for exc in dataset["exchanges"]
+                    if exc["type"] == "technosphere"
+                    and exc["unit"] in ["megajoule", "kilowatt hour"]
+                ]
+            )
+        )
+        if energy_input == 0:
+            print(
+                f"Warning: {dataset['name'], dataset['location']} has no energy input"
+            )
+
+    if energy_input != 0 and float(energy_out) != 0:
+        current_efficiency = float(energy_out) / energy_input
+    else:
+        current_efficiency = np.nan
+
+    if current_efficiency in (np.nan, np.inf):
+        current_efficiency = 1
+
+    if "parameters" in dataset:
+        dataset["parameters"]["efficiency"] = current_efficiency
+    else:
+        dataset["parameters"] = {"efficiency": current_efficiency}
+
+    return current_efficiency
+
+
 class BaseTransformation:
     """
     Base transformation class.
@@ -495,80 +598,6 @@ class BaseTransformation:
         else:
             dataset["comment"] = new_txt
 
-    def calculate_input_energy(
-        self, fuel_name: str, fuel_amount: float, fuel_unit: str
-    ) -> float:
-        """
-        Returns the amount of energy entering the conversion process, in MJ
-        :param fuel_name: name of the liquid, gaseous or solid fuel
-        :param fuel_amount: amount of fuel input
-        :param fuel_unit: unit of fuel
-        :return: amount of fuel energy, in MJ
-        """
-
-        # if fuel input other than MJ
-        if fuel_unit in ["kilogram", "cubic meter"]:
-            try:
-                lhv = self.fuels_specs[self.fuel_map_reverse[fuel_name]]["lhv"]
-            except KeyError:
-                lhv = 0
-        elif fuel_unit == "kilowatt hour":
-            lhv = 3.6
-        else:
-            lhv = 1
-
-        # if already in MJ
-        return fuel_amount * lhv
-
-    def find_fuel_efficiency(
-        self, dataset: dict, fuel_filters: List[str], energy_out: float
-    ) -> float:
-        """
-        This method calculates the efficiency value set initially, in case it is not specified in the parameter
-        field of the dataset. In Carma datasets, fuel inputs are expressed in megajoules instead of kilograms.
-
-        :param dataset: a wurst dataset of an electricity-producing technology
-        :param fuel_filters: wurst filter to filter fuel input exchanges
-        :param energy_out: the amount of energy expect as output, in MJ
-        :return: the efficiency value set initially
-        """
-
-        energy_input = np.sum(
-            np.sum(
-                np.asarray(
-                    [
-                        self.calculate_input_energy(
-                            exc["name"], exc["amount"], exc["unit"]
-                        )
-                        for exc in dataset["exchanges"]
-                        if exc["name"] in fuel_filters
-                        and exc["type"] == "technosphere"
-                        and exc["amount"] > 0.0
-                    ]
-                )
-            )
-        )
-
-        if energy_input == 0:
-            print(
-                f"Warning: {dataset['name'], dataset['location']} has no energy input"
-            )
-
-        if energy_input != 0 and float(energy_out) != 0:
-            current_efficiency = float(energy_out) / energy_input
-        else:
-            current_efficiency = np.nan
-
-        if current_efficiency in (np.nan, np.inf):
-            current_efficiency = 1
-
-        if "parameters" in dataset:
-            dataset["parameters"]["efficiency"] = current_efficiency
-        else:
-            dataset["parameters"] = {"efficiency": current_efficiency}
-
-        return current_efficiency
-
     def get_iam_mapping(
         self, activity_map: dict, fuels_map: dict, technologies: list
     ) -> Dict[str, Any]:
@@ -584,7 +613,7 @@ class BaseTransformation:
         return {
             tech: {
                 "IAM_eff_func": self.find_iam_efficiency_change,
-                "current_eff_func": self.find_fuel_efficiency,
+                "current_eff_func": find_fuel_efficiency,
                 "technology filters": activity_map[tech],
                 "fuel filters": fuels_map[tech],
             }

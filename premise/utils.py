@@ -5,6 +5,7 @@ Various utils functions.
 import os
 import sys
 import uuid
+from datetime import datetime
 from functools import lru_cache
 from numbers import Number
 from pathlib import Path
@@ -98,6 +99,9 @@ def eidb_label(
     if "external scenarios" in scenario:
         for ext_scenario in scenario["external scenarios"]:
             name += f"_{ext_scenario['scenario']}"
+
+    # add date and time
+    name += f"_{datetime.now().strftime('%Y-%m-%d %H-%M')} (v.{str(__version__)})"
 
     return name
 

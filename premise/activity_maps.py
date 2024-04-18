@@ -95,11 +95,12 @@ def act_fltr(
         else:
             filters.append(ws.contains(field, value))
 
-    for field, value in mask.items():
-        if isinstance(value, list):
-            filters.extend([ws.exclude(ws.contains(field, v)) for v in value])
-        else:
-            filters.append(ws.exclude(ws.contains(field, value)))
+    if mask:
+        for field, value in mask.items():
+            if isinstance(value, list):
+                filters.extend([ws.exclude(ws.contains(field, v)) for v in value])
+            else:
+                filters.append(ws.exclude(ws.contains(field, value)))
 
     return list(ws.get_many(database, *filters))
 
@@ -163,6 +164,7 @@ class InventorySet:
         self.gains_filters_EU = get_mapping(
             filepath=GAINS_MAPPING, var="ecoinvent_aliases"
         )
+        self.heat_filters = get_mapping(filepath=HEAT_TECHS, var="ecoinvent_aliases")
 
         self.activity_metals_filters = get_mapping(
             filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
