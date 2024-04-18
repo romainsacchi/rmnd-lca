@@ -1,19 +1,20 @@
 """
 Validates datapackages that contain external scenario data.
 """
+
 import copy
+import uuid
 from collections import defaultdict
-from typing import Union, List
+from typing import List, Union
 
 import datapackage
 import numpy as np
 import pandas as pd
+import wurst.searching as ws
 import yaml
 from datapackage import Package, exceptions, validate
-from schema import And, Optional, Schema, Use
-import wurst.searching as ws
 from prettytable import PrettyTable
-import uuid
+from schema import And, Optional, Schema, Use
 
 from .geomap import Geomap
 from .utils import load_constants
@@ -218,13 +219,13 @@ def check_inventories(
         # Extract the relevant keys for the dataset
         dataset_key = (
             pathway["ecoinvent alias"]["name"],
-            pathway["ecoinvent alias"]["reference product"]
+            pathway["ecoinvent alias"]["reference product"],
         )
 
         # Increment the usage count
         dataset_usage[dataset_key].append(variable)
 
-    if any(len(x)>1 for x in dataset_usage.values()):
+    if any(len(x) > 1 for x in dataset_usage.values()):
         d = {}
         rows = []
         for k, v in dataset_usage.items():
@@ -238,15 +239,18 @@ def check_inventories(
         table = PrettyTable()
         # adjust width of columns
         table.field_names = ["Name", "Reference product"]
-        table._max_width = {"Name" : 50, "Reference product" : 50}
+        table._max_width = {"Name": 50, "Reference product": 50}
         for row in rows:
             table.add_row(row)
         print(table)
 
         for k, v in d.items():
-            configuration["production pathways"][k]["ecoinvent alias"]["duplicate"] = True
-            configuration["production pathways"][k]["ecoinvent alias"]["name"] += f"_{k}"
-
+            configuration["production pathways"][k]["ecoinvent alias"][
+                "duplicate"
+            ] = True
+            configuration["production pathways"][k]["ecoinvent alias"][
+                "name"
+            ] += f"_{k}"
 
     geo = Geomap(model=model)
 
@@ -326,7 +330,6 @@ def check_inventories(
             f"{[list_datasets]}"
         ) from e
 
-
     # flag imported inventories
     for i, dataset in enumerate(inventory_data):
         key = (dataset["name"], dataset["reference product"])
@@ -337,7 +340,6 @@ def check_inventories(
                 inventory_data[i] = flag_activities_to_adjust(
                     dataset, scenario_data, year, data_vars
                 )
-
 
     def find_candidates_by_key(data, key):
         """Filter data for items matching the key (name and reference product)."""
@@ -472,7 +474,12 @@ def check_inventories(
         return short_listed
 
     def adjust_candidates_or_raise_error(
-        candidates, scenario_data, key, year, val, inventory_data,
+        candidates,
+        scenario_data,
+        key,
+        year,
+        val,
+        inventory_data,
     ) -> None | list:
         """Adjust candidates if possible or raise an error if no valid candidates are found."""
         if not candidates:
@@ -503,12 +510,16 @@ def check_inventories(
                 duplicate_name = key[0]
                 key = (key[0].split("_")[0], key[1])
 
-
             potential_candidates = identify_potential_candidates(
                 database, inventory_data, key, mask
             )
             candidates = adjust_candidates_or_raise_error(
-                potential_candidates, scenario_data, key, year, val, inventory_data,
+                potential_candidates,
+                scenario_data,
+                key,
+                year,
+                val,
+                inventory_data,
             )
 
             if duplicate_name:
@@ -517,9 +528,7 @@ def check_inventories(
                     ds = copy.deepcopy(candidate)
                     ds["code"] = str(uuid.uuid4().hex)
                     ds["name"] = duplicate_name
-                    for exc in ws.production(
-                        ds
-                    ):
+                    for exc in ws.production(ds):
                         exc["name"] = duplicate_name
                     database.append(ds)
 

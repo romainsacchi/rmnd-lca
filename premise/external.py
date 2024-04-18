@@ -226,7 +226,9 @@ def adjust_efficiency(dataset: dict, fuels_specs: dict, fuel_map_reverse: dict) 
 
                     dataset["log parameters"][f"old efficiency"] = current_efficiency
                     dataset["log parameters"][f"new efficiency"] = expected_efficiency
-                    dataset["comment"] += f" Original efficiency: {current_efficiency:.2f}. New efficiency: {expected_efficiency:.2f}."
+                    dataset[
+                        "comment"
+                    ] += f" Original efficiency: {current_efficiency:.2f}. New efficiency: {expected_efficiency:.2f}."
 
                 else:
                     # the scaling factor is the inverse of the efficiency change
@@ -404,15 +406,11 @@ class ExternalScenario(BaseTransformation):
         ds_names = get_recursively(configurations, "name")
 
         for data in self.external_scenarios_data.values():
-            self.regionalize_inventories(
-                ds_names, external_scenario_regions, data
-            )
+            self.regionalize_inventories(ds_names, external_scenario_regions, data)
         self.dict_bio_flows = get_biosphere_flow_uuid(self.version)
         self.outdated_flows = get_correspondence_bio_flows()
 
-    def regionalize_inventories(
-        self, ds_names, regions, data: dict
-    ) -> None:
+    def regionalize_inventories(self, ds_names, regions, data: dict) -> None:
         """
         Produce IAM region-specific version of the dataset.
         :param regions: list of regions to produce datasets for
@@ -441,16 +439,9 @@ class ExternalScenario(BaseTransformation):
                 # add production volume
                 if ds.get("production volume variable"):
                     for region, act in new_acts.items():
-                        if (
-                            region
-                            in data[
-                                "production volume"
-                            ].region.values
-                        ):
+                        if region in data["production volume"].region.values:
                             act["production volume"] = (
-                                data[
-                                    "production volume"
-                                ]
+                                data["production volume"]
                                 .sel(
                                     region=region,
                                     variables=ds["production volume variable"],

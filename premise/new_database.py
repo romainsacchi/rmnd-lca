@@ -40,8 +40,8 @@ from .filesystem_constants import DIR_CACHED_DB, IAM_OUTPUT_DIR, INVENTORY_DIR
 from .fuels import _update_fuels
 from .heat import _update_heat
 from .inventory_imports import AdditionalInventory, DefaultInventory
-from .report import generate_change_report, generate_summary_report
 from .metals import _update_metals
+from .report import generate_change_report, generate_summary_report
 from .steel import _update_steel
 from .transport import _update_vehicles
 from .utils import (
