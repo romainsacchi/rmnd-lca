@@ -560,25 +560,20 @@ class Electricity(BaseTransformation):
             # Second, add an input of sulfur hexafluoride (SF6) emission to compensate the transformer's leakage
             # And an emission of a corresponding amount
             # Third, transmission line and SF6 supply and emission
-            possible_suppliers = self.select_multiple_suppliers(
-                possible_names=("market for sulfur hexafluoride, liquid",),
-                dataset_location=region,
+
+            new_exchanges.append(
+                {
+                    "uncertainty type": 0,
+                    "loc": 5.4e-8,
+                    "amount": 5.4e-8,
+                    "type": "technosphere",
+                    "product": "sulfur hexafluoride, liquid",
+                    "name": "market for sulfur hexafluoride, liquid",
+                    "unit": "kilogram",
+                    "location": "RER" if "RER" in self.geo.iam_to_ecoinvent_location(region) else "RoW",
+                }
             )
-            new_exchanges.extend(
-                [
-                    {
-                        "uncertainty type": 0,
-                        "loc": supplier[1],
-                        "amount": 2.99e-9 * share,
-                        "type": "technosphere",
-                        "product": supplier[2],
-                        "name": supplier[0],
-                        "unit": supplier[-1],
-                        "location": supplier[1],
-                    }
-                    for supplier, share in possible_suppliers.items()
-                ]
-            )
+
             new_exchanges.append(
                 {
                     "uncertainty type": 0,
@@ -602,26 +597,24 @@ class Electricity(BaseTransformation):
                 },
             )
 
-            possible_suppliers = self.select_multiple_suppliers(
-                possible_names=(
-                    "distribution network construction, electricity, low voltage",
-                ),
-                dataset_location=region,
-            )
-            new_exchanges.extend(
-                [
+            location = None
+            for loc in ["CH", "CA-QC"]:
+                if loc in self.geo.iam_to_ecoinvent_location(region):
+                    location = loc
+            if location is None:
+                location = "RoW"
+
+            new_exchanges.append(
                     {
                         "uncertainty type": 0,
-                        "loc": supplier[1],
-                        "amount": 8.74e-8 * share,
+                        "loc": 8.74e-8,
+                        "amount": 8.74e-8,
                         "type": "technosphere",
-                        "product": supplier[2],
-                        "name": supplier[0],
-                        "unit": supplier[-1],
-                        "location": supplier[1],
+                        "product": "distribution network, electricity, low voltage",
+                        "name": "distribution network construction, electricity, low voltage",
+                        "unit": "kilometer",
+                        "location": location,
                     }
-                    for supplier, share in possible_suppliers.items()
-                ]
             )
 
             # Fourth, add the contribution of solar power
@@ -830,24 +823,17 @@ class Electricity(BaseTransformation):
             # Third, add an input to of sulfur hexafluoride emission to compensate the transformer's leakage
             # And an emission of a corresponding amount
 
-            possible_suppliers = self.select_multiple_suppliers(
-                possible_names=("market for sulfur hexafluoride, liquid",),
-                dataset_location=region,
-            )
-            new_exchanges.extend(
-                [
+            new_exchanges.append(
                     {
                         "uncertainty type": 0,
-                        "loc": supplier[1],
-                        "amount": 5.4e-8 * share,
+                        "loc": 5.4e-8,
+                        "amount": 5.4e-8,
                         "type": "technosphere",
-                        "product": supplier[2],
-                        "name": supplier[0],
-                        "unit": supplier[-1],
-                        "location": supplier[1],
+                        "product": "sulfur hexafluoride, liquid",
+                        "name": "market for sulfur hexafluoride, liquid",
+                        "unit": "kilogram",
+                        "location": "RER" if "RER" in self.geo.iam_to_ecoinvent_location(region) else "RoW",
                     }
-                    for supplier, share in possible_suppliers.items()
-                ]
             )
             new_exchanges.append(
                 {
@@ -873,26 +859,24 @@ class Electricity(BaseTransformation):
             )
 
             # Fourth, transmission line
-            possible_suppliers = self.select_multiple_suppliers(
-                possible_names=(
-                    "transmission network construction, electricity, medium voltage",
-                ),
-                dataset_location=region,
-            )
-            new_exchanges.extend(
-                [
+            location = None
+            for loc in ["CH", "CA-QC"]:
+                if loc in self.geo.iam_to_ecoinvent_location(region):
+                    location = loc
+            if location is None:
+                location = "RoW"
+
+            new_exchanges.append(
                     {
                         "uncertainty type": 0,
-                        "loc": supplier[1],
-                        "amount": 1.8628e-8 * share,
+                        "loc": 1.8628e-8,
+                        "amount": 1.8628e-8,
                         "type": "technosphere",
-                        "product": supplier[2],
-                        "name": supplier[0],
-                        "unit": supplier[-1],
-                        "location": supplier[1],
+                        "product": "transmission network, electricity, medium voltage",
+                        "name": "transmission network construction, electricity, medium voltage",
+                        "unit": "kilometer",
+                        "location": location,
                     }
-                    for supplier, share in possible_suppliers.items()
-                ]
             )
 
             new_dataset["exchanges"] = new_exchanges

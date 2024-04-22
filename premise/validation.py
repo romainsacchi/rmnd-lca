@@ -104,6 +104,37 @@ class BaseDatasetValidator:
         self.major_issues_log = []
         self.keep_uncertainty_data = keep_uncertainty_data
 
+    def check_matrix_squareness(self):
+        """
+        Check if the number of products equals the number of activities
+        """
+
+        products, activities = [], []
+
+        for ds in self.database:
+            activities.append(
+                (
+                    ds["name"],
+                    ds["reference product"],
+                    ds["unit"],
+                    ds["location"]
+                )
+            )
+            for e in ds["exchanges"]:
+                if e["type"] == "production":
+                    products.append(
+                        (
+                            e["name"],
+                            e["product"],
+                            e["unit"],
+                            e["location"]
+                        )
+                    )
+
+        if len(list(set(activities))) != len(list(set(products))):
+            print(f"WARNING: matrix is not square: {len(list(set(activities)))} activities, {len(list(set(products)))} products.")
+
+
     def check_uncertainty(self):
         MANDATORY_UNCERTAINTY_FIELDS = {
             2: {"loc", "scale"},
@@ -481,6 +512,7 @@ class BaseDatasetValidator:
         # Run all checks
         print("Running all checks...")
         self.check_datasets_integrity()
+        self.check_matrix_squareness()
         self.validate_dataset_structure()
         self.verify_data_consistency()
         self.check_relinking_logic()

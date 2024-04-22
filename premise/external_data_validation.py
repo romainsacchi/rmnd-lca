@@ -216,6 +216,8 @@ def check_inventories(
 
     # Iterate over the production pathways
     for variable, pathway in configuration["production pathways"].items():
+        if pathway["ecoinvent alias"].get("new dataset", False):
+            continue
         # Extract the relevant keys for the dataset
         dataset_key = (
             pathway["ecoinvent alias"]["name"],

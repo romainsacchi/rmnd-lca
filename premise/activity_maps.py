@@ -183,12 +183,6 @@ class InventorySet:
         """
         return self.generate_sets_from_filters(self.heat_filters)
 
-        self.activity_metals_filters = get_mapping(
-            filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
-        )
-        # self.metals_filters = get_mapping(
-        #     filepath=METALS_MAPPING, var="ecoinvent_aliases"
-        # )
 
     def generate_activities_using_metals_map(self) -> dict:
         """
@@ -320,8 +314,8 @@ class InventorySet:
 
         # check if all keys have values
         # if not, print warning
-        # for key, val in mapping.items():
-        #    if not val:
-        #        print(f"Warning: No activities found for {key} -- revise mapping.")
+        for key, val in mapping.items():
+           if not val:
+               print(f"Warning: No activities found for {key} -- revise mapping.")
 
         return mapping
