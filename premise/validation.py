@@ -113,27 +113,16 @@ class BaseDatasetValidator:
 
         for ds in self.database:
             activities.append(
-                (
-                    ds["name"],
-                    ds["reference product"],
-                    ds["unit"],
-                    ds["location"]
-                )
+                (ds["name"], ds["reference product"], ds["unit"], ds["location"])
             )
             for e in ds["exchanges"]:
                 if e["type"] == "production":
-                    products.append(
-                        (
-                            e["name"],
-                            e["product"],
-                            e["unit"],
-                            e["location"]
-                        )
-                    )
+                    products.append((e["name"], e["product"], e["unit"], e["location"]))
 
         if len(list(set(activities))) != len(list(set(products))):
-            print(f"WARNING: matrix is not square: {len(list(set(activities)))} activities, {len(list(set(products)))} products.")
-
+            print(
+                f"WARNING: matrix is not square: {len(list(set(activities)))} activities, {len(list(set(products)))} products."
+            )
 
     def check_uncertainty(self):
         MANDATORY_UNCERTAINTY_FIELDS = {

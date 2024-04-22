@@ -147,6 +147,7 @@ def dictionary_merge(dict1, dict2):
             dict1[key] = dict2[key]
     return dict1
 
+
 def get_mapping_between_ei_versions(version_in: str, version_out: str) -> dict:
     mapping = generate_migration_maps(
         version_in.replace(".", ""), version_out.replace(".", "")
