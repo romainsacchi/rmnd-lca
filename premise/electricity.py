@@ -570,7 +570,11 @@ class Electricity(BaseTransformation):
                     "product": "sulfur hexafluoride, liquid",
                     "name": "market for sulfur hexafluoride, liquid",
                     "unit": "kilogram",
-                    "location": "RER" if "RER" in self.geo.iam_to_ecoinvent_location(region) else "RoW",
+                    "location": (
+                        "RER"
+                        if "RER" in self.geo.iam_to_ecoinvent_location(region)
+                        else "RoW"
+                    ),
                 }
             )
 
@@ -605,16 +609,16 @@ class Electricity(BaseTransformation):
                 location = "RoW"
 
             new_exchanges.append(
-                    {
-                        "uncertainty type": 0,
-                        "loc": 8.74e-8,
-                        "amount": 8.74e-8,
-                        "type": "technosphere",
-                        "product": "distribution network, electricity, low voltage",
-                        "name": "distribution network construction, electricity, low voltage",
-                        "unit": "kilometer",
-                        "location": location,
-                    }
+                {
+                    "uncertainty type": 0,
+                    "loc": 8.74e-8,
+                    "amount": 8.74e-8,
+                    "type": "technosphere",
+                    "product": "distribution network, electricity, low voltage",
+                    "name": "distribution network construction, electricity, low voltage",
+                    "unit": "kilometer",
+                    "location": location,
+                }
             )
 
             # Fourth, add the contribution of solar power
@@ -824,16 +828,20 @@ class Electricity(BaseTransformation):
             # And an emission of a corresponding amount
 
             new_exchanges.append(
-                    {
-                        "uncertainty type": 0,
-                        "loc": 5.4e-8,
-                        "amount": 5.4e-8,
-                        "type": "technosphere",
-                        "product": "sulfur hexafluoride, liquid",
-                        "name": "market for sulfur hexafluoride, liquid",
-                        "unit": "kilogram",
-                        "location": "RER" if "RER" in self.geo.iam_to_ecoinvent_location(region) else "RoW",
-                    }
+                {
+                    "uncertainty type": 0,
+                    "loc": 5.4e-8,
+                    "amount": 5.4e-8,
+                    "type": "technosphere",
+                    "product": "sulfur hexafluoride, liquid",
+                    "name": "market for sulfur hexafluoride, liquid",
+                    "unit": "kilogram",
+                    "location": (
+                        "RER"
+                        if "RER" in self.geo.iam_to_ecoinvent_location(region)
+                        else "RoW"
+                    ),
+                }
             )
             new_exchanges.append(
                 {
@@ -867,16 +875,16 @@ class Electricity(BaseTransformation):
                 location = "RoW"
 
             new_exchanges.append(
-                    {
-                        "uncertainty type": 0,
-                        "loc": 1.8628e-8,
-                        "amount": 1.8628e-8,
-                        "type": "technosphere",
-                        "product": "transmission network, electricity, medium voltage",
-                        "name": "transmission network construction, electricity, medium voltage",
-                        "unit": "kilometer",
-                        "location": location,
-                    }
+                {
+                    "uncertainty type": 0,
+                    "loc": 1.8628e-8,
+                    "amount": 1.8628e-8,
+                    "type": "technosphere",
+                    "product": "transmission network, electricity, medium voltage",
+                    "name": "transmission network construction, electricity, medium voltage",
+                    "unit": "kilometer",
+                    "location": location,
+                }
             )
 
             new_dataset["exchanges"] = new_exchanges

@@ -383,13 +383,17 @@ class BaseTransformation:
         idx = defaultdict(list)
         for ds in self.database:
             key = (copy.deepcopy(ds["name"]), copy.deepcopy(ds["reference product"]))
-            idx[key].append({
-                "name": ds["name"],
-                "reference product": ds["reference product"],
-                "location": ds["location"],
-                "unit": ds["unit"],
-                "production volume": list(ws.production(ds))[0].get("production volume", 0),
-            })
+            idx[key].append(
+                {
+                    "name": ds["name"],
+                    "reference product": ds["reference product"],
+                    "location": ds["location"],
+                    "unit": ds["unit"],
+                    "production volume": list(ws.production(ds))[0].get(
+                        "production volume", 0
+                    ),
+                }
+            )
         return idx
 
     def add_to_index(self, ds: [dict, list, ValuesView]):
@@ -401,14 +405,17 @@ class BaseTransformation:
 
         for d in ds:
             key = (copy.deepcopy(d["name"]), copy.deepcopy(d["reference product"]))
-            self.index[key].append({
-                "name": d["name"],
-                "reference product": d["reference product"],
-                "location": d["location"],
-                "unit": d["unit"],
-                "production volume": list(ws.production(d))[0].get("production volume", 0),
-
-            })
+            self.index[key].append(
+                {
+                    "name": d["name"],
+                    "reference product": d["reference product"],
+                    "location": d["location"],
+                    "unit": d["unit"],
+                    "production volume": list(ws.production(d))[0].get(
+                        "production volume", 0
+                    ),
+                }
+            )
 
     def remove_from_index(self, ds):
         key = (copy.deepcopy(ds["name"]), copy.deepcopy(ds["reference product"]))
