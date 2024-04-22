@@ -111,13 +111,22 @@ class Emissions(BaseTransformation):
         def _(x):
             return xr.where((np.isnan(x)) | (x == 0), 1, x)
 
-        data = data.interp(year=[self.year]) / _(
-            data.loc[
-                dict(
-                    year=2020,
-                )
-            ]
-        )
+        if self.year in data.coords["year"].values:
+            data = data.sel(year=[self.year]) / _(
+                data.loc[
+                    dict(
+                        year=2020,
+                    )
+                ]
+            )
+        else:
+            data = data.interp(year=[self.year]) / _(
+                data.loc[
+                    dict(
+                        year=2020,
+                    )
+                ]
+            )
 
         # replace 0 values with 1
         data = xr.where((np.isnan(data)) | (data == 0), 1, data)

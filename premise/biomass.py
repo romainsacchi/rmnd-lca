@@ -164,31 +164,56 @@ class Biomass(BaseTransformation):
             ]
 
             for biomass_type, biomass_act in biomass_map.items():
-                total_prod_vol = np.clip(
-                    (
-                        self.iam_data.production_volumes.sel(
-                            variables=available_biomass_vars, region=region
-                        )
-                        .interp(year=self.year)
-                        .sum(dim="variables")
-                    ),
-                    1e-6,
-                    None,
-                )
-
-                if biomass_type in available_biomass_vars:
-                    share = np.clip(
+                if self.year in self.iam_data.production_volumes.coords["year"].values:
+                    total_prod_vol = np.clip(
                         (
                             self.iam_data.production_volumes.sel(
-                                variables=biomass_type, region=region
+                                variables=available_biomass_vars, region=region, year=self.year
+                            )
+                            .sum(dim="variables")
+                        ),
+                        1e-6,
+                        None,
+                    )
+                else:
+                    total_prod_vol = np.clip(
+                        (
+                            self.iam_data.production_volumes.sel(
+                                variables=available_biomass_vars, region=region
                             )
                             .interp(year=self.year)
-                            .sum()
-                            / total_prod_vol
-                        ).values.item(0),
-                        0,
-                        1,
+                            .sum(dim="variables")
+                        ),
+                        1e-6,
+                        None,
                     )
+
+                if biomass_type in available_biomass_vars:
+                    if self.year in self.iam_data.production_volumes.coords["year"].values:
+                        share = np.clip(
+                            (
+                                    self.iam_data.production_volumes.sel(
+                                        variables=biomass_type, region=region, year=self.year
+                                    )
+                                    .sum()
+                                    / total_prod_vol
+                            ).values.item(0),
+                            0,
+                            1,
+                        )
+                    else:
+                        share = np.clip(
+                            (
+                                self.iam_data.production_volumes.sel(
+                                    variables=biomass_type, region=region
+                                )
+                                .interp(year=self.year)
+                                .sum()
+                                / total_prod_vol
+                            ).values.item(0),
+                            0,
+                            1,
+                        )
                 elif (
                     self.system_model == "consequential"
                     and biomass_type == "biomass - residual"

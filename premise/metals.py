@@ -287,6 +287,15 @@ def update_exchanges(
     return activity
 
 
+def filter_technology(dataset_names, database):
+    return list(
+        ws.get_many(
+            database,
+            ws.either(*[ws.contains("name", name) for name in dataset_names]),
+        )
+    )
+
+
 class Metals(BaseTransformation):
     """
     Class that modifies metal demand of different technologies
@@ -321,9 +330,12 @@ class Metals(BaseTransformation):
 
         self.metals = iam_data.metals  # 1
         # Precompute the median values for each metal and origin_var for the year 2020
-        self.precomputed_medians = self.metals.interp(
-            year=self.year, method="nearest", kwargs={"fill_value": "extrapolate"}
-        )
+        if self.year in self.metals.coords["year"].values:
+            self.precomputed_medians = self.metals.sel(year=self.year)
+        else:
+            self.precomputed_medians = self.metals.interp(
+                year=self.year, method="nearest", kwargs={"fill_value": "extrapolate"}
+            )
 
         self.activities_mapping = load_activities_mapping()  # 4
 
@@ -594,6 +606,7 @@ class Metals(BaseTransformation):
         new_locations: dict,
         geography_mapping=None,
         shares: dict = None,
+        subset: list = None,
     ) -> dict:
         """
         Create a new mining activity in a new location.
@@ -619,6 +632,7 @@ class Metals(BaseTransformation):
             production_variable=shares,
             exact_name_match=True,
             exact_product_match=True,
+            subset=subset,
         )
 
         return datasets
@@ -696,9 +710,16 @@ class Metals(BaseTransformation):
         # iterate through unique pair of process - reference product in df:
         # for each pair, create a new mining activity
 
+        dataset_names = list(df["Process"].unique())
+        subset = filter_technology(dataset_names, self.database)
+        long_country_names = {
+            c: self.convert_long_to_short_country_name(c)
+            for c in df["Country"].unique()
+        }
+
         for (name, ref_prod), group in df.groupby(["Process", "Reference product"]):
             new_locations = {
-                c: self.convert_long_to_short_country_name(c)
+                c: long_country_names[c]
                 for c in group["Country"].unique()
             }
             # remove None values
@@ -710,11 +731,12 @@ class Metals(BaseTransformation):
 
             # if not, we create it
             datasets = self.create_new_mining_activity(
-                name,
-                ref_prod,
-                new_locations,
-                geography_mapping,
-                {k[2]: v for k, v in shares.items()},
+                name=name,
+                reference_product=ref_prod,
+                new_locations=new_locations,
+                geography_mapping=geography_mapping,
+                shares={k[2]: v for k, v in shares.items()},
+                subset=subset,
             )
 
             # add new datasets to database
@@ -897,6 +919,14 @@ class Metals(BaseTransformation):
             dataframe["Region"].notnull() & dataframe["2020"].isnull()
         ]
 
+        dataset_names = list(dataframe_parent["Process"].unique())
+        subset = filter_technology(dataset_names, self.database)
+
+        long_country_names = {
+            c: self.convert_long_to_short_country_name(c)
+            for c in dataframe_parent["Country"].unique()
+        }
+
         for metal in dataframe_parent["Metal"].unique():
             df_metal = dataframe_parent.loc[dataframe["Metal"] == metal]
 
@@ -904,7 +934,7 @@ class Metals(BaseTransformation):
                 ["Process", "Reference product"]
             ):
                 new_locations = {
-                    c: self.convert_long_to_short_country_name(c)
+                    c: long_country_names[c]
                     for c in group["Country"].unique()
                 }
                 # remove None
@@ -916,7 +946,11 @@ class Metals(BaseTransformation):
 
                 # if not, we create it
                 datasets = self.create_new_mining_activity(
-                    name, ref_prod, new_locations, geography_mapping=geography_mapping
+                    name=name,
+                    reference_product=ref_prod,
+                    new_locations=new_locations,
+                    geography_mapping=geography_mapping,
+                    subset=subset
                 )
 
                 self.database.extend(datasets.values())

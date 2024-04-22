@@ -302,8 +302,25 @@ class InventorySet:
 
         database = database or self.database
 
+        names = []
+
+        for entry in filtr.values():
+            if "fltr" in entry:
+                if isinstance(entry["fltr"], dict):
+                    if "name" in entry["fltr"]:
+                        names.extend(entry["fltr"]["name"])
+                elif isinstance(entry["fltr"], list):
+                    names.extend(entry["fltr"])
+                else:
+                    names.append(entry["fltr"])
+
+        subset = list(ws.get_many(
+            database,
+            ws.either(*[ws.contains("name", name) for name in names]),
+        ))
+
         techs = {
-            tech: act_fltr(database, fltr.get("fltr"), fltr.get("mask"))
+            tech: act_fltr(subset, fltr.get("fltr"), fltr.get("mask"))
             for tech, fltr in filtr.items()
         }
 
