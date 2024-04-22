@@ -640,19 +640,22 @@ class ElectricityValidation(BaseDatasetValidator):
         # corresponds to the IAM scenario projection
 
         if self.year in self.iam_data.electricity_markets.coords["year"].values:
-            hydro_share = self.iam_data.electricity_markets.sel(variables="Hydro", year=self.year) / self.iam_data.electricity_markets.sel(
+            hydro_share = self.iam_data.electricity_markets.sel(
+                variables="Hydro", year=self.year
+            ) / self.iam_data.electricity_markets.sel(
                 variables=[
                     v
                     for v in self.iam_data.electricity_markets.variables.values
                     if v.lower() != "solar pv residential"
-                ], year=self.year
+                ],
+                year=self.year,
             ).sum(
                 dim="variables"
             )
         else:
-            hydro_share = self.iam_data.electricity_markets.sel(variables="Hydro").interp(
-                year=self.year
-            ) / self.iam_data.electricity_markets.sel(
+            hydro_share = self.iam_data.electricity_markets.sel(
+                variables="Hydro"
+            ).interp(year=self.year) / self.iam_data.electricity_markets.sel(
                 variables=[
                     v
                     for v in self.iam_data.electricity_markets.variables.values
@@ -859,7 +862,9 @@ class SteelValidation(BaseDatasetValidator):
                 if self.year in self.iam_data.steel_markets.coords["year"].values:
                     eaf_steel = (
                         self.iam_data.steel_markets.sel(
-                            variables="steel - secondary", region=ds["location"], year=self.year
+                            variables="steel - secondary",
+                            region=ds["location"],
+                            year=self.year,
                         )
                     ).values.item(0)
                 else:

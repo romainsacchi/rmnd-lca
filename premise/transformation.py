@@ -445,7 +445,6 @@ class BaseTransformation:
 
         return location in [k["location"] for k in self.index[key]]
 
-
     def select_multiple_suppliers(
         self,
         possible_names: Tuple[str],
@@ -792,7 +791,9 @@ class BaseTransformation:
                         if self.year in self.iam_data.production_volumes.coords["year"]:
                             prod_vol = (
                                 self.iam_data.production_volumes.sel(
-                                    region=region, variables=production_variable, year=self.year
+                                    region=region,
+                                    variables=production_variable,
+                                    year=self.year,
                                 )
                                 .sum(dim="variables")
                                 .values.item(0)
@@ -948,16 +949,23 @@ class BaseTransformation:
             ):
                 for location in locations:
 
-                    if self.year in self.iam_data.production_volumes.coords["year"].values:
+                    if (
+                        self.year
+                        in self.iam_data.production_volumes.coords["year"].values
+                    ):
                         share = (
-                                    self.iam_data.production_volumes.sel(
-                                        region=location, variables=production_variable, year=self.year
-                                    )
-                                    .sum(dim="variables")
-                                    .values.item(0)
-                                ) / _(
                             self.iam_data.production_volumes.sel(
-                                region=locations, variables=production_variable, year=self.year
+                                region=location,
+                                variables=production_variable,
+                                year=self.year,
+                            )
+                            .sum(dim="variables")
+                            .values.item(0)
+                        ) / _(
+                            self.iam_data.production_volumes.sel(
+                                region=locations,
+                                variables=production_variable,
+                                year=self.year,
                             )
                             .sum(dim=["variables", "region"])
                             .values.item(0)
@@ -1326,14 +1334,11 @@ class BaseTransformation:
 
         if sector in self.iam_data.carbon_capture_rate.variables.values:
             if self.year in self.iam_data.carbon_capture_rate.coords["year"].values:
-                rate = (
-                    self.iam_data.carbon_capture_rate.sel(
-                        variables=sector,
-                        region=loc,
-                        year=self.year,
-                    )
-                    .values.item(0)
-                )
+                rate = self.iam_data.carbon_capture_rate.sel(
+                    variables=sector,
+                    region=loc,
+                    year=self.year,
+                ).values.item(0)
             else:
                 rate = (
                     self.iam_data.carbon_capture_rate.sel(
@@ -1463,7 +1468,9 @@ class BaseTransformation:
         """
 
         if self.year in data.coords["year"].values:
-            scaling_factor = data.sel(region=location, variables=variable, year=self.year).values.item(0)
+            scaling_factor = data.sel(
+                region=location, variables=variable, year=self.year
+            ).values.item(0)
         else:
             scaling_factor = (
                 data.sel(region=location, variables=variable)

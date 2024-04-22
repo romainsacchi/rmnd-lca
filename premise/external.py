@@ -474,13 +474,16 @@ class ExternalScenario(BaseTransformation):
                 if ds.get("production volume variable"):
                     for region, act in new_acts.items():
                         if region in data["production volume"].region.values:
-                            if self.year in data["production volume"].coords["year"].values:
+                            if (
+                                self.year
+                                in data["production volume"].coords["year"].values
+                            ):
                                 act["production volume"] = (
                                     data["production volume"]
                                     .sel(
                                         region=region,
                                         variables=ds["production volume variable"],
-                                        year=self.year
+                                        year=self.year,
                                     )
                                     .values
                                 )
@@ -612,10 +615,19 @@ class ExternalScenario(BaseTransformation):
         )
         new_excs = []
 
-        if self.year in self.external_scenarios_data[i]["production volume"].coords["year"].values:
+        if (
+            self.year
+            in self.external_scenarios_data[i]["production volume"]
+            .coords["year"]
+            .values
+        ):
             word_production_volume = (
                 self.external_scenarios_data[i]["production volume"]
-                .sel(variables=pathways, region=[r for r in regions if r != "World"], year=self.year)
+                .sel(
+                    variables=pathways,
+                    region=[r for r in regions if r != "World"],
+                    year=self.year,
+                )
                 .sum(dim=["variables", "region"])
                 .values.item(0)
             )
@@ -634,17 +646,24 @@ class ExternalScenario(BaseTransformation):
 
         # fetch the supply share for each regional market
         for region in regions:
-            if self.year in self.external_scenarios_data[i]["production volume"].coords["year"].values:
+            if (
+                self.year
+                in self.external_scenarios_data[i]["production volume"]
+                .coords["year"]
+                .values
+            ):
                 supply_share = np.clip(
                     (
-                            self.external_scenarios_data[i]["production volume"]
-                            .sel(region=region, variables=pathways, year=self.year)
-                            .sum(dim="variables")
-                            / self.external_scenarios_data[i]["production volume"]
-                            .sel(
-                        variables=pathways, region=[r for r in regions if r != "World"], year=self.year
-                    )
-                            .sum(dim=["variables", "region"])
+                        self.external_scenarios_data[i]["production volume"]
+                        .sel(region=region, variables=pathways, year=self.year)
+                        .sum(dim="variables")
+                        / self.external_scenarios_data[i]["production volume"]
+                        .sel(
+                            variables=pathways,
+                            region=[r for r in regions if r != "World"],
+                            year=self.year,
+                        )
+                        .sum(dim=["variables", "region"])
                     ).values.item(0),
                     0,
                     1,
@@ -658,7 +677,8 @@ class ExternalScenario(BaseTransformation):
                         .interp(year=self.year)
                         / self.external_scenarios_data[i]["production volume"]
                         .sel(
-                            variables=pathways, region=[r for r in regions if r != "World"]
+                            variables=pathways,
+                            region=[r for r in regions if r != "World"],
                         )
                         .sum(dim=["variables", "region"])
                         .interp(year=self.year)
@@ -1059,11 +1079,19 @@ class ExternalScenario(BaseTransformation):
                             market=market_vars, region=region, waste_market=waste_market
                         )
 
-
-                        if self.year in self.external_scenarios_data[i]["production volume"].coords["year"].values:
+                        if (
+                            self.year
+                            in self.external_scenarios_data[i]["production volume"]
+                            .coords["year"]
+                            .values
+                        ):
                             production_volume = (
                                 self.external_scenarios_data[i]["production volume"]
-                                .sel(variables=production_variables, region=region, year=self.year)
+                                .sel(
+                                    variables=production_variables,
+                                    region=region,
+                                    year=self.year,
+                                )
                                 .sum(dim="variables")
                                 .values.item(0)
                             )

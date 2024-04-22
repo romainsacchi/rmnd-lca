@@ -168,9 +168,10 @@ class Biomass(BaseTransformation):
                     total_prod_vol = np.clip(
                         (
                             self.iam_data.production_volumes.sel(
-                                variables=available_biomass_vars, region=region, year=self.year
-                            )
-                            .sum(dim="variables")
+                                variables=available_biomass_vars,
+                                region=region,
+                                year=self.year,
+                            ).sum(dim="variables")
                         ),
                         1e-6,
                         None,
@@ -189,14 +190,18 @@ class Biomass(BaseTransformation):
                     )
 
                 if biomass_type in available_biomass_vars:
-                    if self.year in self.iam_data.production_volumes.coords["year"].values:
+                    if (
+                        self.year
+                        in self.iam_data.production_volumes.coords["year"].values
+                    ):
                         share = np.clip(
                             (
-                                    self.iam_data.production_volumes.sel(
-                                        variables=biomass_type, region=region, year=self.year
-                                    )
-                                    .sum()
-                                    / total_prod_vol
+                                self.iam_data.production_volumes.sel(
+                                    variables=biomass_type,
+                                    region=region,
+                                    year=self.year,
+                                ).sum()
+                                / total_prod_vol
                             ).values.item(0),
                             0,
                             1,

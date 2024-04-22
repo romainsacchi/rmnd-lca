@@ -42,7 +42,9 @@ def find_iam_efficiency_change(
             ).values.item(0)
         else:
             scaling_factor = (
-                efficiency_data.sel(region=location, variables=variable).interp(year=year)
+                efficiency_data.sel(region=location, variables=variable).interp(
+                    year=year
+                )
             ).values.item(0)
 
         if scaling_factor in (np.nan, np.inf):

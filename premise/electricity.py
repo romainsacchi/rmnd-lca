@@ -221,6 +221,7 @@ def filter_technology(dataset_names, database):
         )
     )
 
+
 def _update_electricity(
     scenario,
     version,
@@ -533,14 +534,11 @@ class Electricity(BaseTransformation):
 
             # fetch production volume
             if self.year in self.iam_data.production_volumes.coords["year"].values:
-                production_volume = (
-                    self.iam_data.production_volumes.sel(
-                        region=region,
-                        variables=self.iam_data.electricity_markets.variables.values,
-                        year=self.year,
-                    )
-                    .values.item(0)
-                )
+                production_volume = self.iam_data.production_volumes.sel(
+                    region=region,
+                    variables=self.iam_data.electricity_markets.variables.values,
+                    year=self.year,
+                ).values.item(0)
             else:
                 production_volume = (
                     self.iam_data.production_volumes.sel(
@@ -724,7 +722,9 @@ class Electricity(BaseTransformation):
 
         # Using a list comprehension to process all technologies
         subset = filter_technology(
-            dataset_names=[item for subset in ecoinvent_technologies.values() for item in subset],
+            dataset_names=[
+                item for subset in ecoinvent_technologies.values() for item in subset
+            ],
             database=self.database,
         )
 
@@ -778,14 +778,11 @@ class Electricity(BaseTransformation):
 
             # fetch production volume
             if self.year in self.iam_data.production_volumes.coords["year"].values:
-                production_volume = (
-                    self.iam_data.production_volumes.sel(
-                        region=region,
-                        variables=self.iam_data.electricity_markets.variables.values,
-                        year=self.year,
-                    )
-                    .values.item(0)
-                )
+                production_volume = self.iam_data.production_volumes.sel(
+                    region=region,
+                    variables=self.iam_data.electricity_markets.variables.values,
+                    year=self.year,
+                ).values.item(0)
             else:
                 production_volume = (
                     self.iam_data.production_volumes.sel(
@@ -992,8 +989,6 @@ class Electricity(BaseTransformation):
             "exchanges": [],
         }
 
-
-
         def generate_regional_markets(region: str, period: int, subset: list) -> dict:
 
             new_dataset = copy.deepcopy(generic_dataset)
@@ -1100,14 +1095,11 @@ class Electricity(BaseTransformation):
 
             # fetch production volume
             if self.year in self.iam_data.production_volumes.coords["year"].values:
-                production_volume = (
-                    self.iam_data.production_volumes.sel(
-                        region=region,
-                        variables=self.iam_data.electricity_markets.variables.values,
-                        year=self.year,
-                    )
-                    .values.item(0)
-                )
+                production_volume = self.iam_data.production_volumes.sel(
+                    region=region,
+                    variables=self.iam_data.electricity_markets.variables.values,
+                    year=self.year,
+                ).values.item(0)
             else:
                 production_volume = (
                     self.iam_data.production_volumes.sel(
@@ -1215,8 +1207,10 @@ class Electricity(BaseTransformation):
 
         # Using a list comprehension to process all technologies
         subset = filter_technology(
-                dataset_names=[item for subset in ecoinvent_technologies.values() for item in subset],
-                database=self.database,
+            dataset_names=[
+                item for subset in ecoinvent_technologies.values() for item in subset
+            ],
+            database=self.database,
         )
 
         new_datasets = [
@@ -1267,24 +1261,25 @@ class Electricity(BaseTransformation):
         ]
 
         if self.year in self.iam_data.production_volumes.coords["year"].values:
-            production_volume = (self.iam_data.production_volumes.sel(
-                region=regions,
-                variables=self.iam_data.electricity_markets.variables.values,
-                year=self.year
+            production_volume = (
+                self.iam_data.production_volumes.sel(
+                    region=regions,
+                    variables=self.iam_data.electricity_markets.variables.values,
+                    year=self.year,
+                )
+                .sum(dim=["region", "variables"])
+                .values.item(0)
             )
-                 .sum(dim=["region", "variables"])
-                 .values.item(0)
-             )
         else:
-            production_volume = (self.iam_data.production_volumes.sel(
+            production_volume = (
+                self.iam_data.production_volumes.sel(
                     region=regions,
                     variables=self.iam_data.electricity_markets.variables.values,
                 )
                 .interp(year=self.year)
                 .sum(dim=["region", "variables"])
                 .values.item(0)
-                                 )
-
+            )
 
         # add production exchange
         dataset["exchanges"].append(
@@ -1313,24 +1308,21 @@ class Electricity(BaseTransformation):
 
             if self.year in self.iam_data.production_volumes.coords["year"].values:
                 share = (
-                    (
-                            self.iam_data.production_volumes.sel(
-                                region=r,
-                                variables=self.iam_data.electricity_markets.variables.values,
-                                year=self.year
-                            ).sum(dim="variables")
-                            / self.iam_data.production_volumes.sel(
+                    self.iam_data.production_volumes.sel(
+                        region=r,
+                        variables=self.iam_data.electricity_markets.variables.values,
+                        year=self.year,
+                    ).sum(dim="variables")
+                    / self.iam_data.production_volumes.sel(
                         region=[
                             x
                             for x in self.iam_data.production_volumes.region.values
                             if x != "World"
                         ],
                         variables=self.iam_data.electricity_markets.variables.values,
-                        year=self.year
+                        year=self.year,
                     ).sum(dim=["variables", "region"])
-                    )
-                    .values
-                )
+                ).values
             else:
                 share = (
                     (
@@ -1434,11 +1426,15 @@ class Electricity(BaseTransformation):
                     pv_tech = pv_tech[0]
 
                     if self.year in module_eff.coords["year"].values:
-                        new_eff = module_eff.sel(technology=pv_tech, year=self.year).values
+                        new_eff = module_eff.sel(
+                            technology=pv_tech, year=self.year
+                        ).values
                     else:
                         new_eff = (
                             module_eff.sel(technology=pv_tech)
-                            .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
+                            .interp(
+                                year=self.year, kwargs={"fill_value": "extrapolate"}
+                            )
                             .values
                         )
 
