@@ -719,8 +719,7 @@ class Metals(BaseTransformation):
 
         for (name, ref_prod), group in df.groupby(["Process", "Reference product"]):
             new_locations = {
-                c: long_country_names[c]
-                for c in group["Country"].unique()
+                c: long_country_names[c] for c in group["Country"].unique()
             }
             # remove None values
             new_locations = {k: v for k, v in new_locations.items() if v}
@@ -934,8 +933,7 @@ class Metals(BaseTransformation):
                 ["Process", "Reference product"]
             ):
                 new_locations = {
-                    c: long_country_names[c]
-                    for c in group["Country"].unique()
+                    c: long_country_names[c] for c in group["Country"].unique()
                 }
                 # remove None
                 new_locations = {
@@ -950,7 +948,7 @@ class Metals(BaseTransformation):
                     reference_product=ref_prod,
                     new_locations=new_locations,
                     geography_mapping=geography_mapping,
-                    subset=subset
+                    subset=subset,
                 )
 
                 self.database.extend(datasets.values())

@@ -213,16 +213,24 @@ class DirectAirCapture(BaseTransformation):
                         "region"
                     ].values
                 ):
-                    if self.year in self.iam_data.dac_electricity_efficiencies.coords["year"].values:
+                    if (
+                        self.year
+                        in self.iam_data.dac_electricity_efficiencies.coords[
+                            "year"
+                        ].values
+                    ):
                         scaling_factor = float(
                             1
-                            / self.iam_data.dac_electricity_efficiencies.sel(region=region, year=self.year)
-                            .values
+                            / self.iam_data.dac_electricity_efficiencies.sel(
+                                region=region, year=self.year
+                            ).values
                         )
                     else:
                         scaling_factor = float(
                             1
-                            / self.iam_data.dac_electricity_efficiencies.sel(region=region)
+                            / self.iam_data.dac_electricity_efficiencies.sel(
+                                region=region
+                            )
                             .interp(year=self.year)
                             .values
                         )
@@ -258,11 +266,15 @@ class DirectAirCapture(BaseTransformation):
                     region
                     in self.iam_data.dac_heat_efficiencies.coords["region"].values
                 ):
-                    if self.year in self.iam_data.dac_heat_efficiencies.coords["year"].values:
+                    if (
+                        self.year
+                        in self.iam_data.dac_heat_efficiencies.coords["year"].values
+                    ):
                         scaling_factor = float(
                             1
-                            / self.iam_data.dac_heat_efficiencies.sel(region=region, year=self.year)
-                            .values
+                            / self.iam_data.dac_heat_efficiencies.sel(
+                                region=region, year=self.year
+                            ).values
                         )
                     else:
                         scaling_factor = float(

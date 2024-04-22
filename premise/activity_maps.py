@@ -314,10 +314,12 @@ class InventorySet:
                 else:
                     names.append(entry["fltr"])
 
-        subset = list(ws.get_many(
-            database,
-            ws.either(*[ws.contains("name", name) for name in names]),
-        ))
+        subset = list(
+            ws.get_many(
+                database,
+                ws.either(*[ws.contains("name", name) for name in names]),
+            )
+        )
 
         techs = {
             tech: act_fltr(subset, fltr.get("fltr"), fltr.get("mask"))

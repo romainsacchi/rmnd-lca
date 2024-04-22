@@ -125,14 +125,11 @@ class Steel(BaseTransformation):
                         # check that the production volumes are positive
                         # otherwise we skip the region
                         if self.year in self.iam_data.production_volumes.year.values:
-                            prod_vol = (
-                                self.iam_data.production_volumes.sel(
-                                    region=loc,
-                                    variables=["steel - primary", "steel - secondary"],
-                                    year=self.year,
-                                )
-                                .sum(dim="variables")
-                            )
+                            prod_vol = self.iam_data.production_volumes.sel(
+                                region=loc,
+                                variables=["steel - primary", "steel - secondary"],
+                                year=self.year,
+                            ).sum(dim="variables")
 
                         else:
                             prod_vol = (
@@ -149,34 +146,46 @@ class Steel(BaseTransformation):
 
                         if self.system_model != "consequential":
                             try:
-                                if self.year in self.iam_data.production_volumes.coords["year"].values:
-                                    primary_share = self.iam_data.production_volumes.sel(
-                                        region=loc, variables="steel - primary", year=self.year
-                                    ).values.item(
-                                        0
-                                    ) / self.iam_data.production_volumes.sel(
-                                        region=loc,
-                                        variables=["steel - primary", "steel - secondary"],
-                                        year=self.year,
-                                    ).sum(
-                                        dim="variables"
-                                    ).values.item(
-                                        0
+                                if (
+                                    self.year
+                                    in self.iam_data.production_volumes.coords[
+                                        "year"
+                                    ].values
+                                ):
+                                    primary_share = (
+                                        self.iam_data.production_volumes.sel(
+                                            region=loc,
+                                            variables="steel - primary",
+                                            year=self.year,
+                                        ).values.item(0)
+                                        / self.iam_data.production_volumes.sel(
+                                            region=loc,
+                                            variables=[
+                                                "steel - primary",
+                                                "steel - secondary",
+                                            ],
+                                            year=self.year,
+                                        )
+                                        .sum(dim="variables")
+                                        .values.item(0)
                                     )
                                 else:
-                                    primary_share = self.iam_data.production_volumes.sel(
-                                        region=loc, variables="steel - primary"
-                                    ).interp(year=self.year).values.item(
-                                        0
-                                    ) / self.iam_data.production_volumes.sel(
-                                        region=loc,
-                                        variables=["steel - primary", "steel - secondary"],
-                                    ).interp(
-                                        year=self.year
-                                    ).sum(
-                                        dim="variables"
-                                    ).values.item(
-                                        0
+                                    primary_share = (
+                                        self.iam_data.production_volumes.sel(
+                                            region=loc, variables="steel - primary"
+                                        )
+                                        .interp(year=self.year)
+                                        .values.item(0)
+                                        / self.iam_data.production_volumes.sel(
+                                            region=loc,
+                                            variables=[
+                                                "steel - primary",
+                                                "steel - secondary",
+                                            ],
+                                        )
+                                        .interp(year=self.year)
+                                        .sum(dim="variables")
+                                        .values.item(0)
                                     )
                             except KeyError:
                                 primary_share = 1
@@ -282,14 +291,16 @@ class Steel(BaseTransformation):
 
             for region in regions:
                 try:
-                    if self.year in self.iam_data.production_volumes.coords["year"].values:
+                    if (
+                        self.year
+                        in self.iam_data.production_volumes.coords["year"].values
+                    ):
                         share = (
                             self.iam_data.production_volumes.sel(
                                 variables=["steel - primary", "steel - secondary"],
                                 region=region,
                                 year=self.year,
-                            )
-                            .sum(dim="variables")
+                            ).sum(dim="variables")
                             / self.iam_data.production_volumes.sel(
                                 variables=["steel - primary", "steel - secondary"],
                                 region=[
@@ -298,8 +309,7 @@ class Steel(BaseTransformation):
                                     if x != "World"
                                 ],
                                 year=self.year,
-                            )
-                            .sum(dim=["variables", "region"])
+                            ).sum(dim=["variables", "region"])
                         ).values.item(0)
                     else:
                         share = (
