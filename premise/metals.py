@@ -115,8 +115,8 @@ def load_mining_shares_mapping():
 
     # Normalize remaining data back to 100% for each metal
     years = [str(year) for year in range(2020, 2031)]
-    for metal in df_filtered['Metal'].unique():
-        metal_indices = df_filtered['Metal'] == metal
+    for metal in df_filtered["Metal"].unique():
+        metal_indices = df_filtered["Metal"] == metal
         metal_df = df_filtered.loc[metal_indices, years]
         sum_df = metal_df.sum(axis=0)
         df_filtered.loc[metal_indices, years] = metal_df.div(sum_df)
@@ -892,7 +892,14 @@ class Metals(BaseTransformation):
         dataframe = dataframe.loc[~dataframe["Country"].isnull()]
         dataframe_shares = dataframe
 
-        self.country_codes.update(dict(zip(dataframe["Country"].unique(), coco.convert(dataframe["Country"].unique(), to="ISO2"))))
+        self.country_codes.update(
+            dict(
+                zip(
+                    dataframe["Country"].unique(),
+                    coco.convert(dataframe["Country"].unique(), to="ISO2"),
+                )
+            )
+        )
 
         # fix France (French Guiana) to GF
         self.country_codes["France (French Guiana)"] = "GF"
