@@ -35,27 +35,16 @@ def remove_uncertainty(database):
     :param database:
     :return:
     """
-
-    keys_to_remove = [
-        "loc",
-        "scale",
-        "pedigree",
-        "minimum",
-        "maximum",
-        "shape",
-    ]
-
-    def set_defaults(exchange):
-        """Set default values for the exchange."""
-        exchange["loc"] = exchange["amount"]
-        for key in ["scale", "shape", "minimum", "maximum"]:
-            exchange[key] = np.nan
+    uncertainty_keys = ["scale", "shape", "minimum", "maximum"]
+    nan_value = np.nan
 
     for dataset in database:
         for exchange in dataset["exchanges"]:
-            if exchange.get("preserve uncertainty", False) is False:
+            if not exchange.get("preserve uncertainty", False):
                 exchange["uncertainty type"] = 0
-                set_defaults(exchange)
+                exchange["loc"] = exchange["amount"]
+                for key in uncertainty_keys:
+                    exchange[key] = nan_value
 
     return database
 

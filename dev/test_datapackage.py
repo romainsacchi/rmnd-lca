@@ -3,6 +3,7 @@ from datapackage import Package
 
 from premise import *
 
+clear_cache()
 bw2data.projects.set_current("ei39")
 sps = Package("/Users/romain/GitHub/sweet_sure-2050-switzerland/datapackage.json")
 ndb = PathwaysDataPackage(
