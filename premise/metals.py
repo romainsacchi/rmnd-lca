@@ -638,7 +638,6 @@ class Metals(BaseTransformation):
 
         return datasets
 
-
     def convert_long_to_short_country_name(self, country_long: list) -> dict:
         """
         Convert long country name to short country name.
@@ -710,9 +709,7 @@ class Metals(BaseTransformation):
         mapping = {}
 
         for long_location, short_location in new_locations.items():
-            if len(df.loc[
-                df["Country"] == long_location, "Region"
-            ]) > 0:
+            if len(df.loc[df["Country"] == long_location, "Region"]) > 0:
                 mapping[short_location] = df.loc[
                     df["Country"] == long_location, "Region"
                 ].values[0]
@@ -731,8 +728,7 @@ class Metals(BaseTransformation):
         for (name, ref_prod), group in df.groupby(["Process", "Reference product"]):
 
             new_locations = {
-                c: self.country_codes[c]
-                for c in group["Country"].unique()
+                c: self.country_codes[c] for c in group["Country"].unique()
             }
             # fetch shares for each location in df
             shares = self.get_shares(group, new_locations, name, ref_prod)
@@ -933,7 +929,6 @@ class Metals(BaseTransformation):
 
         dataset_names = list(dataframe_parent["Process"].unique())
         subset = filter_technology(dataset_names, self.database)
-
 
         for metal in dataframe_parent["Metal"].unique():
             df_metal = dataframe_parent.loc[dataframe["Metal"] == metal]
