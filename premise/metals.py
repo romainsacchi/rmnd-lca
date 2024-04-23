@@ -92,7 +92,7 @@ def load_metals_transport():
     # remove rows with value 0 under Weighted Average Distance
     df = df.loc[df["Weighted Average Distance"] != 0]
 
-    df["country"] = country_short = coco.convert(df["Origin Label"], to="ISO2")
+    df["country"] = coco.convert(df["Origin Label"], to="ISO2")
 
     return df
 
@@ -107,6 +107,19 @@ def load_mining_shares_mapping():
 
     # replace all instances of "Year " in columns by ""
     df.columns = df.columns.str.replace("Year ", "")
+
+    # remove suppliers whose markets share is below the cutoff
+    cut_off = 0.01
+
+    df_filtered = df[df.loc[:, "2020":"2030"].max(axis=1) > cut_off]
+
+    # Normalize remaining data back to 100% for each metal
+    years = [str(year) for year in range(2020, 2031)]
+    for metal in df_filtered['Metal'].unique():
+        metal_indices = df_filtered['Metal'] == metal
+        metal_df = df_filtered.loc[metal_indices, years]
+        sum_df = metal_df.sum(axis=0)
+        df_filtered.loc[metal_indices, years] = metal_df.div(sum_df)
 
     return df
 
@@ -638,37 +651,6 @@ class Metals(BaseTransformation):
 
         return datasets
 
-    def convert_long_to_short_country_name(self, country_long: list) -> dict:
-        """
-        Convert long country name to short country name.
-        :param country_long: Long country name
-        :return: Short country name
-        """
-
-        print(country_long)
-
-        if isinstance(country_long, str):
-            country_long = [country_long]
-
-        country_short = coco.convert(names=country_long, to="ISO2")
-
-        # if "France (French Guiana)" in country_long,
-        # replace "GF" in country_short
-
-        if "France (French Guiana)" in country_long:
-            # find index of "France (French Guiana)"
-            index = country_long.index("France (French Guiana)")
-            country_short[index] = "GF"
-
-        if any(x not in list(self.geo.geo.keys()) for x in country_short):
-            for x in country_short:
-                print(x)
-                if x not in list(self.geo.geo.keys()):
-                    print(f"New location {x} not in known locations.")
-
-        # return dictionary with long country names as keys
-        return dict(zip(country_long, country_short))
-
     def get_shares(self, df: pd.DataFrame, new_locations: dict, name, ref_prod) -> dict:
         """
         Get shares of each location in the dataframe.
@@ -684,6 +666,7 @@ class Metals(BaseTransformation):
 
         for long_location, short_location in new_locations.items():
             share = df.loc[df["Country"] == long_location, "2020":"2030"]
+            print(long_location, short_location, share)
             if len(share) > 0:
 
                 # we interpolate depending on if self.year is between 2020 and 2030
@@ -910,7 +893,10 @@ class Metals(BaseTransformation):
         dataframe = dataframe.loc[~dataframe["Country"].isnull()]
         dataframe_shares = dataframe
 
-        self.country_codes.update(coco.convert(dataframe["Country"], to="ISO2"))
+        self.country_codes.update(dict(zip(dataframe["Country"].unique(), coco.convert(dataframe["Country"].unique(), to="ISO2"))))
+
+        # fix France (French Guiana) to GF
+        self.country_codes["France (French Guiana)"] = "GF"
 
         for metal in dataframe_shares["Metal"].unique():
             df_metal = dataframe.loc[dataframe["Metal"] == metal]
