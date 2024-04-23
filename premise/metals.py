@@ -326,6 +326,7 @@ class Metals(BaseTransformation):
             index,
         )
 
+        self.country_codes = {}
         self.version = version
 
         self.metals = iam_data.metals  # 1
@@ -637,27 +638,37 @@ class Metals(BaseTransformation):
 
         return datasets
 
-    @lru_cache
-    def convert_long_to_short_country_name(self, country_long):
+
+    def convert_long_to_short_country_name(self, country_long: list) -> dict:
         """
         Convert long country name to short country name.
         :param country_long: Long country name
         :return: Short country name
         """
-        country_short = coco.convert(country_long, to="ISO2")
 
-        if isinstance(country_short, list):
-            if country_long == "France (French Guiana)":
-                country_short = "GF"
-            else:
-                print(f"Multiple locations found for {country_long}. Using first one.")
-                country_short = country_short[0]
+        print(country_long)
 
-        if country_short not in self.geo.geo.keys():
-            print(f"New location {country_short} for {country_long} not found")
-            return None
+        if isinstance(country_long, str):
+            country_long = [country_long]
 
-        return country_short
+        country_short = coco.convert(names=country_long, to="ISO2")
+
+        # if "France (French Guiana)" in country_long,
+        # replace "GF" in country_short
+
+        if "France (French Guiana)" in country_long:
+            # find index of "France (French Guiana)"
+            index = country_long.index("France (French Guiana)")
+            country_short[index] = "GF"
+
+        if any(x not in list(self.geo.geo.keys()) for x in country_short):
+            for x in country_short:
+                print(x)
+                if x not in list(self.geo.geo.keys()):
+                    print(f"New location {x} not in known locations.")
+
+        # return dictionary with long country names as keys
+        return dict(zip(country_long, country_short))
 
     def get_shares(self, df: pd.DataFrame, new_locations: dict, name, ref_prod) -> dict:
         """
@@ -674,19 +685,20 @@ class Metals(BaseTransformation):
 
         for long_location, short_location in new_locations.items():
             share = df.loc[df["Country"] == long_location, "2020":"2030"]
+            if len(share) > 0:
 
-            # we interpolate depending on if self.year is between 2020 and 2030
-            # otherwise, we back or forward fill
+                # we interpolate depending on if self.year is between 2020 and 2030
+                # otherwise, we back or forward fill
 
-            if self.year < 2020:
-                share = share.iloc[:, 0]
-            elif self.year > 2030:
-                share = share.iloc[:, -1]
-            else:
-                share = share.iloc[:, self.year - 2020]
+                if self.year < 2020:
+                    share = share.iloc[:, 0]
+                elif self.year > 2030:
+                    share = share.iloc[:, -1]
+                else:
+                    share = share.iloc[:, self.year - 2020]
 
-            share = share.values[0]
-            shares[(name, ref_prod, short_location)] = share
+                share = share.values[0]
+                shares[(name, ref_prod, short_location)] = share
 
         return shares
 
@@ -698,9 +710,12 @@ class Metals(BaseTransformation):
         mapping = {}
 
         for long_location, short_location in new_locations.items():
-            mapping[short_location] = df.loc[
+            if len(df.loc[
                 df["Country"] == long_location, "Region"
-            ].values[0]
+            ]) > 0:
+                mapping[short_location] = df.loc[
+                    df["Country"] == long_location, "Region"
+                ].values[0]
 
         return mapping
 
@@ -712,17 +727,13 @@ class Metals(BaseTransformation):
 
         dataset_names = list(df["Process"].unique())
         subset = filter_technology(dataset_names, self.database)
-        long_country_names = {
-            c: self.convert_long_to_short_country_name(c)
-            for c in df["Country"].unique()
-        }
 
         for (name, ref_prod), group in df.groupby(["Process", "Reference product"]):
+
             new_locations = {
-                c: long_country_names[c] for c in group["Country"].unique()
+                c: self.country_codes[c]
+                for c in group["Country"].unique()
             }
-            # remove None values
-            new_locations = {k: v for k, v in new_locations.items() if v}
             # fetch shares for each location in df
             shares = self.get_shares(group, new_locations, name, ref_prod)
 
@@ -903,6 +914,8 @@ class Metals(BaseTransformation):
         dataframe = dataframe.loc[~dataframe["Country"].isnull()]
         dataframe_shares = dataframe
 
+        self.country_codes.update(coco.convert(dataframe["Country"], to="ISO2"))
+
         for metal in dataframe_shares["Metal"].unique():
             df_metal = dataframe.loc[dataframe["Metal"] == metal]
             dataset = self.create_market(metal, df_metal)
@@ -921,10 +934,6 @@ class Metals(BaseTransformation):
         dataset_names = list(dataframe_parent["Process"].unique())
         subset = filter_technology(dataset_names, self.database)
 
-        long_country_names = {
-            c: self.convert_long_to_short_country_name(c)
-            for c in dataframe_parent["Country"].unique()
-        }
 
         for metal in dataframe_parent["Metal"].unique():
             df_metal = dataframe_parent.loc[dataframe["Metal"] == metal]
@@ -932,21 +941,13 @@ class Metals(BaseTransformation):
             for (name, ref_prod), group in df_metal.groupby(
                 ["Process", "Reference product"]
             ):
-                new_locations = {
-                    c: long_country_names[c] for c in group["Country"].unique()
-                }
-                # remove None
-                new_locations = {
-                    k: v for k, v in new_locations.items() if v is not None
-                }
 
-                geography_mapping = self.get_geo_mapping(group, new_locations)
+                geography_mapping = self.get_geo_mapping(group)
 
                 # if not, we create it
                 datasets = self.create_new_mining_activity(
                     name=name,
                     reference_product=ref_prod,
-                    new_locations=new_locations,
                     geography_mapping=geography_mapping,
                     subset=subset,
                 )
