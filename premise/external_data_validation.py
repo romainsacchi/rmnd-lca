@@ -36,9 +36,16 @@ def find_iam_efficiency_change(
     scaling_factor = 1
 
     if variable in efficiency_data.variables.values:
-        scaling_factor = (
-            efficiency_data.sel(region=location, variables=variable).interp(year=year)
-        ).values.item(0)
+        if year in efficiency_data.coords["year"].values:
+            scaling_factor = (
+                efficiency_data.sel(region=location, variables=variable, year=year)
+            ).values.item(0)
+        else:
+            scaling_factor = (
+                efficiency_data.sel(region=location, variables=variable).interp(
+                    year=year
+                )
+            ).values.item(0)
 
         if scaling_factor in (np.nan, np.inf):
             scaling_factor = 1
@@ -216,6 +223,8 @@ def check_inventories(
 
     # Iterate over the production pathways
     for variable, pathway in configuration["production pathways"].items():
+        if pathway["ecoinvent alias"].get("new dataset", False):
+            continue
         # Extract the relevant keys for the dataset
         dataset_key = (
             pathway["ecoinvent alias"]["name"],

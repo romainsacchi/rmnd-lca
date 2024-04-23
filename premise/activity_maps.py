@@ -183,13 +183,6 @@ class InventorySet:
         """
         return self.generate_sets_from_filters(self.heat_filters)
 
-        self.activity_metals_filters = get_mapping(
-            filepath=ACTIVITIES_METALS_MAPPING, var="ecoinvent_aliases"
-        )
-        # self.metals_filters = get_mapping(
-        #     filepath=METALS_MAPPING, var="ecoinvent_aliases"
-        # )
-
     def generate_activities_using_metals_map(self) -> dict:
         """
         Filter ecoinvent processes related to metals.
@@ -309,8 +302,27 @@ class InventorySet:
 
         database = database or self.database
 
+        names = []
+
+        for entry in filtr.values():
+            if "fltr" in entry:
+                if isinstance(entry["fltr"], dict):
+                    if "name" in entry["fltr"]:
+                        names.extend(entry["fltr"]["name"])
+                elif isinstance(entry["fltr"], list):
+                    names.extend(entry["fltr"])
+                else:
+                    names.append(entry["fltr"])
+
+        subset = list(
+            ws.get_many(
+                database,
+                ws.either(*[ws.contains("name", name) for name in names]),
+            )
+        )
+
         techs = {
-            tech: act_fltr(database, fltr.get("fltr"), fltr.get("mask"))
+            tech: act_fltr(subset, fltr.get("fltr"), fltr.get("mask"))
             for tech, fltr in filtr.items()
         }
 
@@ -320,7 +332,7 @@ class InventorySet:
 
         # check if all keys have values
         # if not, print warning
-        # for key, val in mapping.items():
+        #for key, val in mapping.items():
         #    if not val:
         #        print(f"Warning: No activities found for {key} -- revise mapping.")
 

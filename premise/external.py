@@ -93,7 +93,7 @@ def _update_external_scenarios(
 
             scenario["database"] = checked_database
             scenario["database"].extend(checked_inventories)
-            configurations.update(configuration)
+            configurations = dictionary_merge(configurations, configuration)
 
         external_scenario = ExternalScenario(
             database=scenario["database"],
@@ -115,6 +115,37 @@ def _update_external_scenarios(
         scenario["configurations"] = configurations
 
     return scenario
+
+
+def dictionary_merge(dict1, dict2):
+    """
+    Recursively merges dict2 into dict1. It handles an unlimited number of nesting levels.
+    - If both corresponding values are dictionaries, it recurses into these dictionaries.
+    - If one or both values are not dictionaries, the value in dict2 will overwrite the value in dict1.
+
+    Args:
+    dict1 (dict): The dictionary into which values are merged.
+    dict2 (dict): The dictionary from which values are sourced.
+
+    Returns:
+    dict: The merged dictionary (which is dict1, modified in place).
+    """
+    for key in dict2:
+        if key in dict1:
+            # Both dict1 and dict2 have the same key
+            if isinstance(dict1[key], dict) and isinstance(dict2[key], dict):
+                # If both values are dictionaries, recurse
+                dictionary_merge(dict1[key], dict2[key])
+            elif isinstance(dict1[key], list) and isinstance(dict2[key], list):
+                # If both values are lists, extend the list
+                dict1[key].extend(dict2[key])
+            else:
+                # If one or both values are not dicts, overwrite with dict2's value
+                dict1[key] = dict2[key]
+        else:
+            # If key is not in dict1, just add it
+            dict1[key] = dict2[key]
+    return dict1
 
 
 def get_mapping_between_ei_versions(version_in: str, version_out: str) -> dict:
@@ -366,7 +397,7 @@ class ExternalScenario(BaseTransformation):
         year: int,
         version: str,
         system_model: str,
-        configurations: dict = {},
+        configurations: dict = None,
     ):
         """
         :param database: list of datasets representing teh database
@@ -403,7 +434,10 @@ class ExternalScenario(BaseTransformation):
             external_scenario_regions.append(
                 self.external_scenarios_data[datapackage_number]["regions"]
             )
-        ds_names = get_recursively(configurations, "name")
+
+        self.configurations = configurations or {}
+
+        ds_names = get_recursively(self.configurations, "name")
 
         for data in self.external_scenarios_data.values():
             self.regionalize_inventories(ds_names, external_scenario_regions, data)
@@ -440,15 +474,29 @@ class ExternalScenario(BaseTransformation):
                 if ds.get("production volume variable"):
                     for region, act in new_acts.items():
                         if region in data["production volume"].region.values:
-                            act["production volume"] = (
-                                data["production volume"]
-                                .sel(
-                                    region=region,
-                                    variables=ds["production volume variable"],
+                            if (
+                                self.year
+                                in data["production volume"].coords["year"].values
+                            ):
+                                act["production volume"] = (
+                                    data["production volume"]
+                                    .sel(
+                                        region=region,
+                                        variables=ds["production volume variable"],
+                                        year=self.year,
+                                    )
+                                    .values
                                 )
-                                .interp(year=self.year)
-                                .values
-                            )
+                            else:
+                                act["production volume"] = (
+                                    data["production volume"]
+                                    .sel(
+                                        region=region,
+                                        variables=ds["production volume variable"],
+                                    )
+                                    .interp(year=self.year)
+                                    .values
+                                )
 
                 # add new datasets to database
                 self.database.extend(new_acts.values())
@@ -567,13 +615,30 @@ class ExternalScenario(BaseTransformation):
         )
         new_excs = []
 
-        word_production_volume = (
-            self.external_scenarios_data[i]["production volume"]
-            .sel(variables=pathways, region=[r for r in regions if r != "World"])
-            .sum(dim=["variables", "region"])
-            .interp(year=self.year)
-            .values.item(0)
-        )
+        if (
+            self.year
+            in self.external_scenarios_data[i]["production volume"]
+            .coords["year"]
+            .values
+        ):
+            word_production_volume = (
+                self.external_scenarios_data[i]["production volume"]
+                .sel(
+                    variables=pathways,
+                    region=[r for r in regions if r != "World"],
+                    year=self.year,
+                )
+                .sum(dim=["variables", "region"])
+                .values.item(0)
+            )
+        else:
+            word_production_volume = (
+                self.external_scenarios_data[i]["production volume"]
+                .sel(variables=pathways, region=[r for r in regions if r != "World"])
+                .sum(dim=["variables", "region"])
+                .interp(year=self.year)
+                .values.item(0)
+            )
 
         # update production volume field in the world market
         for e in ws.production(world_market):
@@ -581,22 +646,46 @@ class ExternalScenario(BaseTransformation):
 
         # fetch the supply share for each regional market
         for region in regions:
-            supply_share = np.clip(
-                (
-                    self.external_scenarios_data[i]["production volume"]
-                    .sel(region=region, variables=pathways)
-                    .sum(dim="variables")
-                    .interp(year=self.year)
-                    / self.external_scenarios_data[i]["production volume"]
-                    .sel(
-                        variables=pathways, region=[r for r in regions if r != "World"]
-                    )
-                    .sum(dim=["variables", "region"])
-                    .interp(year=self.year)
-                ).values.item(0),
-                0,
-                1,
-            )
+            if (
+                self.year
+                in self.external_scenarios_data[i]["production volume"]
+                .coords["year"]
+                .values
+            ):
+                supply_share = np.clip(
+                    (
+                        self.external_scenarios_data[i]["production volume"]
+                        .sel(region=region, variables=pathways, year=self.year)
+                        .sum(dim="variables")
+                        / self.external_scenarios_data[i]["production volume"]
+                        .sel(
+                            variables=pathways,
+                            region=[r for r in regions if r != "World"],
+                            year=self.year,
+                        )
+                        .sum(dim=["variables", "region"])
+                    ).values.item(0),
+                    0,
+                    1,
+                )
+            else:
+                supply_share = np.clip(
+                    (
+                        self.external_scenarios_data[i]["production volume"]
+                        .sel(region=region, variables=pathways)
+                        .sum(dim="variables")
+                        .interp(year=self.year)
+                        / self.external_scenarios_data[i]["production volume"]
+                        .sel(
+                            variables=pathways,
+                            region=[r for r in regions if r != "World"],
+                        )
+                        .sum(dim=["variables", "region"])
+                        .interp(year=self.year)
+                    ).values.item(0),
+                    0,
+                    1,
+                )
 
             if supply_share == 0:
                 continue
@@ -960,16 +1049,14 @@ class ExternalScenario(BaseTransformation):
         # Loop through custom scenarios
         for i, dp in enumerate(self.datapackages):
             # Open corresponding config file
-            resource = dp.get_resource("config")
-            config_file = yaml.safe_load(resource.raw_read())
 
             # Check if information on market creation is provided
-            if "markets" in config_file:
-                for market_vars in config_file["markets"]:
+            if "markets" in self.configurations:
+                for market_vars in self.configurations["markets"]:
                     # fetch all scenario file variables that
                     # relate to this market
                     pathways = market_vars["includes"]
-                    production_variables = fetch_var(config_file, pathways)
+                    production_variables = fetch_var(self.configurations, pathways)
                     waste_market = market_vars.get("waste market", False)
                     isfuel = {}
                     market_status = {}
@@ -992,13 +1079,30 @@ class ExternalScenario(BaseTransformation):
                             market=market_vars, region=region, waste_market=waste_market
                         )
 
-                        production_volume = (
-                            self.external_scenarios_data[i]["production volume"]
-                            .sel(variables=production_variables, region=region)
-                            .sum(dim="variables")
-                            .interp(year=self.year)
-                            .values.item(0)
-                        )
+                        if (
+                            self.year
+                            in self.external_scenarios_data[i]["production volume"]
+                            .coords["year"]
+                            .values
+                        ):
+                            production_volume = (
+                                self.external_scenarios_data[i]["production volume"]
+                                .sel(
+                                    variables=production_variables,
+                                    region=region,
+                                    year=self.year,
+                                )
+                                .sum(dim="variables")
+                                .values.item(0)
+                            )
+                        else:
+                            production_volume = (
+                                self.external_scenarios_data[i]["production volume"]
+                                .sel(variables=production_variables, region=region)
+                                .sum(dim="variables")
+                                .interp(year=self.year)
+                                .values.item(0)
+                            )
 
                         # Update production volume of the market
                         for e in ws.production(new_market):
@@ -1006,13 +1110,13 @@ class ExternalScenario(BaseTransformation):
 
                         new_excs = []
                         for pathway in pathways:
-                            var = fetch_var(config_file, [pathway])[0]
+                            var = fetch_var(self.configurations, [pathway])[0]
 
                             # fetch the dataset name/ref corresponding to this item
                             # under `production pathways`
                             (name, ref_prod, _, _, _, ratio) = (
                                 fetch_dataset_description_from_production_pathways(
-                                    config_file, pathway
+                                    self.configurations, pathway
                                 )
                             )
 

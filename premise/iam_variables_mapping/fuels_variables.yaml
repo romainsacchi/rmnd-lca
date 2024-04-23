@@ -143,6 +143,7 @@ natural gas:
         - venting
         - liquids
         - network
+        - import from
 gas, natural, in ground:
   lhv: 45
   co2: 0.0564

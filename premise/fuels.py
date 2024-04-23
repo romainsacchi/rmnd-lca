@@ -300,10 +300,20 @@ def _update_fuels(scenario, version, system_model):
         scenario["database"] = fuels.database
         scenario["cache"] = fuels.cache
         scenario["index"] = fuels.index
+
     else:
         print("No fuel markets found in IAM data. Skipping.")
 
     return scenario
+
+
+def filter_technology(dataset_names, database):
+    return list(
+        ws.get_many(
+            database,
+            ws.either(*[ws.contains("name", name) for name in dataset_names]),
+        )
+    )
 
 
 class Fuels(BaseTransformation):
@@ -378,36 +388,14 @@ class Fuels(BaseTransformation):
                     dim="variables",
                 )
 
-    def find_transport_activity(
-        self, items_to_look_for: List[str], items_to_exclude: List[str], loc: str
-    ) -> Tuple[str, str, str, str]:
-        """Find the transport activity that is most similar to the given activity.
-        This is done by looking for the most similar activity in the database.
-        """
-
-        try:
-            dataset = ws.get_one(
-                self.database,
-                *[ws.contains("name", i) for i in items_to_look_for],
-                ws.doesnt_contain_any("name", items_to_exclude),
-                ws.equals("location", loc),
-            )
-        except ws.NoResults:
-            dataset = ws.get_one(
-                self.database,
-                *[ws.contains("name", i) for i in items_to_look_for],
-                ws.doesnt_contain_any("name", items_to_exclude),
-            )
-
-        return (
-            dataset["name"],
-            dataset["reference product"],
-            dataset["unit"],
-            dataset["location"],
-        )
-
     def find_suppliers(
-        self, name: str, ref_prod: str, unit: str, loc: str, exclude=None
+        self,
+        name: str,
+        ref_prod: str,
+        unit: str,
+        loc: str,
+        exclude=None,
+        subset: list = None,
     ) -> Dict[Tuple[Any, Any, Any, Any], float]:
         """
         Return a list of potential suppliers given a name, reference product,
@@ -418,6 +406,7 @@ class Fuels(BaseTransformation):
         :param unit: the unit of the activity
         :param loc: the location of the activity
         :param exclude: a list of activities to exclude from the search
+        :param subset: a list of activities to search in
         :return: a dictionary of potential suppliers with their respective supply share
         """
 
@@ -446,7 +435,7 @@ class Fuels(BaseTransformation):
             try:
                 suppliers = list(
                     get_suppliers_of_a_region(
-                        database=self.database,
+                        database=subset or self.database,
                         locations=possible_locations[counter],
                         names=[name] if isinstance(name, str) else name,
                         reference_prod=ref_prod,
@@ -639,6 +628,32 @@ class Fuels(BaseTransformation):
                 # add it to list of created datasets
                 self.add_to_index(dataset)
 
+        datasets = (
+            [
+                "hydrogenation of hydrogen",
+                "dehydrogenation of hydrogen",
+                "market group for electricity, low voltage",
+                "hydrogen embrittlement inhibition",
+                "hydrogen refuelling station",
+            ]
+            + [
+                c.get("regional storage", {}).get("name")
+                for c in supply_chain_scenarios.values()
+                if c.get("regional storage", {}).get("name")
+            ]
+            + [x["name"] for x in hydrogen_sources.values()]
+            + [
+                v["name"]
+                for config in supply_chain_scenarios.values()
+                for v in config["vehicle"]
+            ]
+        )
+
+        subset = filter_technology(
+            dataset_names=datasets,
+            database=self.database,
+        )
+
         for region in self.regions:
             for hydrogen_type, hydrogen_vars in hydrogen_sources.items():
                 for vehicle, config in supply_chain_scenarios.items():
@@ -679,29 +694,33 @@ class Fuels(BaseTransformation):
 
                             # transport
                             dataset = self.add_hydrogen_transport(
-                                dataset, config, region, distance, vehicle
+                                dataset, config, region, distance, vehicle, subset
                             )
 
                             # need for inhibitor and purification if CNG pipeline
                             # electricity for purification: 2.46 kWh/kg H2
                             if vehicle == "CNG pipeline":
-                                dataset = self.add_hydrogen_inhibitor(dataset, region)
+                                dataset = self.add_hydrogen_inhibitor(
+                                    dataset, region, subset
+                                )
 
                             if "regional storage" in config:
                                 dataset = self.add_hydrogen_regional_storage(
-                                    dataset, region, config
+                                    dataset, region, config, subset
                                 )
 
                             # electricity for compression
                             if state in ["gaseous", "liquid"]:
                                 dataset = self.add_compression_electricity(
-                                    state, vehicle, distance, region, dataset
+                                    state, vehicle, distance, region, dataset, subset
                                 )
 
                             # electricity for hydrogenation, dehydrogenation and
                             # compression at delivery
                             if state == "liquid organic compound":
-                                dataset = self.add_hydrogenation_energy(region, dataset)
+                                dataset = self.add_hydrogenation_energy(
+                                    region, dataset, subset
+                                )
 
                             dataset = self.add_hydrogen_input_and_losses(
                                 hydrogen_vars,
@@ -711,15 +730,18 @@ class Fuels(BaseTransformation):
                                 state,
                                 distance,
                                 dataset,
+                                subset,
                             )
 
                             # add fuelling station, including storage tank
                             dataset["exchanges"].append(
-                                self.add_h2_fuelling_station(region)
+                                self.add_h2_fuelling_station(region, subset)
                             )
 
                             # add pre-cooling
-                            dataset = self.add_pre_cooling_electricity(dataset, region)
+                            dataset = self.add_pre_cooling_electricity(
+                                dataset, region, subset
+                            )
 
                             dataset = self.relink_technosphere_exchanges(
                                 dataset,
@@ -740,6 +762,7 @@ class Fuels(BaseTransformation):
         region: str,
         distance: float,
         vehicle: str,
+        subset: List[dict],
     ) -> Dict[str, Any]:
         """
         Adds hydrogen transport exchanges to the given dataset.
@@ -749,8 +772,10 @@ class Fuels(BaseTransformation):
         :param region: The region of the dataset.
         :param distance: The distance traveled.
         :param vehicle: The type of vehicle used.
+        :param subset: The subset of the database to search in.
         :return: The modified dataset.
         """
+
         for transport in config["vehicle"]:
             transport_name = transport["name"]
             transport_ref_prod = transport["reference product"]
@@ -761,6 +786,7 @@ class Fuels(BaseTransformation):
                 ref_prod=transport_ref_prod,
                 unit=transport_unit,
                 loc=region,
+                subset=subset,
             )
 
             for supplier, share in suppliers.items():
@@ -792,7 +818,15 @@ class Fuels(BaseTransformation):
         return dataset
 
     def add_hydrogen_input_and_losses(
-        self, hydrogen_activity, region, losses, vehicle, state, distance, dataset
+        self,
+        hydrogen_activity,
+        region,
+        losses,
+        vehicle,
+        state,
+        distance,
+        dataset,
+        subset,
     ):
         # fetch the H2 production activity
         h2_ds = list(
@@ -801,6 +835,7 @@ class Fuels(BaseTransformation):
                 ref_prod="hydrogen",
                 unit="kilogram",
                 loc=region,
+                subset=subset,
             ).keys()
         )[0]
 
@@ -870,7 +905,7 @@ class Fuels(BaseTransformation):
         return dataset
 
     def add_hydrogenation_energy(
-        self, region: str, dataset: Dict[str, Any]
+        self, region: str, dataset: Dict[str, Any], subset: List[dict]
     ) -> Dict[str, Any]:
         """
         Adds hydrogenation and dehydrogenation activities, as well as compression at delivery,
@@ -878,6 +913,7 @@ class Fuels(BaseTransformation):
 
         :param region: The region for which to add the activities.
         :param dataset: The dataset to modify.
+        :param subset: The subset of the database to search in.
         :return: The modified dataset.
 
         :raises ValueError: If no hydrogenation activity is found for the specified region.
@@ -892,6 +928,7 @@ class Fuels(BaseTransformation):
                     ref_prod="hydrogenation",
                     unit="kilogram",
                     loc=region,
+                    subset=subset,
                 ).keys()
             )[0]
 
@@ -902,6 +939,7 @@ class Fuels(BaseTransformation):
                     ref_prod="dehydrogenation",
                     unit="kilogram",
                     loc=region,
+                    subset=subset,
                 ).keys()
             )[0]
 
@@ -949,6 +987,7 @@ class Fuels(BaseTransformation):
             unit="kilowatt hour",
             loc=region,
             exclude=["period"],
+            subset=subset,
         )
 
         dataset["exchanges"].extend(
@@ -984,7 +1023,7 @@ class Fuels(BaseTransformation):
         return dataset
 
     def add_hydrogen_regional_storage(
-        self, dataset: dict, region: str, config: dict
+        self, dataset: dict, region: str, config: dict, subset: list
     ) -> dict:
         """
 
@@ -993,6 +1032,7 @@ class Fuels(BaseTransformation):
         :param dataset: The dataset to modify.
         :param region: The region for which to add the activity.
         :param config: The configuration file for the analysis.
+        :param subset: The subset of the database to search in.
         :return: The modified dataset.
 
         """
@@ -1003,6 +1043,7 @@ class Fuels(BaseTransformation):
                 ref_prod=config["regional storage"]["reference product"],
                 unit=config["regional storage"]["unit"],
                 loc=region,
+                subset=subset,
             ).keys()
         )[0]
 
@@ -1030,7 +1071,7 @@ class Fuels(BaseTransformation):
 
         return dataset
 
-    def add_hydrogen_inhibitor(self, dataset: dict, region: str) -> dict:
+    def add_hydrogen_inhibitor(self, dataset: dict, region: str, subset: list) -> dict:
         """
         Adds hydrogen embrittlement inhibitor to the dataset for a given region.
 
@@ -1045,6 +1086,7 @@ class Fuels(BaseTransformation):
                 ref_prod="hydrogen",
                 unit="kilogram",
                 loc=region,
+                subset=subset,
             ).keys()
         )[0]
 
@@ -1074,7 +1116,13 @@ class Fuels(BaseTransformation):
         return dataset
 
     def add_compression_electricity(
-        self, state: str, vehicle: str, distance: float, region: str, dataset: dict
+        self,
+        state: str,
+        vehicle: str,
+        distance: float,
+        region: str,
+        dataset: dict,
+        subset: list,
     ) -> dict:
         """
         Add the electricity needed for the compression of hydrogen.
@@ -1137,6 +1185,7 @@ class Fuels(BaseTransformation):
             unit="kilowatt hour",
             loc=region,
             exclude=["period"],
+            subset=subset,
         )
 
         new_exc = []
@@ -1168,8 +1217,7 @@ class Fuels(BaseTransformation):
 
         return dataset
 
-    @lru_cache()
-    def add_h2_fuelling_station(self, region: str) -> dict:
+    def add_h2_fuelling_station(self, region: str, subset: list) -> dict:
         """
         Add the hydrogen fuelling station.
 
@@ -1184,6 +1232,7 @@ class Fuels(BaseTransformation):
                 ref_prod="hydrogen",
                 unit="unit",
                 loc=region,
+                subset=subset,
             ).keys()
         )[0]
 
@@ -1197,7 +1246,9 @@ class Fuels(BaseTransformation):
             "location": region,
         }
 
-    def add_pre_cooling_electricity(self, dataset: dict, region: str) -> dict:
+    def add_pre_cooling_electricity(
+        self, dataset: dict, region: str, subset: list
+    ) -> dict:
         """
         Add the electricity needed for pre-cooling the hydrogen.
 
@@ -1232,6 +1283,7 @@ class Fuels(BaseTransformation):
             unit="kilowatt hour",
             loc=region,
             exclude=["period"],
+            subset=subset,
         )
 
         for supplier, share in suppliers.items():
@@ -1486,11 +1538,16 @@ class Fuels(BaseTransformation):
                     lower_heating_value = dataset.get("LHV [MJ/kg dry]", 0)
 
                 # Ha/GJ
-                land_use = (
-                    self.iam_data.land_use.sel(region=region, variables=crop_type)
-                    .interp(year=self.year)
-                    .values
-                )
+                if self.year in self.iam_data.land_use.coords["year"].values:
+                    land_use = self.iam_data.land_use.sel(
+                        region=region, variables=crop_type, year=self.year
+                    ).values
+                else:
+                    land_use = (
+                        self.iam_data.land_use.sel(region=region, variables=crop_type)
+                        .interp(year=self.year)
+                        .values
+                    )
 
                 # replace NA values with 0
                 if np.isnan(land_use):
@@ -1549,11 +1606,16 @@ class Fuels(BaseTransformation):
         # those are given in kg CO2-eq./GJ of primary crop energy
 
         # kg CO2/GJ
-        land_use_co2 = (
-            self.iam_data.land_use_change.sel(region=region, variables=crop_type)
-            .interp(year=self.year)
-            .values
-        )
+        if self.year in self.iam_data.land_use_change.coords["year"].values:
+            land_use_co2 = self.iam_data.land_use_change.sel(
+                region=region, variables=crop_type, year=self.year
+            ).values
+        else:
+            land_use_co2 = (
+                self.iam_data.land_use_change.sel(region=region, variables=crop_type)
+                .interp(year=self.year)
+                .values
+            )
 
         # replace NA values with 0
         if np.isnan(land_use_co2):
@@ -1632,14 +1694,21 @@ class Fuels(BaseTransformation):
                         else:
                             region = self.ecoinvent_to_iam_loc[ds["location"]]
 
-                        scaling_factor = (
-                            self.fuel_efficiencies.sel(
+                        if self.year in self.fuel_efficiencies.coords["year"].values:
+                            scaling_factor = self.fuel_efficiencies.sel(
                                 variables=variable,
                                 region=region,
+                                year=self.year,
+                            ).values
+                        else:
+                            scaling_factor = (
+                                self.fuel_efficiencies.sel(
+                                    variables=variable,
+                                    region=region,
+                                )
+                                .interp(year=self.year)
+                                .values
                             )
-                            .interp(year=self.year)
-                            .values
-                        )
                     if (
                         scaling_factor != 1.0
                         and "market for" not in ds["name"]
@@ -2103,6 +2172,7 @@ class Fuels(BaseTransformation):
         region: str,
         activity: dict,
         period: int,
+        subset: list,
     ) -> dict:
         """
         Generate regional fuel market for a given dataset and fuel providers.
@@ -2114,6 +2184,8 @@ class Fuels(BaseTransformation):
         :param fuel_category: The fuel name.
         :param region: The region for which to generate the regional fuel market.
         :param activity: The activity dataset for the region.
+        :param period: The period for which to generate the regional fuel market.
+        :param subset: A list of filters to apply to the fuel providers.
         :return: A tuple containing the final LHV, fossil CO2, and biogenic CO2 emissions for the regional fuel market,
         as well as the updated dataset with the regional fuel market exchanges.
 
@@ -2202,6 +2274,7 @@ class Fuels(BaseTransformation):
                 dataset_location=dataset["location"],
                 look_for=tuple(vars_map[fuel_category]),
                 blacklist=tuple(blacklist),
+                subset=subset,
             )
 
             if not possible_suppliers:
@@ -2302,6 +2375,17 @@ class Fuels(BaseTransformation):
 
         d_fuels = self.get_fuel_mapping()
 
+        datasets = [
+            item
+            for key in d_fuels
+            if "fuel filters" in d_fuels[key]
+            for item in d_fuels[key].get("fuel filters")
+        ]
+        subset = filter_technology(
+            dataset_names=datasets,
+            database=self.database,
+        )
+
         vars_map = {
             "petrol, low-sulfur": [
                 "petrol",
@@ -2378,6 +2462,7 @@ class Fuels(BaseTransformation):
                                 region=region,
                                 activity=activity,
                                 period=period,
+                                subset=subset,
                             )
                         else:
                             # World dataset

@@ -92,7 +92,7 @@ def load_metals_transport():
     # remove rows with value 0 under Weighted Average Distance
     df = df.loc[df["Weighted Average Distance"] != 0]
 
-    df["country"] = country_short = coco.convert(df["Origin Label"], to="ISO2")
+    df["country"] = coco.convert(df["Origin Label"], to="ISO2")
 
     return df
 
@@ -107,6 +107,19 @@ def load_mining_shares_mapping():
 
     # replace all instances of "Year " in columns by ""
     df.columns = df.columns.str.replace("Year ", "")
+
+    # remove suppliers whose markets share is below the cutoff
+    cut_off = 0.01
+
+    df_filtered = df[df.loc[:, "2020":"2030"].max(axis=1) > cut_off]
+
+    # Normalize remaining data back to 100% for each metal
+    years = [str(year) for year in range(2020, 2031)]
+    for metal in df_filtered['Metal'].unique():
+        metal_indices = df_filtered['Metal'] == metal
+        metal_df = df_filtered.loc[metal_indices, years]
+        sum_df = metal_df.sum(axis=0)
+        df_filtered.loc[metal_indices, years] = metal_df.div(sum_df)
 
     return df
 
@@ -287,6 +300,15 @@ def update_exchanges(
     return activity
 
 
+def filter_technology(dataset_names, database):
+    return list(
+        ws.get_many(
+            database,
+            ws.either(*[ws.contains("name", name) for name in dataset_names]),
+        )
+    )
+
+
 class Metals(BaseTransformation):
     """
     Class that modifies metal demand of different technologies
@@ -317,13 +339,17 @@ class Metals(BaseTransformation):
             index,
         )
 
+        self.country_codes = {}
         self.version = version
 
         self.metals = iam_data.metals  # 1
         # Precompute the median values for each metal and origin_var for the year 2020
-        self.precomputed_medians = self.metals.interp(
-            year=self.year, method="nearest", kwargs={"fill_value": "extrapolate"}
-        )
+        if self.year in self.metals.coords["year"].values:
+            self.precomputed_medians = self.metals.sel(year=self.year)
+        else:
+            self.precomputed_medians = self.metals.interp(
+                year=self.year, method="nearest", kwargs={"fill_value": "extrapolate"}
+            )
 
         self.activities_mapping = load_activities_mapping()  # 4
 
@@ -594,6 +620,7 @@ class Metals(BaseTransformation):
         new_locations: dict,
         geography_mapping=None,
         shares: dict = None,
+        subset: list = None,
     ) -> dict:
         """
         Create a new mining activity in a new location.
@@ -619,31 +646,10 @@ class Metals(BaseTransformation):
             production_variable=shares,
             exact_name_match=True,
             exact_product_match=True,
+            subset=subset,
         )
 
         return datasets
-
-    @lru_cache
-    def convert_long_to_short_country_name(self, country_long):
-        """
-        Convert long country name to short country name.
-        :param country_long: Long country name
-        :return: Short country name
-        """
-        country_short = coco.convert(country_long, to="ISO2")
-
-        if isinstance(country_short, list):
-            if country_long == "France (French Guiana)":
-                country_short = "GF"
-            else:
-                print(f"Multiple locations found for {country_long}. Using first one.")
-                country_short = country_short[0]
-
-        if country_short not in self.geo.geo.keys():
-            print(f"New location {country_short} for {country_long} not found")
-            return None
-
-        return country_short
 
     def get_shares(self, df: pd.DataFrame, new_locations: dict, name, ref_prod) -> dict:
         """
@@ -660,19 +666,20 @@ class Metals(BaseTransformation):
 
         for long_location, short_location in new_locations.items():
             share = df.loc[df["Country"] == long_location, "2020":"2030"]
+            if len(share) > 0:
 
-            # we interpolate depending on if self.year is between 2020 and 2030
-            # otherwise, we back or forward fill
+                # we interpolate depending on if self.year is between 2020 and 2030
+                # otherwise, we back or forward fill
 
-            if self.year < 2020:
-                share = share.iloc[:, 0]
-            elif self.year > 2030:
-                share = share.iloc[:, -1]
-            else:
-                share = share.iloc[:, self.year - 2020]
+                if self.year < 2020:
+                    share = share.iloc[:, 0]
+                elif self.year > 2030:
+                    share = share.iloc[:, -1]
+                else:
+                    share = share.iloc[:, self.year - 2020]
 
-            share = share.values[0]
-            shares[(name, ref_prod, short_location)] = share
+                share = share.values[0]
+                shares[(name, ref_prod, short_location)] = share
 
         return shares
 
@@ -684,9 +691,10 @@ class Metals(BaseTransformation):
         mapping = {}
 
         for long_location, short_location in new_locations.items():
-            mapping[short_location] = df.loc[
-                df["Country"] == long_location, "Region"
-            ].values[0]
+            if len(df.loc[df["Country"] == long_location, "Region"]) > 0:
+                mapping[short_location] = df.loc[
+                    df["Country"] == long_location, "Region"
+                ].values[0]
 
         return mapping
 
@@ -696,13 +704,14 @@ class Metals(BaseTransformation):
         # iterate through unique pair of process - reference product in df:
         # for each pair, create a new mining activity
 
+        dataset_names = list(df["Process"].unique())
+        subset = filter_technology(dataset_names, self.database)
+
         for (name, ref_prod), group in df.groupby(["Process", "Reference product"]):
+
             new_locations = {
-                c: self.convert_long_to_short_country_name(c)
-                for c in group["Country"].unique()
+                c: self.country_codes[c] for c in group["Country"].unique()
             }
-            # remove None values
-            new_locations = {k: v for k, v in new_locations.items() if v}
             # fetch shares for each location in df
             shares = self.get_shares(group, new_locations, name, ref_prod)
 
@@ -710,11 +719,12 @@ class Metals(BaseTransformation):
 
             # if not, we create it
             datasets = self.create_new_mining_activity(
-                name,
-                ref_prod,
-                new_locations,
-                geography_mapping,
-                {k[2]: v for k, v in shares.items()},
+                name=name,
+                reference_product=ref_prod,
+                new_locations=new_locations,
+                geography_mapping=geography_mapping,
+                shares={k[2]: v for k, v in shares.items()},
+                subset=subset,
             )
 
             # add new datasets to database
@@ -882,6 +892,11 @@ class Metals(BaseTransformation):
         dataframe = dataframe.loc[~dataframe["Country"].isnull()]
         dataframe_shares = dataframe
 
+        self.country_codes.update(dict(zip(dataframe["Country"].unique(), coco.convert(dataframe["Country"].unique(), to="ISO2"))))
+
+        # fix France (French Guiana) to GF
+        self.country_codes["France (French Guiana)"] = "GF"
+
         for metal in dataframe_shares["Metal"].unique():
             df_metal = dataframe.loc[dataframe["Metal"] == metal]
             dataset = self.create_market(metal, df_metal)
@@ -897,26 +912,24 @@ class Metals(BaseTransformation):
             dataframe["Region"].notnull() & dataframe["2020"].isnull()
         ]
 
+        dataset_names = list(dataframe_parent["Process"].unique())
+        subset = filter_technology(dataset_names, self.database)
+
         for metal in dataframe_parent["Metal"].unique():
             df_metal = dataframe_parent.loc[dataframe["Metal"] == metal]
 
             for (name, ref_prod), group in df_metal.groupby(
                 ["Process", "Reference product"]
             ):
-                new_locations = {
-                    c: self.convert_long_to_short_country_name(c)
-                    for c in group["Country"].unique()
-                }
-                # remove None
-                new_locations = {
-                    k: v for k, v in new_locations.items() if v is not None
-                }
 
-                geography_mapping = self.get_geo_mapping(group, new_locations)
+                geography_mapping = self.get_geo_mapping(group)
 
                 # if not, we create it
                 datasets = self.create_new_mining_activity(
-                    name, ref_prod, new_locations, geography_mapping=geography_mapping
+                    name=name,
+                    reference_product=ref_prod,
+                    geography_mapping=geography_mapping,
+                    subset=subset,
                 )
 
                 self.database.extend(datasets.values())

@@ -182,6 +182,7 @@ class DirectAirCapture(BaseTransformation):
 
                                 if heat_type == "heat pump heat":
                                     exc["unit"] = "kilowatt hour"
+                                    exc["location"] = "GLO"
                                     exc["amount"] *= 1 / (2.9 * 3.6)
 
                         new_ds[k] = self.relink_technosphere_exchanges(
@@ -213,12 +214,27 @@ class DirectAirCapture(BaseTransformation):
                         "region"
                     ].values
                 ):
-                    scaling_factor = float(
-                        1
-                        / self.iam_data.dac_electricity_efficiencies.sel(region=region)
-                        .interp(year=self.year)
-                        .values
-                    )
+                    if (
+                        self.year
+                        in self.iam_data.dac_electricity_efficiencies.coords[
+                            "year"
+                        ].values
+                    ):
+                        scaling_factor = float(
+                            1
+                            / self.iam_data.dac_electricity_efficiencies.sel(
+                                region=region, year=self.year
+                            ).values
+                        )
+                    else:
+                        scaling_factor = float(
+                            1
+                            / self.iam_data.dac_electricity_efficiencies.sel(
+                                region=region
+                            )
+                            .interp(year=self.year)
+                            .values
+                        )
 
                     # bound the scaling factor to 1.5 and 0.5
                     scaling_factor = max(0.5, min(1.5, scaling_factor))
@@ -251,12 +267,23 @@ class DirectAirCapture(BaseTransformation):
                     region
                     in self.iam_data.dac_heat_efficiencies.coords["region"].values
                 ):
-                    scaling_factor = float(
-                        1
-                        / self.iam_data.dac_heat_efficiencies.sel(region=region)
-                        .interp(year=self.year)
-                        .values
-                    )
+                    if (
+                        self.year
+                        in self.iam_data.dac_heat_efficiencies.coords["year"].values
+                    ):
+                        scaling_factor = float(
+                            1
+                            / self.iam_data.dac_heat_efficiencies.sel(
+                                region=region, year=self.year
+                            ).values
+                        )
+                    else:
+                        scaling_factor = float(
+                            1
+                            / self.iam_data.dac_heat_efficiencies.sel(region=region)
+                            .interp(year=self.year)
+                            .values
+                        )
 
                     # bound the scaling factor to 1.5 and 0.5
                     scaling_factor = max(0.5, min(1.5, scaling_factor))
