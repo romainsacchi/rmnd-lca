@@ -632,11 +632,11 @@ Gas OC:
 Gas ST:
   ecoinvent_aliases:
     fltr:
-    - electricity production, natural gas, subcritical, steam cycle
+      - electricity production, natural gas, subcritical, steam cycle
   ecoinvent_fuel_aliases:
     fltr:
-    - market group for natural gas
-    - market for natural gas
+      - market group for natural gas
+      - market for natural gas
   eff_aliases:
     image: Efficiency|Electricity|Gas|w/o CCS|1
     message: Efficiency|Electricity|Gas|w/o CCS|2

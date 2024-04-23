@@ -182,6 +182,7 @@ class DirectAirCapture(BaseTransformation):
 
                                 if heat_type == "heat pump heat":
                                     exc["unit"] = "kilowatt hour"
+                                    exc["location"] = "GLO"
                                     exc["amount"] *= 1 / (2.9 * 3.6)
 
                         new_ds[k] = self.relink_technosphere_exchanges(

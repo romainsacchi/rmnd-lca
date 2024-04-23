@@ -666,7 +666,6 @@ class Metals(BaseTransformation):
 
         for long_location, short_location in new_locations.items():
             share = df.loc[df["Country"] == long_location, "2020":"2030"]
-            print(long_location, short_location, share)
             if len(share) > 0:
 
                 # we interpolate depending on if self.year is between 2020 and 2030
