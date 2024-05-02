@@ -25,7 +25,7 @@ from .transformation import (
     List,
     Set,
     ws,
-    wt
+    wt,
 )
 from .utils import DATA_DIR
 
@@ -824,7 +824,6 @@ class Metals(BaseTransformation):
             if e["type"] == "technosphere"
         }
 
-
         # ## I WANT TO RUN A TRY TO SEE JUST THE TRANSPORT DISTANCES!
         # wt.empty_market_dataset(dataset)
 
@@ -854,7 +853,6 @@ class Metals(BaseTransformation):
                         name = "market for transport, freight, lorry, unspecified"
                         reference_product = "transport, freight, lorry, unspecified"
                         loc = "RoW"
-
 
                     excs.append(
                         {
