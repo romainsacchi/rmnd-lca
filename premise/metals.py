@@ -25,6 +25,7 @@ from .transformation import (
     List,
     Set,
     ws,
+    wt
 )
 from .utils import DATA_DIR
 
@@ -786,11 +787,18 @@ class Metals(BaseTransformation):
         dataset["exchanges"].extend(self.create_region_specific_markets(df))
 
         # add transport exchanges
-        trspt_exc = self.add_transport_to_market(dataset, metal)
-        if len(trspt_exc) > 0:
-            dataset["exchanges"].extend(trspt_exc)
+        FORBIDDEN_TERMS = [
+            "indium rich leaching residues",
+            "platinum group metal concentrate",
+        ]
 
-        # filter out None
+        ### todo: Preserve old recycling shares. We will regionalize only primary production.
+
+        if not any(term in dataset.get("name") for term in FORBIDDEN_TERMS):
+            trspt_exc = self.add_transport_to_market(dataset, metal)
+            if len(trspt_exc) > 0:
+                dataset["exchanges"].extend(trspt_exc)
+
         dataset["exchanges"] = [exc for exc in dataset["exchanges"] if exc]
 
         # remove old market dataset
@@ -815,6 +823,10 @@ class Metals(BaseTransformation):
             for e in dataset["exchanges"]
             if e["type"] == "technosphere"
         }
+
+
+        # ## I WANT TO RUN A TRY TO SEE JUST THE TRANSPORT DISTANCES!
+        # wt.empty_market_dataset(dataset)
 
         # multiply shares with the weighted transport distance from
         # the transport dataset
@@ -842,6 +854,7 @@ class Metals(BaseTransformation):
                         name = "market for transport, freight, lorry, unspecified"
                         reference_product = "transport, freight, lorry, unspecified"
                         loc = "RoW"
+
 
                     excs.append(
                         {
