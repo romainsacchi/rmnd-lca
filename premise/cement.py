@@ -14,6 +14,7 @@ from .transformation import (
     BaseTransformation,
     Dict,
     IAMDataCollection,
+    InventorySet,
     List,
     calculate_input_energy,
     np,
@@ -105,6 +106,18 @@ class Cement(BaseTransformation):
             index,
         )
         self.version = version
+
+        mapping = InventorySet(self.database)
+        self.cement_fuels_map: dict = mapping.generate_cement_fuels_map()
+
+        # reverse the fuel map to get a mapping from ecoinvent to premise
+        self.fuel_map_reverse: dict = {}
+
+        self.fuel_map: dict = mapping.generate_fuel_map()
+
+        for key, value in self.fuel_map.items():
+            for v in list(value):
+                self.fuel_map_reverse[v] = key
 
     def fetch_current_energy_details(self, dataset):
         # Fetches the current energy consumption per ton of clinker
@@ -483,23 +496,30 @@ class Cement(BaseTransformation):
             self.add_to_index(new_dataset)
 
         # cement markets
-        markets = ws.get_many(
-            self.database,
-            ws.contains("name", "market for cement"),
-            ws.contains("reference product", "cement"),
-            ws.doesnt_contain_any("name", ["factory", "tile", "sulphate", "plaster"]),
-            ws.doesnt_contain_any("location", self.regions),
+        markets = list(
+            ws.get_many(
+                self.database,
+                ws.contains("name", "market for cement"),
+                ws.contains("reference product", "cement"),
+                ws.doesnt_contain_any(
+                    "name", ["factory", "tile", "sulphate", "plaster"]
+                ),
+                ws.doesnt_contain_any("location", self.regions),
+            )
         )
 
-        markets = {(m["name"], m["reference product"]) for m in markets}
+        unique_markets = list(
+            set([(m["name"], m["reference product"]) for m in markets])
+        )
 
         new_datasets = []
 
-        for dataset in markets:
+        for dataset in unique_markets:
             new_cement_markets = self.fetch_proxies(
                 name=dataset[0],
                 ref_prod=dataset[1],
                 production_variable="cement, dry feed rotary kiln",
+                subset=markets,
             )
 
             # add to log
@@ -513,24 +533,31 @@ class Cement(BaseTransformation):
         self.database.extend(new_datasets)
 
         # cement production
-        production = ws.get_many(
-            self.database,
-            ws.contains("name", "cement production"),
-            ws.contains("reference product", "cement"),
-            ws.doesnt_contain_any("name", ["factory", "tile", "sulphate", "plaster"]),
+        production = list(
+            ws.get_many(
+                self.database,
+                ws.contains("name", "cement production"),
+                ws.contains("reference product", "cement"),
+                ws.doesnt_contain_any(
+                    "name", ["factory", "tile", "sulphate", "plaster"]
+                ),
+            )
         )
 
-        production = {(p["name"], p["reference product"]) for p in production}
+        reduced_production = list(
+            set([(p["name"], p["reference product"]) for p in production])
+        )
 
         new_datasets = []
 
-        for dataset in production:
+        for dataset in reduced_production:
             # Fetch proxy datasets (one per IAM region)
             # Delete old datasets
             new_cement_production = self.fetch_proxies(
                 name=dataset[0],
                 ref_prod=dataset[1],
                 production_variable="cement, dry feed rotary kiln",
+                subset=production,
             )
 
             # add to log

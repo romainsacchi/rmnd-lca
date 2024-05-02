@@ -2,9 +2,11 @@
 This module contains classes for validating datasets after they have been transformed.
 """
 
+import csv
 import math
 
 import numpy as np
+import pandas as pd
 import yaml
 
 from .filesystem_constants import DATA_DIR
@@ -52,6 +54,64 @@ def load_circular_exceptions():
         circular_exceptions = yaml.safe_load(f)
 
     return circular_exceptions
+
+
+def load_car_exhaust_pollutants():
+    fp = DATA_DIR / "transport" / "car" / "EF_HBEFA42_exhaust.csv"
+    nested_dict = {}
+
+    with open(str(fp), mode="r") as file:
+        # Create a CSV reader object
+        csv_reader = csv.DictReader(file)
+
+        # Iterate through each row in the CSV
+        for row in csv_reader:
+            powertrain = row["powertrain"]
+            euro_class = row["euro_class"]
+            component = row["component"]
+            value = float(row["value"])
+
+            # Build the nested dictionary
+            if powertrain not in nested_dict:
+                nested_dict[powertrain] = {}
+
+            if euro_class not in nested_dict[powertrain]:
+                nested_dict[powertrain][euro_class] = {}
+
+            nested_dict[powertrain][euro_class][component] = value
+
+    return nested_dict
+
+
+def load_truck_exhaust_pollutants():
+    fp = DATA_DIR / "transport" / "truck" / "EF_HBEFA42_exhaust.csv"
+    nested_dict = {}
+
+    with open(str(fp), mode="r") as file:
+        # Create a CSV reader object
+        csv_reader = csv.DictReader(file)
+
+        # Iterate through each row in the CSV
+        for row in csv_reader:
+            powertrain = row["powertrain"]
+            euro_class = row["euro_class"]
+            component = row["component"]
+            size = row["size"]
+            value = float(row["value"])
+
+            # Build the nested dictionary
+            if powertrain not in nested_dict:
+                nested_dict[powertrain] = {}
+
+            if euro_class not in nested_dict[powertrain]:
+                nested_dict[powertrain][euro_class] = {}
+
+            if size not in nested_dict[powertrain][euro_class]:
+                nested_dict[powertrain][euro_class][size] = {}
+
+            nested_dict[powertrain][euro_class][size][component] = value
+
+    return nested_dict
 
 
 def clean_up(exc):
@@ -520,6 +580,492 @@ class BaseDatasetValidator:
             print("Minor anomalies found: check the change report.")
         if len(self.major_issues_log) > 0:
             print("---> MAJOR anomalies found: check the change report.")
+
+
+class HeatValidation(BaseDatasetValidator):
+    def __init__(self, model, scenario, year, regions, database, iam_data):
+        super().__init__(model, scenario, year, regions, database)
+        self.iam_data = iam_data
+
+    def check_heat_conversion_efficiency(self):
+        # Check that the heat conversion efficiency is within the expected range
+        for ds in self.database:
+            if (
+                "heat" in ds["name"]
+                and ds["unit"] == "megajoule"
+                and not any(
+                    x in ds["name"]
+                    for x in [
+                        "heat pump",
+                        "heat recovery",
+                        "heat storage",
+                        "treatment of",
+                        "market for",
+                        "market group for",
+                    ]
+                )
+                and ds["location"] in self.regions
+            ):
+
+                expected_co2 = 0.0
+
+                energy = sum(
+                    [
+                        exc["amount"]
+                        for exc in ds["exchanges"]
+                        if exc["unit"] == "megajoule" and exc["type"] == "technosphere"
+                    ]
+                )
+                # add input of coal
+                coal = sum(
+                    [
+                        exc["amount"] * 26.4
+                        for exc in ds["exchanges"]
+                        if "hard coal" in exc["name"]
+                        and exc["type"] == "technosphere"
+                        and exc["unit"] == "kilogram"
+                    ]
+                )
+
+                expected_co2 += coal * 0.098
+
+                # add input of natural gas
+                nat_gas = sum(
+                    [
+                        exc["amount"] * (36 if exc["unit"] == "cubic meter" else 47.5)
+                        for exc in ds["exchanges"]
+                        if "natural gas" in exc["name"]
+                        and exc["type"] == "technosphere"
+                        and exc["unit"] in ["cubic meter", "kilogram"]
+                    ]
+                )
+
+                expected_co2 += nat_gas * 0.06
+
+                # add input of diesel
+                diesel = sum(
+                    [
+                        exc["amount"] * 42.6
+                        for exc in ds["exchanges"]
+                        if "diesel" in exc["name"]
+                        and exc["type"] == "technosphere"
+                        and exc["unit"] == "kilogram"
+                    ]
+                )
+
+                expected_co2 += diesel * 0.0732
+
+                # add input of light fuel oil
+                light_fue_oil = sum(
+                    [
+                        exc["amount"] * 41.8
+                        for exc in ds["exchanges"]
+                        if "light fuel oil" in exc["name"]
+                        and exc["type"] == "technosphere"
+                        and exc["unit"] == "kilogram"
+                    ]
+                )
+
+                expected_co2 += light_fue_oil * 0.0686
+
+                # add input of heavy fuel oil
+                heavy_fuel_oil = sum(
+                    [
+                        exc["amount"] * 41.8
+                        for exc in ds["exchanges"]
+                        if "heavy fuel oil" in exc["name"]
+                        and exc["type"] == "technosphere"
+                        and exc["unit"] == "kilogram"
+                    ]
+                )
+
+                expected_co2 += heavy_fuel_oil * 0.0739
+
+                # add input of biomass
+                biomass = sum(
+                    [
+                        exc["amount"] * 18
+                        for exc in ds["exchanges"]
+                        if any(x in exc["name"] for x in ["biomass", "wood"])
+                        and exc["type"] == "technosphere"
+                        and exc["unit"] == "kilogram"
+                    ]
+                )
+
+                expected_co2 += biomass * 0.112
+
+                # add input of methane
+                methane = sum(
+                    [
+                        exc["amount"] * (36 if exc["unit"] == "cubic meter" else 47.5)
+                        for exc in ds["exchanges"]
+                        if "methane" in exc["name"]
+                        and exc["type"] == "technosphere"
+                        and exc["unit"] in ["kilogram", "cubic meter"]
+                    ]
+                )
+
+                expected_co2 += methane * 0.06
+
+                # add input of biogas
+                biogas = sum(
+                    [
+                        exc["amount"] * 22.7
+                        for exc in ds["exchanges"]
+                        if "biogas" in exc["name"]
+                        and exc["type"] == "technosphere"
+                        and exc["unit"] == "cubic meter"
+                    ]
+                )
+
+                expected_co2 += biogas * 0.058
+
+                # add input of hydrogen
+                hydrogen = sum(
+                    [
+                        exc["amount"] * 120
+                        for exc in ds["exchanges"]
+                        if "hydrogen" in exc["name"]
+                        and exc["type"] == "technosphere"
+                        and exc["unit"] == "kilogram"
+                    ]
+                )
+
+                # add input of electricity
+                electricity = sum(
+                    [
+                        exc["amount"] * 3.6
+                        for exc in ds["exchanges"]
+                        if "electricity" in exc["name"]
+                        and exc["type"] == "technosphere"
+                        and exc["unit"] == "kilowatt hour"
+                    ]
+                )
+
+                energy_input = sum(
+                    [
+                        energy,
+                        coal,
+                        nat_gas,
+                        diesel,
+                        light_fue_oil,
+                        heavy_fuel_oil,
+                        biomass,
+                        methane,
+                        biogas,
+                        hydrogen,
+                        electricity,
+                    ]
+                )
+
+                efficiency = 1 / energy_input
+
+                if efficiency > 1.1 and "co-generation" not in ds["name"]:
+                    message = f"Heat conversion efficiency is {efficiency:.2f}, expected to be less than 1.1."
+                    self.log_issue(
+                        ds, "heat conversion efficiency", message, issue_type="major"
+                    )
+
+                if efficiency > 3.0 and "co-generation" in ds["name"]:
+                    message = f"Heat conversion efficiency is {efficiency:.2f}, expected to be less than 3.0. Corrected to 3.0."
+                    self.log_issue(ds, "heat conversion efficiency", message)
+
+                    # scale it back to 3
+                    for exc in ds["exchanges"]:
+                        exc["amount"] *= efficiency / 3.0
+
+                co2 = sum(
+                    [
+                        exc["amount"]
+                        for exc in ds["exchanges"]
+                        if exc["name"].startswith("Carbon dioxide")
+                        and exc["type"] == "biosphere"
+                    ]
+                )
+
+                if not math.isclose(co2, expected_co2, rel_tol=0.2):
+                    message = f"CO2 emissions are {co2:.3f}, expected to be {expected_co2:.3f}."
+                    self.log_issue(ds, "CO2 emissions", message, issue_type="major")
+
+    def run_heat_checks(self):
+        self.check_heat_conversion_efficiency()
+        self.save_log()
+
+
+class TransportValidation(BaseDatasetValidator):
+    def __init__(self, model, scenario, year, regions, database, iam_data):
+        super().__init__(model, scenario, year, regions, database)
+        self.iam_data = iam_data
+        self.euro_class_map = {
+            "EURO-III": 3,
+            "EURO-IV": 4,
+            "EURO-V": 5,
+            "EURO-VI": 6,
+            "EURO-2": 2,
+            "EURO-3": 3,
+            "EURO-4": 4,
+            "EURO-5": 5,
+            "EURO-6": 6.2,
+            "EURO-6ab": 6.0,
+        }
+        self.exhaust = None
+
+    def validate_and_normalize_exchanges(self):
+        for act in [
+            a
+            for a in self.database
+            if a["name"].startswith("transport, ") and ", unspecified" in a["name"]
+        ]:
+            total = sum(
+                exc["amount"]
+                for exc in act["exchanges"]
+                if exc["type"] == "technosphere"
+            )
+            if not np.isclose(total, 1.0, rtol=1e-3):
+                message = f"Total exchange amount is {total}, not 1.0"
+                self.log_issue(
+                    act, "total exchange amount not 1.0", message, issue_type="major"
+                )
+
+    def check_vehicles(self):
+        for act in [
+            a
+            for a in self.database
+            if a["name"].startswith("transport, ") and ", unspecified" in a["name"]
+        ]:
+            # check that all transport exchanges are differently named
+            names = [
+                exc["name"] for exc in act["exchanges"] if exc["type"] == "technosphere"
+            ]
+            if len(names) != len(set(names)):
+                message = "Duplicate transport exchanges"
+                self.log_issue(
+                    act, "duplicate transport exchanges", message, issue_type="major"
+                )
+
+    def calculate_fuel_consumption(self, ds):
+        fuel_consumption = sum(
+            x["amount"] * 43
+            for x in ds["exchanges"]
+            if x["name"].startswith(("market for diesel", "market for petrol"))
+            and x["unit"] == "kilogram"
+        )
+        if fuel_consumption == 0:
+            fuel_consumption = sum(
+                x["amount"] * 47.5
+                for x in ds["exchanges"]
+                if "natural gas" in x["name"] and x["unit"] == "kilogram"
+            )
+        return fuel_consumption
+
+    def calculate_actual_emission(self, ds, pollutant):
+        return sum(
+            x["amount"]
+            for x in ds["exchanges"]
+            if pollutant.lower() in x["name"].lower()
+            and x["type"] == "biosphere"
+            and x.get("categories", [None])[0] == "air"
+        )
+
+    def validate_emissions(self, ds, actual, expected, pollutant):
+        if actual == 0.0:
+            message = f"No emission factor found for {pollutant}."
+            self.log_issue(ds, f"no emission factor for {pollutant}", message)
+            return
+
+        if not math.isclose(actual, expected, rel_tol=0.5):
+            new_actual = np.clip(actual, 0.9 * expected, 1.1 * expected)
+            if not 0.5 < new_actual / actual < 2:
+                message = f"Emission factor for {pollutant} has been corrected from {actual} to {new_actual}."
+                self.log_issue(ds, f"incorrect emission factor", message)
+
+            for exc in ds["exchanges"]:
+                if pollutant.lower() in exc["name"].lower():
+                    exc["amount"] *= new_actual / actual
+
+    def check_pollutant_emissions(self, vehicle_name):
+
+        # Pre-filter datasets
+        relevant_ds = [
+            ds
+            for ds in self.database
+            if ds["name"].startswith(vehicle_name)
+            and ds["location"] in self.regions
+            and any(
+                fuel in ds["name"] for fuel in ["gasoline", "diesel", "compressed gas"]
+            )
+        ]
+
+        for ds in relevant_ds:
+            powertrain = ds["name"].split(", ")[-3]
+            euro_class = next((x for x in self.euro_class_map if x in ds["name"]), None)
+
+            size = None
+            if vehicle_name == "transport, freight, lorry":
+                size = ds["name"].split(", ")[4].replace(" gross weight", "")
+
+            fuel_consumption = self.calculate_fuel_consumption(ds)
+
+            if powertrain in self.exhaust:
+                if str(self.euro_class_map[euro_class]) in self.exhaust[powertrain]:
+                    if size is None:
+                        for pollutant, expected_value in self.exhaust[powertrain][
+                            str(self.euro_class_map[euro_class])
+                        ].items():
+                            expected_value /= 1000  # g/MJ to kg/MJ
+                            expected_value *= fuel_consumption
+                            actual = self.calculate_actual_emission(ds, pollutant)
+                            self.validate_emissions(
+                                ds, actual, expected_value, pollutant
+                            )
+                    else:
+                        for pollutant, expected_value in self.exhaust[powertrain][
+                            str(self.euro_class_map[euro_class])
+                        ][size].items():
+                            expected_value /= 1000
+                            expected_value *= fuel_consumption
+                            actual = self.calculate_actual_emission(ds, pollutant)
+                            self.validate_emissions(
+                                ds, actual, expected_value, pollutant
+                            )
+
+    def check_vehicle_efficiency(
+        self,
+        vehicle_name,
+        fossil_minimum=0.0,
+        fossil_maximum=0.5,
+        elec_minimum=0.1,
+        elec_maximum=0.35,
+    ):
+        # check that the efficiency of the car production datasets
+        # is within the expected range
+
+        for ds in self.database:
+            if "plugin" in ds["name"]:
+                continue
+
+            if ds["name"].startswith(vehicle_name) and ds["location"] in self.regions:
+                electricity_consumption = sum(
+                    [
+                        x["amount"]
+                        for x in ds["exchanges"]
+                        if x["name"].startswith("market group for electricity")
+                        or x["name"].startswith("market for electricity")
+                        and x["type"] == "technosphere"
+                    ]
+                )
+                if electricity_consumption > 0:
+                    if (
+                        electricity_consumption < elec_minimum
+                        or electricity_consumption > elec_maximum
+                    ):
+                        message = f"Electricity consumption per 100 km is incorrect: {electricity_consumption * 100}."
+                        self.log_issue(
+                            ds,
+                            "electricity consumption too high",
+                            message,
+                            issue_type="major",
+                        )
+
+                fuel_consumption = sum(
+                    [
+                        x["amount"]
+                        for x in ds["exchanges"]
+                        if x["name"].startswith("market for diesel")
+                        or x["name"].startswith("market for petrol")
+                        and x["type"] == "technosphere"
+                    ]
+                )
+
+                if fuel_consumption == 0:
+
+                    fuel_consumption += sum(
+                        [
+                            x["amount"]
+                            * (47.5 if x["unit"] == "kilogram" else 36)
+                            / 42.6
+                            for x in ds["exchanges"]
+                            if x["name"].startswith("market for natural gas")
+                            or x["name"].startswith("market group for natural gas")
+                            and x["type"] == "technosphere"
+                        ]
+                    )
+
+                if fuel_consumption > 0:
+                    if (
+                        fuel_consumption < fossil_minimum
+                        or fuel_consumption > fossil_maximum
+                    ):
+                        message = f"Fuel consumption per 100 km is incorrect: {fuel_consumption * 100}."
+                        self.log_issue(
+                            ds,
+                            "fuel consumption incorrect",
+                            message,
+                            issue_type="major",
+                        )
+
+                        # sum the amounts of Carbon dioxide (fossil and non-fossil)
+                        # and make sure it is roughly equal to 3.15 kg CO2/kg diesel
+                        co2 = sum(
+                            [
+                                x["amount"]
+                                for x in ds["exchanges"]
+                                if x["name"].startswith("Carbon dioxide")
+                                and x["type"] == "biosphere"
+                                and x.get("categories", [None])[0] == "air"
+                            ]
+                        )
+                        if not math.isclose(co2, 3.15 * fuel_consumption, rel_tol=0.1):
+                            message = f"CO2 emissions per km are incorrect: {co2} instead of {3.15 * fuel_consumption}."
+                            self.log_issue(
+                                ds,
+                                "CO2 emissions incorrect",
+                                message,
+                                issue_type="major",
+                            )
+
+    def run_transport_checks(self):
+        self.validate_and_normalize_exchanges()
+        self.check_vehicles()
+        self.save_log()
+
+
+class TruckValidation(TransportValidation):
+
+    def __init__(self, model, scenario, year, regions, database, iam_data):
+        super().__init__(model, scenario, year, regions, database, iam_data)
+        self.exhaust = load_truck_exhaust_pollutants()
+
+    def run_truck_checks(self):
+        self.run_transport_checks()
+        self.check_vehicle_efficiency(
+            vehicle_name="transport, freight, lorry",
+            fossil_minimum=0.0,
+            fossil_maximum=0.5,
+            elec_minimum=0.1,
+            elec_maximum=0.5,
+        )
+        self.check_pollutant_emissions(vehicle_name="transport, freight, lorry")
+        self.save_log()
+
+
+class CarValidation(TransportValidation):
+
+    def __init__(self, model, scenario, year, regions, database, iam_data):
+        super().__init__(model, scenario, year, regions, database, iam_data)
+        self.exhaust = load_car_exhaust_pollutants()
+
+    def run_car_checks(self):
+        self.run_transport_checks()
+        self.check_pollutant_emissions(vehicle_name="transport, passenger car")
+        self.check_vehicle_efficiency(
+            vehicle_name="transport, passenger car",
+            fossil_minimum=0.02,
+            fossil_maximum=0.1,
+            elec_minimum=0.1,
+            elec_maximum=0.35,
+        )
+        self.save_log()
 
 
 class ElectricityValidation(BaseDatasetValidator):

@@ -197,7 +197,7 @@ def fetch_data(
         iam_data = data[sector]
 
         if any(x in sector for x in ["car", "bus", "truck"]):
-            iam_data = iam_data.sum(dim=["size", "construction_year"])
+            iam_data = iam_data.sum(dim="size")
             iam_data = iam_data.rename({"powertrain": "variables"}).T
 
         return iam_data.sel(

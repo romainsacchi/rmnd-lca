@@ -108,7 +108,7 @@ wood chips:
       - market for biomass, used as fuel
 natural gas:
   lhv: 36
-  co2: 0.054
+  co2: 0.06
   biogenic_share: 0
   iam_aliases:
     gcam: Secondary Energy|Production|Natural Gas|Gas
@@ -127,6 +127,7 @@ natural gas:
         - market for natural gas
         - market group for natural gas
         - evaporation of natural gas
+        - natural gas, high pressure, at consumer
 
     mask:
       name:
@@ -198,7 +199,7 @@ biogas:
 
 biomethane:
   lhv: 47.5
-  co2: 0.054
+  co2: 0.06
   biogenic_share: 1
   iam_aliases:
     # tiam-ucl: Secondary Energy|Liquids|Biomass|Biomethane
@@ -226,15 +227,15 @@ waste:
         - treatment
 methane, fossil:
   lhv: 47.5
-  co2: 0.058
+  co2: 0.06
   biogenic_share: 0
 methane, biogenic:
   lhv: 47.5
-  co2: 0.058
+  co2: 0.06
   biogenic_share: 1
 methane, synthetic:
   lhv: 47.5
-  co2: 0.054
+  co2: 0.06
   biogenic_share: 1
   ecoinvent_fuels_aliases:
     fltr:
@@ -948,7 +949,7 @@ ethyl tert-butyl ether:
 
 methanol, from wood:
   lhv: 19.9
-  co2: 0.05477
+  co2: 0.069
   biogenic_share: 1
   iam_aliases:
     image: Secondary Energy|Consumption|Liquids|Biomass|Methanol|Woody|w/oCCS
@@ -962,7 +963,7 @@ methanol, from wood:
 
 methanol, from grass:
   lhv: 19.9
-  co2: 0.05477
+  co2: 0.069
   biogenic_share: 1
   iam_aliases:
     image: Secondary Energy|Consumption|Liquids|Biomass|Methanol|Grassy|w/oCCS
@@ -975,7 +976,7 @@ methanol, from grass:
 
 methanol, from wood, with CCS:
   lhv: 19.9
-  co2: 0.05477
+  co2: 0.069
   biogenic_share: 1
   iam_aliases:
     image: Secondary Energy|Consumption|Liquids|Biomass|Methanol|Woody|w/CCS
@@ -988,7 +989,7 @@ methanol, from wood, with CCS:
 
 methanol, from grass, with CCS:
   lhv: 19.9
-  co2: 0.05477
+  co2: 0.069
   biogenic_share: 1
   iam_aliases:
     image: Secondary Energy|Consumption|Liquids|Biomass|Methanol|Grassy|w/CCS

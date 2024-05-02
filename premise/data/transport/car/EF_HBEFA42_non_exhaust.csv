@@ -1,0 +1,643 @@
+powertrain,euro_class,type,component,value
+BEV,1,diurnal,Methane,0
+ICEV-g,4,diurnal,Methane,0
+ICEV-g,5,diurnal,Methane,0
+ICEV-g,6,diurnal,Methane,0
+ICEV-p,1,diurnal,Hydrocarbon,1.172277331
+ICEV-p,2,diurnal,Hydrocarbon,1.115409255
+ICEV-p,3,diurnal,Hydrocarbon,1.210870743
+ICEV-p,4,diurnal,Hydrocarbon,1.154002786
+ICEV-p,5,diurnal,Hydrocarbon,1.117444754
+ICEV-p,6,diurnal,Hydrocarbon,1.080886841
+ICEV-p,6.1,diurnal,Hydrocarbon,1.036204815
+ICEV-p,6.3,diurnal,Hydrocarbon,0.987460792
+ICEV-p,6.2,diurnal,Hydrocarbon,1.011832833
+ICEV-p,7,diurnal,Hydrocarbon,0.987460792
+ICEV-g,2,diurnal,Hydrocarbon,1.115409255
+ICEV-g,3,diurnal,Hydrocarbon,1.210870743
+ICEV-g,4,diurnal,Hydrocarbon,1.154002786
+ICEV-g,5,diurnal,Hydrocarbon,1.117444754
+ICEV-g,6,diurnal,Hydrocarbon,1.080886841
+ICEV-p,1,diurnal,Methane,0
+ICEV-p,2,diurnal,Methane,0
+ICEV-p,3,diurnal,Methane,0
+ICEV-p,4,diurnal,Methane,0
+ICEV-p,5,diurnal,Methane,0
+ICEV-p,6,diurnal,Methane,0
+ICEV-p,6.1,diurnal,Methane,0
+ICEV-p,6.3,diurnal,Methane,0
+ICEV-p,6.2,diurnal,Methane,0
+ICEV-p,7,diurnal,Methane,0
+ICEV-g,2,diurnal,Methane,0
+ICEV-g,3,diurnal,Methane,0
+ICEV-p,1,diurnal,Non-methane hydrocarbon,1.172277331
+ICEV-p,2,diurnal,Non-methane hydrocarbon,1.115409255
+ICEV-p,3,diurnal,Non-methane hydrocarbon,1.210870743
+ICEV-p,4,diurnal,Non-methane hydrocarbon,1.154002786
+ICEV-p,5,diurnal,Non-methane hydrocarbon,1.117444754
+ICEV-p,6,diurnal,Non-methane hydrocarbon,1.080886841
+ICEV-p,6.1,diurnal,Non-methane hydrocarbon,1.036204815
+ICEV-p,6.3,diurnal,Non-methane hydrocarbon,0.987460792
+ICEV-p,6.2,diurnal,Non-methane hydrocarbon,1.011832833
+ICEV-p,7,diurnal,Non-methane hydrocarbon,0.987460792
+ICEV-g,2,diurnal,Non-methane hydrocarbon,1.115409255
+ICEV-g,3,diurnal,Non-methane hydrocarbon,1.210870743
+ICEV-g,4,diurnal,Non-methane hydrocarbon,1.154002786
+ICEV-g,5,diurnal,Non-methane hydrocarbon,1.117444754
+ICEV-g,6,diurnal,Non-methane hydrocarbon,1.080886841
+ICEV-p,1,diurnal,Benzene,0.009378219
+ICEV-p,2,diurnal,Benzene,0.008923274
+ICEV-p,3,diurnal,Benzene,0.009686966
+ICEV-p,4,diurnal,Benzene,0.009232023
+ICEV-p,5,diurnal,Benzene,0.008939559
+ICEV-p,6,diurnal,Benzene,0.008647095
+ICEV-p,6.1,diurnal,Benzene,0.008289639
+ICEV-p,6.3,diurnal,Benzene,0.007899687
+ICEV-p,6.2,diurnal,Benzene,0.008094663
+ICEV-p,7,diurnal,Benzene,0.007899687
+ICEV-g,2,diurnal,Benzene,0.008923274
+ICEV-g,3,diurnal,Benzene,0.009686966
+ICEV-g,4,diurnal,Benzene,0.009232023
+ICEV-g,5,diurnal,Benzene,0.008939559
+ICEV-g,6,diurnal,Benzene,0.008647095
+ICEV-p,1,running losses,Hydrocarbon,0.000644611
+ICEV-p,1,running losses,Hydrocarbon,0.00088634
+ICEV-p,1,running losses,Hydrocarbon,0.002363574
+ICEV-p,2,running losses,Hydrocarbon,0.000644611
+ICEV-p,2,running losses,Hydrocarbon,0.00088634
+ICEV-p,2,running losses,Hydrocarbon,0.002363574
+ICEV-p,3,running losses,Hydrocarbon,0.000644611
+ICEV-p,3,running losses,Hydrocarbon,0.00088634
+ICEV-p,3,running losses,Hydrocarbon,0.002363574
+ICEV-p,4,running losses,Hydrocarbon,0.000644611
+ICEV-p,4,running losses,Hydrocarbon,0.00088634
+ICEV-p,4,running losses,Hydrocarbon,0.002363574
+ICEV-p,5,running losses,Hydrocarbon,0.000644611
+ICEV-p,5,running losses,Hydrocarbon,0.00088634
+ICEV-p,5,running losses,Hydrocarbon,0.002363574
+ICEV-p,6,running losses,Hydrocarbon,0.000644611
+ICEV-p,6,running losses,Hydrocarbon,0.00088634
+ICEV-p,6,running losses,Hydrocarbon,0.002363574
+ICEV-p,6.1,running losses,Hydrocarbon,0.000644611
+ICEV-p,6.1,running losses,Hydrocarbon,0.00088634
+ICEV-p,6.1,running losses,Hydrocarbon,0.002363574
+ICEV-p,6.3,running losses,Hydrocarbon,0.000644611
+ICEV-p,6.3,running losses,Hydrocarbon,0.00088634
+ICEV-p,6.3,running losses,Hydrocarbon,0.002363574
+ICEV-p,6.2,running losses,Hydrocarbon,0.000644611
+ICEV-p,6.2,running losses,Hydrocarbon,0.00088634
+ICEV-p,6.2,running losses,Hydrocarbon,0.002363574
+ICEV-p,7,running losses,Hydrocarbon,0.000644611
+ICEV-p,7,running losses,Hydrocarbon,0.00088634
+ICEV-p,7,running losses,Hydrocarbon,0.002363574
+ICEV-g,2,running losses,Hydrocarbon,0.000644611
+ICEV-g,2,running losses,Hydrocarbon,0.00088634
+ICEV-g,2,running losses,Hydrocarbon,0.002363574
+ICEV-g,3,running losses,Hydrocarbon,0.000644611
+ICEV-g,3,running losses,Hydrocarbon,0.00088634
+ICEV-g,3,running losses,Hydrocarbon,0.002363574
+ICEV-g,4,running losses,Hydrocarbon,0.000644611
+ICEV-g,4,running losses,Hydrocarbon,0.00088634
+ICEV-g,4,running losses,Hydrocarbon,0.002363574
+ICEV-g,5,running losses,Hydrocarbon,0.000644611
+ICEV-g,5,running losses,Hydrocarbon,0.00088634
+ICEV-g,5,running losses,Hydrocarbon,0.002363574
+ICEV-g,6,running losses,Hydrocarbon,0.000644611
+ICEV-g,6,running losses,Hydrocarbon,0.00088634
+ICEV-g,6,running losses,Hydrocarbon,0.002363574
+ICEV-p,1,running losses,Methane,0
+ICEV-p,1,running losses,Methane,0
+ICEV-p,1,running losses,Methane,0
+ICEV-p,2,running losses,Methane,0
+ICEV-p,2,running losses,Methane,0
+ICEV-p,2,running losses,Methane,0
+ICEV-p,3,running losses,Methane,0
+ICEV-p,3,running losses,Methane,0
+ICEV-p,3,running losses,Methane,0
+ICEV-p,4,running losses,Methane,0
+ICEV-p,4,running losses,Methane,0
+ICEV-p,4,running losses,Methane,0
+ICEV-p,5,running losses,Methane,0
+ICEV-p,5,running losses,Methane,0
+ICEV-p,5,running losses,Methane,0
+ICEV-p,6,running losses,Methane,0
+ICEV-p,6,running losses,Methane,0
+ICEV-p,6,running losses,Methane,0
+ICEV-p,6.1,running losses,Methane,0
+ICEV-p,6.1,running losses,Methane,0
+ICEV-p,6.1,running losses,Methane,0
+ICEV-p,6.3,running losses,Methane,0
+ICEV-p,6.3,running losses,Methane,0
+ICEV-p,6.3,running losses,Methane,0
+ICEV-p,6.2,running losses,Methane,0
+ICEV-p,6.2,running losses,Methane,0
+ICEV-p,6.2,running losses,Methane,0
+ICEV-p,7,running losses,Methane,0
+ICEV-p,7,running losses,Methane,0
+ICEV-p,7,running losses,Methane,0
+ICEV-g,2,running losses,Methane,0
+ICEV-g,2,running losses,Methane,0
+ICEV-g,2,running losses,Methane,0
+ICEV-g,3,running losses,Methane,0
+ICEV-g,3,running losses,Methane,0
+ICEV-g,3,running losses,Methane,0
+ICEV-g,4,running losses,Methane,0
+ICEV-g,4,running losses,Methane,0
+ICEV-g,4,running losses,Methane,0
+ICEV-g,5,running losses,Methane,0
+ICEV-g,5,running losses,Methane,0
+ICEV-g,5,running losses,Methane,0
+ICEV-g,6,running losses,Methane,0
+ICEV-g,6,running losses,Methane,0
+ICEV-g,6,running losses,Methane,0
+ICEV-p,1,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-p,1,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-p,1,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-p,2,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-p,2,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-p,2,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-p,3,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-p,3,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-p,3,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-p,4,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-p,4,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-p,4,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-p,5,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-p,5,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-p,5,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-p,6,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-p,6,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-p,6,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-p,6.1,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-p,6.1,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-p,6.1,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-p,6.3,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-p,6.3,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-p,6.3,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-p,6.2,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-p,6.2,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-p,6.2,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-p,7,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-p,7,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-p,7,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-g,2,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-g,2,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-g,2,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-g,3,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-g,3,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-g,3,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-g,4,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-g,4,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-g,4,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-g,5,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-g,5,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-g,5,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-g,6,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-g,6,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-g,6,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-p,1,running losses,Benzene,5.15689E-06
+ICEV-p,1,running losses,Benzene,7.09072E-06
+ICEV-p,1,running losses,Benzene,1.89086E-05
+ICEV-p,2,running losses,Benzene,5.15689E-06
+ICEV-p,2,running losses,Benzene,7.09072E-06
+ICEV-p,2,running losses,Benzene,1.89086E-05
+ICEV-p,3,running losses,Benzene,5.15689E-06
+ICEV-p,3,running losses,Benzene,7.09072E-06
+ICEV-p,3,running losses,Benzene,1.89086E-05
+ICEV-p,4,running losses,Benzene,5.15689E-06
+ICEV-p,4,running losses,Benzene,7.09072E-06
+ICEV-p,4,running losses,Benzene,1.89086E-05
+ICEV-p,5,running losses,Benzene,5.15689E-06
+ICEV-p,5,running losses,Benzene,7.09072E-06
+ICEV-p,5,running losses,Benzene,1.89086E-05
+ICEV-p,6,running losses,Benzene,5.15689E-06
+ICEV-p,6,running losses,Benzene,7.09072E-06
+ICEV-p,6,running losses,Benzene,1.89086E-05
+ICEV-p,6.1,running losses,Benzene,5.15689E-06
+ICEV-p,6.1,running losses,Benzene,7.09072E-06
+ICEV-p,6.1,running losses,Benzene,1.89086E-05
+ICEV-p,6.3,running losses,Benzene,5.15689E-06
+ICEV-p,6.3,running losses,Benzene,7.09072E-06
+ICEV-p,6.3,running losses,Benzene,1.89086E-05
+ICEV-p,6.2,running losses,Benzene,5.15689E-06
+ICEV-p,6.2,running losses,Benzene,7.09072E-06
+ICEV-p,6.2,running losses,Benzene,1.89086E-05
+ICEV-p,7,running losses,Benzene,5.15689E-06
+ICEV-p,7,running losses,Benzene,7.09072E-06
+ICEV-p,7,running losses,Benzene,1.89086E-05
+ICEV-g,2,running losses,Benzene,5.15689E-06
+ICEV-g,2,running losses,Benzene,7.09072E-06
+ICEV-g,2,running losses,Benzene,1.89086E-05
+ICEV-g,3,running losses,Benzene,5.15689E-06
+ICEV-g,3,running losses,Benzene,7.09072E-06
+ICEV-g,3,running losses,Benzene,1.89086E-05
+ICEV-g,4,running losses,Benzene,5.15689E-06
+ICEV-g,4,running losses,Benzene,7.09072E-06
+ICEV-g,4,running losses,Benzene,1.89086E-05
+ICEV-g,5,running losses,Benzene,5.15689E-06
+ICEV-g,5,running losses,Benzene,7.09072E-06
+ICEV-g,5,running losses,Benzene,1.89086E-05
+ICEV-g,6,running losses,Benzene,5.15689E-06
+ICEV-g,6,running losses,Benzene,7.09072E-06
+ICEV-g,6,running losses,Benzene,1.89086E-05
+ICEV-p,1,soak,Hydrocarbon,0.044711821
+ICEV-p,2,soak,Hydrocarbon,0.044711821
+ICEV-p,3,soak,Hydrocarbon,0.044711821
+ICEV-p,4,soak,Hydrocarbon,0.044711821
+ICEV-p,5,soak,Hydrocarbon,0.044711821
+ICEV-p,6,soak,Hydrocarbon,0.044711821
+ICEV-p,6.1,soak,Hydrocarbon,0.044711821
+ICEV-p,6.3,soak,Hydrocarbon,0.044711821
+ICEV-p,6.2,soak,Hydrocarbon,0.044711821
+ICEV-p,7,soak,Hydrocarbon,0.044711821
+ICEV-g,2,soak,Hydrocarbon,0.044711821
+ICEV-g,3,soak,Hydrocarbon,0.044711821
+ICEV-g,4,soak,Hydrocarbon,0.044711821
+ICEV-g,5,soak,Hydrocarbon,0.044711821
+ICEV-g,6,soak,Hydrocarbon,0.044711821
+ICEV-p,1,soak,Methane,0
+ICEV-p,2,soak,Methane,0
+ICEV-p,3,soak,Methane,0
+ICEV-p,4,soak,Methane,0
+ICEV-p,5,soak,Methane,0
+ICEV-p,6,soak,Methane,0
+ICEV-p,6.1,soak,Methane,0
+ICEV-p,6.3,soak,Methane,0
+ICEV-p,6.2,soak,Methane,0
+ICEV-p,7,soak,Methane,0
+ICEV-g,2,soak,Methane,0
+ICEV-g,3,soak,Methane,0
+ICEV-g,4,soak,Methane,0
+ICEV-g,5,soak,Methane,0
+ICEV-g,6,soak,Methane,0
+ICEV-p,1,soak,Non-methane hydrocarbon,0.044711821
+ICEV-p,2,soak,Non-methane hydrocarbon,0.044711821
+ICEV-p,3,soak,Non-methane hydrocarbon,0.044711821
+ICEV-p,4,soak,Non-methane hydrocarbon,0.044711821
+ICEV-p,5,soak,Non-methane hydrocarbon,0.044711821
+ICEV-p,6,soak,Non-methane hydrocarbon,0.044711821
+ICEV-p,6.1,soak,Non-methane hydrocarbon,0.044711821
+ICEV-p,6.3,soak,Non-methane hydrocarbon,0.044711821
+ICEV-p,6.2,soak,Non-methane hydrocarbon,0.044711821
+ICEV-p,7,soak,Non-methane hydrocarbon,0.044711821
+ICEV-g,2,soak,Non-methane hydrocarbon,0.044711821
+ICEV-g,3,soak,Non-methane hydrocarbon,0.044711821
+ICEV-g,4,soak,Non-methane hydrocarbon,0.044711821
+ICEV-g,5,soak,Non-methane hydrocarbon,0.044711821
+ICEV-g,6,soak,Non-methane hydrocarbon,0.044711821
+ICEV-p,1,soak,Benzene,0.000357695
+ICEV-p,2,soak,Benzene,0.000357695
+ICEV-p,3,soak,Benzene,0.000357695
+ICEV-p,4,soak,Benzene,0.000357695
+ICEV-p,5,soak,Benzene,0.000357695
+ICEV-p,6,soak,Benzene,0.000357695
+ICEV-p,6.1,soak,Benzene,0.000357695
+ICEV-p,6.3,soak,Benzene,0.000357695
+ICEV-p,6.2,soak,Benzene,0.000357695
+ICEV-p,7,soak,Benzene,0.000357695
+ICEV-g,2,soak,Benzene,0.000357695
+ICEV-g,3,soak,Benzene,0.000357695
+ICEV-g,4,soak,Benzene,0.000357695
+ICEV-g,5,soak,Benzene,0.000357695
+ICEV-g,6,soak,Benzene,0.000357695
+ICEV-p,1,cold start,Hydrocarbon,4.568627357
+ICEV-p,2,cold start,Hydrocarbon,3.74245882
+ICEV-p,3,cold start,Hydrocarbon,2.272405386
+ICEV-p,4,cold start,Hydrocarbon,2.08881259
+ICEV-p,5,cold start,Hydrocarbon,1.315322518
+ICEV-p,6,cold start,Hydrocarbon,0.978936553
+ICEV-p,6.1,cold start,Hydrocarbon,0.978936553
+ICEV-p,6.3,cold start,Hydrocarbon,0.978936553
+ICEV-p,6.2,cold start,Hydrocarbon,0.978936553
+ICEV-p,7,cold start,Hydrocarbon,0.978936553
+ICEV-d,1,cold start,Hydrocarbon,0.517769098
+ICEV-d,2,cold start,Hydrocarbon,0.402639836
+ICEV-d,3,cold start,Hydrocarbon,0.280903339
+ICEV-d,4,cold start,Hydrocarbon,0.151904374
+ICEV-d,5,cold start,Hydrocarbon,0.080711834
+ICEV-d,6.1,cold start,Hydrocarbon,0.063958824
+ICEV-d,6,cold start,Hydrocarbon,0.095109396
+ICEV-d,6.2,cold start,Hydrocarbon,0.037248578
+ICEV-d,6.3,cold start,Hydrocarbon,0.037248578
+ICEV-d,7,cold start,Hydrocarbon,0.037248578
+ICEV-g,2,cold start,Hydrocarbon,3.74245882
+ICEV-g,3,cold start,Hydrocarbon,2.272405386
+ICEV-g,4,cold start,Hydrocarbon,2.08881259
+ICEV-g,5,cold start,Hydrocarbon,1.315322518
+ICEV-g,6,cold start,Hydrocarbon,0.978936553
+ICEV-p,1,cold start,Carbon monoxide,20.22215652
+ICEV-p,2,cold start,Carbon monoxide,16.41440582
+ICEV-p,3,cold start,Carbon monoxide,12.58615112
+ICEV-p,4,cold start,Carbon monoxide,8.737164497
+ICEV-p,5,cold start,Carbon monoxide,6.291858196
+ICEV-p,6,cold start,Carbon monoxide,5.888487816
+ICEV-p,6.1,cold start,Carbon monoxide,5.888487816
+ICEV-p,6.3,cold start,Carbon monoxide,5.888487816
+ICEV-p,6.2,cold start,Carbon monoxide,5.888487816
+ICEV-p,7,cold start,Carbon monoxide,5.888487816
+ICEV-d,1,cold start,Carbon monoxide,2.63018465
+ICEV-d,2,cold start,Carbon monoxide,2.142898321
+ICEV-d,3,cold start,Carbon monoxide,1.60560286
+ICEV-d,4,cold start,Carbon monoxide,1.00981462
+ICEV-d,5,cold start,Carbon monoxide,0.850446701
+ICEV-d,6.1,cold start,Carbon monoxide,0.704330862
+ICEV-d,6,cold start,Carbon monoxide,1.028467059
+ICEV-d,6.2,cold start,Carbon monoxide,0.389243215
+ICEV-d,6.3,cold start,Carbon monoxide,0.389243215
+ICEV-d,7,cold start,Carbon monoxide,0.389243215
+ICEV-g,2,cold start,Carbon monoxide,16.41440582
+ICEV-g,3,cold start,Carbon monoxide,12.58615112
+ICEV-g,4,cold start,Carbon monoxide,8.737164497
+ICEV-g,5,cold start,Carbon monoxide,6.291858196
+ICEV-g,6,cold start,Carbon monoxide,5.888487816
+ICEV-p,1,cold start,Nitrogen oxides,1.641974688
+ICEV-p,2,cold start,Nitrogen oxides,0.928072631
+ICEV-p,3,cold start,Nitrogen oxides,0.243769437
+ICEV-p,4,cold start,Nitrogen oxides,0.365196973
+ICEV-p,5,cold start,Nitrogen oxides,0.320955098
+ICEV-p,6,cold start,Nitrogen oxides,0.320955098
+ICEV-p,6.1,cold start,Nitrogen oxides,0.241189048
+ICEV-p,6.3,cold start,Nitrogen oxides,0.241189048
+ICEV-p,6.2,cold start,Nitrogen oxides,0.241189048
+ICEV-p,7,cold start,Nitrogen oxides,0.241189048
+ICEV-d,1,cold start,Nitrogen oxides,0.245672539
+ICEV-d,2,cold start,Nitrogen oxides,0.241601661
+ICEV-d,3,cold start,Nitrogen oxides,-0.013931748
+ICEV-d,4,cold start,Nitrogen oxides,-0.226495251
+ICEV-d,5,cold start,Nitrogen oxides,0.314001322
+ICEV-d,6.1,cold start,Nitrogen oxides,0
+ICEV-d,6,cold start,Nitrogen oxides,-0.183140785
+ICEV-d,6.2,cold start,Nitrogen oxides,0.306156099
+ICEV-d,6.3,cold start,Nitrogen oxides,0.306156099
+ICEV-d,7,cold start,Nitrogen oxides,0.306156099
+ICEV-g,2,cold start,Nitrogen oxides,0.928072631
+ICEV-g,3,cold start,Nitrogen oxides,0.243769437
+ICEV-g,4,cold start,Nitrogen oxides,0.365196973
+ICEV-g,5,cold start,Nitrogen oxides,0.320955098
+ICEV-g,6,cold start,Nitrogen oxides,0.320955098
+ICEV-p,1,cold start,Nitrogen dioxide,0.069263242
+ICEV-p,2,cold start,Nitrogen dioxide,0.039148796
+ICEV-p,3,cold start,Nitrogen dioxide,0.010038151
+ICEV-p,4,cold start,Nitrogen dioxide,0.011265568
+ICEV-p,5,cold start,Nitrogen dioxide,0.016047755
+ICEV-p,6,cold start,Nitrogen dioxide,0.016047755
+ICEV-p,6.1,cold start,Nitrogen dioxide,0.012059453
+ICEV-p,6.3,cold start,Nitrogen dioxide,0.012059453
+ICEV-p,6.2,cold start,Nitrogen dioxide,0.012059453
+ICEV-p,7,cold start,Nitrogen dioxide,0.012059453
+ICEV-d,1,cold start,Nitrogen dioxide,0.156337067
+ICEV-d,2,cold start,Nitrogen dioxide,0.153746516
+ICEV-d,3,cold start,Nitrogen dioxide,-0.009039177
+ICEV-d,4,cold start,Nitrogen dioxide,-0.198183328
+ICEV-d,5,cold start,Nitrogen dioxide,0.285455793
+ICEV-d,6.1,cold start,Nitrogen dioxide,0.065002441
+ICEV-d,6,cold start,Nitrogen dioxide,-0.152617306
+ICEV-d,6.2,cold start,Nitrogen dioxide,0.037109829
+ICEV-d,6.3,cold start,Nitrogen dioxide,0.037109829
+ICEV-d,7,cold start,Nitrogen dioxide,0.037109829
+ICEV-g,2,cold start,Nitrogen dioxide,0.039148796
+ICEV-g,3,cold start,Nitrogen dioxide,0.010038151
+ICEV-g,4,cold start,Nitrogen dioxide,0.011265568
+ICEV-g,5,cold start,Nitrogen dioxide,0.016047755
+ICEV-g,6,cold start,Nitrogen dioxide,0.016047755
+ICEV-p,1,cold start,Methane,0.249903902
+ICEV-p,2,cold start,Methane,0.204712495
+ICEV-p,3,cold start,Methane,0.124300569
+ICEV-p,4,cold start,Methane,0.114258043
+ICEV-p,5,cold start,Methane,0.071948141
+ICEV-p,6,cold start,Methane,0.053547829
+ICEV-p,6.1,cold start,Methane,0.053547829
+ICEV-p,6.3,cold start,Methane,0.053547829
+ICEV-p,6.2,cold start,Methane,0.053547829
+ICEV-p,7,cold start,Methane,0.053547829
+ICEV-d,1,cold start,Methane,0.012426458
+ICEV-d,2,cold start,Methane,0.009663356
+ICEV-d,3,cold start,Methane,0.00674168
+ICEV-d,4,cold start,Methane,0.003645705
+ICEV-d,5,cold start,Methane,0.001937084
+ICEV-d,6.1,cold start,Methane,0.001535012
+ICEV-d,6,cold start,Methane,0.002282626
+ICEV-d,6.2,cold start,Methane,0.000893966
+ICEV-d,6.3,cold start,Methane,0.000893966
+ICEV-d,7,cold start,Methane,0.000893966
+ICEV-g,2,cold start,Methane,0.204712495
+ICEV-g,3,cold start,Methane,0.124300569
+ICEV-g,4,cold start,Methane,0.114258043
+ICEV-g,5,cold start,Methane,0.071948141
+ICEV-g,6,cold start,Methane,0.053547829
+ICEV-p,1,cold start,Non-methane hydrocarbon,4.318723202
+ICEV-p,2,cold start,Non-methane hydrocarbon,3.537746191
+ICEV-p,3,cold start,Non-methane hydrocarbon,2.148104668
+ICEV-p,4,cold start,Non-methane hydrocarbon,1.974554539
+ICEV-p,5,cold start,Non-methane hydrocarbon,1.243374348
+ICEV-p,6,cold start,Non-methane hydrocarbon,0.925388694
+ICEV-p,6.1,cold start,Non-methane hydrocarbon,0.925388694
+ICEV-p,6.3,cold start,Non-methane hydrocarbon,0.925388694
+ICEV-p,6.2,cold start,Non-methane hydrocarbon,0.925388694
+ICEV-p,7,cold start,Non-methane hydrocarbon,0.925388694
+ICEV-d,1,cold start,Non-methane hydrocarbon,0.505342662
+ICEV-d,2,cold start,Non-methane hydrocarbon,0.392976493
+ICEV-d,3,cold start,Non-methane hydrocarbon,0.274161667
+ICEV-d,4,cold start,Non-methane hydrocarbon,0.148258671
+ICEV-d,5,cold start,Non-methane hydrocarbon,0.07877475
+ICEV-d,6.1,cold start,Non-methane hydrocarbon,0.062423814
+ICEV-d,6,cold start,Non-methane hydrocarbon,0.092826769
+ICEV-d,6.2,cold start,Non-methane hydrocarbon,0.036354613
+ICEV-d,6.3,cold start,Non-methane hydrocarbon,0.036354613
+ICEV-d,7,cold start,Non-methane hydrocarbon,0.036354613
+ICEV-g,2,cold start,Non-methane hydrocarbon,3.537746191
+ICEV-g,3,cold start,Non-methane hydrocarbon,2.148104668
+ICEV-g,4,cold start,Non-methane hydrocarbon,1.974554539
+ICEV-g,5,cold start,Non-methane hydrocarbon,1.243374348
+ICEV-g,6,cold start,Non-methane hydrocarbon,0.925388694
+ICEV-p,1,cold start,Lead,0
+ICEV-p,2,cold start,Lead,0
+ICEV-p,3,cold start,Lead,0
+ICEV-p,4,cold start,Lead,0
+ICEV-p,5,cold start,Lead,0
+ICEV-p,6,cold start,Lead,0
+ICEV-p,6.1,cold start,Lead,0
+ICEV-p,6.3,cold start,Lead,0
+ICEV-p,6.2,cold start,Lead,0
+ICEV-p,7,cold start,Lead,0
+ICEV-d,1,cold start,Lead,0
+ICEV-d,2,cold start,Lead,0
+ICEV-d,3,cold start,Lead,0
+ICEV-d,4,cold start,Lead,0
+ICEV-d,5,cold start,Lead,0
+ICEV-d,6.1,cold start,Lead,0
+ICEV-d,6,cold start,Lead,0
+ICEV-d,6.2,cold start,Lead,0
+ICEV-d,6.3,cold start,Lead,0
+ICEV-d,7,cold start,Lead,0
+ICEV-g,2,cold start,Lead,0
+ICEV-g,3,cold start,Lead,0
+ICEV-g,4,cold start,Lead,0
+ICEV-g,5,cold start,Lead,0
+ICEV-g,6,cold start,Lead,0
+ICEV-p,1,cold start,Benzene,0.31112352
+ICEV-p,2,cold start,Benzene,0.254861444
+ICEV-p,3,cold start,Benzene,0.154750809
+ICEV-p,4,cold start,Benzene,0.142248139
+ICEV-p,5,cold start,Benzene,0.089573458
+ICEV-p,6,cold start,Benzene,0.066665575
+ICEV-p,6.1,cold start,Benzene,0.066665575
+ICEV-p,6.3,cold start,Benzene,0.066665575
+ICEV-p,6.2,cold start,Benzene,0.066665575
+ICEV-p,7,cold start,Benzene,0.066665575
+ICEV-d,1,cold start,Benzene,0.006057899
+ICEV-d,2,cold start,Benzene,0.004710886
+ICEV-d,3,cold start,Benzene,0.003286569
+ICEV-d,4,cold start,Benzene,0.001777281
+ICEV-d,5,cold start,Benzene,0.000944328
+ICEV-d,6.1,cold start,Benzene,0.000748318
+ICEV-d,6,cold start,Benzene,0.00111278
+ICEV-d,6.2,cold start,Benzene,0.000435808
+ICEV-d,6.3,cold start,Benzene,0.000435808
+ICEV-d,7,cold start,Benzene,0.000435808
+ICEV-g,2,cold start,Benzene,0.254861444
+ICEV-g,3,cold start,Benzene,0.154750809
+ICEV-g,4,cold start,Benzene,0.142248139
+ICEV-g,5,cold start,Benzene,0.089573458
+ICEV-g,6,cold start,Benzene,0.066665575
+ICEV-p,1,cold start,Particulate matters 2.5,0
+ICEV-p,2,cold start,Particulate matters 2.5,0
+ICEV-p,3,cold start,Particulate matters 2.5,0
+ICEV-p,4,cold start,Particulate matters 2.5,0
+ICEV-p,5,cold start,Particulate matters 2.5,0
+ICEV-p,6,cold start,Particulate matters 2.5,0
+ICEV-p,6.1,cold start,Particulate matters 2.5,0
+ICEV-p,6.3,cold start,Particulate matters 2.5,0
+ICEV-p,6.2,cold start,Particulate matters 2.5,0
+ICEV-p,7,cold start,Particulate matters 2.5,0
+ICEV-d,1,cold start,Particulate matters 2.5,0.069160894
+ICEV-d,2,cold start,Particulate matters 2.5,0.067211576
+ICEV-d,3,cold start,Particulate matters 2.5,0.065019235
+ICEV-d,4,cold start,Particulate matters 2.5,0.066368677
+ICEV-d,5,cold start,Particulate matters 2.5,0.003688049
+ICEV-d,6.1,cold start,Particulate matters 2.5,0.002356254
+ICEV-d,6,cold start,Particulate matters 2.5,0.002356254
+ICEV-d,6.2,cold start,Particulate matters 2.5,0.002356254
+ICEV-d,6.3,cold start,Particulate matters 2.5,0.002356254
+ICEV-d,7,cold start,Particulate matters 2.5,0.002356254
+ICEV-g,2,cold start,Particulate matters 2.5,0
+ICEV-g,3,cold start,Particulate matters 2.5,0
+ICEV-g,4,cold start,Particulate matters 2.5,0
+ICEV-g,5,cold start,Particulate matters 2.5,0
+ICEV-g,6,cold start,Particulate matters 2.5,0
+ICEV-g,6.1,diurnal,Methane,0
+ICEV-g,6.1,diurnal,Hydrocarbon,1.080886841
+ICEV-g,6.1,diurnal,Non-methane hydrocarbon,1.080886841
+ICEV-g,6.1,diurnal,Benzene,0.008647095
+ICEV-g,6.1,running losses,Hydrocarbon,0.000644611
+ICEV-g,6.1,running losses,Hydrocarbon,0.00088634
+ICEV-g,6.1,running losses,Hydrocarbon,0.002363574
+ICEV-g,6.1,running losses,Methane,0
+ICEV-g,6.1,running losses,Methane,0
+ICEV-g,6.1,running losses,Methane,0
+ICEV-g,6.1,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-g,6.1,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-g,6.1,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-g,6.1,running losses,Benzene,5.15689E-06
+ICEV-g,6.1,running losses,Benzene,7.09072E-06
+ICEV-g,6.1,running losses,Benzene,1.89086E-05
+ICEV-g,6.1,soak,Hydrocarbon,0.044711821
+ICEV-g,6.1,soak,Methane,0
+ICEV-g,6.1,soak,Non-methane hydrocarbon,0.044711821
+ICEV-g,6.1,soak,Benzene,0.000357695
+ICEV-g,6.1,cold start,Hydrocarbon,0.978936553
+ICEV-g,6.1,cold start,Carbon monoxide,5.888487816
+ICEV-g,6.1,cold start,Nitrogen oxides,0.320955098
+ICEV-g,6.1,cold start,Nitrogen dioxide,0.016047755
+ICEV-g,6.1,cold start,Methane,0.053547829
+ICEV-g,6.1,cold start,Non-methane hydrocarbon,0.925388694
+ICEV-g,6.1,cold start,Lead,0
+ICEV-g,6.1,cold start,Benzene,0.066665575
+ICEV-g,6.1,cold start,Particulate matters 2.5,0
+ICEV-g,6.2,diurnal,Methane,0
+ICEV-g,6.2,diurnal,Hydrocarbon,1.080886841
+ICEV-g,6.2,diurnal,Non-methane hydrocarbon,1.080886841
+ICEV-g,6.2,diurnal,Benzene,0.008647095
+ICEV-g,6.2,running losses,Hydrocarbon,0.000644611
+ICEV-g,6.2,running losses,Hydrocarbon,0.00088634
+ICEV-g,6.2,running losses,Hydrocarbon,0.002363574
+ICEV-g,6.2,running losses,Methane,0
+ICEV-g,6.2,running losses,Methane,0
+ICEV-g,6.2,running losses,Methane,0
+ICEV-g,6.2,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-g,6.2,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-g,6.2,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-g,6.2,running losses,Benzene,5.15689E-06
+ICEV-g,6.2,running losses,Benzene,7.09072E-06
+ICEV-g,6.2,running losses,Benzene,1.89086E-05
+ICEV-g,6.2,soak,Hydrocarbon,0.044711821
+ICEV-g,6.2,soak,Methane,0
+ICEV-g,6.2,soak,Non-methane hydrocarbon,0.044711821
+ICEV-g,6.2,soak,Benzene,0.000357695
+ICEV-g,6.2,cold start,Hydrocarbon,0.978936553
+ICEV-g,6.2,cold start,Carbon monoxide,5.888487816
+ICEV-g,6.2,cold start,Nitrogen oxides,0.320955098
+ICEV-g,6.2,cold start,Nitrogen dioxide,0.016047755
+ICEV-g,6.2,cold start,Methane,0.053547829
+ICEV-g,6.2,cold start,Non-methane hydrocarbon,0.925388694
+ICEV-g,6.2,cold start,Lead,0
+ICEV-g,6.2,cold start,Benzene,0.066665575
+ICEV-g,6.2,cold start,Particulate matters 2.5,0
+ICEV-g,6.3,diurnal,Methane,0
+ICEV-g,6.3,diurnal,Hydrocarbon,1.080886841
+ICEV-g,6.3,diurnal,Non-methane hydrocarbon,1.080886841
+ICEV-g,6.3,diurnal,Benzene,0.008647095
+ICEV-g,6.3,running losses,Hydrocarbon,0.000644611
+ICEV-g,6.3,running losses,Hydrocarbon,0.00088634
+ICEV-g,6.3,running losses,Hydrocarbon,0.002363574
+ICEV-g,6.3,running losses,Methane,0
+ICEV-g,6.3,running losses,Methane,0
+ICEV-g,6.3,running losses,Methane,0
+ICEV-g,6.3,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-g,6.3,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-g,6.3,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-g,6.3,running losses,Benzene,5.15689E-06
+ICEV-g,6.3,running losses,Benzene,7.09072E-06
+ICEV-g,6.3,running losses,Benzene,1.89086E-05
+ICEV-g,6.3,soak,Hydrocarbon,0.044711821
+ICEV-g,6.3,soak,Methane,0
+ICEV-g,6.3,soak,Non-methane hydrocarbon,0.044711821
+ICEV-g,6.3,soak,Benzene,0.000357695
+ICEV-g,6.3,cold start,Hydrocarbon,0.978936553
+ICEV-g,6.3,cold start,Carbon monoxide,5.888487816
+ICEV-g,6.3,cold start,Nitrogen oxides,0.320955098
+ICEV-g,6.3,cold start,Nitrogen dioxide,0.016047755
+ICEV-g,6.3,cold start,Methane,0.053547829
+ICEV-g,6.3,cold start,Non-methane hydrocarbon,0.925388694
+ICEV-g,6.3,cold start,Lead,0
+ICEV-g,6.3,cold start,Benzene,0.066665575
+ICEV-g,6.3,cold start,Particulate matters 2.5,0
+ICEV-g,7,diurnal,Methane,0
+ICEV-g,7,diurnal,Hydrocarbon,1.080886841
+ICEV-g,7,diurnal,Non-methane hydrocarbon,1.080886841
+ICEV-g,7,diurnal,Benzene,0.008647095
+ICEV-g,7,running losses,Hydrocarbon,0.000644611
+ICEV-g,7,running losses,Hydrocarbon,0.00088634
+ICEV-g,7,running losses,Hydrocarbon,0.002363574
+ICEV-g,7,running losses,Methane,0
+ICEV-g,7,running losses,Methane,0
+ICEV-g,7,running losses,Methane,0
+ICEV-g,7,running losses,Non-methane hydrocarbon,0.000644611
+ICEV-g,7,running losses,Non-methane hydrocarbon,0.00088634
+ICEV-g,7,running losses,Non-methane hydrocarbon,0.002363574
+ICEV-g,7,running losses,Benzene,5.15689E-06
+ICEV-g,7,running losses,Benzene,7.09072E-06
+ICEV-g,7,running losses,Benzene,1.89086E-05
+ICEV-g,7,soak,Hydrocarbon,0.044711821
+ICEV-g,7,soak,Methane,0
+ICEV-g,7,soak,Non-methane hydrocarbon,0.044711821
+ICEV-g,7,soak,Benzene,0.000357695
+ICEV-g,7,cold start,Hydrocarbon,0.978936553
+ICEV-g,7,cold start,Carbon monoxide,5.888487816
+ICEV-g,7,cold start,Nitrogen oxides,0.320955098
+ICEV-g,7,cold start,Nitrogen dioxide,0.016047755
+ICEV-g,7,cold start,Methane,0.053547829
+ICEV-g,7,cold start,Non-methane hydrocarbon,0.925388694
+ICEV-g,7,cold start,Lead,0
+ICEV-g,7,cold start,Benzene,0.066665575
+ICEV-g,7,cold start,Particulate matters 2.5,0

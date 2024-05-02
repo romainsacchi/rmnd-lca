@@ -1,0 +1,760 @@
+powertrain,euro_class,component,size,value
+battery electric,1,Benzene,3.5t,0
+diesel,1,Ethane,3.5t,0
+diesel,1,Propane,3.5t,0
+diesel,1,Butane,3.5t,0
+diesel,1,Pentane,3.5t,0
+diesel,1,Hexane,3.5t,0
+diesel,1,Cyclohexane,3.5t,0
+diesel,1,Heptane,3.5t,0
+diesel,1,Ethene,3.5t,0
+diesel,1,Propene,3.5t,0
+diesel,1,1-Pentene,3.5t,0
+diesel,1,Toluene,3.5t,0
+diesel,1,m-Xylene,3.5t,0
+diesel,1,o-Xylene,3.5t,0
+diesel,1,Formaldehyde,3.5t,0
+diesel,1,Acetaldehyde,3.5t,0
+diesel,1,Benzaldehyde,3.5t,0
+diesel,1,Acetone,3.5t,0
+diesel,1,Methyl ethyl ketone,3.5t,0
+diesel,1,Acrolein,3.5t,0
+diesel,1,Styrene,3.5t,0
+diesel,1,PAH polycyclic aromatic hydrocarbons,3.5t,0
+diesel,1,Arsenic,3.5t,0
+diesel,1,Selenium,3.5t,0
+diesel,1,Zinc,3.5t,0
+diesel,1,Copper,3.5t,0
+diesel,1,Nickel,3.5t,0
+diesel,1,Chromium,3.5t,0
+diesel,1,Chromium VI,3.5t,0
+diesel,1,Mercury,3.5t,0
+diesel,1,Cadmium,3.5t,0
+diesel,1,Benzene,3.5t,0.000740364
+diesel,1,Methane,3.5t,0.001063997
+diesel,1,Carbon monoxide,3.5t,0.156983283
+diesel,1,Hydrocarbon,3.5t,0.044333194
+diesel,1,Dinitrogen monoxide,3.5t,0.000657863
+diesel,1,Ammonia,3.5t,0.000464344
+diesel,1,NMVOC,3.5t,0.043269196
+diesel,1,Nitrogen dioxide,3.5t,0.051915667
+diesel,1,Nitrogen oxides,3.5t,0.741652346
+diesel,1,Lead,3.5t,0
+diesel,1,Particulate,3.5t,0.029402372
+diesel,1,Benzene,18t,0.000519756
+diesel,1,Methane,18t,0.000746955
+diesel,1,Carbon monoxide,18t,0.147427412
+diesel,1,Hydrocarbon,18t,0.031123128
+diesel,1,Dinitrogen monoxide,18t,0.000834272
+diesel,1,Ammonia,18t,0.000296558
+diesel,1,NMVOC,18t,0.030376174
+diesel,1,Nitrogen dioxide,18t,0.050326339
+diesel,1,Nitrogen oxides,18t,0.718947684
+diesel,1,Lead,18t,0
+diesel,1,Particulate,18t,0.024973258
+diesel,1,Benzene,26t,0.000752842
+diesel,1,Methane,26t,0.001081928
+diesel,1,Carbon monoxide,26t,0.145025635
+diesel,1,Hydrocarbon,26t,0.045080336
+diesel,1,Dinitrogen monoxide,26t,0.000596604
+diesel,1,Ammonia,26t,0.000212074
+diesel,1,NMVOC,26t,0.043998408
+diesel,1,Nitrogen dioxide,26t,0.048845471
+diesel,1,Nitrogen oxides,26t,0.697792458
+diesel,1,Lead,26t,0
+diesel,1,Particulate,26t,0.030438551
+diesel,1,Benzene,32t,0.000624913
+diesel,1,Methane,32t,0.000898079
+diesel,1,Carbon monoxide,32t,0.152219611
+diesel,1,Hydrocarbon,32t,0.037419956
+diesel,1,Dinitrogen monoxide,32t,0.000890625
+diesel,1,Ammonia,32t,0.000210552
+diesel,1,NMVOC,32t,0.036521877
+diesel,1,Nitrogen dioxide,32t,0.052467729
+diesel,1,Nitrogen oxides,32t,0.749538943
+diesel,1,Lead,32t,0
+diesel,1,Particulate,32t,0.028280329
+diesel,1,Benzene,40t,0.000696297
+diesel,1,Methane,40t,0.001000666
+diesel,1,Carbon monoxide,40t,0.156431943
+diesel,1,Hydrocarbon,40t,0.041694422
+diesel,1,Dinitrogen monoxide,40t,0.000755808
+diesel,1,Ammonia,40t,0.000165212
+diesel,1,NMVOC,40t,0.040693755
+diesel,1,Nitrogen dioxide,40t,0.054408345
+diesel,1,Nitrogen oxides,40t,0.77726206
+diesel,1,Lead,40t,0
+diesel,1,Particulate,40t,0.030123317
+diesel,1,Benzene,60t,0.000693744
+diesel,1,Methane,60t,0.000996997
+diesel,1,Carbon monoxide,60t,0.159488117
+diesel,1,Hydrocarbon,60t,0.04154154
+diesel,1,Dinitrogen monoxide,60t,0.000605943
+diesel,1,Ammonia,60t,0.000132453
+diesel,1,NMVOC,60t,0.040544543
+diesel,1,Nitrogen dioxide,60t,0.055829253
+diesel,1,Nitrogen oxides,60t,0.797560806
+diesel,1,Lead,60t,0
+diesel,1,Particulate,60t,0.030759217
+diesel,1,Benzene,7.5t,0.000748246
+diesel,1,Methane,7.5t,0.001075324
+diesel,1,Carbon monoxide,7.5t,0.134647125
+diesel,1,Hydrocarbon,7.5t,0.044805153
+diesel,1,Dinitrogen monoxide,7.5t,0.001014324
+diesel,1,Ammonia,7.5t,0.000360561
+diesel,1,NMVOC,7.5t,0.043729832
+diesel,1,Nitrogen dioxide,7.5t,0.04721334
+diesel,1,Nitrogen oxides,7.5t,0.674476299
+diesel,1,Lead,7.5t,0
+diesel,1,Particulate,7.5t,0.029156922
+diesel,2,Benzene,3.5t,0.000479912
+diesel,2,Methane,3.5t,0.000689694
+diesel,2,Carbon monoxide,3.5t,0.138590907
+diesel,2,Hydrocarbon,3.5t,0.02873723
+diesel,2,Dinitrogen monoxide,3.5t,0.000692715
+diesel,2,Ammonia,3.5t,0.000494924
+diesel,2,NMVOC,3.5t,0.028047539
+diesel,2,Nitrogen dioxide,3.5t,0.056745095
+diesel,2,Nitrogen oxides,3.5t,0.810644231
+diesel,2,Lead,3.5t,0
+diesel,2,Particulate,3.5t,0.016310862
+diesel,2,Benzene,18t,0.00038523
+diesel,2,Methane,18t,0.000553623
+diesel,2,Carbon monoxide,18t,0.116614901
+diesel,2,Hydrocarbon,18t,0.023067642
+diesel,2,Dinitrogen monoxide,18t,0.000820745
+diesel,2,Ammonia,18t,0.000309606
+diesel,2,NMVOC,18t,0.022514019
+diesel,2,Nitrogen dioxide,18t,0.053801764
+diesel,2,Nitrogen oxides,18t,0.768596627
+diesel,2,Lead,18t,0
+diesel,2,Particulate,18t,0.013702612
+diesel,2,Benzene,26t,0.000509861
+diesel,2,Methane,26t,0.000732734
+diesel,2,Carbon monoxide,26t,0.113374892
+diesel,2,Hydrocarbon,26t,0.0305306
+diesel,2,Dinitrogen monoxide,26t,0.000586128
+diesel,2,Ammonia,26t,0.000221102
+diesel,2,NMVOC,26t,0.029797866
+diesel,2,Nitrogen dioxide,26t,0.052363477
+diesel,2,Nitrogen oxides,26t,0.748049643
+diesel,2,Lead,26t,0
+diesel,2,Particulate,26t,0.015118256
+diesel,2,Benzene,32t,0.00043327
+diesel,2,Methane,32t,0.000622663
+diesel,2,Carbon monoxide,32t,0.126834137
+diesel,2,Hydrocarbon,32t,0.02594429
+diesel,2,Dinitrogen monoxide,32t,0.000930054
+diesel,2,Ammonia,32t,0.000219874
+diesel,2,NMVOC,32t,0.025321627
+diesel,2,Nitrogen dioxide,32t,0.056005084
+diesel,2,Nitrogen oxides,32t,0.80007261
+diesel,2,Lead,32t,0
+diesel,2,Particulate,32t,0.014918348
+diesel,2,Benzene,40t,0.000473122
+diesel,2,Methane,40t,0.000679936
+diesel,2,Carbon monoxide,40t,0.121547776
+diesel,2,Hydrocarbon,40t,0.028330681
+diesel,2,Dinitrogen monoxide,40t,0.000755834
+diesel,2,Ammonia,40t,0.000171293
+diesel,2,NMVOC,40t,0.027650745
+diesel,2,Nitrogen dioxide,40t,0.057310165
+diesel,2,Nitrogen oxides,40t,0.818716643
+diesel,2,Lead,40t,0
+diesel,2,Particulate,40t,0.014930074
+diesel,2,Benzene,60t,0.000461493
+diesel,2,Methane,60t,0.000663224
+diesel,2,Carbon monoxide,60t,0.126266631
+diesel,2,Hydrocarbon,60t,0.027634328
+diesel,2,Dinitrogen monoxide,60t,0.00060182
+diesel,2,Ammonia,60t,0.000136389
+diesel,2,NMVOC,60t,0.026971104
+diesel,2,Nitrogen dioxide,60t,0.058250096
+diesel,2,Nitrogen oxides,60t,0.832144158
+diesel,2,Lead,60t,0
+diesel,2,Particulate,60t,0.015286429
+diesel,2,Benzene,7.5t,0.000541807
+diesel,2,Methane,7.5t,0.000778644
+diesel,2,Carbon monoxide,7.5t,0.110214098
+diesel,2,Hydrocarbon,7.5t,0.032443519
+diesel,2,Dinitrogen monoxide,7.5t,0.001003601
+diesel,2,Ammonia,7.5t,0.000378583
+diesel,2,NMVOC,7.5t,0.031664875
+diesel,2,Nitrogen dioxide,7.5t,0.05222388
+diesel,2,Nitrogen oxides,7.5t,0.746055424
+diesel,2,Lead,7.5t,0
+diesel,2,Particulate,7.5t,0.014951555
+diesel,3,Benzene,3.5t,0.000428769
+diesel,3,Methane,3.5t,0.000616195
+diesel,3,Carbon monoxide,3.5t,0.144966302
+diesel,3,Hydrocarbon,3.5t,0.025674807
+diesel,3,Dinitrogen monoxide,3.5t,0.000423978
+diesel,3,Ammonia,3.5t,0.000486083
+diesel,3,NMVOC,3.5t,0.025058613
+diesel,3,Nitrogen dioxide,3.5t,0.042285526
+diesel,3,Nitrogen oxides,3.5t,0.604078954
+diesel,3,Lead,3.5t,0
+diesel,3,Particulate,3.5t,0.013602407
+diesel,3,Benzene,18t,0.00033611
+diesel,3,Methane,18t,0.000483033
+diesel,3,Carbon monoxide,18t,0.116218715
+diesel,3,Hydrocarbon,18t,0.020126363
+diesel,3,Dinitrogen monoxide,18t,0.000472451
+diesel,3,Ammonia,18t,0.000302487
+diesel,3,NMVOC,18t,0.019643331
+diesel,3,Nitrogen dioxide,18t,0.041003855
+diesel,3,Nitrogen oxides,18t,0.58576938
+diesel,3,Lead,18t,0
+diesel,3,Particulate,18t,0.011286759
+diesel,3,Benzene,26t,0.00048411
+diesel,3,Methane,26t,0.000695726
+diesel,3,Carbon monoxide,26t,0.133098577
+diesel,3,Hydrocarbon,26t,0.028988602
+diesel,3,Dinitrogen monoxide,26t,0.000342621
+diesel,3,Ammonia,26t,0.000219363
+diesel,3,NMVOC,26t,0.028292876
+diesel,3,Nitrogen dioxide,26t,0.0401842
+diesel,3,Nitrogen oxides,26t,0.574060006
+diesel,3,Lead,26t,0
+diesel,3,Particulate,26t,0.014672842
+diesel,3,Benzene,32t,0.00041265
+diesel,3,Methane,32t,0.00059303
+diesel,3,Carbon monoxide,32t,0.13985997
+diesel,3,Hydrocarbon,32t,0.024709584
+diesel,3,Dinitrogen monoxide,32t,0.000528758
+diesel,3,Ammonia,32t,0.000217227
+diesel,3,NMVOC,32t,0.024116554
+diesel,3,Nitrogen dioxide,32t,0.045114778
+diesel,3,Nitrogen oxides,32t,0.644496832
+diesel,3,Lead,32t,0
+diesel,3,Particulate,32t,0.013424137
+diesel,3,Benzene,40t,0.000444835
+diesel,3,Methane,40t,0.000639284
+diesel,3,Carbon monoxide,40t,0.142053231
+diesel,3,Hydrocarbon,40t,0.026636849
+diesel,3,Dinitrogen monoxide,40t,0.000478082
+diesel,3,Ammonia,40t,0.000172037
+diesel,3,NMVOC,40t,0.025997564
+diesel,3,Nitrogen dioxide,40t,0.045596594
+diesel,3,Nitrogen oxides,40t,0.651379908
+diesel,3,Lead,40t,0
+diesel,3,Particulate,40t,0.014074437
+diesel,3,Benzene,60t,0.000433498
+diesel,3,Methane,60t,0.000622991
+diesel,3,Carbon monoxide,60t,0.143727836
+diesel,3,Hydrocarbon,60t,0.025957964
+diesel,3,Dinitrogen monoxide,60t,0.000384774
+diesel,3,Ammonia,60t,0.00013846
+diesel,3,NMVOC,60t,0.025334972
+diesel,3,Nitrogen dioxide,60t,0.046823681
+diesel,3,Nitrogen oxides,60t,0.668909731
+diesel,3,Lead,60t,0
+diesel,3,Particulate,60t,0.014134848
+diesel,3,Benzene,7.5t,0.000467662
+diesel,3,Methane,7.5t,0.000672089
+diesel,3,Carbon monoxide,7.5t,0.12603213
+diesel,3,Hydrocarbon,7.5t,0.028003689
+diesel,3,Dinitrogen monoxide,7.5t,0.000584924
+diesel,3,Ammonia,7.5t,0.000374498
+diesel,3,NMVOC,7.5t,0.0273316
+diesel,3,Nitrogen dioxide,7.5t,0.037999498
+diesel,3,Nitrogen oxides,7.5t,0.542849988
+diesel,3,Lead,7.5t,0
+diesel,3,Particulate,7.5t,0.013769823
+diesel,4,Benzene,3.5t,4.1963E-05
+diesel,4,Methane,3.5t,6.03061E-05
+diesel,4,Carbon monoxide,3.5t,0.141392198
+diesel,4,Hydrocarbon,3.5t,0.002512753
+diesel,4,Dinitrogen monoxide,3.5t,0.000879141
+diesel,4,Ammonia,3.5t,0.000393396
+diesel,4,NMVOC,3.5t,0.002452447
+diesel,4,Nitrogen dioxide,3.5t,0.053677426
+diesel,4,Nitrogen oxides,3.5t,0.418308522
+diesel,4,Lead,3.5t,0
+diesel,4,Particulate,3.5t,0.003531138
+diesel,4,Benzene,18t,4.13841E-05
+diesel,4,Methane,18t,5.94741E-05
+diesel,4,Carbon monoxide,18t,0.156679249
+diesel,4,Hydrocarbon,18t,0.002478088
+diesel,4,Dinitrogen monoxide,18t,0.00112033
+diesel,4,Ammonia,18t,0.000259053
+diesel,4,NMVOC,18t,0.002418614
+diesel,4,Nitrogen dioxide,18t,0.053367847
+diesel,4,Nitrogen oxides,18t,0.408030786
+diesel,4,Lead,18t,0
+diesel,4,Particulate,18t,0.00348988
+diesel,4,Benzene,26t,5.05301E-05
+diesel,4,Methane,26t,7.26181E-05
+diesel,4,Carbon monoxide,26t,0.100978717
+diesel,4,Hydrocarbon,26t,0.003025754
+diesel,4,Dinitrogen monoxide,26t,0.000808494
+diesel,4,Ammonia,26t,0.000186947
+diesel,4,NMVOC,26t,0.002953135
+diesel,4,Nitrogen dioxide,26t,0.047985549
+diesel,4,Nitrogen oxides,26t,0.394489152
+diesel,4,Lead,26t,0
+diesel,4,Particulate,26t,0.003022449
+diesel,4,Benzene,32t,4.2533E-05
+diesel,4,Methane,32t,6.11252E-05
+diesel,4,Carbon monoxide,32t,0.132857687
+diesel,4,Hydrocarbon,32t,0.002546885
+diesel,4,Dinitrogen monoxide,32t,0.001229885
+diesel,4,Ammonia,32t,0.000184616
+diesel,4,NMVOC,32t,0.00248576
+diesel,4,Nitrogen dioxide,32t,0.054438199
+diesel,4,Nitrogen oxides,32t,0.419410291
+diesel,4,Lead,32t,0
+diesel,4,Particulate,32t,0.003311362
+diesel,4,Benzene,40t,4.38032E-05
+diesel,4,Methane,40t,6.29507E-05
+diesel,4,Carbon monoxide,40t,0.124583832
+diesel,4,Hydrocarbon,40t,0.002622946
+diesel,4,Dinitrogen monoxide,40t,0.001063792
+diesel,4,Ammonia,40t,0.000145482
+diesel,4,NMVOC,40t,0.002559995
+diesel,4,Nitrogen dioxide,40t,0.053542434
+diesel,4,Nitrogen oxides,40t,0.416800528
+diesel,4,Lead,40t,0
+diesel,4,Particulate,40t,0.003201338
+diesel,4,Benzene,60t,4.45306E-05
+diesel,4,Methane,60t,6.39961E-05
+diesel,4,Carbon monoxide,60t,0.124520171
+diesel,4,Hydrocarbon,60t,0.002666503
+diesel,4,Dinitrogen monoxide,60t,0.000852011
+diesel,4,Ammonia,60t,0.000116519
+diesel,4,NMVOC,60t,0.002602507
+diesel,4,Nitrogen dioxide,60t,0.054852584
+diesel,4,Nitrogen oxides,60t,0.422634539
+diesel,4,Lead,60t,0
+diesel,4,Particulate,60t,0.003191584
+diesel,4,Benzene,7.5t,4.53767E-05
+diesel,4,Methane,7.5t,6.52121E-05
+diesel,4,Carbon monoxide,7.5t,0.110576565
+diesel,4,Hydrocarbon,7.5t,0.00271717
+diesel,4,Dinitrogen monoxide,7.5t,0.001390266
+diesel,4,Ammonia,7.5t,0.00032411
+diesel,4,NMVOC,7.5t,0.002651958
+diesel,4,Nitrogen dioxide,7.5t,0.047487496
+diesel,4,Nitrogen oxides,7.5t,0.387664152
+diesel,4,Lead,7.5t,0
+diesel,4,Particulate,7.5t,0.003075972
+compressed gas,4,Benzene,3.5t,0
+compressed gas,4,Methane,3.5t,0.047311339
+compressed gas,4,Carbon monoxide,3.5t,0.090414776
+compressed gas,4,Hydrocarbon,3.5t,0.05142537
+compressed gas,4,NMVOC,3.5t,0.004114029
+compressed gas,4,Nitrogen dioxide,3.5t,0.15346441
+compressed gas,4,Nitrogen oxides,3.5t,0.613857641
+compressed gas,4,Lead,3.5t,0
+compressed gas,4,Particulate,3.5t,0.000353135
+diesel,5,Benzene,3.5t,6.13155E-05
+diesel,5,Methane,3.5t,8.81181E-05
+diesel,5,Carbon monoxide,3.5t,0.130894659
+diesel,5,Hydrocarbon,3.5t,0.003671589
+diesel,5,Dinitrogen monoxide,3.5t,0.002605092
+diesel,5,Ammonia,3.5t,0.001562548
+diesel,5,NMVOC,3.5t,0.003583471
+diesel,5,Nitrogen dioxide,3.5t,0.049811393
+diesel,5,Nitrogen oxides,3.5t,0.379989279
+diesel,5,Lead,3.5t,0
+diesel,5,Particulate,3.5t,0.003307965
+diesel,5,Benzene,18t,6.41965E-05
+diesel,5,Methane,18t,9.22585E-05
+diesel,5,Carbon monoxide,18t,0.151413641
+diesel,5,Hydrocarbon,18t,0.003844104
+diesel,5,Dinitrogen monoxide,18t,0.003406521
+diesel,5,Ammonia,18t,0.001024426
+diesel,5,NMVOC,18t,0.003751846
+diesel,5,Nitrogen dioxide,18t,0.046581551
+diesel,5,Nitrogen oxides,18t,0.372185021
+diesel,5,Lead,18t,0
+diesel,5,Particulate,18t,0.003491803
+diesel,5,Benzene,26t,6.76926E-05
+diesel,5,Methane,26t,9.72828E-05
+diesel,5,Carbon monoxide,26t,0.092522347
+diesel,5,Hydrocarbon,26t,0.004053452
+diesel,5,Dinitrogen monoxide,26t,0.002464883
+diesel,5,Ammonia,26t,0.000741252
+diesel,5,NMVOC,26t,0.003956169
+diesel,5,Nitrogen dioxide,26t,0.039700059
+diesel,5,Nitrogen oxides,26t,0.33352804
+diesel,5,Lead,26t,0
+diesel,5,Particulate,26t,0.003534923
+diesel,5,Benzene,32t,5.96225E-05
+diesel,5,Methane,32t,8.5685E-05
+diesel,5,Carbon monoxide,32t,0.124596623
+diesel,5,Hydrocarbon,32t,0.003570209
+diesel,5,Dinitrogen monoxide,32t,0.00373838
+diesel,5,Ammonia,32t,0.000733009
+diesel,5,NMVOC,32t,0.003484524
+diesel,5,Nitrogen dioxide,32t,0.04394962
+diesel,5,Nitrogen oxides,32t,0.352863857
+diesel,5,Lead,32t,0
+diesel,5,Particulate,32t,0.003172035
+diesel,5,Benzene,40t,6.29611E-05
+diesel,5,Methane,40t,9.0483E-05
+diesel,5,Carbon monoxide,40t,0.111126149
+diesel,5,Hydrocarbon,40t,0.003770126
+diesel,5,Dinitrogen monoxide,40t,0.003165154
+diesel,5,Ammonia,40t,0.00057411
+diesel,5,NMVOC,40t,0.003679643
+diesel,5,Nitrogen dioxide,40t,0.043439586
+diesel,5,Nitrogen oxides,40t,0.352902499
+diesel,5,Lead,40t,0
+diesel,5,Particulate,40t,0.003120677
+diesel,5,Benzene,60t,6.2007E-05
+diesel,5,Methane,60t,8.91119E-05
+diesel,5,Carbon monoxide,60t,0.110316253
+diesel,5,Hydrocarbon,60t,0.003712994
+diesel,5,Dinitrogen monoxide,60t,0.002533172
+diesel,5,Ammonia,60t,0.000459478
+diesel,5,NMVOC,60t,0.003623882
+diesel,5,Nitrogen dioxide,60t,0.043745028
+diesel,5,Nitrogen oxides,60t,0.354283249
+diesel,5,Lead,60t,0
+diesel,5,Particulate,60t,0.003096562
+diesel,5,Benzene,7.5t,6.38548E-05
+diesel,5,Methane,7.5t,9.17674E-05
+diesel,5,Carbon monoxide,7.5t,0.106025344
+diesel,5,Hydrocarbon,7.5t,0.00382364
+diesel,5,Dinitrogen monoxide,7.5t,0.004307557
+diesel,5,Ammonia,7.5t,0.001291782
+diesel,5,NMVOC,7.5t,0.003731872
+diesel,5,Nitrogen dioxide,7.5t,0.039311876
+diesel,5,Nitrogen oxides,7.5t,0.32900227
+diesel,5,Lead,7.5t,0
+diesel,5,Particulate,7.5t,0.003495909
+compressed gas,5,Benzene,3.5t,0
+compressed gas,5,Methane,3.5t,0.022610088
+compressed gas,5,Carbon monoxide,3.5t,0.052087487
+compressed gas,5,Hydrocarbon,3.5t,0.024576181
+compressed gas,5,NMVOC,3.5t,0.001966094
+compressed gas,5,Nitrogen dioxide,3.5t,0.023681259
+compressed gas,5,Nitrogen oxides,3.5t,0.094725037
+compressed gas,5,Lead,3.5t,0
+compressed gas,5,Particulate,3.5t,0.000406425
+diesel,6,Benzene,3.5t,2.02051E-05
+diesel,6,Methane,3.5t,2.90373E-05
+diesel,6,Carbon monoxide,3.5t,0.012226801
+diesel,6,Hydrocarbon,3.5t,0.001209888
+diesel,6,Dinitrogen monoxide,3.5t,0.002233729
+diesel,6,Ammonia,3.5t,0.000922017
+diesel,6,NMVOC,3.5t,0.001180851
+diesel,6,Nitrogen dioxide,3.5t,0.044354288
+diesel,6,Nitrogen oxides,3.5t,0.158408178
+diesel,6,Lead,3.5t,0
+diesel,6,Particulate,3.5t,0.000602185
+diesel,6,Benzene,18t,2.31276E-05
+diesel,6,Methane,18t,3.32373E-05
+diesel,6,Carbon monoxide,18t,0.015201498
+diesel,6,Hydrocarbon,18t,0.001384887
+diesel,6,Dinitrogen monoxide,18t,0.00296173
+diesel,6,Ammonia,18t,0.000837742
+diesel,6,NMVOC,18t,0.00135165
+diesel,6,Nitrogen dioxide,18t,0.041348384
+diesel,6,Nitrogen oxides,18t,0.147672791
+diesel,6,Lead,18t,0
+diesel,6,Particulate,18t,0.000803979
+diesel,6,Benzene,26t,2.19065E-05
+diesel,6,Methane,26t,3.14824E-05
+diesel,6,Carbon monoxide,26t,0.013458719
+diesel,6,Hydrocarbon,26t,0.001311766
+diesel,6,Dinitrogen monoxide,26t,0.002124266
+diesel,6,Ammonia,26t,0.000810293
+diesel,6,NMVOC,26t,0.001280284
+diesel,6,Nitrogen dioxide,26t,0.04536891
+diesel,6,Nitrogen oxides,26t,0.162031825
+diesel,6,Lead,26t,0
+diesel,6,Particulate,26t,0.001412802
+diesel,6,Benzene,32t,2.22174E-05
+diesel,6,Methane,32t,3.19293E-05
+diesel,6,Carbon monoxide,32t,0.012852466
+diesel,6,Hydrocarbon,32t,0.001330386
+diesel,6,Dinitrogen monoxide,32t,0.00318885
+diesel,6,Ammonia,32t,0.00078999
+diesel,6,NMVOC,32t,0.001298457
+diesel,6,Nitrogen dioxide,32t,0.042732512
+diesel,6,Nitrogen oxides,32t,0.15261611
+diesel,6,Lead,32t,0
+diesel,6,Particulate,32t,0.000641224
+diesel,6,Benzene,40t,2.28577E-05
+diesel,6,Methane,40t,3.28494E-05
+diesel,6,Carbon monoxide,40t,0.012617528
+diesel,6,Hydrocarbon,40t,0.001368727
+diesel,6,Dinitrogen monoxide,40t,0.002708662
+diesel,6,Ammonia,40t,0.000946766
+diesel,6,NMVOC,40t,0.001335877
+diesel,6,Nitrogen dioxide,40t,0.044016904
+diesel,6,Nitrogen oxides,40t,0.157203227
+diesel,6,Lead,40t,0
+diesel,6,Particulate,40t,0.000655881
+diesel,6,Benzene,60t,2.23823E-05
+diesel,6,Methane,60t,3.21662E-05
+diesel,6,Carbon monoxide,60t,0.012270925
+diesel,6,Hydrocarbon,60t,0.001340258
+diesel,6,Dinitrogen monoxide,60t,0.002169527
+diesel,6,Ammonia,60t,0.000715563
+diesel,6,NMVOC,60t,0.001308092
+diesel,6,Nitrogen dioxide,60t,0.045504045
+diesel,6,Nitrogen oxides,60t,0.162514443
+diesel,6,Lead,60t,0
+diesel,6,Particulate,60t,0.000635626
+diesel,6,Benzene,7.5t,2.19637E-05
+diesel,6,Methane,7.5t,3.15645E-05
+diesel,6,Carbon monoxide,7.5t,0.012949494
+diesel,6,Hydrocarbon,7.5t,0.001315189
+diesel,6,Dinitrogen monoxide,7.5t,0.003696408
+diesel,6,Ammonia,7.5t,0.000939007
+diesel,6,NMVOC,7.5t,0.001283625
+diesel,6,Nitrogen dioxide,7.5t,0.042103441
+diesel,6,Nitrogen oxides,7.5t,0.15036943
+diesel,6,Lead,7.5t,0
+diesel,6,Particulate,7.5t,0.001344127
+compressed gas,6,Benzene,3.5t,0
+compressed gas,6,Methane,3.5t,0.011069846
+compressed gas,6,Carbon monoxide,3.5t,0.045409835
+compressed gas,6,Hydrocarbon,3.5t,0.012032441
+compressed gas,6,NMVOC,3.5t,0.000962595
+compressed gas,6,Nitrogen dioxide,3.5t,0.00753617
+compressed gas,6,Nitrogen oxides,3.5t,0.030144679
+compressed gas,6,Lead,3.5t,0
+compressed gas,6,Particulate,3.5t,0.000406425
+diesel,6.1,Benzene,3.5t,3.13026E-05
+diesel,6.1,Methane,3.5t,4.49858E-05
+diesel,6.1,Carbon monoxide,3.5t,0.006437665
+diesel,6.1,Hydrocarbon,3.5t,0.001874408
+diesel,6.1,Dinitrogen monoxide,3.5t,0.00232627
+diesel,6.1,Ammonia,3.5t,0.000960215
+diesel,6.1,NMVOC,3.5t,0.001829422
+diesel,6.1,Nitrogen dioxide,3.5t,0.049243132
+diesel,6.1,Nitrogen oxides,3.5t,0.175868338
+diesel,6.1,Lead,3.5t,0
+diesel,6.1,Particulate,3.5t,0.000190935
+diesel,6.1,Benzene,18t,3.68107E-05
+diesel,6.1,Methane,18t,5.29016E-05
+diesel,6.1,Carbon monoxide,18t,0.010012942
+diesel,6.1,Hydrocarbon,18t,0.002204235
+diesel,6.1,Dinitrogen monoxide,18t,0.003009196
+diesel,6.1,Ammonia,18t,0.000851168
+diesel,6.1,NMVOC,18t,0.002151333
+diesel,6.1,Nitrogen dioxide,18t,0.048082987
+diesel,6.1,Nitrogen oxides,18t,0.171724951
+diesel,6.1,Lead,18t,0
+diesel,6.1,Particulate,18t,0.000209781
+diesel,6.1,Benzene,26t,3.96987E-05
+diesel,6.1,Methane,26t,5.70521E-05
+diesel,6.1,Carbon monoxide,26t,0.002914299
+diesel,6.1,Hydrocarbon,26t,0.00237717
+diesel,6.1,Dinitrogen monoxide,26t,0.002129633
+diesel,6.1,Ammonia,26t,0.00081234
+diesel,6.1,NMVOC,26t,0.002320118
+diesel,6.1,Nitrogen dioxide,26t,0.047933991
+diesel,6.1,Nitrogen oxides,26t,0.171192828
+diesel,6.1,Lead,26t,0
+diesel,6.1,Particulate,26t,0.000226341
+diesel,6.1,Benzene,32t,3.17818E-05
+diesel,6.1,Methane,32t,4.56744E-05
+diesel,6.1,Carbon monoxide,32t,0.00613751
+diesel,6.1,Hydrocarbon,32t,0.001903102
+diesel,6.1,Dinitrogen monoxide,32t,0.003221954
+diesel,6.1,Ammonia,32t,0.000798191
+diesel,6.1,NMVOC,32t,0.001857428
+diesel,6.1,Nitrogen dioxide,32t,0.047775928
+diesel,6.1,Nitrogen oxides,32t,0.170628315
+diesel,6.1,Lead,32t,0
+diesel,6.1,Particulate,32t,0.000205526
+diesel,6.1,Benzene,40t,3.35577E-05
+diesel,6.1,Methane,40t,4.82266E-05
+diesel,6.1,Carbon monoxide,40t,0.004109642
+diesel,6.1,Hydrocarbon,40t,0.00200944
+diesel,6.1,Dinitrogen monoxide,40t,0.002729423
+diesel,6.1,Ammonia,40t,0.000954022
+diesel,6.1,NMVOC,40t,0.001961214
+diesel,6.1,Nitrogen dioxide,40t,0.050466081
+diesel,6.1,Nitrogen oxides,40t,0.180236002
+diesel,6.1,Lead,40t,0
+diesel,6.1,Particulate,40t,0.000210927
+diesel,6.1,Benzene,60t,3.29682E-05
+diesel,6.1,Methane,60t,4.73794E-05
+diesel,6.1,Carbon monoxide,60t,0.004006778
+diesel,6.1,Hydrocarbon,60t,0.001974143
+diesel,6.1,Dinitrogen monoxide,60t,0.002183316
+diesel,6.1,Ammonia,60t,0.000720111
+diesel,6.1,NMVOC,60t,0.001926763
+diesel,6.1,Nitrogen dioxide,60t,0.052042815
+diesel,6.1,Nitrogen oxides,60t,0.185867191
+diesel,6.1,Lead,60t,0
+diesel,6.1,Particulate,60t,0.000213184
+diesel,6.1,Benzene,7.5t,3.2375E-05
+diesel,6.1,Methane,7.5t,4.65269E-05
+diesel,6.1,Carbon monoxide,7.5t,0.005352255
+diesel,6.1,Hydrocarbon,7.5t,0.00193862
+diesel,6.1,Dinitrogen monoxide,7.5t,0.003762394
+diesel,6.1,Ammonia,7.5t,0.000955769
+diesel,6.1,NMVOC,7.5t,0.001892093
+diesel,6.1,Nitrogen dioxide,7.5t,0.044305771
+diesel,6.1,Nitrogen oxides,7.5t,0.158234892
+diesel,6.1,Lead,7.5t,0
+diesel,6.1,Particulate,7.5t,0.000209234
+compressed gas,4,Benzene,18t,0
+compressed gas,4,Methane,18t,0.047311339
+compressed gas,4,Carbon monoxide,18t,0.090414776
+compressed gas,4,Hydrocarbon,18t,0.05142537
+compressed gas,4,NMVOC,18t,0.004114029
+compressed gas,4,Nitrogen dioxide,18t,0.15346441
+compressed gas,4,Nitrogen oxides,18t,0.613857641
+compressed gas,4,Lead,18t,0
+compressed gas,4,Particulate,18t,0.000353135
+compressed gas,5,Benzene,18t,0
+compressed gas,5,Methane,18t,0.022610088
+compressed gas,5,Carbon monoxide,18t,0.052087487
+compressed gas,5,Hydrocarbon,18t,0.024576181
+compressed gas,5,NMVOC,18t,0.001966094
+compressed gas,5,Nitrogen dioxide,18t,0.023681259
+compressed gas,5,Nitrogen oxides,18t,0.094725037
+compressed gas,5,Lead,18t,0
+compressed gas,5,Particulate,18t,0.000406425
+compressed gas,6,Benzene,18t,0
+compressed gas,6,Methane,18t,0.011069846
+compressed gas,6,Carbon monoxide,18t,0.045409835
+compressed gas,6,Hydrocarbon,18t,0.012032441
+compressed gas,6,NMVOC,18t,0.000962595
+compressed gas,6,Nitrogen dioxide,18t,0.00753617
+compressed gas,6,Nitrogen oxides,18t,0.030144679
+compressed gas,6,Lead,18t,0
+compressed gas,6,Particulate,18t,0.000406425
+compressed gas,4,Benzene,26t,0
+compressed gas,4,Methane,26t,0.047311339
+compressed gas,4,Carbon monoxide,26t,0.090414776
+compressed gas,4,Hydrocarbon,26t,0.05142537
+compressed gas,4,NMVOC,26t,0.004114029
+compressed gas,4,Nitrogen dioxide,26t,0.15346441
+compressed gas,4,Nitrogen oxides,26t,0.613857641
+compressed gas,4,Lead,26t,0
+compressed gas,4,Particulate,26t,0.000353135
+compressed gas,5,Benzene,26t,0
+compressed gas,5,Methane,26t,0.022610088
+compressed gas,5,Carbon monoxide,26t,0.052087487
+compressed gas,5,Hydrocarbon,26t,0.024576181
+compressed gas,5,NMVOC,26t,0.001966094
+compressed gas,5,Nitrogen dioxide,26t,0.023681259
+compressed gas,5,Nitrogen oxides,26t,0.094725037
+compressed gas,5,Lead,26t,0
+compressed gas,5,Particulate,26t,0.000406425
+compressed gas,6,Benzene,26t,0
+compressed gas,6,Methane,26t,0.011069846
+compressed gas,6,Carbon monoxide,26t,0.045409835
+compressed gas,6,Hydrocarbon,26t,0.012032441
+compressed gas,6,NMVOC,26t,0.000962595
+compressed gas,6,Nitrogen dioxide,26t,0.00753617
+compressed gas,6,Nitrogen oxides,26t,0.030144679
+compressed gas,6,Lead,26t,0
+compressed gas,6,Particulate,26t,0.000406425
+compressed gas,4,Benzene,32t,0
+compressed gas,4,Methane,32t,0.047311339
+compressed gas,4,Carbon monoxide,32t,0.090414776
+compressed gas,4,Hydrocarbon,32t,0.05142537
+compressed gas,4,NMVOC,32t,0.004114029
+compressed gas,4,Nitrogen dioxide,32t,0.15346441
+compressed gas,4,Nitrogen oxides,32t,0.613857641
+compressed gas,4,Lead,32t,0
+compressed gas,4,Particulate,32t,0.000353135
+compressed gas,5,Benzene,32t,0
+compressed gas,5,Methane,32t,0.022610088
+compressed gas,5,Carbon monoxide,32t,0.052087487
+compressed gas,5,Hydrocarbon,32t,0.024576181
+compressed gas,5,NMVOC,32t,0.001966094
+compressed gas,5,Nitrogen dioxide,32t,0.023681259
+compressed gas,5,Nitrogen oxides,32t,0.094725037
+compressed gas,5,Lead,32t,0
+compressed gas,5,Particulate,32t,0.000406425
+compressed gas,6,Benzene,32t,0
+compressed gas,6,Methane,32t,0.011069846
+compressed gas,6,Carbon monoxide,32t,0.045409835
+compressed gas,6,Hydrocarbon,32t,0.012032441
+compressed gas,6,NMVOC,32t,0.000962595
+compressed gas,6,Nitrogen dioxide,32t,0.00753617
+compressed gas,6,Nitrogen oxides,32t,0.030144679
+compressed gas,6,Lead,32t,0
+compressed gas,6,Particulate,32t,0.000406425
+compressed gas,4,Benzene,40t,0
+compressed gas,4,Methane,40t,0.047311339
+compressed gas,4,Carbon monoxide,40t,0.090414776
+compressed gas,4,Hydrocarbon,40t,0.05142537
+compressed gas,4,NMVOC,40t,0.004114029
+compressed gas,4,Nitrogen dioxide,40t,0.15346441
+compressed gas,4,Nitrogen oxides,40t,0.613857641
+compressed gas,4,Lead,40t,0
+compressed gas,4,Particulate,40t,0.000353135
+compressed gas,5,Benzene,40t,0
+compressed gas,5,Methane,40t,0.022610088
+compressed gas,5,Carbon monoxide,40t,0.052087487
+compressed gas,5,Hydrocarbon,40t,0.024576181
+compressed gas,5,NMVOC,40t,0.001966094
+compressed gas,5,Nitrogen dioxide,40t,0.023681259
+compressed gas,5,Nitrogen oxides,40t,0.094725037
+compressed gas,5,Lead,40t,0
+compressed gas,5,Particulate,40t,0.000406425
+compressed gas,6,Benzene,40t,0
+compressed gas,6,Methane,40t,0.011069846
+compressed gas,6,Carbon monoxide,40t,0.045409835
+compressed gas,6,Hydrocarbon,40t,0.012032441
+compressed gas,6,NMVOC,40t,0.000962595
+compressed gas,6,Nitrogen dioxide,40t,0.00753617
+compressed gas,6,Nitrogen oxides,40t,0.030144679
+compressed gas,6,Lead,40t,0
+compressed gas,6,Particulate,40t,0.000406425
+compressed gas,4,Benzene,60t,0
+compressed gas,4,Methane,60t,0.047311339
+compressed gas,4,Carbon monoxide,60t,0.090414776
+compressed gas,4,Hydrocarbon,60t,0.05142537
+compressed gas,4,NMVOC,60t,0.004114029
+compressed gas,4,Nitrogen dioxide,60t,0.15346441
+compressed gas,4,Nitrogen oxides,60t,0.613857641
+compressed gas,4,Lead,60t,0
+compressed gas,4,Particulate,60t,0.000353135
+compressed gas,5,Benzene,60t,0
+compressed gas,5,Methane,60t,0.022610088
+compressed gas,5,Carbon monoxide,60t,0.052087487
+compressed gas,5,Hydrocarbon,60t,0.024576181
+compressed gas,5,NMVOC,60t,0.001966094
+compressed gas,5,Nitrogen dioxide,60t,0.023681259
+compressed gas,5,Nitrogen oxides,60t,0.094725037
+compressed gas,5,Lead,60t,0
+compressed gas,5,Particulate,60t,0.000406425
+compressed gas,6,Benzene,60t,0
+compressed gas,6,Methane,60t,0.011069846
+compressed gas,6,Carbon monoxide,60t,0.045409835
+compressed gas,6,Hydrocarbon,60t,0.012032441
+compressed gas,6,NMVOC,60t,0.000962595
+compressed gas,6,Nitrogen dioxide,60t,0.00753617
+compressed gas,6,Nitrogen oxides,60t,0.030144679
+compressed gas,6,Lead,60t,0
+compressed gas,6,Particulate,60t,0.000406425
+compressed gas,4,Benzene,7.5t,0
+compressed gas,4,Methane,7.5t,0.047311339
+compressed gas,4,Carbon monoxide,7.5t,0.090414776
+compressed gas,4,Hydrocarbon,7.5t,0.05142537
+compressed gas,4,NMVOC,7.5t,0.004114029
+compressed gas,4,Nitrogen dioxide,7.5t,0.15346441
+compressed gas,4,Nitrogen oxides,7.5t,0.613857641
+compressed gas,4,Lead,7.5t,0
+compressed gas,4,Particulate,7.5t,0.000353135
+compressed gas,5,Benzene,7.5t,0
+compressed gas,5,Methane,7.5t,0.022610088
+compressed gas,5,Carbon monoxide,7.5t,0.052087487
+compressed gas,5,Hydrocarbon,7.5t,0.024576181
+compressed gas,5,NMVOC,7.5t,0.001966094
+compressed gas,5,Nitrogen dioxide,7.5t,0.023681259
+compressed gas,5,Nitrogen oxides,7.5t,0.094725037
+compressed gas,5,Lead,7.5t,0
+compressed gas,5,Particulate,7.5t,0.000406425
+compressed gas,6,Benzene,7.5t,0
+compressed gas,6,Methane,7.5t,0.011069846
+compressed gas,6,Carbon monoxide,7.5t,0.045409835
+compressed gas,6,Hydrocarbon,7.5t,0.012032441
+compressed gas,6,NMVOC,7.5t,0.000962595
+compressed gas,6,Nitrogen dioxide,7.5t,0.00753617
+compressed gas,6,Nitrogen oxides,7.5t,0.030144679
+compressed gas,6,Lead,7.5t,0
+compressed gas,6,Particulate,7.5t,0.000406425

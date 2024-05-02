@@ -27,9 +27,8 @@ from scipy import sparse as nsp
 from . import __version__
 from .data_collection import get_delimiter
 from .filesystem_constants import DATA_DIR
-from .geomap import Geomap
 from .inventory_imports import get_correspondence_bio_flows
-from .utils import reset_all_codes
+from .utils import reset_all_codes, load_database, dump_database
 from .validation import BaseDatasetValidator
 
 FILEPATH_SIMAPRO_UNITS = DATA_DIR / "utils" / "export" / "simapro_units.yml"
@@ -340,8 +339,13 @@ def correct_biosphere_flow(name, cat, unit, version):
                 name = bio_flows_correspondence[main_cat][name]
                 return bio_dict[(name, main_cat, sub_cat, unit)]
     except:
-        print(name, cat, unit, version)
-        raise
+        print(f"{name, cat, unit, version} not found in biosphere dictionary.")
+        return None
+
+    if (name, main_cat, sub_cat, unit) not in bio_dict:
+        print(f"{name, cat, unit, version} not found in biosphere dictionary.")
+        return None
+
     return bio_dict[(name, main_cat, sub_cat, unit)]
 
 
@@ -971,6 +975,7 @@ def prepare_db_for_export(
 
 
 def _prepare_database(scenario, db_name, original_database, keep_uncertainty_data):
+
     scenario["database"] = prepare_db_for_export(
         scenario,
         name=db_name,

@@ -476,18 +476,19 @@ Gas CC:
     - electricity production, natural gas, combined cycle power plant
   ecoinvent_fuel_aliases:
     fltr:
-    - market for natural gas, high pressure
-    - market for natural gas, medium pressure
-    - market for natural gas, low pressure
-    - market group for natural gas
+      - market for natural gas, high pressure
+      - market for natural gas, medium pressure
+      - market for natural gas, low pressure
+      - market group for natural gas
+      - natural gas, high pressure, at consumer
     mask:
-    - liquids
-    - liquefied
-    - unprocessed
-    - station
-    - burned
-    - vented
-    - vehicle
+      - liquids
+      - liquefied
+      - unprocessed
+      - station
+      - burned
+      - vented
+      - vehicle
   eff_aliases:
     gcam: Efficiency|Electricity|gas (CC)
     image: Efficiency|Electricity|Gas|w/o CCS|2
@@ -508,8 +509,19 @@ Gas CC CCS:
       pipeline 200km, storage 1000m
   ecoinvent_fuel_aliases:
     fltr:
-    - market group for natural gas
-    - market for natural gas
+      - market for natural gas, high pressure
+      - market for natural gas, medium pressure
+      - market for natural gas, low pressure
+      - market group for natural gas
+      - natural gas, high pressure, at consumer
+    mask:
+      - liquids
+      - liquefied
+      - unprocessed
+      - station
+      - burned
+      - vented
+      - vehicle
   eff_aliases:
     gcam: Efficiency|Electricity|gas (CC CCS)
     image: Efficiency|Electricity|Gas|w/ CCS|1
@@ -533,18 +545,19 @@ Gas CHP:
       reference product: heat
   ecoinvent_fuel_aliases:
     fltr:
-    - market for natural gas, high pressure
-    - market for natural gas, medium pressure
-    - market for natural gas, low pressure
-    - market group for natural gas
+      - market for natural gas, high pressure
+      - market for natural gas, medium pressure
+      - market for natural gas, low pressure
+      - market group for natural gas
+      - natural gas, high pressure, at consumer
     mask:
-    - liquids
-    - liquefied
-    - unprocessed
-    - station
-    - burned
-    - vented
-    - vehicle
+      - liquids
+      - liquefied
+      - unprocessed
+      - station
+      - burned
+      - vented
+      - vehicle
   eff_aliases:
     image: Efficiency|Electricity|Gas|w/o CCS|3
     remind: Tech|Electricity|Gas|Combined Heat and Power w/o CC|Efficiency
@@ -575,17 +588,19 @@ Gas GT:
       name: pipeline
   ecoinvent_fuel_aliases:
     fltr:
-    - market for natural gas, high pressure
-    - market for natural gas, medium pressure
-    - market for natural gas, low pressure
+      - market for natural gas, high pressure
+      - market for natural gas, medium pressure
+      - market for natural gas, low pressure
+      - market group for natural gas
+      - natural gas, high pressure, at consumer
     mask:
-    - liquids
-    - liquefied
-    - unprocessed
-    - station
-    - burned
-    - vented
-    - vehicle
+      - liquids
+      - liquefied
+      - unprocessed
+      - station
+      - burned
+      - vented
+      - vehicle
   eff_aliases:
     tiam-ucl: Efficiency|Electricity|Gas turbine|w/o CCS
   exists in database: false
@@ -604,18 +619,19 @@ Gas OC:
     - electricity production, natural gas, conventional power plant
   ecoinvent_fuel_aliases:
     fltr:
-    - market for natural gas, high pressure
-    - market for natural gas, medium pressure
-    - market for natural gas, low pressure
-    - market group for natural gas
+      - market for natural gas, high pressure
+      - market for natural gas, medium pressure
+      - market for natural gas, low pressure
+      - market group for natural gas
+      - natural gas, high pressure, at consumer
     mask:
-    - liquids
-    - liquefied
-    - unprocessed
-    - station
-    - burned
-    - vented
-    - vehicle
+      - liquids
+      - liquefied
+      - unprocessed
+      - station
+      - burned
+      - vented
+      - vehicle
   eff_aliases:
     gcam: Efficiency|Electricity|gas (steam/CT)
     image: Efficiency|Electricity|Gas|w/o CCS|1
@@ -635,8 +651,19 @@ Gas ST:
       - electricity production, natural gas, subcritical, steam cycle
   ecoinvent_fuel_aliases:
     fltr:
+      - market for natural gas, high pressure
+      - market for natural gas, medium pressure
+      - market for natural gas, low pressure
       - market group for natural gas
-      - market for natural gas
+      - natural gas, high pressure, at consumer
+    mask:
+      - liquids
+      - liquefied
+      - unprocessed
+      - station
+      - burned
+      - vented
+      - vehicle
   eff_aliases:
     image: Efficiency|Electricity|Gas|w/o CCS|1
     message: Efficiency|Electricity|Gas|w/o CCS|2

@@ -868,31 +868,42 @@ is too high (~900 C)
 Li-ion batteries
 ----------------
 
+When using ecoinvent 3.8 as a database, *premise* imports new inventories for lithium-ion batteries.
 NMC-111, NMC-6222 NMC-811 and NCA Lithium-ion battery inventories are originally
 from Dai_ et al. 2019. They have been adapted to ecoinvent by Crenna_ et al, 2021.
 LFP and LTO Lithium-ion battery inventories are from  Schmidt_ et al. 2019.
+Li-S battery inventories are from Wickerts_ et al. 2023.
+Li-O2 battery inventories are from Wang_ et al. 2020.
+Finally, SIB battery inventories are from Zhang22_ et al. 2024.
 
 They introduce the following datasets:
 
- ============================== =========== ======================================
-  Battery components             location    source
- ============================== =========== ======================================
-  Battery BoP                    GLO         Schmidt et al. 2019
-  Battery cell, NMC-111          GLO         Dai et al. 2019, Crenna et al. 2021
-  Battery cell, NMC-622          GLO         Dai et al. 2019, Crenna et al. 2021
-  Battery cell, NMC-811          GLO         Dai et al. 2019, Crenna et al. 2021
-  Battery cell, NCA              GLO         Dai et al. 2019, Crenna et al. 2021
-  Battery cell, LFP              GLO         Schmidt et al. 2019
-  Battery cell, LTO              GLO         Schmidt et al. 2019
- ============================== =========== ======================================
+ ========================================================== =========== ======================================
+  Battery components                                         location    source
+ ========================================================== =========== ======================================
+  battery management system production, for Li-ion battery     GLO         Schmidt et al. 2019
+  battery cell production, Li-ion, NMC111                      GLO         Dai et al. 2019, Crenna et al. 2021
+  battery cell production, Li-ion, NMC622                      GLO         Dai et al. 2019, Crenna et al. 2021
+  battery cell production, Li-ion, NMC811                      GLO         Dai et al. 2019, Crenna et al. 2021
+  battery cell production, Li-ion, NCA                         GLO         Dai et al. 2019, Crenna et al. 2021
+  battery cell production, Li-ion, LFP                         GLO         Schmidt et al. 2019
+  battery cell production, Li-ion, LTO                         GLO         Schmidt et al. 2019
+  battery cell production, Li-S                                GLO         Wickerts et al. (2023)
+  battery cell production, Li-O2                               GLO         Wang et al. (2020)
+  battery cell production, SIB                                 GLO         Zhang et al. (2024)
+ ========================================================== =========== ======================================
 
-These battery inventories are mostly used by battery electric vehicles
-(also imported by *premise*), and are to be preferred to battery
-inventories coming with ecoinvent (battery inventories since ecoinvent 3.8
-are also from Crenna_ et al, 2021, but have been implemented with
-some errors, which may be corrected in the future in ecoinvent 3.9).
+These battery inventories are mostly used by battery electric vehicles,
+stationary energy storage systems, etc. (also imported by *premise*).
 
-These inventories can be found here: LCI_batteries_.
+NMC-111, NMC-811, LFP and NCA inventories can be found here: LCI_batteries1_.
+NMC-622 and LTO inventories can be found here: LCI_batteries2_.
+Li-S inventories can be found here: LCI_batteries3_.
+Li-O2 inventories can be found here: LCI_batteries4_.
+And SIB inventories can be found here: LCI_batteries5_.
+
+When using ecoinvent 3.9 and above, the NMC-111, NMC-811, LFP and NCA battery inventories are not imported
+(as are already present the ecoinvent database).
 
 Graphite
 --------
@@ -956,12 +967,19 @@ These inventories can be found here: LCI_lithium_.
 
 .. _Dai: https://www.mdpi.com/2313-0105/5/2/48
 .. _Crenna: https://doi.org/10.1016/j.resconrec.2021.105619
+.. _Wickerts: https://doi.org/10.1021/acssuschemeng.3c00141
+.. _Wang: https://doi.org/10.1016/j.jclepro.2020.121339
+.. _Zhang22: https://doi.org/10.1016/j.resconrec.2023.107362
 .. _Schmidt: https://doi.org/10.1021/acs.est.8b05313
 .. _Engels: https://doi.org/10.1016/j.jclepro.2022.130474
 .. _Surovtseva: https://doi.org/10.1111/jiec.13234
 .. _Elgowainy: https://greet.es.anl.gov/publication-update_cobalt
 .. _Schenker: https://doi.org/10.1016/j.resconrec.2022.106611
-.. _LCI_batteries: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-batteries.xlsx
+.. _LCI_batteries1: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-batteries-NMC111-811-NCA-LFP.xlsx.xlsx
+.. _LCI_batteries2: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-batteries-NMC622-LTO.xlsx.xlsx
+.. _LCI_batteries3: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-batteries-LiS.xlsx
+.. _LCI_batteries4: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-batteries-LiO2.xlsx
+.. _LCI_batteries5: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-batteries-SIB.xlsx
 .. _LCI_graphite: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-graphite.xlsx
 .. _LCI_cobalt: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-cobalt.xlsx
 .. _LCI_lithium: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-lithium.xlsx

@@ -4,6 +4,7 @@ Integrates projections regarding steel production.
 
 from typing import Dict, List
 
+from .activity_maps import InventorySet
 from .data_collection import IAMDataCollection
 from .logger import create_logger
 from .transformation import BaseTransformation, ws
@@ -82,6 +83,8 @@ class Steel(BaseTransformation):
             index,
         )
         self.version = version
+        mapping = InventorySet(self.database)
+        self.material_map: dict = mapping.generate_material_map()
 
     def generate_activities(self):
         """

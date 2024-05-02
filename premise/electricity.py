@@ -15,7 +15,7 @@ from functools import lru_cache
 import yaml
 
 from .export import biosphere_flows_dictionary
-from .filesystem_constants import DATA_DIR, VARIABLES_DIR
+from .filesystem_constants import VARIABLES_DIR
 from .logger import create_logger
 from .transformation import (
     BaseTransformation,
@@ -245,10 +245,6 @@ def _update_electricity(
 
     electricity.adjust_coal_power_plant_emissions()
 
-    # datasets in 3.9 have been updated
-    if version not in ["3.9", "3.9.1"]:
-        electricity.update_ng_production_ds()
-
     electricity.update_efficiency_of_solar_pv()
 
     electricity.create_region_specific_power_plants()
@@ -280,6 +276,27 @@ def _update_electricity(
     validate.run_electricity_checks()
 
     return scenario
+
+
+def create_fuel_map(database, version, model) -> tuple[InventorySet, dict, dict]:
+    """
+    Create a mapping between ecoinvent fuel names and IAM fuel names.
+    :param database: ecoinvent database
+    :type database: list
+    :return: mapping between ecoinvent fuel names and IAM fuel names
+    :rtype: dict
+    """
+
+    mapping = InventorySet(database=database, version=version, model=model)
+    fuel_map = mapping.generate_fuel_map()
+    # reverse the fuel map to get a mapping from ecoinvent to premise
+    fuel_map_reverse: Dict = {}
+
+    for key, value in fuel_map.items():
+        for v in list(value):
+            fuel_map_reverse[v] = key
+
+    return mapping, fuel_map, fuel_map_reverse
 
 
 class Electricity(BaseTransformation):
@@ -323,7 +340,9 @@ class Electricity(BaseTransformation):
             cache,
             index,
         )
-        mapping = InventorySet(self.database, model=self.model)
+        mapping, self.fuel_map, self.fuel_map_reverse = create_fuel_map(
+            self.database, self.version, self.model
+        )
         self.powerplant_map = mapping.generate_powerplant_map()
         # reverse dictionary of self.powerplant_map
         self.powerplant_map_rev = {}
@@ -332,6 +351,7 @@ class Electricity(BaseTransformation):
                 self.powerplant_map_rev[pp] = k
 
         self.powerplant_fuels_map = mapping.generate_powerplant_fuels_map()
+
         self.production_per_tech = self.get_production_per_tech_dict()
         losses = get_losses_per_country(self.database)
         self.network_loss = {
@@ -1462,95 +1482,6 @@ class Electricity(BaseTransformation):
                         # add to log
                         self.write_log(dataset=dataset, status="updated")
 
-    def update_ng_production_ds(self) -> None:
-        """
-        Relink updated datasets for natural gas extraction from
-        http://www.esu-services.ch/fileadmin/download/publicLCI/meili-2021-LCI%20for%20the%20oil%20and%20gas%20extraction.pdf
-        to high pressure natural gas markets.
-        """
-
-        # print("Update natural gas extraction datasets.")
-
-        countries = ["NL", "DE", "FR", "RER", "IT", "CH"]
-
-        for dataset in self.database:
-            amount = {}
-            to_remove = []
-            for exc in dataset["exchanges"]:
-                if (
-                    exc["name"] == "market for natural gas, high pressure"
-                    and exc["location"] in countries
-                    and exc["type"] == "technosphere"
-                ):
-                    if exc["location"] in amount:
-                        amount[exc["location"]] += exc["amount"]
-                    else:
-                        amount[exc["location"]] = exc["amount"]
-                    to_remove.append(
-                        (exc["name"], exc["product"], exc["location"], exc["type"])
-                    )
-
-            if amount:
-                dataset["exchanges"] = [
-                    e
-                    for e in dataset["exchanges"]
-                    if (e["name"], e.get("product"), e.get("location"), e["type"])
-                    not in to_remove
-                ]
-
-                for loc, val in amount.items():
-                    dataset["exchanges"].append(
-                        {
-                            "name": "natural gas, high pressure, at consumer",
-                            "product": "natural gas, high pressure, at consumer",
-                            "location": loc,
-                            "unit": "cubic meter",
-                            "amount": val,
-                            "type": "technosphere",
-                        }
-                    )
-
-        countries = ["DE", "DZ", "GB", "NG", "NL", "NO", "RU", "US"]
-
-        names = ["natural gas production", "petroleum and gas production"]
-
-        for dataset in self.database:
-            amount = {}
-            to_remove = []
-            for exc in dataset["exchanges"]:
-                if (
-                    any((i in exc["name"] for i in names))
-                    and exc["location"] in countries
-                    and exc["type"] == "technosphere"
-                ):
-                    if exc["location"] in amount:
-                        amount[exc["location"]] += exc["amount"]
-                    else:
-                        amount[exc["location"]] = exc["amount"]
-                    to_remove.append(
-                        (exc["name"], exc["product"], exc["location"], exc["type"])
-                    )
-
-            if amount:
-                dataset["exchanges"] = [
-                    e
-                    for e in dataset["exchanges"]
-                    if (e["name"], e.get("product"), e.get("location"), e["type"])
-                    not in to_remove
-                ]
-
-                for loc, val in amount.items():
-                    dataset["exchanges"].append(
-                        {
-                            "name": "natural gas, at production",
-                            "product": "natural gas, high pressure",
-                            "location": loc,
-                            "unit": "cubic meter",
-                            "amount": val,
-                            "type": "technosphere",
-                        }
-                    )
-
     def create_region_specific_power_plants(self):
         """
         Some power plant inventories are not native to ecoinvent
@@ -1691,15 +1622,6 @@ class Electricity(BaseTransformation):
         """
 
         # print("Adjust efficiency of power plants...")
-
-        mapping = InventorySet(self.database, model=self.model)
-        self.fuel_map = mapping.generate_fuel_map()
-        # reverse the fuel map to get a mapping from ecoinvent to premise
-        self.fuel_map_reverse: Dict = {}
-
-        for key, value in self.fuel_map.items():
-            for v in list(value):
-                self.fuel_map_reverse[v] = key
 
         eff_labels = self.iam_data.electricity_efficiencies.variables.values
         all_techs = self.iam_data.electricity_markets.variables.values

@@ -1,0 +1,22 @@
+powertrain,component,value
+BEV,Ethane,0
+ICEV-d,Ethane,0.0003
+ICEV-d,Propane,0.001
+ICEV-d,Butane,0.0015
+ICEV-d,Pentane,0.0006
+ICEV-d,Hexane,0
+ICEV-d,Cyclohexane,0
+ICEV-d,Heptane,0.003
+ICEV-d,Ethene,0
+ICEV-d,Propene,0
+ICEV-d,1-Pentene,0
+ICEV-d,Toluene,0.0001
+ICEV-d,m-Xylene,0.0098
+ICEV-d,o-Xylene,0.004
+ICEV-d,Formaldehyde,0.084
+ICEV-d,Acetaldehyde,0.0457
+ICEV-d,Benzaldehyde,0.0137
+ICEV-d,Acetone,0
+ICEV-d,Methyl ethyl ketone,0
+ICEV-d,Acrolein,0.0177
+ICEV-d,Styrene,0.0056

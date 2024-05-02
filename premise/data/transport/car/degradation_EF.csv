@@ -1,0 +1,95 @@
+powertrain,component,euro_class,value
+BEV,Carbon monoxide,1,1
+FCEV,Carbon monoxide,1,1
+ICEV-g,Carbon monoxide,1,1
+HEV-p,Carbon monoxide,1,1
+HEV-d,Carbon monoxide,1,1
+PHEV-p,Carbon monoxide,1,1
+PHEV-d,Carbon monoxide,1,1
+PHEV-c-p,Carbon monoxide,1,1
+PHEV-c-d,Carbon monoxide,1,1
+PHEV-e,Carbon monoxide,1,1
+ICEV-p,Ethane,1,1
+ICEV-p,Propane,1,1
+ICEV-p,Butane,1,1
+ICEV-p,Pentane,1,1
+ICEV-p,Hexane,1,1
+ICEV-p,Cyclohexane,1,1
+ICEV-p,Heptane,1,1
+ICEV-p,Ethene,1,1
+ICEV-p,Propene,1,1
+ICEV-p,1-Pentene,1,1
+ICEV-p,Toluene,1,1
+ICEV-p,m-Xylene,1,1
+ICEV-p,o-Xylene,1,1
+ICEV-p,Formaldehyde,1,1
+ICEV-p,Acetaldehyde,1,1
+ICEV-p,Benzaldehyde,1,1
+ICEV-p,Acetone,1,1
+ICEV-p,Methyl ethyl ketone,1,1
+ICEV-p,Acrolein,1,1
+ICEV-p,Styrene,1,1
+ICEV-p,PAH polycyclic aromatic hydrocarbons,1,1
+ICEV-p,Arsenic,1,1
+ICEV-p,Selenium,1,1
+ICEV-p,Zinc,1,1
+ICEV-p,Copper,1,1
+ICEV-p,Nickel,1,1
+ICEV-p,Chromium,1,1
+ICEV-p,Chromium VI,1,1
+ICEV-p,Mercury,1,1
+ICEV-p,Cadmium,1,1
+ICEV-d,Benzene,1,1
+ICEV-d,Methane,1,1
+ICEV-d,Dinitrogen oxide,1,1
+ICEV-d,Ammonia,1,1
+ICEV-d,Non-methane hydrocarbon,1,1
+ICEV-d,Nitrogen dioxide,1,1
+ICEV-d,Particulate matters 2.5,1,1
+ICEV-d,Lead,1,1
+ICEV-p,Carbon monoxide,1,1.9
+ICEV-p,Carbon monoxide,2,1.6
+ICEV-p,Carbon monoxide,3,1.75
+ICEV-p,Carbon monoxide,4,1.9
+ICEV-p,Carbon monoxide,5,2
+ICEV-p,Carbon monoxide,6,1.3
+ICEV-p,Carbon monoxide,6.1,1.3
+ICEV-p,Carbon monoxide,6.2,1.3
+ICEV-p,Carbon monoxide,6.3,1.3
+ICEV-p,Carbon monoxide,7,1.3
+ICEV-p,Hydrocarbon,1,1.59
+ICEV-p,Hydrocarbon,2,1.59
+ICEV-p,Hydrocarbon,3,1.02
+ICEV-p,Hydrocarbon,4,1.02
+ICEV-p,Hydrocarbon,5,1.02
+ICEV-p,Hydrocarbon,6,1.02
+ICEV-p,Hydrocarbon,6.1,1.02
+ICEV-p,Hydrocarbon,6.2,1.02
+ICEV-p,Hydrocarbon,6.3,1.02
+ICEV-p,Hydrocarbon,7,1.02
+ICEV-p,Nitrogen oxides,1,2.5
+ICEV-p,Nitrogen oxides,2,2.3
+ICEV-p,Nitrogen oxides,3,2.9
+ICEV-p,Nitrogen oxides,4,2
+ICEV-p,Nitrogen oxides,5,2.5
+ICEV-p,Nitrogen oxides,6,1.3
+ICEV-p,Nitrogen oxides,6.1,1.3
+ICEV-p,Nitrogen oxides,6.2,1.3
+ICEV-p,Nitrogen oxides,6.3,1.3
+ICEV-p,Nitrogen oxides,7,1.3
+ICEV-d,Carbon monoxide,4,1.3
+ICEV-d,Carbon monoxide,5,1.3
+ICEV-d,Carbon monoxide,6,1.3
+ICEV-d,Carbon monoxide,6.1,1.4
+ICEV-d,Carbon monoxide,6.2,1.4
+ICEV-d,Carbon monoxide,6.3,1.4
+ICEV-d,Carbon monoxide,7,1.4
+ICEV-d,Nitrogen oxides,2,1.25
+ICEV-d,Nitrogen oxides,3,1.2
+ICEV-d,Nitrogen oxides,4,1.06
+ICEV-d,Nitrogen oxides,5,1.03
+ICEV-d,Nitrogen oxides,6,1.15
+ICEV-d,Nitrogen oxides,6.1,1.15
+ICEV-d,Nitrogen oxides,6.2,1.15
+ICEV-d,Nitrogen oxides,6.3,1.15
+ICEV-d,Nitrogen oxides,7,1.15

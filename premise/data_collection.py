@@ -279,9 +279,7 @@ def get_vehicle_fleet_composition(model, vehicle_type) -> Union[xr.DataArray, No
 
     if len(dataframe) > 0:
         arr = (
-            dataframe.groupby(
-                ["region", "year", "powertrain", "construction_year", "size"]
-            )
+            dataframe.groupby(["region", "year", "powertrain", "size"])
             .sum()["vintage_demand_vkm"]
             .to_xarray()
         )

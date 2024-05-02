@@ -12,6 +12,7 @@ from . import __version__
 from .activity_maps import act_fltr
 from .energy import Energy
 from .new_database import NewDatabase
+from .utils import load_database, dump_database
 
 
 class PathwaysDataPackage:
@@ -58,6 +59,8 @@ class PathwaysDataPackage:
             use_multiprocessing=use_multiprocessing,
         )
 
+        self.scenario_names = []
+
     def create_datapackage(
         self,
         name: str = f"pathways_{date.today()}",
@@ -70,6 +73,7 @@ class PathwaysDataPackage:
             self.datapackage.update()
 
         for scenario in self.datapackage.scenarios:
+            scenario = load_database(scenario)
             energy = Energy(
                 database=scenario["database"],
                 iam_data=scenario["iam data"],
@@ -87,11 +91,13 @@ class PathwaysDataPackage:
             contributors=contributors,
         )
 
+
     def export_datapackage(
         self,
         name: str,
         contributors: list = None,
     ):
+
         # first, delete the content of the "pathways" folder
         shutil.rmtree(Path.cwd() / "pathways", ignore_errors=True)
 
@@ -214,27 +220,28 @@ class PathwaysDataPackage:
 
         # if external scenarios, extend mapping with external data
         for scenario in self.datapackage.scenarios:
-            configuration = scenario["configurations"]
-            if "production pathways" in configuration:
-                for var in configuration["production pathways"]:
-                    if var not in mapping:
-                        var_name = configuration["production pathways"][var][
-                            "production volume"
-                        ]["variable"]
-                        mapping[var] = {"scenario variable": var_name}
-                        filters = configuration["production pathways"][var].get(
-                            "ecoinvent alias"
-                        )
-                        mask = (
-                            configuration["production pathways"][var]
-                            .get("ecoinvent alias")
-                            .get("mask")
-                        )
-                        mapping[var]["dataset"] = self.find_activities(
-                            filters=filters,
-                            database=scenario["database"],
-                            mask=mask,
-                        )
+            if "configurations" in scenario:
+                configuration = scenario["configurations"]
+                if "production pathways" in configuration:
+                    for var in configuration["production pathways"]:
+                        if var not in mapping:
+                            var_name = configuration["production pathways"][var][
+                                "production volume"
+                            ]["variable"]
+                            mapping[var] = {"scenario variable": var_name}
+                            filters = configuration["production pathways"][var].get(
+                                "ecoinvent alias"
+                            )
+                            mask = (
+                                configuration["production pathways"][var]
+                                .get("ecoinvent alias")
+                                .get("mask")
+                            )
+                            mapping[var]["dataset"] = self.find_activities(
+                                filters=filters,
+                                database=scenario["database"],
+                                mask=mask,
+                            )
 
         # under each key, remove duplicates from list
         # to only keep unique name, reference product and unit
@@ -260,33 +267,30 @@ class PathwaysDataPackage:
         ]
 
         # add scenario data from external scenarios
-        list_extra_scenarios = []
         extra_units = {}
         for scenario in self.datapackage.scenarios:
             if "external data" in scenario:
-                if (
-                    f"{scenario['model'].upper()} - {scenario['pathway']}"
-                    not in list_extra_scenarios
-                ):
-                    list_extra_scenarios.append(
-                        f"{scenario['model'].upper()} - {scenario['pathway']}"
-                    )
-                    for s in scenario["external data"].values():
-                        scenario_data.append(
-                            s["production volume"].interp(
-                                year=self.years,
-                                kwargs={"fill_value": "extrapolate"},
-                            )
+                for s in scenario["external data"].values():
+                    scenario_data.append(
+                        s["production volume"].interp(
+                            year=self.years,
+                            kwargs={"fill_value": "extrapolate"},
                         )
-                        extra_units.update(s["production volume"].attrs["unit"])
+                    )
+                    extra_units.update(s["production volume"].attrs["unit"])
 
         array = xr.concat(scenario_data, dim="scenario")
 
         # add scenario data to the xarray
-        scenarios = [
-            f"{s['model'].upper()} - {s['pathway']}" for s in self.scenarios
-        ] + list_extra_scenarios
-        array.coords["scenario"] = scenarios
+        for s, scenario in enumerate(self.datapackage.scenarios):
+            name = f"{scenario['model'].upper()} - {scenario['pathway']}"
+            if "external scenarios" in scenario:
+                for external in scenario["external scenarios"]:
+                    name += f"-{external['scenario']}"
+                self.scenario_names.append(name)
+            self.scenario_names.append(name)
+
+        array.coords["scenario"] = self.scenario_names
 
         # make sure pathways/scenario_data directory exists
         (Path.cwd() / "pathways" / "scenario_data").mkdir(parents=True, exist_ok=True)
@@ -329,15 +333,7 @@ class PathwaysDataPackage:
             f"Data package generated by premise {__version__}."
         )
         package.descriptor["premise version"] = str(__version__)
-        package.descriptor["scenarios"] = [
-            {
-                "name": f"{s['model'].upper()} - {s['pathway']}",
-                "description": f"Prospective db, "
-                f"based on {s['model'].upper()}, "
-                f"pathway {s['pathway']}.",
-            }
-            for s in self.scenarios
-        ]
+        package.descriptor["scenarios"] = self.scenario_names
         package.descriptor["keywords"] = [
             "ecoinvent",
             "scenario",

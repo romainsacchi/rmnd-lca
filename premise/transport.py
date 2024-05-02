@@ -18,20 +18,34 @@ from .filesystem_constants import DATA_DIR, IAM_OUTPUT_DIR, INVENTORY_DIR
 from .inventory_imports import VariousVehicles
 from .transformation import BaseTransformation, IAMDataCollection
 from .utils import HiddenPrints, eidb_label
+from .validation import CarValidation, TruckValidation
 
 FILEPATH_FLEET_COMP = IAM_OUTPUT_DIR / "fleet_files" / "fleet_all_vehicles.csv"
 FILEPATH_IMAGE_TRUCKS_FLEET_COMP = (
     IAM_OUTPUT_DIR / "fleet_files" / "image_fleet_trucks.csv"
 )
-FILEPATH_TWO_WHEELERS = INVENTORY_DIR / "lci-two_wheelers.xlsx"
-FILEPATH_TRUCKS = INVENTORY_DIR / "lci-trucks.xlsx"
-FILEPATH_BUSES = INVENTORY_DIR / "lci-buses.xlsx"
-FILEPATH_PASS_CARS = INVENTORY_DIR / "lci-pass_cars.xlsx"
 FILEPATH_TRUCK_LOAD_FACTORS = DATA_DIR / "transport" / "avg_load_factors.yaml"
 FILEPATH_VEHICLES_MAP = DATA_DIR / "transport" / "vehicles_map.yaml"
 
 
 def _update_vehicles(scenario, vehicle_type, version, system_model):
+
+    has_fleet = False
+    if vehicle_type == "car":
+        if hasattr(scenario["iam data"], "trsp_cars"):
+            has_fleet = True
+    elif vehicle_type == "truck":
+        if hasattr(scenario["iam data"], "trsp_trucks"):
+            has_fleet = True
+    elif vehicle_type == "bus":
+        if hasattr(scenario["iam data"], "trsp_buses"):
+            has_fleet = True
+    elif vehicle_type == "two wheeler":
+        if hasattr(scenario["iam data"], "trsp_two_wheelers"):
+            has_fleet = True
+    else:
+        raise ValueError("Unknown vehicle type.")
+
     trspt = Transport(
         database=scenario["database"],
         year=scenario["year"],
@@ -42,33 +56,37 @@ def _update_vehicles(scenario, vehicle_type, version, system_model):
         system_model=system_model,
         vehicle_type=vehicle_type,
         relink=False,
-        has_fleet=True,
+        has_fleet=has_fleet,
         index=scenario.get("index"),
     )
 
-    iam_data = None
-    if vehicle_type == "car":
-        if hasattr(scenario["iam data"], "trsp_cars"):
-            iam_data = scenario["iam data"].trsp_cars
-    elif vehicle_type == "truck":
-        if hasattr(scenario["iam data"], "trsp_trucks"):
-            iam_data = scenario["iam data"].trsp_trucks
-    elif vehicle_type == "bus":
-        if hasattr(scenario["iam data"], "trsp_buses"):
-            iam_data = scenario["iam data"].trsp_buses
-    elif vehicle_type == "two wheeler":
-        if hasattr(scenario["iam data"], "trsp_two_wheelers"):
-            iam_data = scenario["iam data"].trsp_two_wheelers
-    else:
-        raise ValueError("Unknown vehicle type.")
+    scenario["database"] = trspt.database
+    scenario["cache"] = trspt.cache
+    scenario["index"] = trspt.index
 
-    if iam_data is not None:
-        trspt.create_vehicle_markets()
-        scenario["database"] = trspt.database
-        scenario["cache"] = trspt.cache
-        scenario["index"] = trspt.index
-    else:
-        print(f"No markets found for {vehicle_type} in IAM data. Skipping.")
+    if vehicle_type == "car":
+        validate = CarValidation(
+            model=scenario["model"],
+            scenario=scenario["pathway"],
+            year=scenario["year"],
+            regions=scenario["iam data"].regions,
+            database=trspt.database,
+            iam_data=scenario["iam data"],
+        )
+
+        validate.run_car_checks()
+
+    if vehicle_type == "truck":
+        validate = TruckValidation(
+            model=scenario["model"],
+            scenario=scenario["pathway"],
+            year=scenario["year"],
+            regions=scenario["iam data"].regions,
+            database=trspt.database,
+            iam_data=scenario["iam data"],
+        )
+
+        validate.run_truck_checks()
 
     return scenario
 
@@ -144,93 +162,6 @@ def create_fleet_vehicles(
 
     vehicles_map = get_vehicles_mapping()
 
-    if model == "remind":
-        constr_year_map = {
-            year: int(year.split("-")[-1])
-            for year in arr.coords["construction_year"].values
-        }
-    else:
-        constr_year_map = {
-            year: year for year in arr.coords["construction_year"].values
-        }
-
-    # fleet data does not go below 2015
-    if year < 2015:
-        year = 2015
-        # print(
-        #    "Vehicle fleet data is not available before 2015. "
-        #    "Hence, 2015 is used as fleet year."
-        # )
-
-    # fleet data does not go beyond 2050
-    if year > 2050:
-        year = 2050
-        # print(
-        #    "Vehicle fleet data is not available beyond 2050. "
-        #    "Hence, 2050 is used as fleet year."
-        # )
-
-    # We filter electric vehicles by year of manufacture
-    available_years = np.arange(2000, 2055, 5)
-    ref_year = min(available_years, key=lambda x: abs(x - year))
-
-    available_ds, d_names, cycle_type = [], {}, None
-
-    for dataset in datasets:
-        if dataset["name"].startswith("transport, "):
-            if vehicle_type == "bus":
-                if len(dataset["name"].split(", ")) == 6:
-                    if "battery electric" in dataset["name"].split(", ")[2]:
-                        _, _, pwt, _, size, year = dataset["name"].split(", ")
-
-                    else:
-                        _, _, pwt, size, year, _ = dataset["name"].split(", ")
-                else:
-                    _, _, pwt, size, year = dataset["name"].split(", ")
-
-            elif vehicle_type == "truck":
-                if len(dataset["name"].split(", ")) == 8:
-                    if "battery electric" in dataset["name"].split(", ")[3]:
-                        _, _, _, pwt, _, size, year, cycle_type = dataset["name"].split(
-                            ", "
-                        )
-
-                    else:
-                        _, _, _, pwt, size, year, _, cycle_type = dataset["name"].split(
-                            ", "
-                        )
-                else:
-                    _, _, _, pwt, size, year, cycle_type = dataset["name"].split(", ")
-
-                size = size.replace(" gross weight", "")
-
-            else:
-                if len(dataset["name"].split(", ")) == 6:
-                    if dataset["name"].split(", ")[2] == "battery electric":
-                        _, _, pwt, _, size, year = dataset["name"].split(", ")
-                    else:
-                        _, _, pwt, size, year, _ = dataset["name"].split(", ")
-                else:
-                    _, _, pwt, size, year = dataset["name"].split(", ")
-
-            if vehicle_type == "truck":
-                d_names[
-                    (vehicles_map["powertrain"][pwt], size, int(year), cycle_type)
-                ] = (
-                    dataset["name"],
-                    dataset["reference product"],
-                    dataset["unit"],
-                )
-                available_ds.append((vehicles_map["powertrain"][pwt], size, int(year)))
-
-            else:
-                d_names[(vehicles_map["powertrain"][pwt], size, int(year))] = (
-                    dataset["name"],
-                    dataset["reference product"],
-                    dataset["unit"],
-                )
-                available_ds.append((vehicles_map["powertrain"][pwt], size, int(year)))
-
     list_act = []
 
     # average load factors for trucks
@@ -257,10 +188,7 @@ def create_fleet_vehicles(
     }
 
     for region in regions:
-        if region not in arr.coords["region"].values:
-            fleet_region = d_missing_regions[region]
-        else:
-            fleet_region = region
+        fleet_region = d_missing_regions.get(region, region)
 
         sizes = [
             s
@@ -268,172 +196,266 @@ def create_fleet_vehicles(
             if s in arr.coords["size"].values
         ]
 
-        sel = arr.sel(region=fleet_region, size=sizes, year=ref_year)
+        if year in arr.coords["year"].values:
+            region_size_fleet = arr.sel(
+                region=fleet_region, size=sizes, year=int(np.clip(year, 2005, 2050))
+            )
+        else:
+            region_size_fleet = arr.sel(region=fleet_region, size=sizes).interp(
+                year=int(np.clip(year, 2005, 2050))
+            )
 
-        total_km = sel.sum()
+        total_km = region_size_fleet.sum()
 
         if total_km > 0:
-            if vehicle_type == "truck":
-                driving_cycles = ["regional delivery", "long haul"]
-            else:
-                driving_cycles = [""]
+            name = (
+                f"{vehicles_map[vehicle_type]['name']}, unspecified, long haul"
+                if vehicle_type == "truck"
+                else f"{vehicles_map[vehicle_type]['name']}, unspecified"
+            )
+            act = {
+                "name": name,
+                "reference product": vehicles_map[vehicle_type]["name"],
+                "unit": vehicles_map[vehicle_type]["unit"],
+                "location": region,
+                "exchanges": [
+                    {
+                        "name": name,
+                        "product": vehicles_map[vehicle_type]["name"],
+                        "unit": vehicles_map[vehicle_type]["unit"],
+                        "location": region,
+                        "type": "production",
+                        "amount": 1,
+                    }
+                ],
+                "code": str(uuid.uuid4().hex),
+                "database": "premise",
+                "comment": f"Fleet-average vehicle for the year {year}, "
+                f"for the region {region}.",
+            }
 
-            for driving_cycle in driving_cycles:
-                name = (
-                    f"{vehicles_map[vehicle_type]['name']}, unspecified, {driving_cycle}"
-                    if vehicle_type == "truck"
-                    else f"{vehicles_map[vehicle_type]['name']}, unspecified"
-                )
-                act = {
-                    "name": name,
-                    "reference product": vehicles_map[vehicle_type]["name"],
-                    "unit": vehicles_map[vehicle_type]["unit"],
-                    "location": region,
-                    "exchanges": [
-                        {
-                            "name": name,
-                            "product": vehicles_map[vehicle_type]["name"],
-                            "unit": vehicles_map[vehicle_type]["unit"],
-                            "location": region,
-                            "type": "production",
-                            "amount": 1,
-                        }
-                    ],
-                    "code": str(uuid.uuid4().hex),
-                    "database": "premise",
-                    "comment": f"Fleet-average vehicle for the year {year}, "
-                    f"for the region {region}.",
-                }
+            for size in sizes:
+                for pwt in arr.coords["powertrain"].values:
+                    indiv_km = region_size_fleet.sel(
+                        size=size,
+                        powertrain=pwt,
+                    )
+                    if indiv_km > 0:
+                        indiv_share = (indiv_km / total_km).values.item(0)
 
-                for size in sizes:
-                    for construction_year in sel.coords["construction_year"].values:
-                        for pwt in sel.coords["powertrain"].values:
-                            indiv_km = sel.sel(
-                                size=size,
-                                construction_year=construction_year,
-                                powertrain=pwt,
+                        load = 1
+                        if vehicle_type == "truck":
+                            load = avg_load[vehicle_type]["long haul"][size]
+
+                        filters = [
+                            ws.contains("name", size),
+                            ws.contains("name", pwt),
+                            ws.equals("location", region),
+                        ]
+
+                        if vehicle_type != "truck":
+                            filters.append(ws.contains("name", vehicle_type))
+
+                        if pwt in ["diesel", "gasoline", "compressed gas"]:
+                            filters.extend(
+                                [
+                                    ws.exclude(ws.contains("name", "plugin")),
+                                    ws.exclude(ws.contains("name", "hybrid")),
+                                    ws.exclude(ws.contains("name", "ab")),
+                                ]
                             )
-                            if (
-                                indiv_km > 0
-                                and (pwt, size, constr_year_map[construction_year])
-                                in available_ds
-                            ):
-                                indiv_share = (indiv_km / total_km).values.item(0)
 
-                                if vehicle_type == "truck":
-                                    load = avg_load[vehicle_type][driving_cycle][size]
-                                    to_look_for = (
-                                        pwt,
-                                        size,
-                                        constr_year_map[construction_year],
-                                        driving_cycle,
-                                    )
-
-                                else:
-                                    load = 1
-                                    to_look_for = (
-                                        pwt,
-                                        size,
-                                        constr_year_map[construction_year],
-                                    )
-
-                                if to_look_for in d_names:
-                                    name, ref, unit = d_names[to_look_for]
-
-                                    act["exchanges"].append(
-                                        {
-                                            "name": name,
-                                            "product": ref,
-                                            "unit": unit,
-                                            "location": region,
-                                            "type": "technosphere",
-                                            "amount": indiv_share * load,
-                                        }
-                                    )
-
-                if len(act["exchanges"]) > 1:
-                    list_act.append(act)
-
-                # also create size-specific fleet vehicles
-                if vehicle_type == "truck":
-                    for size in sizes:
-                        total_size_km = sel.sel(size=size).sum()
-
-                        if total_size_km > 0:
-                            name = (
-                                f"{vehicles_map[vehicle_type]['name']}, {size} gross weight, "
-                                f"unspecified powertrain, {driving_cycle}"
+                        if pwt in ["diesel hybrid", "gasoline hybrid"]:
+                            filters.extend(
+                                [
+                                    ws.exclude(ws.contains("name", "plugin")),
+                                    ws.exclude(ws.contains("name", "ab")),
+                                ]
                             )
-                            act = {
-                                "name": name,
-                                "reference product": vehicles_map[vehicle_type]["name"],
-                                "unit": vehicles_map[vehicle_type]["unit"],
-                                "location": region,
-                                "exchanges": [
-                                    {
-                                        "name": name,
-                                        "product": vehicles_map[vehicle_type]["name"],
-                                        "unit": vehicles_map[vehicle_type]["unit"],
-                                        "location": region,
-                                        "type": "production",
-                                        "amount": 1,
-                                    }
-                                ],
-                                "code": str(uuid.uuid4().hex),
-                                "database": eidb_label(
-                                    {"model": model, "pathway": scenario, "year": year},
-                                    version,
-                                    system_model,
-                                ),
-                                "comment": f"Fleet-average vehicle for the year {year}, for the region {region}.",
+
+                        if pwt in ["plugin diesel hybrid", "plugin gasoline hybrid"]:
+                            filters.extend(
+                                [
+                                    ws.exclude(ws.contains("name", "ab")),
+                                ]
+                            )
+
+                        if pwt not in [
+                            "battery electric",
+                            "fuel cell electric",
+                            "battery electric - overnight charging",
+                        ]:
+                            if vehicle_type == "car":
+                                filters.append(ws.contains("name", "EURO-6"))
+                            if vehicle_type in ["bus", "truck"]:
+                                filters.append(ws.contains("name", "EURO-VI"))
+
+                        if size in ["Medium", "Large"]:
+                            filters.append(ws.exclude(ws.contains("name", "SUV")))
+
+                        try:
+                            vehicle = ws.get_one(datasets, *filters)
+
+                        except ws.MultipleResults:
+                            print(
+                                "Multiple results for", size, vehicle_type, pwt, region
+                            )
+                            vehicles = ws.get_many(datasets, *filters)
+                            for vehicle in vehicles:
+                                print(vehicle["name"], vehicle["location"])
+                            raise
+                        except ws.NoResults:
+                            print("No results for", size, vehicle_type, pwt, region)
+                            vehicle = {
+                                "name": "unknown",
+                                "reference product": "unknown",
+                                "unit": "unknown",
                             }
 
-                            for construction_year in sel.coords[
-                                "construction_year"
-                            ].values:
-                                for pwt in sel.coords["powertrain"].values:
-                                    indiv_km = sel.sel(
-                                        size=size,
-                                        construction_year=construction_year,
-                                        powertrain=pwt,
-                                    )
-                                    if (
-                                        indiv_km > 0
-                                        and (
-                                            pwt,
-                                            size,
-                                            constr_year_map[construction_year],
-                                        )
-                                        in available_ds
-                                    ):
-                                        indiv_share = (
-                                            indiv_km / total_size_km
-                                        ).values.item(0)
-                                        load = avg_load[vehicle_type][driving_cycle][
-                                            size
+                        act["exchanges"].append(
+                            {
+                                "name": vehicle["name"],
+                                "product": vehicle["reference product"],
+                                "unit": vehicle["unit"],
+                                "location": region,
+                                "type": "technosphere",
+                                "amount": indiv_share * load,
+                            }
+                        )
+
+            if len(act["exchanges"]) > 1:
+                list_act.append(act)
+
+            # also create size-specific fleet vehicles
+            if vehicle_type == "truck":
+                for size in sizes:
+                    total_size_km = region_size_fleet.sel(size=size).sum()
+
+                    if total_size_km > 0:
+                        name = (
+                            f"{vehicles_map[vehicle_type]['name']}, {size} gross weight, "
+                            f"unspecified powertrain, long haul"
+                        )
+                        act = {
+                            "name": name,
+                            "reference product": vehicles_map[vehicle_type]["name"],
+                            "unit": vehicles_map[vehicle_type]["unit"],
+                            "location": region,
+                            "exchanges": [
+                                {
+                                    "name": name,
+                                    "product": vehicles_map[vehicle_type]["name"],
+                                    "unit": vehicles_map[vehicle_type]["unit"],
+                                    "location": region,
+                                    "type": "production",
+                                    "amount": 1,
+                                }
+                            ],
+                            "code": str(uuid.uuid4().hex),
+                            "database": eidb_label(
+                                {"model": model, "pathway": scenario, "year": year},
+                                version,
+                                system_model,
+                            ),
+                            "comment": f"Fleet-average vehicle for the year {year}, for the region {region}.",
+                        }
+
+                        for pwt in region_size_fleet.coords["powertrain"].values:
+                            indiv_km = region_size_fleet.sel(
+                                size=size,
+                                powertrain=pwt,
+                            )
+                            if indiv_km > 0:
+                                indiv_share = (indiv_km / total_size_km).values.item(0)
+                                load = avg_load[vehicle_type]["long haul"][size]
+
+                                filters = [
+                                    ws.contains("name", size),
+                                    ws.contains("name", pwt),
+                                    ws.equals("location", region),
+                                ]
+
+                                if vehicle_type != "truck":
+                                    filters.append(ws.contains("name", vehicle_type))
+
+                                if pwt in ["diesel", "gasoline", "compressed gas"]:
+                                    filters.extend(
+                                        [
+                                            ws.exclude(ws.contains("name", "plugin")),
+                                            ws.exclude(ws.contains("name", "hybrid")),
+                                            ws.exclude(ws.contains("name", "ab")),
                                         ]
-                                        to_look_for = (
-                                            pwt,
-                                            size,
-                                            constr_year_map[construction_year],
-                                            driving_cycle,
-                                        )
-                                        if to_look_for in d_names:
-                                            name, ref, unit = d_names[to_look_for]
+                                    )
 
-                                            act["exchanges"].append(
-                                                {
-                                                    "name": name,
-                                                    "product": ref,
-                                                    "unit": unit,
-                                                    "location": region,
-                                                    "type": "technosphere",
-                                                    "amount": indiv_share * load,
-                                                }
-                                            )
+                                if pwt in ["diesel hybrid", "gasoline hybrid"]:
+                                    filters.extend(
+                                        [
+                                            ws.exclude(ws.contains("name", "plugin")),
+                                            ws.exclude(ws.contains("name", "ab")),
+                                        ]
+                                    )
 
-                            if len(act["exchanges"]) > 1:
-                                list_act.append(act)
+                                if pwt in [
+                                    "plugin diesel hybrid",
+                                    "plugin gasoline hybrid",
+                                ]:
+                                    filters.extend(
+                                        [
+                                            ws.exclude(ws.contains("name", "ab")),
+                                        ]
+                                    )
+
+                                if pwt not in [
+                                    "battery electric",
+                                    "fuel cell electric",
+                                    "battery electric - overnight charging",
+                                ]:
+                                    if vehicle_type in ["bus", "truck"]:
+                                        filters.append(ws.contains("name", "EURO-VI"))
+
+                                try:
+                                    vehicle = ws.get_one(datasets, *filters)
+
+                                except ws.MultipleResults:
+                                    print(
+                                        "Multiple results for",
+                                        size,
+                                        vehicle_type,
+                                        pwt,
+                                        region,
+                                    )
+                                    vehicles = ws.get_many(datasets, *filters)
+                                    for vehicle in vehicles:
+                                        print(vehicle["name"], vehicle["location"])
+                                    raise
+
+                                except ws.NoResults:
+                                    print(
+                                        "No results for SIZE",
+                                        size,
+                                        vehicle_type,
+                                        pwt,
+                                        region,
+                                    )
+                                    vehicle = {
+                                        "name": "unknown",
+                                        "reference product": "unknown",
+                                        "unit": "unknown",
+                                    }
+
+                                act["exchanges"].append(
+                                    {
+                                        "name": vehicle["name"],
+                                        "product": vehicle["reference product"],
+                                        "unit": vehicle["unit"],
+                                        "location": region,
+                                        "type": "technosphere",
+                                        "amount": indiv_share * load,
+                                    }
+                                )
+
+                        if len(act["exchanges"]) > 1:
+                            list_act.append(act)
 
     return normalize_exchange_amounts(list_act)
 
@@ -451,7 +473,6 @@ class Transport(BaseTransformation):
     :ivar relink: whether to relink supplier of datasets to better-fitted suppliers
     :ivar vehicle_type: "two-wheeler", "car", "bus" or "truck"
     :ivar has_fleet: whether `vehicle_type` has associated fleet data or not
-
 
     """
 
@@ -483,172 +504,85 @@ class Transport(BaseTransformation):
         self.relink = relink
         self.vehicle_type = vehicle_type
         self.has_fleet = has_fleet
+        self.database = database
+        self.mapping = get_vehicles_mapping()
 
-    def generate_vehicles_datasets(self):
-        """
-        Generate vehicles datasets.
-        """
+        if self.has_fleet:
+            fleet_datasets = self.create_vehicle_markets()
+            self.database.extend(fleet_datasets)
+            self.add_to_index(fleet_datasets)
 
-        if self.vehicle_type == "car":
-            filepath = FILEPATH_PASS_CARS
-        elif self.vehicle_type == "truck":
-            filepath = FILEPATH_TRUCKS
-        elif self.vehicle_type == "bus":
-            filepath = FILEPATH_BUSES
-        else:
-            filepath = FILEPATH_TWO_WHEELERS
-
-        # load carculator inventories
-        with HiddenPrints():
-            various_veh = VariousVehicles(
-                database=self.database,
-                version_in="3.7",
-                version_out=self.version,
-                path=filepath,
-                year=self.year,
-                regions=self.regions,
-                model=self.model,
-                scenario=self.scenario,
-                vehicle_type=self.vehicle_type,
-                has_fleet=True,
-                system_model=self.system_model,
-            )
-
-            various_veh.prepare_inventory()
-
-        return various_veh
-
-    def create_vehicle_markets(self):
+    def create_vehicle_markets(self) -> list:
         """
         Create vehicle market (fleet average) datasets.
         """
 
-        # create datasets
-        datasets = self.generate_vehicles_datasets()
+        # create and regionalize transport datasets
+        filters = [
+            ws.either(
+                *[
+                    ws.contains("name", size)
+                    for size in self.mapping[self.vehicle_type]["sizes"]
+                ]
+            ),
+            ws.equals("unit", self.mapping[self.vehicle_type]["unit"]),
+        ]
+        if self.vehicle_type != "truck":
+            filters.append(ws.contains("name", self.vehicle_type))
 
-        list_vehicles = [
-            "Bicycle,",
-            "Kick-scooter,",
-            "Moped,",
-            "Scooter,",
-            "Motorbike,",
-            "urban delivery",
-            "passenger bus",
+        vehicle_datasets = list(ws.get_many(self.database, *filters))
+
+        reduced_vehicle_datasets = list(
+            set([(ds["name"], ds["reference product"]) for ds in vehicle_datasets])
+        )
+
+        for ds in reduced_vehicle_datasets:
+            new_vehicle_datasets = self.fetch_proxies(
+                subset=vehicle_datasets,
+                name=ds[0],
+                ref_prod=ds[1],
+            )
+
+            self.database.extend(new_vehicle_datasets.values())
+
+        fleet_act = []
+
+        arr = None
+        if self.vehicle_type == "car":
+            arr = self.iam_data.trsp_cars
+        if self.vehicle_type == "truck":
+            arr = self.iam_data.trsp_trucks
+        if self.vehicle_type == "bus":
+            arr = self.iam_data.trsp_buses
+
+        if arr is None:
+            return []
+
+        # rename coordinates along the powertrian dimension
+        rev_powertrain = {v: k for k, v in self.mapping["powertrain"].items()}
+        arr.coords["powertrain"] = [
+            rev_powertrain[p] for p in arr.coords["powertrain"].values
         ]
 
-        # We filter vehicles by year of manufacture
-        available_years = [2020, 2030, 2040, 2050]
-        closest_year = min(available_years, key=lambda x: abs(x - self.year))
-        fleet_act = None
+        vehicle_datasets = list(ws.get_many(self.database, *filters))
 
-        if self.has_fleet:
-            datasets.import_db.data = [
-                dataset
-                for dataset in datasets.import_db.data
-                if not any(
-                    z for z in re.findall(r"\d+", dataset["name"]) if int(z) > self.year
-                )
-                and not any(
-                    z in dataset["name"]
-                    for z in ["label-certified electricity", "label-certified gas"]
-                )
-            ]
-
-            if self.vehicle_type == "car":
-                arr = self.iam_data.trsp_cars
-            elif self.vehicle_type == "truck":
-                arr = self.iam_data.trsp_trucks
-            elif self.vehicle_type == "bus":
-                arr = self.iam_data.trsp_buses
-            else:
-                arr = None
-
-            if arr is not None:
-                fleet_act = create_fleet_vehicles(
-                    datasets.import_db.data,
-                    vehicle_type=self.vehicle_type,
-                    year=self.year,
-                    model=self.model,
-                    version=self.version,
-                    system_model=self.system_model,
-                    scenario=self.scenario,
-                    regions=self.regions,
-                    arr=arr,
-                )
-
-                # cleaning up
-                # we remove vehicles that
-                # are not used by fleet vehicles
-                fleet_vehicles = []
-
-                for dataset in fleet_act:
-                    for exchange in dataset["exchanges"]:
-                        if exchange["type"] == "technosphere":
-                            fleet_vehicles.append(exchange["name"])
-
-                datasets.import_db.data = [
-                    a
-                    for a in datasets.import_db.data
-                    if not a["name"].startswith("transport, ")
-                    or a["name"] in fleet_vehicles
-                ]
-
-                datasets.import_db.data.extend(fleet_act)
-
-        else:
-            datasets.import_db.data = [
-                dataset
-                for dataset in datasets.import_db.data
-                if not any(vehicle in dataset["name"] for vehicle in list_vehicles)
-                or (
-                    str(closest_year) in dataset["name"]
-                    and "label-certified electricity" not in dataset["name"]
-                )
-            ]
-
-            # remove the year in the name
-            str_to_replace = ", " + str(closest_year)
-            for dataset in datasets.import_db.data:
-                if str_to_replace in dataset["name"]:
-                    dataset["name"] = dataset["name"].replace(str_to_replace, "")
-                    for exc in dataset["exchanges"]:
-                        if str_to_replace in exc["name"]:
-                            exc["name"] = exc["name"].replace(str_to_replace, "")
-
-        list_new_ds = []
-
-        # create regional variants
-        for dataset in datasets.import_db.data:
-            if (
-                "transport, " in dataset["name"]
-                and "unspecified" not in dataset["name"]
-            ):
-                for region in self.regions:
-                    new_ds = wt.copy_to_new_location(dataset, region)
-
-                    for exc in ws.production(new_ds):
-                        if "input" in exc:
-                            exc.pop("input")
-
-                    if self.relink:
-                        new_ds = self.relink_technosphere_exchanges(
-                            new_ds,
-                        )
-
-                    list_new_ds.append(new_ds)
-
-        datasets.import_db.data.extend(list_new_ds)
-
-        # remove empty fields
-        for dataset in datasets.import_db.data:
-            for key, value in list(dataset.items()):
-                if not value:
-                    del dataset[key]
+        fleet_act.extend(
+            create_fleet_vehicles(
+                datasets=vehicle_datasets,
+                vehicle_type=self.vehicle_type,
+                year=self.year,
+                model=self.model,
+                version=self.version,
+                system_model=self.system_model,
+                scenario=self.scenario,
+                regions=self.regions,
+                arr=arr,
+            )
+        )
 
         # if trucks, need to reconnect everything
         # loop through datasets that use truck transport
         if self.vehicle_type == "truck":
-            vehicles_map = get_vehicles_mapping()
             list_created_trucks = [(a["name"], a["location"]) for a in fleet_act]
             for dataset in ws.get_many(
                 self.database,
@@ -662,7 +596,7 @@ class Transport(BaseTransformation):
                 ):
                     key = [
                         k
-                        for k in vehicles_map["truck"]["old_trucks"][self.model]
+                        for k in self.mapping["truck"]["old_trucks"][self.model]
                         if k.lower() in exc["name"].lower()
                     ][0]
 
@@ -670,21 +604,16 @@ class Transport(BaseTransformation):
                         del exc["input"]
 
                     if dataset["unit"] == "kilogram":
-                        if exc["amount"] * 1000 <= 450:
-                            name = f"{vehicles_map['truck']['old_trucks'][self.model][key]}, regional delivery"
-                            cycle = ", regional delivery"
-                        else:
-                            name = f"{vehicles_map['truck']['old_trucks'][self.model][key]}, long haul"
-                            cycle = ", long haul"
-
+                        name = f"{self.mapping['truck']['old_trucks'][self.model][key]}, long haul"
                         loc = self.geo.ecoinvent_to_iam_location(dataset["location"])
+
                         if (name, loc) in list_created_trucks:
                             exc["name"] = name
-
                         else:
                             exc["name"] = (
-                                "transport, freight, lorry, unspecified" + cycle
+                                f"transport, freight, lorry, unspecified, long haul"
                             )
+
                     else:
                         exc["name"] = (
                             "transport, freight, lorry, unspecified, long haul"
@@ -695,7 +624,4 @@ class Transport(BaseTransformation):
                         dataset["location"]
                     )
 
-        self.database = datasets.merge_inventory()
-
-        for ds in datasets.import_db.data:
-            self.add_to_index(ds)
+        return fleet_act

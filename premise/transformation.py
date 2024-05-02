@@ -311,6 +311,7 @@ def find_fuel_efficiency(
                 f"Warning: {dataset['name'], dataset['location']} has no energy input"
             )
 
+
     if energy_input != 0 and float(energy_out) != 0:
         current_efficiency = float(energy_out) / energy_input
     else:
@@ -358,21 +359,9 @@ class BaseTransformation:
         self.year: int = year
         self.version: str = version
         self.fuels_specs: dict = get_fuel_properties()
-        mapping = InventorySet(self.database)
-        self.cement_fuels_map: dict = mapping.generate_cement_fuels_map()
-        self.fuel_map: Dict[str, Set] = mapping.generate_fuel_map()
-        self.heat_techs = mapping.generate_heat_map()
+
         self.system_model: str = system_model
         self.cache: dict = cache or {}
-
-        # reverse the fuel map to get a mapping from ecoinvent to premise
-        self.fuel_map_reverse: Dict = {}
-
-        for key, value in self.fuel_map.items():
-            for v in list(value):
-                self.fuel_map_reverse[v] = key
-
-        self.material_map: Dict[str, Set] = mapping.generate_material_map()
         self.ecoinvent_to_iam_loc: Dict[str, str] = {
             loc: self.geo.ecoinvent_to_iam_location(loc)
             for loc in self.get_ecoinvent_locs()

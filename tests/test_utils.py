@@ -18,7 +18,7 @@ def test_ei_db_label():
     }
     assert (
         eidb_label(scenario, version, system_model)
-        == f"ecoinvent_{system_model}_{version}_{model}_{pathway}_{year}_test_{datetime.now().strftime('%Y-%m-%d %H-%M')} (v.{str(__version__)})"
+        == f"ecoinvent_{system_model}_{version}_{model}_{pathway}_{year}_test_{datetime.now().strftime('%Y-%m-%d %H-%M')} v.{'.'.join(str(__version__))}"
     )
 
 

@@ -1,0 +1,252 @@
+size,powertrain,euro_class,component,value
+Kick-scooter,BEV,1,Carbon monoxide,0
+Bicycle <25,BEV,1,Carbon monoxide,0
+Bicycle <45,BEV,1,Carbon monoxide,0
+Bicycle cargo,BEV,1,Carbon monoxide,0
+Moped <4kW,BEV,1,Carbon monoxide,0
+Moped <4kW,BEV,1,Hydrocarbons,0
+Moped <4kW,BEV,1,Lead,0
+Moped <4kW,BEV,1,Nitrogen dioxide,0
+Moped <4kW,ICEV-p,1,Methane,0.050029698
+Moped <4kW,ICEV-p,2,Methane,0.027516334
+Moped <4kW,ICEV-p,3,Methane,0.027343001
+Moped <4kW,ICEV-p,4,Methane,0.027739049
+Moped <4kW,ICEV-p,5,Methane,0.027739049
+Moped <4kW,ICEV-p,1,Carbon monoxide,5.25426052
+Moped <4kW,ICEV-p,2,Carbon monoxide,3.198245534
+Moped <4kW,ICEV-p,3,Carbon monoxide,4.03337826
+Moped <4kW,ICEV-p,4,Carbon monoxide,3.019733377
+Moped <4kW,ICEV-p,5,Carbon monoxide,3.019733377
+Moped <4kW,ICEV-p,1,Dinitrogen oxide,0.001142231
+Moped <4kW,ICEV-p,2,Dinitrogen oxide,0.001142231
+Moped <4kW,ICEV-p,3,Dinitrogen oxide,0.001387265
+Moped <4kW,ICEV-p,4,Dinitrogen oxide,0.001407359
+Moped <4kW,ICEV-p,5,Dinitrogen oxide,0.001407359
+Moped <4kW,ICEV-p,1,Ammonia,0.001142231
+Moped <4kW,ICEV-p,2,Ammonia,0.001142231
+Moped <4kW,ICEV-p,3,Ammonia,0.001387265
+Moped <4kW,ICEV-p,4,Ammonia,0.001407359
+Moped <4kW,ICEV-p,5,Ammonia,0.001407359
+Moped <4kW,ICEV-p,1,Nitrogen oxides,0.205601499
+Moped <4kW,ICEV-p,2,Nitrogen oxides,0.194179193
+Moped <4kW,ICEV-p,3,Nitrogen oxides,0.523772804
+Moped <4kW,ICEV-p,4,Nitrogen oxides,0.06023093
+Moped <4kW,ICEV-p,5,Nitrogen oxides,0.06023093
+Moped <4kW,ICEV-p,1,Particulate matters 2.5,0.051400375
+Moped <4kW,ICEV-p,2,Particulate matters 2.5,0.029697994
+Moped <4kW,ICEV-p,3,Particulate matters 2.5,0.010315091
+Moped <4kW,ICEV-p,4,Particulate matters 2.5,0.002262119
+Moped <4kW,ICEV-p,5,Particulate matters 2.5,0.002262119
+Moped <4kW,ICEV-p,1,Non-methane hydrocarbon,3.883583863
+Moped <4kW,ICEV-p,2,Non-methane hydrocarbon,2.969799424
+Moped <4kW,ICEV-p,3,Non-methane hydrocarbon,1.967357421
+Moped <4kW,ICEV-p,4,Non-methane hydrocarbon,0.588690625
+Moped <4kW,ICEV-p,5,Non-methane hydrocarbon,0.588690625
+Scooter <4kW,ICEV-p,1,Methane,0.050029698
+Scooter <4kW,ICEV-p,2,Methane,0.027516334
+Scooter <4kW,ICEV-p,3,Methane,0.027343001
+Scooter <4kW,ICEV-p,4,Methane,0.027739049
+Scooter <4kW,ICEV-p,5,Methane,0.027739049
+Scooter <4kW,ICEV-p,1,Carbon monoxide,7.65294467
+Scooter <4kW,ICEV-p,2,Carbon monoxide,4.797368301
+Scooter <4kW,ICEV-p,3,Carbon monoxide,4.03337826
+Scooter <4kW,ICEV-p,4,Carbon monoxide,3.019733377
+Scooter <4kW,ICEV-p,5,Carbon monoxide,3.019733377
+Scooter <4kW,ICEV-p,1,Dinitrogen oxide,0.001142231
+Scooter <4kW,ICEV-p,2,Dinitrogen oxide,0.001142231
+Scooter <4kW,ICEV-p,3,Dinitrogen oxide,0.001387265
+Scooter <4kW,ICEV-p,4,Dinitrogen oxide,0.001407359
+Scooter <4kW,ICEV-p,5,Dinitrogen oxide,0.001407359
+Scooter <4kW,ICEV-p,1,Ammonia,0.001142231
+Scooter <4kW,ICEV-p,2,Ammonia,0.001142231
+Scooter <4kW,ICEV-p,3,Ammonia,0.001387265
+Scooter <4kW,ICEV-p,4,Ammonia,0.001407359
+Scooter <4kW,ICEV-p,5,Ammonia,0.001407359
+Scooter <4kW,ICEV-p,1,Nitrogen oxides,0.251290721
+Scooter <4kW,ICEV-p,2,Nitrogen oxides,0.194179193
+Scooter <4kW,ICEV-p,3,Nitrogen oxides,0.523772804
+Scooter <4kW,ICEV-p,4,Nitrogen oxides,0.06023093
+Scooter <4kW,ICEV-p,5,Nitrogen oxides,0.06023093
+Scooter <4kW,ICEV-p,1,Particulate matters 2.5,0.045689222
+Scooter <4kW,ICEV-p,2,Particulate matters 2.5,0.007995614
+Scooter <4kW,ICEV-p,3,Particulate matters 2.5,0.010315091
+Scooter <4kW,ICEV-p,4,Particulate matters 2.5,0.002262119
+Scooter <4kW,ICEV-p,5,Particulate matters 2.5,0.002262119
+Scooter <4kW,ICEV-p,1,Non-methane hydrocarbon,0.890939827
+Scooter <4kW,ICEV-p,2,Non-methane hydrocarbon,0.902362133
+Scooter <4kW,ICEV-p,3,Non-methane hydrocarbon,1.967357421
+Scooter <4kW,ICEV-p,4,Non-methane hydrocarbon,0.588690625
+Scooter <4kW,ICEV-p,5,Non-methane hydrocarbon,0.588690625
+Scooter 4-11kW,ICEV-p,1,Methane,0.142676304
+Scooter 4-11kW,ICEV-p,2,Methane,0.137839895
+Scooter 4-11kW,ICEV-p,3,Methane,0.086544253
+Scooter 4-11kW,ICEV-p,4,Methane,0.084117353
+Scooter 4-11kW,ICEV-p,5,Methane,0.084117353
+Scooter 4-11kW,ICEV-p,1,Carbon monoxide,11.10632976
+Scooter 4-11kW,ICEV-p,2,Carbon monoxide,4.944596393
+Scooter 4-11kW,ICEV-p,3,Carbon monoxide,0.706538222
+Scooter 4-11kW,ICEV-p,4,Carbon monoxide,0.815041207
+Scooter 4-11kW,ICEV-p,5,Carbon monoxide,0.715878356
+Scooter 4-11kW,ICEV-p,1,Dinitrogen oxide,0.002038233
+Scooter 4-11kW,ICEV-p,2,Dinitrogen oxide,0.002418244
+Scooter 4-11kW,ICEV-p,3,Dinitrogen oxide,0.003090866
+Scooter 4-11kW,ICEV-p,4,Dinitrogen oxide,0.003004191
+Scooter 4-11kW,ICEV-p,5,Dinitrogen oxide,0.003004191
+Scooter 4-11kW,ICEV-p,1,Ammonia,0.002038233
+Scooter 4-11kW,ICEV-p,2,Ammonia,0.002418244
+Scooter 4-11kW,ICEV-p,3,Ammonia,0.003090866
+Scooter 4-11kW,ICEV-p,4,Ammonia,0.003004191
+Scooter 4-11kW,ICEV-p,5,Ammonia,0.003004191
+Scooter 4-11kW,ICEV-p,1,Nitrogen oxides,0.369519548
+Scooter 4-11kW,ICEV-p,2,Nitrogen oxides,0.343491367
+Scooter 4-11kW,ICEV-p,3,Nitrogen oxides,0.092293405
+Scooter 4-11kW,ICEV-p,4,Nitrogen oxides,0.050288786
+Scooter 4-11kW,ICEV-p,5,Nitrogen oxides,0.033389648
+Scooter 4-11kW,ICEV-p,1,Particulate matters 2.5,0.020382329
+Scooter 4-11kW,ICEV-p,2,Particulate matters 2.5,0.006045609
+Scooter 4-11kW,ICEV-p,3,Particulate matters 2.5,0.007727165
+Scooter 4-11kW,ICEV-p,4,Particulate matters 2.5,0.001314334
+Scooter 4-11kW,ICEV-p,5,Particulate matters 2.5,0.001314334
+Scooter 4-11kW,ICEV-p,1,Non-methane hydrocarbon,0.940007415
+Scooter 4-11kW,ICEV-p,2,Non-methane hydrocarbon,0.5250472
+Scooter 4-11kW,ICEV-p,3,Non-methane hydrocarbon,0.06919816
+Scooter 4-11kW,ICEV-p,4,Non-methane hydrocarbon,0.107874533
+Scooter 4-11kW,ICEV-p,5,Non-methane hydrocarbon,0.063598317
+Motorcycle 4-11kW,ICEV-p,1,Methane,0.142676304
+Motorcycle 4-11kW,ICEV-p,2,Methane,0.137839895
+Motorcycle 4-11kW,ICEV-p,3,Methane,0.086544253
+Motorcycle 4-11kW,ICEV-p,4,Methane,0.084117353
+Motorcycle 4-11kW,ICEV-p,5,Methane,0.084117353
+Motorcycle 4-11kW,ICEV-p,1,Carbon monoxide,11.10632976
+Motorcycle 4-11kW,ICEV-p,2,Carbon monoxide,4.944596393
+Motorcycle 4-11kW,ICEV-p,3,Carbon monoxide,0.706538222
+Motorcycle 4-11kW,ICEV-p,4,Carbon monoxide,0.815041207
+Motorcycle 4-11kW,ICEV-p,5,Carbon monoxide,0.715878356
+Motorcycle 4-11kW,ICEV-p,1,Dinitrogen oxide,0.002038233
+Motorcycle 4-11kW,ICEV-p,2,Dinitrogen oxide,0.002418244
+Motorcycle 4-11kW,ICEV-p,3,Dinitrogen oxide,0.003090866
+Motorcycle 4-11kW,ICEV-p,4,Dinitrogen oxide,0.003004191
+Motorcycle 4-11kW,ICEV-p,5,Dinitrogen oxide,0.003004191
+Motorcycle 4-11kW,ICEV-p,1,Ammonia,0.002038233
+Motorcycle 4-11kW,ICEV-p,2,Ammonia,0.002418244
+Motorcycle 4-11kW,ICEV-p,3,Ammonia,0.003090866
+Motorcycle 4-11kW,ICEV-p,4,Ammonia,0.003004191
+Motorcycle 4-11kW,ICEV-p,5,Ammonia,0.003004191
+Motorcycle 4-11kW,ICEV-p,1,Nitrogen oxides,0.369519548
+Motorcycle 4-11kW,ICEV-p,2,Nitrogen oxides,0.343491367
+Motorcycle 4-11kW,ICEV-p,3,Nitrogen oxides,0.092293405
+Motorcycle 4-11kW,ICEV-p,4,Nitrogen oxides,0.050288786
+Motorcycle 4-11kW,ICEV-p,5,Nitrogen oxides,0.033389648
+Motorcycle 4-11kW,ICEV-p,1,Particulate matters 2.5,0.020382329
+Motorcycle 4-11kW,ICEV-p,2,Particulate matters 2.5,0.006045609
+Motorcycle 4-11kW,ICEV-p,3,Particulate matters 2.5,0.007727165
+Motorcycle 4-11kW,ICEV-p,4,Particulate matters 2.5,0.001314334
+Motorcycle 4-11kW,ICEV-p,5,Particulate matters 2.5,0.001314334
+Motorcycle 4-11kW,ICEV-p,1,Non-methane hydrocarbon,0.940007415
+Motorcycle 4-11kW,ICEV-p,2,Non-methane hydrocarbon,0.5250472
+Motorcycle 4-11kW,ICEV-p,3,Non-methane hydrocarbon,0.06919816
+Motorcycle 4-11kW,ICEV-p,4,Non-methane hydrocarbon,0.107874533
+Motorcycle 4-11kW,ICEV-p,5,Non-methane hydrocarbon,0.063598317
+Motorcycle >35kW,ICEV-p,1,Methane,0.062476282
+Motorcycle >35kW,ICEV-p,2,Methane,0.04985173
+Motorcycle >35kW,ICEV-p,3,Methane,0.018853552
+Motorcycle >35kW,ICEV-p,4,Methane,0.024525234
+Motorcycle >35kW,ICEV-p,5,Methane,0.024525234
+Motorcycle >35kW,ICEV-p,1,Carbon monoxide,5.746413046
+Motorcycle >35kW,ICEV-p,2,Carbon monoxide,1.181505243
+Motorcycle >35kW,ICEV-p,3,Carbon monoxide,0.174922222
+Motorcycle >35kW,ICEV-p,4,Carbon monoxide,0.100794402
+Motorcycle >35kW,ICEV-p,5,Carbon monoxide,0.088433433
+Motorcycle >35kW,ICEV-p,1,Dinitrogen oxide,0.001162349
+Motorcycle >35kW,ICEV-p,2,Dinitrogen oxide,0.001201247
+Motorcycle >35kW,ICEV-p,3,Dinitrogen oxide,0.000992292
+Motorcycle >35kW,ICEV-p,4,Dinitrogen oxide,0.001290802
+Motorcycle >35kW,ICEV-p,5,Dinitrogen oxide,0.001290802
+Motorcycle >35kW,ICEV-p,1,Ammonia,0.001162349
+Motorcycle >35kW,ICEV-p,2,Ammonia,0.001201247
+Motorcycle >35kW,ICEV-p,3,Ammonia,0.000992292
+Motorcycle >35kW,ICEV-p,4,Ammonia,0.001290802
+Motorcycle >35kW,ICEV-p,5,Ammonia,0.001290802
+Motorcycle >35kW,ICEV-p,1,Nitrogen oxides,0.093252784
+Motorcycle >35kW,ICEV-p,2,Nitrogen oxides,0.068992292
+Motorcycle >35kW,ICEV-p,3,Nitrogen oxides,0.031131616
+Motorcycle >35kW,ICEV-p,4,Nitrogen oxides,0.012238477
+Motorcycle >35kW,ICEV-p,5,Nitrogen oxides,0.008186528
+Motorcycle >35kW,ICEV-p,1,Particulate matters 2.5,0.011623494
+Motorcycle >35kW,ICEV-p,2,Particulate matters 2.5,0.003003116
+Motorcycle >35kW,ICEV-p,3,Particulate matters 2.5,0.00248073
+Motorcycle >35kW,ICEV-p,4,Particulate matters 2.5,0.000564726
+Motorcycle >35kW,ICEV-p,5,Particulate matters 2.5,0.000564726
+Motorcycle >35kW,ICEV-p,1,Non-methane hydrocarbon,0.510088952
+Motorcycle >35kW,ICEV-p,2,Non-methane hydrocarbon,0.198584886
+Motorcycle >35kW,ICEV-p,3,Non-methane hydrocarbon,0.079404266
+Motorcycle >35kW,ICEV-p,4,Non-methane hydrocarbon,0.024125996
+Motorcycle >35kW,ICEV-p,5,Non-methane hydrocarbon,0.014141721
+Motorcycle 11-35kW,ICEV-p,1,Methane,0.109784107
+Motorcycle 11-35kW,ICEV-p,2,Methane,0.106566422
+Motorcycle 11-35kW,ICEV-p,3,Methane,0.033063092
+Motorcycle 11-35kW,ICEV-p,4,Methane,0.04294755
+Motorcycle 11-35kW,ICEV-p,5,Methane,0.04294755
+Motorcycle 11-35kW,ICEV-p,1,Carbon monoxide,6.936098678
+Motorcycle 11-35kW,ICEV-p,2,Carbon monoxide,1.51357561
+Motorcycle 11-35kW,ICEV-p,3,Carbon monoxide,0.175290035
+Motorcycle 11-35kW,ICEV-p,4,Carbon monoxide,0.100861074
+Motorcycle 11-35kW,ICEV-p,5,Carbon monoxide,0.088491929
+Motorcycle 11-35kW,ICEV-p,1,Dinitrogen oxide,0.001402992
+Motorcycle 11-35kW,ICEV-p,2,Dinitrogen oxide,0.001538865
+Motorcycle 11-35kW,ICEV-p,3,Dinitrogen oxide,0.000994379
+Motorcycle 11-35kW,ICEV-p,4,Dinitrogen oxide,0.001291656
+Motorcycle 11-35kW,ICEV-p,5,Dinitrogen oxide,0.001291656
+Motorcycle 11-35kW,ICEV-p,1,Ammonia,0.001402992
+Motorcycle 11-35kW,ICEV-p,2,Ammonia,0.001538865
+Motorcycle 11-35kW,ICEV-p,3,Ammonia,0.000994379
+Motorcycle 11-35kW,ICEV-p,4,Ammonia,0.001291656
+Motorcycle 11-35kW,ICEV-p,5,Ammonia,0.001291656
+Motorcycle 11-35kW,ICEV-p,1,Nitrogen oxides,0.207455801
+Motorcycle 11-35kW,ICEV-p,2,Nitrogen oxides,0.065888252
+Motorcycle 11-35kW,ICEV-p,3,Nitrogen oxides,0.028873841
+Motorcycle 11-35kW,ICEV-p,4,Nitrogen oxides,0.011248165
+Motorcycle 11-35kW,ICEV-p,5,Nitrogen oxides,0.007581145
+Motorcycle 11-35kW,ICEV-p,1,Particulate matters 2.5,0.014029918
+Motorcycle 11-35kW,ICEV-p,2,Particulate matters 2.5,0.003847163
+Motorcycle 11-35kW,ICEV-p,3,Particulate matters 2.5,0.002485947
+Motorcycle 11-35kW,ICEV-p,4,Particulate matters 2.5,0.000565099
+Motorcycle 11-35kW,ICEV-p,5,Particulate matters 2.5,0.000565099
+Motorcycle 11-35kW,ICEV-p,1,Non-methane hydrocarbon,0.799552702
+Motorcycle 11-35kW,ICEV-p,2,Non-methane hydrocarbon,0.412272631
+Motorcycle 11-35kW,ICEV-p,3,Non-methane hydrocarbon,0.079581389
+Motorcycle 11-35kW,ICEV-p,4,Non-methane hydrocarbon,0.0241083
+Motorcycle 11-35kW,ICEV-p,5,Non-methane hydrocarbon,0.014140218
+Motorcycle 11-35kW,ICEV-p,5,1-Pentene,0
+Motorcycle 11-35kW,ICEV-p,5,Cyclohexane,0
+Motorcycle 11-35kW,ICEV-p,5,Methyl ethyl ketone,0
+Motorcycle 11-35kW,ICEV-p,5,m-Xylene,0
+Motorcycle 11-35kW,ICEV-p,5,o-Xylene,0
+Motorcycle 11-35kW,ICEV-p,5,Acetaldehyde,0
+Motorcycle 11-35kW,ICEV-p,5,Acetone,0
+Motorcycle 11-35kW,ICEV-p,5,Acrolein,0
+Motorcycle 11-35kW,ICEV-p,5,Benzaldehyde,0
+Motorcycle 11-35kW,ICEV-p,5,Butane,0
+Motorcycle 11-35kW,ICEV-p,5,Ethane,0
+Motorcycle 11-35kW,ICEV-p,5,Ethene,0
+Motorcycle 11-35kW,ICEV-p,5,Formaldehyde,0
+Motorcycle 11-35kW,ICEV-p,5,Heptane,0
+Motorcycle 11-35kW,ICEV-p,5,Hexane,0
+Motorcycle 11-35kW,ICEV-p,5,Pentane,0
+Motorcycle 11-35kW,ICEV-p,5,Propane,0
+Motorcycle 11-35kW,ICEV-p,5,Propene,0
+Motorcycle 11-35kW,ICEV-p,5,Styrene,0
+Motorcycle 11-35kW,ICEV-p,5,Toluene,0
+Motorcycle 11-35kW,ICEV-p,5,Ethane,0
+Motorcycle 11-35kW,ICEV-p,5,Formaldehyde,0
+Motorcycle 11-35kW,ICEV-p,5,Arsenic,0
+Motorcycle 11-35kW,ICEV-p,5,Cadmium,0
+Motorcycle 11-35kW,ICEV-p,5,Chromium,0
+Motorcycle 11-35kW,ICEV-p,5,Chromium VI,0
+Motorcycle 11-35kW,ICEV-p,5,Copper,0
+Motorcycle 11-35kW,ICEV-p,5,Mercury,0
+Motorcycle 11-35kW,ICEV-p,5,Nickel,0
+Motorcycle 11-35kW,ICEV-p,5,PAHs,0
+Motorcycle 11-35kW,ICEV-p,5,Selenium,0
+Motorcycle 11-35kW,ICEV-p,5,Zinc,0
+Motorcycle 11-35kW,ICEV-p,5,Benzene,0

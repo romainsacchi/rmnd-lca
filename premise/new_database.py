@@ -53,6 +53,9 @@ from .utils import (
     load_constants,
     print_version,
     warning_about_biogenic_co2,
+    dump_database,
+    load_database,
+    delete_all_pickles
 )
 
 logger = logging.getLogger("module")
@@ -148,7 +151,8 @@ FILEPATH_METHANOL_FROM_NATGAS_FUELS_INVENTORIES = (
 FILEPATH_LITHIUM = INVENTORY_DIR / "lci-lithium.xlsx"
 FILEPATH_COBALT = INVENTORY_DIR / "lci-cobalt.xlsx"
 FILEPATH_GRAPHITE = INVENTORY_DIR / "lci-graphite.xlsx"
-FILEPATH_BATTERIES = INVENTORY_DIR / "lci-batteries.xlsx"
+FILEPATH_BATTERIES_NMC_NCA_LFP = INVENTORY_DIR / "lci-batteries-NMC111-811-NCA-LFP.xlsx"
+FILEPATH_BATTERIES_NMC622_LTO = INVENTORY_DIR / "lci-batteries-NMC622-LTO.xlsx"
 FILEPATH_LIO2_BATTERY = INVENTORY_DIR / "lci-batteries-LiO2.xlsx"
 FILEPATH_LIS_BATTERY = INVENTORY_DIR / "lci-batteries-LiS.xlsx"
 FILEPATH_PHOTOVOLTAICS = INVENTORY_DIR / "lci-PV.xlsx"
@@ -168,6 +172,10 @@ FILEPATH_METHANOL_HEATING = INVENTORY_DIR / "lci-methanol-heating.xlsx"
 FILEPATH_GERMANIUM = INVENTORY_DIR / "lci-germanium.xlsx"
 FILEPATH_RHENIUM = INVENTORY_DIR / "lci-rhenium.xlsx"
 FILEPATH_PGM = INVENTORY_DIR / "lci-PGM.xlsx"
+FILEPATH_TWO_WHEELERS = INVENTORY_DIR / "lci-two_wheelers.xlsx"
+FILEPATH_TRUCKS = INVENTORY_DIR / "lci-trucks.xlsx"
+FILEPATH_BUSES = INVENTORY_DIR / "lci-buses.xlsx"
+FILEPATH_PASS_CARS = INVENTORY_DIR / "lci-pass_cars.xlsx"
 
 config = load_constants()
 
@@ -556,8 +564,6 @@ class NewDatabase:
                     scenario["external scenarios"]
                 )
 
-            scenario["database"] = copy.deepcopy(self.database)
-
         print("- Extracting source database")
         if use_cached_database:
             self.database = self.__find_cached_db(source_db)
@@ -691,9 +697,12 @@ class NewDatabase:
             (FILEPATH_LITHIUM, "3.8"),
             (FILEPATH_COBALT, "3.8"),
             (FILEPATH_GRAPHITE, "3.8"),
-            (FILEPATH_BATTERIES, "3.8"),
+            (FILEPATH_BATTERIES_NMC_NCA_LFP, "3.8"),
+            (FILEPATH_BATTERIES_NMC622_LTO, "3.8"),
             (FILEPATH_LIS_BATTERY, "3.9"),
             (FILEPATH_LIO2_BATTERY, "3.9"),
+            (FILEPATH_VANADIUM, "3.9"),
+            (FILEPATH_SIB_BATTERY, "3.9"),
             (FILEPATH_HOME_STORAGE_BATTERIES, "3.9"),
             (FILEPATH_PHOTOVOLTAICS, "3.7"),
             (FILEPATH_HYDROGEN_INVENTORIES, "3.9"),
@@ -738,19 +747,27 @@ class NewDatabase:
             (FILEPATH_WAVE, "3.8"),
             (FILEPATH_FUEL_CELL, "3.9"),
             (FILEPATH_CSP, "3.9"),
-            (FILEPATH_VANADIUM, "3.9"),
             (FILEPATH_VANADIUM_REDOX_BATTERY, "3.9"),
-            # (FILEPATH_SIB_BATTERY, "3.9"),
             (FILEPATH_HYDROGEN_HEATING, "3.9"),
             (FILEPATH_METHANOL_HEATING, "3.9"),
             (FILEPATH_GERMANIUM, "3.9"),
             (FILEPATH_RHENIUM, "3.9"),
             (FILEPATH_PGM, "3.8"),
+            (FILEPATH_TWO_WHEELERS, "3.7"),
+            (FILEPATH_TRUCKS, "3.7"),
+            (FILEPATH_BUSES, "3.7"),
+            (FILEPATH_PASS_CARS, "3.7"),
         ]
         for filepath in filepaths:
             # make an exception for FILEPATH_OIL_GAS_INVENTORIES
             # ecoinvent version is 3.9
-            if filepath[0] == FILEPATH_OIL_GAS_INVENTORIES and self.version == "3.9":
+            if filepath[0] in [
+                FILEPATH_OIL_GAS_INVENTORIES,
+                FILEPATH_BATTERIES_NMC_NCA_LFP,
+            ] and self.version in [
+                "3.9",
+                "3.9.1",
+            ]:
                 continue
 
             inventory = DefaultInventory(
@@ -870,18 +887,7 @@ class NewDatabase:
             ]
 
         if sectors is None:
-            sectors = [
-                s
-                for s in list(sector_update_methods.keys())
-                if s not in ["buses", "cars", "two_wheelers"]
-            ]
-
-            print(
-                "`update()` will skip the following sectors: 'buses', 'cars', 'two_wheelers'."
-            )
-            print(
-                "If you want to update these sectors, please run them separately afterwards."
-            )
+            sectors = [s for s in list(sector_update_methods.keys())]
 
         assert isinstance(sectors, list), "sector_name should be a list of strings"
         assert all(
@@ -893,52 +899,23 @@ class NewDatabase:
             [item for item in sectors if item not in sector_update_methods]
         )
 
-        # Outer tqdm progress bar for sectors
-        with tqdm(total=len(sectors), desc="Updating sectors", ncols=70) as pbar_outer:
-            for sector in sectors:
-                pbar_outer.set_description(f"Updating: {sector}")
+        # unlink all files in the cache directory
+        delete_all_pickles()
 
-                # Prepare the function and arguments
-                update_func = sector_update_methods[sector]["func"]
-                fixed_args = sector_update_methods[sector]["args"]
+        with tqdm(total=len(self.scenarios), desc="Processing scenarios", ncols=70) as pbar_outer:
+            for scenario in self.scenarios:
+                # add database to scenarios
+                scenario["database"] = pickle.loads(pickle.dumps(self.database, -1))
+                for sector in sectors:
+                    # Prepare the function and arguments
+                    update_func = sector_update_methods[sector]["func"]
+                    fixed_args = sector_update_methods[sector]["args"]
+                    scenario = update_func(scenario, *fixed_args)
 
-                if self.multiprocessing:
-
-                    # Process scenarios in parallel for the current sector
-                    with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-                        # Prepare the tasks with all necessary arguments
-                        tasks = [
-                            (scenario,) + fixed_args for scenario in self.scenarios
-                        ]
-
-                        # we cannot pickle the datapackage contained under "external scenarios" in each scenario
-                        # so we replace it by the file path of the datapackage before processing
-
-                        for task in tasks:
-                            if "external scenarios" in task[0]:
-                                for external_scenario in task[0]["external scenarios"]:
-                                    if isinstance(
-                                        external_scenario["data"],
-                                        datapackage.DataPackage,
-                                    ):
-                                        external_scenario["data"] = external_scenario[
-                                            "data"
-                                        ].base_path
-
-                        # Use starmap for preserving the order of tasks
-                        results = pool.starmap(update_func, tasks)
-
-                        # Update self.scenarios based on the ordered results
-                        for s, updated_scenario in enumerate(results):
-                            self.scenarios[s] = updated_scenario
-
-                else:
-                    # Process scenarios in sequence for the current sector
-                    for s, scenario in enumerate(self.scenarios):
-                        self.scenarios[s] = update_func(scenario, *fixed_args)
-
+                # dump database
+                dump_database(scenario)
                 # Manually update the outer progress bar after each sector is completed
-                pbar_outer.update(1)
+                pbar_outer.update()
         print("Done!\n")
 
     def write_superstructure_db_to_brightway(
@@ -963,6 +940,7 @@ class NewDatabase:
             )
 
         for scenario in self.scenarios:
+            scenario = load_database(scenario)
             _prepare_database(
                 scenario=scenario,
                 db_name=name,
@@ -991,6 +969,9 @@ class NewDatabase:
         self.generate_scenario_report()
         # generate change report from logs
         self.generate_change_report()
+
+        for scenario in self.scenarios:
+            del scenario["database"]
 
     def write_db_to_brightway(self, name: [str, List[str]] = None):
         """
@@ -1029,18 +1010,19 @@ class NewDatabase:
         print("Write new database(s) to Brightway.")
 
         for s, scenario in enumerate(self.scenarios):
+            scenario = load_database(scenario)
             _prepare_database(
                 scenario=scenario,
                 db_name=name[s],
                 original_database=self.database,
                 keep_uncertainty_data=self.keep_uncertainty_data,
             )
-
-        for scen, scenario in enumerate(self.scenarios):
             write_brightway_database(
                 scenario["database"],
-                name[scen],
+                name[s],
             )
+            # delete the database from the scenario
+            del scenario["database"]
 
         # generate scenario report
         self.generate_scenario_report()
@@ -1063,10 +1045,18 @@ class NewDatabase:
 
         """
 
+        def scenario_name(scenario):
+            name = scenario["pathway"]
+
+            if "external scenarios" in scenario:
+                for external in scenario["external scenarios"]:
+                    name += f"-{external['scenario']}"
+            return name
+
         if filepath is not None:
             if isinstance(filepath, str):
                 filepath = [
-                    (Path(filepath) / s["model"] / s["pathway"] / str(s["year"]))
+                    (Path(filepath) / s["model"] / scenario_name(s) / str(s["year"]))
                     for s in self.scenarios
                 ]
             elif isinstance(filepath, list):
@@ -1084,36 +1074,15 @@ class NewDatabase:
 
         print("Write new database(s) to matrix.")
 
-        # use multiprocessing to speed up the process
-
-        if self.multiprocessing:
-            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-                args = [
-                    (scenario, "database", self.database, self.keep_uncertainty_data)
-                    for scenario in self.scenarios
-                ]
-                results = pool.starmap(_prepare_database, args)
-
-            for s, scenario in enumerate(self.scenarios):
-                self.scenarios[s] = results[s]
-
-            with ProcessPool(processes=multiprocessing.cpu_count()) as pool:
-                args = [
-                    Export(scenario, filepath[scen], self.version)
-                    for scen, scenario in enumerate(self.scenarios)
-                ]
-                pool.map(_export_to_matrices, args)
-        else:
-            for scenario in self.scenarios:
-                _prepare_database(
-                    scenario=scenario,
-                    db_name="database",
-                    original_database=self.database,
-                    keep_uncertainty_data=self.keep_uncertainty_data,
-                )
-
-            for scen, scenario in enumerate(self.scenarios):
-                Export(scenario, filepath[scen], self.version).export_db_to_matrices()
+        for s, scenario in enumerate(self.scenarios):
+            scenario = load_database(scenario)
+            _prepare_database(
+                scenario=scenario,
+                db_name="database",
+                original_database=self.database,
+                keep_uncertainty_data=self.keep_uncertainty_data,
+            )
+            Export(scenario, filepath[s], self.version).export_db_to_matrices()
 
         # generate scenario report
         self.generate_scenario_report()
@@ -1139,15 +1108,15 @@ class NewDatabase:
         # use multiprocessing to speed up the process
 
         for scenario in self.scenarios:
+            scenario = load_database(scenario)
             _prepare_database(
                 scenario=scenario,
                 db_name="database",
                 original_database=self.database,
                 keep_uncertainty_data=self.keep_uncertainty_data,
             )
-
-        for scenario in self.scenarios:
             Export(scenario, filepath, self.version).export_db_to_simapro()
+            del scenario["database"]
 
         # generate scenario report
         self.generate_scenario_report()
@@ -1173,17 +1142,17 @@ class NewDatabase:
         # use multiprocessing to speed up the process
 
         for scenario in self.scenarios:
+            scenario = load_database(scenario)
             _prepare_database(
                 scenario=scenario,
                 db_name="database",
                 original_database=self.database,
                 keep_uncertainty_data=self.keep_uncertainty_data,
             )
-
-        for scenario in self.scenarios:
             Export(scenario, filepath, self.version).export_db_to_simapro(
                 olca_compartments=True
             )
+            del scenario["database"]
 
         # generate scenario report
         self.generate_scenario_report()
@@ -1205,6 +1174,7 @@ class NewDatabase:
 
         # use multiprocessing to speed up the process
         for scenario in self.scenarios:
+            scenario = load_database(scenario)
             _prepare_database(
                 scenario=scenario,
                 db_name=name,
@@ -1222,6 +1192,9 @@ class NewDatabase:
             scenario_list=list_scenarios,
         )
 
+        for scenario in self.scenarios:
+            del scenario["database"]
+
         cached_inventories.extend(extra_inventories)
 
         list_scenarios = ["original"] + list_scenarios
@@ -1238,6 +1211,7 @@ class NewDatabase:
         self.generate_scenario_report()
         # generate change report from logs
         self.generate_change_report()
+
 
     def generate_scenario_report(
         self,

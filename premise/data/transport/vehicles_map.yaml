@@ -3,7 +3,7 @@
 bus:
   sizes:
     - 13m single deck urban bus
-  unit: passenger-kilometer
+  unit: person kilometer
   name: transport, passenger bus
 
 car:
@@ -16,7 +16,7 @@ car:
     - Large
     - Large SUV
     - Van
-  unit: vehicle-kilometer
+  unit: kilometer
   name: transport, passenger car
 
 truck:

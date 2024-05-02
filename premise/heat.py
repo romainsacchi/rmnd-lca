@@ -2,8 +2,10 @@
 Integrates projections regarding heat production and supply.
 """
 
+from .activity_maps import InventorySet
 from .logger import create_logger
 from .transformation import BaseTransformation, IAMDataCollection, List, ws
+from .validation import HeatValidation
 
 logger = create_logger("heat")
 
@@ -24,6 +26,18 @@ def _update_heat(scenario, version, system_model):
     heat.fetch_fuel_market_co2_emissions()
     heat.regionalize_heat_production()
     heat.relink_datasets()
+
+    validate = HeatValidation(
+        model=scenario["model"],
+        scenario=scenario["pathway"],
+        year=scenario["year"],
+        regions=scenario["iam data"].regions,
+        database=heat.database,
+        iam_data=scenario["iam data"],
+    )
+
+    validate.run_heat_checks()
+
     scenario["database"] = heat.database
     scenario["cache"] = heat.cache
     scenario["index"] = heat.index
@@ -62,6 +76,8 @@ class Heat(BaseTransformation):
         )
 
         self.carbon_intensity_markets = {}
+        mapping = InventorySet(self.database)
+        self.heat_techs = mapping.generate_heat_map()
 
     def fetch_fuel_market_co2_emissions(self):
         """
@@ -124,13 +140,16 @@ class Heat(BaseTransformation):
         created_datasets = []
 
         for heat_datasets in self.heat_techs.values():
-            for dataset in ws.get_many(
-                self.database,
-                ws.either(*[ws.contains("name", n) for n in heat_datasets]),
-                ws.equals("unit", "megajoule"),
-                ws.doesnt_contain_any("location", self.regions),
-            ):
+            datasets = list(
+                ws.get_many(
+                    self.database,
+                    ws.either(*[ws.contains("name", n) for n in heat_datasets]),
+                    ws.equals("unit", "megajoule"),
+                    ws.doesnt_contain_any("location", self.regions),
+                )
+            )
 
+            for dataset in datasets:
                 if dataset["name"] in created_datasets:
                     continue
 
@@ -141,6 +160,7 @@ class Heat(BaseTransformation):
                     ref_prod=dataset["reference product"],
                     exact_name_match=True,
                     exact_product_match=True,
+                    subset=datasets,
                 )
 
                 if len(new_ds) == 0:

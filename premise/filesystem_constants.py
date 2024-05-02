@@ -19,5 +19,8 @@ USER_DATA_BASE_DIR.mkdir(parents=True, exist_ok=True)
 DIR_CACHED_DB = USER_DATA_BASE_DIR / "cache"
 DIR_CACHED_DB.mkdir(parents=True, exist_ok=True)
 
+DIR_CACHED_FILES = USER_DATA_BASE_DIR / "cached_files"
+DIR_CACHED_FILES.mkdir(parents=True, exist_ok=True)
+
 USER_LOGS_DIR = platformdirs.user_log_path(appname="premise", appauthor="pylca")
 USER_LOGS_DIR.mkdir(parents=True, exist_ok=True)

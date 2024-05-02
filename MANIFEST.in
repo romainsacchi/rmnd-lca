@@ -39,6 +39,10 @@ include premise/data/geomap/*.yml
 include premise/data/geomap/*.yaml
 include premise/data/renewables/*.csv
 include premise/data/direct_air_capture/*.yaml
+include premise/data/transport/car/*.csv
+include premise/data/transport/bus/*.csv
+include premise/data/transport/truck/*.csv
+include premise/data/transport/two-wheeler/*.csv
 include premise/data/utils/*.csv
 include premise/data/utils/*.yml
 include premise/data/utils/*.yaml

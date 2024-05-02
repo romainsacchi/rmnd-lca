@@ -12,7 +12,7 @@ natural gas:
   name: market for natural gas, high pressure
   reference product: natural gas, high pressure
   unit: cubic meter
-  lhv: 47.5
+  lhv: 36
 hydrogen:
   name: market for hydrogen, gaseous
   reference product: hydrogen, gaseous

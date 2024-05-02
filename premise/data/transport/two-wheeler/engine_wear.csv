@@ -1,0 +1,12 @@
+powertrain,component,value
+BEV,Arsenic,0
+ICEV-p,PAHs,8.19E-10
+ICEV-p,Arsenic,7.04E-12
+ICEV-p,Selenium,4.69E-12
+ICEV-p,Zinc,7.75E-10
+ICEV-p,Copper,1.06E-10
+ICEV-p,Nickel,5.4E-11
+ICEV-p,Chromium,1.48E-10
+ICEV-p,Chromium VI,2.96E-13
+ICEV-p,Mercury,2.04E-10
+ICEV-p,C<admium,4.69E-12
