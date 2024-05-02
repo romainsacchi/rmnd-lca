@@ -12,7 +12,7 @@ from . import __version__
 from .activity_maps import act_fltr
 from .energy import Energy
 from .new_database import NewDatabase
-from .utils import load_database, dump_database
+from .utils import dump_database, load_database
 
 
 class PathwaysDataPackage:
@@ -90,7 +90,6 @@ class PathwaysDataPackage:
             name=name,
             contributors=contributors,
         )
-
 
     def export_datapackage(
         self,

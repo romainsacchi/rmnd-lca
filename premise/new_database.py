@@ -47,15 +47,15 @@ from .transport import _update_vehicles
 from .utils import (
     clear_existing_cache,
     create_scenario_list,
+    delete_all_pickles,
+    dump_database,
     eidb_label,
     hide_messages,
     info_on_utils_functions,
     load_constants,
+    load_database,
     print_version,
     warning_about_biogenic_co2,
-    dump_database,
-    load_database,
-    delete_all_pickles
 )
 
 logger = logging.getLogger("module")
@@ -902,7 +902,9 @@ class NewDatabase:
         # unlink all files in the cache directory
         delete_all_pickles()
 
-        with tqdm(total=len(self.scenarios), desc="Processing scenarios", ncols=70) as pbar_outer:
+        with tqdm(
+            total=len(self.scenarios), desc="Processing scenarios", ncols=70
+        ) as pbar_outer:
             for scenario in self.scenarios:
                 # add database to scenarios
                 scenario["database"] = pickle.loads(pickle.dumps(self.database, -1))
@@ -1211,7 +1213,6 @@ class NewDatabase:
         self.generate_scenario_report()
         # generate change report from logs
         self.generate_change_report()
-
 
     def generate_scenario_report(
         self,

@@ -3,9 +3,9 @@ Various utils functions.
 """
 
 import os
+import pickle
 import sys
 import uuid
-import pickle
 from datetime import datetime
 from functools import lru_cache
 from numbers import Number
@@ -22,7 +22,12 @@ from wurst.searching import biosphere, equals, get_many, technosphere
 
 from . import __version__
 from .data_collection import get_delimiter
-from .filesystem_constants import DATA_DIR, DIR_CACHED_DB, VARIABLES_DIR, DIR_CACHED_FILES
+from .filesystem_constants import (
+    DATA_DIR,
+    DIR_CACHED_DB,
+    DIR_CACHED_FILES,
+    VARIABLES_DIR,
+)
 from .geomap import Geomap
 
 FUELS_PROPERTIES = VARIABLES_DIR / "fuels_variables.yaml"
@@ -345,6 +350,7 @@ def create_scenario_list(scenarios: list) -> list:
 
     return list_scenarios
 
+
 def dump_database(scenario):
     """
     Dump database to a pickle file.
@@ -363,6 +369,7 @@ def dump_database(scenario):
     del scenario["database"]
 
     return scenario
+
 
 def load_database(scenario):
     """
@@ -383,6 +390,7 @@ def load_database(scenario):
     filepath.unlink()
 
     return scenario
+
 
 def delete_all_pickles():
     """
