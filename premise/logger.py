@@ -58,4 +58,9 @@ def empty_log_files():
     for file in DIR_LOG_REPORT.iterdir():
         # if suffix is ".log"
         if file.suffix == ".log":
-            file.unlink()
+            try:
+                file.unlink()
+            except PermissionError:
+                # instead, let's empty the file
+                with open(file, "w") as f:
+                    f.write("")
