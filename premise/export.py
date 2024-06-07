@@ -1613,10 +1613,15 @@ class Export:
                                         [e["name"], " - ", e["categories"][0]]
                                     )
 
+                                if len(e["categories"]) > 1:
+                                    sub_compartment = simapro_subs.get(
+                                        e["categories"][1], e["categories"][1]
+                                    )
+
                                 writer.writerow(
                                     [
                                         dict_bio.get(e["name"], e["name"]),
-                                        "",
+                                        sub_compartment,
                                         simapro_units[e["unit"]],
                                         f"{e['amount']:.3E}",
                                         "undefined",

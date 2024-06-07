@@ -30,7 +30,7 @@ class PathwaysDataPackage:
         system_args: dict = None,
         gains_scenario="CLE",
         use_absolute_efficiency=False,
-        use_multiprocessing=True,
+        biosphere_name="biosphere3",
     ):
         self.years = years
         self.scenarios = []
@@ -56,7 +56,7 @@ class PathwaysDataPackage:
             system_args=system_args,
             gains_scenario=gains_scenario,
             use_absolute_efficiency=use_absolute_efficiency,
-            use_multiprocessing=use_multiprocessing,
+            biosphere_name=biosphere_name,
         )
 
         self.scenario_names = []

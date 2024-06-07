@@ -50,9 +50,7 @@ NMC111:
 NMC622:
   ecoinvent_aliases:
     fltr:
-      - battery cell, NMC-622
-    mask:
-      - NMC111
+      - battery cell production, Li-ion, NMC622
 NMC811:
   ecoinvent_aliases:
     fltr:
@@ -80,17 +78,16 @@ NiMH:
 LiS:
   ecoinvent_aliases:
     fltr:
-      - battery cell assembly, for LiS battery
-      - Battery cell, LiS
+      - battery cell production, Li-S
     mask:
       - market
 LiO2:
-    ecoinvent_aliases:
-        fltr:
-        - battery cell production, Li-O2
-        - Battery cell, Li-O2
-        mask:
-        - market
+  ecoinvent_aliases:
+      fltr:
+      - battery cell production, Li-O2
+      - Battery cell, Li-O2
+      mask:
+      - market
 ## Battery technologies not found in Ecoinvent
 #LCo
 PEMFC:
@@ -114,6 +111,7 @@ PEMFC:
       - truck
       - passenger car
       - lorry
+      - bus
 ### How to parametrize the different shares???
 SOFC - Y:
   ecoinvent_aliases:

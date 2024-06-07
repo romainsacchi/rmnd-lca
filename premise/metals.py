@@ -459,7 +459,11 @@ class Metals(BaseTransformation):
             if not demanding_process_rows.empty:
                 for index, row in demanding_process_rows.iterrows():
                     self.process_metal_update(
-                        row, dataset, conversion_factor, final_technology, technology
+                        metal_row=row,
+                        dataset=dataset,
+                        conversion_factor=conversion_factor,
+                        final_technology=final_technology,
+                        technology=technology
                     )
             else:
                 tech_specific_rows = tech_rows[
@@ -471,26 +475,26 @@ class Metals(BaseTransformation):
                             tech_specific_rows["Element"] == metal
                         ].iloc[0]
                         self.process_metal_update(
-                            metal_row,
-                            dataset,
-                            conversion_factor,
-                            final_technology,
-                            technology,
+                            metal_row=metal_row,
+                            dataset=dataset,
+                            conversion_factor=conversion_factor,
+                            final_technology=final_technology,
+                            technology=technology,
                         )
 
     def process_metal_update(
-        self, metal_row, dataset, conversion_factor, final_technology, technology
+        self, metal_row, dataset, final_technology, technology, conversion_factor
     ):
         """
         Process the update for a given metal and technology.
         """
+        conversion_factor = conversion_factor or 1
         unit_converter = metal_row.get("unit_convertor")
         metal_activity_name = metal_row["Activity"]
 
         if (
             pd.notna(unit_converter)
             and pd.notna(metal_activity_name)
-            and conversion_factor
         ):
             use_factors = self.precomputed_medians.sel(
                 metal=metal_row["Element"], origin_var=technology
@@ -539,8 +543,6 @@ class Metals(BaseTransformation):
                 print("- unit converter")
             if pd.isna(metal_activity_name):
                 print("- activity name")
-            if not conversion_factor:
-                print("- conversion factor")
 
     def post_allocation_correction(self):
         """
@@ -855,9 +857,10 @@ class Metals(BaseTransformation):
                     )
 
             else:
-                print(
-                    f"Metal {metal} not found in alternative names. Skipping transport."
-                )
+                #print(
+                #    f"Metal {metal} not found in alternative names. Skipping transport."
+                #)
+                pass
 
         # sum up duplicates
         excs = [
