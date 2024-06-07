@@ -113,6 +113,10 @@ Requirements
 * License for ecoinvent 3
 * brightway2 (optional)
 
+.. note::
+
+    If you wish to export Brightway 2.5-compatible databases, you will need ot upgrade `bw2data` to >= 4.0.0.
+
 How to install this package?
 ----------------------------
 

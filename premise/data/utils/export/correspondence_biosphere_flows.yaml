@@ -57,6 +57,24 @@ air:
   Beryllium II: Beryllium
   VOC, volatile organic compounds, unspecified origin: VOC, volatile organic compounds
   VOC, volatile organic compounds: VOC, volatile organic compounds, unspecified origin
+  Propene: Propylene
+  Strontium: Strontium II
+  Xylene: Xylenes, unspecified
+  Benzene, ethyl-: Ethyl benzene
+  Benzene, hexachloro-: Hexachlorobenzene
+  Calcium: Calcium II
+  Phenol, pentachloro-: Pentachlorophenol
+  Sodium: Sodium I
+  Argon-40: Argon
+  Methane, monochloro-, R-40: Methylchloride
+  Ethane, 1,1-difluoro-, HFC-152a: 1,1-Difluoroethane
+  Ethane, 1,1,1,2-tetrafluoro-, HFC-134a: 1,1,1,2-Tetrafluoroethane
+  2-Propanol: Isopropanol
+  Methane, dichloro-, HCC-30: Dichloromethane
+  Methane, tetrachloro-, R-10: Carbon tetrachloride
+  Hydrogen-3, Tritium: Tritium
+
+
 
 natural resource:
   Iridium: Iridium, in ground
@@ -166,6 +184,10 @@ soil:
   Quizalofop ethyl ester: Quizalofop-ethyl
   Manganese: Manganese II
   Manganese II: Manganese
+  Calcium: Calcium II
+  Dimethenamid: Dimethenamide
+  Prohexadione-calcium: Prohexadione calcium
+  Sodium: Sodium I
 
 
 water:
@@ -219,5 +241,10 @@ water:
   Thallium: Thallium I
   Antimony ion: Antimony
   Copper ion: Copper, ion
+  AOX, Adsorbable Organic Halogen: AOX, Adsorbable Organic Halides
+  Methane, dichloro-, HCC-30: Dichloromethane
+  Strontium: Strontium II
+  Sodium: Sodium I
+  Hydrogen-3, Tritium: Tritium
 
 

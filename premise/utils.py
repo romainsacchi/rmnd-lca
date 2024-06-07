@@ -100,16 +100,14 @@ def eidb_label(
     :return: scenario label, str.
     """
 
-    name = f"ecoinvent_{system_model}_{version}_{scenario['model']}_{scenario['pathway']}_{scenario['year']}"
+    name = f"ei_{system_model}_{version}_{scenario['model']}_{scenario['pathway']}_{scenario['year']}"
 
     if "external scenarios" in scenario:
         for ext_scenario in scenario["external scenarios"]:
             name += f"_{ext_scenario['scenario']}"
 
     # add date and time
-    name += (
-        f"_{datetime.now().strftime('%Y-%m-%d %H-%M')} v.{'.'.join(str(__version__))}"
-    )
+    name += f" {datetime.now().strftime('%Y-%m-%d')}"
 
     return name
 
@@ -212,17 +210,19 @@ def get_regions_definition(model: str) -> None:
     print(table)
 
 
-def clear_existing_cache(all_versions: Optional[bool] = False) -> None:
+def clear_existing_cache(all_versions: Optional[bool] = False, filter=None) -> None:
     """Clears the cache folder, except for files which contain __version__ in name.
     Useful when updating `premise`
     or encountering issues with
     inventories.
     """
+
     [
         f.unlink()
         for f in DIR_CACHED_DB.glob("*")
         if f.is_file()
         and (all_versions or "".join(tuple(map(str, __version__))) not in f.name)
+        and (filter is None or filter in f.name)
     ]
 
 
@@ -230,6 +230,14 @@ def clear_existing_cache(all_versions: Optional[bool] = False) -> None:
 def clear_cache() -> None:
     clear_existing_cache(all_versions=True)
     print("Cache folder cleared!")
+
+
+def clear_inventory_cache() -> None:
+    clear_existing_cache(
+        all_versions=True,
+        filter="inventories",
+    )
+    print("Inventory cache cleared!")
 
 
 def print_version():
@@ -357,7 +365,7 @@ def dump_database(scenario):
     :param scenario: scenario dictionary
     """
 
-    if "database filepath" in scenario:
+    if scenario.get("database") is None:
         return scenario
 
     # generate random name
@@ -377,7 +385,7 @@ def load_database(scenario):
     :param scenario: scenario dictionary
     """
 
-    if "database" in scenario:
+    if scenario.get("database") is not None:
         return scenario
 
     filepath = scenario["database filepath"]
@@ -396,6 +404,5 @@ def delete_all_pickles():
     """
     Delete all pickle files in the cache folder.
     """
-
     for file in DIR_CACHED_FILES.glob("*.pickle"):
         file.unlink()

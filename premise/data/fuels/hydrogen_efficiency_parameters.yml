@@ -5,25 +5,25 @@ from electrolysis:
   feedstock unit: kilowatt hour
   floor value: 48.0
 from SMR of biogas, with CCS:
-  name: hydrogen production, steam methane reforming, from biomethane, high and low temperature, with CCS (MDEA, 98% eff.), 26 bar
+  name: hydrogen production, steam methane reforming, from biomethane, with CCS
   var: hydrogen, from biogas, with CCS
   feedstock name: biomethane
   feedstock unit: kilogram
   floor value: 3.2
 from SMR of biogas:
-  name: hydrogen production, steam methane reforming, from biomethane, high and low temperature, 26 bar
+  name: hydrogen production, steam methane reforming, from biomethane
   var: hydrogen, from biogas
   feedstock name: biomethane
   feedstock unit: kilogram
   floor value: 3.2
 from SMR of natural gas:
-  name: hydrogen production, steam methane reforming of natural gas, 25 bar
+  name: hydrogen production, steam methane reforming
   var: hydrogen, from natural gas
   feedstock name: natural gas
   feedstock unit: cubic meter
   floor value: 3.5
 from SMR of natural gas, with CCS:
-  name: hydrogen production, steam methane reforming of natural gas, with CCS (MDEA, 98% eff.), 25 bar
+  name: hydrogen production, steam methane reforming, with CCS
   var: hydrogen, from natural gas, with CCS
   feedstock name: natural gas
   feedstock unit: cubic meter
@@ -41,13 +41,13 @@ from gasification of biomass:
   feedstock unit: kilogram
   floor value: 7
 from coal gasification:
-  name: hydrogen production, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant
+  name: hydrogen production, coal gasification
   var: hydrogen, from coal
   feedstock name: hard coal
   feedstock unit: kilogram
   floor value: 5
 from coal gasification, with CCS:
-  name: hydrogen production, gaseous, 30 bar, from hard coal gasification and reforming, with CCS, at coal gasification plant
+  name: hydrogen production, coal gasification, with CCS
   var: hydrogen, from coal, with CCS
   feedstock name: hard coal
   feedstock unit: kilogram

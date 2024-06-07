@@ -254,3 +254,39 @@
     name: market for iron scrap, unsorted
     reference product: iron scrap, unsorted
     location: GLO
+
+- name: blast furnace slag, Recycled Content cut-off
+  reference product: blast furnace slag
+  unit: kilogram
+  location: GLO
+  replacement:
+    name: market for blast furnace slag
+    reference product: blast furnace slag
+    location: GLO
+
+- name: blast furnace gas, Recycled Content cut-off
+  reference product: blast furnace gas
+  unit: megajoule
+  location: GLO
+  replacement:
+    name: market for blast furnace gas
+    reference product: blast furnace gas
+    location: GLO
+
+- name: Mannheim process
+  reference product: sodium sulfate, anhydrite
+  unit: kilogram
+  location: RoW
+  replacement:
+    name: market for sodium sulfate, anhydrite
+    reference product: sodium sulfate, anhydrite
+    location: RoW
+
+- name: vanadium-titanomagnetite mine operation and beneficiation
+  reference product: iron ore concentrate
+  unit: kilogram
+  location: CN
+  replacement:
+    name: market for iron ore concentrate
+    reference product: iron ore concentrate
+    location: GLO

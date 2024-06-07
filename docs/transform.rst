@@ -109,11 +109,11 @@ Run
 
 
 Efficiency adjustment
-+++++++++++++++++++++
+---------------------
 
 The energy conversion efficiency of power plant datasets for specific technologies is adjusted
 to align with the efficiency changes indicated by the IAM scenario.
-Two approaches are posisble:
+Two approaches are possible:
 * application of a scaling factor to the inputs of the dataset relative to the current efficiency
 * application of a scaling factor to the inputs of the dataset to match the absolute efficiency given by the IAM scenario
 
@@ -377,7 +377,7 @@ all other inputs remaining unchanged.
 
 
 Markets
-+++++++
+-------
 
 *premise* creates additional datasets that represent the average supply and
 production pathway for a given commodity for a given scenario, year and region.
@@ -391,7 +391,7 @@ Regional electricity markets
 ----------------------------
 
 High voltage regional markets
-_____________________________
+=============================
 
 *premise* creates high, medium and low-voltage electricity markets for each IAM region.
 It starts by creating high-voltage markets and define the share of each supplying technology
@@ -451,8 +451,59 @@ IAM region with their respective current production volumes (also provided by
 ecoinvent). This is not ideal as it supposes that future country-specific
 production volumes will remain the same in respect to one another.
 
+High voltage regional markets for aluminium smelters
+====================================================
+
+Aluminium production is a significant consumer of electricity.
+In the ecoinvent database, aluminium smelters are represented by
+specific electricity markets. Conversely, Integrated Assessment Models
+(IAM) scenarios aggregate the electricity consumption of aluminium
+smelters with that of other electricity consumers.
+
+To improve accuracy, it is necessary to align the electricity markets
+of aluminium producers with regional electricity markets. However,
+certain aluminium electricity markets have already achieved substantial
+decarbonization, primarily due to the use of hydroelectric power in
+some smelters.
+
+Therefore, premise integrates aluminium smelters into regional electricity
+markets only for those regions that have not yet undergone significant
+decarbonization. The regions affected are:
+
+* Rest of World (RoW)
+* IAI Area, Africa
+* China (CN)
+* IAI Area, South America
+* United Nations Oceania (UN-OCEANIA)
+* IAI Area, Asia excluding China and Gulf Cooperation Council (GCC)
+* IAI Area, Gulf Cooperation Council (GCC)
+
+Meanwhile, *premise* maintains the current decarbonized electricity markets
+for aluminium smelters in the following regions:
+
+* IAI Area, Russia & Rest of Europe excluding EU27 & EFTA
+* Canada (CA)
+* IAI Area, EU27 & EFTA
+
+Although the future development of aluminium-specific electricity markets
+remains uncertain, it is reasonable to hypothesize that these markets
+will follow the decarbonization trends of their respective regions.
+Consequently, aligning the carbon-intensive electricity markets of
+aluminium smelters with regional electricity markets is likely more
+accurate than retaining the current setup.
+
+In fact, such approach has been used by the International Aluminium Industry
+association itself, in their Aluminium Sector Greenhouse Gas Pathways to 2050 Roadmap_, where
+they connected the electricity consumption of aluminium smelters to future
+regional mixes defined by the International Energy Agency (IEA).
+
+.. _IAI Beyond 2 Degrees Aluminium Roadmap: https://international-aluminium.org/resource/aluminium-sector-greenhouse-gas-pathways-to-2050-2021/
+
+
+
+
 Storage
--------
+=======
 
 If the IAM scenario requires the use of storage, *premise* adds a storage
 dataset to the high voltage market. *premise* can add two types of storage:
@@ -474,7 +525,7 @@ The efficiency of the H2-fed gas turbine is based on the parameters of Ozawa_ et
 
 
 Medium voltage regional markets
-_______________________________
+===============================
 
 The workflow is not too different from that of high voltage markets.
 There are however only two possible providers of electricity in medium
@@ -486,7 +537,7 @@ market to itself. Distribution losses are modelled the same way as for
 high voltage markets and are added to the input from high voltage market.
 
 Low voltage regional markets
-____________________________
+============================
 
 Low voltage regional markets receive an input from the medium voltage
 market, as well as from residential photovoltaic power.
@@ -551,7 +602,7 @@ The rest of the modelling is similar to that of regular regional electricity
 markets described above.
 
 Original market datasets
-________________________
+========================
 
 Market datasets originally present in the ecoinvent LCI database are cleared
 from any inputs. Instead, an input from the newly created regional market
@@ -573,7 +624,7 @@ regional market, which "includes" it in terms of geography.
  ============================================ =========== ================ ===========
 
 Relinking
-_________
+=========
 
 Once the new markets are created, *premise* re-links all electricity-consuming
 activities to the new regional markets. The regional market it re-links to
@@ -746,7 +797,7 @@ no longer performed, as it is not an assumption stemming from the IAM model,
 but rather a projection of the cement industry.
 
 Original market datasets
-________________________
+========================
 
 Market datasets originally present in the ecoinvent LCI database are cleared
 from any inputs. Instead, an input from the newly created regional market
@@ -919,7 +970,7 @@ furnace process (secondary steel).
 
 
 Original market datasets
-________________________
+========================
 
 Market datasets originally present in the ecoinvent LCI database are cleared
 from any inputs. Instead, an input from the newly created regional market
@@ -1235,7 +1286,7 @@ Efficiency adjustment
 +++++++++++++++++++++
 
 Biofuels
-________
+========
 
 The biomass-to-fuel efficiency ratio of bioethanol and biodiesel
 production datasets is adjusted according to the IAM scenario projections.
@@ -1244,7 +1295,7 @@ Inputs to the biofuel production datasets are multiplied by a *scaling factor*
 that represents the change in efficiency relative to today (2020).
 
 Hydrogen
-________
+========
 
 Several pathways for hydrogen production are modeled in *premise*:
 
@@ -1334,7 +1385,7 @@ a variety of hydrogen and CO2 sources. Additionally, hydrogen can be supplied
 by different means of transport, and in different states.
 
 Hydrogen
-________
+========
 
 *premise* starts by building different supply chains for hydrogen by varying:
 
@@ -1496,7 +1547,7 @@ liquid and gaseous secondary energy carriers:
     the choice is made to supply it by truck over 500 km, in a gaseous state.
 
 Influence of differing LHV on fuel market composition
-_____________________________________________________
+=====================================================
 
 Because not all competing fuels of a same type have similar calorific values,
 some adjustments are made. The table below shows the example of the market for

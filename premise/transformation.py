@@ -438,7 +438,7 @@ class BaseTransformation:
         possible_names: Tuple[str],
         dataset_location: str,
         look_for: Tuple[str] = None,
-        blacklist: Tuple[str] = None,
+        blacklist: Tuple[str,] = None,
         exclude_region: Tuple[str] = None,
         subset: List[str] = None,
     ):
@@ -739,6 +739,12 @@ class BaseTransformation:
                     "A single dataset was expected, "
                     f"but found more than one for: "
                     f"{name, ref_prod}, : {[(r['name'], r['reference product'], r['location']) for r in results]}",
+                )
+            except ws.NoResults as err:
+                print(region, d_iam_to_eco)
+                raise ws.NoResults(
+                    err,
+                    f"No dataset found for {name, ref_prod} in {d_iam_to_eco[region]}",
                 )
 
             # if not self.is_in_index(dataset, region):

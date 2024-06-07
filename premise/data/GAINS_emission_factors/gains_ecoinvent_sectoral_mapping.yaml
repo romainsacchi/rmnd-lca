@@ -1025,14 +1025,14 @@ PP_EX_OTHH2:
     - hydrogen, from steam reforming of biomass gas, at reforming plant
     - hydrogen, from steam reforming of biomassgas, at reforming plant, pre, pipeline 200km, storage 1000m
     - hydrogen, from steam reforming of biomassgas, at reforming plant, pre, pipeline 400km, storage 3000m
-    - hydrogen production, steam methane reforming, from biomethane, high and low temperature, with CCS (MDEA, 98% eff.), 26 bar
-    - hydrogen production, steam methane reforming, from biomethane, high and low temperature, 26 bar
-    - hydrogen production, auto-thermal reforming, from biomethane, 25 bar
-    - hydrogen production, auto-thermal reforming, from biomethane, with CCS (MDEA, 98% eff.), 25 bar
-    - hydrogen production, steam methane reforming of natural gas, 25 bar
-    - hydrogen production, steam methane reforming of natural gas, with CCS (MDEA, 98% eff.), 25 bar
-    - hydrogen production, auto-thermal reforming of natural gas, 25 bar
-    - hydrogen production, auto-thermal reforming of natural gas, with CCS (MDEA, 98% eff.), 25 bar
+    - hydrogen production, steam methane reforming, from biomethane, with CCS
+    - hydrogen production, steam methane reforming, from biomethane
+    - hydrogen production, auto-thermal reforming, from biomethane
+    - hydrogen production, auto-thermal reforming, from biomethane, with CCS
+    - hydrogen production, steam methane reforming
+    - hydrogen production, steam methane reforming, with CCS
+    - hydrogen production, auto-thermal reforming
+    - hydrogen production, auto-thermal reforming, with CCS
   gains_aliases_EU: PP_EX_OTHH2
   gains_aliases_IAM: Power_Gen_LLF
 PP_EX_OTHWSFNR:

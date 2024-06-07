@@ -242,6 +242,8 @@ def biosphere_flows_dictionary(version):
     """
     if version == "3.9":
         fp = DATA_DIR / "utils" / "export" / "flows_biosphere_39.csv"
+    elif version == "3.10":
+        fp = DATA_DIR / "utils" / "export" / "flows_biosphere_310.csv"
     else:
         fp = DATA_DIR / "utils" / "export" / "flows_biosphere_38.csv"
 
@@ -527,8 +529,9 @@ def build_datapackage(df, inventories, list_scenarios, ei_version, name):
 
 def generate_scenario_factor_file(
     origin_db: list,
-    scenarios: dict,
+    scenarios: list,
     db_name: str,
+    biosphere_name: str,
     version: str,
     scenario_list: list = None,
 ):
@@ -537,6 +540,7 @@ def generate_scenario_factor_file(
     :param origin_db: the original database
     :param scenarios: a list of databases
     :param db_name: the name of the database
+    :param biosphere_name: the name of the biosphere database
     :param version: the version of ecoinvent
     :param scenario_list: a list of external scenarios
     """
@@ -548,6 +552,7 @@ def generate_scenario_factor_file(
         origin_db=origin_db,
         scenarios=scenarios,
         db_name=db_name,
+        biosphere_name=biosphere_name,
         version=version,
         scenario_list=scenario_list,
     )
@@ -600,7 +605,7 @@ def generate_new_activities(args):
 
 
 def generate_scenario_difference_file(
-    db_name, origin_db, scenarios, version, scenario_list
+    db_name, origin_db, scenarios, version, scenario_list, biosphere_name
 ) -> tuple[DataFrame, list[dict], set[Any]]:
     """
     Generate a scenario difference file for a given list of databases
@@ -780,6 +785,14 @@ def generate_scenario_difference_file(
     )
     df.loc[df["flow type"] == "production", list_scenarios] = 1.0
 
+    df.loc[df["flow type"] == "biosphere", "from database"] = biosphere_name
+
+    # update the tuples in `from key` to make sure the first element
+    # is the biosphere database name
+    df.loc[df["flow type"] == "biosphere", "from key"] = df.loc[
+        df["flow type"] == "biosphere", "from key"
+    ].map(lambda x: (biosphere_name, x[1]))
+
     new_db, df = find_technosphere_keys(new_db, df)
 
     # return the dataframe and the new db
@@ -826,6 +839,7 @@ def generate_superstructure_db(
     origin_db,
     scenarios,
     db_name,
+    biosphere_name,
     filepath,
     version,
     scenario_list,
@@ -849,6 +863,7 @@ def generate_superstructure_db(
         origin_db=origin_db,
         scenarios=scenarios,
         db_name=db_name,
+        biosphere_name=biosphere_name,
         version=version,
         scenario_list=scenario_list,
     )
@@ -908,7 +923,7 @@ def check_geographical_linking(scenario, original_database):
 
     # geo = Geomap(scenario["model"])
 
-    index = scenario["index"]
+    index = scenario.get("index") or {}
     database = scenario["database"]
     original_datasets = [
         (a["name"], a["reference product"], a["location"]) for a in original_database
@@ -949,7 +964,7 @@ def check_geographical_linking(scenario, original_database):
 
 
 def prepare_db_for_export(
-    scenario, name, original_database, keep_uncertainty_data=False
+    scenario, name, original_database, keep_uncertainty_data=False, biosphere_name=None
 ):
     """
     Prepare a database for export.
@@ -968,19 +983,23 @@ def prepare_db_for_export(
         database=scenario["database"],
         db_name=name,
         keep_uncertainty_data=keep_uncertainty_data,
+        biosphere_name=biosphere_name,
     )
     validator.run_all_checks()
 
     return validator.database
 
 
-def _prepare_database(scenario, db_name, original_database, keep_uncertainty_data):
+def _prepare_database(
+    scenario, db_name, original_database, keep_uncertainty_data, biosphere_name
+):
 
     scenario["database"] = prepare_db_for_export(
         scenario,
         name=db_name,
         original_database=original_database,
         keep_uncertainty_data=keep_uncertainty_data,
+        biosphere_name=biosphere_name,
     )
 
     return scenario
@@ -1618,7 +1637,8 @@ class Export:
 
                                 if e["name"].lower() == "water":
                                     e["unit"] = "kilogram"
-                                    e["amount"] /= 1000
+                                    # going from cubic meters to kilograms
+                                    e["amount"] *= 1000
 
                                 if e["name"] not in dict_bio:
                                     unlinked_biosphere_flows.append(

@@ -35,6 +35,18 @@ The tool is described in the following scientific publication: [Sacchi et al, 20
 If this tool helps you in your research, please consider citing this publication.
 
 
+What's new in 2.1.1?
+====================
+
+- Ecoinvent 3.10 support
+- Adds inventories on ammonia production
+- Fixes issues with scaling applied to PV systems
+
+What's new in 2.1.0?
+====================
+
+- More efficient use of memory.
+- Easier syntax for using custom scenarios.
 
 What's new in 2.0.0?
 ====================

@@ -5,6 +5,7 @@ and those provided by the user.
 
 import csv
 import itertools
+import logging
 import uuid
 from functools import lru_cache
 from pathlib import Path
@@ -32,6 +33,15 @@ CORRESPONDENCE_BIO_FLOWS = (
 TEMP_CSV_FILE = DIR_CACHED_DB / "temp.csv"
 
 
+logging.basicConfig(
+    level=logging.DEBUG,
+    filename="unlinked.log",
+    filemode="a",
+    format="%(asctime)s - %(levelname)s - %(module)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+
+
 def get_correspondence_bio_flows():
     """
     Mapping between ei39 and ei<39 biosphere flows.
@@ -50,6 +60,8 @@ def get_biosphere_code(version) -> dict:
     """
     if version == "3.9":
         fp = DATA_DIR / "utils" / "export" / "flows_biosphere_39.csv"
+    elif version == "3.10":
+        fp = DATA_DIR / "utils" / "export" / "flows_biosphere_310.csv"
     else:
         fp = DATA_DIR / "utils" / "export" / "flows_biosphere_38.csv"
 
@@ -332,7 +344,7 @@ class BaseInventoryImport:
         # register migration maps
         # as imported inventories link
         # to different ecoinvent versions
-        ei_versions = ["35", "36", "37", "38", "39"]
+        ei_versions = ["35", "36", "37", "38", "39", "310"]
 
         for combination in itertools.product(ei_versions, ei_versions):
             if combination[0] != combination[1]:
@@ -646,20 +658,34 @@ class BaseInventoryImport:
                             new_key = list(key)
                             new_key[0] = self.correspondence_bio_flows[key[1]][key[0]]
                             key = tuple(new_key)
-                            assert (
-                                key in self.biosphere_dict
-                            ), f"Could not find a biosphere flow for {key}."
+
+                            if key not in self.biosphere_dict:
+                                new_key = list(key)
+
+                                try:
+                                    new_key[0] = self.correspondence_bio_flows[key[1]][
+                                        key[0]
+                                    ]
+                                    key = tuple(new_key)
+
+                                    if key not in self.biosphere_dict:
+                                        print(
+                                            f"Could not find a biosphere flow for {key} in {self.path.name}. Exchange deleted."
+                                        )
+                                        y["delete"] = True
+
+                                except KeyError:
+                                    print(
+                                        f"Could not find a biosphere flow for {key} in {self.path.name}. Exchange deleted."
+                                    )
+                                    y["delete"] = True
                             y["name"] = new_key[0]
-                        else:
-                            print(
-                                f"Could not find a biosphere flow for {key} in {self.path}."
-                            )
-                            continue
 
                     y["input"] = (
                         "biosphere3",
-                        self.biosphere_dict[key],
+                        self.biosphere_dict.get(key),
                     )
+            x["exchanges"] = [y for y in x["exchanges"] if "delete" not in y]
 
     def lower_case_technosphere_exchanges(self) -> None:
         blakclist = [
@@ -762,6 +788,9 @@ class BaseInventoryImport:
         table.add_rows(list(set(self.list_unlinked)))
         print(table)
 
+        for unlinked in self.list_unlinked:
+            logging.warning(f'{"|".join(map(str, list(unlinked)))} | {self.version_in}')
+
 
 class DefaultInventory(BaseInventoryImport):
     """
@@ -788,7 +817,7 @@ class DefaultInventory(BaseInventoryImport):
     def prepare_inventory(self) -> None:
         if self.version_in != self.version_out:
             # if version_out is 3.9, migrate towards 3.8 first, then 3.9
-            if self.version_out in ["3.9", "3.9.1"]:
+            if self.version_out in ["3.9", "3.9.1", "3.10"]:
                 print("Migrating to 3.8 first")
                 if self.version_in != "3.8":
                     self.import_db.migrate(

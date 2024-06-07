@@ -12,6 +12,7 @@ import yaml
 from .filesystem_constants import DATA_DIR
 from .geomap import Geomap
 from .logger import create_logger
+from .utils import rescale_exchanges
 
 logger = create_logger("validation")
 
@@ -151,6 +152,7 @@ class BaseDatasetValidator:
         original_database=None,
         db_name=None,
         keep_uncertainty_data=False,
+        biosphere_name=None,
     ):
         self.original_database = original_database
         self.database = database
@@ -163,6 +165,7 @@ class BaseDatasetValidator:
         self.minor_issues_log = []
         self.major_issues_log = []
         self.keep_uncertainty_data = keep_uncertainty_data
+        self.biosphere_name = biosphere_name
 
     def check_matrix_squareness(self):
         """
@@ -276,6 +279,12 @@ class BaseDatasetValidator:
                             message,
                             issue_type="major",
                         )
+
+        # remove empty fields
+        self.database = [
+            {k: v for k, v in dataset.items() if v is not None}
+            for dataset in self.database
+        ]
 
     def check_for_orphaned_datasets(self):
         # check the presence of orphan datasets
@@ -449,6 +458,11 @@ class BaseDatasetValidator:
                 if exc["type"] in ["production", "technosphere"]:
                     if "input" in exc:
                         del exc["input"]
+                if exc["type"] == "biosphere":
+                    # check that the first item of the code field
+                    # corresponds to biosphere_name
+                    if exc["input"][0] != self.biosphere_name:
+                        exc["input"] = (self.biosphere_name, exc["input"][1])
 
     def remove_unused_fields(self):
         """
@@ -481,6 +495,11 @@ class BaseDatasetValidator:
                     )
                 if not isinstance(exc["amount"], float):
                     exc["amount"] = float(exc["amount"])
+
+            # remove fields that are None
+            for key, value in list(dataset.items()):
+                if value is None:
+                    del dataset[key]
 
     def check_amount_format(self):
         """
@@ -770,9 +789,9 @@ class HeatValidation(BaseDatasetValidator):
                     message = f"Heat conversion efficiency is {efficiency:.2f}, expected to be less than 3.0. Corrected to 3.0."
                     self.log_issue(ds, "heat conversion efficiency", message)
 
-                    # scale it back to 3
-                    for exc in ds["exchanges"]:
-                        exc["amount"] *= efficiency / 3.0
+                    scaling_factor = efficiency / 3.0
+                    rescale_exchanges(ds, scaling_factor)
+                    expected_co2 *= scaling_factor
 
                 co2 = sum(
                     [
@@ -1184,11 +1203,17 @@ class ElectricityValidation(BaseDatasetValidator):
     def check_electricity_mix(self):
         # check that the electricity mix in teh market datasets
         # corresponds to the IAM scenario projection
+        vars = [
+            x
+            for x in self.iam_data.electricity_markets.coords["variables"].values
+            if x.lower().startswith("hydro")
+        ]
 
         if self.year in self.iam_data.electricity_markets.coords["year"].values:
+
             hydro_share = self.iam_data.electricity_markets.sel(
-                variables="Hydro", year=self.year
-            ) / self.iam_data.electricity_markets.sel(
+                variables=vars, year=self.year
+            ).sum(dim="variables") / self.iam_data.electricity_markets.sel(
                 variables=[
                     v
                     for v in self.iam_data.electricity_markets.variables.values
@@ -1199,9 +1224,9 @@ class ElectricityValidation(BaseDatasetValidator):
                 dim="variables"
             )
         else:
-            hydro_share = self.iam_data.electricity_markets.sel(
-                variables="Hydro"
-            ).interp(year=self.year) / self.iam_data.electricity_markets.sel(
+            hydro_share = self.iam_data.electricity_markets.sel(variables=vars).interp(
+                year=self.year
+            ).sum(dim="variables") / self.iam_data.electricity_markets.sel(
                 variables=[
                     v
                     for v in self.iam_data.electricity_markets.variables.values

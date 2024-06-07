@@ -562,7 +562,6 @@ class Steel(BaseTransformation):
                         ws.either(*[ws.contains("name", x) for x in list_fuels])
                     ],
                     biosphere_filters=[ws.contains("name", "Carbon dioxide, fossil")],
-                    remove_uncertainty=False,
                 )
 
                 # Update the comments

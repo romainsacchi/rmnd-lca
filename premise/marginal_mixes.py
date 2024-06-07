@@ -316,6 +316,30 @@ def consequential_method(
 
         # Now that we do know the start year of the time interval,
         # we can use this to "more accurately" calculate the current shares
+
+        if avg_start not in data_full.coords["year"].values:
+            # pick nearest value
+            avg_start = data_full.coords["year"].values[
+                np.abs(data_full.coords["year"].values - avg_start).argmin()
+            ]
+        if avg_end not in data_full.coords["year"].values:
+            # pick nearest value
+            avg_end = data_full.coords["year"].values[
+                np.abs(data_full.coords["year"].values - avg_end).argmin()
+            ]
+
+        if start not in data_full.coords["year"].values:
+            # pick nearest value
+            start = data_full.coords["year"].values[
+                np.abs(data_full.coords["year"].values - start).argmin()
+            ]
+
+        if end not in data_full.coords["year"].values:
+            # pick nearest value
+            end = data_full.coords["year"].values[
+                np.abs(data_full.coords["year"].values - end).argmin()
+            ]
+
         shares = data_full.sel(region=region, year=avg_start) / data_full.sel(
             region=region, year=avg_start
         ).sum(dim="variables")

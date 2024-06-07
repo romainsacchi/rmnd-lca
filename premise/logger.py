@@ -3,11 +3,8 @@ Module to create a logger with the given handler.
 """
 
 import logging.config
-from logging.handlers import QueueHandler
 from multiprocessing import Queue
 from pathlib import Path
-
-import yaml
 
 from .filesystem_constants import DATA_DIR
 
@@ -61,6 +58,9 @@ def empty_log_files():
             try:
                 file.unlink()
             except PermissionError:
-                # instead, let's empty the file
-                with open(file, "w") as f:
-                    f.write("")
+                try:
+                    # instead, let's empty the file
+                    with open(file, "w") as f:
+                        f.write("")
+                except PermissionError:
+                    pass

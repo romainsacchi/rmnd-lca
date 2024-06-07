@@ -501,7 +501,7 @@ class Fuels(BaseTransformation):
                 name=hydrogen_activity_name,
                 ref_prod="hydrogen",
                 production_variable=hydrogen_efficiency_variable,
-                exact_name_match=False,
+                exact_name_match=True,
             )
 
             for region, dataset in new_ds.items():
@@ -2281,15 +2281,17 @@ class Fuels(BaseTransformation):
                 "petroleum coke",
                 "petroleum gas",
                 "wax",
-                "low pressure",
+                # "low pressure",
                 "pressure, vehicle grade",
                 "burned",
                 "market",
+                "reduction",
             ]
 
             if "natural gas" in dataset["name"]:
                 blacklist.remove("market")
                 blacklist.append("market for natural gas, high pressure")
+                blacklist.append("market for natural gas, low pressure")
                 blacklist.append("market group for natural gas, high pressure")
 
             if "low-sulfur" in dataset["name"]:
@@ -2483,7 +2485,11 @@ class Fuels(BaseTransformation):
                 ]
 
                 d_act = self.fetch_proxies(
-                    name=activity["name"],
+                    name=(
+                        activity["name"]
+                        if isinstance(activity["name"], str)
+                        else activity["name"][self.version]
+                    ),
                     ref_prod=activity["reference product"],
                     production_variable=prod_vars,
                     exact_name_match=False,
@@ -2585,7 +2591,7 @@ class Fuels(BaseTransformation):
         # add to database
         self.database.extend(new_datasets)
 
-        # list `market group for ` as "emptied"
+        # list `market group for` as "emptied"
         datasets_to_empty = {
             "market group for diesel",
             "market group for diesel, low-sulfur",
@@ -2615,7 +2621,7 @@ class Fuels(BaseTransformation):
         for region, dataset in hydrogen_supply.items():
             # replace the input of hydrogen by an input of hydrogen market
             for exc in ws.technosphere(dataset):
-                if exc["name"] == "market for hydrogen, gaseous":
+                if exc["name"].startswith("market for hydrogen, gaseous"):
                     exc["location"] = region
 
             # add to log

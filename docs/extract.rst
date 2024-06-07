@@ -578,17 +578,17 @@ The new datasets introduced are listed in the table below (only production datas
  ======================================================================================================================================= ===========
   Hydrogen production                                                                                                                     location
  ======================================================================================================================================= ===========
-  hydrogen production, steam methane reforming of natural gas, 25 bar                                                                     CH
-  hydrogen production, steam methane reforming of natural gas, with CCS (MDEA, 98% eff.), 25 bar                                          CH
-  hydrogen production, steam methane reforming, from biomethane, high and low temperature, with CCS (MDEA, 98% eff.), 26 bar              CH
-  hydrogen production, steam methane reforming, from biomethane, high and low temperature, 26 bar                                         CH
-  hydrogen production, auto-thermal reforming, from biomethane, 25 bar                                                                    CH
-  hydrogen production, auto-thermal reforming, from biomethane, with CCS (MDEA, 98% eff.), 25 bar                                         CH
+  hydrogen production, steam methane reforming                                                                                            CH
+  hydrogen production, steam methane reforming, with CCS                                                                                  CH
+  hydrogen production, steam methane reforming, from biomethane                                                                           CH
+  hydrogen production, steam methane reforming, from biomethane, with CCS                                                                 CH
+  hydrogen production, auto-thermal reforming, from biomethane                                                                            CH
+  hydrogen production, auto-thermal reforming, from biomethane, with CCS                                                                  CH
   hydrogen production, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass with CCS, at gasification plant              CH
   hydrogen production, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass, at gasification plant                       CH
   hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant    CH
   hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant              CH
-  hydrogen production, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant                             RER
+  hydrogen production, coal gasification                                                                                                  RER
   hydrogen production, gaseous, 30 bar, from PEM electrolysis, from grid electricity                                                      RER
   hydrogen production, gaseous, 20 bar, from AEC electrolysis, from grid electricity                                                      RER
   hydrogen production, gaseous, 1 bar, from SOEC electrolysis, from grid electricity                                                      RER
@@ -655,6 +655,30 @@ on the parameters of Ozawa_ et al. (2019), accessible here: LCI_H2_turbine_.
 
 .. _Ozawa: https://doi.org/10.1016/j.ijhydene.2019.02.230
 .. _LCI_H2_turbine: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-hydrogen-turbine.xlsx
+
+Ammonia
+-------
+
+*premise* imports inventories for ammonia production using the following routes:
+
+* steam methane reforming (Haber-Bosch)
+* steam methane reforming (Haber-Bosch) with CCS of syngas
+* steam methane reforming (Haber-Bosch) with CCS of syngas and flue gas
+* partial oxidation of oil
+* hydrogen from coal gasification
+* hydrogen from coal gasification with CCS
+* hydrogen from electrolysis
+* hydrogen from natural gas pyrolysis
+
+These inventories are published in Boyce_ et al., 2023,
+and are largely based on Carlo d' Angelo_ et al., 2021.
+
+The supply of hydrogen in the ammonia production process
+(coal gasification, electrolysis, etc.) is represented by the
+inventories described in the sections above.
+
+.. _Boyce: https://doi.org/10.1016/j.heliyon.2024.e27547
+.. _Angelo: https://doi.org/10.1021/acssuschemeng.1c01915
 
 
 Biofuels
