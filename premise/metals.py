@@ -463,7 +463,7 @@ class Metals(BaseTransformation):
                         dataset=dataset,
                         conversion_factor=conversion_factor,
                         final_technology=final_technology,
-                        technology=technology
+                        technology=technology,
                     )
             else:
                 tech_specific_rows = tech_rows[
@@ -492,10 +492,7 @@ class Metals(BaseTransformation):
         unit_converter = metal_row.get("unit_convertor")
         metal_activity_name = metal_row["Activity"]
 
-        if (
-            pd.notna(unit_converter)
-            and pd.notna(metal_activity_name)
-        ):
+        if pd.notna(unit_converter) and pd.notna(metal_activity_name):
             use_factors = self.precomputed_medians.sel(
                 metal=metal_row["Element"], origin_var=technology
             )
@@ -857,9 +854,9 @@ class Metals(BaseTransformation):
                     )
 
             else:
-                #print(
+                # print(
                 #    f"Metal {metal} not found in alternative names. Skipping transport."
-                #)
+                # )
                 pass
 
         # sum up duplicates
