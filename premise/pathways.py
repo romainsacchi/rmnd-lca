@@ -242,14 +242,28 @@ class PathwaysDataPackage:
                                 mask=mask,
                             )
 
-        # under each key, remove duplicates from list
-        # to only keep unique name, reference product and unit
-        for key, val in mapping.items():
-            if "dataset" in val:
-                mapping[key]["dataset"] = [
-                    dict(t)
-                    for t in {tuple(sorted(d.items())) for d in mapping[key]["dataset"]}
-                ]
+                            mapping[var]["dataset"] = [
+                                dict(t)
+                                for t in {tuple(sorted(d.items())) for d in mapping[var]["dataset"]}
+                            ]
+
+                            if isinstance(mapping[var]["dataset"], list):
+                                if len(mapping[var]["dataset"]) == 0:
+                                    print(f"No dataset found for {var} in {var_name}")
+
+                                if len(mapping[var]["dataset"]) > 1:
+                                    variables = list(configuration["production pathways"].keys())
+                                    variables.remove(var)
+                                    # remove datasets which names are in list of variables
+                                    # except for the current variable
+                                    mapping[var]["dataset"] = [
+                                        d
+                                        for d in mapping[var]["dataset"]
+                                        if not any(v in d["name"] for v in variables)
+                                    ]
+
+                            print(var, "-->", [d["name"] for d in mapping[var]["dataset"]])
+
 
         with open(Path.cwd() / "pathways" / "mapping" / "mapping.yaml", "w") as f:
             yaml.dump(mapping, f)
