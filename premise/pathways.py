@@ -262,9 +262,6 @@ class PathwaysDataPackage:
                                         if not any(v in d["name"] for v in variables)
                                     ]
 
-                            print(var, "-->", [d["name"] for d in mapping[var]["dataset"]])
-
-
         with open(Path.cwd() / "pathways" / "mapping" / "mapping.yaml", "w") as f:
             yaml.dump(mapping, f)
 
