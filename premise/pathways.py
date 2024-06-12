@@ -244,7 +244,10 @@ class PathwaysDataPackage:
 
                             mapping[var]["dataset"] = [
                                 dict(t)
-                                for t in {tuple(sorted(d.items())) for d in mapping[var]["dataset"]}
+                                for t in {
+                                    tuple(sorted(d.items()))
+                                    for d in mapping[var]["dataset"]
+                                }
                             ]
 
                             if isinstance(mapping[var]["dataset"], list):
@@ -252,7 +255,9 @@ class PathwaysDataPackage:
                                     print(f"No dataset found for {var} in {var_name}")
 
                                 if len(mapping[var]["dataset"]) > 1:
-                                    variables = list(configuration["production pathways"].keys())
+                                    variables = list(
+                                        configuration["production pathways"].keys()
+                                    )
                                     variables.remove(var)
                                     # remove datasets which names are in list of variables
                                     # except for the current variable
