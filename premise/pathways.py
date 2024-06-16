@@ -20,7 +20,7 @@ class PathwaysDataPackage:
         self,
         scenarios: List[dict],
         years: List[int] = range(2005, 2105, 5),
-        source_version: str = "3.9",
+        source_version: str = "3.10",
         source_type: str = "brightway",
         key: bytes = None,
         source_db: str = None,
@@ -214,6 +214,13 @@ class PathwaysDataPackage:
                                     database=self.datapackage.scenarios[0]["database"],
                                     mask=val["ecoinvent_aliases"].get("mask"),
                                 )
+                                mapping[var]["dataset"] = [
+                                    dict(t)
+                                    for t in {
+                                        tuple(sorted(d.items()))
+                                        for d in mapping[var]["dataset"]
+                                    }
+                                ]
                             else:
                                 print(f"Leaving out {model_var} from {var}")
 
