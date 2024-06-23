@@ -54,7 +54,11 @@ def find_iam_efficiency_change(
 
 
 def flag_activities_to_adjust(
-    dataset: dict, scenario_data: dict, year: int, dataset_vars: dict, region_proxy_mapping=None
+    dataset: dict,
+    scenario_data: dict,
+    year: int,
+    dataset_vars: dict,
+    region_proxy_mapping=None,
 ) -> dict:
     """
     Flag datasets that will need to be adjusted.

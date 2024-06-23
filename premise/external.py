@@ -5,6 +5,7 @@ Implements external scenario data.
 import logging
 import uuid
 from collections import defaultdict
+from functools import lru_cache
 from pathlib import Path
 from typing import List, Union
 
@@ -14,7 +15,6 @@ import xarray as xr
 import yaml
 from datapackage import Package
 from wurst import searching as ws
-from functools import lru_cache
 
 from .activity_maps import InventorySet
 from .clean_datasets import get_biosphere_flow_uuid
@@ -514,8 +514,6 @@ class ExternalScenario(BaseTransformation):
                     self.write_log(act)
                     self.add_to_index(act)
 
-
-
         # some datasets might be meant to replace the supply
         # of other datasets, so we need to adjust those
         replacing_acts = {
@@ -912,14 +910,14 @@ class ExternalScenario(BaseTransformation):
 
     @lru_cache()
     def add_additional_exchanges(
-            self,
-            name: str,
-            ref_prod: str,
-            categories: tuple,
-            unit: str,
-            amount: float,
-            region: str,
-            ei_version: str
+        self,
+        name: str,
+        ref_prod: str,
+        categories: tuple,
+        unit: str,
+        amount: float,
+        region: str,
+        ei_version: str,
     ) -> list:
         """
         Add additional exchanges to a dataset.
@@ -1244,12 +1242,16 @@ class ExternalScenario(BaseTransformation):
                                 for additional_exc in market_vars["add"]:
                                     add_excs = self.add_additional_exchanges(
                                         name=additional_exc["name"],
-                                        ref_prod=additional_exc.get("reference product"),
+                                        ref_prod=additional_exc.get(
+                                            "reference product"
+                                        ),
                                         categories=additional_exc.get("categories"),
                                         unit=additional_exc.get("unit"),
                                         amount=additional_exc.get("amount"),
                                         region=region,
-                                        ei_version=dp.descriptor["ecoinvent"]["version"],
+                                        ei_version=dp.descriptor["ecoinvent"][
+                                            "version"
+                                        ],
                                     )
                                     new_market["exchanges"].extend(add_excs)
 
