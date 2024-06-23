@@ -54,7 +54,7 @@ def find_iam_efficiency_change(
 
 
 def flag_activities_to_adjust(
-    dataset: dict, scenario_data: dict, year: int, dataset_vars: dict, region=None
+    dataset: dict, scenario_data: dict, year: int, dataset_vars: dict, region_proxy_mapping=None
 ) -> dict:
     """
     Flag datasets that will need to be adjusted.
@@ -186,11 +186,8 @@ def flag_activities_to_adjust(
     if dataset_vars["regionalize"]:
         dataset["regionalize"] = dataset_vars["regionalize"]
 
-    if region is not None:
-        if "region mapping" not in dataset:
-            dataset["region mapping"] = {region: dataset["location"]}
-        else:
-            dataset["region mapping"].update({region: dataset["location"]})
+    if region_proxy_mapping is not None:
+        dataset["region mapping"] = region_proxy_mapping
 
     if "production volume variable" in dataset_vars:
         dataset["production volume variable"] = dataset_vars[
@@ -489,7 +486,7 @@ def check_inventories(
         year,
         val,
         inventory_data,
-    ) -> None | list:
+    ) -> [None, list]:
         """Adjust candidates if possible or raise an error if no valid candidates are found."""
         if not candidates:
             if not find_candidates_by_key(inventory_data, key):
@@ -505,7 +502,13 @@ def check_inventories(
             short_listed = short_list_candidates(candidates, scenario_data)
             for region, ds in short_listed.items():
                 if ds is not None:
-                    adjust_candidate(ds, scenario_data, year, val, region)
+                    adjust_candidate(
+                        ds,
+                        scenario_data,
+                        year,
+                        val,
+                        {r: d["location"] for r, d in short_listed.items()},
+                    )
                 else:
                     print(f"No candidate found for {key[0]} and {key[1]} for {region}.")
             return list(short_listed.values())
