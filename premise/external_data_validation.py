@@ -464,17 +464,22 @@ def check_inventories(
 
         # Perform checks in order of preference
         for region in short_listed:
-            while short_listed[region] is None:
-                for location in sorted_candidate_locations:
-                    for check_func in check_functions:
-                        if check_func(region, location):
-                            # check the dataset was not previously emptied
-                            if (
-                                candidates_by_location[location].get("emptied", False)
-                                is False
-                            ):
-                                assign_candidate_if_empty(region, location)
-                                break
+            for location in sorted_candidate_locations:
+                for check_func in check_functions:
+                    if check_func(region, location):
+                        # check the dataset was not previously emptied
+                        if (
+                            candidates_by_location[location].get("emptied", False)
+                            is False
+                        ):
+                            assign_candidate_if_empty(region, location)
+                            break
+
+            if short_listed[region] is None:
+                if "RoW" in sorted_candidate_locations:
+                    assign_candidate_if_empty(region, "RoW")
+                else:
+                    assign_candidate_if_empty(region, location)
 
         return short_listed
 
