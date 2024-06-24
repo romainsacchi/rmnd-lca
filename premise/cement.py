@@ -6,6 +6,7 @@ It eventually re-links all the cement-consuming activities (e.g., concrete produ
 of the wurst database to the newly created cement markets.
 
 """
+
 import copy
 import uuid
 from collections import defaultdict
@@ -284,10 +285,14 @@ class Cement(BaseTransformation):
                 if variable != "cement, dry feed rotary kiln":
                     # rename datasets
                     for region, dataset in d_act_clinker.items():
-                        dataset["name"] = f"{dataset['name']}, {variable.replace('cement, dry feed rotary kiln, ', '')}"
+                        dataset["name"] = (
+                            f"{dataset['name']}, {variable.replace('cement, dry feed rotary kiln, ', '')}"
+                        )
                         for e in dataset["exchanges"]:
                             if e["type"] == "production":
-                                e["name"] = f"{e['name']}, {variable.replace('cement, dry feed rotary kiln, ', '')}"
+                                e["name"] = (
+                                    f"{e['name']}, {variable.replace('cement, dry feed rotary kiln, ', '')}"
+                                )
 
                 for region, dataset in d_act_clinker.items():
                     # calculate current thermal energy consumption per kg clinker
@@ -314,12 +319,14 @@ class Cement(BaseTransformation):
                         * self.fuels_specs["waste"]["biogenic_share"]
                     )
 
-                    waste_fuel_fossil_co2_emission_factor = self.fuels_specs["waste"]["co2"] * (
-                        1 - self.fuels_specs["waste"]["biogenic_share"]
-                    )
+                    waste_fuel_fossil_co2_emission_factor = self.fuels_specs["waste"][
+                        "co2"
+                    ] * (1 - self.fuels_specs["waste"]["biogenic_share"])
 
                     # energy input of waste fuel in MJ
-                    energy_input_waste_fuel = bio_CO2 / waste_fuel_biogenic_co2_emission_factor
+                    energy_input_waste_fuel = (
+                        bio_CO2 / waste_fuel_biogenic_co2_emission_factor
+                    )
                     # amount waste fuel, in kg
                     amount_waste_fuel = (
                         energy_input_waste_fuel / self.fuels_specs["waste"]["lhv"]
@@ -336,7 +343,9 @@ class Cement(BaseTransformation):
 
                     # add the waste fuel energy input
                     # to the total energy input
-                    current_energy_input_per_ton_clinker += energy_input_waste_fuel * 1000
+                    current_energy_input_per_ton_clinker += (
+                        energy_input_waste_fuel * 1000
+                    )
 
                     # add the waste fuel input to the dataset
                     if amount_waste_fuel != 0:
@@ -407,10 +416,13 @@ class Cement(BaseTransformation):
                     # add 0.005 kg/kg clinker of ammonia use for NOx removal
                     # according to Muller et al., 2024
                     for exc in ws.technosphere(
-                            dataset,
-                            ws.contains("name", "market for ammonia"),
+                        dataset,
+                        ws.contains("name", "market for ammonia"),
                     ):
-                        if variable == "cement, dry feed rotary kiln, efficient, with MEA CCS":
+                        if (
+                            variable
+                            == "cement, dry feed rotary kiln, efficient, with MEA CCS"
+                        ):
                             exc["amount"] = 0.00662
                         else:
                             exc["amount"] = 0.005
@@ -418,15 +430,18 @@ class Cement(BaseTransformation):
                     # reduce NOx emissions
                     # according to Muller et al., 2024
                     for exc in ws.biosphere(
-                            dataset,
-                            ws.contains("name", "Nitrogen oxides"),
+                        dataset,
+                        ws.contains("name", "Nitrogen oxides"),
                     ):
                         if variable in [
                             "cement, dry feed rotary kiln, efficient, with on-site CCS",
                             "cement, dry feed rotary kiln, efficient, with oxyfuel CCS",
                         ]:
                             exc["amount"] = 1.22e-5
-                        elif variable == "cement, dry feed rotary kiln, efficient, with MEA CCS":
+                        elif (
+                            variable
+                            == "cement, dry feed rotary kiln, efficient, with MEA CCS"
+                        ):
                             exc["amount"] = 3.8e-4
                         else:
                             exc["amount"] = 7.6e-4
@@ -439,18 +454,18 @@ class Cement(BaseTransformation):
                         "cement, dry feed rotary kiln, efficient, with MEA CCS",
                     ]:
                         for exc in ws.biosphere(
-                                dataset,
-                                ws.either(
-                                    *[
-                                        ws.contains("name", name)
-                                          for name in [
-                                                "Mercury",
-                                                "Sulfur dioxide",
-                                     ]
+                            dataset,
+                            ws.either(
+                                *[
+                                    ws.contains("name", name)
+                                    for name in [
+                                        "Mercury",
+                                        "Sulfur dioxide",
                                     ]
-                                )
+                                ]
+                            ),
                         ):
-                            exc["amount"] *= (1-0.999)
+                            exc["amount"] *= 1 - 0.999
 
                     if self.model == "image":
                         # add CCS datasets
@@ -458,17 +473,17 @@ class Cement(BaseTransformation):
                             "cement, dry feed rotary kiln, efficient, with on-site CCS": {
                                 "name": "carbon dioxide, captured at cement production plant, using direct separation",
                                 "reference product": "carbon dioxide, captured at cement plant",
-                                "capture share": 0.9 # only 90% of process emissions (calcination) are captured
+                                "capture share": 0.9,  # only 90% of process emissions (calcination) are captured
                             },
                             "cement, dry feed rotary kiln, efficient, with oxyfuel CCS": {
                                 "name": "carbon dioxide, captured at cement production plant, using oxyfuel",
                                 "reference product": "carbon dioxide, captured at cement plant",
-                                "capture share": 0.9
+                                "capture share": 0.9,
                             },
                             "cement, dry feed rotary kiln, efficient, with MEA CCS": {
                                 "name": "carbon dioxide, captured at cement production plant, using monoethanolamine",
                                 "reference product": "carbon dioxide, captured at cement plant",
-                                "capture share": 0.9
+                                "capture share": 0.9,
                             },
                         }
 
@@ -480,11 +495,18 @@ class Cement(BaseTransformation):
                                     ws.contains("name", "Carbon dioxide"),
                                 )
                             )
-                            if variable == "cement, dry feed rotary kiln, efficient, with on-site CCS":
+                            if (
+                                variable
+                                == "cement, dry feed rotary kiln, efficient, with on-site CCS"
+                            ):
                                 # only 90% of process emissions (calcination) are captured
-                                CCS_amount = 0.543 * ccs_datasets[variable]["capture share"]
+                                CCS_amount = (
+                                    0.543 * ccs_datasets[variable]["capture share"]
+                                )
                             else:
-                                CCS_amount = CO2_amount * ccs_datasets[variable]["capture share"]
+                                CCS_amount = (
+                                    CO2_amount * ccs_datasets[variable]["capture share"]
+                                )
 
                             if variable in ccs_datasets:
                                 ccs_exc = {
@@ -496,7 +518,9 @@ class Cement(BaseTransformation):
                                     "name": ccs_datasets[variable]["name"],
                                     "unit": "kilogram",
                                     "location": dataset["location"],
-                                    "product": ccs_datasets[variable]["reference product"],
+                                    "product": ccs_datasets[variable][
+                                        "reference product"
+                                    ],
                                 }
                                 dataset["exchanges"].append(ccs_exc)
 
@@ -506,7 +530,9 @@ class Cement(BaseTransformation):
                                         exc["name"].lower().startswith("carbon dioxide")
                                         and exc["type"] == "biosphere"
                                     ):
-                                        exc["amount"] *= ((CO2_amount-CCS_amount)/CO2_amount)
+                                        exc["amount"] *= (
+                                            CO2_amount - CCS_amount
+                                        ) / CO2_amount
                                         # make sure it's not negative
                                         if exc["amount"] < 0:
                                             exc["amount"] = 0
@@ -539,7 +565,10 @@ class Cement(BaseTransformation):
                         )
 
                         # add CCS-related dataset
-                        if not np.isnan(carbon_capture_rate) and carbon_capture_rate > 0:
+                        if (
+                            not np.isnan(carbon_capture_rate)
+                            and carbon_capture_rate > 0
+                        ):
                             # total CO2 emissions = bio CO2 emissions
                             # + fossil CO2 emissions
                             # + calcination emissions
@@ -570,7 +599,9 @@ class Cement(BaseTransformation):
                             ccs_exc = {
                                 "uncertainty type": 0,
                                 "loc": 0,
-                                "amount": float(total_co2_emissions * carbon_capture_rate),
+                                "amount": float(
+                                    total_co2_emissions * carbon_capture_rate
+                                ),
                                 "type": "technosphere",
                                 "production volume": 0,
                                 "name": "carbon dioxide, captured at cement production plant, with underground storage, post, 200 km",
@@ -644,22 +675,26 @@ class Cement(BaseTransformation):
             name="market for clinker",
             ref_prod="clinker",
             production_variable=[
-                v for v in variables
+                v
+                for v in variables
                 if v in self.iam_data.cement_markets.coords["variables"].values
             ],
         )
 
         clinker_market_datasets = {
-            k: v for k, v in clinker_market_datasets.items()
-            if self.iam_data.cement_markets.sel(
-                region=k
-            ).sum(dim="variables").interp(year=self.year) > 0
+            k: v
+            for k, v in clinker_market_datasets.items()
+            if self.iam_data.cement_markets.sel(region=k)
+            .sum(dim="variables")
+            .interp(year=self.year)
+            > 0
         }
 
         for region, ds in clinker_market_datasets.items():
             ds["exchanges"] = [
-                v for v in ds["exchanges"] if v["type"] == "production"
-                or v["unit"] == "ton kilometer"
+                v
+                for v in ds["exchanges"]
+                if v["type"] == "production" or v["unit"] == "ton kilometer"
             ]
             for variable in variables:
                 if variable in self.iam_data.cement_markets.coords["variables"].values:
@@ -668,9 +703,13 @@ class Cement(BaseTransformation):
                             variables=variable, region=region, year=self.year
                         ).values
                     else:
-                        share = self.iam_data.cement_markets.sel(
-                            variables=variable, region=region
-                        ).interp(year=self.year).values
+                        share = (
+                            self.iam_data.cement_markets.sel(
+                                variables=variable, region=region
+                            )
+                            .interp(year=self.year)
+                            .values
+                        )
 
                     if share > 0:
                         if variable == "cement, dry feed rotary kiln":
@@ -688,7 +727,6 @@ class Cement(BaseTransformation):
                                 "unit": "kilogram",
                                 "location": region,
                                 "product": "clinker",
-
                             }
                         )
 
