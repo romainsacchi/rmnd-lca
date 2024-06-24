@@ -6,7 +6,7 @@ It eventually re-links all the cement-consuming activities (e.g., concrete produ
 of the wurst database to the newly created cement markets.
 
 """
-
+import copy
 from collections import defaultdict
 
 from .logger import create_logger
@@ -242,226 +242,300 @@ class Cement(BaseTransformation):
                 )
         return dataset
 
-    def build_clinker_production_datasets(self) -> Dict[str, dict]:
+    def build_clinker_production_datasets(self) -> list:
         """
         Builds clinker production datasets for each IAM region.
         Adds CO2 capture and Storage, if needed.
 
-        :return: a dictionary with IAM regions as keys and clinker production datasets as values.
+        :return: a dictionary with IAM regions as keys
+        and clinker production datasets as values.
         """
+
+        variables = [
+            "cement, dry feed rotary kiln",
+            "cement, dry feed rotary kiln, efficient",
+            "cement, dry feed rotary kiln, efficient, with on-site CCS",
+            "cement, dry feed rotary kiln, efficient, with oxyfuel CCS",
+            "cement, dry feed rotary kiln, efficient, with MEA CCS",
+
+        ]
+
+        datasets = []
 
         # Fetch clinker production activities
         # and store them in a dictionary
-        d_act_clinker = self.fetch_proxies(
+        clinker = self.fetch_proxies(
             name="clinker production",
             ref_prod="clinker",
             production_variable="cement, dry feed rotary kiln",
         )
 
-        for region, dataset in d_act_clinker.items():
-            # calculate current thermal energy consumption per kg clinker
-            energy_details = self.fetch_current_energy_details(dataset)
+        for variable in variables:
+            if variable in self.iam_data.cement_markets.coords["variables"].values:
 
-            current_energy_input_per_ton_clinker = sum(
-                d["energy"] for d in energy_details.values()
-            )
+                d_act_clinker = copy.deepcopy(clinker)
 
-            # fetch the amount of biogenic CO2 emissions
-            bio_CO2 = sum(
-                e["amount"]
-                for e in ws.biosphere(
-                    dataset, ws.contains("name", "Carbon dioxide, non-fossil")
-                )
-            )
+                if variable != "cement, dry feed rotary kiln":
+                    # rename datasets
+                    for region, dataset in d_act_clinker.items():
+                        dataset["name"] = f"{dataset['name']}, {variable.replace('cement, dry feed rotary kiln, ', '')}"
+                        for e in dataset["exchanges"]:
+                            if e["type"] == "production":
+                                e["name"] = f"{e['name']}, {variable.replace('cement, dry feed rotary kiln, ', '')}"
 
-            # back-calculate the amount of waste fuel from
-            # the biogenic CO2 emissions
-            # biogenic CO2 / MJ for waste fuel
+                for region, dataset in d_act_clinker.items():
+                    # calculate current thermal energy consumption per kg clinker
+                    energy_details = self.fetch_current_energy_details(dataset)
 
-            waste_fuel_biogenic_co2_emission_factor = (
-                self.fuels_specs["waste"]["co2"]
-                * self.fuels_specs["waste"]["biogenic_share"]
-            )
+                    current_energy_input_per_ton_clinker = sum(
+                        d["energy"] for d in energy_details.values()
+                    )
 
-            waste_fuel_fossil_co2_emission_factor = self.fuels_specs["waste"]["co2"] * (
-                1 - self.fuels_specs["waste"]["biogenic_share"]
-            )
+                    # fetch the amount of biogenic CO2 emissions
+                    bio_CO2 = sum(
+                        e["amount"]
+                        for e in ws.biosphere(
+                            dataset, ws.contains("name", "Carbon dioxide, non-fossil")
+                        )
+                    )
 
-            # energy input of waste fuel in MJ
-            energy_input_waste_fuel = bio_CO2 / waste_fuel_biogenic_co2_emission_factor
-            # amount waste fuel, in kg
-            amount_waste_fuel = (
-                energy_input_waste_fuel / self.fuels_specs["waste"]["lhv"]
-            )
+                    # back-calculate the amount of waste fuel from
+                    # the biogenic CO2 emissions
+                    # biogenic CO2 / MJ for waste fuel
 
-            # add waste fuel to the energy details
-            energy_details["market for waste plastic, mixture"] = {
-                "amount": amount_waste_fuel,
-                "energy": energy_input_waste_fuel * 1000,
-                "fossil CO2": waste_fuel_fossil_co2_emission_factor
-                * energy_input_waste_fuel,
-                "biogenic CO2": bio_CO2,
-            }
+                    waste_fuel_biogenic_co2_emission_factor = (
+                        self.fuels_specs["waste"]["co2"]
+                        * self.fuels_specs["waste"]["biogenic_share"]
+                    )
 
-            # add the waste fuel energy input
-            # to the total energy input
-            current_energy_input_per_ton_clinker += energy_input_waste_fuel * 1000
+                    waste_fuel_fossil_co2_emission_factor = self.fuels_specs["waste"]["co2"] * (
+                        1 - self.fuels_specs["waste"]["biogenic_share"]
+                    )
 
-            # add the waste fuel input to the dataset
-            if amount_waste_fuel != 0:
-                dataset["exchanges"].append(
-                    {
-                        "uncertainty type": 0,
-                        "loc": 0,
-                        "amount": amount_waste_fuel * -1,
-                        "type": "technosphere",
-                        "production volume": 0,
-                        "name": "clinker production",
-                        "unit": "kilogram",
-                        "location": "RoW",
-                        "product": "waste plastic, mixture",
+                    # energy input of waste fuel in MJ
+                    energy_input_waste_fuel = bio_CO2 / waste_fuel_biogenic_co2_emission_factor
+                    # amount waste fuel, in kg
+                    amount_waste_fuel = (
+                        energy_input_waste_fuel / self.fuels_specs["waste"]["lhv"]
+                    )
+
+                    # add waste fuel to the energy details
+                    energy_details["market for waste plastic, mixture"] = {
+                        "amount": amount_waste_fuel,
+                        "energy": energy_input_waste_fuel * 1000,
+                        "fossil CO2": waste_fuel_fossil_co2_emission_factor
+                        * energy_input_waste_fuel,
+                        "biogenic CO2": bio_CO2,
                     }
-                )
 
-            if "log parameters" not in dataset:
-                dataset["log parameters"] = {}
+                    # add the waste fuel energy input
+                    # to the total energy input
+                    current_energy_input_per_ton_clinker += energy_input_waste_fuel * 1000
 
-            dataset["log parameters"].update(
-                {
-                    "initial energy input per ton clinker": current_energy_input_per_ton_clinker,
-                }
-            )
+                    # add the waste fuel input to the dataset
+                    if amount_waste_fuel != 0:
+                        dataset["exchanges"].append(
+                            {
+                                "uncertainty type": 0,
+                                "loc": 0,
+                                "amount": amount_waste_fuel * -1,
+                                "type": "technosphere",
+                                "production volume": 0,
+                                "name": "clinker production",
+                                "unit": "kilogram",
+                                "location": "RoW",
+                                "product": "waste plastic, mixture",
+                            }
+                        )
 
-            # calculate the scaling factor
-            # the correction factor applied to all fuel/electricity input is
-            # equal to the ratio fuel/output in the year in question
-            # divided by the ratio fuel/output in 2020
+                    if "log parameters" not in dataset:
+                        dataset["log parameters"] = {}
 
-            scaling_factor = 1 / self.find_iam_efficiency_change(
-                data=self.iam_data.cement_efficiencies,
-                variable="cement, dry feed rotary kiln",
-                location=dataset["location"],
-            )
+                    dataset["log parameters"].update(
+                        {
+                            "initial energy input per ton clinker": current_energy_input_per_ton_clinker,
+                        }
+                    )
 
-            new_energy_input_per_ton_clinker = 0
+                    # calculate the scaling factor
+                    # the correction factor applied to all fuel/electricity input is
+                    # equal to the ratio fuel/output in the year in question
+                    # divided by the ratio fuel/output in 2020
 
-            if not np.isnan(scaling_factor) and scaling_factor > 0.0:
-                # calculate new thermal energy
-                # consumption per kg clinker
-                new_energy_input_per_ton_clinker = (
-                    current_energy_input_per_ton_clinker * scaling_factor
-                )
+                    scaling_factor = 1 / self.find_iam_efficiency_change(
+                        data=self.iam_data.cement_efficiencies,
+                        variable="cement, dry feed rotary kiln",
+                        location=dataset["location"],
+                    )
 
-                # put a floor value of 3100 kj/kg clinker
-                if new_energy_input_per_ton_clinker < 3100:
-                    new_energy_input_per_ton_clinker = 3100
-                # and a ceiling value of 5000 kj/kg clinker
-                elif new_energy_input_per_ton_clinker > 5000:
-                    new_energy_input_per_ton_clinker = 5000
+                    new_energy_input_per_ton_clinker = 0
 
-                scaling_factor = (
-                    new_energy_input_per_ton_clinker
-                    / current_energy_input_per_ton_clinker
-                )
+                    if not np.isnan(scaling_factor) and scaling_factor > 0.0:
+                        # calculate new thermal energy
+                        # consumption per kg clinker
+                        new_energy_input_per_ton_clinker = (
+                            current_energy_input_per_ton_clinker * scaling_factor
+                        )
 
-                # rescale fuel consumption and emissions
-                # rescale the fuel and electricity input
-                dataset = self.rescale_fuel_inputs(
-                    dataset, scaling_factor, energy_details
-                )
+                        # put a floor value of 3100 kj/kg clinker
+                        if new_energy_input_per_ton_clinker < 3100:
+                            new_energy_input_per_ton_clinker = 3100
+                        # and a ceiling value of 5000 kj/kg clinker
+                        elif new_energy_input_per_ton_clinker > 5000:
+                            new_energy_input_per_ton_clinker = 5000
 
-                # rescale combustion-related CO2 emissions
-                dataset = self.rescale_emissions(dataset, energy_details)
+                        scaling_factor = (
+                            new_energy_input_per_ton_clinker
+                            / current_energy_input_per_ton_clinker
+                        )
 
-            # Carbon capture rate: share of capture of total CO2 emitted
-            carbon_capture_rate = self.get_carbon_capture_rate(
-                loc=dataset["location"], sector="cement"
-            )
+                        # rescale fuel consumption and emissions
+                        # rescale the fuel and electricity input
+                        dataset = self.rescale_fuel_inputs(
+                            dataset, scaling_factor, energy_details
+                        )
 
-            # add 10% loss
-            carbon_capture_rate *= 0.9
+                        # rescale combustion-related CO2 emissions
+                        dataset = self.rescale_emissions(dataset, energy_details)
 
-            dataset["log parameters"].update(
-                {
-                    "carbon capture rate": float(carbon_capture_rate),
-                }
-            )
-
-            # add CCS-related dataset
-            if not np.isnan(carbon_capture_rate) and carbon_capture_rate > 0:
-                # total CO2 emissions = bio CO2 emissions
-                # + fossil CO2 emissions
-                # + calcination emissions
-
-                total_co2_emissions = dataset["log parameters"].get(
-                    "new fossil CO2", 0
-                ) + dataset["log parameters"].get("new biogenic CO2", 0)
-                # share bio CO2 stored = sum of biogenic fuel emissions / total CO2 emissions
-                bio_co2_stored = (
-                    dataset["log parameters"].get("new biogenic CO2", 0)
-                    / total_co2_emissions
-                )
-
-                # 0.11 kg CO2 leaks per kg captured
-                # we need to align the CO2 composition with
-                # the CO2 composition of the cement plant
-                bio_co2_leaked = bio_co2_stored * 0.11
-
-                # create the CCS dataset to fit this clinker production dataset
-                # and add it to the database
-                self.create_ccs_dataset(
-                    region,
-                    bio_co2_stored,
-                    bio_co2_leaked,
-                )
-
-                # add an input from this CCS dataset in the clinker dataset
-                ccs_exc = {
-                    "uncertainty type": 0,
-                    "loc": 0,
-                    "amount": float(total_co2_emissions * carbon_capture_rate),
-                    "type": "technosphere",
-                    "production volume": 0,
-                    "name": "carbon dioxide, captured at cement production plant, with underground storage, post, 200 km",
-                    "unit": "kilogram",
-                    "location": dataset["location"],
-                    "product": "carbon dioxide, captured and stored",
-                }
-                dataset["exchanges"].append(ccs_exc)
-
-                # Update CO2 exchanges
-                for exc in dataset["exchanges"]:
-                    if (
-                        exc["name"].lower().startswith("carbon dioxide")
-                        and exc["type"] == "biosphere"
+                    # add 0.005 kg/kg clinker of ammonia use for NOx removal
+                    # according to Muller et al., 2024
+                    for exc in ws.technosphere(
+                            dataset,
+                            ws.contains("name", "market for ammonia"),
                     ):
-                        exc["amount"] *= 1 - carbon_capture_rate
-
-                        if "non-fossil" in exc["name"].lower():
-                            dataset["log parameters"].update(
-                                {
-                                    "new biogenic CO2": exc["amount"],
-                                }
-                            )
+                        if variable == "cement, dry feed rotary kiln, efficient, with MEA CCS":
+                            exc["amount"] = 0.00662
                         else:
-                            dataset["log parameters"].update(
-                                {
-                                    "new fossil CO2": exc["amount"],
-                                }
+                            exc["amount"] = 0.005
+
+                    # reduce NOx emissions
+                    # according to Muller et al., 2024
+                    for exc in ws.biosphere(
+                            dataset,
+                            ws.contains("name", "Nitrogen oxides"),
+                    ):
+                        if variable in [
+                            "cement, dry feed rotary kiln, efficient, with on-site CCS",
+                            "cement, dry feed rotary kiln, efficient, with oxyfuel CCS",
+                        ]:
+                            exc["amount"] = 1.22e-5
+                        elif variable == "cement, dry feed rotary kiln, efficient, with MEA CCS":
+                            exc["amount"] = 3.8e-4
+                        else:
+                            exc["amount"] = 7.6e-4
+
+                    # reduce Mercury and SOx emissions
+                    # according to Muller et al., 2024
+                    if variable in [
+                        "cement, dry feed rotary kiln, efficient, with on-site CCS",
+                        "cement, dry feed rotary kiln, efficient, with oxyfuel CCS",
+                        "cement, dry feed rotary kiln, efficient, with MEA CCS"
+                    ]:
+                        for exc in ws.biosphere(
+                                dataset,
+                                ws.either(
+                                    *[ws.contains("name", name)
+                                      for name in [
+                                            "Mercury",
+                                            "Sulfur dioxide",
+                                      ]]
+                                )
+                        ):
+                            exc["amount"] *= (1-0.999)
+
+                    if self.model != "image":
+                        # Carbon capture rate: share of capture of total CO2 emitted
+                        carbon_capture_rate = self.get_carbon_capture_rate(
+                            loc=dataset["location"], sector="cement"
+                        )
+
+                        # add 10% loss
+                        carbon_capture_rate *= 0.9
+
+                        dataset["log parameters"].update(
+                            {
+                                "carbon capture rate": float(carbon_capture_rate),
+                            }
+                        )
+
+                        # add CCS-related dataset
+                        if not np.isnan(carbon_capture_rate) and carbon_capture_rate > 0:
+                            # total CO2 emissions = bio CO2 emissions
+                            # + fossil CO2 emissions
+                            # + calcination emissions
+
+                            total_co2_emissions = dataset["log parameters"].get(
+                                "new fossil CO2", 0
+                            ) + dataset["log parameters"].get("new biogenic CO2", 0)
+                            # share bio CO2 stored = sum of biogenic fuel emissions / total CO2 emissions
+                            bio_co2_stored = (
+                                dataset["log parameters"].get("new biogenic CO2", 0)
+                                / total_co2_emissions
                             )
 
-            dataset["exchanges"] = [v for v in dataset["exchanges"] if v]
+                            # 0.11 kg CO2 leaks per kg captured
+                            # we need to align the CO2 composition with
+                            # the CO2 composition of the cement plant
+                            bio_co2_leaked = bio_co2_stored * 0.11
 
-            # update comment
-            dataset["comment"] = (
-                "Dataset modified by `premise` based on IAM projections "
-                + " for the cement industry.\n"
-                + f"Calculated energy input per kg clinker: {np.round(new_energy_input_per_ton_clinker, 1) / 1000}"
-                f" MJ/kg clinker.\n"
-                + f"Rate of carbon capture: {int(carbon_capture_rate * 100)} pct.\n"
-            ) + dataset["comment"]
+                            # create the CCS dataset to fit this clinker production dataset
+                            # and add it to the database
+                            self.create_ccs_dataset(
+                                region,
+                                bio_co2_stored,
+                                bio_co2_leaked,
+                            )
 
-        return d_act_clinker
+                            # add an input from this CCS dataset in the clinker dataset
+                            ccs_exc = {
+                                "uncertainty type": 0,
+                                "loc": 0,
+                                "amount": float(total_co2_emissions * carbon_capture_rate),
+                                "type": "technosphere",
+                                "production volume": 0,
+                                "name": "carbon dioxide, captured at cement production plant, with underground storage, post, 200 km",
+                                "unit": "kilogram",
+                                "location": dataset["location"],
+                                "product": "carbon dioxide, captured and stored",
+                            }
+                            dataset["exchanges"].append(ccs_exc)
+
+                            # Update CO2 exchanges
+                            for exc in dataset["exchanges"]:
+                                if (
+                                    exc["name"].lower().startswith("carbon dioxide")
+                                    and exc["type"] == "biosphere"
+                                ):
+                                    exc["amount"] *= 1 - carbon_capture_rate
+
+                                    if "non-fossil" in exc["name"].lower():
+                                        dataset["log parameters"].update(
+                                            {
+                                                "new biogenic CO2": exc["amount"],
+                                            }
+                                        )
+                                    else:
+                                        dataset["log parameters"].update(
+                                            {
+                                                "new fossil CO2": exc["amount"],
+                                            }
+                                        )
+
+                        dataset["exchanges"] = [v for v in dataset["exchanges"] if v]
+
+                        # update comment
+                        dataset["comment"] = (
+                            "Dataset modified by `premise` based on IAM projections "
+                            + " for the cement industry.\n"
+                            + f"Calculated energy input per kg clinker: {np.round(new_energy_input_per_ton_clinker, 1) / 1000}"
+                            f" MJ/kg clinker.\n"
+                            + f"Rate of carbon capture: {int(carbon_capture_rate * 100)} pct.\n"
+                        ) + dataset["comment"]
+
+                    datasets.append(dataset)
+
+        return datasets
 
     def add_datasets_to_database(self) -> None:
         """
@@ -470,7 +544,7 @@ class Cement(BaseTransformation):
         :return: Does not return anything. Modifies in place.
         """
 
-        clinker_prod_datasets = list(self.build_clinker_production_datasets().values())
+        clinker_prod_datasets = self.build_clinker_production_datasets()
         self.database.extend(clinker_prod_datasets)
 
         # add to log
@@ -479,18 +553,70 @@ class Cement(BaseTransformation):
             # add it to list of created datasets
             self.add_to_index(new_dataset)
 
-        clinker_market_datasets = list(
-            self.fetch_proxies(
-                name="market for clinker",
-                ref_prod="clinker",
-                production_variable="cement, dry feed rotary kiln",
-            ).values()
+        variables = [
+            "cement, dry feed rotary kiln",
+            "cement, dry feed rotary kiln, efficient",
+            "cement, dry feed rotary kiln, efficient, with on-site CCS",
+            "cement, dry feed rotary kiln, efficient, with oxyfuel CCS",
+            "cement, dry feed rotary kiln, efficient, with MEA CCS",
+        ]
+
+        clinker_market_datasets = self.fetch_proxies(
+            name="market for clinker",
+            ref_prod="clinker",
+            production_variable=[
+                v for v in variables
+                if v in self.iam_data.cement_markets.coords["variables"].values
+            ],
         )
 
-        self.database.extend(clinker_market_datasets)
+        clinker_market_datasets = {
+            k: v for k, v in clinker_market_datasets.items()
+            if self.iam_data.cement_markets.sel(
+                region=k
+            ).sum(dim="variables").interp(year=self.year) > 0
+        }
+
+        for region, ds in clinker_market_datasets.items():
+            ds["exchanges"] = [
+                v for v in ds["exchanges"] if v["type"] == "production"
+                or v["unit"] == "ton kilometer"
+            ]
+            for variable in variables:
+                if variable in self.iam_data.cement_markets.coords["variables"].values:
+                    if self.year in self.iam_data.cement_markets.coords["year"].values:
+                        share = self.iam_data.cement_markets.sel(
+                            variables=variable, region=region, year=self.year
+                        ).values
+                    else:
+                        share = self.iam_data.cement_markets.sel(
+                            variables=variable, region=region
+                        ).interp(year=self.year).values
+
+                    if share > 0:
+                        if variable == "cement, dry feed rotary kiln":
+                            name = "clinker production"
+                        else:
+                            name = f"clinker production, {variable.replace('cement, dry feed rotary kiln, ', '')}"
+                        ds["exchanges"].append(
+                            {
+                                "uncertainty type": 0,
+                                "loc": float(share),
+                                "amount": float(share),
+                                "type": "technosphere",
+                                "production volume": 0,
+                                "name": name,
+                                "unit": "kilogram",
+                                "location": region,
+                                "product": "clinker",
+
+                            }
+                        )
+
+        self.database.extend(clinker_market_datasets.values())
 
         # add to log
-        for new_dataset in clinker_market_datasets:
+        for new_dataset in clinker_market_datasets.values():
             self.write_log(new_dataset)
             # add it to list of created datasets
             self.add_to_index(new_dataset)
