@@ -243,33 +243,6 @@ class Cement(BaseTransformation):
                 )
         return dataset
 
-    def build_CCS_datasets(self):
-        ccs_datasets = {
-            "cement, dry feed rotary kiln, efficient, with on-site CCS": {
-                "name": "carbon dioxide, captured at cement production plant, using direct separation",
-                "reference product": "carbon dioxide, captured at cement plant",
-            },
-            "cement, dry feed rotary kiln, efficient, with oxyfuel CCS": {
-                "name": "carbon dioxide, captured at cement production plant, using oxyfuel",
-                "reference product": "carbon dioxide, captured at cement plant",
-            },
-            "cement, dry feed rotary kiln, efficient, with MEA CCS": {
-                "name": "carbon dioxide, captured at cement production plant, using monoethanolamine",
-                "reference product": "carbon dioxide, captured at cement plant",
-            },
-        }
-
-        for variable in ccs_datasets:
-            datasets = self.fetch_proxies(
-                name=ccs_datasets[variable]["name"],
-                ref_prod=ccs_datasets[variable]["reference product"],
-            )
-
-            for dataset in datasets.values():
-                self.add_to_index(dataset)
-                self.write_log(dataset)
-                self.database.append(dataset)
-
     def build_clinker_production_datasets(self) -> list:
         """
         Builds clinker production datasets for each IAM region.
@@ -285,7 +258,6 @@ class Cement(BaseTransformation):
             "cement, dry feed rotary kiln, efficient, with on-site CCS",
             "cement, dry feed rotary kiln, efficient, with oxyfuel CCS",
             "cement, dry feed rotary kiln, efficient, with MEA CCS",
-
         ]
 
         datasets = []
@@ -464,7 +436,7 @@ class Cement(BaseTransformation):
                     if variable in [
                         "cement, dry feed rotary kiln, efficient, with on-site CCS",
                         "cement, dry feed rotary kiln, efficient, with oxyfuel CCS",
-                        "cement, dry feed rotary kiln, efficient, with MEA CCS"
+                        "cement, dry feed rotary kiln, efficient, with MEA CCS",
                     ]:
                         for exc in ws.biosphere(
                                 dataset,
@@ -651,7 +623,6 @@ class Cement(BaseTransformation):
         :return: Does not return anything. Modifies in place.
         """
 
-        self.build_CCS_datasets()
         clinker_prod_datasets = self.build_clinker_production_datasets()
         self.database.extend(clinker_prod_datasets)
 
