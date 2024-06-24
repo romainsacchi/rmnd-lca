@@ -7,6 +7,7 @@ of the wurst database to the newly created cement markets.
 
 """
 import copy
+import uuid
 from collections import defaultdict
 
 from .logger import create_logger
@@ -242,6 +243,33 @@ class Cement(BaseTransformation):
                 )
         return dataset
 
+    def build_CCS_datasets(self):
+        ccs_datasets = {
+            "cement, dry feed rotary kiln, efficient, with on-site CCS": {
+                "name": "carbon dioxide, captured at cement production plant, using direct separation",
+                "reference product": "carbon dioxide, captured at cement plant",
+            },
+            "cement, dry feed rotary kiln, efficient, with oxyfuel CCS": {
+                "name": "carbon dioxide, captured at cement production plant, using oxyfuel",
+                "reference product": "carbon dioxide, captured at cement plant",
+            },
+            "cement, dry feed rotary kiln, efficient, with MEA CCS": {
+                "name": "carbon dioxide, captured at cement production plant, using monoethanolamine",
+                "reference product": "carbon dioxide, captured at cement plant",
+            },
+        }
+
+        for variable in ccs_datasets:
+            datasets = self.fetch_proxies(
+                name=ccs_datasets[variable]["name"],
+                ref_prod=ccs_datasets[variable]["reference product"],
+            )
+
+            for dataset in datasets.values():
+                self.add_to_index(dataset)
+                self.write_log(dataset)
+                self.database.append(dataset)
+
     def build_clinker_production_datasets(self) -> list:
         """
         Builds clinker production datasets for each IAM region.
@@ -274,6 +302,12 @@ class Cement(BaseTransformation):
             if variable in self.iam_data.cement_markets.coords["variables"].values:
 
                 d_act_clinker = copy.deepcopy(clinker)
+                # remove `code` field
+                for region, dataset in d_act_clinker.items():
+                    dataset["code"] = uuid.uuid4().hex
+                    for exc in ws.production(dataset):
+                        if "input" in exc:
+                            del exc["input"]
 
                 if variable != "cement, dry feed rotary kiln":
                     # rename datasets
@@ -435,16 +469,89 @@ class Cement(BaseTransformation):
                         for exc in ws.biosphere(
                                 dataset,
                                 ws.either(
-                                    *[ws.contains("name", name)
-                                      for name in [
-                                            "Mercury",
-                                            "Sulfur dioxide",
-                                      ]]
+                                    *[
+                                        ws.contains("name", name)
+                                          for name in [
+                                                "Mercury",
+                                                "Sulfur dioxide",
+                                     ]
+                                    ]
                                 )
                         ):
                             exc["amount"] *= (1-0.999)
 
-                    if self.model != "image":
+                    if self.model == "image":
+                        # add CCS datasets
+                        ccs_datasets = {
+                            "cement, dry feed rotary kiln, efficient, with on-site CCS": {
+                                "name": "carbon dioxide, captured at cement production plant, using direct separation",
+                                "reference product": "carbon dioxide, captured at cement plant",
+                                "capture share": 0.9 # only 90% of process emissions (calcination) are captured
+                            },
+                            "cement, dry feed rotary kiln, efficient, with oxyfuel CCS": {
+                                "name": "carbon dioxide, captured at cement production plant, using oxyfuel",
+                                "reference product": "carbon dioxide, captured at cement plant",
+                                "capture share": 0.9
+                            },
+                            "cement, dry feed rotary kiln, efficient, with MEA CCS": {
+                                "name": "carbon dioxide, captured at cement production plant, using monoethanolamine",
+                                "reference product": "carbon dioxide, captured at cement plant",
+                                "capture share": 0.9
+                            },
+                        }
+
+                        if variable in ccs_datasets:
+                            CO2_amount = sum(
+                                e["amount"]
+                                for e in ws.biosphere(
+                                    dataset,
+                                    ws.contains("name", "Carbon dioxide"),
+                                )
+                            )
+                            if variable == "cement, dry feed rotary kiln, efficient, with on-site CCS":
+                                # only 90% of process emissions (calcination) are captured
+                                CCS_amount = 0.543 * ccs_datasets[variable]["capture share"]
+                            else:
+                                CCS_amount = CO2_amount * ccs_datasets[variable]["capture share"]
+
+                            if variable in ccs_datasets:
+                                ccs_exc = {
+                                    "uncertainty type": 0,
+                                    "loc": CCS_amount,
+                                    "amount": CCS_amount,
+                                    "type": "technosphere",
+                                    "production volume": 0,
+                                    "name": ccs_datasets[variable]["name"],
+                                    "unit": "kilogram",
+                                    "location": dataset["location"],
+                                    "product": ccs_datasets[variable]["reference product"],
+                                }
+                                dataset["exchanges"].append(ccs_exc)
+
+                                # Update CO2 exchanges
+                                for exc in dataset["exchanges"]:
+                                    if (
+                                        exc["name"].lower().startswith("carbon dioxide")
+                                        and exc["type"] == "biosphere"
+                                    ):
+                                        exc["amount"] *= ((CO2_amount-CCS_amount)/CO2_amount)
+                                        # make sure it's not negative
+                                        if exc["amount"] < 0:
+                                            exc["amount"] = 0
+
+                                        if "non-fossil" in exc["name"].lower():
+                                            dataset["log parameters"].update(
+                                                {
+                                                    "new biogenic CO2": exc["amount"],
+                                                }
+                                            )
+                                        else:
+                                            dataset["log parameters"].update(
+                                                {
+                                                    "new fossil CO2": exc["amount"],
+                                                }
+                                            )
+                    else:
                         # Carbon capture rate: share of capture of total CO2 emitted
                         carbon_capture_rate = self.get_carbon_capture_rate(
                             loc=dataset["location"], sector="cement"
@@ -544,6 +651,7 @@ class Cement(BaseTransformation):
         :return: Does not return anything. Modifies in place.
         """
 
+        self.build_CCS_datasets()
         clinker_prod_datasets = self.build_clinker_production_datasets()
         self.database.extend(clinker_prod_datasets)
 
