@@ -286,8 +286,7 @@ class Cement(BaseTransformation):
 
                 for region, dataset in datasets.items():
                     for exc in ws.technosphere(
-                        dataset,
-                        ws.contains("name", "heat production")
+                        dataset, ws.contains("name", "heat production")
                     ):
                         exc["amount"] = fossil_heat_input
 

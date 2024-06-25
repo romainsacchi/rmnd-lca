@@ -1131,11 +1131,11 @@ class BaseTransformation:
         return self.cache.get(loc, {}).get(self.model, {}).get(key)
 
     def create_ccs_dataset(
-            self,
-            loc: str,
-            bio_co2_stored: float,
-            bio_co2_leaked: float,
-            sector: str = "cement",
+        self,
+        loc: str,
+        bio_co2_stored: float,
+        bio_co2_leaked: float,
+        sector: str = "cement",
     ) -> None:
         """
         Create a CCS dataset, reflecting the share of fossil vs. biogenic CO2.
@@ -1182,16 +1182,16 @@ class BaseTransformation:
             # in the fossil + biogenic CO2 emissions of the plant
 
             for exc in ws.biosphere(
-                    ccs,
-                    ws.equals("name", "Carbon dioxide, in air"),
+                ccs,
+                ws.equals("name", "Carbon dioxide, in air"),
             ):
                 exc["amount"] = bio_co2_stored
 
             if bio_co2_leaked > 0:
                 # then the biogenic CO2 leaked during the capture process
                 for exc in ws.biosphere(
-                        ccs,
-                        ws.equals("name", "Carbon dioxide, non-fossil"),
+                    ccs,
+                    ws.equals("name", "Carbon dioxide, non-fossil"),
                 ):
                     exc["amount"] = bio_co2_leaked
 
@@ -1445,7 +1445,6 @@ class BaseTransformation:
             rate = 0
 
         return rate
-
 
     def find_iam_efficiency_change(
         self,
