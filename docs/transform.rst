@@ -633,9 +633,41 @@ depends on the location of the consumer.
 Cement production
 """""""""""""""""
 
-The modelling of future improvements in the cement sector is relatively
+The modelling of future improvements in the cement sector is dependent on the IAM model chosen.
+When choosing IMAGE, scenarios include the emergence of a new, more efficient kiln, as well
+as kiln fitted with three types of carbon capture technologies:
+
+* using monoethanolamine (MEA) as a solvent,
+* using oxyfuel combustion,
+* using Direct Separation (Leilac process).
+
+The implementation of the corresponding datasets for these new kiln technologies are based on the work of
+Müller_ et al., 2024.
+
+.. _Müller: https://doi.org/10.1016/j.jclepro.2024.141884
+
+We differ slightly from the implementation of Müller_ et al., 2024, in that:
+
+* the heat necessary for the regeneration of the solvent is assumed to be provided by a natural gas boiler
+(instead of a fuel mix resembling that of the kiln itself),
+* the provision of oxygen for the Direct Separation option comes from an existing air separation dataset from ecoinvent,
+* the fuel mix for the kiln is that of ecoinvent, further scaled down by the change of efficiency of the kiln
+(in Müller et al., 2024, they use directly the fuel mix provided by the IMAGE scenario, which we do not find representative,
+as it also includes the fuel used by other activities in the non-metallic minerals).
+
+In practice, premise:
+* makes copies of the `clinker production` dataset,
+* adjusts the fuel consumption and related CO2 emissions,
+* adjusts some hot pollutant emissions (Mercury, NOx, SOx) removed by the carbon capture process,
+* adds an input from the carbon capture process, based on a capture efficiency share
+* removes a corresponding amount from teh CO2 emissions.
+
+The Direct Separation process only captures calcination emissions, while the other two capture both combustion
+and calcination emissions.
+
+When choosing another IAM, the current implementation is relatively
 simple at the moment, and does not involve the emergence of new
-technologies (e.g., electric kilns).
+technologies.
 
 Run
 
