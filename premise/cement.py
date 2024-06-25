@@ -443,9 +443,14 @@ class Cement(BaseTransformation):
                         )
 
                         # but if efficient kiln, set the energy input to 3100 kJ/kg clinker
-                        if variable.startswith("cement, dry feed rotary kiln, efficient"):
+                        if variable.startswith(
+                            "cement, dry feed rotary kiln, efficient"
+                        ):
                             new_energy_input_per_ton_clinker = 3100
-                            scaling_factor = new_energy_input_per_ton_clinker / current_energy_input_per_ton_clinker
+                            scaling_factor = (
+                                new_energy_input_per_ton_clinker
+                                / current_energy_input_per_ton_clinker
+                            )
 
                         # rescale fuel consumption and emissions
                         # rescale the fuel and electricity input
