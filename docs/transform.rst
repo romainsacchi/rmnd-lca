@@ -634,40 +634,46 @@ Cement production
 """""""""""""""""
 
 The modelling of future improvements in the cement sector is dependent on the IAM model chosen.
+
 When choosing IMAGE, scenarios include the emergence of a new, more efficient kiln, as well
-as kiln fitted with three types of carbon capture technologies:
+as kilns fitted with three types of carbon capture technologies:
 
 * using monoethanolamine (MEA) as a solvent,
 * using oxyfuel combustion,
 * using Direct Separation (Leilac process).
 
 The implementation of the corresponding datasets for these new kiln technologies are based on the work of
-Müller_ et al., 2024.
+Muller_ et al., 2024.
 
-.. _Müller: https://doi.org/10.1016/j.jclepro.2024.141884
+.. _Muller: https://doi.org/10.1016/j.jclepro.2024.141884
 
-We differ slightly from the implementation of Müller_ et al., 2024, in that:
+We differ slightly from the implementation of Muller_ et al., 2024, in that:
 
-* the heat necessary for the regeneration of the solvent is assumed to be provided by a natural gas boiler
-(instead of a fuel mix resembling that of the kiln itself),
+* the heat necessary for the regeneration of the MEA solvent is assumed to be provided by a natural gas boiler
+(instead of a fuel mix resembling that of the kiln itself), with up to 30% coming from recovered heat from the kiln by 2050,
+* the amount of heat needed for the regeneration of the MEA solvent goes from 3.76 GJ/ton CO2 in 2020, to 2.6 GJ/ton CO2 in 2050,
 * the provision of oxygen for the Direct Separation option comes from an existing air separation dataset from ecoinvent,
 * the fuel mix for the kiln is that of ecoinvent, further scaled down by the change of efficiency of the kiln
 (in Müller et al., 2024, they use directly the fuel mix provided by the IMAGE scenario, which we do not find representative,
-as it also includes the fuel used by other activities in the non-metallic minerals).
+as it also includes the fuel used by other activities in the non-metallic minerals, notably a large share of natural gas).
 
-In practice, premise:
+In a nutshell, *premise*:
 * makes copies of the `clinker production` dataset,
 * adjusts the fuel consumption and related CO2 emissions,
-* adjusts some hot pollutant emissions (Mercury, NOx, SOx) removed by the carbon capture process,
-* adds an input from the carbon capture process, based on a capture efficiency share
-* removes a corresponding amount from teh CO2 emissions.
+* adjusts specific hot pollutant emissions removed by the carbon capture process (Mercury, NOx, SOx),
+* adds an input from the carbon capture process, based on a capture efficiency share,
+* and removes a corresponding amount from the outgoing CO2 emissions.
 
-The Direct Separation process only captures calcination emissions, while the other two capture both combustion
-and calcination emissions.
+The Direct Separation process only captures calcination emissions, while the other two technologies capture
+both combustion and calcination emissions.
 
 When choosing another IAM, the current implementation is relatively
-simple at the moment, and does not involve the emergence of new
-technologies.
+simpler at the moment, and does not involve the emergence of new
+technologies. In these scenarios, the production volumes of kilns
+equipped with CCS is not given. Instead, the share of CO2 emissions
+that is sequestered is given. We use the ratio of the CO2 emissions
+sequestered over the total CO2 emissions to determine the share of
+the CO2 emissions that is sequestered in the clinker production dataset
 
 Run
 
@@ -705,17 +711,9 @@ Efficiency adjustment
 +++++++++++++++++++++
 
 *premise* then adjusts the thermal efficiency of the process.
-It does so by calculating the technology-weighted energy requirements
-per ton of clinker.
-Based on GNR/IEA roadmap data, *premise* uses:
 
-* the share of kiln technology for a given region today (2020):
-    * wet,
-    * dry,
-    * dry with pre-heater,
-    * and dry with pre-heater and pre-calciner
-
-* the energy requirement for each of these technologies today (2020).
+It first calculates the energy input in teh current (original) dataset,
+by looking up the fuel inputs and their respective lower heating values.
 
 Once the energy required per ton clinker today (2020) is known, it is
 multiplied by a *scaling factor* that represents a change in efficiency
@@ -734,11 +732,11 @@ between today and the scenario year.
 .. note::
 
     *premise* enforces a lower limit on the fuel consumption per ton of clinker.
-    This limit is set to 2.8 GJ/t clinker and corresponds to the minimum
+    This limit is set to 3.1 GJ/t clinker and is close to the minimum
     theoretical fuel consumption with an moisture content of the raw materials,
-    as considered in the 2018 IEA_ cement roadmap report. Hence, regardless of the
-    scaling factor, the fuel consumption per ton of clinker will never be less than
-    2.8 GJ/t.
+    as considered in the 2018 IEA_ cement roadmap report (i.e., 2.8 GJ/t clinker).
+    Hence, regardless of the scaling factor, the fuel consumption per ton of clinker
+    will never be less than 3.1 GJ/t.
 
 .. _IEA: https://iea.blob.core.windows.net/assets/cbaa3da1-fd61-4c2a-8719-31538f59b54f/TechnologyRoadmapLowCarbonTransitionintheCementIndustry.pdf
 
@@ -762,22 +760,21 @@ If the IAM scenario indicates that a share of the CO2 emissions
 for the cement sector in a given region and year is sequestered and stored,
 *premise* adds CCS to the corresponding clinker production dataset.
 
-The CCS dataset used to that effect is from Meunier_ et al., 2020.
-The dataset described the capture of CO2 from a cement plant.
+The CCS dataset used to that effect is from Muller_ et al., 2024.
+The dataset described the capture of CO2 from a cement plant,
+using a monoethanolamine-based sorbent.
 To that dataset, *premise* adds another dataset that models the storage
 of the CO2 underground, from Volkart_ et al, 2013.
 
 
 Besides electricity, the CCS process requires heat, water and others inputs
 to regenerate the amine-based sorbent. We use two data points to approximate the heat
-requirement: 3.66 MJ/kg CO2 captured in 2020, and 2.6 MJ/kg in 2050.
-The first number is from Meunier_ et al., 2020, while the second number is described
+requirement: 3.76 MJ/kg CO2 captured in 2020 (minus 30% coming from the kiln as recovered heat),
+and 2.6 MJ/kg in 2050. The first number is from Muller_ et al., 2024, while the second number is described
 as the best-performing pilot project today, according to the 2022 review of pilot
 projects by the Global CCS Institute_. It is further assumed that the heat requirement
-is fulfilled to an extent of 15% by the recovery of excess heat, as mentioned in
-the 2018 IEA_ cement roadmap report.
+is fulfilled to an extent of 30% by the recovery of excess heat, as found in numerous studies.
 
-.. _Meunier: https://www.sciencedirect.com/science/article/pii/S0960148119310304
 .. _Volkart: https://doi.org/10.1016/j.ijggc.2013.03.003
 .. _Institute: https://www.globalccsinstitute.com/wp-content/uploads/2022/05/State-of-the-Art-CCS-Technologies-2022.pdf
 

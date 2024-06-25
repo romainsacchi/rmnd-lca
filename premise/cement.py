@@ -260,16 +260,41 @@ class Cement(BaseTransformation):
             },
         }
 
-        # for variable in ccs_datasets:
-        #     datasets = self.fetch_proxies(
-        #         name=ccs_datasets[variable]["name"],
-        #         ref_prod=ccs_datasets[variable]["reference product"],
-        #     )
-        #
-        #     for dataset in datasets.values():
-        #         self.add_to_index(dataset)
-        #         self.write_log(dataset)
-        #         self.database.append(dataset)
+        for variable in ccs_datasets:
+            datasets = self.fetch_proxies(
+                name=ccs_datasets[variable]["name"],
+                ref_prod=ccs_datasets[variable]["reference product"],
+            )
+
+            if variable == "cement, dry feed rotary kiln, efficient, with MEA CCS":
+                # we adjust the heat needs by subtraction 3.66 MJ with what
+                # the plant is expected to produce as excess heat
+
+                # Heat, as steam: 3.66 MJ/kg CO2 captured in 2020,
+                # decreasing to 2.6 GJ/t by 2050, by looking at
+                # the best-performing state-of-the-art technologies today
+                # https://www.globalccsinstitute.com/wp-content/uploads/2022/05/State-of-the-Art-CCS-Technologies-2022.pdf
+                # minus excess heat generated on site
+                # the contribution of excess heat is assumed to be
+                # 30% of heat requirement.
+
+                heat_input = np.clip(
+                    np.interp(self.year, [2020, 2050], [3.66, 2.6]), 2.6, 3.66
+                )
+                excess_heat_generation = 0.3  # 30%
+                fossil_heat_input = heat_input - (excess_heat_generation * heat_input)
+
+                for region, dataset in datasets.items():
+                    for exc in ws.technosphere(
+                        dataset,
+                        ws.contains("name", "heat production")
+                    ):
+                        exc["amount"] = fossil_heat_input
+
+            for dataset in datasets.values():
+                self.add_to_index(dataset)
+                self.write_log(dataset)
+                self.database.append(dataset)
 
         # also create region-specific air separation datasets
         air_separation = self.fetch_proxies(
@@ -549,7 +574,7 @@ class Cement(BaseTransformation):
                             ):
                                 # only 90% of process emissions (calcination) are captured
                                 CCS_amount = (
-                                    0.543 * ccs_datasets[variable]["capture share"]
+                                    0.525 * ccs_datasets[variable]["capture share"]
                                 )
                             else:
                                 CCS_amount = (
@@ -635,14 +660,6 @@ class Cement(BaseTransformation):
                             # the CO2 composition of the cement plant
                             bio_co2_leaked = bio_co2_stored * 0.11
 
-                            # create the CCS dataset to fit this clinker production dataset
-                            # and add it to the database
-                            self.create_ccs_dataset(
-                                region,
-                                bio_co2_stored,
-                                bio_co2_leaked,
-                            )
-
                             # add an input from this CCS dataset in the clinker dataset
                             ccs_exc = {
                                 "uncertainty type": 0,
@@ -652,11 +669,14 @@ class Cement(BaseTransformation):
                                 ),
                                 "type": "technosphere",
                                 "production volume": 0,
-                                "name": "carbon dioxide, captured at cement production plant, with underground storage, post, 200 km",
+                                "name": "carbon dioxide, captured at cement production plant, using monoethanolamine",
                                 "unit": "kilogram",
                                 "location": dataset["location"],
-                                "product": "carbon dioxide, captured and stored",
+                                "product": "carbon dioxide, captured at cement plant",
                             }
+
+                            # add an input from the CCS dataset in the clinker dataset
+                            # and add it to the database
                             dataset["exchanges"].append(ccs_exc)
 
                             # Update CO2 exchanges
@@ -832,7 +852,7 @@ class Cement(BaseTransformation):
                 ws.contains("name", "cement production"),
                 ws.contains("reference product", "cement"),
                 ws.doesnt_contain_any(
-                    "name", ["factory", "tile", "sulphate", "plaster"]
+                    "name", ["factory", "tile", "sulphate", "plaster", "carbon"]
                 ),
             )
         )
