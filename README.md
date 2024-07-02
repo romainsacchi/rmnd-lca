@@ -63,7 +63,7 @@ What's new in 2.0.0?
 What's new in 1.8.0?
 ====================
 
--  Added support for brightway 2.5
+-  Added support for brightway 2.5 (requires `bw2data` >= 4.0.0)
 -  Added support for Python 3.11
 -  Uses bw2io 0.8.10
 -  Adds electricity storage in electricity markets -- see [docs](https://premise.readthedocs.io/en/latest/transform.html#storage)
@@ -106,7 +106,7 @@ Requirements
 * Some IAM output files come with the library and are located by default in the subdirectory "/data/iam_output_files". **If you wish to use
  those files, you need to request (by [email](mailto:romain.sacchi@psi.ch)) an encryption key from the developers**.
  A file path can be specified to fetch IAM output files elsewhere on your computer.
- * [brightway2][2] (optional)
+ * [brightway2][2] (optional). If you want to use the results in the Brightway 2 framework 8and Activity Browser), you need `bw2data <4.0.0`. To produce Brightway 2.5-compatible databases, you need `bw2data >=4.0.0`.
 
 How to install this package?
 ----------------------------

@@ -1627,6 +1627,30 @@ class CementValidation(BaseDatasetValidator):
                         issue_type="major",
                     )
 
+        for ds in self.database:
+            if (
+                ds["name"].startswith("market for clinker, ")
+                and ds["location"] in self.regions
+                and ds["location"] != "World"
+            ):
+                total = sum(
+                    [
+                        x["amount"]
+                        for x in ds["exchanges"]
+                        if x["type"] == "technosphere"
+                        and x["unit"] == "kilogram"
+                        and "clinker" in x["name"].lower()
+                    ]
+                )
+                if total < 0.99 or total > 1.1:
+                    message = f"Clinker market inputs sum to {total}."
+                    self.log_issue(
+                        ds,
+                        "clinker market inputs do not sum to 1",
+                        message,
+                        issue_type="major",
+                    )
+
     def check_clinker_energy_use(self):
         # check that clinker production datasets
         # use at least 3 MJ/kg clinker

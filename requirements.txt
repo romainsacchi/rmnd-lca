@@ -4,7 +4,7 @@ bw2io>=0.8.10
 constructive-geometries>=0.9.5
 cryptography
 datapackage
-numpy
+numpy<2.0.0
 pandas
 platformdirs
 premise_gwp
