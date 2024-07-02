@@ -501,6 +501,7 @@ class Metals(BaseTransformation):
                 * unit_converter
                 * conversion_factor
             )
+
             min_value = (
                 use_factors.sel(variable="min").item()
                 * unit_converter
