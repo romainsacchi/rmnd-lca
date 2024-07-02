@@ -502,8 +502,14 @@ class Metals(BaseTransformation):
                 * conversion_factor
             )
 
-            if technology=="PEMFC":
-                print(dataset["name"], metal_row["Element"], use_factors.sel(variable="median").item(), unit_converter, conversion_factor)
+            if technology == "PEMFC":
+                print(
+                    dataset["name"],
+                    metal_row["Element"],
+                    use_factors.sel(variable="median").item(),
+                    unit_converter,
+                    conversion_factor,
+                )
 
             min_value = (
                 use_factors.sel(variable="min").item()
