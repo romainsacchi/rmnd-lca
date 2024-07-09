@@ -69,7 +69,19 @@ def flag_activities_to_adjust(
     :return: dataset with additional info on variables to adjust
     """
 
-    regions = scenario_data["production volume"].region.values.tolist()
+    if "production volume variable" not in dataset_vars:
+        regions = scenario_data["production volume"].region.values.tolist()
+    else:
+        data = scenario_data["production volume"].sel(
+            variables=dataset_vars["production volume variable"]
+        )
+        # fetch regions which do not contain nan data
+        regions = [
+            r
+            for r in data.region.values.tolist()
+            if not np.isnan(data.sel(region=r).values).all()
+        ]
+
     if "except regions" in dataset_vars:
         regions = [r for r in regions if r not in dataset_vars["except regions"]]
 
@@ -279,7 +291,7 @@ def check_inventories(
             "except regions": val.get(
                 "except regions",
                 [
-                    "World",
+                    # "World",
                 ],
             ),
             "efficiency": val.get("efficiency", []),
