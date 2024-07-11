@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Union
 import xarray as xr
 import yaml
 from wurst import searching as ws
+import numpy as np
 
 from .activity_maps import InventorySet
 from .filesystem_constants import DATA_DIR, IAM_OUTPUT_DIR
@@ -29,7 +30,6 @@ FILEPATH_VEHICLES_MAP = DATA_DIR / "transport" / "vehicles_map.yaml"
 
 
 def _update_vehicles(scenario, vehicle_type, version, system_model):
-
     has_fleet = False
     if vehicle_type == "car":
         if hasattr(scenario["iam data"], "passenger_car_markets"):
@@ -485,14 +485,13 @@ class Transport(BaseTransformation):
                         if (name, loc) in list_created_trucks:
                             exc["name"] = name
                         else:
-                            exc["name"] = (
-                                f"transport, freight, lorry, unspecified, long haul"
-                            )
-
+                            exc[
+                                "name"
+                            ] = f"transport, freight, lorry, unspecified, long haul"
                     else:
-                        exc["name"] = (
-                            "transport, freight, lorry, unspecified, long haul"
-                        )
+                        exc[
+                            "name"
+                        ] = "transport, freight, lorry, unspecified, long haul"
 
                     exc["product"] = "transport, freight, lorry"
                     exc["location"] = self.geo.ecoinvent_to_iam_location(
@@ -551,6 +550,7 @@ class Transport(BaseTransformation):
         self.write_log(dataset)
 
         return dataset
+
 
     def write_log(self, dataset, status="created"):
         """

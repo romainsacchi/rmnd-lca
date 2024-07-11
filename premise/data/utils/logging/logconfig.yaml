@@ -72,6 +72,14 @@ handlers:
     formatter: simple
     mode: a
 
+  file_battery:
+    class: logging.FileHandler
+    level: INFO
+    filename: "export/logs/premise_battery.log"
+    encoding: utf8
+    formatter: simple
+    mode: a
+
   file_transport:
     class: logging.FileHandler
     level: INFO
@@ -138,6 +146,11 @@ loggers:
   fuel:
     level: INFO
     handlers: [ file_fuel ]
+    propagate: False
+
+  battery:
+    level: INFO
+    handlers: [ file_battery ]
     propagate: False
 
   heat:

@@ -132,7 +132,6 @@ truck, fuel cell electric, 18t:
     fltr:
       - hydrogen
 
-
 truck, diesel, 18t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (18t)|Liquids

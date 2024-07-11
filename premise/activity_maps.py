@@ -275,26 +275,32 @@ class InventorySet:
         Rerurns a dictionary with transport type as keys (see below) and
         a set of related ecoinvent activities' names as values.
         """
+        mapping = {}
         if transport_type == "car":
-            return self.generate_sets_from_filters(
-                get_mapping(filepath=PASSENGER_CARS, var="ecoinvent_aliases")
+            mapping = self.generate_sets_from_filters(
+                get_mapping(filepath=PASSENGER_CARS, var="ecoinvent_aliases", model=self.model)
             )
         elif transport_type == "two-wheeler":
-            return self.generate_sets_from_filters(
-                get_mapping(filepath=TWO_WHEELERS, var="ecoinvent_aliases")
+            mapping = self.generate_sets_from_filters(
+                get_mapping(filepath=TWO_WHEELERS, var="ecoinvent_aliases", model=self.model)
             )
         elif transport_type == "bus":
-            return self.generate_sets_from_filters(
-                get_mapping(filepath=BUSES, var="ecoinvent_aliases")
+            mapping = self.generate_sets_from_filters(
+                get_mapping(filepath=BUSES, var="ecoinvent_aliases", model=self.model)
             )
         elif transport_type == "truck":
-            return self.generate_sets_from_filters(
-                get_mapping(filepath=TRUCKS, var="ecoinvent_aliases")
+            mapping = self.generate_sets_from_filters(
+                get_mapping(filepath=TRUCKS, var="ecoinvent_aliases", model=self.model)
             )
         elif transport_type == "train":
-            return self.generate_sets_from_filters(
-                get_mapping(filepath=TRAINS, var="ecoinvent_aliases")
+            mapping = self.generate_sets_from_filters(
+                get_mapping(filepath=TRAINS, var="ecoinvent_aliases", model=self.model)
             )
+
+        # remove empty values
+        mapping = {key: val for key, val in mapping.items() if len(val) > 0}
+
+        return mapping
 
     def generate_vehicle_fuel_map(self, transport_type: str) -> dict:
         """
@@ -302,26 +308,32 @@ class InventorySet:
         Rerurns a dictionary with transport type as keys (see below) and
         a set of related ecoinvent activities' names as values.
         """
+        mapping = {}
         if transport_type == "car":
-            return self.generate_sets_from_filters(
+            mapping = self.generate_sets_from_filters(
                 get_mapping(filepath=PASSENGER_CARS, var="ecoinvent_fuel_aliases")
             )
         elif transport_type == "two-wheeler":
-            return self.generate_sets_from_filters(
+            mapping = self.generate_sets_from_filters(
                 get_mapping(filepath=TWO_WHEELERS, var="ecoinvent_fuel_aliases")
             )
         elif transport_type == "bus":
-            return self.generate_sets_from_filters(
+            mapping = self.generate_sets_from_filters(
                 get_mapping(filepath=BUSES, var="ecoinvent_fuel_aliases")
             )
         elif transport_type == "truck":
-            return self.generate_sets_from_filters(
+            mapping = self.generate_sets_from_filters(
                 get_mapping(filepath=TRUCKS, var="ecoinvent_fuel_aliases")
             )
         elif transport_type == "train":
-            return self.generate_sets_from_filters(
+            mapping = self.generate_sets_from_filters(
                 get_mapping(filepath=TRAINS, var="ecoinvent_fuel_aliases")
             )
+
+        # remove empty values
+        mapping = {key: val for key, val in mapping.items() if len(val) > 0}
+
+        return mapping
 
     def generate_sets_from_filters(self, filtr: dict, database=None) -> dict:
         """

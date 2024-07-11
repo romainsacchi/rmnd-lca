@@ -1,0 +1,65 @@
+# Battery cell energy densities, in kWh/kg cell
+---
+
+Li-ion:
+  ecoinvent_aliases:
+    name: market for battery, Li-ion
+  target:
+    2020: 0.2
+    2050: 0.5
+
+NMC111:
+  ecoinvent_aliases:
+    name: market for battery cell, Li-ion, NMC111
+  target:
+    2020: 0.2
+    2050: 0.5
+
+NMC622:
+  ecoinvent_aliases:
+    name: market for battery cell, Li-ion, NMC622
+  target:
+    2020: 0.2
+    2050: 0.5
+
+NMC811:
+  ecoinvent_aliases:
+    name: market for battery cell, Li-ion, NMC811
+  target:
+    2020: 0.2
+    2050: 0.5
+
+NCA:
+  ecoinvent_aliases:
+    name: market for battery cell, Li-ion, NCA
+  target:
+      2020: 0.2
+      2050: 0.5
+
+LFP:
+  ecoinvent_aliases:
+    name: market for battery cell, Li-ion, LFP
+  target:
+      2020: 0.2
+      2050: 0.5
+
+LTO:
+  ecoinvent_aliases:
+    name: market for battery cell, Li-ion, LTO
+  target:
+      2020: 0.2
+      2050: 0.5
+
+LiMn2O4:
+  ecoinvent_aliases:
+    name: market for battery cell, Li-ion, LiMn2O4
+  target:
+      2020: 0.2
+      2050: 0.5
+
+BoP:
+  ecoinvent_aliases:
+    name: market for battery management system
+  target:
+      2020: 0.2
+      2050: 0.5

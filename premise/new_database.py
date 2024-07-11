@@ -22,6 +22,7 @@ from .clean_datasets import DatabaseCleaner
 from .data_collection import IAMDataCollection
 from .direct_air_capture import _update_dac
 from .electricity import _update_electricity
+from .battery import _update_battery
 from .emissions import _update_emissions
 from .export import (
     Export,
@@ -867,6 +868,7 @@ class NewDatabase:
             "steel": {"func": _update_steel, "args": (self.version, self.system_model)},
             "fuels": {"func": _update_fuels, "args": (self.version, self.system_model)},
             "heat": {"func": _update_heat, "args": (self.version, self.system_model)},
+            "battery": {"func": _update_battery, "args": (self.version, self.system_model)},
             "emissions": {
                 "func": _update_emissions,
                 "args": (self.version, self.system_model, self.gains_scenario),

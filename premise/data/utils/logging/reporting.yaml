@@ -462,6 +462,49 @@ premise_heat:
         unit: kg CO2/reference flow
     tab: Heat
 
+premise_battery:
+    columns:
+      timestamp:
+        name: timestamp
+        description: Timestamp of the log entry
+      module:
+        name: module
+        description: Module name
+      level:
+        name: level
+        description: Log level
+      status:
+        name: status
+        description: Status of the dataset
+      model:
+        name: model
+        description: IAM model name
+      pathway:
+        name: pathway
+        description: Pathway name
+      year:
+        name: year
+        description: Year
+      dataset:
+        name: dataset
+        description: Dataset name
+      region:
+        name: region
+        description: Region name
+      battery input:
+        name: Battery provider
+        description: Name of the battery provider
+        unit: unitless
+      old battery mass:
+        name: Old battery mass
+        description: Mass of the battery before adjustment
+        unit: kg
+      new battery mass:
+        name: New battery mass
+        description: Mass of the battery after adjustment
+        unit: kg
+    tab: Battery
+
 premise_transport:
     columns:
       timestamp:
