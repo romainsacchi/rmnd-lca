@@ -296,15 +296,23 @@ class Cement(BaseTransformation):
                 self.database.append(dataset)
 
         # also create region-specific air separation datasets
-        air_separation = self.fetch_proxies(
-            name="industrial gases production, cryogenic air separation",
-            ref_prod="oxygen, liquid",
-        )
+        datasets_to_regionalize=[
+            "industrial gases production, cryogenic air separation"
+            if self.version == "3.10" else "air separation, cryogenic",
+            "market for oxygen, liquid"
+        ]
 
-        for dataset in air_separation.values():
-            self.add_to_index(dataset)
-            self.write_log(dataset)
-            self.database.append(dataset)
+        for ds_to_regionlaize in datasets_to_regionalize:
+
+            air_separation = self.fetch_proxies(
+                name=ds_to_regionlaize,
+                ref_prod="oxygen, liquid",
+            )
+
+            for dataset in air_separation.values():
+                self.add_to_index(dataset)
+                self.write_log(dataset)
+                self.database.append(dataset)
 
     def build_clinker_production_datasets(self) -> list:
         """
