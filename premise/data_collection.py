@@ -1043,9 +1043,11 @@ class IAMDataCollection:
             return None
 
         if any(isinstance(x, list) for x in input_vars.values()):
-            rev_input_vars = {v: k for k, val in input_vars.items() for v in
-                             (val if isinstance(val, list) else [val])}
-
+            rev_input_vars = {
+                v: k
+                for k, val in input_vars.items()
+                for v in (val if isinstance(val, list) else [val])
+            }
 
         else:
             rev_input_vars = {v: k for k, v in input_vars.items()}
