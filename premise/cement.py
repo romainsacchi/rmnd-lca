@@ -296,10 +296,13 @@ class Cement(BaseTransformation):
                 self.database.append(dataset)
 
         # also create region-specific air separation datasets
-        datasets_to_regionalize=[
-            "industrial gases production, cryogenic air separation"
-            if self.version == "3.10" else "air separation, cryogenic",
-            "market for oxygen, liquid"
+        datasets_to_regionalize = [
+            (
+                "industrial gases production, cryogenic air separation"
+                if self.version == "3.10"
+                else "air separation, cryogenic"
+            ),
+            "market for oxygen, liquid",
         ]
 
         for ds_to_regionlaize in datasets_to_regionalize:
