@@ -11,12 +11,12 @@ import xarray as xr
 import yaml
 from wurst import searching as ws
 
+from .activity_maps import InventorySet
 from .filesystem_constants import DATA_DIR, IAM_OUTPUT_DIR
+from .logger import create_logger
 from .transformation import BaseTransformation, IAMDataCollection
 from .utils import eidb_label, rescale_exchanges
-from .activity_maps import InventorySet
 from .validation import CarValidation, TruckValidation
-from .logger import create_logger
 
 logger = create_logger("transport")
 
@@ -162,15 +162,10 @@ def create_fleet_vehicles(
 
     for region in regions:
         if year in arr.coords["year"].values:
-            region_size_fleet = arr.sel(
-                region=region,
-                year=year
-            )
+            region_size_fleet = arr.sel(region=region, year=year)
 
         else:
-            region_size_fleet = arr.sel(region=region).interp(
-                year=year
-            )
+            region_size_fleet = arr.sel(region=region).interp(year=year)
 
         total_km = region_size_fleet.sum()
 
@@ -247,7 +242,9 @@ def create_fleet_vehicles(
                 sizes = ["3.5t", "7.5t", "18t", "26t", "40t"]
                 for size in sizes:
                     total_size_km = region_size_fleet.sel(
-                        variables=[v for v in arr.coords["variables"].values if size in v]
+                        variables=[
+                            v for v in arr.coords["variables"].values if size in v
+                        ]
                     ).sum()
 
                     if total_size_km > 0:
@@ -279,7 +276,9 @@ def create_fleet_vehicles(
                             "comment": f"Fleet-average vehicle for the year {year}, for the region {region}.",
                         }
 
-                        for pwt in [v for v in arr.coords["variables"].values if size in v]:
+                        for pwt in [
+                            v for v in arr.coords["variables"].values if size in v
+                        ]:
                             indiv_km = region_size_fleet.sel(
                                 variables=pwt,
                             )
@@ -366,7 +365,9 @@ class Transport(BaseTransformation):
         mapping = InventorySet(database=database, version=version, model=model)
         self.vehicle_map = mapping.generate_transport_map(transport_type=vehicle_type)
         self.rev_map = {next(iter(v)): k for k, v in self.vehicle_map.items()}
-        self.vehicle_fuel_map = mapping.generate_vehicle_fuel_map(transport_type=vehicle_type)
+        self.vehicle_fuel_map = mapping.generate_vehicle_fuel_map(
+            transport_type=vehicle_type
+        )
 
         # check if vehicle map is empty
         for v in self.vehicle_map.values():
@@ -399,7 +400,9 @@ class Transport(BaseTransformation):
 
         new_datasets = []
 
-        for ds in list(set([(v["name"], v["reference product"]) for v in vehicle_datasets])):
+        for ds in list(
+            set([(v["name"], v["reference product"]) for v in vehicle_datasets])
+        ):
             new_datasets.extend(
                 self.fetch_proxies(
                     subset=vehicle_datasets,
@@ -415,7 +418,9 @@ class Transport(BaseTransformation):
                 self.database.append(new_ds)
 
             else:
-                print(f"Dataset {new_ds['name'], new_ds['location']} already in the database.")
+                print(
+                    f"Dataset {new_ds['name'], new_ds['location']} already in the database."
+                )
 
         fleet_act = []
 
@@ -445,7 +450,7 @@ class Transport(BaseTransformation):
                 scenario=self.scenario,
                 regions=self.regions,
                 arr=arr,
-                mapping=self.vehicle_map
+                mapping=self.vehicle_map,
             )
         )
 
@@ -529,12 +534,14 @@ class Transport(BaseTransformation):
             dataset = rescale_exchanges(
                 dataset,
                 scaling_factor,
-                technosphere_filters=[ws.either(
-                    *[
-                        ws.contains("name", v)
-                        for v in self.vehicle_fuel_map[variable]
-                    ]
-                )],
+                technosphere_filters=[
+                    ws.either(
+                        *[
+                            ws.contains("name", v)
+                            for v in self.vehicle_fuel_map[variable]
+                        ]
+                    )
+                ],
             )
             if "log parameters" not in dataset:
                 dataset["log parameters"] = {}

@@ -1846,13 +1846,13 @@ class BiomassValidation(BaseDatasetValidator):
         self.check_biomass_markets()
         self.check_residual_biomass_share()
         self.save_log()
-        
+
 
 class TransportValidationNEW(BaseDatasetValidator):
     def __init__(self, model, scenario, year, regions, database, iam_data):
         super().__init__(model, scenario, year, regions, database)
         self.iam_data = iam_data
-        
+
     def check_transport_markets(self):
         # check that the transport markets inputs equal to 1
 
@@ -1877,23 +1877,26 @@ class TransportValidationNEW(BaseDatasetValidator):
                         message,
                         issue_type="major",
                     )
-        
+
     def check_vehicles(self):
         for act in [
             a
             for a in self.database
-            if a["name"].startswith("transport, freight") and ", unspecified powertrain" in a["name"]
+            if a["name"].startswith("transport, freight")
+            and ", unspecified powertrain" in a["name"]
         ]:
             # check that all transport exchanges are differently named or are from a different location
             names_locations = [
-                (exc["name"], exc["location"]) for exc in act["exchanges"] if exc["type"] == "technosphere"
+                (exc["name"], exc["location"])
+                for exc in act["exchanges"]
+                if exc["type"] == "technosphere"
             ]
             if len(names_locations) != len(set(names_locations)):
                 message = "Duplicate transport exchanges"
                 self.log_issue(
                     act, "duplicate transport exchanges", message, issue_type="major"
                 )
-                
+
     def check_vehicle_efficiency(
         self,
         vehicle_name,

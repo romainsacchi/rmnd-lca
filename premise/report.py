@@ -188,16 +188,24 @@ def fetch_data(
             else None
         ),
         "Transport (two-wheelers)": (
-            iam_data.production_volumes if hasattr(iam_data, "two_wheelers_markets") else None
+            iam_data.production_volumes
+            if hasattr(iam_data, "two_wheelers_markets")
+            else None
         ),
         "Transport (two-wheelers) - eff": (
-            iam_data.two_wheelers_efficiencies if hasattr(iam_data, "two_wheelers_efficiencies") else None
+            iam_data.two_wheelers_efficiencies
+            if hasattr(iam_data, "two_wheelers_efficiencies")
+            else None
         ),
         "Transport (cars)": (
-            iam_data.production_volumes if hasattr(iam_data, "passenger_car_markets") else None
+            iam_data.production_volumes
+            if hasattr(iam_data, "passenger_car_markets")
+            else None
         ),
         "Transport (cars) - eff": (
-            iam_data.passenger_car_efficiencies if hasattr(iam_data, "passenger_car_efficiencies") else None
+            iam_data.passenger_car_efficiencies
+            if hasattr(iam_data, "passenger_car_efficiencies")
+            else None
         ),
         "Transport (buses)": (
             iam_data.production_volumes if hasattr(iam_data, "bus_markets") else None
@@ -206,16 +214,24 @@ def fetch_data(
             iam_data.bus_efficiencies if hasattr(iam_data, "bus_efficiencies") else None
         ),
         "Transport (trucks)": (
-            iam_data.production_volumes if hasattr(iam_data, "roadfreight_markets") else None
+            iam_data.production_volumes
+            if hasattr(iam_data, "roadfreight_markets")
+            else None
         ),
         "Transport (trucks) - eff": (
-            iam_data.roadfreight_efficiencies if hasattr(iam_data, "roadfreight_efficiencies") else None
+            iam_data.roadfreight_efficiencies
+            if hasattr(iam_data, "roadfreight_efficiencies")
+            else None
         ),
         "Transport (trains)": (
-            iam_data.production_volumes if hasattr(iam_data, "railfreight_markets") else None
+            iam_data.production_volumes
+            if hasattr(iam_data, "railfreight_markets")
+            else None
         ),
         "Transport (trains) - eff": (
-            iam_data.railfreight_efficiencies if hasattr(iam_data, "railfreight_efficiencies") else None
+            iam_data.railfreight_efficiencies
+            if hasattr(iam_data, "railfreight_efficiencies")
+            else None
         ),
     }
 

@@ -24,7 +24,6 @@ from .filesystem_constants import DATA_DIR, IAM_OUTPUT_DIR, VARIABLES_DIR
 from .geomap import Geomap
 from .marginal_mixes import consequential_method
 
-
 IAM_ELEC_VARS = VARIABLES_DIR / "electricity_variables.yaml"
 IAM_FUELS_VARS = VARIABLES_DIR / "fuels_variables.yaml"
 IAM_BIOMASS_VARS = VARIABLES_DIR / "biomass_variables.yaml"
@@ -216,6 +215,7 @@ def get_gains_EU_data() -> xr.DataArray:
 
     return array
 
+
 def fix_efficiencies(data: xr.DataArray, min_year: int) -> xr.DataArray:
     """
     Fix the efficiency data to ensure plausibility.
@@ -377,11 +377,11 @@ class IAMDataCollection:
         other_vars = self.__get_iam_variable_labels(
             IAM_OTHER_VARS, variable="iam_aliases"
         )
-        
+
         roadfreight_prod_vars = self.__get_iam_variable_labels(
             IAM_TRANS_ROADFREIGHT_VARS, variable="iam_aliases"
         )
-        
+
         roadfreight_energy_vars = self.__get_iam_variable_labels(
             IAM_TRANS_ROADFREIGHT_VARS, variable="energy_use_aliases"
         )
@@ -389,7 +389,7 @@ class IAMDataCollection:
         railfreight_prod_vars = self.__get_iam_variable_labels(
             IAM_TRANS_RAILFREIGHT_VARS, variable="iam_aliases"
         )
-        
+
         railfreight_energy_vars = self.__get_iam_variable_labels(
             IAM_TRANS_RAILFREIGHT_VARS, variable="energy_use_aliases"
         )
@@ -463,7 +463,7 @@ class IAMDataCollection:
                 fuel_prod_vars if "liquid fossil fuels" in fuel_prod_vars else None
             ),
         )
-        
+
         self.data = data
 
         self.regions = data.region.values.tolist()
@@ -613,39 +613,39 @@ class IAMDataCollection:
             normalize=False,
             system_model="cutoff",
         )
-        
+
         self.roadfreight_markets = self.__fetch_market_data(
             data=data,
             input_vars=roadfreight_prod_vars,
-            system_model="cutoff", # TODO: check how to handle this for consequencial
+            system_model="cutoff",  # TODO: check how to handle this for consequencial
             sector="transport",
         )
-        
+
         self.railfreight_markets = self.__fetch_market_data(
             data=data,
             input_vars=railfreight_prod_vars,
-            system_model="cutoff", # TODO: check how to handle this for consequencial
+            system_model="cutoff",  # TODO: check how to handle this for consequencial
             sector="transport",
         )
 
         self.passenger_car_markets = self.__fetch_market_data(
             data=data,
             input_vars=passenger_cars_prod_vars,
-            system_model="cutoff", # TODO: check how to handle this for consequencial
+            system_model="cutoff",  # TODO: check how to handle this for consequencial
             sector="transport",
         )
 
         self.bus_markets = self.__fetch_market_data(
             data=data,
             input_vars=bus_prod_vars,
-            system_model="cutoff", # TODO: check how to handle this for consequencial
+            system_model="cutoff",  # TODO: check how to handle this for consequencial
             sector="transport",
         )
 
         self.two_wheelers_markets = self.__fetch_market_data(
             data=data,
             input_vars=two_wheelers_prod_vars,
-            system_model="cutoff", # TODO: check how to handle this for consequencial
+            system_model="cutoff",  # TODO: check how to handle this for consequencial
             sector="transport",
         )
 
@@ -761,13 +761,13 @@ class IAMDataCollection:
             production_labels=dac_prod_vars,
             energy_labels=dac_electricity_vars,
         )
-        
+
         self.roadfreight_efficiencies = self.get_iam_efficiencies(
             data=data,
             production_labels=roadfreight_prod_vars,
             energy_labels=roadfreight_energy_vars,
         )
-        
+
         self.railfreight_efficiencies = self.get_iam_efficiencies(
             data=data,
             production_labels=railfreight_prod_vars,
