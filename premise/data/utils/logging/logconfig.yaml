@@ -72,6 +72,14 @@ handlers:
     formatter: simple
     mode: a
 
+  file_transport:
+    class: logging.FileHandler
+    level: INFO
+    filename: "export/logs/premise_transport.log"
+    encoding: utf8
+    formatter: simple
+    mode: a
+
   file_emissions:
     class: logging.FileHandler
     level: INFO
@@ -135,6 +143,11 @@ loggers:
   heat:
     level: INFO
     handlers: [ file_heat ]
+    propagate: False
+
+  transport:
+    level: INFO
+    handlers: [ file_transport ]
     propagate: False
 
   emissions:

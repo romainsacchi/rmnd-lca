@@ -1,0 +1,267 @@
+# This file maps newly created and imported transport LCIs to ecoinvnet transport LCIs to be replaced
+---
+
+# Mapping of newly created and imported transport LCIs to ecoinvent transport LCIs to be replaced
+freight transport:
+  remind:
+    transport, freight, lorry, unspecified: market for transport, freight, lorry, unspecified powertrain
+    transport, freight, lorry 3.5-7.5 metric ton: market for transport, freight, lorry, 3.5t gross weight, unspecified powertrain
+    transport, freight, lorry 7.5-16 metric ton: market for transport, freight, lorry, 7.5t gross weight, unspecified powertrain
+    transport, freight, lorry 16-32 metric ton: market for transport, freight, lorry, 26t gross weight, unspecified powertrain
+    transport, freight, lorry >32 metric ton: market for transport, freight, lorry, 40t gross weight, unspecified powertrain
+    transport, freight, lorry, all sizes: market for transport, freight, lorry, unspecified powertrain
+    transport, freight, lorry 28 metric ton, fatty acid methyl ester 100%: market for transport, freight, lorry, 26t gross weight, unspecified powertrain
+    transport, freight, lorry with reefer, cooling: market for transport, freight, lorry, unspecified powertrain
+    transport, freight, lorry with reefer, freezing: market for transport, freight, lorry, unspecified powertrain
+    transport, freight, lorry with refrigeration machine, 3.5-7.5 ton: market for transport, freight, lorry, 3.5t gross weight, unspecified powertrain
+    transport, freight, lorry with refrigeration machine, 7.5-16 ton: market for transport, freight, lorry, 7.5t gross weight, unspecified powertrain
+    transport, freight, lorry with refrigeration machine, cooling: market for transport, freight, lorry, unspecified powertrain
+    transport, freight, lorry with refrigeration machine, freezing: market for transport, freight, lorry, unspecified powertrain
+    transport, freight train: market for transport, freight train, unspecified powertrain
+    transport, freight, train with reefer, cooling: market for transport, freight train, unspecified powertrain
+    transport, freight, train with reefer, freezing: market for transport, freight train, unspecified powertrain
+
+  image: # tbd
+
+# Mapping of energy carriers used as inputs to transport processes
+energy carriers:
+  - market group for electricity
+  - market for electricity
+  - market group for diesel
+  - market for diesel
+  - market for hydrogen
+  - market for natural gas
+
+# Mapping of environemntal extensions from direct fuel combustion in transport processes
+fuel combustion emissions:
+  - Ammonia
+  - Benzene
+  - Cadmium
+  - Carbon dioxide, fossil
+  - Carbon monoxide, fossil
+  - Chromium
+  - Copper ion
+  - Dinitrogen monoxide
+  - Lead
+  - Mercury
+  - Methane, fossil
+  - NMVOC, non-methane volatile organic compounds
+  - Nickel
+  - Nitrogen oxides
+  - PAH, polycyclic aromatic hydrocarbons
+  - Particulate Matter, < 2.5 um
+  - Particulates, < 2.5 um
+  - Particulate Matter, > 10 um
+  - Particulate Matter, > 2.5 um and < 10um
+  - Selenium
+  - Sulfur dioxide
+  - Toluene
+  - Xylenes, unspecified
+  - Zinc
+
+
+# Mapping of transport datasets to Energy Service (ES) IAM variables
+energy service variables:
+  remind:
+    mode:
+      market for transport, freight, lorry, unspecified powertrain: ES|Transport|Freight|Road
+      market for transport, freight train, unspecified powertrain: ES|Transport|Freight|Rail
+    size:
+      market for transport, freight, lorry, 3.5t gross weight, unspecified powertrain: ES|Transport|Freight|Road|Truck (0-3.5t)
+      market for transport, freight, lorry, 7.5t gross weight, unspecified powertrain: ES|Transport|Freight|Road|Truck (7.5t)
+      market for transport, freight, lorry, 18t gross weight, unspecified powertrain: ES|Transport|Freight|Road|Truck (18t)
+      market for transport, freight, lorry, 26t gross weight, unspecified powertrain: ES|Transport|Freight|Road|Truck (26t)
+      market for transport, freight, lorry, 40t gross weight, unspecified powertrain: ES|Transport|Freight|Road|Truck (40t)
+
+
+# Mapping of IAM vehicle categories to transport datasets
+vehicle types:
+    Electric: transport, freight, lorry, battery electric, NMC-622 battery
+    Liquids: transport, freight, lorry, diesel
+    Gases: transport, freight, lorry, compressed gas
+    FCEV: transport, freight, lorry, fuel cell electric
+
+
+# Mapping of ecoinvent datasets to be deleted after new inventories are imported and markets built
+ecoinvent freight transport:
+  - transport, freight train
+  - market for transport, freight train
+  - market group for transport, freight train
+  - transport, freight train, diesel
+  - transport, freight train, electricity
+  - transport, freight train, steam
+  - transport, freight train, diesel, with particle filter
+  - market for transport, freight, train with reefer, cooling
+  - market for transport, freight, train with reefer, freezing
+  - transport, freight, train with reefer, cooling
+  - transport, freight, train with reefer, freezing
+  - market group for transport, freight train
+  - market group for transport, freight, lorry, unspecified
+  - market for transport, freight, lorry, unspecified
+  - transport, freight, lorry, all sizes, EURO1 to generic market for transport, freight, lorry, unspecified
+  - transport, freight, lorry, all sizes, EURO2 to generic market for transport, freight, lorry, unspecified
+  - transport, freight, lorry, all sizes, EURO3 to generic market for transport, freight, lorry, unspecified
+  - transport, freight, lorry, all sizes, EURO4 to generic market for transport, freight, lorry, unspecified
+  - transport, freight, lorry, all sizes, EURO5 to generic market for transport, freight, lorry, unspecified
+  - transport, freight, lorry, all sizes, EURO6 to generic market for transport, freight, lorry, unspecified
+  - transport, freight, lorry, all sizes, unregulated to generic market for transport, freight, lorry, unspecified
+  - transport, freight, lorry 3.5-7.5 metric ton, EURO1
+  - transport, freight, lorry 3.5-7.5 metric ton, EURO2
+  - transport, freight, lorry 3.5-7.5 metric ton, EURO3
+  - transport, freight, lorry 3.5-7.5 metric ton, EURO4
+  - transport, freight, lorry 3.5-7.5 metric ton, EURO5
+  - transport, freight, lorry 3.5-7.5 metric ton, EURO6
+  - transport, freight, lorry 3.5-7.5 metric ton, unregulated
+  - transport, freight, lorry 7.5-16 metric ton, EURO1
+  - transport, freight, lorry 7.5-16 metric ton, EURO2
+  - transport, freight, lorry 7.5-16 metric ton, EURO3
+  - transport, freight, lorry 7.5-16 metric ton, EURO4
+  - transport, freight, lorry 7.5-16 metric ton, EURO5
+  - transport, freight, lorry 7.5-16 metric ton, EURO6
+  - transport, freight, lorry 7.5-16 metric ton, unregulated
+  - transport, freight, lorry 16-32 metric ton, EURO1
+  - transport, freight, lorry 16-32 metric ton, EURO2
+  - transport, freight, lorry 16-32 metric ton, EURO3
+  - transport, freight, lorry 16-32 metric ton, EURO4
+  - transport, freight, lorry 16-32 metric ton, EURO5
+  - transport, freight, lorry 16-32 metric ton, EURO6
+  - transport, freight, lorry 16-32 metric ton, unregulated
+  - transport, freight, lorry >32 metric ton, EURO1
+  - transport, freight, lorry >32 metric ton, EURO2
+  - transport, freight, lorry >32 metric ton, EURO3
+  - transport, freight, lorry >32 metric ton, EURO4
+  - transport, freight, lorry >32 metric ton, EURO5
+  - transport, freight, lorry >32 metric ton, EURO6
+  - transport, freight, lorry >32 metric ton, unregulated
+  - market for transport, freight, lorry 3.5-7.5 metric ton, EURO1
+  - market for transport, freight, lorry 3.5-7.5 metric ton, EURO2
+  - market for transport, freight, lorry 3.5-7.5 metric ton, EURO3
+  - market for transport, freight, lorry 3.5-7.5 metric ton, EURO4
+  - market for transport, freight, lorry 3.5-7.5 metric ton, EURO5
+  - market for transport, freight, lorry 3.5-7.5 metric ton, EURO6
+  - market for transport, freight, lorry 3.5-7.5 metric ton, unregulated
+  - market for transport, freight, lorry 7.5-16 metric ton, EURO1
+  - market for transport, freight, lorry 7.5-16 metric ton, EURO2
+  - market for transport, freight, lorry 7.5-16 metric ton, EURO3
+  - market for transport, freight, lorry 7.5-16 metric ton, EURO4
+  - market for transport, freight, lorry 7.5-16 metric ton, EURO5
+  - market for transport, freight, lorry 7.5-16 metric ton, EURO6
+  - market for transport, freight, lorry 7.5-16 metric ton, unregulated
+  - market for transport, freight, lorry 16-32 metric ton, EURO1
+  - market for transport, freight, lorry 16-32 metric ton, EURO2
+  - market for transport, freight, lorry 16-32 metric ton, EURO3
+  - market for transport, freight, lorry 16-32 metric ton, EURO4
+  - market for transport, freight, lorry 16-32 metric ton, EURO5
+  - market for transport, freight, lorry 16-32 metric ton, EURO6
+  - market for transport, freight, lorry 16-32 metric ton, unregulated
+  - market for transport, freight, lorry >32 metric ton, EURO1
+  - market for transport, freight, lorry >32 metric ton, EURO2
+  - market for transport, freight, lorry >32 metric ton, EURO3
+  - market for transport, freight, lorry >32 metric ton, EURO4
+  - market for transport, freight, lorry >32 metric ton, EURO5
+  - market for transport, freight, lorry >32 metric ton, EURO6
+  - market for transport, freight, lorry >32 metric ton, unregulated
+  - market group for transport, freight, lorry 28 metric ton, fatty acid methyl ester 100%
+  - market for transport, freight, lorry 28 metric ton, fatty acid methyl ester 100%
+  - transport, freight, lorry 28 metric ton, fatty acid methyl ester 100%
+  - market for transport, freight, lorry with reefer, cooling
+  - market for transport, freight, lorry with reefer, freezing
+  - transport, freight, lorry with reefer, cooling
+  - transport, freight, lorry with reefer, freezing
+  - market for transport, freight, lorry with refrigeration machine, cooling
+  - market for transport, freight, lorry with refrigeration machine, freezing
+  - transport, freight, small lorry with refrigeration machine, EURO3, CO2 refrigerant, cooling to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO3, R134a refrigerant, cooling to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO4, CO2 refrigerant, cooling to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO4, R134a refrigerant, cooling to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO5, CO2 refrigerant, cooling to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO5, R134a refrigerant, cooling to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO6, CO2 refrigerant, cooling to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO6, R134a refrigerant, cooling to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO3, CO2 refrigerant, freezing to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO3, R134a refrigerant, freezing to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO4, CO2 refrigerant, freezing to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO4, R134a refrigerant, freezing to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO5, CO2 refrigerant, freezing to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO5, R134a refrigerant, freezing to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO6, CO2 refrigerant, freezing to generic market
+  - transport, freight, small lorry with refrigeration machine, EURO6, R134a refrigerant, freezing to generic market
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO3, carbon dioxide, liquid refri(...)_1
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO3, carbon dioxide, liquid refri(...)_1
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO3, R134a refrigerant, cooling
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO3, R134a refrigerant, cooling
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO4, carbon dioxide, liquid refri(...)_1
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO4, carbon dioxide, liquid refri(...)_1
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO4, R134a refrigerant, cooling
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO4, R134a refrigerant, cooling
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO5, carbon dioxide, liquid refri(...)_1
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO5, carbon dioxide, liquid refri(...)_1
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO5, R134a refrigerant, cooling
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO5, R134a refrigerant, cooling
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO6, carbon dioxide, liquid refri(...)_1
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, carbon dioxide, liquid refri(...)_1
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO6, R134a refrigerant, cooling
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, R134a refrigerant, cooling
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO3, carbon dioxide, liquid refr(...)_11
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO3, carbon dioxide, liquid refr(...)_11
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO3, R134a refrigerant, freezing
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO3, R134a refrigerant, freezing
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO4, carbon dioxide, liquid refr(...)_11
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO4, carbon dioxide, liquid refr(...)_11
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO4, R134a refrigerant, freezing
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO4, R134a refrigerant, freezing
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO5, carbon dioxide, liquid refr(...)_11
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO5, carbon dioxide, liquid refr(...)_11
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO5, R134a refrigerant, freezing
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO5, R134a refrigerant, freezing
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO6, carbon dioxide, liquid refr(...)_11
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, carbon dioxide, liquid refr(...)_11
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO6, carbon dioxide, liquid refr(...)_13
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO6, carbon dioxide, liquid refri(...)_5
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO5, carbon dioxide, liquid refri(...)_3
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO4, carbon dioxide, liquid refrig(...)_6
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO5, carbon dioxide, liquid refri(...)_16
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO4, carbon dioxide, liquid refri(...)_2
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO3, carbon dioxide, liquid refri(...)_14
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO5, carbon dioxide, liquid refrig(...)_8
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO5, carbon dioxide, liquid refri(...)_7
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, carbon dioxide, liquid refri(...)_15
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO3, carbon dioxide, liquid refrig(...)_4
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO4, carbon dioxide, liquid refri(...)_12
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, carbon dioxide, liquid refrig(...)_9
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO4, carbon dioxide, liquid refr(...)_10
+  - market for transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO6, R134a refrigerant, freezing
+  - market for transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, R134a refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO3, carbon dioxide, liquid refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO3, carbon dioxide, liquid refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO3, R134a refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO3, R134a refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO4, carbon dioxide, liquid refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO4, carbon dioxide, liquid refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO4, R134a refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO4, R134a refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO5, carbon dioxide, liquid refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO5, carbon dioxide, liquid refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO5, R134a refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO5, R134a refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO6, carbon dioxide, liquid refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, carbon dioxide, liquid refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO6, R134a refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, R134a refrigerant, cooling
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO3, carbon dioxide, liquid refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO3, carbon dioxide, liquid refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO3, R134a refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO3, R134a refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO4, carbon dioxide, liquid refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO4, carbon dioxide, liquid refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO4, R134a refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO4, R134a refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO5, carbon dioxide, liquid refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO5, carbon dioxide, liquid refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO5, R134a refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO5, R134a refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO6, carbon dioxide, liquid refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO6, carbon dioxide, liquid refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, carbon dioxide, liquid refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 3.5-7.5 ton, EURO6, R134a refrigerant, freezing
+  - transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, R134a refrigerant, freezing

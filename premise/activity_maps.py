@@ -22,6 +22,11 @@ GAINS_MAPPING = (
     DATA_DIR / "GAINS_emission_factors" / "gains_ecoinvent_sectoral_mapping.yaml"
 )
 HEAT_TECHS = VARIABLES_DIR / "heat_variables.yaml"
+PASSENGER_CARS = VARIABLES_DIR / "transport_passenger_cars_variables.yaml"
+TWO_WHEELERS = VARIABLES_DIR / "transport_two_wheelers_variables.yaml"
+BUSES = VARIABLES_DIR / "transport_bus_variables.yaml"
+TRUCKS = VARIABLES_DIR / "transport_roadfreight_variables.yaml"
+TRAINS = VARIABLES_DIR / "transport_railfreight_variables.yaml"
 
 
 def get_mapping(filepath: Path, var: str, model: str = None) -> dict:
@@ -263,6 +268,60 @@ class InventorySet:
         a set of related ecoinvent activities' names as values.
         """
         return self.generate_sets_from_filters(self.materials_filters)
+
+    def generate_transport_map(self, transport_type: str) -> dict:
+        """
+        Filter ecoinvent processes related to transport.
+        Rerurns a dictionary with transport type as keys (see below) and
+        a set of related ecoinvent activities' names as values.
+        """
+        if transport_type == "car":
+            return self.generate_sets_from_filters(
+                get_mapping(filepath=PASSENGER_CARS, var="ecoinvent_aliases")
+            )
+        elif transport_type == "two-wheeler":
+            return self.generate_sets_from_filters(
+                get_mapping(filepath=TWO_WHEELERS, var="ecoinvent_aliases")
+            )
+        elif transport_type == "bus":
+            return self.generate_sets_from_filters(
+                get_mapping(filepath=BUSES, var="ecoinvent_aliases")
+            )
+        elif transport_type == "truck":
+            return self.generate_sets_from_filters(
+                get_mapping(filepath=TRUCKS, var="ecoinvent_aliases")
+            )
+        elif transport_type == "train":
+            return self.generate_sets_from_filters(
+                get_mapping(filepath=TRAINS, var="ecoinvent_aliases")
+            )
+
+    def generate_vehicle_fuel_map(self, transport_type: str) -> dict:
+        """
+        Filter ecoinvent processes related to transport fuels.
+        Rerurns a dictionary with transport type as keys (see below) and
+        a set of related ecoinvent activities' names as values.
+        """
+        if transport_type == "car":
+            return self.generate_sets_from_filters(
+                get_mapping(filepath=PASSENGER_CARS, var="ecoinvent_fuel_aliases")
+            )
+        elif transport_type == "two-wheeler":
+            return self.generate_sets_from_filters(
+                get_mapping(filepath=TWO_WHEELERS, var="ecoinvent_fuel_aliases")
+            )
+        elif transport_type == "bus":
+            return self.generate_sets_from_filters(
+                get_mapping(filepath=BUSES, var="ecoinvent_fuel_aliases")
+            )
+        elif transport_type == "truck":
+            return self.generate_sets_from_filters(
+                get_mapping(filepath=TRUCKS, var="ecoinvent_fuel_aliases")
+            )
+        elif transport_type == "train":
+            return self.generate_sets_from_filters(
+                get_mapping(filepath=TRAINS, var="ecoinvent_fuel_aliases")
+            )
 
     def generate_sets_from_filters(self, filtr: dict, database=None) -> dict:
         """

@@ -27,6 +27,11 @@ IAM_BIOMASS_VARS = VARIABLES_DIR / "biomass_variables.yaml"
 IAM_CEMENT_VARS = VARIABLES_DIR / "cement_variables.yaml"
 IAM_STEEL_VARS = VARIABLES_DIR / "steel_variables.yaml"
 IAM_DACCS_VARS = VARIABLES_DIR / "direct_air_capture_variables.yaml"
+IAM_TRSPT_TWO_WHEELERS_VARS = VARIABLES_DIR / "transport_two_wheelers_variables.yaml"
+IAM_TRSPT_CARS_VARS = VARIABLES_DIR / "transport_passenger_cars_variables.yaml"
+IAM_TRSPT_BUSES_VARS = VARIABLES_DIR / "transport_bus_variables.yaml"
+IAM_TRSPT_TRUCKS_VARS = VARIABLES_DIR / "transport_roadfreight_variables.yaml"
+IAM_TRSPT_TRAINS_VARS = VARIABLES_DIR / "transport_railfreight_variables.yaml"
 IAM_OTHER_VARS = VARIABLES_DIR / "other_variables.yaml"
 IAM_CARBON_CAPTURE_VARS = VARIABLES_DIR / "carbon_capture_variables.yaml"
 REPORT_METADATA_FILEPATH = DATA_DIR / "utils" / "report" / "report.yaml"
@@ -182,23 +187,40 @@ def fetch_data(
             if hasattr(iam_data, "dac_electricity_efficiencies")
             else None
         ),
+        "Transport (two-wheelers)": (
+            iam_data.production_volumes if hasattr(iam_data, "two_wheelers_markets") else None
+        ),
+        "Transport (two-wheelers) - eff": (
+            iam_data.two_wheelers_efficiencies if hasattr(iam_data, "two_wheelers_efficiencies") else None
+        ),
         "Transport (cars)": (
-            iam_data.trsp_cars if hasattr(iam_data, "trsp_cars") else None
+            iam_data.production_volumes if hasattr(iam_data, "passenger_car_markets") else None
+        ),
+        "Transport (cars) - eff": (
+            iam_data.passenger_car_efficiencies if hasattr(iam_data, "passenger_car_efficiencies") else None
         ),
         "Transport (buses)": (
-            iam_data.trsp_buses if hasattr(iam_data, "trsp_buses") else None
+            iam_data.production_volumes if hasattr(iam_data, "bus_markets") else None
+        ),
+        "Transport (buses) - eff": (
+            iam_data.bus_efficiencies if hasattr(iam_data, "bus_efficiencies") else None
         ),
         "Transport (trucks)": (
-            iam_data.trsp_trucks if hasattr(iam_data, "trsp_trucks") else None
+            iam_data.production_volumes if hasattr(iam_data, "roadfreight_markets") else None
+        ),
+        "Transport (trucks) - eff": (
+            iam_data.roadfreight_efficiencies if hasattr(iam_data, "roadfreight_efficiencies") else None
+        ),
+        "Transport (trains)": (
+            iam_data.production_volumes if hasattr(iam_data, "railfreight_markets") else None
+        ),
+        "Transport (trains) - eff": (
+            iam_data.railfreight_efficiencies if hasattr(iam_data, "railfreight_efficiencies") else None
         ),
     }
 
     if data[sector] is not None:
         iam_data = data[sector]
-
-        if any(x in sector for x in ["car", "bus", "truck"]):
-            iam_data = iam_data.sum(dim="size")
-            iam_data = iam_data.rename({"powertrain": "variables"}).T
 
         return iam_data.sel(
             variables=[v for v in variable if v in iam_data.coords["variables"].values]
@@ -344,45 +366,39 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
             "filepath": IAM_DACCS_VARS,
             "variables": ["dac_solvent"],
         },
+        "Transport (two-wheelers)": {
+            "filepath": IAM_TRSPT_TWO_WHEELERS_VARS,
+        },
+        "Transport (two-wheelers) - eff": {
+            "filepath": IAM_TRSPT_TWO_WHEELERS_VARS,
+        },
         "Transport (cars)": {
-            "filepath": VEHICLES_MAP,
-            "variables": [
-                "BEV",
-                "FCEV",
-                "ICEV-d",
-                "ICEV-g",
-                "ICEV-p",
-                "PHEV-d",
-                "PHEV-p",
-            ],
+            "filepath": IAM_TRSPT_CARS_VARS,
+        },
+        "Transport (cars) - eff": {
+            "filepath": IAM_TRSPT_CARS_VARS,
         },
         "Transport (buses)": {
-            "filepath": VEHICLES_MAP,
-            "variables": [
-                "BEV",
-                "FCEV",
-                "ICEV-d",
-                "ICEV-g",
-                "ICEV-p",
-                "PHEV-d",
-                "PHEV-p",
-            ],
+            "filepath": IAM_TRSPT_BUSES_VARS,
+        },
+        "Transport (buses) - eff": {
+            "filepath": IAM_TRSPT_BUSES_VARS,
         },
         "Transport (trucks)": {
-            "filepath": VEHICLES_MAP,
-            "variables": [
-                "BEV",
-                "FCEV",
-                "ICEV-d",
-                "ICEV-g",
-                "ICEV-p",
-                "PHEV-d",
-                "PHEV-p",
-            ],
+            "filepath": IAM_TRSPT_TRUCKS_VARS,
+        },
+        "Transport (trucks) - eff": {
+            "filepath": IAM_TRSPT_TRUCKS_VARS,
+        },
+        "Transport (trains)": {
+            "filepath": IAM_TRSPT_TRAINS_VARS,
+        },
+        "Transport (trains) - eff": {
+            "filepath": IAM_TRSPT_TRAINS_VARS,
         },
     }
 
-    with open(REPORT_METADATA_FILEPATH, "r", encoding="utf-8") as stream:
+    with open(REPORT_METADATA_FILEPATH, encoding="utf-8") as stream:
         metadata = yaml.safe_load(stream)
 
     workbook = openpyxl.Workbook()
@@ -423,7 +439,7 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
                 )
 
                 if "CCS" in sector and iam_data is not None:
-                    iam_data = iam_data * 100
+                    iam_data *= 100
 
                 if iam_data is None:
                     continue
@@ -500,7 +516,7 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
                             chart = LineChart()
                         elif "CCS" in sector:
                             chart = AreaChart()
-                        elif "Transport" in sector:
+                        elif "Transport" in sector and "eff" not in sector:
                             chart = AreaChart(grouping="stacked")
                         else:
                             chart = LineChart()
