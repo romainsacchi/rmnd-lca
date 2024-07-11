@@ -278,11 +278,15 @@ class InventorySet:
         mapping = {}
         if transport_type == "car":
             mapping = self.generate_sets_from_filters(
-                get_mapping(filepath=PASSENGER_CARS, var="ecoinvent_aliases", model=self.model)
+                get_mapping(
+                    filepath=PASSENGER_CARS, var="ecoinvent_aliases", model=self.model
+                )
             )
         elif transport_type == "two-wheeler":
             mapping = self.generate_sets_from_filters(
-                get_mapping(filepath=TWO_WHEELERS, var="ecoinvent_aliases", model=self.model)
+                get_mapping(
+                    filepath=TWO_WHEELERS, var="ecoinvent_aliases", model=self.model
+                )
             )
         elif transport_type == "bus":
             mapping = self.generate_sets_from_filters(

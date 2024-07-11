@@ -6,15 +6,9 @@ terms of cell energy density.
 
 import yaml
 
-from .logger import create_logger
-from .transformation import (
-    BaseTransformation,
-    IAMDataCollection,
-    List,
-    np,
-    ws,
-)
 from .filesystem_constants import DATA_DIR
+from .logger import create_logger
+from .transformation import BaseTransformation, IAMDataCollection, List, np, ws
 
 logger = create_logger("battery")
 
@@ -94,10 +88,7 @@ class Battery(BaseTransformation):
 
         energy_density = load_cell_energy_density()
 
-        filters = [
-            ws.contains("name", x)
-            for x in energy_density
-        ]
+        filters = [ws.contains("name", x) for x in energy_density]
 
         for ds in ws.get_many(
             self.database,
@@ -116,21 +107,17 @@ class Battery(BaseTransformation):
             ),
         ):
 
-            for exc in ws.technosphere(
-                ds, ws.either(*filters)
-            ):
+            for exc in ws.technosphere(ds, ws.either(*filters)):
                 name = [x for x in energy_density if x in exc["name"]][0]
 
-                scaling_factor = (
-                    energy_density[name][2020] / np.clip(
-                        np.interp(
-                            self.year,
-                            list(energy_density[name].keys()),
-                            list(energy_density[name].values()),
-                        ),
-                        0.1,
-                        0.5
-                    )
+                scaling_factor = energy_density[name][2020] / np.clip(
+                    np.interp(
+                        self.year,
+                        list(energy_density[name].keys()),
+                        list(energy_density[name].values()),
+                    ),
+                    0.1,
+                    0.5,
                 )
 
                 if "log parameters" not in ds:
