@@ -235,8 +235,8 @@ class Cement(BaseTransformation):
                     }
                 )
 
-                # remove 525 kg for calcination
-                exc["amount"] = 0.525 + (total_fossil_CO2 / 1000)
+                # remove 543 kg for calcination
+                exc["amount"] = 0.543 + (total_fossil_CO2 / 1000)
                 dataset["log parameters"].update(
                     {
                         "new fossil CO2": exc["amount"],
@@ -286,7 +286,7 @@ class Cement(BaseTransformation):
 
                 for region, dataset in datasets.items():
                     for exc in ws.technosphere(
-                        dataset, ws.contains("name", "heat production")
+                        dataset, ws.contains("unit", "megajoule")
                     ):
                         exc["amount"] = fossil_heat_input
 
@@ -342,6 +342,9 @@ class Cement(BaseTransformation):
             name="clinker production",
             ref_prod="clinker",
             production_variable="cement, dry feed rotary kiln",
+            geo_mapping={
+                r: "Europe without Switzerland" for r in self.regions
+            }
         )
 
         for variable in variables:
@@ -374,6 +377,11 @@ class Cement(BaseTransformation):
                     current_energy_input_per_ton_clinker = sum(
                         d["energy"] for d in energy_details.values()
                     )
+
+                    if region=="WEU":
+                        from pprint import pprint
+                        print(region, current_energy_input_per_ton_clinker)
+                        pprint(energy_details)
 
                     # fetch the amount of biogenic CO2 emissions
                     bio_CO2 = sum(
@@ -419,6 +427,8 @@ class Cement(BaseTransformation):
                     current_energy_input_per_ton_clinker += (
                         energy_input_waste_fuel * 1000
                     )
+                    if region=="WEU":
+                        print(current_energy_input_per_ton_clinker)
 
                     # add the waste fuel input to the dataset
                     if amount_waste_fuel != 0:
@@ -456,6 +466,9 @@ class Cement(BaseTransformation):
                         location=dataset["location"],
                     )
 
+                    if region=="WEU":
+                        print(scaling_factor)
+
                     new_energy_input_per_ton_clinker = 0
 
                     if not np.isnan(scaling_factor) and scaling_factor > 0.0:
@@ -464,6 +477,8 @@ class Cement(BaseTransformation):
                         new_energy_input_per_ton_clinker = (
                             current_energy_input_per_ton_clinker * scaling_factor
                         )
+                        if region=="WEU":
+                            print("new", new_energy_input_per_ton_clinker)
 
                         # put a floor value of 3100 kj/kg clinker
                         if new_energy_input_per_ton_clinker < 3100:
@@ -476,6 +491,9 @@ class Cement(BaseTransformation):
                             new_energy_input_per_ton_clinker
                             / current_energy_input_per_ton_clinker
                         )
+
+                        if region=="WEU":
+                            print("new scaling factor", scaling_factor)
 
                         # but if efficient kiln, set the energy input to 3100 kJ/kg clinker
                         if variable.startswith(
@@ -556,7 +574,7 @@ class Cement(BaseTransformation):
                             "cement, dry feed rotary kiln, efficient, with on-site CCS": {
                                 "name": "carbon dioxide, captured at cement production plant, using direct separation",
                                 "reference product": "carbon dioxide, captured at cement plant",
-                                "capture share": 0.9,  # only 90% of process emissions (calcination) are captured
+                                "capture share": 0.95,  # 95% of process emissions (calcination) are captured
                             },
                             "cement, dry feed rotary kiln, efficient, with oxyfuel CCS": {
                                 "name": "carbon dioxide, captured at cement production plant, using oxyfuel",
@@ -584,7 +602,7 @@ class Cement(BaseTransformation):
                             ):
                                 # only 90% of process emissions (calcination) are captured
                                 CCS_amount = (
-                                    0.525 * ccs_datasets[variable]["capture share"]
+                                    0.543 * ccs_datasets[variable]["capture share"]
                                 )
                             else:
                                 CCS_amount = (
