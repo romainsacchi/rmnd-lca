@@ -342,9 +342,7 @@ class Cement(BaseTransformation):
             name="clinker production",
             ref_prod="clinker",
             production_variable="cement, dry feed rotary kiln",
-            geo_mapping={
-                r: "Europe without Switzerland" for r in self.regions
-            }
+            geo_mapping={r: "Europe without Switzerland" for r in self.regions},
         )
 
         for variable in variables:
@@ -378,8 +376,9 @@ class Cement(BaseTransformation):
                         d["energy"] for d in energy_details.values()
                     )
 
-                    if region=="WEU":
+                    if region == "WEU":
                         from pprint import pprint
+
                         print(region, current_energy_input_per_ton_clinker)
                         pprint(energy_details)
 
@@ -427,7 +426,7 @@ class Cement(BaseTransformation):
                     current_energy_input_per_ton_clinker += (
                         energy_input_waste_fuel * 1000
                     )
-                    if region=="WEU":
+                    if region == "WEU":
                         print(current_energy_input_per_ton_clinker)
 
                     # add the waste fuel input to the dataset
@@ -466,7 +465,7 @@ class Cement(BaseTransformation):
                         location=dataset["location"],
                     )
 
-                    if region=="WEU":
+                    if region == "WEU":
                         print(scaling_factor)
 
                     new_energy_input_per_ton_clinker = 0
@@ -477,7 +476,7 @@ class Cement(BaseTransformation):
                         new_energy_input_per_ton_clinker = (
                             current_energy_input_per_ton_clinker * scaling_factor
                         )
-                        if region=="WEU":
+                        if region == "WEU":
                             print("new", new_energy_input_per_ton_clinker)
 
                         # put a floor value of 3100 kj/kg clinker
@@ -492,7 +491,7 @@ class Cement(BaseTransformation):
                             / current_energy_input_per_ton_clinker
                         )
 
-                        if region=="WEU":
+                        if region == "WEU":
                             print("new scaling factor", scaling_factor)
 
                         # but if efficient kiln, set the energy input to 3100 kJ/kg clinker
