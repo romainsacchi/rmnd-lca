@@ -290,6 +290,10 @@ premise_cement:
         name: Initial energy input per ton clinker
         description: Energy input per ton clinker before adjustment (kj/kg)
         unit: kj/kg
+      energy scaling factor:
+        name: Energy scaling factor
+        description: Scaling factor the initial energy input is multiplied by
+        unit: 0-1
       new energy input per ton clinker:
         name: New energy input per ton clinker after adjustment
         description: Energy input per ton clinker after (kj/kg)
