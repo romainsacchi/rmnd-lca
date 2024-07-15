@@ -1,7 +1,7 @@
 Biogas CHP:
   ecoinvent_aliases:
     fltr:
-    - heat and power co-generation, biogas, gas engine
+      - heat and power co-generation, biogas, gas engine
     mask:
       reference product: heat
   ecoinvent_fuel_aliases:

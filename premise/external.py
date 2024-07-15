@@ -1079,6 +1079,10 @@ class ExternalScenario(BaseTransformation):
                             r for r in regions if r not in market_vars["except regions"]
                         ]
 
+                    # remove World region from regions
+                    if "World" in regions and len(regions) > 1:
+                        regions.remove("World")
+
                     # Loop through regions
                     for region in regions:
                         # Create market dictionary
@@ -1273,14 +1277,12 @@ class ExternalScenario(BaseTransformation):
                     # if there's more than one region,
                     # we create a World region
                     create_world_region = True
-                    if (
-                        "World" in regions
-                        or "World" in market_vars.get("except regions", [])
-                        or len(regions) == 1
+                    if len(regions) <= 1 or "World" in market_vars.get(
+                        "except regions", []
                     ):
                         create_world_region = False
 
-                    if create_world_region:
+                    if create_world_region is True:
                         world_market = self.fill_in_world_market(
                             market=market_vars,
                             regions=regions,

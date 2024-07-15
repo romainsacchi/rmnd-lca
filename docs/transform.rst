@@ -4,6 +4,83 @@ TRANSFORM
 A series of transformations are applied to the Life Cycle Inventory (LCI) database to align process performance
 and technology market shares with the outputs from the Integrated Assessment Model (IAM) scenario.
 
+Battery
+"""""""
+
+Inventories for several battery technologies are provided in *premise*.
+See EXTRACT/Import of additional inventories/Li-ion batteries for additional information.
+
+*premise* adjusts the mass of battery packs throughout the database
+to reflect progress in specific energy density (kWh/kg cell).
+
+
+Run
+
+.. code-block:: python
+
+    from premise import *
+    import brightway2 as bw
+
+    bw.projects.set_current("my_project)
+
+    ndb = NewDatabase(
+        scenarios=[
+                {"model":"remind", "pathway":"SSP2-Base", "year":2028}
+            ],
+        source_db="ecoinvent 3.7 cutoff",
+        source_version="3.7.1",
+        key='xxxxxxxxxxxxxxxxxxxxxxxxx'
+    )
+    ndb.update("battery")
+
+
+The table below shows the **current** specific energy density of
+different battery technologies.
+
+====================== ==================================== ==================== ================== ================= ===================
+Type                   Specific energy density (current)    BoP mass share [%]   Battery energy     kg battery/kWh      kg CO2-eq./kWh
+                       [kWh/kg cell]                                             density [kWh/kg
+                                                                                 battery]
+====================== ==================================== ==================== ================== ================= ===================
+Li-ion, NMC111         0.15                                 73%                  0.11               7.0               177
+Li-ion, NMC622         0.20                                 73%                  0.15               6.9               108
+Li-ion, NMC811         0.22                                 71%                  0.16               6.7               108
+Li-ion, NCA            0.23                                 71%                  0.16               6.3               100
+Li-ion, LFP            0.14                                 73%                  0.10               9.8               118
+Li-ion, LiMn2O4        0.13                                 80%                  0.10               9.6               92
+Li-ion, LTO            0.09                                 64%                  0.05               18.4              450
+Li-sulfur, Li-S        0.15                                 75%                  0.11               8.9               352
+Li-oxygen, Li-O2       0.36                                 55%                  0.20               5.1               125
+Sodium-ion, SiB        0.16                                 75%                  0.12               8.5               72
+====================== ==================================== ==================== ================== ================= ===================
+
+And the table below shows the **projected** (2050) specific energy density
+of different battery technologies.
+
+====================== ==================================== ==================== ================== ================
+Type                   Specific energy density (2050)       BoP mass share [%]   Battery energy     kg battery/kWh
+                       [kWh/kg cell]                                             density [kWh/kg
+                                                                                 battery]
+====================== ==================================== ==================== ================== ================
+Li-ion, NMC111         0.2                                  73%                  0.15               6.9
+Li-ion, NMC811         0.5                                  71%                  0.36               2.8
+Li-ion, NCA            0.35                                 71%                  0.25               4.0
+Li-ion, LFP            0.25                                 73%                  0.18               5.5
+Li-ion, LiMn2O4        0.2                                  80%                  0.16               6.3
+Li-ion, LTO            0.15                                 75%                  0.11               8.9
+Li-sulfur, Li-S        0.5                                  75%                  0.38               2.7
+Li-oxygen, Li-O2       0.50                                 64%                  0.20               5.1
+Sodium-ion, SiB        0.22                                 75%                  0.17               6.1
+====================== ==================================== ==================== ================== ================
+
+
+For example, in 2050, the mass of NMC811 batteries (cells and Balance of Plant) is expected to
+be 0.5/0.22 = 2.3 times lower for a same energy capacity. The report of changes
+shows the new mass of battery packs for each activity using them.
+
+The target values used for scaling can be modified by the user.
+The YAML file is located under premise/data/battery/energy_density.yaml.
+
 Biomass
 """""""
 

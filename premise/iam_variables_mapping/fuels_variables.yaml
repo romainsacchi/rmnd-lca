@@ -627,6 +627,10 @@ hydrogen, from natural gas:
     remind: Tech|Hydrogen|Gas|w/o CC|Efficiency
   ecoinvent_aliases:
     fltr: hydrogen production, steam methane reforming
+    mask:
+      name:
+        - biomethane
+        - CCS
 
 hydrogen, from natural gas, with CCS:
   lhv: 120
@@ -647,8 +651,10 @@ hydrogen, from biogas:
   co2: 0
   biogenic_share: 1
   ecoinvent_aliases:
-    fltr:
-      - hydrogen production, steam methane reforming, from biomethane
+    fltr: hydrogen production, steam methane reforming, from biomethane
+    mask:
+      name:
+        - CCS
 
 hydrogen, from biogas, with CCS:
   lhv: 120

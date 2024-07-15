@@ -69,7 +69,19 @@ def flag_activities_to_adjust(
     :return: dataset with additional info on variables to adjust
     """
 
-    regions = scenario_data["production volume"].region.values.tolist()
+    if "production volume variable" not in dataset_vars:
+        regions = scenario_data["production volume"].region.values.tolist()
+    else:
+        data = scenario_data["production volume"].sel(
+            variables=dataset_vars["production volume variable"]
+        )
+        # fetch regions which do not contain nan data
+        regions = [
+            r
+            for r in data.region.values.tolist()
+            if not np.isnan(data.sel(region=r).values).all()
+        ]
+
     if "except regions" in dataset_vars:
         regions = [r for r in regions if r not in dataset_vars["except regions"]]
 
@@ -279,7 +291,7 @@ def check_inventories(
             "except regions": val.get(
                 "except regions",
                 [
-                    "World",
+                    # "World",
                 ],
             ),
             "efficiency": val.get("efficiency", []),
@@ -464,17 +476,22 @@ def check_inventories(
 
         # Perform checks in order of preference
         for region in short_listed:
-            while short_listed[region] is None:
-                for location in sorted_candidate_locations:
-                    for check_func in check_functions:
-                        if check_func(region, location):
-                            # check the dataset was not previously emptied
-                            if (
-                                candidates_by_location[location].get("emptied", False)
-                                is False
-                            ):
-                                assign_candidate_if_empty(region, location)
-                                break
+            for location in sorted_candidate_locations:
+                for check_func in check_functions:
+                    if check_func(region, location):
+                        # check the dataset was not previously emptied
+                        if (
+                            candidates_by_location[location].get("emptied", False)
+                            is False
+                        ):
+                            assign_candidate_if_empty(region, location)
+                            break
+
+            if short_listed[region] is None:
+                if "RoW" in sorted_candidate_locations:
+                    assign_candidate_if_empty(region, "RoW")
+                else:
+                    assign_candidate_if_empty(region, location)
 
         return short_listed
 

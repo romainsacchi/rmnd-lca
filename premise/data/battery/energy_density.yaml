@@ -1,0 +1,94 @@
+# Battery cell energy densities, in kWh/kg cell
+---
+
+NMC111:
+  ecoinvent_aliases:
+    name:
+     - market for battery cell, Li-ion, NMC111
+     - market for battery, Li-ion, NMC111, rechargeable, prismatic
+  target:
+    2020: 0.150
+    2050: 0.200
+
+NMC622:
+  ecoinvent_aliases:
+    name:
+     - market for battery cell, Li-ion, NMC622
+     - market for battery, Li-ion, NMC622, rechargeable, prismatic
+  target:
+    2020: 0.200
+    2050: 0.350
+
+NMC811:
+  ecoinvent_aliases:
+    name:
+    - market for battery cell, Li-ion, NMC811
+    - market for battery, Li-ion, NMC811, rechargeable, prismatic
+  target:
+    2020: 0.220
+    2050: 0.500
+
+NCA:
+  ecoinvent_aliases:
+    name:
+     - market for battery cell, Li-ion, NCA
+     - market for battery, Li-ion, NCA, rechargeable, prismatic
+  target:
+      2020: 0.250
+      2050: 0.350
+
+LFP:
+  ecoinvent_aliases:
+    name:
+      - market for battery cell, Li-ion, LFP
+      - market for battery, Li-ion, LFP, rechargeable, prismatic
+  target:
+      2020: 0.140
+      2050: 0.250
+
+LTO:
+  ecoinvent_aliases:
+    name:
+      - market for battery cell, Li-ion, LTO
+      - market for battery, Li-ion, LTO
+  target:
+      2020: 0.080
+      2050: 0.150
+
+LMO:
+  ecoinvent_aliases:
+    name:
+      - market for battery cell, Li-ion, LiMn2O4
+      - market for battery, Li-ion, LiMn2O4, rechargeable, prismatic
+
+  target:
+      2020: 0.130
+      2050: 0.200
+
+Li-O2:
+  ecoinvent_aliases:
+    name: market for battery, Li-oxygen, Li-O2
+  target:
+      2020: 0.360
+      2050: 0.500
+
+Li-S:
+  ecoinvent_aliases:
+      name: market for battery, Li-sulfur, Li-S
+  target:
+      2020: 0.150
+      2050: 0.500
+
+SiB:
+  ecoinvent_aliases:
+    name: market for battery, Sodium-ion, SiB
+  target:
+      2020: 0.160
+      2050: 0.220
+
+BoP:
+  ecoinvent_aliases:
+    name: market for battery management system
+  target:
+      2020: 0.200
+      2050: 0.500

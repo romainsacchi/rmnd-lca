@@ -893,29 +893,31 @@ Li-ion batteries
 ----------------
 
 When using ecoinvent 3.8 as a database, *premise* imports new inventories for lithium-ion batteries.
-NMC-111, NMC-6222 NMC-811 and NCA Lithium-ion battery inventories are originally
+NMC-111, NMC-622 NMC-811 and NCA Lithium-ion battery inventories are originally
 from Dai_ et al. 2019. They have been adapted to ecoinvent by Crenna_ et al, 2021.
 LFP and LTO Lithium-ion battery inventories are from  Schmidt_ et al. 2019.
-Li-S battery inventories are from Wickerts_ et al. 2023.
-Li-O2 battery inventories are from Wang_ et al. 2020.
-Finally, SIB battery inventories are from Zhang22_ et al. 2024.
+Li-S (Lithium-sulfur) battery inventories are from Wickerts_ et al. 2023.
+Li-O2 (Lithium-air) battery inventories are from Wang_ et al. 2020.
+Finally, SIB (Sodium-ion) battery inventories are from Zhang22_ et al. 2024.
+Ecoinvent provides also inventories for LMO (Lithium Maganese Oxide) batteries.
 
 They introduce the following datasets:
 
- ========================================================== =========== ======================================
-  Battery components                                         location    source
- ========================================================== =========== ======================================
-  battery management system production, for Li-ion battery     GLO         Schmidt et al. 2019
-  battery cell production, Li-ion, NMC111                      GLO         Dai et al. 2019, Crenna et al. 2021
-  battery cell production, Li-ion, NMC622                      GLO         Dai et al. 2019, Crenna et al. 2021
-  battery cell production, Li-ion, NMC811                      GLO         Dai et al. 2019, Crenna et al. 2021
-  battery cell production, Li-ion, NCA                         GLO         Dai et al. 2019, Crenna et al. 2021
-  battery cell production, Li-ion, LFP                         GLO         Schmidt et al. 2019
-  battery cell production, Li-ion, LTO                         GLO         Schmidt et al. 2019
-  battery cell production, Li-S                                GLO         Wickerts et al. (2023)
-  battery cell production, Li-O2                               GLO         Wang et al. (2020)
-  battery cell production, SIB                                 GLO         Zhang et al. (2024)
- ========================================================== =========== ======================================
+ ============================================================= =========== ======================================
+  Battery components                                            location    source
+ ============================================================= =========== ======================================
+  battery management system production, for Li-ion battery        GLO         Schmidt et al. 2019
+  bmarket for battery, Li-ion, NMC111, rechargeable, prismatic    GLO         Dai et al. 2019, Crenna et al. 2021
+  market for battery, Li-ion, NMC622, rechargeable, prismatic     GLO         Dai et al. 2019, Crenna et al. 2021
+  market for battery, Li-ion, NMC811, rechargeable, prismatic     GLO         Dai et al. 2019, Crenna et al. 2021
+  market for battery, Li-ion, NCA, rechargeable, prismatic        GLO         Dai et al. 2019, Crenna et al. 2021
+  market for battery, Li-ion, LFP, rechargeable, prismatic        GLO         Schmidt et al. 2019
+  market for battery cell, Li-ion, LTO                            GLO         Schmidt et al. 2019
+  market for battery, Li-sulfur, Li-S                             GLO         Wickerts et al. (2023)
+  market for battery, Li-oxygen, Li-O2                            GLO         Wang et al. (2020)
+  market for battery, Sodium-ion, SiB                             GLO         Zhang et al. (2024)
+  market for battery, NaCl, rechargeable, prismatic               GLO         Galloway & Dustmann (2003)
+ ============================================================= =========== ======================================
 
 These battery inventories are mostly used by battery electric vehicles,
 stationary energy storage systems, etc. (also imported by *premise*).
@@ -926,8 +928,8 @@ Li-S inventories can be found here: LCI_batteries3_.
 Li-O2 inventories can be found here: LCI_batteries4_.
 And SIB inventories can be found here: LCI_batteries5_.
 
-When using ecoinvent 3.9 and above, the NMC-111, NMC-811, LFP and NCA battery inventories are not imported
-(as are already present the ecoinvent database).
+When using ecoinvent 3.9 and above, the NMC-111, NMC-811, LFP and NCA battery inventories
+are not imported (as are already present the ecoinvent database).
 
 Graphite
 --------

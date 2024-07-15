@@ -24,7 +24,7 @@ requirements:
     - constructive_geometries>=0.9.5
     - cryptography
     - datapackage
-    - numpy
+    - numpy <2.0.0
     - pandas
     - platformdirs
     - prettytable

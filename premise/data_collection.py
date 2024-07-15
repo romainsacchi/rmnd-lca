@@ -984,7 +984,12 @@ class IAMDataCollection:
 
         # check if values of input_vars are strings or lists
         if any(isinstance(x, list) for x in input_vars.values()):
-            vars = list(chain.from_iterable(input_vars.values()))
+            vars = [
+                item
+                for sublist in input_vars.values()
+                for item in (sublist if isinstance(sublist, list) else [sublist])
+            ]
+
         else:
             vars = list(input_vars.values())
 
@@ -1001,7 +1006,12 @@ class IAMDataCollection:
             return None
 
         if any(isinstance(x, list) for x in input_vars.values()):
-            rev_input_vars = {x: k for k, v in input_vars.items() for x in v}
+            rev_input_vars = {
+                v: k
+                for k, val in input_vars.items()
+                for v in (val if isinstance(val, list) else [val])
+            }
+
         else:
             rev_input_vars = {v: k for k, v in input_vars.items()}
 
@@ -1047,6 +1057,7 @@ class IAMDataCollection:
         :param efficiency_labels: The efficiency labels to use.
         :param production_labels: The production labels to use.
         :param energy_labels: The energy labels to use.
+        :param use_absolute_efficiency: If True, the efficiency is considered as absolute.
 
         :return: a multidimensional array with sector's technologies market
         share for a given year, for all regions.
@@ -1092,7 +1103,6 @@ class IAMDataCollection:
         elif production_labels and energy_labels:
             eff_data = xr.DataArray(dims=["variables"], coords={"variables": []})
             for k, v in production_labels.items():
-
                 # check that each element of energy.values() is in data.variables.values
                 # knowing that energy.values() is a list of lists
                 # and that each element of prod.values() is in data.variables.values

@@ -382,7 +382,7 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
         },
     }
 
-    with open(REPORT_METADATA_FILEPATH, "r", encoding="utf-8") as stream:
+    with open(REPORT_METADATA_FILEPATH, encoding="utf-8") as stream:
         metadata = yaml.safe_load(stream)
 
     workbook = openpyxl.Workbook()
@@ -423,7 +423,7 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
                 )
 
                 if "CCS" in sector and iam_data is not None:
-                    iam_data = iam_data * 100
+                    iam_data *= 100
 
                 if iam_data is None:
                     continue
@@ -536,6 +536,7 @@ def generate_change_report(source, version, source_type, system_model):
         "premise_electricity",
         "premise_fuel",
         "premise_heat",
+        "premise_battery",
         "premise_transport",
         "premise_steel",
         "premise_metal",

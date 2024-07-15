@@ -16,6 +16,7 @@ import datapackage
 from tqdm import tqdm
 
 from . import __version__
+from .battery import _update_battery
 from .biomass import _update_biomass
 from .cement import _update_cement
 from .clean_datasets import DatabaseCleaner
@@ -156,6 +157,7 @@ FILEPATH_BATTERIES_NMC_NCA_LFP = INVENTORY_DIR / "lci-batteries-NMC111-811-NCA-L
 FILEPATH_BATTERIES_NMC622_LTO = INVENTORY_DIR / "lci-batteries-NMC622-LTO.xlsx"
 FILEPATH_LIO2_BATTERY = INVENTORY_DIR / "lci-batteries-LiO2.xlsx"
 FILEPATH_LIS_BATTERY = INVENTORY_DIR / "lci-batteries-LiS.xlsx"
+FILEPATH_BATTERY_CAPACITY = INVENTORY_DIR / "lci-battery-capacity.xlsx"
 FILEPATH_PHOTOVOLTAICS = INVENTORY_DIR / "lci-PV.xlsx"
 FILEPATH_BIGCC = INVENTORY_DIR / "lci-BIGCC.xlsx"
 FILEPATH_NUCLEAR_EPR = INVENTORY_DIR / "lci-nuclear_EPR.xlsx"
@@ -719,6 +721,7 @@ class NewDatabase:
             (FILEPATH_VANADIUM, "3.9"),
             (FILEPATH_SIB_BATTERY, "3.9"),
             (FILEPATH_HOME_STORAGE_BATTERIES, "3.9"),
+            (FILEPATH_BATTERY_CAPACITY, "3.10"),
             (FILEPATH_PHOTOVOLTAICS, "3.7"),
             (FILEPATH_HYDROGEN_INVENTORIES, "3.9"),
             (FILEPATH_HYDROGEN_SOLAR_INVENTORIES, "3.9"),
@@ -865,11 +868,11 @@ class NewDatabase:
             },
             "steel": {"func": _update_steel, "args": (self.version, self.system_model)},
             "fuels": {"func": _update_fuels, "args": (self.version, self.system_model)},
-            "metals": {
-                "func": _update_metals,
+            "heat": {"func": _update_heat, "args": (self.version, self.system_model)},
+            "battery": {
+                "func": _update_battery,
                 "args": (self.version, self.system_model),
             },
-            "heat": {"func": _update_heat, "args": (self.version, self.system_model)},
             "emissions": {
                 "func": _update_emissions,
                 "args": (self.version, self.system_model, self.gains_scenario),
@@ -1168,7 +1171,12 @@ class NewDatabase:
                 keep_uncertainty_data=self.keep_uncertainty_data,
                 biosphere_name=self.biosphere_name,
             )
-            Export(scenario, filepath, self.version).export_db_to_simapro()
+            export = Export(scenario, filepath, self.version)
+            export.export_db_to_simapro()
+
+            if len(export.unmatched_category_flows) > 0:
+                scenario["unmatched category flows"] = export.unmatched_category_flows
+
             del scenario["database"]
 
             if "applied functions" in scenario:
