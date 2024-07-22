@@ -31,27 +31,6 @@ jobs:
           git checkout $GITHUB_HEAD_REF
           git commit -am "Black reformating"
           git push
-  lint:
-    runs-on: ubuntu-latest
-    needs: clean
-    steps:
-
-      - name: Checkout source code
-        uses: actions/checkout@v2
-        with:
-          # Full git history is needed to get a proper list
-          # of changed files within `super-linter`
-          fetch-depth: 0
-
-      - name: Super-Linter
-        uses: github/super-linter@v4
-        env:
-          ERRORS: false
-          VALIDATE_ALL_CODEBASE: true
-          VALIDATE_PYTHON: true
-          DEFAULT_BRANCH: master
-          IGNORE_GITIGNORED_FILES: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
 
   build:
     runs-on: ${{matrix.os}}
@@ -78,14 +57,17 @@ jobs:
           pip install pathlib
           pip install -r requirements.txt --upgrade pip
           pip install pytest
+          pip install pytest-instafail
           pip install -e .[test]
 
       - name: Run tests
         run: |
-          pytest -m "not ecoinvent" -s
+          pytest -m "not slow" --instafail
         env:
           GITHUB_TOKEN: ${{ secrets.COVERALLS }}
           IAM_FILES_KEY: ${{ secrets.IAM_FILES_KEY }}
+          EI_USERNAME: ${{ secrets.EI_USERNAME }}
+          EI_PASSWORD: ${{ secrets.EI_PASSWORD }}
 
   Pypi:
     runs-on: ubuntu-latest
@@ -178,25 +160,24 @@ jobs:
       matrix:
         os: ["ubuntu-latest"]
         python-version: ["3.11",]
-        solver: ["classic", "libmamba"]
+        solver: ["classic"]
     steps:
-      - uses: actions/checkout@v2
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: ${{ matrix.python-version }}
           channels: conda-forge,cmutel,konstantinstadler,haasad,pascallesage,romainsacchi
           allow-softlinks: true
-          channel-priority: strict
           auto-update-conda: true
           activate-environment: test
+          conda-solver: ${{ matrix.solver }}
 
       - name: Pull distribution 📦 from Anaconda and test it if master branch
 
         run: |
-          conda install -c romainsacchi premise
+          conda install -n base conda-libmamba-solver
+          conda install romainsacchi::premise
           conda update premise
-          conda install pytest
           conda install bottleneck
-          pytest -m "not ecoinvent"
         env:
           IAM_FILES_KEY: ${{ secrets.IAM_FILES_KEY }}

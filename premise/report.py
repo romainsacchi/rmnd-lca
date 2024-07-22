@@ -191,6 +191,11 @@ def fetch_data(
         "Transport (trucks)": (
             iam_data.trsp_trucks if hasattr(iam_data, "trsp_trucks") else None
         ),
+        "Battery": (
+            iam_data.battery_scenarios
+            if hasattr(iam_data, "battery_scenarios")
+            else None
+        ),
     }
 
     if data[sector] is not None:
@@ -199,6 +204,9 @@ def fetch_data(
         if any(x in sector for x in ["car", "bus", "truck"]):
             iam_data = iam_data.sum(dim="size")
             iam_data = iam_data.rename({"powertrain": "variables"}).T
+
+        if sector == "Battery":
+            iam_data = iam_data.rename({"chemistry": "variables"})
 
         return iam_data.sel(
             variables=[v for v in variable if v in iam_data.coords["variables"].values]
@@ -380,6 +388,24 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
                 "PHEV-p",
             ],
         },
+        "Battery": {
+            "variables": [
+                "NMC111",
+                "NMC532",
+                "NMC622",
+                "NMC811",
+                "NMC900",
+                "NMC900-Si",
+                "LFP",
+                "NCA",
+                "LSB",
+                "SIB",
+                "LAB",
+                "ASSB (oxidic)",
+                "ASSB (polymer)",
+                "ASSB (sulfidic)",
+            ],
+        },
     }
 
     with open(REPORT_METADATA_FILEPATH, encoding="utf-8") as stream:
@@ -444,77 +470,147 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
 
                 row += 2
 
-                for region in scenario["iam data"].regions:
-                    if sector in ["GMST", "CO2"] and region != "World":
-                        continue
+                if sector == "Battery":
+                    for scen in iam_data.coords["scenario"].values:
 
-                    worksheet.cell(column=col, row=row, value=region)
+                        worksheet.cell(column=col, row=row, value=scen)
 
-                    row += 3
+                        row += 3
 
-                    dataframe = iam_data.sel(
-                        variables=[
-                            v for v in variables if v in iam_data.variables.values
-                        ],
-                        region=region,
-                        year=[y for y in iam_data.coords["year"].values if y <= 2100],
-                    )
-
-                    if len(dataframe) > 0:
-                        dataframe = dataframe.to_dataframe("val")
-                        dataframe = dataframe.unstack()["val"]
-                        dataframe = dataframe.T
-                        dataframe = dataframe.rename_axis(index=None)
-
-                        data = dataframe_to_rows(dataframe)
-
-                        counter = 0
-                        for _, data_row in enumerate(data, 1):
-                            if data_row != [None]:
-                                for c_idx, value in enumerate(data_row, 1):
-                                    worksheet.cell(
-                                        row=row + counter,
-                                        column=col + c_idx,
-                                        value=value,
-                                    )
-                                    last_col_used = col + c_idx
-                                counter += 1
-
-                        values = Reference(
-                            worksheet,
-                            min_col=col + 2,
-                            min_row=row,
-                            max_col=col + c_idx,
-                            max_row=row + counter - 1,
-                        )
-                        cats = Reference(
-                            worksheet,
-                            min_col=col + 1,
-                            min_row=row + 1,
-                            max_row=row + counter - 1,
+                        dataframe = iam_data.sel(
+                            scenario=scen,
+                            year=[
+                                y for y in iam_data.coords["year"].values if y <= 2100
+                            ],
                         )
 
-                        if "generation" in sector:
-                            chart = AreaChart(grouping="stacked")
-                        elif "efficiency" in sector:
-                            chart = LineChart()
-                        elif "CCS" in sector:
-                            chart = AreaChart()
-                        elif "Transport" in sector:
-                            chart = AreaChart(grouping="stacked")
-                        else:
-                            chart = LineChart()
+                        if len(dataframe) > 0:
+                            dataframe = dataframe.to_dataframe("val")
+                            dataframe = dataframe.unstack()["val"]
+                            dataframe = dataframe.T
+                            dataframe = dataframe.rename_axis(index=None)
 
-                        chart.add_data(values, titles_from_data=True)
-                        chart.set_categories(cats)
-                        chart.title = f"{region} - {sector}"
-                        chart.y_axis.title = metadata[sector]["label"]
-                        chart.height = 8
-                        chart.width = 16
-                        chart.anchor = f"{get_column_letter(col + 2)}{row + 1}"
-                        worksheet.add_chart(chart)
+                            data = dataframe_to_rows(dataframe)
 
-                        row += counter + 2
+                            counter = 0
+                            for _, data_row in enumerate(data, 1):
+                                if data_row != [None]:
+                                    for c_idx, value in enumerate(data_row, 1):
+                                        worksheet.cell(
+                                            row=row + counter,
+                                            column=col + c_idx,
+                                            value=value,
+                                        )
+                                        last_col_used = col + c_idx
+                                    counter += 1
+
+                            values = Reference(
+                                worksheet,
+                                min_col=col + 2,
+                                min_row=row,
+                                max_col=col + c_idx,
+                                max_row=row + counter - 1,
+                            )
+                            cats = Reference(
+                                worksheet,
+                                min_col=col + 1,
+                                min_row=row + 1,
+                                max_row=row + counter - 1,
+                            )
+                            chart = AreaChart(grouping="stacked")
+
+                            chart.add_data(values, titles_from_data=True)
+                            chart.set_categories(cats)
+                            chart.title = f"{scen} scenario"
+                            chart.y_axis.title = metadata[sector]["label"]
+                            chart.height = 8
+                            chart.width = 16
+                            chart.anchor = f"{get_column_letter(col + 2)}{row + 1}"
+                            worksheet.add_chart(chart)
+
+                            row += counter + 2
+
+                else:
+                    for region in scenario["iam data"].regions:
+                        if (
+                            sector
+                            in [
+                                "GMST",
+                                "CO2",
+                            ]
+                            and region != "World"
+                        ):
+                            continue
+
+                        worksheet.cell(column=col, row=row, value=region)
+
+                        row += 3
+
+                        dataframe = iam_data.sel(
+                            variables=[
+                                v for v in variables if v in iam_data.variables.values
+                            ],
+                            region=region,
+                            year=[
+                                y for y in iam_data.coords["year"].values if y <= 2100
+                            ],
+                        )
+
+                        if len(dataframe) > 0:
+                            dataframe = dataframe.to_dataframe("val")
+                            dataframe = dataframe.unstack()["val"]
+                            dataframe = dataframe.T
+                            dataframe = dataframe.rename_axis(index=None)
+
+                            data = dataframe_to_rows(dataframe)
+
+                            counter = 0
+                            for _, data_row in enumerate(data, 1):
+                                if data_row != [None]:
+                                    for c_idx, value in enumerate(data_row, 1):
+                                        worksheet.cell(
+                                            row=row + counter,
+                                            column=col + c_idx,
+                                            value=value,
+                                        )
+                                        last_col_used = col + c_idx
+                                    counter += 1
+
+                            values = Reference(
+                                worksheet,
+                                min_col=col + 2,
+                                min_row=row,
+                                max_col=col + c_idx,
+                                max_row=row + counter - 1,
+                            )
+                            cats = Reference(
+                                worksheet,
+                                min_col=col + 1,
+                                min_row=row + 1,
+                                max_row=row + counter - 1,
+                            )
+
+                            if "generation" in sector:
+                                chart = AreaChart(grouping="stacked")
+                            elif "efficiency" in sector:
+                                chart = LineChart()
+                            elif "CCS" in sector:
+                                chart = AreaChart()
+                            elif "Transport" in sector:
+                                chart = AreaChart(grouping="stacked")
+                            else:
+                                chart = LineChart()
+
+                            chart.add_data(values, titles_from_data=True)
+                            chart.set_categories(cats)
+                            chart.title = f"{region} - {sector}"
+                            chart.y_axis.title = metadata[sector]["label"]
+                            chart.height = 8
+                            chart.width = 16
+                            chart.anchor = f"{get_column_letter(col + 2)}{row + 1}"
+                            worksheet.add_chart(chart)
+
+                            row += counter + 2
 
                 scenario_list.append((scenario["model"], scenario["pathway"]))
 

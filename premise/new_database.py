@@ -73,6 +73,7 @@ FILEPATH_CHP_INVENTORIES = INVENTORY_DIR / "lci-combined-heat-power-plant-CCS.xl
 FILEPATH_CC_INVENTORIES = INVENTORY_DIR / "lci-carbon-capture.xlsx"
 FILEPATH_BIOFUEL_INVENTORIES = INVENTORY_DIR / "lci-biofuels.xlsx"
 FILEPATH_BIOGAS_INVENTORIES = INVENTORY_DIR / "lci-biogas.xlsx"
+FILEPATH_WASTE_CHP_INVENTORIES = INVENTORY_DIR / "lci-waste-CHP.xlsx"
 
 FILEPATH_CARBON_FIBER_INVENTORIES = INVENTORY_DIR / "lci-carbon-fiber.xlsx"
 FILEPATH_HYDROGEN_DISTRI_INVENTORIES = INVENTORY_DIR / "lci-hydrogen-distribution.xlsx"
@@ -710,6 +711,7 @@ class NewDatabase:
             (FILEPATH_CHP_INVENTORIES, "3.5"),
             (FILEPATH_CC_INVENTORIES, "3.9"),
             (FILEPATH_BIOGAS_INVENTORIES, "3.6"),
+            (FILEPATH_WASTE_CHP_INVENTORIES, "3.10"),
             (FILEPATH_CARBON_FIBER_INVENTORIES, "3.9"),
             (FILEPATH_LITHIUM, "3.8"),
             (FILEPATH_COBALT, "3.8"),
@@ -868,6 +870,10 @@ class NewDatabase:
             },
             "steel": {"func": _update_steel, "args": (self.version, self.system_model)},
             "fuels": {"func": _update_fuels, "args": (self.version, self.system_model)},
+            "metals": {
+                "func": _update_metals,
+                "args": (self.version, self.system_model),
+            },
             "heat": {"func": _update_heat, "args": (self.version, self.system_model)},
             "battery": {
                 "func": _update_battery,
@@ -1170,6 +1176,7 @@ class NewDatabase:
                 original_database=self.database,
                 keep_uncertainty_data=self.keep_uncertainty_data,
                 biosphere_name=self.biosphere_name,
+                ei_version=self.version,
             )
             export = Export(scenario, filepath, self.version)
             export.export_db_to_simapro()
@@ -1211,6 +1218,7 @@ class NewDatabase:
                 original_database=self.database,
                 keep_uncertainty_data=self.keep_uncertainty_data,
                 biosphere_name=self.biosphere_name,
+                ei_version=self.version,
             )
             Export(scenario, filepath, self.version).export_db_to_simapro(
                 olca_compartments=True
@@ -1246,6 +1254,7 @@ class NewDatabase:
                 original_database=self.database,
                 keep_uncertainty_data=self.keep_uncertainty_data,
                 biosphere_name=self.biosphere_name,
+                ei_version=self.version,
             )
 
         list_scenarios = create_scenario_list(self.scenarios)

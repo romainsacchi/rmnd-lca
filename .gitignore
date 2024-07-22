@@ -13,6 +13,9 @@ data/logs/
 */data/export/*
 */data/cache/*
 
+# ignore .env file in tests
+tests/*.env
+
 *.pyc
 
 *.xml

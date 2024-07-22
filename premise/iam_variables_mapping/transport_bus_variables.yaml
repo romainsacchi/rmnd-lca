@@ -1,0 +1,48 @@
+# mapping between premise and IAM terminology regarding buses
+# transport volumes (ES, billion pkm/y) and energy use (FE)
+---
+'bus, diesel':
+  iam_aliases:
+    remind: ES|Transport|Pass|Road|Bus|Liquids
+  energy_use_aliases:
+    remind: FE|Transport|Pass|Road|Bus|Liquids
+  ecoinvent_aliases:
+    fltr:
+      - 'transport, passenger bus, diesel, 13m single deck urban bus, EURO-VI'
+  ecoinvent_fuel_aliases:
+    fltr:
+      - diesel
+'bus, compressed gas':
+  iam_aliases:
+    remind: ES|Transport|Pass|Road|Bus|Gases
+  energy_use_aliases:
+    remind: FE|Transport|Pass|Road|Bus|Gases
+  ecoinvent_aliases:
+    fltr:
+      - 'transport, passenger bus, compressed gas, 13m single deck urban bus, EURO-VI'
+  ecoinvent_fuel_aliases:
+    fltr:
+      - natural gas
+'bus, fuel cell':
+  iam_aliases:
+    remind: ES|Transport|Pass|Road|Bus|FCEV
+  energy_use_aliases:
+    remind: FE|Transport|Pass|Road|Bus|FCEV
+  ecoinvent_aliases:
+    fltr:
+      - 'transport, passenger bus, fuel cell electric, 13m single deck urban bus'
+  ecoinvent_fuel_aliases:
+    fltr:
+      - hydrogen
+'bus, battery electric':
+  iam_aliases:
+    remind: ES|Transport|Pass|Road|Bus|Electric
+  energy_use_aliases:
+    remind: FE|Transport|Pass|Road|Bus|Electric
+  ecoinvent_aliases:
+    fltr:
+      - 'transport, passenger bus, battery electric - overnight charging, NMC-622 battery, 13m single deck urban bus'
+  ecoinvent_fuel_aliases:
+    fltr:
+      - electricity
+

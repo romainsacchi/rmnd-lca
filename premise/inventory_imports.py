@@ -240,10 +240,10 @@ def check_amount_format(database: list) -> list:
 
 def check_uncertainty_data(data, filename):
     MANDATORY_UNCERTAINTY_FIELDS = {
-        2: {"loc", "scale"},
-        3: {"loc", "scale"},
-        4: {"minimum", "maximum"},
-        5: {"loc", "minimum", "maximum"},
+        2: {"loc", "scale"},  # lognormal
+        3: {"loc", "scale"},  # normal
+        4: {"minimum", "maximum"},  # uniform
+        5: {"loc", "minimum", "maximum"},  # triangular
         6: {"loc", "minimum", "maximum"},
         7: {"minimum", "maximum"},
         8: {"loc", "scale", "shape"},
@@ -280,6 +280,30 @@ def check_uncertainty_data(data, filename):
                                 ],
                             ]
                         )
+
+                # if distribution is triangular, make sure that `minimum`
+                # and `maximum` are not equal and are comprising the `loc`
+                if exc["uncertainty type"] == 5:
+                    if exc["minimum"] == exc["maximum"]:
+                        rows.append(
+                            [
+                                dataset["name"][:30],
+                                exc["name"][:30],
+                                exc["uncertainty type"],
+                                "minimum and maximum are equal",
+                            ]
+                        )
+
+                    if not exc["minimum"] <= exc["loc"] <= exc["maximum"]:
+                        rows.append(
+                            [
+                                dataset["name"][:30],
+                                exc["name"][:30],
+                                exc["uncertainty type"],
+                                "loc not within minimum and maximum",
+                            ]
+                        )
+
     if len(rows) > 0:
         print(
             f"the following exchanges from {filename} are missing uncertainty information:"
@@ -681,10 +705,15 @@ class BaseInventoryImport:
                                     y["delete"] = True
                             y["name"] = new_key[0]
 
-                    y["input"] = (
-                        "biosphere3",
-                        self.biosphere_dict.get(key),
-                    )
+                    try:
+                        y["input"] = (
+                            "biosphere3",
+                            self.biosphere_dict[key],
+                        )
+                    except KeyError:
+                        print(
+                            f"Could not find a biosphere flow for {key} in {self.path.name}. You need to fix this."
+                        )
             x["exchanges"] = [y for y in x["exchanges"] if "delete" not in y]
 
     def lower_case_technosphere_exchanges(self) -> None:
@@ -818,8 +847,8 @@ class DefaultInventory(BaseInventoryImport):
         if self.version_in != self.version_out:
             # if version_out is 3.9, migrate towards 3.8 first, then 3.9
             if self.version_out in ["3.9", "3.9.1", "3.10"]:
-                print("Migrating to 3.8 first")
                 if self.version_in != "3.8":
+                    print("Migrating to 3.8 first")
                     self.import_db.migrate(
                         f"migration_{self.version_in.replace('.', '')}_38"
                     )
@@ -906,13 +935,14 @@ class VariousVehicles(BaseInventoryImport):
 
     def prepare_inventory(self):
         # if version_out is 3.9, migrate towards 3.8 first, then 3.9
-        if self.version_out in ["3.9", "3.9.1"]:
-            print("Migrating to 3.8 first")
+        if self.version_out in ["3.9", "3.9.1", "3.10"]:
             if self.version_in != "3.8":
+                print("Migrating to 3.8 first")
                 self.import_db.migrate(
                     f"migration_{self.version_in.replace('.', '')}_38"
                 )
             self.import_db.migrate(f"migration_38_{self.version_out.replace('.', '')}")
+
         self.import_db.migrate(
             f"migration_{self.version_in.replace('.', '')}_{self.version_out.replace('.', '')}"
         )
@@ -981,7 +1011,7 @@ class AdditionalInventory(BaseInventoryImport):
     def prepare_inventory(self):
         if str(self.version_in) != self.version_out:
             # if version_out is 3.9, migrate towards 3.8 first, then 3.9
-            if self.version_out in ["3.9", "3.9.1"]:
+            if self.version_out in ["3.9", "3.9.1", "3.10"]:
                 if str(self.version_in) != "3.8":
                     print("Migrating to 3.8 first")
                     self.import_db.migrate(

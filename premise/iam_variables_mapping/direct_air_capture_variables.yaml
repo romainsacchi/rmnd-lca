@@ -1,7 +1,9 @@
 # mapping between premise and IAM terminology
 # regarding direct air capture use
-# the cumulative deployment of DACCS allows to
-# apply a learning curve to the DACCS datasets
+
+# potential future improvement: distinguish between solvent-based
+# and sorbent-based direct air capture systems
+
 ---
 
 dac_solvent:
@@ -12,9 +14,19 @@ dac_solvent:
   heat_use_aliases:
     tiam-ucl:
       - Secondary Energy|Consumption|Direct Air Capture|Heat
+    image:
+      - Carbon Capture|Storage|Biomass|Energy|Supply|Hydrogen
+      - Carbon Capture|Storage|Biomass|Energy|Supply|Liquids
+      - Carbon Capture|Storage|Biomass|Energy|Supply|Other
+      - Carbon Capture|Storage|Fossil|Energy|Supply|Gases
+      - Carbon Capture|Storage|Fossil|Energy|Supply|Hydrogen
+      - Carbon Capture|Storage|Fossil|Energy|Supply|Liquids
+      - Carbon Capture|Storage|Fossil|Energy|Supply|Other
   electricity_use_aliases:
-    tiam-ucl:
-      - Secondary Energy|Consumption|Direct Air Capture|Electricity
+    tiam-ucl: Secondary Energy|Consumption|Direct Air Capture|Electricity
+    image:
+      - Carbon Capture|Storage|Biomass|Energy|Supply|Electricity
+      - Carbon Capture|Storage|Fossil|Energy|Supply|Electricity
   ecoinvent_aliases:
     fltr:
       - carbon dioxide, captured from atmosphere, with a solvent-based direct air capture system, 1MtCO2

@@ -1276,3 +1276,10 @@ from,to,name_from,ref_prod_from,location_from,name_to,ref_prod_to,location_to
 38,310,"treatment of waste polyvinylfluoride, municipal incineration","waste polyvinylfluoride","CH","treatment of waste polyvinylfluoride, municipal incineration FAE","waste polyvinylfluoride",CH
 39,310,"treatment of waste polyvinylfluoride, municipal incineration","waste polyvinylfluoride","CH","treatment of waste polyvinylfluoride, municipal incineration FAE","waste polyvinylfluoride",CH
 39,310,market for blast furnace slag,blast furnace slag,GLO,,,RoW
+310,37,"market for iron(III) chloride, without water, in 40% solution state","iron(III) chloride, without water, in 40% solution state",GLO,"market for iron (III) chloride, without water, in 40% solution state","iron (III) chloride, without water, in 40% solution state",
+310,38,"market for iron(III) chloride, without water, in 40% solution state","iron(III) chloride, without water, in 40% solution state",GLO,"market for iron (III) chloride, without water, in 40% solution state","iron (III) chloride, without water, in 40% solution state",
+310,37,"market for sodium hydroxide, without water, in 50% solution state","sodium hydroxide, without water, in 50% solution state",RER,,,GLO
+310,38,"market for sodium hydroxide, without water, in 50% solution state","sodium hydroxide, without water, in 50% solution state",RER,,,GLO
+37,310,"market for neutralising agent, sodium hydroxide-equivalent","neutralising agent, sodium hydroxide-equivalent",GLO,,,RoW
+38,310,"market for neutralising agent, sodium hydroxide-equivalent","neutralising agent, sodium hydroxide-equivalent",GLO,,,RoW
+39,310,"market for neutralising agent, sodium hydroxide-equivalent","neutralising agent, sodium hydroxide-equivalent",GLO,,,RoW

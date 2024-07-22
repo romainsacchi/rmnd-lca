@@ -51,7 +51,7 @@ def _update_dac(scenario, version, system_model):
         scenario["cache"] = dac.cache
         scenario["index"] = dac.index
     else:
-        print("No DAC markets found in IAM data. Skipping.")
+        print("No DAC information found in IAM data. Skipping.")
 
     return scenario
 
@@ -224,7 +224,7 @@ class DirectAirCapture(BaseTransformation):
                             1
                             / self.iam_data.dac_electricity_efficiencies.sel(
                                 region=region, year=self.year
-                            ).values
+                            ).values.item()
                         )
                     else:
                         scaling_factor = float(
@@ -275,7 +275,7 @@ class DirectAirCapture(BaseTransformation):
                             1
                             / self.iam_data.dac_heat_efficiencies.sel(
                                 region=region, year=self.year
-                            ).values
+                            ).values.item()
                         )
                     else:
                         scaling_factor = float(

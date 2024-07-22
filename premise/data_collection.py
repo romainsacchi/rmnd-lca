@@ -41,6 +41,7 @@ IAM_CARBON_CAPTURE_VARS = VARIABLES_DIR / "carbon_capture_variables.yaml"
 CROPS_PROPERTIES = VARIABLES_DIR / "crops_variables.yaml"
 GAINS_GEO_MAP = VARIABLES_DIR / "gains_regions_mapping.yaml"
 COAL_POWER_PLANTS_DATA = DATA_DIR / "electricity" / "coal_power_emissions_2012_v1.csv"
+BATTERY_SCENARIO_DATA = DATA_DIR / "battery" / "scenarios.csv"
 
 
 def print_missing_variables(missing_vars):
@@ -782,6 +783,49 @@ class IAMDataCollection:
         )
 
         self.coal_power_plants = self.fetch_external_data_coal_power_plants()
+
+        self.battery_scenarios = self.fetch_external_data_battery_scenarios()
+
+    def fetch_external_data_battery_scenarios(self):
+        """
+        Fetch external data on battery scenarios.
+        """
+        if not BATTERY_SCENARIO_DATA.is_file():
+            return None
+
+        data = pd.read_csv(
+            BATTERY_SCENARIO_DATA,
+            delimiter=get_delimiter(filepath=BATTERY_SCENARIO_DATA),
+            low_memory=False,
+            na_filter=False,
+        )
+
+        # add the sum of ASSB (oxidic), ASSB (polymer) and ASSB (sulfidic) to SIB
+        data.loc[
+            data["chemistry"].isin(
+                [
+                    "ASSB (oxidic)",
+                    "ASSB (polymer)",
+                    "ASSB (sulfidic)",
+                ]
+            ),
+            "chemistry",
+        ] = "SIB"
+
+        # add NMC900 to NMC900-Si
+        data.loc[data["chemistry"] == "NMC900", "chemistry"] = "NMC900-Si"
+
+        return (
+            data.groupby(
+                [
+                    "scenario",
+                    "chemistry",
+                    "year",
+                ]
+            )
+            .sum()["value"]
+            .to_xarray()
+        )
 
     def __get_iam_variable_labels(
         self, filepath: Path, variable: str

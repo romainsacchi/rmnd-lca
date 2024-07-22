@@ -1,6 +1,6 @@
 bottleneck
 bw2data
-bw2io>=0.8.10
+bw2io>=0.8.12
 constructive-geometries>=0.9.5
 cryptography
 datapackage

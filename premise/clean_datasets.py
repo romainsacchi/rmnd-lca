@@ -127,9 +127,13 @@ def remove_categories(database: List[dict]) -> List[dict]:
         if "categories" in dataset:
             del dataset["categories"]
         for exc in dataset["exchanges"]:
-            if exc["type"] in ["production", "technosphere"]:
-                if "categories" in exc:
-                    del exc["categories"]
+            try:
+                if exc["type"] in ["production", "technosphere"]:
+                    if "categories" in exc:
+                        del exc["categories"]
+            except KeyError:
+                print(f"Exchange {exc['name']} in {dataset['name']} has no type")
+                pass
 
     return database
 

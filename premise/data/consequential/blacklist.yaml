@@ -125,9 +125,18 @@
   unit: megajoule
   location: RoW
   replacement:
-      name: market for coal gas
-      reference product: coal gas
-      location: GLO
+    name: market for coal gas
+    reference product: coal gas
+    location: GLO
+
+- name: coke production
+  reference product: coal gas
+  unit: megajoule
+  location: RoW
+  replacement:
+    name: market for coal gas
+    reference product: coal gas
+    location: GLO
 
 - name: heat and power co-generation, natural gas, 1MW electrical, lean burn
   reference product: electricity, high voltage
@@ -155,6 +164,7 @@
     name: market for neutralising agent, sodium hydroxide-equivalent
     reference product: neutralising agent, sodium hydroxide-equivalent
     location: GLO
+
 
 - name: oxidation of butane
   reference product: methyl acetate
@@ -290,3 +300,5 @@
     name: market for iron ore concentrate
     reference product: iron ore concentrate
     location: GLO
+
+

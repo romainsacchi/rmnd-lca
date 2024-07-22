@@ -14,9 +14,11 @@ def test_simapro_compartments():
 
 def test_simapro_exchange_categories():
     simapro_exchange_categories = get_simapro_category_of_exchange()
-    agr = simapro_exchange_categories["agricultural trailer production"]
-    assert agr["main category"] == "transport"
-    assert agr["category"] == "Road\Transformation\Infrastructure"
+    agr = simapro_exchange_categories[
+        ("2-butanol production by hydration of butene", "2-butanol")
+    ]
+    assert agr["category"] == "material"
+    assert agr["sub_category"] == "Chemicals\Organic\Transformation"
 
 
 def test_references():

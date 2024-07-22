@@ -100,6 +100,7 @@ Biomass IGCC:
     remind: SE|Electricity|Biomass|++|Gasification Combined Cycle w/o CC
     tiam-ucl: Secondary Energy|Electricity|Biomass gasification|w/o CCS
   max_efficiency: 0.45
+
 Biomass IGCC CCS:
   ecoinvent_aliases:
     fltr:
@@ -125,7 +126,7 @@ Biomass IGCC CCS:
 Biomass MSW:
   ecoinvent_aliases:
     fltr:
-      name: treatment of municipal solid waste, incineration
+      name: treatment of municipal solid waste,
       reference product: electricity
   ecoinvent_fuel_aliases:
     fltr:

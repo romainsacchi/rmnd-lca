@@ -78,3 +78,187 @@ cement, dry feed rotary kiln:
         - ash
         - briquettes
         - period
+
+
+cement, dry feed rotary kiln, efficient:
+  iam_aliases:
+    image: Production|Industry|Cement|Efficient dry feed rotary kiln
+  energy_use_aliases:
+    image:
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln|Coal
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln|Electricity
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln|Hydrogen
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln|Modern Biomass
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln|Natural Gas
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln|Oil
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln|Secondary Heat
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln|Traditional Biomass
+  ecoinvent_fuel_aliases:
+    fltr:
+      name:
+        - market for diesel, low-sulfur
+        - market for natural gas, high pressure
+        - market for liquefied petroleum gas
+        - market for petroleum coke
+        - market for petrol, unleaded
+        - market for hard coal
+        - market for wood chips, wet, measured as dry mass
+        - market for diesel
+        - market for heavy fuel oil
+        - market for lignite
+        - market for charcoal
+        - market for natural gas, low pressure
+        - market for pulverised lignite
+        - market for light fuel oil
+        - market for meat and bone meal
+        - market group for natural gas, high pressure
+    mask:
+      name:
+        - factory
+        - generating
+        - furnace
+        - burned
+        - plant
+        - charcoal
+        - vehicle
+        - ash
+        - briquettes
+        - period
+
+cement, dry feed rotary kiln, efficient, with on-site CCS:
+  iam_aliases:
+    image: Production|Industry|Cement|Efficient dry feed rotary kiln + On-site CCS
+  energy_use_aliases:
+    image:
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + On-site CCS|Coal
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + On-site CCS|Electricity
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + On-site CCS|Hydrogen
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + On-site CCS|Modern Biomass
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + On-site CCS|Natural Gas
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + On-site CCS|Oil
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + On-site CCS|Secondary Heat
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + On-site CCS|Traditional Biomass
+  ecoinvent_fuel_aliases:
+    fltr:
+      name:
+        - market for diesel, low-sulfur
+        - market for natural gas, high pressure
+        - market for liquefied petroleum gas
+        - market for petroleum coke
+        - market for petrol, unleaded
+        - market for hard coal
+        - market for wood chips, wet, measured as dry mass
+        - market for diesel
+        - market for heavy fuel oil
+        - market for lignite
+        - market for charcoal
+        - market for natural gas, low pressure
+        - market for pulverised lignite
+        - market for light fuel oil
+        - market for meat and bone meal
+        - market group for natural gas, high pressure
+    mask:
+      name:
+        - factory
+        - generating
+        - furnace
+        - burned
+        - plant
+        - charcoal
+        - vehicle
+        - ash
+        - briquettes
+        - period
+
+cement, dry feed rotary kiln, efficient, with oxyfuel CCS:
+  iam_aliases:
+    image: Production|Industry|Cement|Efficient dry feed rotary kiln + Oxy-combustion CCS
+  energy_use_aliases:
+    image:
+        - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + Oxy-combustion CCS|Coal
+        - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + Oxy-combustion CCS|Electricity
+        - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + Oxy-combustion CCS|Hydrogen
+        - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + Oxy-combustion CCS|Modern Biomass
+        - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + Oxy-combustion CCS|Natural Gas
+        - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + Oxy-combustion CCS|Oil
+        - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + Oxy-combustion CCS|Secondary Heat
+        - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + Oxy-combustion CCS|Traditional Biomass
+  ecoinvent_fuel_aliases:
+    fltr:
+      name:
+        - market for diesel, low-sulfur
+        - market for natural gas, high pressure
+        - market for liquefied petroleum gas
+        - market for petroleum coke
+        - market for petrol, unleaded
+        - market for hard coal
+        - market for wood chips, wet, measured as dry mass
+        - market for diesel
+        - market for heavy fuel oil
+        - market for lignite
+        - market for charcoal
+        - market for natural gas, low pressure
+        - market for pulverised lignite
+        - market for light fuel oil
+        - market for meat and bone meal
+        - market group for natural gas, high pressure
+    mask:
+      name:
+        - factory
+        - generating
+        - furnace
+        - burned
+        - plant
+        - charcoal
+        - vehicle
+        - ash
+        - briquettes
+        - period
+
+cement, dry feed rotary kiln, efficient, with MEA CCS:
+  iam_aliases:
+    image: Production|Industry|Cement|Efficient dry feed rotary kiln + MEA CCS
+  energy_use_aliases:
+    image:
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + MEA CCS|Coal
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + MEA CCS|Electricity
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + MEA CCS|Hydrogen
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + MEA CCS|Modern Biomass
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + MEA CCS|Natural Gas
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + MEA CCS|Oil
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + MEA CCS|Secondary Heat
+      - Final Energy|Industry|Cement|Efficient dry feed rotary kiln + MEA CCS|Traditional Biomass
+  ecoinvent_fuel_aliases:
+    fltr:
+      name:
+        - market for diesel, low-sulfur
+        - market for natural gas, high pressure
+        - market for liquefied petroleum gas
+        - market for petroleum coke
+        - market for petrol, unleaded
+        - market for hard coal
+        - market for wood chips, wet, measured as dry mass
+        - market for diesel
+        - market for heavy fuel oil
+        - market for lignite
+        - market for charcoal
+        - market for natural gas, low pressure
+        - market for pulverised lignite
+        - market for light fuel oil
+        - market for meat and bone meal
+        - market group for natural gas, high pressure
+    mask:
+      name:
+        - factory
+        - generating
+        - furnace
+        - burned
+        - plant
+        - charcoal
+        - vehicle
+        - ash
+        - briquettes
+        - period
+
+
+

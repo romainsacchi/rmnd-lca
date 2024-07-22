@@ -186,7 +186,7 @@ for sheet, df in dfs.items():
         refined_pivot_tables_v2[sheet] = create_refined_pivot_v2(df)
 
 # Create a new Excel writer for the refined pivot tables
-refined_output_path_v2 = "mapping_overview.xlsx"
+refined_output_path_v2 = "mapping_overview2.xlsx"
 with pd.ExcelWriter(refined_output_path_v2) as writer:
     for sheet, pivot_df in refined_pivot_tables_v2.items():
         if not pivot_df.empty:
