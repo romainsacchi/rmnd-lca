@@ -993,7 +993,6 @@ def _prepare_database(
     original_database,
     keep_uncertainty_data,
     biosphere_name,
-    ei_version,
 ):
 
     scenario["database"] = prepare_db_for_export(
