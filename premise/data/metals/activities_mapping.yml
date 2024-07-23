@@ -36,58 +36,58 @@ Wind-Gearbox:
       - concrete
       - offshore
       - market
-LMO:
-  ecoinvent_aliases:
-    fltr:
-      name: cathode production, LiMn2O4
-    mask:
-      - market
-NMC111:
-  ecoinvent_aliases:
-    fltr:
-      - battery cell production, Li-ion, NMC111
-      - Battery cell, NMC-111
-NMC622:
-  ecoinvent_aliases:
-    fltr:
-      - battery cell production, Li-ion, NMC622
-NMC811:
-  ecoinvent_aliases:
-    fltr:
-      - battery cell production, Li-ion, NMC811
-      - Battery cell, NMC-811
-NCA:
-  ecoinvent_aliases:
-    fltr:
-      - battery cell production, Li-ion, NCA
-      - Battery cell, NCA
-LFP:
-  ecoinvent_aliases:
-    fltr:
-      - Battery cell, LFP
-      - battery cell production, Li-ion, LFP
-Lead_Acid:
-  ecoinvent_aliases:
-    fltr:
-      - battery production, lead acid
-      - lead acid battery, for lorry
-NiMH:
-  ecoinvent_aliases:
-    fltr:
-      - battery production, NiMH, rechargeable, prismatic
-LiS:
-  ecoinvent_aliases:
-    fltr:
-      - battery cell production, Li-S
-    mask:
-      - market
-LiO2:
-  ecoinvent_aliases:
-      fltr:
-      - battery cell production, Li-O2
-      - Battery cell, Li-O2
-      mask:
-      - market
+#LMO:
+#  ecoinvent_aliases:
+#    fltr:
+#      name: cathode production, LiMn2O4
+#    mask:
+#      - market
+#NMC111:
+#  ecoinvent_aliases:
+#    fltr:
+#      - battery cell production, Li-ion, NMC111
+#      - Battery cell, NMC-111
+#NMC622:
+#  ecoinvent_aliases:
+#    fltr:
+#      - battery cell production, Li-ion, NMC622
+#NMC811:
+#  ecoinvent_aliases:
+#    fltr:
+#      - battery cell production, Li-ion, NMC811
+#      - Battery cell, NMC-811
+#NCA:
+#  ecoinvent_aliases:
+#    fltr:
+#      - battery cell production, Li-ion, NCA
+#      - Battery cell, NCA
+#LFP:
+#  ecoinvent_aliases:
+#    fltr:
+#      - Battery cell, LFP
+#      - battery cell production, Li-ion, LFP
+#Lead_Acid:
+#  ecoinvent_aliases:
+#    fltr:
+#      - battery production, lead acid
+#      - lead acid battery, for lorry
+#NiMH:
+#  ecoinvent_aliases:
+#    fltr:
+#      - battery production, NiMH, rechargeable, prismatic
+#LiS:
+#  ecoinvent_aliases:
+#    fltr:
+#      - battery cell production, Li-S
+#    mask:
+#      - market
+#LiO2:
+#  ecoinvent_aliases:
+#      fltr:
+#      - battery cell production, Li-O2
+#      - Battery cell, Li-O2
+#      mask:
+#      - market
 ## Battery technologies not found in Ecoinvent
 #LCo
 PEMFC:
