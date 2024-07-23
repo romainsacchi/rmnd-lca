@@ -122,3 +122,7 @@ Transport (trucks):
   label: Vehicles-kilometers (million)
   expl_text: Number of vehicle-kilometers driven by trucks. Used to calculate fleet-average vehicles.
   offset: 7
+Battery:
+  label: Market share [%], capacity-wise
+  expl_text: Battery technology market shares, in capacity terms. Used to calculate the battery supply mix. Future shares from Degen et al., 2023. Shares prior to 2021 from Orangi et al., 2024.
+  offset: 10
