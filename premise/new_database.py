@@ -23,6 +23,7 @@ from .clean_datasets import DatabaseCleaner
 from .data_collection import IAMDataCollection
 from .direct_air_capture import _update_dac
 from .electricity import _update_electricity
+from .wind_turbines import _update_wind_turbines
 from .emissions import _update_emissions
 from .export import (
     Export,
@@ -870,6 +871,10 @@ class NewDatabase:
             },
             "steel": {"func": _update_steel, "args": (self.version, self.system_model)},
             "fuels": {"func": _update_fuels, "args": (self.version, self.system_model)},
+            "wind": {
+                "func": _update_wind_turbines,
+                "args": (self.version, self.system_model),
+            },
             "metals": {
                 "func": _update_metals,
                 "args": (self.version, self.system_model),
