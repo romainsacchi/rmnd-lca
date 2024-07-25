@@ -23,7 +23,6 @@ from .clean_datasets import DatabaseCleaner
 from .data_collection import IAMDataCollection
 from .direct_air_capture import _update_dac
 from .electricity import _update_electricity
-from .wind_turbines import _update_wind_turbines
 from .emissions import _update_emissions
 from .export import (
     Export,
@@ -56,6 +55,7 @@ from .utils import (
     print_version,
     warning_about_biogenic_co2,
 )
+from .wind_turbines import _update_wind_turbines
 
 logger = logging.getLogger("module")
 

@@ -7,9 +7,9 @@ turbine datasets to represent the direct-drive technology.
 import copy
 import uuid
 
+from .activity_maps import InventorySet
 from .logger import create_logger
 from .transformation import BaseTransformation, IAMDataCollection, List, np, ws
-from .activity_maps import InventorySet
 
 logger = create_logger("wind_turbine")
 
@@ -75,10 +75,7 @@ class WindTurbine(BaseTransformation):
         Create direct-drive wind turbine datasets.
         """
 
-        wind_turbine_technologies = [
-            "Wind Onshore",
-            "Wind Offshore"
-        ]
+        wind_turbine_technologies = ["Wind Onshore", "Wind Offshore"]
 
         for technology in wind_turbine_technologies:
             for dataset in ws.get_many(
@@ -88,15 +85,17 @@ class WindTurbine(BaseTransformation):
                         ws.equals("name", tech)
                         for tech in self.powerplant_map[technology]
                     ]
-                )
+                ),
             ):
                 # create a true copy of the dataset
                 dataset_copy = copy.deepcopy(dataset)
 
                 dataset_copy["name"] += ", direct drive"
                 dataset_copy["code"] = str(uuid.uuid4().hex)
-                dataset_copy["comment"] = ("This dataset represents the direct-drive technology "
-                                           "variant of the ecoinvent dataset.")
+                dataset_copy["comment"] = (
+                    "This dataset represents the direct-drive technology "
+                    "variant of the ecoinvent dataset."
+                )
 
                 for exc in ws.production(dataset_copy):
                     exc["name"] = dataset_copy["name"]
@@ -115,5 +114,4 @@ class WindTurbine(BaseTransformation):
         logger.info(
             f"{status}|{self.model}|{self.scenario}|{self.year}|"
             f"{dataset['name']}|{dataset['location']}"
-
         )
