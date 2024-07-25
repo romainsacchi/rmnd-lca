@@ -55,6 +55,7 @@ from .utils import (
     print_version,
     warning_about_biogenic_co2,
 )
+from .wind_turbines import _update_wind_turbines
 
 logger = logging.getLogger("module")
 
@@ -870,6 +871,10 @@ class NewDatabase:
             },
             "steel": {"func": _update_steel, "args": (self.version, self.system_model)},
             "fuels": {"func": _update_fuels, "args": (self.version, self.system_model)},
+            "wind": {
+                "func": _update_wind_turbines,
+                "args": (self.version, self.system_model),
+            },
             "metals": {
                 "func": _update_metals,
                 "args": (self.version, self.system_model),

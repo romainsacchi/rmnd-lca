@@ -80,6 +80,14 @@ handlers:
     formatter: simple
     mode: a
 
+  file_wind_turbine:
+    class: logging.FileHandler
+    level: INFO
+    filename: "export/logs/premise_wind_turbine.log"
+    encoding: utf8
+    formatter: simple
+    mode: a
+
   file_emissions:
     class: logging.FileHandler
     level: INFO
@@ -143,6 +151,11 @@ loggers:
   battery:
     level: INFO
     handlers: [ file_battery ]
+    propagate: False
+
+  wind_turbine:
+    level: INFO
+    handlers: [ file_wind_turbine ]
     propagate: False
 
   heat:

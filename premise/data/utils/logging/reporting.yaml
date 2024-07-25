@@ -549,6 +549,38 @@ premise_battery:
         unit: 0-1
     tab: Battery
 
+premise_wind_turbine:
+    columns:
+      timestamp:
+        name: timestamp
+        description: Timestamp of the log entry
+      module:
+        name: module
+        description: Module name
+      level:
+        name: level
+        description: Log level
+      status:
+        name: status
+        description: Status of the dataset
+      model:
+        name: model
+        description: IAM model name
+      pathway:
+        name: pathway
+        description: Pathway name
+      year:
+        name: year
+        description: Year
+      dataset:
+        name: dataset
+        description: Dataset name
+      region:
+        name: region
+        description: Region name
+    tab: Wind Turbine
+
+
 premise_emissions:
     columns:
       timestamp:
