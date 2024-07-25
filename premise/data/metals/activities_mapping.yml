@@ -6,7 +6,6 @@ ICEV:
     mask:
       - market
       - electric
-
 EV:
   ecoinvent_aliases:
     fltr:
@@ -215,10 +214,10 @@ CdTe:
       - photovoltaic laminate, CdTe
     mask:
       - market
-#pv_perovskite:
-#  ecoinvent_aliases:
-#    fltr:
-#      - photovoltaic panel, perovskite-Si-tandem, at plant
+perovskite:
+  ecoinvent_aliases:
+    fltr:
+      - sputter process
 #Parabolic Trough - SF:
 #  ecoinvent_aliases:
 #    fltr:
