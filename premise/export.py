@@ -171,10 +171,10 @@ def create_index_of_A_matrix(database):
     """
     return {
         (
-            database[i]["name"],
-            database[i]["reference product"],
-            database[i]["unit"],
-            database[i]["location"],
+            database[i]["name"].strip(),
+            database[i]["reference product"].strip(),
+            database[i]["unit"].strip(),
+            database[i]["location"].strip(),
         ): i
         for i in range(0, len(database))
     }
