@@ -37,16 +37,16 @@ def _update_wind_turbines(scenario, version, system_model):
 
 
 def relink(
-        dataset,
+    dataset,
 ) -> dict:
     """
     Relink technosphere exchanges to the new datasets.
     """
 
     for exc in ws.technosphere(
-            dataset,
+        dataset,
         ws.equals("unit", "unit"),
-        ws.exclude(ws.contains("name", "connection"))
+        ws.exclude(ws.contains("name", "connection")),
     ):
         exc["name"] += ", direct drive"
 
@@ -106,13 +106,8 @@ class WindTurbine(BaseTransformation):
         new_datasets, processed = [], []
         for dataset in ws.get_many(
             self.database,
-            ws.either(
-                *[
-                    ws.contains("name", tech)
-                    for tech in datasets_terms
-                ]
-            ),
-            ws.exclude(ws.contains("name", "direct drive"))
+            ws.either(*[ws.contains("name", tech) for tech in datasets_terms]),
+            ws.exclude(ws.contains("name", "direct drive")),
         ):
             if dataset["code"] not in processed:
                 dataset_copy = self.create_dataset_copy(dataset, "direct drive")
