@@ -474,7 +474,6 @@ def generate_summary_report(scenarios: list, filename: Path) -> None:
         for scenario_idx, scenario in enumerate(scenarios):
             if (scenario["model"], scenario["pathway"]) not in scenario_list:
 
-
                 iam_data = fetch_data(
                     iam_data=scenario["iam data"],
                     sector=sector,
