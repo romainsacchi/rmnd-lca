@@ -11,7 +11,8 @@ Inventories for several battery technologies are provided in *premise*.
 See EXTRACT/Import of additional inventories/Li-ion batteries for additional information.
 
 *premise* adjusts the mass of battery packs throughout the database
-to reflect progress in specific energy density (kWh/kg cell).
+to reflect progress in specific energy density (kWh/kg cell). The assumed
+energy density values are reported in the following file: premise/data/battery/energy_density.yaml.
 
 
 Run
@@ -27,59 +28,122 @@ Run
         scenarios=[
                 {"model":"remind", "pathway":"SSP2-Base", "year":2028}
             ],
-        source_db="ecoinvent 3.7 cutoff",
-        source_version="3.7.1",
+        source_db="ecoinvent 3.9 cutoff",
+        source_version="3.9",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
     ndb.update("battery")
 
 
-The table below shows the **current** specific energy density of
+The table below shows the **current** and *future* specific energy density of
 different battery technologies.
 
-====================== ==================================== ==================== ================== ================= ===================
-Type                   Specific energy density (current)    BoP mass share [%]   Battery energy     kg battery/kWh      kg CO2-eq./kWh
-                       [kWh/kg cell]                                             density [kWh/kg
-                                                                                 battery]
-====================== ==================================== ==================== ================== ================= ===================
-Li-ion, NMC111         0.15                                 73%                  0.11               7.0               177
-Li-ion, NMC622         0.20                                 73%                  0.15               6.9               108
-Li-ion, NMC811         0.22                                 71%                  0.16               6.7               108
-Li-ion, NCA            0.23                                 71%                  0.16               6.3               100
-Li-ion, LFP            0.14                                 73%                  0.10               9.8               118
-Li-ion, LiMn2O4        0.13                                 80%                  0.10               9.6               92
-Li-ion, LTO            0.09                                 64%                  0.05               18.4              450
-Li-sulfur, Li-S        0.15                                 75%                  0.11               8.9               352
-Li-oxygen, Li-O2       0.36                                 55%                  0.20               5.1               125
-Sodium-ion, SiB        0.16                                 75%                  0.12               8.5               72
-====================== ==================================== ==================== ================== ================= ===================
+.. table:: Battery Cell Energy Densities (kWh/kg cell)
 
-And the table below shows the **projected** (2050) specific energy density
-of different battery technologies.
-
-====================== ==================================== ==================== ================== ================
-Type                   Specific energy density (2050)       BoP mass share [%]   Battery energy     kg battery/kWh
-                       [kWh/kg cell]                                             density [kWh/kg
-                                                                                 battery]
-====================== ==================================== ==================== ================== ================
-Li-ion, NMC111         0.2                                  73%                  0.15               6.9
-Li-ion, NMC811         0.5                                  71%                  0.36               2.8
-Li-ion, NCA            0.35                                 71%                  0.25               4.0
-Li-ion, LFP            0.25                                 73%                  0.18               5.5
-Li-ion, LiMn2O4        0.2                                  80%                  0.16               6.3
-Li-ion, LTO            0.15                                 75%                  0.11               8.9
-Li-sulfur, Li-S        0.5                                  75%                  0.38               2.7
-Li-oxygen, Li-O2       0.50                                 64%                  0.20               5.1
-Sodium-ion, SiB        0.22                                 75%                  0.17               6.1
-====================== ==================================== ==================== ================== ================
-
-
-For example, in 2050, the mass of NMC811 batteries (cells and Balance of Plant) is expected to
-be 0.5/0.22 = 2.3 times lower for a same energy capacity. The report of changes
-shows the new mass of battery packs for each activity using them.
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | Battery  | Year   | Mean (kWh/kg)       | Min-Max (kWh/kg)    | Source                                                   |
+   +==========+========+=====================+=====================+==========================================================+
+   | NMC111   | 2020   | 0.180               | 0.150 - 0.190       | https://doi.org/10.3390/batteries9070379                 |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.200               | 0.180 - 0.220       | https://doi.org/10.3390/batteries9070379                 |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | NMC523   | 2020   | 0.200               | 0.170 - 0.220       | https://doi.org/10.3390/batteries9070379                 |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.220               | 0.200 - 0.240       | https://doi.org/10.3390/batteries9070379                 |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | NMC622   | 2020   | 0.240               | 0.200 - 0.280       | https://doi.org/10.3390/batteries9070379                 |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.260               | 0.240 - 0.280       | https://doi.org/10.3390/batteries9070379                 |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | NMC811   | 2020   | 0.280               | 0.240 - 0.340       | https://doi.org/10.3390/batteries9070379                 |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.340               | 0.300 - 0.360       | https://doi.org/10.3390/batteries9070379                 |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | NMC955   | 2020   | 0.340               | 0.300 - 0.380       | https://doi.org/10.3390/batteries9070379                 |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.380               | 0.340 - 0.400       | https://doi.org/10.3390/batteries9070379                 |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | NCA      | 2020   | 0.280               | 0.240 - 0.340       | https://doi.org/10.3390/batteries9070379                 |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.340               | 0.280 - 0.360       | https://doi.org/10.3390/batteries9070379                 |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | LFP      | 2020   | 0.160               | 0.140 - 0.190       | https://doi.org/10.3390/batteries9070379                 |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.220               | 0.200 - 0.250       | https://doi.org/10.3390/batteries9070379                 |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | LTO      | 2020   | 0.050               | 0.040 - 0.060       | https://doi.org/10.3390/batteries9070379                 |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.050               | 0.040 - 0.060       | https://doi.org/10.3390/batteries9070379                 |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | LMO      | 2020   | 0.110               | 0.100 - 0.120       | https://doi.org/10.3390/batteries9070379                 |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.110               | 0.100 - 0.120       | https://doi.org/10.3390/batteries9070379                 |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | Li-O2    | 2020   | 0.620               | 0.500 - 0.740       | https://www.nature.com/articles/s41560-020-00748-8       |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.930               | 0.620 - 1.123       | https://www.nature.com/articles/s41560-020-00748-8       |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | Li-S     | 2020   | 0.150               | 0.120 - 0.180       | https://doi.org/10.1021/acssuschemeng.3c00141            |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.340               | 0.185 - 0.500       | https://www.nature.com/articles/s41560-020-00748-8       |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+   | SiB      | 2020   | 0.157               | 0.120 - 0.180       | https://doi.org/10.1016/j.resconrec.2023.107362          |
+   |          +--------+---------------------+---------------------+----------------------------------------------------------+
+   |          | 2050   | 0.200               | 0.160 - 0.220       | https://doi.org/10.3390/batteries9070379                 |
+   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
 
 The target values used for scaling can be modified by the user.
 The YAML file is located under premise/data/battery/energy_density.yaml.
+
+*premise* generates the battery datasets below, that contain
+the necessary inputs of battery cells, packs, and systems (including EoL)
+to provide 1 kWh of capacity.
+
+ ==================================================================== ===========
+  battery capacity dataset name                                        location
+ ==================================================================== ===========
+  market for battery capacity, Li-ion, LFP                             GLO
+  market for battery capacity, Li-ion, NMC111                          GLO
+  market for battery capacity, Li-ion, NMC523                          GLO
+  market for battery capacity, Li-ion, NMC622                          GLO
+  market for battery capacity, Li-ion, NMC811                          GLO
+  market for battery capacity, Li-ion, NMC955                          GLO
+  market for battery capacity, Li-ion, NCA                             GLO
+  market for battery capacity, Li-ion, LTO                             GLO
+  market for battery capacity, Li-ion, LiMn2O4                         GLO
+  market for battery capacity, Li-sulfur, Li-S                         GLO
+  market for battery capacity, Li-ion, Li-O2                           GLO
+  market for battery capacity, Sodium-ion, SiB                         GLO
+  market for battery capacity, Sodium-Nickel-Chloride, Na-NiCl         GLO
+ ==================================================================== ===========
+
+Based on the change in energy density, the mass of the battery pack is adjusted
+to reflect the progress in specific energy density (kWh/kg cell) over the years.
+
+Additionally, *premise* also provide the following datasets:
+
+ =================================================
+  battery capacity dataset name
+ =================================================
+  market for battery capacity (MIX scenario)
+  market for battery capacity (LFP scenario)
+  market for battery capacity (NCx scenario)
+  market for battery capacity (PLiB scenario)
+ =================================================
+
+These datasets represent four possible scenarios for the development of battery technology,
+according to Degen_ et al. 2023. The scenarios are:
+
+* MIX: a mix of different battery technologies
+* LFP: a scenario where LFP batteries dominate
+* NCx: a scenario where NMC batteries dominate
+* PLiB: a scenario where post-Lithium batteries dominate
+
+The shares of each technology in the market datasets are based on the scenario
+and are adjusted based on the scenario year.
+
+.. _Degen: https://www.nature.com/articles/s41560-023-01355-z
+
 
 Biomass
 """""""
@@ -1110,12 +1174,7 @@ Run
 * medium and heavy duty trucks
 * buses
 
-These inventories are available for the construction year of 2000
-to 2050, by steps of 5 years, but *premise* only imports vehicles
-with a construction year inferior or equal to the scenario year
-(vehicle from 2050 will not be imported in a database for the
-scenario year of 2030, but vehicles from 2020 will, as they are
-necessary to build the fleet average vehicles).
+The efficiency of vehicles is adjusted according to the IAM scenario.
 
 Trucks
 ++++++
@@ -1140,68 +1199,19 @@ Each truck is available for a variety of powertrain types:
 - diesel
 - compressed gas
 
-but also for different driving cycles, to which a range autonomy
-of the vehicle is associated:
-
-- urban delivery (required range autonomy of 150 km)
-- regional delivery (required range autonomy of 400 km)
-- long haul (required range autonomy of 800 km)
-
-Those are driving cycles developed for the software VECTO_,
-which have become standard in measuring the CO2 emissions of trucks.
-
-.. _VECTO: https://ec.europa.eu/clima/eu-action/transport-emissions/road-transport-reducing-co2-emissions-vehicles/vehicle-energy-consumption-calculation-tool-vecto_en
+The efficiency of the powertrains is adjusted according to the IAM scenario.
 
 The truck vehicle model is from Sacchi_ et al, 2021.
 
 .. _Sacchi: https://pubs.acs.org/doi/abs/10.1021/acs.est.0c07773
 
-.. note::
-
-    Not all powertrain types are available for regional and long haul driving cycles.
-    This is specifically the case for battery electric trucks, for which the mass
-    and size prevent them from completing the cycle, or surpasses the vehicle gross weight.
-
-.. warning::
-
-    A consequence of replacing original truck datasets with those provided by *premise*
-    may be a steep increase in CO2-eq. emissions, especially if the urban driving cycle
-    is chosen. Overall, considering and size classes, diesel truck datasets from ecoinvent
-    have lower fuel consumption and exhaust emissions.
-
-
 
 Fleet average trucks
 --------------------
 
-REMIND and IMAGE provide fleet composition data, per scenario, region and year.
-
-The fleet data is expressed in "vehicle-kilometer" performed by each
-type of vehicle, in a given region and year.
-
-*premise* uses the following loads to translate the transport
-demand from "vehicle-kilometers" to "ton-kilometers", derived from TRACCS_:
-
-.. _TRACCS: https://traccs.emisia.com/
-
- ============== ================= ==================== ============
-  load [tons]    urban delivery    regional delivery    long haul
- ============== ================= ==================== ============
-  3.5t           0.26              0.26                 0.8
-  7.5t           0.52              0.52                 1.6
-  18t            1.35              1.35                 4.1
-  26t            2.05              2.05                 6.2
-  32t            6.1               6.1                  9.1
-  40t            6.1               6.1                  9.1
- ============== ================= ==================== ============
-
-.. note::
-
-    Loads from the TRACCS survey data are representative for EU-28 conditions.
-    *premise* applies these loads to all IAM regions. Hence, there might be
-    some inconsistency at this level.
-    Also, these loads are much lower than those assumed in original ecoinvent
-    truck datasets.
+IAM scenarios provides the amount of energy service provided by each type of
+vehicle in a given region and year. This is expressed in "vehicle-kilometers", or
+"ton-kilometers" for freight transport.
 
 *premise* uses the fleet data to produce fleet average trucks for each
 IAM region, and more specifically:
@@ -1261,43 +1271,37 @@ truck transport datasets and the new ones replacing them:
   transport, freight, lorry with refrigeration machine, freezing            transport, freight, lorry, unspecified                                  transport, freight, lorry, unspecified
  ======================================================================== ======================================================================= =======================================================================
 
-Note that IMAGE fleet data only uses 26t and 40t trucks.
+Note that IMAGE fleet data only represent "medium-duty" and "heavy-duty" trucks.
 
-Additionally, *premise* iterates through each truck transport-consuming
-activities to calculate the driving distance required. When the reference
-unit of the dataset is 1 kilogram, the distance driven by truck can easily
-be inferred. Indeed, for example, 0.56 tkm of truck transport for 1 kg of
-flour indicates that the flour has been transported over 560 km.
+Trains
+++++++
 
-On this basis, *premise* chooses one of the following
-driving cycles:
+The following datasets representing freight transport by train are imported:
 
-- *regional delivery*, if the distance is inferior or equal to 450 km
-- *long haul*, if the distance is superior to 450 km
+ ================================================================ ================================================
+  train transport dataset name                                     description
+ ================================================================ ================================================
+  transport, freight, train, diesel-electric                       freight transport by diesel-electric train
+  transport, freight, train, electric                              freight transport by electric train
+  transport, freight, train, fuel cell, hydrogen                   freight transport by hydrogen fuel cell train
+ ================================================================ ================================================
 
+These inventories are adapted from the ecoinvent database by Jonas Klimt, 2024.
 
-Hence, in the following dataset for "market for steel, low-alloyed"
-for the IAM region of India, *premise* chose the *regional delivery*
-driving cycle since the kilogram of steel has been transported on
-average over 120 km by truck. The truck used to transport that kilogram of steel
-is a fleet average vehicle built upon the REMIND fleet data for the region
-of India.
+The inventories are available in the following file: premise/data/additional_inventories/lci-rail_freight.xlsx
 
+The efficiency of the powertrains is adjusted according to the IAM scenario.
+The share of each powertrain in the fleet is also adjusted according to the IAM scenario.
 
- ================================================================= ============ ================ ===========
-  Output                                                            _            _                _
- ================================================================= ============ ================ ===========
-  producer                                                          amount       unit             location
-  market for steel, low-alloyed                                     1            kilogram         IND
-  Input
-  supplier                                                          amount       unit             location
-  market group for transport, freight, inland waterways, barge      0.5          ton kilometer    GLO
-  market group for transport, freight train                         0.35         ton kilometer    GLO
-  market for transport, freight, sea, bulk carrier for dry goods    0.38         ton kilometer    GLO
-  transport, freight, lorry, unspecified, **regional delivery**     0.12         ton kilometer    IND
-  steel production, converter, low-alloyed                          0.66         kilogram         IND
-  steel production, electric, low-alloyed                           0.34         kilogram         IND
- ================================================================= ============ ================ ===========
+Fleet-average freight train are created for each IAM region, based on the IAM scenario data, under
+the following name:
+
+ ================================================================ ================================================
+  train transport dataset name                                     description
+ ================================================================ ================================================
+    transport, freight, train, unspecified                         fleet average freight train
+ ================================================================ ================================================
+
 
 Direct Air Capture
 """"""""""""""""""
