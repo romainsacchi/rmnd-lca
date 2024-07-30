@@ -133,7 +133,8 @@ jobs:
         shell: bash -l {0}
         run: conda info
 
-      - name: Publish distribution 📦 to Anaconda if Push
+      - name: Publish distribution 📦 to Anaconda if Push and if master branch
+        if: startsWith(github.ref, 'refs/heads/master')
         shell: bash -l {0}
 
         run: |

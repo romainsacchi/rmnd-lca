@@ -9,7 +9,7 @@ two-wheeler, gasoline:
         remind: FE|Transport|Pass|Road|LDV|Two Wheelers|Liquids
     ecoinvent_aliases:
         fltr:
-            - transport, motorbike, gasoline, 11-35kW, EURO-5
+            - transport, Motorbike, gasoline, 11-35kW, EURO-5
     ecoinvent_fuel_aliases:
         fltr:
             - gasoline
@@ -21,7 +21,7 @@ two-wheeler, battery electric:
         remind: FE|Transport|Pass|Road|LDV|Two Wheelers|BEV
     ecoinvent_aliases:
         fltr:
-            - transport, motorbike, electric, 11-35kW, NMC battery
+            - transport, Motorbike, battery electric, 11-35kW
     ecoinvent_fuel_aliases:
         fltr:
             - electricity

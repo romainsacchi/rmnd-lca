@@ -113,17 +113,16 @@ How to install this package?
 
 Two options:
 
-A development version with the latest advancements (but with the risks of unseen bugs),
-is available from Anaconda Cloud:
-
-    conda install -c conda-forge premise
-
-
-For a more stable and proven version, from Pypi:
+From Pypi:
 
     pip install premise
 
 will install the package and the required dependencies.
+
+A development version with the latest advancements (but with the risks of unseen bugs),
+is available from Anaconda Cloud:
+
+    conda install -c conda-forge premise
 
 
 How to use it?

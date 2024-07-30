@@ -9,7 +9,6 @@ import yaml
 from .filesystem_constants import DATA_DIR
 from .logger import create_logger
 from .transformation import BaseTransformation, IAMDataCollection, List, np, ws
-from .utils import rescale_exchanges
 
 logger = create_logger("battery")
 

@@ -32,10 +32,12 @@ IAM_CEMENT_VARS = VARIABLES_DIR / "cement_variables.yaml"
 IAM_STEEL_VARS = VARIABLES_DIR / "steel_variables.yaml"
 IAM_DAC_VARS = VARIABLES_DIR / "direct_air_capture_variables.yaml"
 IAM_OTHER_VARS = VARIABLES_DIR / "other_variables.yaml"
-FILEPATH_FLEET_COMP = IAM_OUTPUT_DIR / "fleet_files" / "fleet_all_vehicles.csv"
-FILEPATH_IMAGE_TRUCKS_FLEET_COMP = (
-    IAM_OUTPUT_DIR / "fleet_files" / "image_fleet_trucks.csv"
-)
+IAM_TRANS_ROADFREIGHT_VARS = VARIABLES_DIR / "transport_roadfreight_variables.yaml"
+IAM_TRANS_RAILFREIGHT_VARS = VARIABLES_DIR / "transport_railfreight_variables.yaml"
+IAM_TRANS_PASS_CARS_VARS = VARIABLES_DIR / "transport_passenger_cars_variables.yaml"
+IAM_TRANS_BUS_VARS = VARIABLES_DIR / "transport_bus_variables.yaml"
+IAM_TRANS_TWO_WHEELERS_VARS = VARIABLES_DIR / "transport_two_wheelers_variables.yaml"
+
 VEHICLES_MAP = DATA_DIR / "transport" / "vehicles_map.yaml"
 IAM_CARBON_CAPTURE_VARS = VARIABLES_DIR / "carbon_capture_variables.yaml"
 CROPS_PROPERTIES = VARIABLES_DIR / "crops_variables.yaml"
@@ -247,50 +249,6 @@ def get_gains_EU_data() -> xr.DataArray:
     return array
 
 
-def get_vehicle_fleet_composition(model, vehicle_type) -> Union[xr.DataArray, None]:
-    """
-    Read the fleet composition csv file and return an `xarray` with dimensions:
-    "region", "year", "powertrain", "construction_year", "size"
-    :param model: the model to get the fleet composition for
-    :param vehicle_type: the type of vehicle to get the fleet composition for
-    :return: a multidimensional array with fleet composition data
-    """
-
-    if not FILEPATH_FLEET_COMP.is_file():
-        raise FileNotFoundError("The fleet composition file could not be found.")
-
-    if model == "remind":
-        dataframe = pd.read_csv(
-            FILEPATH_FLEET_COMP, sep=get_delimiter(filepath=FILEPATH_FLEET_COMP)
-        )
-    elif model == "image":
-        dataframe = pd.read_csv(
-            FILEPATH_IMAGE_TRUCKS_FLEET_COMP,
-            sep=get_delimiter(filepath=FILEPATH_FLEET_COMP),
-        )
-    else:
-        return None
-
-    dataframe = dataframe.loc[~dataframe["region"].isnull()]
-
-    with open(VEHICLES_MAP, "r", encoding="utf-8") as stream:
-        size_ftr = yaml.safe_load(stream)[vehicle_type]["sizes"]
-
-    dataframe = dataframe.loc[dataframe["size"].isin(size_ftr)]
-
-    if len(dataframe) > 0:
-        arr = (
-            dataframe.groupby(["region", "year", "powertrain", "size"])
-            .sum()["vintage_demand_vkm"]
-            .to_xarray()
-        )
-        arr = arr.fillna(0)
-
-        return arr
-
-    return None
-
-
 def fix_efficiencies(data: xr.DataArray, min_year: int) -> xr.DataArray:
     """
     Fix the efficiency data to ensure plausibility.
@@ -453,6 +411,46 @@ class IAMDataCollection:
             IAM_OTHER_VARS, variable="iam_aliases"
         )
 
+        roadfreight_prod_vars = self.__get_iam_variable_labels(
+            IAM_TRANS_ROADFREIGHT_VARS, variable="iam_aliases"
+        )
+
+        roadfreight_energy_vars = self.__get_iam_variable_labels(
+            IAM_TRANS_ROADFREIGHT_VARS, variable="energy_use_aliases"
+        )
+
+        railfreight_prod_vars = self.__get_iam_variable_labels(
+            IAM_TRANS_RAILFREIGHT_VARS, variable="iam_aliases"
+        )
+
+        railfreight_energy_vars = self.__get_iam_variable_labels(
+            IAM_TRANS_RAILFREIGHT_VARS, variable="energy_use_aliases"
+        )
+
+        passenger_cars_prod_vars = self.__get_iam_variable_labels(
+            IAM_TRANS_PASS_CARS_VARS, variable="iam_aliases"
+        )
+
+        passenger_cars_energy_vars = self.__get_iam_variable_labels(
+            IAM_TRANS_PASS_CARS_VARS, variable="energy_use_aliases"
+        )
+
+        bus_prod_vars = self.__get_iam_variable_labels(
+            IAM_TRANS_BUS_VARS, variable="iam_aliases"
+        )
+
+        bus_energy_vars = self.__get_iam_variable_labels(
+            IAM_TRANS_BUS_VARS, variable="energy_use_aliases"
+        )
+
+        two_wheelers_prod_vars = self.__get_iam_variable_labels(
+            IAM_TRANS_TWO_WHEELERS_VARS, variable="iam_aliases"
+        )
+
+        two_wheelers_energy_vars = self.__get_iam_variable_labels(
+            IAM_TRANS_TWO_WHEELERS_VARS, variable="energy_use_aliases"
+        )
+
         # new_vars is a list of all variables that are declared above
 
         new_vars = (
@@ -472,6 +470,16 @@ class IAMDataCollection:
             + list(land_use_change_vars.values())
             + list(carbon_capture_vars.values())
             + list(other_vars.values())
+            + list(roadfreight_prod_vars.values())
+            + list(roadfreight_energy_vars.values())
+            + list(railfreight_prod_vars.values())
+            + list(railfreight_energy_vars.values())
+            + list(passenger_cars_prod_vars.values())
+            + list(passenger_cars_energy_vars.values())
+            + list(bus_prod_vars.values())
+            + list(bus_energy_vars.values())
+            + list(two_wheelers_prod_vars.values())
+            + list(two_wheelers_energy_vars.values())
         )
 
         # flatten the list of lists
@@ -639,6 +647,41 @@ class IAMDataCollection:
             system_model="cutoff",
         )
 
+        self.roadfreight_markets = self.__fetch_market_data(
+            data=data,
+            input_vars=roadfreight_prod_vars,
+            system_model="cutoff",  # TODO: check how to handle this for consequencial
+            sector="transport",
+        )
+
+        self.railfreight_markets = self.__fetch_market_data(
+            data=data,
+            input_vars=railfreight_prod_vars,
+            system_model="cutoff",  # TODO: check how to handle this for consequencial
+            sector="transport",
+        )
+
+        self.passenger_car_markets = self.__fetch_market_data(
+            data=data,
+            input_vars=passenger_cars_prod_vars,
+            system_model="cutoff",  # TODO: check how to handle this for consequencial
+            sector="transport",
+        )
+
+        self.bus_markets = self.__fetch_market_data(
+            data=data,
+            input_vars=bus_prod_vars,
+            system_model="cutoff",  # TODO: check how to handle this for consequencial
+            sector="transport",
+        )
+
+        self.two_wheelers_markets = self.__fetch_market_data(
+            data=data,
+            input_vars=two_wheelers_prod_vars,
+            system_model="cutoff",  # TODO: check how to handle this for consequencial
+            sector="transport",
+        )
+
         self.electricity_efficiencies = self.get_iam_efficiencies(
             data=data,
             efficiency_labels=electricity_eff_vars,
@@ -752,6 +795,36 @@ class IAMDataCollection:
             energy_labels=dac_electricity_vars,
         )
 
+        self.roadfreight_efficiencies = self.get_iam_efficiencies(
+            data=data,
+            production_labels=roadfreight_prod_vars,
+            energy_labels=roadfreight_energy_vars,
+        )
+
+        self.railfreight_efficiencies = self.get_iam_efficiencies(
+            data=data,
+            production_labels=railfreight_prod_vars,
+            energy_labels=railfreight_energy_vars,
+        )
+
+        self.passenger_car_efficiencies = self.get_iam_efficiencies(
+            data=data,
+            production_labels=passenger_cars_prod_vars,
+            energy_labels=passenger_cars_energy_vars,
+        )
+
+        self.bus_efficiencies = self.get_iam_efficiencies(
+            data=data,
+            production_labels=bus_prod_vars,
+            energy_labels=bus_energy_vars,
+        )
+
+        self.two_wheelers_efficiencies = self.get_iam_efficiencies(
+            data=data,
+            production_labels=two_wheelers_prod_vars,
+            energy_labels=two_wheelers_energy_vars,
+        )
+
         self.land_use = self.__get_iam_production_volumes(
             data=data, input_vars=land_use_vars, fill=True
         )
@@ -759,16 +832,6 @@ class IAMDataCollection:
         self.land_use_change = self.__get_iam_production_volumes(
             data=data, input_vars=land_use_change_vars, fill=True
         )
-
-        self.trsp_cars = get_vehicle_fleet_composition(self.model, vehicle_type="car")
-
-        self.trsp_trucks = get_vehicle_fleet_composition(
-            self.model, vehicle_type="truck"
-        )
-
-        self.trsp_buses = get_vehicle_fleet_composition(self.model, vehicle_type="bus")
-
-        self.metals = get_metals_intensity_factors_data()
 
         self.production_volumes = self.__get_iam_production_volumes(
             data=data,
@@ -779,6 +842,11 @@ class IAMDataCollection:
                 **steel_prod_vars,
                 **dac_prod_vars,
                 **biomass_prod_vars,
+                **roadfreight_prod_vars,
+                **railfreight_prod_vars,
+                **passenger_cars_prod_vars,
+                **bus_prod_vars,
+                **two_wheelers_prod_vars,
             },
         )
 

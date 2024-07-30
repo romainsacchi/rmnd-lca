@@ -1,5 +1,19 @@
 # mapping for different vehicles attributes
 ---
+train:
+  sizes:
+    - electric
+    - diesel-electric
+    - fuel cell
+  unit: ton kilometer
+  name: transport, freight, train
+
+two-wheeler:
+  sizes:
+    - motorbike
+  unit: kilometer
+  name: transport, motorbike
+
 bus:
   sizes:
     - 13m single deck urban bus

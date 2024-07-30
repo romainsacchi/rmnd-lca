@@ -1543,6 +1543,9 @@ class Electricity(BaseTransformation):
             ws.either(
                 *[ws.contains("name", name) for name in list_datasets_to_duplicate]
             ),
+            ws.exclude(ws.contains("name", "market")),
+            ws.exclude(ws.contains("name", ", oxy, ")),
+            ws.exclude(ws.contains("name", ", pre, ")),
         ):
             new_plants = self.fetch_proxies(
                 name=dataset["name"],

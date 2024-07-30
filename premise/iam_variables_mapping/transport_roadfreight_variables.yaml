@@ -10,7 +10,7 @@ truck, battery electric, 3.5t:
     remind: FE|Transport|Freight|Road|Truck (0-3.5t)|Electricity
   ecoinvent_aliases:
     fltr:
-      - transport, freight, lorry, battery electric, NMC-622 battery, 3.5t gross weight, long haul
+      - transport, freight, lorry, battery electric, 3.5t gross weight, long haul
   ecoinvent_fuel_aliases:
     fltr:
       - electricity
@@ -58,7 +58,7 @@ truck, battery electric, 7.5t:
     remind: FE|Transport|Freight|Road|Truck (7.5t)|Electricity
   ecoinvent_aliases:
     fltr:
-      - transport, freight, lorry, battery electric, NMC-622 battery, 7.5t gross weight, long haul
+      - transport, freight, lorry, battery electric, 7.5t gross weight, long haul
   ecoinvent_fuel_aliases:
     fltr:
       - electricity
@@ -106,7 +106,7 @@ truck, battery electric, 18t:
     remind: FE|Transport|Freight|Road|Truck (18t)|Electricity
   ecoinvent_aliases:
     fltr:
-      - transport, freight, lorry, battery electric, NMC-622 battery, 18t gross weight, long haul
+      - transport, freight, lorry, battery electric, 18t gross weight, long haul
   ecoinvent_fuel_aliases:
     fltr:
       - electricity
@@ -115,16 +115,11 @@ truck, fuel cell electric, 18t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (18t)|FCEV
     image:
-      - Energy Service|Transportation|Freight|Medium Truck|Fuel Cell Vehicle|Biofuels
-      - Energy Service|Transportation|Freight|Medium Truck|Fuel Cell Vehicle|Gasoline
-      - Energy Service|Transportation|Freight|Medium Truck|Fuel Cell Vehicle|Hydrogen
+      - Energy Service|Transportation|Freight|Med Truck|Fuel Cell Vehicle|Biofuels
+      - Energy Service|Transportation|Freight|Med Truck|Fuel Cell Vehicle|Gasoline
+      - Energy Service|Transportation|Freight|Med Truck|Fuel Cell Vehicle|Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (18t)|Hydrogen
-  eff_aliases:
-    image:
-      - Final Energy|Transportation|Freight|Medium Truck|Fuel Cell Vehicle|Biofuels
-      - Final Energy|Transportation|Freight|Medium Truck|Fuel Cell Vehicle|Gasoline
-      - Final Energy|Transportation|Freight|Medium Truck|Fuel Cell Vehicle|Hydrogen
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, fuel cell electric, 18t gross weight, long haul
@@ -136,20 +131,13 @@ truck, diesel, 18t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (18t)|Liquids
     image:
-      - Energy Service|Transportation|Freight|Medium Truck|Internal combustion engine efficienct|Gasoline
-      - Energy Service|Transportation|Freight|Medium Truck|Internal Combustion Engine|Biofuel
-      - Energy Service|Transportation|Freight|Medium Truck|Internal Combustion Engine|Diesel
-      - Energy Service|Transportation|Freight|Medium Truck|Internal Combustion Engine|Gasoline
-      - Energy Service|Transportation|Freight|Medium Truck|Internal Combustion Engine|Hydrogen
+      - Energy Service|Transportation|Freight|Med Truck|Internal combustion engine efficienct|Gasoline
+      - Energy Service|Transportation|Freight|Med Truck|Internal Combustion Engine|Biofuel
+      - Energy Service|Transportation|Freight|Med Truck|Internal Combustion Engine|Diesel
+      - Energy Service|Transportation|Freight|Med Truck|Internal Combustion Engine|Gasoline
+      - Energy Service|Transportation|Freight|Med Truck|Internal Combustion Engine|Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (18t)|Liquids
-  eff_aliases:
-    image:
-      - Final Energy|Transportation|Freight|Medium Truck|Internal combustion engine efficienct|Gasoline
-      - Final Energy|Transportation|Freight|Medium Truck|Internal Combustion Engine|Biofuel
-      - Final Energy|Transportation|Freight|Medium Truck|Internal Combustion Engine|Diesel
-      - Final Energy|Transportation|Freight|Medium Truck|Internal Combustion Engine|Gasoline
-      - Final Energy|Transportation|Freight|Medium Truck|Internal Combustion Engine|Hydrogen
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, diesel, 18t gross weight, EURO-VI, long haul
@@ -160,16 +148,10 @@ truck, diesel, 18t:
 truck, diesel hybrid, 18t:
     iam_aliases:
       image:
-        - Energy Service|Transportation|Freight|Medium Truck|Hybrid engine|Biofuel
-        - Energy Service|Transportation|Freight|Medium Truck|Hybrid engine|Diesel
-        - Energy Service|Transportation|Freight|Medium Truck|Hybrid engine|Gasoline
-        - Energy Service|Transportation|Freight|Medium Truck|Hybrid engine|Hydrogen
-    eff_aliases:
-      image:
-        - Final Energy|Transportation|Freight|Medium Truck|Hybrid engine|Biofuel
-        - Final Energy|Transportation|Freight|Medium Truck|Hybrid engine|Diesel
-        - Final Energy|Transportation|Freight|Medium Truck|Hybrid engine|Gasoline
-        - Final Energy|Transportation|Freight|Medium Truck|Hybrid engine|Hydrogen
+        - Energy Service|Transportation|Freight|Med Truck|Hybrid engine|Biofuel
+        - Energy Service|Transportation|Freight|Med Truck|Hybrid engine|Diesel
+        - Energy Service|Transportation|Freight|Med Truck|Hybrid engine|Gasoline
+        - Energy Service|Transportation|Freight|Med Truck|Hybrid engine|Hydrogen
     ecoinvent_aliases:
         fltr:
         - transport, freight, lorry, diesel hybrid, 18t gross weight, EURO-VI, long haul
@@ -180,11 +162,9 @@ truck, diesel hybrid, 18t:
 truck, compressed gas, 18t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (18t)|Gases
-    image: Energy Service|Transportation|Freight|Medium Truck|Hybrid engine|LNG
+    image: Energy Service|Transportation|Freight|Med Truck|Hybrid engine|LNG
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (18t)|Gases
-  eff_aliases:
-    image: Final Energy|Transportation|Freight|Medium Truck|Hybrid engine|LNG
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, compressed gas, 18t gross weight, EURO-VI, long haul
@@ -195,26 +175,15 @@ truck, compressed gas, 18t:
 truck, diesel plugin hybrid, 18t:
     iam_aliases:
         image:
-          - Energy Service|Transportation|Freight|Medium Truck|Plug-in electric vehicle 10km|Biofuel
-          - Energy Service|Transportation|Freight|Medium Truck|Plug-in electric vehicle 10km|Oil
-          - Energy Service|Transportation|Freight|Medium Truck|Plug-in electric vehicle 30km|Biofuel
-          - Energy Service|Transportation|Freight|Medium Truck|Plug-in electric vehicle 30km|Oil
-          - Energy Service|Transportation|Freight|Medium Truck|Plug-in electric vehicle 60km|Biofuel
-          - Energy Service|Transportation|Freight|Medium Truck|Plug-in electric vehicle 60km|Oil
-    eff_aliases:
-        image:
-          - Final Energy|Transportation|Freight|Medium Truck|Plug-in electric vehicle 10km|Biofuel
-          - Final Energy|Transportation|Freight|Medium Truck|Plug-in electric vehicle 10km|Electricity
-          - Final Energy|Transportation|Freight|Medium Truck|Plug-in electric vehicle 10km|Oil
-          - Final Energy|Transportation|Freight|Medium Truck|Plug-in electric vehicle 30km|Biofuel
-          - Final Energy|Transportation|Freight|Medium Truck|Plug-in electric vehicle 30km|Electricity
-          - Final Energy|Transportation|Freight|Medium Truck|Plug-in electric vehicle 30km|Oil
-          - Final Energy|Transportation|Freight|Medium Truck|Plug-in electric vehicle 60km|Biofuel
-          - Final Energy|Transportation|Freight|Medium Truck|Plug-in electric vehicle 60km|Electricity
-          - Final Energy|Transportation|Freight|Medium Truck|Plug-in electric vehicle 60km|Oil
+          - Energy Service|Transportation|Freight|Med Truck|Plug-in electric vehicle 10km|Biofuel
+          - Energy Service|Transportation|Freight|Med Truck|Plug-in electric vehicle 10km|Oil
+          - Energy Service|Transportation|Freight|Med Truck|Plug-in electric vehicle 30km|Biofuel
+          - Energy Service|Transportation|Freight|Med Truck|Plug-in electric vehicle 30km|Oil
+          - Energy Service|Transportation|Freight|Med Truck|Plug-in electric vehicle 60km|Biofuel
+          - Energy Service|Transportation|Freight|Med Truck|Plug-in electric vehicle 60km|Oil
     ecoinvent_aliases:
         fltr:
-        - transport, freight, lorry, diesel plugin hybrid, 18t gross weight, EURO-VI, long haul
+        - transport, freight, lorry, plugin diesel hybrid, 18t gross weight, EURO-VI, long haul
     ecoinvent_fuel_aliases:
         fltr:
         - diesel
@@ -226,7 +195,7 @@ truck, battery electric, 26t:
     remind: FE|Transport|Freight|Road|Truck (26t)|Electricity
   ecoinvent_aliases:
     fltr:
-      - transport, freight, lorry, battery electric, NMC-622 battery, 26t gross weight, long haul
+      - transport, freight, lorry, battery electric, 26t gross weight, long haul
   ecoinvent_fuel_aliases:
     fltr:
       - electricity
@@ -274,7 +243,7 @@ truck, battery electric, 40t:
     remind: FE|Transport|Freight|Road|Truck (40t)|Electricity
   ecoinvent_aliases:
     fltr:
-      - transport, freight, lorry, battery electric, NMC-622 battery, 40t gross weight, long haul
+      - transport, freight, lorry, battery electric, 40t gross weight, long haul
   ecoinvent_fuel_aliases:
     fltr:
       - electricity
@@ -288,12 +257,6 @@ truck, fuel cell electric, 40t:
       - Energy Service|Transportation|Freight|Heavy Truck|Fuel Cell Vehicle|Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (40t)|Hydrogen
-    image: Final Energy|Transportation|Freight|Heavy Truck|H2
-  eff_aliases:
-    image:
-      - Final Energy|Transportation|Freight|Heavy Truck|Fuel Cell Vehicle|Biofuels
-      - Final Energy|Transportation|Freight|Heavy Truck|Fuel Cell Vehicle|Gasoline
-      - Final Energy|Transportation|Freight|Heavy Truck|Fuel Cell Vehicle|Hydrogen
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, fuel cell electric, 40t gross weight, long haul
@@ -308,12 +271,6 @@ truck, diesel hybrid, 40t:
           - Energy Service|Transportation|Freight|Heavy Truck|Hybrid engine|Diesel
           - Energy Service|Transportation|Freight|Heavy Truck|Hybrid engine|Gasoline
           - Energy Service|Transportation|Freight|Heavy Truck|Hybrid engine|Hydrogen
-    eff_aliases:
-        image:
-          - Final Energy|Transportation|Freight|Heavy Truck|Hybrid engine|Biofuel
-          - Final Energy|Transportation|Freight|Heavy Truck|Hybrid engine|Diesel
-          - Final Energy|Transportation|Freight|Heavy Truck|Hybrid engine|Gasoline
-          - Final Energy|Transportation|Freight|Heavy Truck|Hybrid engine|Hydrogen
     ecoinvent_aliases:
         fltr:
         - transport, freight, lorry, diesel hybrid, 40t gross weight, EURO-VI, long haul
@@ -332,13 +289,6 @@ truck, diesel, 40t:
       - Energy Service|Transportation|Freight|Heavy Truck|Internal Combustion Engine|Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (40t)|Liquids
-  eff_aliases:
-    image:
-      - Final Energy|Transportation|Freight|Heavy Truck|Internal combustion engine efficienct|Gasoline
-      - Final Energy|Transportation|Freight|Heavy Truck|Internal Combustion Engine|Biofuel
-      - Final Energy|Transportation|Freight|Heavy Truck|Internal Combustion Engine|Diesel
-      - Final Energy|Transportation|Freight|Heavy Truck|Internal Combustion Engine|Gasoline
-      - Final Energy|Transportation|Freight|Heavy Truck|Internal Combustion Engine|Hydrogen
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, diesel, 40t gross weight, EURO-VI, long haul
@@ -352,8 +302,6 @@ truck, compressed gas, 40t:
     image: Energy Service|Transportation|Freight|Heavy Truck|Hybrid engine|LNG
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (40t)|Gases
-  eff_aliases:
-    image: Final Energy|Transportation|Freight|Heavy Truck|Hybrid engine|LNG
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, compressed gas, 40t gross weight, EURO-VI, long haul
@@ -370,20 +318,9 @@ truck, diesel plugin hybrid, 40t:
           - Energy Service|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 30km|Oil
           - Energy Service|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 60km|Biofuel
           - Energy Service|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 60km|Oil
-    eff_aliases:
-        image:
-          - Final Energy|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 10km|Biofuel
-          - Final Energy|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 10km|Electricity
-          - Final Energy|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 10km|Oil
-          - Final Energy|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 30km|Biofuel
-          - Final Energy|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 30km|Electricity
-          - Final Energy|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 30km|Oil
-          - Final Energy|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 60km|Biofuel
-          - Final Energy|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 60km|Electricity
-          - Final Energy|Transportation|Freight|Heavy Truck|Plug-in electric vehicle 60km|Oil
     ecoinvent_aliases:
         fltr:
-        - transport, freight, lorry, diesel plugin hybrid, 40t gross weight, EURO-VI, long haul
+        - transport, freight, lorry, plugin diesel hybrid, 40t gross weight, EURO-VI, long haul
     ecoinvent_fuel_aliases:
         fltr:
         - diesel

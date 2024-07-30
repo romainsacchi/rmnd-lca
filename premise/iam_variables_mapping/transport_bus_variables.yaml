@@ -41,7 +41,7 @@
     remind: FE|Transport|Pass|Road|Bus|Electric
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger bus, battery electric - overnight charging, NMC-622 battery, 13m single deck urban bus'
+      - 'transport, passenger bus, battery electric - overnight charging, 13m single deck urban bus'
   ecoinvent_fuel_aliases:
     fltr:
       - electricity

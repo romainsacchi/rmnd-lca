@@ -8,7 +8,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Large|BEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, battery electric, NMC-622 battery, large'
+      - 'transport, passenger car, battery electric, Large'
     mask:
       - SUV
   ecoinvent_fuel_aliases:
@@ -21,7 +21,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Large|FCEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, fuel cell electric, large'
+      - 'transport, passenger car, fuel cell electric, Large'
     mask:
       - SUV
   ecoinvent_fuel_aliases:
@@ -34,7 +34,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Large|Gases
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, compressed gas, large, EURO-6'
+      - 'transport, passenger car, compressed gas, Large, EURO-6'
     mask:
       - ab
       - SUV
@@ -48,7 +48,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Large|Hybrid Electric
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, plugin gasoline hybrid, large'
+      - 'transport, passenger car, plugin gasoline hybrid, Large'
     mask:
       - ab
       - SUV
@@ -62,7 +62,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Large|Liquids
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, gasoline, large, EURO-6'
+      - 'transport, passenger car, gasoline, Large, EURO-6'
     mask:
       - ab
       - SUV
@@ -76,7 +76,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Medium|BEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, battery electric, NMC-622 battery, medium'
+      - 'transport, passenger car, battery electric, Medium'
     mask:
       - SUV
   ecoinvent_fuel_aliases:
@@ -89,7 +89,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Medium|FCEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, fuel cell electric, medium'
+      - 'transport, passenger car, fuel cell electric, Medium'
     mask:
       - SUV
   ecoinvent_fuel_aliases:
@@ -102,7 +102,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Medium|Gases
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, compressed gas, medium, EURO-6'
+      - 'transport, passenger car, compressed gas, Medium, EURO-6'
     mask:
       - ab
       - SUV
@@ -116,7 +116,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Medium|Hybrid Electric
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, plugin gasoline hybrid, medium'
+      - 'transport, passenger car, plugin gasoline hybrid, Medium'
     mask:
       - ab
       - SUV
@@ -130,7 +130,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Medium|Liquids
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, gasoline, medium, EURO-6'
+      - 'transport, passenger car, gasoline, Medium, EURO-6'
     mask:
       - ab
       - SUV
@@ -144,7 +144,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Mini|BEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, battery electric, NMC-622 battery, mini'
+      - 'transport, passenger car, battery electric, Mini'
   ecoinvent_fuel_aliases:
     fltr:
       - electricity
@@ -155,7 +155,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Mini|FCEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, fuel cell electric, mini'
+      - 'transport, passenger car, fuel cell electric, Mini'
   ecoinvent_fuel_aliases:
     fltr:
       - hydrogen
@@ -166,7 +166,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Mini|Gases
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, compressed gas, mini, EURO-6'
+      - 'transport, passenger car, compressed gas, Mini, EURO-6'
     mask:
       - ab
   ecoinvent_fuel_aliases:
@@ -179,7 +179,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Mini|Hybrid Electric
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, plugin gasoline hybrid, mini'
+      - 'transport, passenger car, plugin gasoline hybrid, Mini'
     mask:
       - ab
   ecoinvent_fuel_aliases:
@@ -192,7 +192,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Mini|Liquids
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, gasoline, mini, EURO-6'
+      - 'transport, passenger car, gasoline, Mini, EURO-6'
     mask:
       - ab
   ecoinvent_fuel_aliases:
@@ -205,7 +205,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|SUV|BEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, battery electric, NMC-622 battery, medium SUV'
+      - 'transport, passenger car, battery electric, Medium SUV'
   ecoinvent_fuel_aliases:
     fltr:
       - electricity
@@ -216,7 +216,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|SUV|FCEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, fuel cell electric, medium SUV'
+      - 'transport, passenger car, fuel cell electric, Medium SUV'
   ecoinvent_fuel_aliases:
     fltr:
       - hydrogen
@@ -227,7 +227,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|SUV|Gases
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, compressed gas, medium SUV, EURO-6'
+      - 'transport, passenger car, compressed gas, Medium SUV, EURO-6'
     mask:
       - ab
   ecoinvent_fuel_aliases:
@@ -240,7 +240,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|SUV|Hybrid Electric
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, plugin gasoline hybrid, medium SUV'
+      - 'transport, passenger car, plugin gasoline hybrid, Medium SUV'
     mask:
       - ab
   ecoinvent_fuel_aliases:
@@ -253,7 +253,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|SUV|Liquids
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, gasoline, medium SUV, EURO-6'
+      - 'transport, passenger car, gasoline, Medium SUV, EURO-6'
     mask:
       - ab
   ecoinvent_fuel_aliases:
@@ -266,7 +266,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Small|BEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, battery electric, NMC-622 battery, small'
+      - 'transport, passenger car, battery electric, Small'
   ecoinvent_fuel_aliases:
     fltr:
       - electricity
@@ -277,7 +277,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Small|FCEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, fuel cell electric, small'
+      - 'transport, passenger car, fuel cell electric, Small'
   ecoinvent_fuel_aliases:
     fltr:
       - hydrogen
@@ -288,7 +288,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Small|Gases
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, compressed gas, small, EURO-6'
+      - 'transport, passenger car, compressed gas, Small, EURO-6'
     mask:
       - ab
   ecoinvent_fuel_aliases:
@@ -301,7 +301,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Small|Hybrid Electric
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, plugin gasoline hybrid, small'
+      - 'transport, passenger car, plugin gasoline hybrid, Small'
     mask:
       - ab
   ecoinvent_fuel_aliases:
@@ -314,7 +314,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Small|Liquids
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, gasoline, small, EURO-6'
+      - 'transport, passenger car, gasoline, Small, EURO-6'
     mask:
       - ab
   ecoinvent_fuel_aliases:
@@ -327,7 +327,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Van|BEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, battery electric, NMC-622 battery, van'
+      - 'transport, passenger car, battery electric, Van'
   ecoinvent_fuel_aliases:
     fltr:
       - electricity
@@ -338,7 +338,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Van|FCEV
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, fuel cell electric, van'
+      - 'transport, passenger car, fuel cell electric, Van'
   ecoinvent_fuel_aliases:
     fltr:
       - hydrogen
@@ -349,7 +349,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Van|Gases
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, compressed gas, van, EURO-6'
+      - 'transport, passenger car, compressed gas, Van, EURO-6'
     mask:
       - ab
   ecoinvent_fuel_aliases:
@@ -362,7 +362,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Van|Hybrid Electric
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, plugin gasoline hybrid, van'
+      - 'transport, passenger car, plugin gasoline hybrid, Van'
     mask:
       - ab
   ecoinvent_fuel_aliases:
@@ -375,7 +375,7 @@
     remind: FE|Transport|VKM|Pass|Road|LDV|Van|Liquids
   ecoinvent_aliases:
     fltr:
-      - 'transport, passenger car, gasoline, van, EURO-6'
+      - 'transport, passenger car, gasoline, Van, EURO-6'
     mask:
       - ab
   ecoinvent_fuel_aliases:

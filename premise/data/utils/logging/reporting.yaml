@@ -580,6 +580,41 @@ premise_wind_turbine:
         description: Region name
     tab: Wind Turbine
 
+premise_transport:
+    columns:
+      timestamp:
+        name: timestamp
+        description: Timestamp of the log entry
+      module:
+        name: module
+        description: Module name
+      level:
+        name: level
+        description: Log level
+      status:
+        name: status
+        description: Status of the dataset
+      model:
+        name: model
+        description: IAM model name
+      pathway:
+        name: pathway
+        description: Pathway name
+      year:
+        name: year
+        description: Year
+      dataset:
+        name: dataset
+        description: Dataset name
+      region:
+        name: region
+        description: Region name
+      energy reduction factor:
+        name: scaling factor
+        description: Scaling factor applied on the initial amount of energy
+        unit: unitless
+
+    tab: Transport
 
 premise_emissions:
     columns:
