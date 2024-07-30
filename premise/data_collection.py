@@ -833,6 +833,8 @@ class IAMDataCollection:
             data=data, input_vars=land_use_change_vars, fill=True
         )
 
+        self.metals = get_metals_intensity_factors_data()
+
         self.production_volumes = self.__get_iam_production_volumes(
             data=data,
             input_vars={

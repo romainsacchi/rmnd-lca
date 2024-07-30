@@ -36,6 +36,23 @@ def _update_wind_turbines(scenario, version, system_model):
     return scenario
 
 
+def relink(
+        dataset,
+) -> dict:
+    """
+    Relink technosphere exchanges to the new datasets.
+    """
+
+    for exc in ws.technosphere(
+            dataset,
+        ws.equals("unit", "unit"),
+        ws.exclude(ws.contains("name", "connection"))
+    ):
+        exc["name"] += ", direct drive"
+
+    return dataset
+
+
 class WindTurbine(BaseTransformation):
     """
     Class that create additional wind turbine datasets
@@ -75,30 +92,35 @@ class WindTurbine(BaseTransformation):
         Create direct-drive wind turbine datasets.
         """
 
-        wind_turbine_technologies = ["Wind Onshore", "Wind Offshore"]
+        datasets_terms = [
+            "electricity production, wind, <1MW turbine, onshore",
+            "electricity production, wind, >3MW turbine, onshore",
+            "electricity production, wind, 1-3MW turbine, onshore",
+            "electricity production, wind, 1-3MW turbine, offshore",
+            "wind power plant construction",
+            "wind turbine construction",
+            "market for wind power plant",
+            "market for wind turbine",
+        ]
 
-        for technology in wind_turbine_technologies:
-            for dataset in ws.get_many(
-                self.database,
-                ws.either(
-                    *[
-                        ws.equals("name", tech)
-                        for tech in self.powerplant_map[technology]
-                    ]
-                ),
-            ):
+        new_datasets, processed = [], []
+        for dataset in ws.get_many(
+            self.database,
+            ws.either(
+                *[
+                    ws.contains("name", tech)
+                    for tech in datasets_terms
+                ]
+            ),
+            ws.exclude(ws.contains("name", "direct drive"))
+        ):
+            if dataset["code"] not in processed:
                 dataset_copy = self.create_dataset_copy(dataset, "direct drive")
-                self.database.append(dataset_copy)
+                dataset_copy = relink(dataset_copy)
+                new_datasets.append(dataset_copy)
+                processed.append(dataset["code"])
 
-                construction_datasets = self.create_construction_datasets()
-                self.database.extend(construction_datasets)
-
-                market_datasets = self.create_market_datasets(
-                    dataset_copy, construction_datasets
-                )
-                self.database.extend(market_datasets)
-
-                self.update_production_dataset_links(dataset_copy, market_datasets)
+        self.database.extend(new_datasets)
 
     def create_dataset_copy(self, dataset, suffix):
         dataset_copy = copy.deepcopy(dataset)
@@ -116,70 +138,6 @@ class WindTurbine(BaseTransformation):
 
         self.write_log(dataset_copy)
         return dataset_copy
-
-    def create_construction_datasets(self):
-        construction_names = [
-            "wind power plant construction, 800kW, moving parts",
-            "wind power plant construction, 2MW, offshore, moving parts",
-            "wind turbine construction, 4.5MW, onshore",
-            "wind turbine construction, 2MW, onshore",
-        ]
-
-        construction_datasets = []
-        for name in construction_names:
-            construction_dataset = ws.get_one(self.database, ws.equals("name", name))
-            construction_dataset_copy = self.create_dataset_copy(
-                construction_dataset, "direct drive"
-            )
-            construction_datasets.append(construction_dataset_copy)
-
-        return construction_datasets
-
-    def create_market_datasets(self, parent_dataset, construction_datasets):
-        market_names = [
-            "market for wind power plant, 800kW, moving parts",
-            "market for wind power plant, 2MW, offshore, moving parts",
-            "market for wind turbine, 4.5MW, onshore",
-            "market for wind turbine, 2MW, onshore",
-        ]
-
-        product_names = [
-            "wind power plant, 800kW, moving parts",
-            "wind power plant, 2MW, offshore, moving parts",
-            "wind turbine, 4.5MW, onshore",
-            "wind turbine, 2MW, onshore",
-        ]
-
-        market_datasets = []
-        for market_name, product_name, construction_dataset in zip(
-            market_names, product_names, construction_datasets
-        ):
-            market_dataset = ws.get_one(self.database, ws.equals("name", market_name))
-            market_dataset_copy = self.create_dataset_copy(
-                market_dataset, "direct drive"
-            )
-
-            for exc in ws.technosphere(market_dataset_copy):
-                if exc["product"] == product_name:
-                    exc["name"] = construction_dataset["name"]
-                    exc["product"] = product_name
-
-            self.write_log(market_dataset_copy)
-            market_datasets.append(market_dataset_copy)
-
-        return market_datasets
-
-    @staticmethod
-    def update_production_dataset_links(production_dataset, market_datasets):
-        for market_dataset in market_datasets:
-            market_product = [exc for exc in ws.production(market_dataset)][0][
-                "product"
-            ]
-            market_name = market_dataset["name"]
-            for exc in ws.technosphere(production_dataset):
-                if exc["product"] == market_product:
-                    exc["name"] = market_name
-                    exc["product"] = market_product
 
     def write_log(self, dataset, status="created"):
         """
