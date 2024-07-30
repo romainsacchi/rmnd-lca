@@ -15,26 +15,23 @@ EV:
 Wind-DDPM:
   ecoinvent_aliases:
     fltr:
-      - wind power plant
-      - wind turbine
+      - direct drive
     mask:
       - fixed
-      - network
-      - concrete
-      - onshore
-      - 800kW
       - market
+      - electricity
 Wind-Gearbox:
   ecoinvent_aliases:
     fltr:
-      - wind power plant
-      - wind turbine
+      - wind power plant construction
+      - wind turbine construction
     mask:
       - fixed
-      - network
-      - concrete
-      - offshore
       - market
+      - electricity
+      - direct drive
+      - precast
+      - small-scale
 #LMO:
 #  ecoinvent_aliases:
 #    fltr:
@@ -196,6 +193,7 @@ c-Si:
       - laminate
       - panel
       - slanted-roof
+      - perovskite
 a-Si:
   ecoinvent_aliases:
     fltr:
@@ -214,6 +212,7 @@ CdTe:
       - photovoltaic laminate, CdTe
     mask:
       - market
+      - Series
 perovskite:
   ecoinvent_aliases:
     fltr:
