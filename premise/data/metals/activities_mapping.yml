@@ -212,6 +212,7 @@ CdTe:
       - photovoltaic laminate, CdTe
     mask:
       - market
+      - Series
 perovskite:
   ecoinvent_aliases:
     fltr:
