@@ -149,6 +149,7 @@ class Battery(BaseTransformation):
             # replace NaNs with zeros
             shares = shares.fillna(0)
 
+
             if "log parameters" not in ds:
                 ds["log parameters"] = {}
 
