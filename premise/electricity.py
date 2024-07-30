@@ -1402,6 +1402,8 @@ class Electricity(BaseTransformation):
             "CIGS",
             "CIS",
             "CdTe",
+            "perovskite",
+            "GaAs",
         ]
 
         # TODO: check if IAM data provides efficiencies for PV panels and use them instead
@@ -1423,7 +1425,12 @@ class Electricity(BaseTransformation):
         )
 
         for dataset in datasets:
-            power = float(re.findall(r"[-+]?\d*\.\d+|\d+", dataset["name"])[0])
+            numbers = re.findall(r"[-+]?\d*\.\d+|\d+", dataset["name"])
+            if not numbers:
+                print(f"No numerical value found in dataset name: {dataset['name']}")
+                continue
+
+            power = float(numbers[0])
 
             if "mwp" in dataset["name"].lower():
                 power *= 1000

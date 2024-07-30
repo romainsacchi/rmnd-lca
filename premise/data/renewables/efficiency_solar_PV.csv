@@ -8,6 +8,8 @@ CdTe;2010;0.1
 micro-Si;2020;0.119
 single-Si;2020;0.179
 multi-Si;2020;0.168
+perovskite;2020;0.25
+GaAs;2020;0.28
 CIGS;2020;0.14
 CIS;2020;0.14
 CdTe;2020;0.168
@@ -17,3 +19,5 @@ multi-Si;2050;0.244
 CIGS;2050;0.234
 CIS;2050;0.234
 CdTe;2050;0.21
+perovskite;2050;0.25
+GaAs;2050;0.28
