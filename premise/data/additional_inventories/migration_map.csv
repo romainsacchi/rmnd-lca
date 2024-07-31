@@ -1283,3 +1283,26 @@ from,to,name_from,ref_prod_from,location_from,name_to,ref_prod_to,location_to
 37,310,"market for neutralising agent, sodium hydroxide-equivalent","neutralising agent, sodium hydroxide-equivalent",GLO,,,RoW
 38,310,"market for neutralising agent, sodium hydroxide-equivalent","neutralising agent, sodium hydroxide-equivalent",GLO,,,RoW
 39,310,"market for neutralising agent, sodium hydroxide-equivalent","neutralising agent, sodium hydroxide-equivalent",GLO,,,RoW
+310,39,"market for diethylene glycol","diethylene glycol","RER","market for diethylene glycol","diethylene glycol","GLO"
+310,38,"market for diethylene glycol","diethylene glycol","RER","market for diethylene glycol","diethylene glycol","GLO"
+310,39,"unsaturated hydrocarbons production, steam cracking operation, average","hydrogen, gaseous, low pressure","RER","hydrogen production, steam reforming","hydrogen, gaseous","RER"
+310,38,"unsaturated hydrocarbons production, steam cracking operation, average","hydrogen, gaseous, low pressure","RER","hydrogen production, gaseous, petroleum refinery operation","hydrogen, gaseous","Europe without Switzerland"
+310,39,"market for methanol","methanol","RER","market for methanol","methanol","GLO"
+310,38,"market for methanol","methanol","RER","market for methanol","methanol","GLO"
+310,39,"market for waste aluminium","waste aluminium","RoW","market for waste aluminium","waste aluminium","GLO"
+310,38,"market for waste aluminium","waste aluminium","RoW","market for waste aluminium","waste aluminium","GLO"
+310,37,"market for hydrogen, gaseous, low pressure","hydrogen, gaseous, low pressure",RER,"market for hydrogen, gaseous","hydrogen, gaseous",GLO
+310,38,"market for hydrogen, gaseous, low pressure","hydrogen, gaseous, low pressure",RER,"market for hydrogen, gaseous","hydrogen, gaseous",GLO
+310,39,"market for hydrogen, gaseous, low pressure","hydrogen, gaseous, low pressure",RER,"market for hydrogen, gaseous","hydrogen, gaseous",GLO
+310,37,"treatment of waste polystyrene, municipal incineration FAE","waste polystyrene","CH","treatment of waste polystyrene, municipal incineration with fly ash extraction","waste polystyrene",CH
+310,38,"treatment of waste polystyrene, municipal incineration FAE","waste polystyrene","CH","treatment of waste polystyrene, municipal incineration with fly ash extraction","waste polystyrene",CH
+310,39,"treatment of waste polystyrene, municipal incineration FAE","waste polystyrene","CH","treatment of waste polystyrene, municipal incineration with fly ash extraction","waste polystyrene",CH
+310,37,"market for t-butyl amine","t-butyl amine","GLO","market for tert-butyl amine","tert-butyl amine",GLO
+310,38,"market for t-butyl amine","t-butyl amine","GLO","market for tert-butyl amine","tert-butyl amine",GLO
+310,39,"market for t-butyl amine","t-butyl amine","GLO","market for tert-butyl amine","tert-butyl amine",GLO
+310,37,"market for chloroform","chloroform",RER,"market for trichloromethane","trichloromethane",RER
+310,38,"market for chloroform","chloroform",RER,"market for trichloromethane","trichloromethane",RER
+310,39,"market for chloroform","chloroform",RER,"market for trichloromethane","trichloromethane",RER
+310,37,"market for benzene","benzene","RER","market for benzene","benzene","GLO"
+310,38,"market for benzene","benzene","RER","market for benzene","benzene","GLO"
+310,39,"market for benzene","benzene","RER","market for benzene","benzene","GLO"

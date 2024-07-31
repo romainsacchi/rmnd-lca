@@ -199,6 +199,7 @@ aluminium oxide production,aluminium oxide,material,Others\Obsolete
 "aluminium production, primary, cast alloy slab from continuous casting","aluminium, primary, cast alloy slab from continuous casting",material,Metals\Non ferro\Transformation
 "aluminium production, primary, ingot","aluminium, primary, ingot",material,Metals\Non ferro\Transformation
 "aluminium production, primary, liquid, prebake","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
+"aluminium production, primary, liquid, s√∂derberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
 "aluminium production, primary, liquid, Soderberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
 "aluminium production, primary, liquid, söderberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
 "aluminium production, primary, liquid, söderberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
@@ -412,8 +413,10 @@ battery 50kw,battery 50kw,material,Electronics\Battery\Transformation
 "battery cell production, li-ion, lto","battery cell, li-ion, lto",material,Electronics\Battery\Transformation
 "battery cell production, Li-ion, NCA","battery cell, Li-ion, NCA",material,Electronics\Battery\Transformation
 "battery cell production, Li-ion, NMC111","battery cell, Li-ion, NMC111",material,Electronics\Battery\Transformation
+"battery cell production, li-ion, nmc523","battery cell, li-ion, nmc523",material,Electronics\Battery\Transformation
 "battery cell production, li-ion, nmc622","battery cell, li-ion, nmc622",material,Electronics\Battery\Transformation
 "battery cell production, Li-ion, NMC811","battery cell, Li-ion, NMC811",material,Electronics\Battery\Transformation
+"battery cell production, li-ion, nmc955","battery cell, li-ion, nmc955",material,Electronics\Battery\Transformation
 "battery cell production, li-o2",battery cell,material,Electronics\Battery\Transformation
 "battery cell production, li-s","battery cell, lis",material,Electronics\Battery\Transformation
 "battery cell production, sib, with napba cathode and fossil-hc anode",battery cell,material,Electronics\Battery\Transformation
@@ -426,6 +429,7 @@ battery charger,battery charger,material,Electronics\Battery\Transformation
 "battery module disassembly, for lis battery",disassembled battery module,material,Electronics\Battery\Transformation
 "battery module packaging production, Li-ion","battery module packaging, Li-ion",material,Electronics\Battery\Transformation
 "battery module production, for lis battery","battery, lis module",material,Electronics\Battery\Transformation
+"battery module production, for sib battery","battery, sib module",material,Electronics\Battery\Transformation
 battery module system production,battery module system for home storage system module,material,Electronics\Battery\Transformation
 "battery pouch production, for lis battery",battery pouch,material,Electronics\Battery\Transformation
 "battery production, lead acid, rechargeable, stationary","battery, lead acid, rechargeable, stationary",material,Electronics\Battery\Transformation
@@ -433,7 +437,10 @@ battery module system production,battery module system for home storage system m
 "battery production, Li-ion, LiMn2O4, rechargeable, prismatic","battery, Li-ion, LiMn2O4, rechargeable, prismatic",material,Electronics\Battery\Transformation
 "battery production, Li-ion, NCA, rechargeable, prismatic","battery, Li-ion, NCA, rechargeable, prismatic",material,Electronics\Battery\Transformation
 "battery production, Li-ion, NMC111, rechargeable, prismatic","battery, Li-ion, NMC111, rechargeable, prismatic",material,Electronics\Battery\Transformation
+"battery production, li-ion, nmc523","battery, li-ion, nmc523",material,Electronics\Battery\Transformation
+"battery production, li-ion, nmc622","battery, li-ion, nmc622",material,Electronics\Battery\Transformation
 "battery production, Li-ion, NMC811, rechargeable, prismatic","battery, Li-ion, NMC811, rechargeable, prismatic",material,Electronics\Battery\Transformation
+"battery production, li-ion, nmc955","battery, li-ion, nmc955",material,Electronics\Battery\Transformation
 "battery production, li-o2","battery, li-o2",material,Electronics\Battery\Transformation
 "battery production, na-nicl, rechargeable","battery, nacl",material,Electronics\Battery\Transformation
 "battery production, NaCl, rechargeable","battery, NaCl",material,Electronics\Battery\Transformation
@@ -488,6 +495,7 @@ beverage carton converting,beverage carton converting,processing,Cardboard\Trans
 "beverage carton production, 1 l, for juice (ambient)","beverage carton, 1 l, for juice (ambient)",processing,Cardboard\Transformation
 "beverage carton production, 1 l, for uht milk (ambient)","beverage carton, 1 l, for uht milk (ambient)",processing,Cardboard\Transformation
 bicycle production,bicycle,transport,Road\Transformation\Infrastructure
+"bicycle, battery electric, cargo bike","bicycle, battery electric, cargo bike",transport,Road\Transformation\Infrastructure
 "bicycle, conventional, urban","bicycle, conventional, urban",transport,Road\Transformation\Infrastructure
 "bicycle, electric (<25 km/h), LFP battery","bicycle, electric (<25 km/h)",transport,Road\Transformation\Infrastructure
 "bicycle, electric (<25 km/h), NCA battery","bicycle, electric (<25 km/h)",transport,Road\Transformation\Infrastructure
@@ -495,6 +503,8 @@ bicycle production,bicycle,transport,Road\Transformation\Infrastructure
 "bicycle, electric (<45 km/h), LFP battery","bicycle, electric (<45 km/h)",transport,Road\Transformation\Infrastructure
 "bicycle, electric (<45 km/h), NCA battery","bicycle, electric (<45 km/h)",transport,Road\Transformation\Infrastructure
 "bicycle, electric (<45 km/h), NMC battery","bicycle, electric (<45 km/h)",transport,Road\Transformation\Infrastructure
+"bicycle, electric <25 km/h","bicycle, electric <25 km/h",transport,Road\Transformation\Infrastructure
+"bicycle, electric <45 km/h","bicycle, electric <45 km/h",transport,Road\Transformation\Infrastructure
 "bicycle, electric, cargo bike, LFP battery","bicycle, electric, cargo bike",transport,Road\Transformation\Infrastructure
 "bicycle, electric, cargo bike, NCA battery","bicycle, electric, cargo bike",transport,Road\Transformation\Infrastructure
 "bicycle, electric, cargo bike, NMC battery","bicycle, electric, cargo bike",transport,Road\Transformation\Infrastructure
@@ -772,6 +782,9 @@ carbon black production,carbon black,material,Chemicals\Organic\Transformation
 "carbon dioxide transport and injection in a geological reservoir, infrastructure","carbon dioxide transport and injection in a geological reservoir, infrastructure",material,Fuels\Others\Transformation
 "carbon dioxide, captured at cement production plant, for subsequent reuse","carbon dioxide, captured and reused",material,Chemicals\Gases\Liquified\Transformation
 "carbon dioxide, captured at cement production plant, integrated in fuel production chain","carbon dioxide, captured and reused",material,Fuels\Others\Transformation
+"carbon dioxide, captured at cement production plant, using direct separation","carbon dioxide, captured at cement plant",material,Chemicals\Gases\Liquified\Transformation
+"carbon dioxide, captured at cement production plant, using monoethanolamine","carbon dioxide, captured at cement plant",material,Chemicals\Gases\Liquified\Transformation
+"carbon dioxide, captured at cement production plant, using oxyfuel","carbon dioxide, captured at cement plant",material,Chemicals\Gases\Liquified\Transformation
 "carbon dioxide, captured at cement production plant, with underground storage, post, 200 km","carbon dioxide, captured and stored",material,Fuels\Others\Transformation
 "carbon dioxide, captured at hydrogen production plant, pre, pipeline 200km, storage 1000m","carbon dioxide, captured at hydrogen production plant, pre, pipeline 200km, storage 1000m",material,Chemicals\Gases\Liquified\Transformation
 "carbon dioxide, captured at hydrogen production plant, pre, pipeline 400km, storage 3000m","carbon dioxide, captured at hydrogen production plant, pre, pipeline 400km, storage 3000m",material,Chemicals\Gases\Liquified\Transformation
@@ -881,7 +894,9 @@ catenary system,catenary system,transport,Road\Transformation\Infrastructure
 "cathode production, nvpf, for sib battery","cathode, nvpf",material,Electronics\Battery\Transformation
 "cathode-ray tube production, cathode ray tube display","cathode-ray tube, cathode ray tube display",material,Electronics\Battery\Transformation
 "cathode, nca, for li-ion battery","cathode, nca, for li-ion battery",material,Electronics\Battery\Transformation
+"cathode, nmc523, for li-ion battery","cathode, nmc523, for li-ion battery",material,Electronics\Battery\Transformation
 "cathode, nmc622, for li-ion battery","cathode, nmc622, for li-ion battery",material,Electronics\Battery\Transformation
+"cathode, nmc955, for li-ion battery","cathode, nmc955, for li-ion battery",material,Electronics\Battery\Transformation
 cationic resin production,cationic resin,material,Chemicals\Others\Transformation
 "cattle for slaughtering, live weight to generic market for red meat, live weight","red meat, live weight",material,Agricultural\Animal production\Bovine\Market
 cauliflower production,cauliflower,material,Agricultural\Plant production\Vegetables\Transformation
@@ -1827,6 +1842,7 @@ electrical equipment,electrical equipment,transport,Road\Transformation\Infrastr
 "electricity production, natural gas, at conventional power plant","electricity, high voltage",energy,Others\Obsolete
 "electricity production, natural gas, combined cycle power plant","electricity, high voltage",energy,Electricity by fuel\Gas\Transformation
 "electricity production, natural gas, conventional power plant","electricity, high voltage",energy,Electricity by fuel\Gas\Transformation
+"electricity production, natural gas, subcritical, steam cycle","electricity, high voltage",energy,Electricity by fuel\Gas\Transformation
 "electricity production, nuclear, aluminium industry","electricity, high voltage, aluminium industry",energy,Electricity country mix\High voltage\Transformation\Production mix
 "electricity production, nuclear, boiling water reactor","electricity, high voltage",energy,Electricity by fuel\Nuclear\BWR\Transformation
 "electricity production, nuclear, pressure water reactor","electricity, high voltage",energy,Electricity by fuel\Nuclear\PWR\Transformation
@@ -2613,11 +2629,14 @@ fosetyl-Al production,sodium nitrate,material,Chemicals\Pesticides\Transformatio
 "fuel elements pwr, uo2 4.8% & mox, at nuclear fuel fabrication plant","fuel elements pwr, uo2 4.8% & mox, at nuclear fuel fabrication plant",material,Others\Obsolete
 "fuel elements pwr, uo2 4.8% & mox, at nuclear fuel fabrication plant","fuel elements pwr, uo2 4.8% & mox, at nuclear fuel fabrication plant",material,Others\Obsolete
 fuel supply for gasoline vehicles,gasoline blend,transport,Road\Transformation\Infrastructure
+"fuel tank assembly, compressed hydrogen gas, 700bar","fuel tank, compressed hydrogen gas, 700bar",transport,Road\Transformation\Infrastructure
+"fuel tank assembly, compressed natural gas, 200 bar","fuel tank, compressed natural gas, 200 bar",transport,Road\Transformation\Infrastructure
 "fuel tank, compressed hydrogen gas, 700bar","fuel tank, compressed hydrogen gas, 700bar",transport,Road\Transformation\Infrastructure
 "fuel tank, compressed hydrogen gas, 700bar, with aluminium liner",hydrogen tank,transport,Road\Transformation\Infrastructure
 "fuel tank, compressed hydrogen gas, 700bar, with HDPE liner",hydrogen tank,transport,Road\Transformation\Infrastructure
 "fuel tank, compressed natural gas, 200 bar","fuel tank, compressed natural gas, 200 bar",transport,Road\Transformation\Infrastructure
 "fuel tank, for diesel vehicle",fuel tank,transport,Road\Transformation\Infrastructure
+"fuel tank, for diesel vehicle, adapted to locomotives",fuel tank,transport,Rail\Transformation\Infrastructure
 "funnel glass production, for cathode ray tube display","funnel glass, for cathode ray tube display",material,Electronics\Component\Transformation
 "furnace production, logs, 30kW","furnace, logs, 30kW",energy,Heat\Wood\Transformation\Infrastructure
 "furnace production, logs, 6kW","furnace, logs, 6kW",energy,Heat\Wood\Transformation\Infrastructure
@@ -3071,6 +3090,9 @@ HDPE tank liner,hDPE tank liner,transport,Road\Transformation\Infrastructure
 "heat, residential, by conversion of hydrogen using fuel cell, SOFC, allocated by exergy, distributed by pipeline, produced by Electrolysis, PEM using electricity from grid","heat, from residential heating system",energy,Heat\Others\Transformation
 "heating and sanitary equipment production, heat and power co-generation unit, 160kW electrical","heating and sanitary equipment, heat and power co-generation unit, 160kW electrical",energy,Cogeneration\Gas\Transformation\Infrastructure
 "heating and sanitary equipment production, mini CHP plant","heating and sanitary equipment, mini CHP plant",energy,Cogeneration\Gas\Transformation\Infrastructure
+"heavy duty truck, battery electric, 32t gross weight, long haul",heavy duty truck,transport,Road\Transformation\Infrastructure
+"heavy duty truck, battery electric, 40t gross weight, long haul",heavy duty truck,transport,Road\Transformation\Infrastructure
+"heavy duty truck, battery electric, 60t gross weight, long haul",heavy duty truck,transport,Road\Transformation\Infrastructure
 "heavy duty truck, battery electric, NMC-622 battery, 32t gross weight, long haul",heavy duty truck,transport,Road\Transformation\Infrastructure
 "heavy duty truck, battery electric, NMC-622 battery, 40t gross weight, long haul",heavy duty truck,transport,Road\Transformation\Infrastructure
 "heavy duty truck, battery electric, NMC-622 battery, 60t gross weight, long haul",heavy duty truck,transport,Road\Transformation\Infrastructure
@@ -3393,6 +3415,7 @@ intensive beef cattle production on pasture,"weaned heifers, live weight",materi
 "intermodal shipping container production, 45-foot, high-cube","intermodal shipping container, 45-foot, high-cube",transport,Intermodal\Transformation\Infrastructure
 "internal combustion engine production, passenger car","internal combustion engine, passenger car",transport,Road\Transformation\Infrastructure
 "internal combustion engine, for lorry","internal combustion engine, for lorry",transport,Road\Transformation\Infrastructure
+"internal combustion engine, for lorry, adapted to locomotives","internal combustion engine, for lorry",transport,Rail\Transformation\Infrastructure
 internet access equipment production,internet access equipment,material,Electronics\Devices\Transformation
 "internet access, videoconference, 0.7 Mbit/s","internet access, videoconference, 0.7 Mbit/s",use,Computers & network\Transformation
 "internet access, work, 0.2 Mbit/s","internet access, work, 0.2 Mbit/s",use,Computers & network\Transformation
@@ -3503,6 +3526,7 @@ kaolin production,kaolin,material,Chemicals\Inorganic\Transformation
 "kerosene, import from Europe",kerosene,material,Fuels\Oil\Kerosene\Market\Import
 "kerosene, import from RoW",kerosene,material,Fuels\Oil\Kerosene\Market\Import
 keyboard production,keyboard,material,Electronics\Devices\Transformation
+"kick scooter, battery electric, <1kw","kick scooter, battery electric, <1kw",transport,Road\Transformation\Infrastructure
 "kick Scooter, electric, <1kW, LFP battery","kick Scooter, electric, <1kW",transport,Road\Transformation\Infrastructure
 "kick Scooter, electric, <1kW, NCA battery","kick Scooter, electric, <1kW",transport,Road\Transformation\Infrastructure
 "kick scooter, electric, <1kw, nmc battery","kick scooter, electric, <1kw",transport,Road\Transformation\Infrastructure
@@ -3590,6 +3614,8 @@ lentil production,lentil,material,Agricultural\Plant production\Legumes\Transfor
 lettuce361 production,lettuce,material,Agricultural\Plant production\Vegetables\Transformation
 light clay brick production,light clay brick,material,Construction\Bricks\Transformation
 light commercial vehicle production,light commercial vehicle,transport,Road\Transformation\Infrastructure
+"light duty truck, battery electric, 3.5t gross weight, long haul",light duty truck,transport,Road\Transformation\Infrastructure
+"light duty truck, battery electric, 7.5t gross weight, long haul",light duty truck,transport,Road\Transformation\Infrastructure
 "light duty truck, battery electric, NMC-622 battery, 3.5t gross weight, long haul",light duty truck,transport,Road\Transformation\Infrastructure
 "light duty truck, battery electric, NMC-622 battery, 7.5t gross weight, long haul",light duty truck,transport,Road\Transformation\Infrastructure
 "Light duty truck, compressed gas, 3.5t gross weight, EURO-III, long haul","light duty truck, EURO-III",transport,Road\Transformation\Infrastructure
@@ -4647,6 +4673,23 @@ market for basic oxygen furnace sludge,basic oxygen furnace sludge,waste treatme
 "market for basic oxygen furnace sludge, for recovery","basic oxygen furnace sludge, for recovery",material,Metals\Waste metals\Market
 market for basic oxygen furnace waste,basic oxygen furnace waste,waste treatment,Metals\Market
 "market for batch dyeing, fibre, cotton","batch dyeing, fibre, cotton",processing,Textiles\Market
+market for battery capacity lfp scenario,battery capacity,material,Electronics\Battery\Transformation
+market for battery capacity mix scenario,battery capacity,material,Electronics\Battery\Transformation
+market for battery capacity ncx scenario,battery capacity,material,Electronics\Battery\Transformation
+market for battery capacity plib scenario,battery capacity,material,Electronics\Battery\Transformation
+"market for battery capacity, li-ion, lfp","battery capacity, li-ion, lfp",material,Electronics\Battery\Transformation
+"market for battery capacity, li-ion, li-o2","battery capacity, li-ion, li-o2",material,Electronics\Battery\Transformation
+"market for battery capacity, li-ion, limn2o4","battery capacity, li-ion, limn2o4",material,Electronics\Battery\Transformation
+"market for battery capacity, li-ion, lto","battery capacity, li-ion, lto",material,Electronics\Battery\Transformation
+"market for battery capacity, li-ion, nca","battery capacity, li-ion, nca",material,Electronics\Battery\Transformation
+"market for battery capacity, li-ion, nmc111","battery capacity, li-ion, nmc111",material,Electronics\Battery\Transformation
+"market for battery capacity, li-ion, nmc523","battery capacity, li-ion, nmc523",material,Electronics\Battery\Transformation
+"market for battery capacity, li-ion, nmc622","battery capacity, li-ion, nmc622",material,Electronics\Battery\Transformation
+"market for battery capacity, li-ion, nmc811","battery capacity, li-ion, nmc811",material,Electronics\Battery\Transformation
+"market for battery capacity, li-ion, nmc955","battery capacity, li-ion, nmc955",material,Electronics\Battery\Transformation
+"market for battery capacity, li-sulfur, li-s","battery capacity, li-sulfur, li-s",material,Electronics\Battery\Transformation
+"market for battery capacity, sodium-ion, sib","battery capacity, sodium-ion, sib",material,Electronics\Battery\Transformation
+"market for battery capacity, sodium-nickel-chloride, na-nicl","battery capacity, na-nicl",material,Electronics\Battery\Transformation
 "market for battery cell, Li-ion, LFP","battery cell, Li-ion, LFP",material,Electronics\Battery\Market
 "market for battery cell, Li-ion, LiMn2O4","battery cell, Li-ion, LiMn2O4",material,Electronics\Battery\Market
 "market for battery cell, li-ion, lto","battery cell, li-ion, lto",material,Electronics\Battery\Market
@@ -4660,11 +4703,18 @@ market for battery separator,battery separator,material,Electronics\Component\Ma
 "market for battery, lead acid, rechargeable, stationary","battery, lead acid, rechargeable, stationary",material,Electronics\Battery\Market
 "market for battery, Li-ion, LFP, rechargeable, prismatic","battery, Li-ion, LFP, rechargeable, prismatic",material,Electronics\Battery\Market
 "market for battery, Li-ion, LiMn2O4, rechargeable, prismatic","battery, Li-ion, LiMn2O4, rechargeable, prismatic",material,Electronics\Battery\Market
+"market for battery, li-ion, lto","battery, li-ion, lto",material,Electronics\Battery\Transformation
 "market for battery, Li-ion, NCA, rechargeable, prismatic","battery, Li-ion, NCA, rechargeable, prismatic",material,Electronics\Battery\Market
 "market for battery, Li-ion, NMC111, rechargeable, prismatic","battery, Li-ion, NMC111, rechargeable, prismatic",material,Electronics\Battery\Market
+"market for battery, li-ion, nmc523","battery, li-ion, nmc523",material,Electronics\Battery\Transformation
+"market for battery, li-ion, nmc622","battery, li-ion, nmc622",material,Electronics\Battery\Transformation
 "market for battery, Li-ion, NMC811, rechargeable, prismatic","battery, Li-ion, NMC811, rechargeable, prismatic",material,Electronics\Battery\Market
+"market for battery, li-ion, nmc955","battery, li-ion, nmc955",material,Electronics\Battery\Transformation
+"market for battery, li-oxygen, li-o2","battery, li-o2",material,Electronics\Battery\Transformation
+"market for battery, li-sulfur, li-s","battery, li-s",material,Electronics\Battery\Transformation
 "market for battery, NaCl","battery, NaCl",material,Electronics\Battery\Market
 "market for battery, NiMH, rechargeable, prismatic","battery, NiMH, rechargeable, prismatic",material,Electronics\Battery\Market
+"market for battery, sodium-ion, sib","battery, sib",material,Electronics\Battery\Transformation
 market for bauxite,bauxite,material,Minerals\Market
 "market for beet seed, Swiss integrated production, for sowing","beet seed, Swiss integrated production, for sowing",material,Agricultural\Plant seeds\Market
 market for bell pepper,bell pepper,material,Agricultural\Plant production\Vegetables\Market
@@ -5982,6 +6032,9 @@ market for hydrogen fluoride,hydrogen fluoride,material,Chemicals\Acids (inorgan
 "market for hydrogen peroxide, without water, in 50% solution state","hydrogen peroxide, without water, in 50% solution state",material,Chemicals\Inorganic\Market
 market for hydrogen sulfide,hydrogen sulfide,material,Chemicals\Gases\Market
 "market for hydrogen, gaseous","hydrogen, gaseous",material,Chemicals\Gases\Market
+"market for hydrogen, gaseous, 20-year period","hydrogen, gaseous",material,Chemicals\Gases\Market
+"market for hydrogen, gaseous, 40-year period","hydrogen, gaseous",material,Chemicals\Gases\Market
+"market for hydrogen, gaseous, 60-year period","hydrogen, gaseous",material,Chemicals\Gases\Market
 "market for hydrogen, gaseous, low pressure","hydrogen, gaseous, low pressure",material,Chemicals\Gases\Market
 "market for hydrogen, gaseous, low pressure, 20-year period","hydrogen, gaseous, low pressure",material,Chemicals\Gases\Market
 "market for hydrogen, gaseous, low pressure, 40-year period","hydrogen, gaseous, low pressure",material,Chemicals\Gases\Market
@@ -6534,6 +6587,9 @@ market for natural gas processing plant,natural gas processing plant,material,Fu
 market for natural gas service station,natural gas service station,material,Fuels\Natural gas\Market\Infrastructure
 "market for natural gas, burned in gas turbine","natural gas, burned in gas turbine",energy,Electricity by fuel\Gas\Market
 "market for natural gas, high pressure","natural gas, high pressure",material,Fuels\Natural gas\Market
+"market for natural gas, high pressure, 20-year period","natural gas, high pressure",material,Fuels\Natural gas\Market
+"market for natural gas, high pressure, 40-year period","natural gas, high pressure",material,Fuels\Natural gas\Market
+"market for natural gas, high pressure, 60-year period","natural gas, high pressure",material,Fuels\Natural gas\Market
 "market for natural gas, high pressure, vehicle grade","natural gas, high pressure, vehicle grade",material,Fuels\Natural gas\Market
 "market for natural gas, liquefied","natural gas, liquefied",material,Fuels\Natural gas\Market
 "market for natural gas, low pressure","natural gas, low pressure",material,Fuels\Natural gas\Market
@@ -7399,6 +7455,7 @@ market for sanitary landfill facility,sanitary landfill facility,processing,Wast
 "market for sawlog and veneer log, hardwood, measured as solid wood under bark","sawlog and veneer log, hardwood, measured as solid wood under bark",material,Wood\Extraction\Market
 "market for sawlog and veneer log, meranti, debarked, measured as solid wood","sawlog and veneer log, meranti, debarked, measured as solid wood",material,Wood\Extraction\Market
 "market for sawlog and veneer log, meranti, measured as solid wood under bark","sawlog and veneer log, meranti, measured as solid wood under bark",material,Wood\Extraction\Market
+"market for sawlog and veneer log, paran√° pine, measured as solid wood under bark","sawlog and veneer log, paran√° pine, measured as solid wood under bark",material,Wood\Extraction\Market
 "market for sawlog and veneer log, parana pine, measured as solid wood under bark","sawlog and veneer log, parana pine, measured as solid wood under bark",material,Wood\Extraction\Market
 "market for sawlog and veneer log, paraná pine, measured as solid wood under bark","sawlog and veneer log, paraná pine, measured as solid wood under bark",material,Wood\Extraction\Market
 "market for sawlog and veneer log, paraná pine, measured as solid wood under bark","sawlog and veneer log, paraná pine, measured as solid wood under bark",material,Wood\Extraction\Market
@@ -7436,6 +7493,7 @@ market for sawmill,sawmill,material,Wood\Products\Market\Infrastructure
 "market for sawnwood, lath, softwood, dried (u=20%), planed","sawnwood, lath, softwood, dried (u=20%), planed",material,Others\Obsolete
 "market for sawnwood, lath, softwood, raw, dried (u=10%)","sawnwood, lath, softwood, raw, dried (u=10%)",material,Others\Obsolete
 "market for sawnwood, lath, softwood, raw, dried (u=20%)","sawnwood, lath, softwood, raw, dried (u=20%)",material,Others\Obsolete
+"market for sawnwood, paran√° pine, dried u=10%","sawnwood, paran√° pine, dried u=10%",material,Others\Obsolete
 "market for sawnwood, parana pine from sustainable forest management, kiln dried","sawnwood, parana pine from sustainable forest management, kiln dried",material,Others\Obsolete
 "market for sawnwood, parana pine from sustainable forest management, kiln dried_obsolete","sawnwood, parana pine from sustainable forest management, kiln dried",material,Others\Obsolete
 "market for sawnwood, parana pine, dried (u=10%)","sawnwood, parana pine, dried (u=10%)",material,Wood\Products\Market
@@ -8348,6 +8406,7 @@ market for ventilation components factory,ventilation components factory,materia
 "market for ventilation duct, elbow 90 degrees, steel, 100x50 mm","ventilation duct, elbow 90 degrees, steel, 100x50 mm",material,Construction\Ventilation\Market
 "market for ventilation duct, elbow 90°, steel, 100x50 mm","ventilation duct, elbow 90°, steel, 100x50 mm",material,Construction\Ventilation\Market
 "market for ventilation duct, elbow 90¬°, steel, 100x50 mm","ventilation duct, elbow 90¬°, steel, 100x50 mm",material,Metals\Ferro\Transformation
+"market for ventilation duct, elbow 90¬∞, steel, 100x50 mm","ventilation duct, elbow 90¬∞, steel, 100x50 mm",material,Metals\Ferro\Transformation
 "market for ventilation duct, steel, 100x50 mm","ventilation duct, steel, 100x50 mm",material,Construction\Ventilation\Market
 "market for ventilation of dwellings, central, 1 x 720 m3/h","ventilation of dwellings, central, 1 x 720 m3/h",processing,Ventilation\Market
 "market for ventilation of dwellings, decentralized, 6 x 120 m3/h","ventilation of dwellings, decentralized, 6 x 120 m3/h",processing,Ventilation\Market
@@ -8736,6 +8795,8 @@ meat and bone meal to generic market for protein feed,"protein feed, 100% crude"
 mecoprop production,mecoprop,material,Chemicals\Pesticides\Transformation
 "medium density fibreboard production, uncoated","residual wood, dry",material,Wood\Byproducts\Transformation
 "medium density fibreboard production, uncoated",medium density fibreboard,material,Wood\Products\Transformation
+"medium duty truck, battery electric, 18t gross weight, long haul",medium duty truck,transport,Road\Transformation\Infrastructure
+"medium duty truck, battery electric, 26t gross weight, long haul",medium duty truck,transport,Road\Transformation\Infrastructure
 "medium duty truck, battery electric, NMC-622 battery, 18t gross weight, long haul",medium duty truck,transport,Road\Transformation\Infrastructure
 "medium duty truck, battery electric, NMC-622 battery, 26t gross weight, long haul",medium duty truck,transport,Road\Transformation\Infrastructure
 "Medium duty truck, compressed gas, 18t gross weight, EURO-III, long haul","medium duty truck, EURO-III",transport,Road\Transformation\Infrastructure
@@ -8916,6 +8977,10 @@ monoammonium phosphate production,"phosphate fertiliser, as P2O5",material,Other
 "Moped, gasoline, <4kW, EURO-5","moped, gasoline, <4kW, EURO-5",transport,Road\Transformation\Infrastructure
 morpholine production,morpholine,material,Chemicals\Organic\Transformation
 motor scooter production,"motor scooter, 50 cubic cm engine",transport,Road\Transformation\Infrastructure
+"motorbike, battery electric, <4kw","motorbike, battery electric, <4kw",transport,Road\Transformation\Infrastructure
+"motorbike, battery electric, >35kw","motorbike, battery electric, >35kw",transport,Road\Transformation\Infrastructure
+"motorbike, battery electric, 11-35kw","motorbike, battery electric, 11-35kw",transport,Road\Transformation\Infrastructure
+"motorbike, battery electric, 4-11kw","motorbike, battery electric, 4-11kw",transport,Road\Transformation\Infrastructure
 "motorbike, electric, <4kW, LFP battery","motorbike, electric, <4kW",transport,Road\Transformation\Infrastructure
 "motorbike, electric, <4kW, NCA battery","motorbike, electric, <4kW",transport,Road\Transformation\Infrastructure
 "motorbike, electric, <4kW, NMC battery","motorbike, electric, <4kW",transport,Road\Transformation\Infrastructure
@@ -8956,6 +9021,90 @@ multi-Si wafer production,multi-Si wafer,energy,Electricity by fuel\Photovoltaic
 multilayer pouch,multilayer pouch,material,Others\Obsolete
 municipal waste collection service by 21 metric ton lorry,municipal waste collection service by 21 metric ton lorry,transport,Road\Transformation
 municipal waste incineration facility construction,municipal waste incineration facility,processing,Waste\Transformation\Infrastructure
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, economic allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, economic allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, economic allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, energy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, energy allocation","electricity, medium voltage",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, energy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, exergy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, exergy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, exergy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, economic allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, economic allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, economic allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, energy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, energy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, energy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, exergy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, exergy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, exergy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity recovery only, with carbon capture and storage",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity recovery only, with carbon capture and storage, economic allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity recovery only, with carbon capture and storage, economic allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity recovery only, with carbon capture and storage, energy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity recovery only, with carbon capture and storage, energy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity recovery only, with carbon capture and storage, exergy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, with flue gas condensation, with electricity recovery only, with carbon capture and storage, exergy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity and heat recovery",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity and heat recovery, economic allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity and heat recovery, economic allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity and heat recovery, economic allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity and heat recovery, energy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity and heat recovery, energy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity and heat recovery, energy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity and heat recovery, exergy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity and heat recovery, exergy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity and heat recovery, exergy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity recovery only",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity recovery only, economic allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity recovery only, economic allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity recovery only, energy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity recovery only, energy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity recovery only, exergy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with semi-dry air pollution control, without flue gas condensation, with electricity recovery only, exergy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, economic allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, economic allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, economic allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, energy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, energy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, energy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, exergy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, exergy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, exergy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, economic allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, economic allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, economic allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, energy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, energy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, energy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, exergy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, exergy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and heat recovery, with carbon capture and storage, exergy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and optimized heat recovery, with carbon capture and storage",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and optimized heat recovery, with carbon capture and storage, economic allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and optimized heat recovery, with carbon capture and storage, economic allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and optimized heat recovery, with carbon capture and storage, economic allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and optimized heat recovery, with carbon capture and storage, energy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and optimized heat recovery, with carbon capture and storage, energy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and optimized heat recovery, with carbon capture and storage, energy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and optimized heat recovery, with carbon capture and storage, exergy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and optimized heat recovery, with carbon capture and storage, exergy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, with flue gas condensation, with electricity and optimized heat recovery, with carbon capture and storage, exergy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, without flue gas condensation, with electricity and heat recovery",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, without flue gas condensation, with electricity and heat recovery, economic allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, without flue gas condensation, with electricity and heat recovery, economic allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, without flue gas condensation, with electricity and heat recovery, economic allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, without flue gas condensation, with electricity and heat recovery, energy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, without flue gas condensation, with electricity and heat recovery, energy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, without flue gas condensation, with electricity and heat recovery, energy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, without flue gas condensation, with electricity and heat recovery, exergy allocation",municipal solid waste,waste treatment,Incineration\Municipal incineration\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, without flue gas condensation, with electricity and heat recovery, exergy allocation","electricity, medium voltage",energy,Electricity by fuel\Waste\Transformation
+"municipal waste incineration, at incineration plant, with wet air pollution control, without flue gas condensation, with electricity and heat recovery, exergy allocation","heat, district or industrial, other than natural gas",energy,Heat\Others\Transformation
 mustard production,mustard,material,Agricultural\Plant production\Oil seeds\Transformation
 mv switch-disconnector cubicle production,mv switch-disconnector cubicle,material,Others\Obsolete
 mv switchgear and tsg control panel production,mv switchgear and tsg control panel,material,Others\Obsolete
@@ -9133,11 +9282,15 @@ nitrous oxide production,nitrous oxide,material,Chemicals\Gases\Transformation
 "NMC111 hydroxide production, for Li-ion battery","sodium sulfate, anhydrite",material,Chemicals\Inorganic\Transformation
 "NMC111 hydroxide production, for Li-ion battery",nMC111 hydroxide,material,Electronics\Component\Transformation
 "NMC111 oxide production, for Li-ion battery",nMC111 oxide,material,Electronics\Component\Transformation
+nmc523 hydroxide,nmc523 hydroxide,material,Chemicals\Inorganic\Transformation
+nmc523 oxide,nmc523 oxide,material,Chemicals\Inorganic\Transformation
 nmc622 hydroxide,nmc622 hydroxide,material,Chemicals\Inorganic\Transformation
 nmc622 oxide,nmc622 oxide,material,Chemicals\Inorganic\Transformation
 "NMC811 hydroxide production, for Li-ion battery","sodium sulfate, anhydrite",material,Chemicals\Inorganic\Transformation
 "NMC811 hydroxide production, for Li-ion battery",nMC811 hydroxide,material,Electronics\Component\Transformation
 "NMC811 oxide production, for Li-ion battery",nMC811 oxide,material,Electronics\Component\Transformation
+nmc955 hydroxide,nmc955 hydroxide,material,Chemicals\Inorganic\Transformation
+nmc955 oxide,nmc955 oxide,material,Chemicals\Inorganic\Transformation
 "nmmt active material production, for sib battery",nmmt active material,material,Electronics\Battery\Transformation
 "nmvp production, na4mnv(po4)3",nmvp,material,Others\Obsolete
 non-ferrous metal smelter production,non-ferrous metal smelter,material,Metals\Non ferro\Transformation\Infrastructure
@@ -9448,6 +9601,10 @@ paris market carrot production,paris market carrot,material,Agricultural\Plant p
 "passenger bus, battery electric - opportunity charging, LTO battery, 13m single deck urban bus",passenger bus,transport,Road\Transformation\Infrastructure
 "passenger bus, battery electric - opportunity charging, LTO battery, 18m articulated urban bus",passenger bus,transport,Road\Transformation\Infrastructure
 "passenger bus, battery electric - opportunity charging, LTO battery, 9m midibus",passenger bus,transport,Road\Transformation\Infrastructure
+"passenger bus, battery electric - overnight charging, 13m double deck urban bus",passenger bus,transport,Road\Transformation\Infrastructure
+"passenger bus, battery electric - overnight charging, 13m single deck urban bus",passenger bus,transport,Road\Transformation\Infrastructure
+"passenger bus, battery electric - overnight charging, 18m articulated urban bus",passenger bus,transport,Road\Transformation\Infrastructure
+"passenger bus, battery electric - overnight charging, 9m midibus",passenger bus,transport,Road\Transformation\Infrastructure
 "passenger bus, battery electric - overnight charging, NMC-622 battery, 13m double deck urban bus",passenger bus,transport,Road\Transformation\Infrastructure
 "passenger bus, battery electric - overnight charging, NMC-622 battery, 13m single deck urban bus",passenger bus,transport,Road\Transformation\Infrastructure
 "passenger bus, battery electric - overnight charging, NMC-622 battery, 18m articulated urban bus",passenger bus,transport,Road\Transformation\Infrastructure
@@ -9515,6 +9672,13 @@ paris market carrot production,paris market carrot,material,Agricultural\Plant p
 "passenger car production, diesel","passenger car, diesel",transport,Road\Transformation\Infrastructure
 "passenger car production, electric, without battery","passenger car, electric, without battery",transport,Road\Transformation\Infrastructure
 "passenger car production, petrol/natural gas","passenger car, petrol/natural gas",transport,Road\Transformation\Infrastructure
+"passenger car, battery electric, large",passenger car,transport,Road\Transformation\Infrastructure
+"passenger car, battery electric, large suv",passenger car,transport,Road\Transformation\Infrastructure
+"passenger car, battery electric, lower medium",passenger car,transport,Road\Transformation\Infrastructure
+"passenger car, battery electric, medium",passenger car,transport,Road\Transformation\Infrastructure
+"passenger car, battery electric, medium suv",passenger car,transport,Road\Transformation\Infrastructure
+"passenger car, battery electric, micro",passenger car,transport,Road\Transformation\Infrastructure
+"passenger car, battery electric, mini",passenger car,transport,Road\Transformation\Infrastructure
 "passenger car, battery electric, NMC-622 battery, Large",passenger car,transport,Road\Transformation\Infrastructure
 "passenger car, battery electric, NMC-622 battery, Large SUV",passenger car,transport,Road\Transformation\Infrastructure
 "passenger car, battery electric, NMC-622 battery, Lower medium",passenger car,transport,Road\Transformation\Infrastructure
@@ -9524,6 +9688,8 @@ paris market carrot production,paris market carrot,material,Agricultural\Plant p
 "passenger car, battery electric, NMC-622 battery, Mini",passenger car,transport,Road\Transformation\Infrastructure
 "passenger car, battery electric, NMC-622 battery, Small",passenger car,transport,Road\Transformation\Infrastructure
 "passenger car, battery electric, NMC-622 battery, Van",passenger car,transport,Road\Transformation\Infrastructure
+"passenger car, battery electric, small",passenger car,transport,Road\Transformation\Infrastructure
+"passenger car, battery electric, van",passenger car,transport,Road\Transformation\Infrastructure
 "Passenger car, compressed gas, Large SUV, EURO-2","passenger car, EURO-2",transport,Road\Transformation\Infrastructure
 "Passenger car, compressed gas, Large SUV, EURO-3","passenger car, EURO-3",transport,Road\Transformation\Infrastructure
 "Passenger car, compressed gas, Large SUV, EURO-4","passenger car, EURO-4",transport,Road\Transformation\Infrastructure
@@ -10051,6 +10217,7 @@ polyester-complexed starch biopolymer production,polyester-complexed starch biop
 "polyethylene terephthalate, granulate, amorphous, recycled to generic market for amorphous PET granulate","polyethylene terephthalate, granulate, amorphous",material,Plastics\Thermoplasts\Market
 "polyethylene terephthalate, granulate, bottle grade, recycled to generic market for bottle grade PET granulate","polyethylene terephthalate, granulate, bottle grade",material,Plastics\Thermoplasts\Market
 "polyethylene, high density, granulate, recycled to generic market for high density PE granulate","polyethylene, high density, granulate",material,Plastics\Thermoplasts\Market
+"polyethyleneimine pei production, for sorbent-based direct air capture system",polyethyleneimine,material,Plastics\Thermoplasts\Market
 "polylactic acid production, granulate","polylactic acid, granulate",material,Plastics\Biopolymers\Transformation
 "polylactide production, granulate","polylactide, granulate",material,Plastics\Biopolymers\Transformation
 polymer electrolyte membrane (nafion) production,polymer electrolyte membrane (nafion),processing,Plastics\Transformation
@@ -10286,6 +10453,9 @@ production,"wheat grain, feed, Swiss integrated production",material,Others\Obso
 production,white asparagus,material,Others\Obsolete
 production mix,"electricity, high voltage",energy,Others\Obsolete
 production of 2 wt-% potassium iodide solution,2 wt-% potassium iodide solution,material,Others\Obsolete
+"production of locomotive, diesel-electric",locomotive diesel-electric,transport,Rail\Transformation\Infrastructure
+"production of locomotive, electric catenary","locomotive electric, catenary",transport,Rail\Transformation\Infrastructure
+"production of locomotive, fuel cell, hydrogen","locomotive fuel cell, hydrogen",transport,Rail\Transformation\Infrastructure
 production of nickel-based catalyst for methanation,nickel-based catalyst for methanation,material,Fuels\Others\Transformation
 "production, elementary chlorine free bleached",sulfate pulp,material,Others\Obsolete
 "production, from eucalyptus ssp. from sustainable forest management, unbleached",sulfate pulp,material,Others\Obsolete
@@ -10529,6 +10699,9 @@ sanitary landfill facility construction,sanitary landfill facility,processing,Wa
 "sawing and planing, azobe, air dried","residual wood, dry",material,Wood\Byproducts\Transformation
 "sawing and planing, azobe, air dried","sawnwood, azobe, dried (u=15%), planed",material,Wood\Products\Transformation
 "sawing and planing, paran¬á pine, kiln dried","electricity, low voltage",energy,Others\Obsolete
+"sawing and planing, paran√° pine, kiln dried","electricity, low voltage",energy,Others\Obsolete
+"sawing and planing, paran√° pine, kiln dried","residual wood, dry",energy,Others\Obsolete
+"sawing and planing, paran√° pine, kiln dried","sawnwood, paran√° pine, dried u=10%",energy,Others\Obsolete
 "sawing and planing, parana pine, kiln dried","electricity, low voltage",energy,Cogeneration\Biomass\Transformation
 "sawing and planing, parana pine, kiln dried","wood chips, dry, measured as dry mass",material,Others\Obsolete
 "sawing and planing, parana pine, kiln dried","residual wood, dry",material,Wood\Byproducts\Transformation
@@ -10564,6 +10737,7 @@ sawmill construction,sawmill,material,Wood\Products\Transformation\Infrastructur
 "sawnwood production, softwood, dried (u=20%), planed","sawnwood, softwood, dried (u=20%), planed",material,Others\Obsolete
 "sawnwood production, softwood, raw, dried (u=10%)","sawnwood, softwood, raw, dried (u=10%)",material,Others\Obsolete
 "sawnwood production, softwood, raw, dried (u=20%)","sawnwood, softwood, raw, dried (u=20%)",material,Others\Obsolete
+"sawnwood, paran√° pine, dried u=10%, import from br","sawnwood, paran√° pine, dried u=10%",material,Others\Obsolete
 "sawnwood, parana pine, dried (u=10%), import from BR","sawnwood, parana pine, dried (u=10%)",material,Wood\Products\Market\Import
 "sawnwood, paraná pine, dried (u=10%), import from br","sawnwood, paraná pine, dried (u=10%)",material,Wood\Products\Market\Import
 "sba-15 production, for lis battery",sba-15,material,Electronics\Battery\Transformation
@@ -10574,6 +10748,8 @@ sawmill construction,sawmill,material,Wood\Products\Transformation\Infrastructur
 "scandium oxide production, from rare earth tailings",pyrochlore concentrate,material,Metals\Non ferro\Transformation
 "scandium oxide production, from rare earth tailings","fluorspar, 97% purity",material,Minerals\Transformation
 "scandium oxide to generic market for electrolyte, for solid oxide fuel cell","electrolyte, for solid oxide fuel cell",energy,Cogeneration\Gas\Market\Infrastructure
+"scooter, battery electric, <4kw","scooter, battery electric, <4kw",transport,Road\Transformation\Infrastructure
+"scooter, battery electric, 4-11kw","scooter, battery electric, 4-11kw",transport,Road\Transformation\Infrastructure
 "scooter, electric, <4kW, LFP battery","scooter, electric, <4kW",transport,Road\Transformation\Infrastructure
 "scooter, electric, <4kW, NCA battery","scooter, electric, <4kW",transport,Road\Transformation\Infrastructure
 "scooter, electric, <4kW, NMC battery","scooter, electric, <4kW",transport,Road\Transformation\Infrastructure
@@ -10643,6 +10819,7 @@ shed construction,shed,material,Agricultural\Plant production\Other\Transformati
 "silencer production, steel, DN 125","silencer, steel, DN 125",material,Construction\Ventilation\Transformation
 "silencer production, steel, DN 315, 50 mm","silencer, steel, DN 315, 50 mm",material,Construction\Ventilation\Transformation
 "silica fume, densified, Recycled Content cut-off","silica fume, densified",material,Chemicals\Inorganic\Transformation
+"silica gel production, for sorbent-based direct air capture system",silica gel,material,Chemicals\Inorganic\Transformation
 silica sand production,silica sand,material,Chemicals\Inorganic\Transformation
 silicon carbide production,silicon carbide,material,Chemicals\Inorganic\Transformation
 silicon hydrochloration,silicon tetrachloride,material,Chemicals\Inorganic\Transformation
@@ -10775,6 +10952,7 @@ sodium tripolyphosphate production,sodium tripolyphosphate,material,Chemicals\Wa
 "softwood forestry, mixed species, sustainable forest management","cleft timber, measured as dry mass",material,Wood\Extraction\Transformation
 "softwood forestry, mixed species, sustainable forest management","pulpwood, softwood, measured as solid wood under bark",material,Wood\Extraction\Transformation
 "softwood forestry, mixed species, sustainable forest management","sawlog and veneer log, softwood, measured as solid wood under bark",material,Wood\Extraction\Transformation
+"softwood forestry, paran√° pine, sustainable forest management","sawlog and veneer log, paran√° pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
 "softwood forestry, parana pine, sustainable forest management","sawlog and veneer log, parana pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
 "softwood forestry, paraná pine, sustainable forest management","sawlog and veneer log, paraná pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
 "softwood forestry, paraná pine, sustainable forest management","sawlog and veneer log, paraná pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
@@ -11210,6 +11388,7 @@ transformers,transformers,transport,Road\Transformation\Infrastructure
 "transmission network construction, electricity, medium voltage","transmission network, electricity, medium voltage",transport,Electricity\Transformation\Infrastructure
 "transmission network construction, long-distance","transmission network, long-distance",transport,Others\Obsolete
 "transmission, for lorry","transmission, for lorry",transport,Road\Transformation\Infrastructure
+"transport, bicycle, battery electric, cargo bike","transport, bicycle, battery electric, cargo bike",transport,Road\Transformation
 "transport, Bicycle, conventional, urban","transport, Bicycle, conventional, urban",transport,Road\Transformation
 "transport, Bicycle, electric (<25 km/h), LFP battery","transport, Bicycle, electric (<25 km/h)",transport,Road\Transformation
 "transport, Bicycle, electric (<25 km/h), NCA battery","transport, Bicycle, electric (<25 km/h)",transport,Road\Transformation
@@ -11217,13 +11396,18 @@ transformers,transformers,transport,Road\Transformation\Infrastructure
 "transport, Bicycle, electric (<45 km/h), LFP battery","transport, Bicycle, electric (<45 km/h)",transport,Road\Transformation
 "transport, Bicycle, electric (<45 km/h), NCA battery","transport, Bicycle, electric (<45 km/h)",transport,Road\Transformation
 "transport, Bicycle, electric (<45 km/h), NMC battery","transport, Bicycle, electric (<45 km/h)",transport,Road\Transformation
+"transport, bicycle, electric <25 km/h","transport, bicycle, electric <25 km/h",transport,Road\Transformation
+"transport, bicycle, electric <45 km/h","transport, bicycle, electric <45 km/h",transport,Road\Transformation
 "transport, Bicycle, electric, cargo bike, LFP battery","transport, Bicycle, electric, cargo bike",transport,Road\Transformation
 "transport, Bicycle, electric, cargo bike, NCA battery","transport, Bicycle, electric, cargo bike",transport,Road\Transformation
 "transport, Bicycle, electric, cargo bike, NMC battery","transport, Bicycle, electric, cargo bike",transport,Road\Transformation
 "transport, freight train","transport, freight train",transport,Rail\Transformation
 "transport, freight train, diesel","transport, freight train",transport,Rail\Transformation
+"transport, freight train, diesel-electric","transport, freight train",transport,Rail\Transformation
 "transport, freight train, diesel, with particle filter","transport, freight train",transport,Rail\Transformation
+"transport, freight train, electric","transport, freight train",transport,Rail\Transformation
 "transport, freight train, electricity","transport, freight train",transport,Rail\Transformation
+"transport, freight train, fuel cell, hydrogen","transport, freight train",transport,Rail\Transformation
 "transport, freight train, steam","transport, freight train",transport,Rail\Transformation
 "transport, freight, aircraft with reefer, cooling","transport, freight, aircraft with reefer, cooling",transport,Air\Transformation
 "transport, freight, aircraft with reefer, freezing","transport, freight, aircraft with reefer, freezing",transport,Air\Transformation
@@ -11312,8 +11496,11 @@ transformers,transformers,transport,Road\Transformation\Infrastructure
 "transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, carbon dioxide, liquid refrigerant, freezing","transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, carbon dioxide, liquid refrigerant, freezing",transport,Road\Transformation
 "transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, R134a refrigerant, cooling","transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, R134a refrigerant, cooling",transport,Road\Transformation
 "transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, R134a refrigerant, freezing","transport, freight, lorry with refrigeration machine, 7.5-16 ton, EURO6, R134a refrigerant, freezing",transport,Road\Transformation
+"transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul","transport, freight, lorry",transport,Road\Transformation
 "transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul","transport, freight, lorry",transport,Road\Transformation
+"transport, freight, lorry, 3.5t gross weight, unspecified powertrain, long haul","transport, freight, lorry",transport,Road\Transformation
 "transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul","transport, freight, lorry",transport,Road\Transformation
+"transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul","transport, freight, lorry",transport,Road\Transformation
 "transport, freight, lorry, all sizes, EURO1 to generic market for transport, freight, lorry, unspecified","transport, freight, lorry, unspecified",transport,Road\Market
 "transport, freight, lorry, all sizes, EURO2 to generic market for transport, freight, lorry, unspecified","transport, freight, lorry, unspecified",transport,Road\Market
 "transport, freight, lorry, all sizes, EURO3 to generic market for transport, freight, lorry, unspecified","transport, freight, lorry, unspecified",transport,Road\Market
@@ -11321,6 +11508,13 @@ transformers,transformers,transport,Road\Transformation\Infrastructure
 "transport, freight, lorry, all sizes, EURO5 to generic market for transport, freight, lorry, unspecified","transport, freight, lorry, unspecified",transport,Road\Market
 "transport, freight, lorry, all sizes, EURO6 to generic market for transport, freight, lorry, unspecified","transport, freight, lorry, unspecified",transport,Road\Market
 "transport, freight, lorry, all sizes, unregulated to generic market for transport, freight, lorry, unspecified","transport, freight, lorry, unspecified",transport,Road\Market
+"transport, freight, lorry, battery electric, 18t gross weight, long haul","transport, freight, lorry",transport,Road\Transformation
+"transport, freight, lorry, battery electric, 26t gross weight, long haul","transport, freight, lorry",transport,Road\Transformation
+"transport, freight, lorry, battery electric, 3.5t gross weight, long haul","transport, freight, lorry",transport,Road\Transformation
+"transport, freight, lorry, battery electric, 32t gross weight, long haul","transport, freight, lorry",transport,Road\Transformation
+"transport, freight, lorry, battery electric, 40t gross weight, long haul","transport, freight, lorry",transport,Road\Transformation
+"transport, freight, lorry, battery electric, 60t gross weight, long haul","transport, freight, lorry",transport,Road\Transformation
+"transport, freight, lorry, battery electric, 7.5t gross weight, long haul","transport, freight, lorry",transport,Road\Transformation
 "transport, freight, lorry, battery electric, NMC-622 battery, 18t gross weight, long haul","transport, freight, lorry",transport,Road\Transformation
 "transport, freight, lorry, battery electric, NMC-622 battery, 26t gross weight, long haul","transport, freight, lorry",transport,Road\Transformation
 "transport, freight, lorry, battery electric, NMC-622 battery, 3.5t gross weight, long haul","transport, freight, lorry",transport,Road\Transformation
@@ -11434,14 +11628,20 @@ transformers,transformers,transport,Road\Transformation\Infrastructure
 "transport, freight, small lorry with refrigeration machine, EURO6, R134a refrigerant, freezing to generic market","transport, freight, lorry with refrigeration machine, freezing",transport,Road\Transformation
 "transport, freight, train with reefer, cooling","transport, freight, train with reefer, cooling",transport,Rail\Transformation
 "transport, freight, train with reefer, freezing","transport, freight, train with reefer, freezing",transport,Rail\Transformation
+"transport, freight, train, unspecified","transport, freight, train",transport,Rail\Transformation
 "transport, helicopter","transport, helicopter",transport,Air\Transformation
 "transport, helicopter, LTO cycle","transport, helicopter, LTO cycle",transport,Air\Transformation
+"transport, kick scooter, battery electric, <1kw","transport, kick scooter, battery electric, <1kw",transport,Road\Transformation
 "transport, Kick Scooter, electric, <1kW, LFP battery","transport, Kick Scooter, electric, <1kW",transport,Road\Transformation
 "transport, Kick Scooter, electric, <1kW, NCA battery","transport, Kick Scooter, electric, <1kW",transport,Road\Transformation
 "transport, Kick Scooter, electric, <1kW, NMC battery","transport, Kick Scooter, electric, <1kW",transport,Road\Transformation
 "transport, Moped, gasoline, <4kW, EURO-3","transport, Moped, gasoline, <4kW, EURO-3",transport,Road\Transformation
 "transport, Moped, gasoline, <4kW, EURO-4","transport, Moped, gasoline, <4kW, EURO-4",transport,Road\Transformation
 "transport, Moped, gasoline, <4kW, EURO-5","transport, Moped, gasoline, <4kW, EURO-5",transport,Road\Transformation
+"transport, motorbike, battery electric, <4kw","transport, motorbike, battery electric, <4kw",transport,Road\Transformation
+"transport, motorbike, battery electric, >35kw","transport, motorbike, battery electric, >35kw",transport,Road\Transformation
+"transport, motorbike, battery electric, 11-35kw","transport, motorbike, battery electric, 11-35kw",transport,Road\Transformation
+"transport, motorbike, battery electric, 4-11kw","transport, motorbike, battery electric, 4-11kw",transport,Road\Transformation
 "transport, Motorbike, electric, <4kW, LFP battery","transport, Motorbike, electric, <4kW",transport,Road\Transformation
 "transport, Motorbike, electric, <4kW, NCA battery","transport, Motorbike, electric, <4kW",transport,Road\Transformation
 "transport, Motorbike, electric, <4kW, NMC battery","transport, Motorbike, electric, <4kW",transport,Road\Transformation
@@ -11463,6 +11663,7 @@ transformers,transformers,transport,Road\Transformation\Infrastructure
 "transport, Motorbike, gasoline, 4-11kW, EURO-3","transport, Motorbike, gasoline, 4-11kW, EURO-3",transport,Road\Transformation
 "transport, Motorbike, gasoline, 4-11kW, EURO-4","transport, Motorbike, gasoline, 4-11kW, EURO-4",transport,Road\Transformation
 "transport, Motorbike, gasoline, 4-11kW, EURO-5","transport, Motorbike, gasoline, 4-11kW, EURO-5",transport,Road\Transformation
+"transport, motorbike, unspecified","transport, motorbike",transport,Road\Transformation
 "transport, passenger aircraft, all distances to generic market for transport, passenger aircraft, unspecified","transport, passenger aircraft, unspecified",transport,Air\Market
 "transport, passenger aircraft, long haul","transport, passenger aircraft, long haul",transport,Air\Transformation
 "transport, passenger aircraft, medium haul","transport, passenger aircraft, medium haul",transport,Air\Transformation
@@ -11474,6 +11675,10 @@ transformers,transformers,transport,Road\Transformation\Infrastructure
 "transport, passenger bus, battery electric - opportunity charging, LTO battery, 13m single deck urban bus","transport, passenger bus",transport,Road\Transformation
 "transport, passenger bus, battery electric - opportunity charging, LTO battery, 18m articulated urban bus","transport, passenger bus",transport,Road\Transformation
 "transport, passenger bus, battery electric - opportunity charging, LTO battery, 9m midibus","transport, passenger bus",transport,Road\Transformation
+"transport, passenger bus, battery electric - overnight charging, 13m double deck urban bus","transport, passenger bus",transport,Road\Transformation
+"transport, passenger bus, battery electric - overnight charging, 13m single deck urban bus","transport, passenger bus",transport,Road\Transformation
+"transport, passenger bus, battery electric - overnight charging, 18m articulated urban bus","transport, passenger bus",transport,Road\Transformation
+"transport, passenger bus, battery electric - overnight charging, 9m midibus","transport, passenger bus",transport,Road\Transformation
 "transport, passenger bus, battery electric - overnight charging, NMC-622 battery, 13m double deck urban bus","transport, passenger bus",transport,Road\Transformation
 "transport, passenger bus, battery electric - overnight charging, NMC-622 battery, 13m single deck urban bus","transport, passenger bus",transport,Road\Transformation
 "transport, passenger bus, battery electric - overnight charging, NMC-622 battery, 18m articulated urban bus","transport, passenger bus",transport,Road\Transformation
@@ -11538,8 +11743,16 @@ transformers,transformers,transport,Road\Transformation\Infrastructure
 "transport, passenger bus, fuel cell electric, 13m single deck urban bus","transport, passenger bus",transport,Road\Transformation
 "transport, passenger bus, fuel cell electric, 18m articulated urban bus","transport, passenger bus",transport,Road\Transformation
 "transport, passenger bus, fuel cell electric, 9m midibus","transport, passenger bus",transport,Road\Transformation
+"transport, passenger bus, unspecified","transport, passenger bus",transport,Road\Transformation
 "transport, passenger car","transport, passenger car",transport,Road\Transformation
 "transport, passenger car with internal combustion engine","transport, passenger car with internal combustion engine",transport,Road\Transformation
+"transport, passenger car, battery electric, large","transport, passenger car",transport,Road\Transformation
+"transport, passenger car, battery electric, large suv","transport, passenger car",transport,Road\Transformation
+"transport, passenger car, battery electric, lower medium","transport, passenger car",transport,Road\Transformation
+"transport, passenger car, battery electric, medium","transport, passenger car",transport,Road\Transformation
+"transport, passenger car, battery electric, medium suv","transport, passenger car",transport,Road\Transformation
+"transport, passenger car, battery electric, micro","transport, passenger car",transport,Road\Transformation
+"transport, passenger car, battery electric, mini","transport, passenger car",transport,Road\Transformation
 "transport, passenger car, battery electric, NMC-622 battery, Large","transport, passenger car",transport,Road\Transformation
 "transport, passenger car, battery electric, NMC-622 battery, Large SUV","transport, passenger car",transport,Road\Transformation
 "transport, passenger car, battery electric, NMC-622 battery, Lower medium","transport, passenger car",transport,Road\Transformation
@@ -11549,6 +11762,8 @@ transformers,transformers,transport,Road\Transformation\Infrastructure
 "transport, passenger car, battery electric, NMC-622 battery, Mini","transport, passenger car",transport,Road\Transformation
 "transport, passenger car, battery electric, NMC-622 battery, Small","transport, passenger car",transport,Road\Transformation
 "transport, passenger car, battery electric, NMC-622 battery, Van","transport, passenger car",transport,Road\Transformation
+"transport, passenger car, battery electric, small","transport, passenger car",transport,Road\Transformation
+"transport, passenger car, battery electric, van","transport, passenger car",transport,Road\Transformation
 "transport, passenger car, compressed gas, Large SUV, EURO-2","transport, passenger car, EURO-2",transport,Road\Transformation
 "transport, passenger car, compressed gas, Large SUV, EURO-3","transport, passenger car, EURO-3",transport,Road\Transformation
 "transport, passenger car, compressed gas, Large SUV, EURO-4","transport, passenger car, EURO-4",transport,Road\Transformation
@@ -11773,6 +11988,7 @@ transformers,transformers,transport,Road\Transformation\Infrastructure
 "transport, passenger car, small size, petrol, EURO 3","transport, passenger car, small size, petrol, EURO 3",transport,Road\Transformation
 "transport, passenger car, small size, petrol, EURO 4","transport, passenger car, small size, petrol, EURO 4",transport,Road\Transformation
 "transport, passenger car, small size, petrol, EURO 5","transport, passenger car, small size, petrol, EURO 5",transport,Road\Transformation
+"transport, passenger car, unspecified","transport, passenger car",transport,Road\Transformation
 "transport, passenger coach","transport, passenger coach",transport,Road\Transformation
 "transport, passenger train","transport, passenger train",transport,Rail\Transformation
 "transport, passenger train, high-speed","transport, passenger train",transport,Rail\Transformation
@@ -11794,6 +12010,8 @@ transformers,transformers,transport,Road\Transformation\Infrastructure
 "transport, pipeline, supercritical carbon dioxide, 200km with recompression","transport, pipeline, supercritical carbon dioxide, 200km with recompression",transport,Road\Transformation
 "transport, pipeline, supercritical carbon dioxide, 200km without recompression","transport, pipeline, supercritical carbon dioxide, 200km without recompression",transport,Road\Transformation
 "transport, regular bus","transport, regular bus",transport,Road\Transformation
+"transport, scooter, battery electric, <4kw","transport, scooter, battery electric, <4kw",transport,Road\Transformation
+"transport, scooter, battery electric, 4-11kw","transport, scooter, battery electric, 4-11kw",transport,Road\Transformation
 "transport, Scooter, electric, <4kW, LFP battery","transport, Scooter, electric, <4kW",transport,Road\Transformation
 "transport, Scooter, electric, <4kW, NCA battery","transport, Scooter, electric, <4kW",transport,Road\Transformation
 "transport, Scooter, electric, <4kW, NMC battery","transport, Scooter, electric, <4kW",transport,Road\Transformation
@@ -14176,6 +14394,7 @@ ventilation components factory construction,ventilation components factory,mater
 "ventilation duct production, elbow 90°, steel, 100x50 mm","ventilation duct, elbow 90°, steel, 100x50 mm",material,Construction\Ventilation\Transformation
 "ventilation duct production, elbow 90°, steel, 100x50 mm","ventilation duct, elbow 90°, steel, 100x50 mm",material,Construction\Ventilation\Transformation
 "ventilation duct production, elbow 90¬°, steel, 100x50 mm","ventilation duct, elbow 90¬°, steel, 100x50 mm",material,Metals\Ferro\Transformation
+"ventilation duct production, elbow 90¬∞, steel, 100x50 mm","ventilation duct, elbow 90¬∞, steel, 100x50 mm",material,Construction\Ventilation\Transformation
 "ventilation duct production, steel, 100x50 mm","ventilation duct, steel, 100x50 mm",material,Construction\Ventilation\Transformation
 "ventilation of dwellings, central, 1 x 720 m3/h, polyethylene ducts, with earth tube heat exchanger","ventilation of dwellings, central, 1 x 720 m3/h",processing,Ventilation\Transformation
 "ventilation of dwellings, central, 1 x 720 m3/h, steel ducts, with earth tube heat exchanger","ventilation of dwellings, central, 1 x 720 m3/h",processing,Ventilation\Transformation
@@ -14438,3 +14657,64 @@ zirconium oxide production,zirconium oxide,material,Chemicals\Inorganic\Transfor
 "zirconium oxide to generic market for electrolyte, for solid oxide fuel cell","electrolyte, for solid oxide fuel cell",energy,Cogeneration\Gas\Market\Infrastructure
 "zirconium sponge production, from zirconium tetrachloride","zirconium sponge, nuclear-grade",material,Metals\Non ferro\Transformation
 zucchini production,zucchini,material,Agricultural\Plant production\Vegetables\Transformation
+"market for battery capacity (mix scenario)","battery capacity",material,Electronics\Battery\Transformation
+"market for battery capacity (lfp scenario)","battery capacity",material,Electronics\Battery\Transformation
+"market for battery capacity (ncx scenario)","battery capacity",material,Electronics\Battery\Transformation
+"market for battery capacity (plib scenario)","battery capacity",material,Electronics\Battery\Transformation
+"bicycle, electric (<25 km/h)","bicycle, electric (<25 km/h)",transport,Road\Transformation\Infrastructure
+"transport, bicycle, electric (<25 km/h)","transport, bicycle, electric (<25 km/h)",transport,Road\Transformation
+"bicycle, electric (<45 km/h)","bicycle, electric (<45 km/h)",transport,Road\Transformation\Infrastructure
+"transport, bicycle, electric (<45 km/h)","transport, bicycle, electric (<45 km/h)",transport,Road\Transformation
+"coating, drying, optical lithography","gaas wafer with resist patterned",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"electroplating","gaas wafer with resist and gold particles",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"wet etching","gaas wafer with gold particles",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"metal organic vapor phase epitaxy (movpe)","gaas wafer with nanowires",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"epitaxial lift-off (elo)","gaas wafer - re-polished for reuse",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"polycrystalline gaas boule production","polycrystalline gaas boule",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"7n gallium production","7n gallium",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"7n arsenic production","7n arsenic",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"single-crystal gaas boule production","single-crystal gaas boule",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"gaas ingot production - x-ray, cropping, grinding notch","single-crystal gaas ingot",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"diamond saw production","diamond saw",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"synthetic diamond production","synthetic diamond",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"raw gaas wafer production","raw gaas wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"sawing slurry production","sawing slurry",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"etched gaas wafer production - cleaning, etching","etched gaas wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"pre-polished gaas wafer production","pre-polished gaas wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"double-polished gaas wafer production - chemical, mechanical polishing (cmp)","double-polished gaas wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"cmp slurry production","cmp slurry",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"gaas wafer production - cleaning, quality control, packing","gaas wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"trimethyl aluminum 99% pure production","trimethyl aluminum 99% pure",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"methyl aluminum sesquichloride production","methyl aluminum sesquichloride",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"trimethyl gallium 99% pure production","trimethyl gallium 99% pure",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"gallium chloride production","gallium chloride",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"photovoltaic installation, 0.28kwp, gaas","photovoltaic installation, gaas",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"electricity production, photovoltaic, 0.28kwp, gaas","electricity production, photovoltaic, 0.28kwp, gaas",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"perovskite wafer production","perovskite wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"perovskite wafer packaging","perovskite wafer, packaged",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"perovskite wafer transport","perovskite wafer, transported",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"perovskite wafer cleaning","perovskite wafer, cleaned",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"pecvd of thin film layer, for perovskite","cell, perovskite, to sputter",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"sputter process 1, perovskite cell","perovskite cell, sputtered 1",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"sputter process 2, perovskite cell","perovskite cell, sputtered 2",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"spiro-ometad deposition of perovskite cell","spiro-ometad deposited perovskite cell",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"perovskite cell deposition","deposited perovskite cell",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"perovskite cell curing 1","cured perovskite cell 1",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"perovskite cell zinc oxide deposition","zinc oxide deposited perovskite cell",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"sputter process 3, perovskite cell","perovskite cell, sputtered 3",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"perovskite cell contact formation","metallized perovskite cell",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"perovskite cell curing 2","cured perovskite cell 2",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"photovoltaic cell production, perovskite","photovoltaic cell, perovskite",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"perovskite module assembly","assembled perovskite cell",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"photovoltaic panel production, 0.5kwp, perovskite","photovoltaic panel, perovskite",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"electricity production, photovoltaic, 0.5kwp, perovskite-on-silicon tandem","electricity production, photovoltaic, 0.5kwp, perovskite-on-silicon tandem",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"exhaust abatement, for perovskite","abated exhaust",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"tray cleaning, for perovskite","tray cleaning",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"ultrapure water system activity, for perovskite","ultra pure water",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"inhouse waste water treatment, for perovskite production","waste water",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"process cooling, water, for perovskite","cooling water, conditioned",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"process cooling, water, for perovskite","cooling water, used",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"air compressor activity, for perovskite","compressed air, 14 bar, low efficiency",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"process exhaust ventilators, general, for perovskite production","exhaust, general",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"process exhaust ventilators, acidic, for perovskite production","exhaust, acidic",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"process exhaust ventilators, caustic, for perovskite production","exhaust, caustic",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
