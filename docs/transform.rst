@@ -1255,7 +1255,7 @@ The following table shows the correspondence between the original
 truck transport datasets and the new ones replacing them:
 
  ======================================================================== ======================================================================= =======================================================================
-  Original dataset                                                         Replaced by (REMIND)                                                    Replaced by (IMAGE)
+  Original dataset                                                         Replaced by                                                    Replaced by (IMAGE)
  ======================================================================== ======================================================================= =======================================================================
   transport, freight, lorry, unspecified                                    transport, freight, lorry, unspecified                                  transport, freight, lorry, unspecified
   transport, freight, lorry 16-32 metric ton                                transport, freight, lorry, 26t gross weight, unspecified powertrain     transport, freight, lorry, 26t gross weight, unspecified powertrain
@@ -1299,7 +1299,7 @@ the following name:
  ================================================================ ================================================
   train transport dataset name                                     description
  ================================================================ ================================================
-    transport, freight, train, unspecified                         fleet average freight train
+  transport, freight, train, unspecified                           fleet average freight train
  ================================================================ ================================================
 
 
