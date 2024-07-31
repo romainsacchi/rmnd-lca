@@ -137,6 +137,7 @@ def remove_categories(database: List[dict]) -> List[dict]:
 
     return database
 
+
 def strip_string_from_spaces(database: List[dict]) -> List[dict]:
     """
     Strip strings from spaces in the dataset of the wurst inventory database.
