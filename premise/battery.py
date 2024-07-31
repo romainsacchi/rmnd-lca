@@ -47,7 +47,10 @@ def _update_battery(scenario, version, system_model):
 
     battery.adjust_battery_mass()
 
-    if battery.iam_data.battery_mobile_scenarios is not None or battery.iam_data.battery_stationary_scenarios is not None:
+    if (
+        battery.iam_data.battery_mobile_scenarios is not None
+        or battery.iam_data.battery_stationary_scenarios is not None
+    ):
         battery.adjust_battery_market_shares()
 
     scenario["database"] = battery.database
@@ -134,11 +137,13 @@ class Battery(BaseTransformation):
                 "NMC622": "market for battery capacity, Li-ion, NMC622, stationary",
                 "NMC811": "market for battery capacity, Li-ion, NMC811, stationary",
                 "VRFB": "market for battery capacity, redox-flow, Vanadium, stationary",
-                "LEAD-ACID": "market for battery capacity, lead acid, rechargeable, stationary"
+                "LEAD-ACID": "market for battery capacity, lead acid, rechargeable, stationary",
             }.items()
         }
 
-        self._adjust_shares(market_datasets_stationary, datasets_mapping_stationary, "stationary")
+        self._adjust_shares(
+            market_datasets_stationary, datasets_mapping_stationary, "stationary"
+        )
         self._adjust_shares(market_datasets_mobile, datasets_mapping_mobile, "mobile")
 
     def _adjust_shares(self, market_datasets, datasets_mapping, market_type):
@@ -149,8 +154,6 @@ class Battery(BaseTransformation):
             battery_scenarios = self.iam_data.battery_mobile_scenarios
         else:
             battery_scenarios = self.iam_data.battery_stationary_scenarios
-
-
 
         for ds in ws.get_many(
             self.database,
@@ -294,24 +297,24 @@ class Battery(BaseTransformation):
         Write log file.
         """
 
-        log_params = dataset.get('log parameters', {})
-        battery_input = log_params.get('battery input', '')
-        old_battery_mass = log_params.get('old battery mass', '')
-        new_battery_mass = log_params.get('new battery mass', '')
+        log_params = dataset.get("log parameters", {})
+        battery_input = log_params.get("battery input", "")
+        old_battery_mass = log_params.get("old battery mass", "")
+        new_battery_mass = log_params.get("new battery mass", "")
 
         shares = [
-            log_params.get('NMC111 market share', ''),
-            log_params.get('NMC532 market share', ''),
-            log_params.get('NMC622 market share', ''),
-            log_params.get('NMC811 market share', ''),
-            log_params.get('NMC900-Si market share', ''),
-            log_params.get('LFP market share', ''),
-            log_params.get('NCA market share', ''),
-            log_params.get('LAB market share', ''),
-            log_params.get('LSB market share', ''),
-            log_params.get('SIB market share', ''),
-            log_params.get('VRFB market share', ''),
-            log_params.get('LEAD-ACID market share', '')
+            log_params.get("NMC111 market share", ""),
+            log_params.get("NMC532 market share", ""),
+            log_params.get("NMC622 market share", ""),
+            log_params.get("NMC811 market share", ""),
+            log_params.get("NMC900-Si market share", ""),
+            log_params.get("LFP market share", ""),
+            log_params.get("NCA market share", ""),
+            log_params.get("LAB market share", ""),
+            log_params.get("LSB market share", ""),
+            log_params.get("SIB market share", ""),
+            log_params.get("VRFB market share", ""),
+            log_params.get("LEAD-ACID market share", ""),
         ]
 
         logger.info(

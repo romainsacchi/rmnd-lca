@@ -168,7 +168,9 @@ FILEPATH_FUEL_CELL = INVENTORY_DIR / "lci-fuel_cell.xlsx"
 FILEPATH_CSP = INVENTORY_DIR / "lci-concentrating-solar-power.xlsx"
 FILEPATH_HOME_STORAGE_BATTERIES = INVENTORY_DIR / "lci-home-batteries.xlsx"
 FILEPATH_VANADIUM = INVENTORY_DIR / "lci-batteries-vanadium.xlsx"
-FILEPATH_VANADIUM_REDOX_BATTERY = INVENTORY_DIR / "lci-batteries-vanadium-redox-flow.xlsx"
+FILEPATH_VANADIUM_REDOX_BATTERY = (
+    INVENTORY_DIR / "lci-batteries-vanadium-redox-flow.xlsx"
+)
 FILEPATH_SIB_BATTERY = INVENTORY_DIR / "lci-batteries-SIB.xlsx"
 FILEPATH_HYDROGEN_TURBINE = INVENTORY_DIR / "lci-hydrogen-turbine.xlsx"
 FILEPATH_HYDROGEN_HEATING = INVENTORY_DIR / "lci-hydrogen-heating.xlsx"
