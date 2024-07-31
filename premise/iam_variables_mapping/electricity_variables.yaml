@@ -902,7 +902,7 @@ Solar PV Residential:
 Storage, Flow Battery:
   ecoinvent_aliases:
     fltr:
-    - electricity supply, high voltage, from vanadium-redox flow battery system
+    - market for battery capacity, stationary (TC scenario)
   iam_aliases:
     image: Secondary Energy|Electricity|Storage
     message: Secondary Energy|Electricity|Storage

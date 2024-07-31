@@ -137,6 +137,41 @@ def remove_categories(database: List[dict]) -> List[dict]:
 
     return database
 
+def strip_string_from_spaces(database: List[dict]) -> List[dict]:
+    """
+    Strip strings from spaces in the dataset of the wurst inventory database.
+    Modifies in place (does not return anything).
+
+    :param database: wurst inventory database
+    :type database: list
+
+    """
+    for dataset in database:
+        dataset["name"] = dataset["name"].strip()
+        # also check for unicode characters like \xa0
+        dataset["name"] = dataset["name"].replace("\xa0", "")
+
+        dataset["reference product"] = dataset["reference product"].strip()
+        dataset["location"] = dataset["location"].strip()
+        for exc in dataset["exchanges"]:
+            exc["name"] = exc["name"].strip()
+            # also check for unicode characters like \xa0
+            exc["name"] = exc["name"].replace("\xa0", "")
+            if exc.get("product"):
+                exc["product"] = exc["product"].strip()
+                # also check for unicode characters like \xa0
+                exc["product"] = exc["product"].replace("\xa0", "")
+            if exc.get("reference product"):
+                exc["reference product"] = exc["reference product"].strip()
+                # also check for unicode characters like \xa0
+                exc["reference product"] = exc["reference product"].replace("\xa0", "")
+            if exc.get("location"):
+                exc["location"] = exc["location"].strip()
+            if exc.get("unit"):
+                exc["unit"] = exc["unit"].strip()
+
+    return database
+
 
 class DatabaseCleaner:
     """
@@ -163,6 +198,8 @@ class DatabaseCleaner:
                 )
             self.database = wurst.extract_brightway2_databases(source_db)
             self.database = remove_categories(self.database)
+            # strip strings form spaces
+            self.database = strip_string_from_spaces(self.database)
 
         if source_type == "ecospold":
             # The ecospold data needs to be formatted
@@ -171,6 +208,9 @@ class DatabaseCleaner:
             )
             ecoinvent.apply_strategies()
             self.database = ecoinvent.data
+            # strip strings form spaces
+            self.database = strip_string_from_spaces(self.database)
+
             # Location field is added to exchanges
             self.add_location_field_to_exchanges()
             # Product field is added to exchanges

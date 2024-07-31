@@ -1169,6 +1169,10 @@ class Export:
                             "Cannot find the biosphere flow",
                             exc["name"],
                             exc["categories"],
+                            "in ",
+                            ds["name"],
+                            ds["reference product"],
+                            ds["location"],
                         )
                         row = ()
                     list_rows.append(row)
