@@ -47,7 +47,7 @@ def _update_battery(scenario, version, system_model):
 
     battery.adjust_battery_mass()
 
-    if battery.iam_data.battery_scenarios is not None:
+    if battery.iam_data.battery_mobile_scenarios is not None or battery.iam_data.battery_stationary_scenarios is not None:
         battery.adjust_battery_market_shares()
 
     scenario["database"] = battery.database
@@ -98,14 +98,19 @@ class Battery(BaseTransformation):
         - market for battery capacity (PLiB scenario)
         """
 
-        market_datasets = {
+        market_datasets_mobile = {
             "market for battery capacity (MIX scenario)": "MIX",
             "market for battery capacity (LFP scenario)": "LFP",
             "market for battery capacity (NCx scenario)": "NCX",
             "market for battery capacity (PLiB scenario)": "PLIB",
         }
 
-        datasets_mapping = {
+        market_datasets_stationary = {
+            "market for battery capacity, stationary (CONT scenario)": "cont",
+            "market for battery capacity, stationary (TC scenario)": "tc",
+        }
+
+        datasets_mapping_mobile = {
             v: k
             for k, v in {
                 "LAB": "market for battery capacity, Li-ion, Li-O2",
@@ -121,28 +126,54 @@ class Battery(BaseTransformation):
             }.items()
         }
 
+        datasets_mapping_stationary = {
+            v: k
+            for k, v in {
+                "LFP": "market for battery capacity, Li-ion, LFP, stationary",
+                "NMC111": "market for battery capacity, Li-ion, NMC111, stationary",
+                "NMC622": "market for battery capacity, Li-ion, NMC622, stationary",
+                "NMC811": "market for battery capacity, Li-ion, NMC811, stationary",
+                "VRFB": "market for battery capacity, redox-flow, Vanadium, stationary",
+                "LEAD-ACID": "market for battery capacity, lead acid, rechargeable, stationary"
+            }.items()
+        }
+
+        self._adjust_shares(market_datasets_stationary, datasets_mapping_stationary, "stationary")
+        self._adjust_shares(market_datasets_mobile, datasets_mapping_mobile, "mobile")
+
+    def _adjust_shares(self, market_datasets, datasets_mapping, market_type):
+        """
+        Adjust the shares within the datasets.
+        """
+        if market_type == "mobile":
+            battery_scenarios = self.iam_data.battery_mobile_scenarios
+        else:
+            battery_scenarios = self.iam_data.battery_stationary_scenarios
+
+
+
         for ds in ws.get_many(
             self.database,
             ws.either(*[ws.equals("name", name) for name in market_datasets]),
         ):
 
-            if self.year in self.iam_data.battery_scenarios.year:
-                shares = self.iam_data.battery_scenarios.sel(
+            if self.year in battery_scenarios.year:
+                shares = battery_scenarios.sel(
                     scenario=market_datasets[ds["name"]],
                     year=self.year,
                 )
-            elif self.year < min(self.iam_data.battery_scenarios.year):
-                shares = self.iam_data.battery_scenarios.sel(
+            elif self.year < min(battery_scenarios.year):
+                shares = battery_scenarios.sel(
                     scenario=market_datasets[ds["name"]],
-                    year=min(self.iam_data.battery_scenarios.year),
+                    year=min(battery_scenarios.year),
                 )
-            elif self.year > max(self.iam_data.battery_scenarios.year):
-                shares = self.iam_data.battery_scenarios.sel(
+            elif self.year > max(battery_scenarios.year):
+                shares = battery_scenarios.sel(
                     scenario=market_datasets[ds["name"]],
-                    year=max(self.iam_data.battery_scenarios.year),
+                    year=max(battery_scenarios.year),
                 )
             else:
-                shares = self.iam_data.battery_scenarios.sel(
+                shares = battery_scenarios.sel(
                     scenario=market_datasets[ds["name"]],
                 ).interp(year=self.year)
 
@@ -162,7 +193,7 @@ class Battery(BaseTransformation):
                         f"{datasets_mapping[exc['name']]} market share"
                     ] = exc["amount"]
 
-            self.write_log(ds, status="modified")
+            self.write_log(ds, status=f"modified ({market_type})")
 
     def adjust_battery_mass(self) -> None:
         """
@@ -258,25 +289,34 @@ class Battery(BaseTransformation):
 
                 self.write_log(ds, status="modified")
 
-    def write_log(self, dataset, status="created"):
+    def write_log(self, dataset, status):
         """
         Write log file.
         """
 
+        log_params = dataset.get('log parameters', {})
+        battery_input = log_params.get('battery input', '')
+        old_battery_mass = log_params.get('old battery mass', '')
+        new_battery_mass = log_params.get('new battery mass', '')
+
+        shares = [
+            log_params.get('NMC111 market share', ''),
+            log_params.get('NMC532 market share', ''),
+            log_params.get('NMC622 market share', ''),
+            log_params.get('NMC811 market share', ''),
+            log_params.get('NMC900-Si market share', ''),
+            log_params.get('LFP market share', ''),
+            log_params.get('NCA market share', ''),
+            log_params.get('LAB market share', ''),
+            log_params.get('LSB market share', ''),
+            log_params.get('SIB market share', ''),
+            log_params.get('VRFB market share', ''),
+            log_params.get('LEAD-ACID market share', '')
+        ]
+
         logger.info(
             f"{status}|{self.model}|{self.scenario}|{self.year}|"
             f"{dataset['name']}|{dataset['location']}|"
-            f"{dataset.get('log parameters', {}).get('battery input', '')}|"
-            f"{dataset.get('log parameters', {}).get('old battery mass', '')}|"
-            f"{dataset.get('log parameters', {}).get('new battery mass', '')}|"
-            f"{dataset.get('log parameters', {}).get('NMC111 market share', '')}|"
-            f"{dataset.get('log parameters', {}).get('NMC532 market share', '')}|"
-            f"{dataset.get('log parameters', {}).get('NMC622 market share', '')}|"
-            f"{dataset.get('log parameters', {}).get('NMC811 market share', '')}|"
-            f"{dataset.get('log parameters', {}).get('NMC900-Si market share', '')}|"
-            f"{dataset.get('log parameters', {}).get('LFP market share', '')}|"
-            f"{dataset.get('log parameters', {}).get('NCA market share', '')}|"
-            f"{dataset.get('log parameters', {}).get('LAB market share', '')}|"
-            f"{dataset.get('log parameters', {}).get('LSB market share', '')}|"
-            f"{dataset.get('log parameters', {}).get('SIB market share', '')}"
+            f"{battery_input}|{old_battery_mass}|{new_battery_mass}|"
+            f"{'|'.join(map(str, shares))}"
         )

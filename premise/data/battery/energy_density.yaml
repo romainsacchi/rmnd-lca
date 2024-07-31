@@ -7,6 +7,7 @@ NMC111:
      - market for battery cell, Li-ion, NMC111
      - market for battery, Li-ion, NMC111, rechargeable, prismatic
      - market for battery capacity, Li-ion, NMC111
+     - market for battery capacity, Li-ion, NMC111, stationary
   target:
     # values from https://doi.org/10.3390/batteries9070379.
     2020:
@@ -25,6 +26,7 @@ NMC523:
     name:
      - market for battery, Li-ion, NMC523
      - market for battery capacity, Li-ion, NMC523
+     - market for battery capacity, Li-ion, NMC523, stationary
   target:
     # values from https://doi.org/10.3390/batteries9070379.
     2020:
@@ -44,6 +46,7 @@ NMC622:
      - market for battery cell, Li-ion, NMC622
      - market for battery, Li-ion, NMC622, rechargeable, prismatic
      - market for battery capacity, Li-ion, NMC622
+     - market for battery capacity, Li-ion, NMC622, stationary
   target:
     # values from https://doi.org/10.3390/batteries9070379.
     2020:
@@ -63,6 +66,7 @@ NMC811:
     - market for battery cell, Li-ion, NMC811
     - market for battery, Li-ion, NMC811, rechargeable, prismatic
     - market for battery capacity, Li-ion, NMC811
+    - market for battery capacity, Li-ion, NMC811, stationary
   target:
     # values from https://doi.org/10.3390/batteries9070379.
     2020:
@@ -82,6 +86,7 @@ NMC955:
     name:
     - market for battery, Li-ion, NMC955
     - market for battery capacity, Li-ion, NMC955
+    - market for battery capacity, Li-ion, NMC955, stationary
   target:
     # values from https://doi.org/10.3390/batteries9070379.
     2020:
@@ -120,6 +125,7 @@ LFP:
       - market for battery cell, Li-ion, LFP
       - market for battery, Li-ion, LFP, rechargeable, prismatic
       - market for battery capacity, Li-ion, LFP
+      - market for battery capacity, Li-ion, LFP, stationary
   target:
       # values from https://doi.org/10.3390/batteries9070379.
       2020:
@@ -217,3 +223,37 @@ SiB:
         mean: 0.200
         minimum: 0.160
         maximum: 0.220
+
+VRFB:
+  ecoinvent_aliases:
+    name:
+     - market for battery, redox-flow, Vanadium
+     - market for battery capacity, redox-flow, Vanadium, stationary
+  target:
+      # current value from https://doi.org/10.1021/acs.est.8b02073; http://dx.doi.org/10.1016/j.apenergy.2014.09.081
+      2020:
+        mean: 0.0194
+        minimum: 0.010
+        maximum: 0.030
+      #  future value doubles, from https://doi.org/10.1039/C7CP07456E
+      2050:
+        mean: 0.040
+        minimum: 0.020
+        maximum: 0.060
+
+LEAD-ACID:
+  ecoinvent_aliases:
+    name:
+     - market for battery capacity, lead acid, rechargeable, stationary
+     - market for battery, lead acid, rechargeable, stationary
+  target:
+      # current value from http://dx.doi.org/10.1016/j.rser.2014.10.072
+      2020:
+        mean: 0.030
+        minimum: 0.027
+        maximum: 0.032
+      # future values from https://doi.org/10.1007/s41918-022-00134-w
+      2050:
+        mean: 0.035
+        minimum: 0.030
+        maximum: 0.040

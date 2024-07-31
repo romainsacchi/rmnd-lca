@@ -159,7 +159,6 @@ FILEPATH_BATTERIES_NMC_NCA_LFP = INVENTORY_DIR / "lci-batteries-NMC111-811-NCA-L
 FILEPATH_BATTERIES_NMC622_LTO = INVENTORY_DIR / "lci-batteries-NMC622-LTO.xlsx"
 FILEPATH_LIO2_BATTERY = INVENTORY_DIR / "lci-batteries-LiO2.xlsx"
 FILEPATH_LIS_BATTERY = INVENTORY_DIR / "lci-batteries-LiS.xlsx"
-FILEPATH_BATTERY_CAPACITY = INVENTORY_DIR / "lci-battery-capacity.xlsx"
 FILEPATH_PHOTOVOLTAICS = INVENTORY_DIR / "lci-PV.xlsx"
 FILEPATH_BIGCC = INVENTORY_DIR / "lci-BIGCC.xlsx"
 FILEPATH_NUCLEAR_EPR = INVENTORY_DIR / "lci-nuclear_EPR.xlsx"
@@ -168,8 +167,8 @@ FILEPATH_WAVE = INVENTORY_DIR / "lci-wave_energy.xlsx"
 FILEPATH_FUEL_CELL = INVENTORY_DIR / "lci-fuel_cell.xlsx"
 FILEPATH_CSP = INVENTORY_DIR / "lci-concentrating-solar-power.xlsx"
 FILEPATH_HOME_STORAGE_BATTERIES = INVENTORY_DIR / "lci-home-batteries.xlsx"
-FILEPATH_VANADIUM = INVENTORY_DIR / "lci-vanadium.xlsx"
-FILEPATH_VANADIUM_REDOX_BATTERY = INVENTORY_DIR / "lci-vanadium-redox-flow-battery.xlsx"
+FILEPATH_VANADIUM = INVENTORY_DIR / "lci-batteries-vanadium.xlsx"
+FILEPATH_VANADIUM_REDOX_BATTERY = INVENTORY_DIR / "lci-batteries-vanadium-redox-flow.xlsx"
 FILEPATH_SIB_BATTERY = INVENTORY_DIR / "lci-batteries-SIB.xlsx"
 FILEPATH_HYDROGEN_TURBINE = INVENTORY_DIR / "lci-hydrogen-turbine.xlsx"
 FILEPATH_HYDROGEN_HEATING = INVENTORY_DIR / "lci-hydrogen-heating.xlsx"
@@ -184,6 +183,7 @@ FILEPATH_PASS_CARS = INVENTORY_DIR / "lci-pass_cars.xlsx"
 FILEPATH_RAIL_FREIGHT = INVENTORY_DIR / "lci-rail-freight.xlsx"
 FILEPATH_PV_GAAS = INVENTORY_DIR / "lci-PV-GaAs.xlsx"
 FILEPATH_PV_PEROVSKITE = INVENTORY_DIR / "lci-PV-perovskite.xlsx"
+FILEPATH_BATTERY_CAPACITY = INVENTORY_DIR / "lci-battery-capacity.xlsx"
 
 config = load_constants()
 
@@ -725,9 +725,10 @@ class NewDatabase:
             (FILEPATH_LIS_BATTERY, "3.9"),
             (FILEPATH_LIO2_BATTERY, "3.9"),
             (FILEPATH_VANADIUM, "3.9"),
+            (FILEPATH_VANADIUM_REDOX_BATTERY, "3.9"),
             (FILEPATH_SIB_BATTERY, "3.9"),
-            (FILEPATH_HOME_STORAGE_BATTERIES, "3.9"),
             (FILEPATH_BATTERY_CAPACITY, "3.10"),
+            (FILEPATH_HOME_STORAGE_BATTERIES, "3.9"),
             (FILEPATH_PHOTOVOLTAICS, "3.7"),
             (FILEPATH_HYDROGEN_INVENTORIES, "3.9"),
             (FILEPATH_HYDROGEN_SOLAR_INVENTORIES, "3.9"),
@@ -773,7 +774,6 @@ class NewDatabase:
             (FILEPATH_WAVE, "3.8"),
             (FILEPATH_FUEL_CELL, "3.9"),
             (FILEPATH_CSP, "3.9"),
-            (FILEPATH_VANADIUM_REDOX_BATTERY, "3.9"),
             (FILEPATH_HYDROGEN_HEATING, "3.9"),
             (FILEPATH_METHANOL_HEATING, "3.9"),
             (FILEPATH_GERMANIUM, "3.9"),

@@ -43,8 +43,8 @@ IAM_CARBON_CAPTURE_VARS = VARIABLES_DIR / "carbon_capture_variables.yaml"
 CROPS_PROPERTIES = VARIABLES_DIR / "crops_variables.yaml"
 GAINS_GEO_MAP = VARIABLES_DIR / "gains_regions_mapping.yaml"
 COAL_POWER_PLANTS_DATA = DATA_DIR / "electricity" / "coal_power_emissions_2012_v1.csv"
-BATTERY_SCENARIO_DATA = DATA_DIR / "battery" / "scenarios.csv"
-
+BATTERY_MOBILE_SCENARIO_DATA = DATA_DIR / "battery" / "mobile_scenarios.csv"
+BATTERY_STATIONARY_SCENARIO_DATA = DATA_DIR / "battery" / "stationary_scenarios.csv"
 
 def print_missing_variables(missing_vars):
     if missing_vars:
@@ -854,18 +854,19 @@ class IAMDataCollection:
 
         self.coal_power_plants = self.fetch_external_data_coal_power_plants()
 
-        self.battery_scenarios = self.fetch_external_data_battery_scenarios()
+        self.battery_mobile_scenarios = self.fetch_external_data_battery_mobile_scenarios()
+        self.battery_stationary_scenarios = self.fetch_external_data_battery_stationary_scenarios()
 
-    def fetch_external_data_battery_scenarios(self):
+    def fetch_external_data_battery_mobile_scenarios(self):
         """
-        Fetch external data on battery scenarios.
+        Fetch external data on mobile battery scenarios.
         """
-        if not BATTERY_SCENARIO_DATA.is_file():
+        if not BATTERY_MOBILE_SCENARIO_DATA.is_file():
             return None
 
         data = pd.read_csv(
-            BATTERY_SCENARIO_DATA,
-            delimiter=get_delimiter(filepath=BATTERY_SCENARIO_DATA),
+            BATTERY_MOBILE_SCENARIO_DATA,
+            delimiter=get_delimiter(filepath=BATTERY_MOBILE_SCENARIO_DATA),
             low_memory=False,
             na_filter=False,
         )
@@ -896,6 +897,48 @@ class IAMDataCollection:
             .sum()["value"]
             .to_xarray()
         )
+
+    def fetch_external_data_battery_stationary_scenarios(self, exclude_chemistries = ["NAS"]):
+        """
+        Fetch external data on stationary battery scenarios.
+        """
+
+        if not BATTERY_STATIONARY_SCENARIO_DATA.is_file():
+            return None
+
+        data = pd.read_csv(
+            BATTERY_STATIONARY_SCENARIO_DATA,
+            delimiter=get_delimiter(filepath=BATTERY_STATIONARY_SCENARIO_DATA),
+            low_memory=False,
+            na_filter=False,
+        )
+
+        if exclude_chemistries is not None:
+            data = data[~data["chemistry"].isin(exclude_chemistries)]
+
+        grouped_data = data.groupby(
+            [
+                "scenario",
+                "chemistry",
+                "year",
+            ]
+        )['value'].sum().reset_index()
+
+        total_shares = grouped_data.groupby(['scenario', 'year'])['value'].sum().reset_index()
+        total_shares = total_shares.rename(columns={'value': 'total_share'})
+
+        merged_data = pd.merge(grouped_data, total_shares, on=['scenario', 'year'])
+
+        # Scale the remaining shares so that they sum up to one
+        merged_data['scaled_value'] = merged_data['value'] / merged_data['total_share']
+
+        xarray_data = (
+            merged_data.set_index(['scenario', 'chemistry', 'year'])['scaled_value']
+            .to_xarray()
+        )
+
+        return xarray_data
+
 
     def __get_iam_variable_labels(
         self, filepath: Path, variable: str
