@@ -899,10 +899,10 @@ Solar PV Residential:
     gcam: Secondary Energy|Electricity|rooftop_pv
     image: Secondary Energy|Electricity|Solar|PV|2
     tiam-ucl: Secondary Energy|Electricity|Concentrated Solar PV decentralised
-Storage, Flow Battery:
+Storage, Battery:
   ecoinvent_aliases:
     fltr:
-    - market for battery capacity, stationary (TC scenario)
+      - market for battery capacity, stationary (CONT scenario)
   iam_aliases:
     image: Secondary Energy|Electricity|Storage
     message: Secondary Energy|Electricity|Storage

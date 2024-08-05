@@ -547,6 +547,14 @@ premise_battery:
         name: SIB market share
         description: Market share of SIB
         unit: 0-1
+      VRFB market share:
+        name: VRFB market share
+        description: Market share of VRFB
+        unit: 0-1
+      LEAD-ACID market share:
+        name: LEAD-ACID market share
+        description: Market share of LEAD-ACID
+        unit: 0-1
     tab: Battery
 
 premise_wind_turbine:

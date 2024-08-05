@@ -486,6 +486,33 @@ being calculated as:
 Note that commercial PV mix datasets provide electricity at high voltage, unlike residential
 PV mix datasets, which supply at low voltage only.
 
+.. note:: 
+
+    These *current* production mixes are not modified over time.
+    This simplification is made because the data is not available for the future.
+    However, the efficiency of the panels is adjusted to reflect expected improvements (see Photovoltaics panels under Transform).
+
+Emerging technologies for photovoltaic panels are also imported, namely:
+
+* Gallium Arsenide (GaAs) panels, with a conversion efficiency of 28%, from Pallas_ et al., 2020.
+* Perovskite-on-silicon tandem panels, with a conversion efficiency of 25%, from Roffeis_ et al., 2022.
+
+They are available in the following locations:
+
+ ============================================================================================ ===========
+  Emerging PV technologies                                                                     location
+ ============================================================================================ ===========
+  electricity production, photovoltaic, 0.28kWp, GaAs                                          GLO
+  electricity production, photovoltaic, 0.5kWp, perovskite-on-silicon tandem                   RER
+ ============================================================================================ ===========
+
+.. _Pallas: https://doi.org/10.1007/s11367-020-01791-z
+.. _Roffeis: https://doi.org/10.1039/D2SE90051C
+
+.. note::
+
+    These two technologies are not included in the current country-specific production mix datasets.
+
 Geothermal
 **********
 
@@ -907,7 +934,7 @@ They introduce the following datasets:
   Battery components                                            location    source
  ============================================================= =========== ======================================
   battery management system production, for Li-ion battery        GLO         Schmidt et al. 2019
-  bmarket for battery, Li-ion, NMC111, rechargeable, prismatic    GLO         Dai et al. 2019, Crenna et al. 2021
+  market for battery, Li-ion, NMC111, rechargeable, prismatic     GLO         Dai et al. 2019, Crenna et al. 2021
   market for battery, Li-ion, NMC622, rechargeable, prismatic     GLO         Dai et al. 2019, Crenna et al. 2021
   market for battery, Li-ion, NMC811, rechargeable, prismatic     GLO         Dai et al. 2019, Crenna et al. 2021
   market for battery, Li-ion, NCA, rechargeable, prismatic        GLO         Dai et al. 2019, Crenna et al. 2021
@@ -1073,25 +1100,13 @@ here: LCItwowheelers_.
   transport, Bicycle, electric (<25 km/h)           all IAM regions
   transport, Bicycle, electric (<45 km/h)           all IAM regions
   transport, Bicycle, electric, cargo bike          all IAM regions
-  transport, Moped, gasoline, <4kW, EURO-3          all IAM regions
-  transport, Moped, gasoline, <4kW, EURO-4          all IAM regions
   transport, Moped, gasoline, <4kW, EURO-5          all IAM regions
-  transport, Scooter, gasoline, <4kW, EURO-3        all IAM regions
-  transport, Scooter, gasoline, <4kW, EURO-4        all IAM regions
   transport, Scooter, gasoline, <4kW, EURO-5        all IAM regions
-  transport, Scooter, gasoline, 4-11kW, EURO-3      all IAM regions
-  transport, Scooter, gasoline, 4-11kW, EURO-4      all IAM regions
   transport, Scooter, gasoline, 4-11kW, EURO-5      all IAM regions
   transport, Scooter, electric, <4kW                all IAM regions
   transport, Scooter, electric, 4-11kW              all IAM regions
-  transport, Motorbike, gasoline, 4-11kW, EURO-3    all IAM regions
-  transport, Motorbike, gasoline, 4-11kW, EURO-4    all IAM regions
   transport, Motorbike, gasoline, 4-11kW, EURO-5    all IAM regions
-  transport, Motorbike, gasoline, 11-35kW, EURO-3   all IAM regions
-  transport, Motorbike, gasoline, 11-35kW, EURO-4   all IAM regions
   transport, Motorbike, gasoline, 11-35kW, EURO-5   all IAM regions
-  transport, Motorbike, gasoline, >35kW, EURO-3     all IAM regions
-  transport, Motorbike, gasoline, >35kW, EURO-4     all IAM regions
   transport, Motorbike, gasoline, >35kW, EURO-5     all IAM regions
   transport, Motorbike, electric, <4kW              all IAM regions
   transport, Motorbike, electric, 4-11kW            all IAM regions
@@ -1100,7 +1115,6 @@ here: LCItwowheelers_.
  ================================================= ==================
 
 These inventories do not supply inputs to other activities in the LCI database.
-As such, they are optional.
 
 
 Passenger cars
@@ -1111,277 +1125,96 @@ The following datasets for passenger cars are imported.
  =============================================================================== ==================
   Passenger car datasets                                                          location
  =============================================================================== ==================
-  transport, passenger car, gasoline, Large, EURO-2                               all IAM regions
-  transport, passenger car, gasoline, Large, EURO-3                               all IAM regions
-  transport, passenger car, gasoline, Large, EURO-4                               all IAM regions
-  transport, passenger car, gasoline, Large, EURO-6ab                             all IAM regions
-  transport, passenger car, gasoline, Large, EURO-6d-TEMP                         all IAM regions
-  transport, passenger car, gasoline, Large, EURO-6d                              all IAM regions
-  transport, passenger car, diesel, Large, EURO-2                                 all IAM regions
-  transport, passenger car, diesel, Large, EURO-3                                 all IAM regions
-  transport, passenger car, diesel, Large, EURO-4                                 all IAM regions
-  transport, passenger car, diesel, Large, EURO-6ab                               all IAM regions
-  transport, passenger car, diesel, Large, EURO-6d-TEMP                           all IAM regions
-  transport, passenger car, diesel, Large, EURO-6d                                all IAM regions
-  transport, passenger car, compressed gas, Large, EURO-2                         all IAM regions
-  transport, passenger car, compressed gas, Large, EURO-3                         all IAM regions
-  transport, passenger car, compressed gas, Large, EURO-4                         all IAM regions
-  transport, passenger car, compressed gas, Large, EURO-6ab                       all IAM regions
-  transport, passenger car, compressed gas, Large, EURO-6d-TEMP                   all IAM regions
-  transport, passenger car, compressed gas, Large, EURO-6d                        all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Large, EURO-6ab               all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Large, EURO-6d-TEMP           all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Large, EURO-6d                all IAM regions
-  transport, passenger car, plugin diesel hybrid, Large, EURO-6ab                 all IAM regions
-  transport, passenger car, plugin diesel hybrid, Large, EURO-6d-TEMP             all IAM regions
-  transport, passenger car, plugin diesel hybrid, Large, EURO-6d                  all IAM regions
+  transport, passenger car, gasoline, Large                                       all IAM regions
+  transport, passenger car, diesel, Large                                         all IAM regions
+  transport, passenger car, compressed gas, Large                                 all IAM regions
+  transport, passenger car, plugin gasoline hybrid, Large                         all IAM regions
+  transport, passenger car, plugin diesel hybrid, Large                           all IAM regions
   transport, passenger car, fuel cell electric, Large                             all IAM regions
-  transport, passenger car, battery electric, NMC-622 battery, Large              all IAM regions
-  transport, passenger car, gasoline hybrid, Large, EURO-6ab                      all IAM regions
-  transport, passenger car, gasoline hybrid, Large, EURO-6d-TEMP                  all IAM regions
-  transport, passenger car, gasoline hybrid, Large, EURO-6d                       all IAM regions
-  transport, passenger car, diesel hybrid, Large, EURO-6ab                        all IAM regions
-  transport, passenger car, diesel hybrid, Large, EURO-6d-TEMP                    all IAM regions
-  transport, passenger car, diesel hybrid, Large, EURO-6d                         all IAM regions
-  transport, passenger car, gasoline, Large SUV, EURO-2                           all IAM regions
-  transport, passenger car, gasoline, Large SUV, EURO-3                           all IAM regions
-  transport, passenger car, gasoline, Large SUV, EURO-4                           all IAM regions
-  transport, passenger car, gasoline, Large SUV, EURO-6ab                         all IAM regions
-  transport, passenger car, gasoline, Large SUV, EURO-6d-TEMP                     all IAM regions
-  transport, passenger car, gasoline, Large SUV, EURO-6d                          all IAM regions
-  transport, passenger car, diesel, Large SUV, EURO-2                             all IAM regions
-  transport, passenger car, diesel, Large SUV, EURO-3                             all IAM regions
-  transport, passenger car, diesel, Large SUV, EURO-4                             all IAM regions
-  transport, passenger car, diesel, Large SUV, EURO-6ab                           all IAM regions
-  transport, passenger car, diesel, Large SUV, EURO-6d-TEMP                       all IAM regions
-  transport, passenger car, diesel, Large SUV, EURO-6d                            all IAM regions
-  transport, passenger car, compressed gas, Large SUV, EURO-2                     all IAM regions
-  transport, passenger car, compressed gas, Large SUV, EURO-3                     all IAM regions
-  transport, passenger car, compressed gas, Large SUV, EURO-4                     all IAM regions
-  transport, passenger car, compressed gas, Large SUV, EURO-6ab                   all IAM regions
-  transport, passenger car, compressed gas, Large SUV, EURO-6d-TEMP               all IAM regions
-  transport, passenger car, compressed gas, Large SUV, EURO-6d                    all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Large SUV, EURO-6ab           all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Large SUV, EURO-6d-TEMP       all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Large SUV, EURO-6d            all IAM regions
-  transport, passenger car, plugin diesel hybrid, Large SUV, EURO-6ab             all IAM regions
-  transport, passenger car, plugin diesel hybrid, Large SUV, EURO-6d-TEMP         all IAM regions
-  transport, passenger car, plugin diesel hybrid, Large SUV, EURO-6d              all IAM regions
+  transport, passenger car, battery electric Large                                all IAM regions
+  transport, passenger car, gasoline hybrid, Large                                all IAM regions
+  transport, passenger car, diesel hybrid, Large                                  all IAM regions
+  transport, passenger car, gasoline, Large SUV                                   all IAM regions
+  transport, passenger car, diesel, Large SUV                                     all IAM regions
+  transport, passenger car, compressed gas, Large SUV                             all IAM regions
+  transport, passenger car, plugin gasoline hybrid, Large SUV                     all IAM regions
+  transport, passenger car, plugin diesel hybrid, Large SUV                       all IAM regions
   transport, passenger car, fuel cell electric, Large SUV                         all IAM regions
-  transport, passenger car, battery electric, NMC-622 battery, Large SUV          all IAM regions
-  transport, passenger car, gasoline hybrid, Large SUV, EURO-6ab                  all IAM regions
-  transport, passenger car, gasoline hybrid, Large SUV, EURO-6d-TEMP              all IAM regions
-  transport, passenger car, gasoline hybrid, Large SUV, EURO-6d                   all IAM regions
-  transport, passenger car, diesel hybrid, Large SUV, EURO-6ab                    all IAM regions
-  transport, passenger car, diesel hybrid, Large SUV, EURO-6d-TEMP                all IAM regions
-  transport, passenger car, diesel hybrid, Large SUV, EURO-6d                     all IAM regions
-  transport, passenger car, gasoline, Lower medium, EURO-2                        all IAM regions
-  transport, passenger car, gasoline, Lower medium, EURO-3                        all IAM regions
-  transport, passenger car, gasoline, Lower medium, EURO-4                        all IAM regions
-  transport, passenger car, gasoline, Lower medium, EURO-6ab                      all IAM regions
-  transport, passenger car, gasoline, Lower medium, EURO-6d-TEMP                  all IAM regions
-  transport, passenger car, gasoline, Lower medium, EURO-6d                       all IAM regions
-  transport, passenger car, diesel, Lower medium, EURO-2                          all IAM regions
-  transport, passenger car, diesel, Lower medium, EURO-3                          all IAM regions
-  transport, passenger car, diesel, Lower medium, EURO-4                          all IAM regions
-  transport, passenger car, diesel, Lower medium, EURO-6ab                        all IAM regions
-  transport, passenger car, diesel, Lower medium, EURO-6d-TEMP                    all IAM regions
-  transport, passenger car, diesel, Lower medium, EURO-6d                         all IAM regions
-  transport, passenger car, compressed gas, Lower medium, EURO-2                  all IAM regions
-  transport, passenger car, compressed gas, Lower medium, EURO-3                  all IAM regions
-  transport, passenger car, compressed gas, Lower medium, EURO-4                  all IAM regions
-  transport, passenger car, compressed gas, Lower medium, EURO-6ab                all IAM regions
-  transport, passenger car, compressed gas, Lower medium, EURO-6d-TEMP            all IAM regions
-  transport, passenger car, compressed gas, Lower medium, EURO-6d                 all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Lower medium, EURO-6ab        all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Lower medium, EURO-6d-TEMP    all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Lower medium, EURO-6d         all IAM regions
-  transport, passenger car, plugin diesel hybrid, Lower medium, EURO-6ab          all IAM regions
-  transport, passenger car, plugin diesel hybrid, Lower medium, EURO-6d-TEMP      all IAM regions
-  transport, passenger car, plugin diesel hybrid, Lower medium, EURO-6d           all IAM regions
+  transport, passenger car, battery electric Large SUV                            all IAM regions
+  transport, passenger car, gasoline hybrid, Large SUV                            all IAM regions
+  transport, passenger car, diesel hybrid, Large SUV                              all IAM regions
+  transport, passenger car, gasoline, Lower medium                                all IAM regions
+  transport, passenger car, diesel, Lower medium                                  all IAM regions
+  transport, passenger car, compressed gas, Lower medium                          all IAM regions
+  transport, passenger car, plugin gasoline hybrid, Lower medium                  all IAM regions
+  transport, passenger car, plugin diesel hybrid, Lower medium                    all IAM regions
   transport, passenger car, fuel cell electric, Lower medium                      all IAM regions
-  transport, passenger car, battery electric, NMC-622 battery, Lower medium       all IAM regions
-  transport, passenger car, gasoline hybrid, Lower medium, EURO-6ab               all IAM regions
-  transport, passenger car, gasoline hybrid, Lower medium, EURO-6d-TEMP           all IAM regions
-  transport, passenger car, gasoline hybrid, Lower medium, EURO-6d                all IAM regions
-  transport, passenger car, diesel hybrid, Lower medium, EURO-6ab                 all IAM regions
-  transport, passenger car, diesel hybrid, Lower medium, EURO-6d-TEMP             all IAM regions
-  transport, passenger car, diesel hybrid, Lower medium, EURO-6d                  all IAM regions
-  transport, passenger car, gasoline, Medium, EURO-2                              all IAM regions
-  transport, passenger car, gasoline, Medium, EURO-3                              all IAM regions
-  transport, passenger car, gasoline, Medium, EURO-4                              all IAM regions
-  transport, passenger car, gasoline, Medium, EURO-6ab                            all IAM regions
-  transport, passenger car, gasoline, Medium, EURO-6d-TEMP                        all IAM regions
-  transport, passenger car, gasoline, Medium, EURO-6d                             all IAM regions
-  transport, passenger car, diesel, Medium, EURO-2                                all IAM regions
-  transport, passenger car, diesel, Medium, EURO-3                                all IAM regions
-  transport, passenger car, diesel, Medium, EURO-4                                all IAM regions
-  transport, passenger car, diesel, Medium, EURO-6ab                              all IAM regions
-  transport, passenger car, diesel, Medium, EURO-6d-TEMP                          all IAM regions
-  transport, passenger car, diesel, Medium, EURO-6d                               all IAM regions
-  transport, passenger car, compressed gas, Medium, EURO-2                        all IAM regions
-  transport, passenger car, compressed gas, Medium, EURO-3                        all IAM regions
-  transport, passenger car, compressed gas, Medium, EURO-4                        all IAM regions
-  transport, passenger car, compressed gas, Medium, EURO-6ab                      all IAM regions
-  transport, passenger car, compressed gas, Medium, EURO-6d-TEMP                  all IAM regions
-  transport, passenger car, compressed gas, Medium, EURO-6d                       all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Medium, EURO-6ab              all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Medium, EURO-6d-TEMP          all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Medium, EURO-6d               all IAM regions
-  transport, passenger car, plugin diesel hybrid, Medium, EURO-6ab                all IAM regions
-  transport, passenger car, plugin diesel hybrid, Medium, EURO-6d-TEMP            all IAM regions
-  transport, passenger car, plugin diesel hybrid, Medium, EURO-6d                 all IAM regions
+  transport, passenger car, battery electric Lower medium                         all IAM regions
+  transport, passenger car, gasoline hybrid, Lower medium                         all IAM regions
+  transport, passenger car, diesel hybrid, Lower medium                           all IAM regions
+  transport, passenger car, gasoline, Medium                                      all IAM regions
+  transport, passenger car, diesel, Medium                                        all IAM regions
+  transport, passenger car, compressed gas, Medium                                all IAM regions
+  transport, passenger car, plugin gasoline hybrid, Medium                        all IAM regions
+  transport, passenger car, plugin diesel hybrid, Medium                          all IAM regions
   transport, passenger car, fuel cell electric, Medium                            all IAM regions
-  transport, passenger car, battery electric, NMC-622 battery, Medium             all IAM regions
-  transport, passenger car, gasoline hybrid, Medium, EURO-6ab                     all IAM regions
-  transport, passenger car, gasoline hybrid, Medium, EURO-6d-TEMP                 all IAM regions
-  transport, passenger car, gasoline hybrid, Medium, EURO-6d                      all IAM regions
-  transport, passenger car, diesel hybrid, Medium, EURO-6ab                       all IAM regions
-  transport, passenger car, diesel hybrid, Medium, EURO-6d-TEMP                   all IAM regions
-  transport, passenger car, diesel hybrid, Medium, EURO-6d                        all IAM regions
-  transport, passenger car, gasoline, Medium SUV, EURO-2                          all IAM regions
-  transport, passenger car, gasoline, Medium SUV, EURO-3                          all IAM regions
-  transport, passenger car, gasoline, Medium SUV, EURO-4                          all IAM regions
-  transport, passenger car, gasoline, Medium SUV, EURO-6ab                        all IAM regions
-  transport, passenger car, gasoline, Medium SUV, EURO-6d-TEMP                    all IAM regions
-  transport, passenger car, gasoline, Medium SUV, EURO-6d                         all IAM regions
-  transport, passenger car, diesel, Medium SUV, EURO-2                            all IAM regions
-  transport, passenger car, diesel, Medium SUV, EURO-3                            all IAM regions
-  transport, passenger car, diesel, Medium SUV, EURO-4                            all IAM regions
-  transport, passenger car, diesel, Medium SUV, EURO-6ab                          all IAM regions
-  transport, passenger car, diesel, Medium SUV, EURO-6d-TEMP                      all IAM regions
-  transport, passenger car, diesel, Medium SUV, EURO-6d                           all IAM regions
-  transport, passenger car, compressed gas, Medium SUV, EURO-2                    all IAM regions
-  transport, passenger car, compressed gas, Medium SUV, EURO-3                    all IAM regions
-  transport, passenger car, compressed gas, Medium SUV, EURO-4                    all IAM regions
-  transport, passenger car, compressed gas, Medium SUV, EURO-6ab                  all IAM regions
-  transport, passenger car, compressed gas, Medium SUV, EURO-6d-TEMP              all IAM regions
-  transport, passenger car, compressed gas, Medium SUV, EURO-6d                   all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Medium SUV, EURO-6ab          all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Medium SUV, EURO-6d-TEMP      all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Medium SUV, EURO-6d           all IAM regions
-  transport, passenger car, plugin diesel hybrid, Medium SUV, EURO-6ab            all IAM regions
-  transport, passenger car, plugin diesel hybrid, Medium SUV, EURO-6d-TEMP        all IAM regions
-  transport, passenger car, plugin diesel hybrid, Medium SUV, EURO-6d             all IAM regions
+  transport, passenger car, battery electric Medium                               all IAM regions
+  transport, passenger car, gasoline hybrid, Medium                               all IAM regions
+  transport, passenger car, diesel hybrid, Medium                                 all IAM regions
+  transport, passenger car, gasoline, Medium SUV                                  all IAM regions
+  transport, passenger car, diesel, Medium SUV                                    all IAM regions
+  transport, passenger car, compressed gas, Medium SUV                            all IAM regions
+  transport, passenger car, plugin gasoline hybrid, Medium SUV                    all IAM regions
+  transport, passenger car, plugin diesel hybrid, Medium SUV                      all IAM regions
   transport, passenger car, fuel cell electric, Medium SUV                        all IAM regions
-  transport, passenger car, battery electric, NMC-622 battery, Medium SUV         all IAM regions
-  transport, passenger car, gasoline hybrid, Medium SUV, EURO-6ab                 all IAM regions
-  transport, passenger car, gasoline hybrid, Medium SUV, EURO-6d-TEMP             all IAM regions
-  transport, passenger car, gasoline hybrid, Medium SUV, EURO-6d                  all IAM regions
-  transport, passenger car, diesel hybrid, Medium SUV, EURO-6ab                   all IAM regions
-  transport, passenger car, diesel hybrid, Medium SUV, EURO-6d-TEMP               all IAM regions
-  transport, passenger car, diesel hybrid, Medium SUV, EURO-6d                    all IAM regions
-  transport, passenger car, battery electric, NMC-622 battery, Micro              all IAM regions
-  transport, passenger car, gasoline, Mini, EURO-2                                all IAM regions
-  transport, passenger car, gasoline, Mini, EURO-3                                all IAM regions
-  transport, passenger car, gasoline, Mini, EURO-4                                all IAM regions
-  transport, passenger car, gasoline, Mini, EURO-6ab                              all IAM regions
-  transport, passenger car, gasoline, Mini, EURO-6d-TEMP                          all IAM regions
-  transport, passenger car, gasoline, Mini, EURO-6d                               all IAM regions
-  transport, passenger car, diesel, Mini, EURO-2                                  all IAM regions
-  transport, passenger car, diesel, Mini, EURO-3                                  all IAM regions
-  transport, passenger car, diesel, Mini, EURO-4                                  all IAM regions
-  transport, passenger car, diesel, Mini, EURO-6ab                                all IAM regions
-  transport, passenger car, diesel, Mini, EURO-6d-TEMP                            all IAM regions
-  transport, passenger car, diesel, Mini, EURO-6d                                 all IAM regions
-  transport, passenger car, compressed gas, Mini, EURO-2                          all IAM regions
-  transport, passenger car, compressed gas, Mini, EURO-3                          all IAM regions
-  transport, passenger car, compressed gas, Mini, EURO-4                          all IAM regions
-  transport, passenger car, compressed gas, Mini, EURO-6ab                        all IAM regions
-  transport, passenger car, compressed gas, Mini, EURO-6d-TEMP                    all IAM regions
-  transport, passenger car, compressed gas, Mini, EURO-6d                         all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Mini, EURO-6ab                all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Mini, EURO-6d-TEMP            all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Mini, EURO-6d                 all IAM regions
-  transport, passenger car, plugin diesel hybrid, Mini, EURO-6ab                  all IAM regions
-  transport, passenger car, plugin diesel hybrid, Mini, EURO-6d-TEMP              all IAM regions
-  transport, passenger car, plugin diesel hybrid, Mini, EURO-6d                   all IAM regions
+  transport, passenger car, battery electric Medium SUV                           all IAM regions
+  transport, passenger car, gasoline hybrid, Medium SUV                           all IAM regions
+  transport, passenger car, diesel hybrid, Medium SUV                             all IAM regions
+  transport, passenger car, battery electric Micro                                all IAM regions
+  transport, passenger car, gasoline, Mini                                        all IAM regions
+  transport, passenger car, diesel, Mini                                          all IAM regions
+  transport, passenger car, compressed gas, Mini                                  all IAM regions
+  transport, passenger car, plugin gasoline hybrid, Mini                          all IAM regions
+  transport, passenger car, plugin diesel hybrid, Mini                            all IAM regions
   transport, passenger car, fuel cell electric, Mini                              all IAM regions
-  transport, passenger car, battery electric, NMC-622 battery, Mini               all IAM regions
-  transport, passenger car, gasoline hybrid, Mini, EURO-6ab                       all IAM regions
-  transport, passenger car, gasoline hybrid, Mini, EURO-6d-TEMP                   all IAM regions
-  transport, passenger car, gasoline hybrid, Mini, EURO-6d                        all IAM regions
-  transport, passenger car, diesel hybrid, Mini, EURO-6ab                         all IAM regions
-  transport, passenger car, diesel hybrid, Mini, EURO-6d-TEMP                     all IAM regions
-  transport, passenger car, diesel hybrid, Mini, EURO-6d                          all IAM regions
-  transport, passenger car, gasoline, Small, EURO-2                               all IAM regions
-  transport, passenger car, gasoline, Small, EURO-3                               all IAM regions
-  transport, passenger car, gasoline, Small, EURO-4                               all IAM regions
-  transport, passenger car, gasoline, Small, EURO-6ab                             all IAM regions
-  transport, passenger car, gasoline, Small, EURO-6d-TEMP                         all IAM regions
-  transport, passenger car, gasoline, Small, EURO-6d                              all IAM regions
-  transport, passenger car, diesel, Small, EURO-2                                 all IAM regions
-  transport, passenger car, diesel, Small, EURO-3                                 all IAM regions
-  transport, passenger car, diesel, Small, EURO-4                                 all IAM regions
-  transport, passenger car, diesel, Small, EURO-6ab                               all IAM regions
-  transport, passenger car, diesel, Small, EURO-6d-TEMP                           all IAM regions
-  transport, passenger car, diesel, Small, EURO-6d                                all IAM regions
-  transport, passenger car, compressed gas, Small, EURO-2                         all IAM regions
-  transport, passenger car, compressed gas, Small, EURO-3                         all IAM regions
-  transport, passenger car, compressed gas, Small, EURO-4                         all IAM regions
-  transport, passenger car, compressed gas, Small, EURO-6ab                       all IAM regions
-  transport, passenger car, compressed gas, Small, EURO-6d-TEMP                   all IAM regions
-  transport, passenger car, compressed gas, Small, EURO-6d                        all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Small, EURO-6ab               all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Small, EURO-6d-TEMP           all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Small, EURO-6d                all IAM regions
-  transport, passenger car, plugin diesel hybrid, Small, EURO-6ab                 all IAM regions
-  transport, passenger car, plugin diesel hybrid, Small, EURO-6d-TEMP             all IAM regions
-  transport, passenger car, plugin diesel hybrid, Small, EURO-6d                  all IAM regions
+  transport, passenger car, battery electric Mini                                 all IAM regions
+  transport, passenger car, gasoline hybrid, Mini                                 all IAM regions
+  transport, passenger car, diesel hybrid, Mini                                   all IAM regions
+  transport, passenger car, gasoline, Small                                       all IAM regions
+  transport, passenger car, diesel, Small                                         all IAM regions
+  transport, passenger car, compressed gas, Small                                 all IAM regions
+  transport, passenger car, plugin gasoline hybrid, Small                         all IAM regions
+  transport, passenger car, plugin diesel hybrid, Small                           all IAM regions
   transport, passenger car, fuel cell electric, Small                             all IAM regions
-  transport, passenger car, battery electric, NMC-622 battery, Small              all IAM regions
-  transport, passenger car, gasoline hybrid, Small, EURO-6ab                      all IAM regions
-  transport, passenger car, gasoline hybrid, Small, EURO-6d-TEMP                  all IAM regions
-  transport, passenger car, gasoline hybrid, Small, EURO-6d                       all IAM regions
-  transport, passenger car, diesel hybrid, Small, EURO-6ab                        all IAM regions
-  transport, passenger car, diesel hybrid, Small, EURO-6d-TEMP                    all IAM regions
-  transport, passenger car, diesel hybrid, Small, EURO-6d                         all IAM regions
-  transport, passenger car, gasoline, Van, EURO-2                                 all IAM regions
-  transport, passenger car, gasoline, Van, EURO-3                                 all IAM regions
-  transport, passenger car, gasoline, Van, EURO-4                                 all IAM regions
-  transport, passenger car, gasoline, Van, EURO-6ab                               all IAM regions
-  transport, passenger car, gasoline, Van, EURO-6d-TEMP                           all IAM regions
-  transport, passenger car, gasoline, Van, EURO-6d                                all IAM regions
-  transport, passenger car, diesel, Van, EURO-2                                   all IAM regions
-  transport, passenger car, diesel, Van, EURO-3                                   all IAM regions
-  transport, passenger car, diesel, Van, EURO-4                                   all IAM regions
-  transport, passenger car, diesel, Van, EURO-6ab                                 all IAM regions
-  transport, passenger car, diesel, Van, EURO-6d-TEMP                             all IAM regions
-  transport, passenger car, diesel, Van, EURO-6d                                  all IAM regions
-  transport, passenger car, compressed gas, Van, EURO-2                           all IAM regions
-  transport, passenger car, compressed gas, Van, EURO-3                           all IAM regions
-  transport, passenger car, compressed gas, Van, EURO-4                           all IAM regions
-  transport, passenger car, compressed gas, Van, EURO-6ab                         all IAM regions
-  transport, passenger car, compressed gas, Van, EURO-6d-TEMP                     all IAM regions
-  transport, passenger car, compressed gas, Van, EURO-6d                          all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Van, EURO-6ab                 all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Van, EURO-6d-TEMP             all IAM regions
-  transport, passenger car, plugin gasoline hybrid, Van, EURO-6d                  all IAM regions
-  transport, passenger car, plugin diesel hybrid, Van, EURO-6ab                   all IAM regions
-  transport, passenger car, plugin diesel hybrid, Van, EURO-6d-TEMP               all IAM regions
-  transport, passenger car, plugin diesel hybrid, Van, EURO-6d                    all IAM regions
+  transport, passenger car, battery electric Small                                all IAM regions
+  transport, passenger car, gasoline hybrid, Small                                all IAM regions
+  transport, passenger car, diesel hybrid, Small                                  all IAM regions
+  transport, passenger car, gasoline, Van                                         all IAM regions
+  transport, passenger car, diesel, Van                                           all IAM regions
+  transport, passenger car, compressed gas, Van                                   all IAM regions
+  transport, passenger car, plugin diesel hybrid, Van                             all IAM regions
   transport, passenger car, fuel cell electric, Van                               all IAM regions
-  transport, passenger car, battery electric, NMC-622 battery, Van                all IAM regions
-  transport, passenger car, gasoline hybrid, Van, EURO-6ab                        all IAM regions
-  transport, passenger car, gasoline hybrid, Van, EURO-6d-TEMP                    all IAM regions
-  transport, passenger car, gasoline hybrid, Van, EURO-6d                         all IAM regions
-  transport, passenger car, diesel hybrid, Van, EURO-6ab                          all IAM regions
-  transport, passenger car, diesel hybrid, Van, EURO-6d-TEMP                      all IAM regions
-  transport, passenger car, diesel hybrid, Van, EURO-6d                           all IAM regions
+  transport, passenger car, battery electric Van                                  all IAM regions
+  transport, passenger car, gasoline hybrid, Van                                  all IAM regions
+  transport, passenger car, diesel hybrid, Van                                    all IAM regions
  =============================================================================== ==================
 
 Inventories are from Sacchi2_ et al. 2022. The vehicles are available
-for different years and emission standards and for each IAM region. *premise* will only
-import vehicles which production year is equal or inferior to
-the scenario year considered. *premise* will create fleet average vehicles
-during the *Transport* transformation for each IAM region. The inventories can be consulted
+for different years and emission standards and for each IAM region.
+
+When doing:
+
+.. code-block:: python
+
+    update("cars")
+
+*premise* will create fleet average vehicles for each IAM region. The inventories can be consulted
 here: LCIpasscars_.
 
 .. _Sacchi2: https://www.psi.ch/en/media/72391/download
 .. _LCIpasscars: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-pass_cars.xlsx
 
-At the moment. these inventories do not supply inputs to other activities in the LCI database.
-As such, they are optional.
+At the moment, these inventories do not supply inputs to other activities in the LCI database.
 
 
 Medium and heavy duty trucks
@@ -1392,86 +1225,55 @@ The following datasets for medium and heavy-duty trucks are imported.
  ================================================================================== ==================
   Truck datasets                                                                     location
  ================================================================================== ==================
-  transport, freight, lorry, battery electric, NMC-622 battery, 3.5t gross weight    all IAM regions
+  transport, freight, lorry, battery electric 3.5t gross weight                      all IAM regions
   transport, freight, lorry, fuel cell electric, 3.5t gross weight                   all IAM regions
   transport, freight, lorry, diesel hybrid, 3.5t gross weight, EURO-VI               all IAM regions
-  transport, freight, lorry, diesel, 3.5t gross weight, EURO-III                     all IAM regions
-  transport, freight, lorry, diesel, 3.5t gross weight, EURO-IV                      all IAM regions
-  transport, freight, lorry, diesel, 3.5t gross weight, EURO-V                       all IAM regions
   transport, freight, lorry, diesel, 3.5t gross weight, EURO-VI                      all IAM regions
-  transport, freight, lorry, compressed gas, 3.5t gross weight, EURO-III             all IAM regions
-  transport, freight, lorry, compressed gas, 3.5t gross weight, EURO-IV              all IAM regions
-  transport, freight, lorry, compressed gas, 3.5t gross weight, EURO-V               all IAM regions
   transport, freight, lorry, compressed gas, 3.5t gross weight, EURO-VI              all IAM regions
   transport, freight, lorry, plugin diesel hybrid, 3.5t gross weight, EURO-VI        all IAM regions
-  transport, freight, lorry, battery electric, NMC-622 battery, 7.5t gross weight    all IAM regions
+  transport, freight, lorry, battery electric 7.5t gross weight                      all IAM regions
   transport, freight, lorry, fuel cell electric, 7.5t gross weight                   all IAM regions
   transport, freight, lorry, diesel hybrid, 7.5t gross weight, EURO-VI               all IAM regions
-  transport, freight, lorry, diesel, 7.5t gross weight, EURO-III                     all IAM regions
-  transport, freight, lorry, diesel, 7.5t gross weight, EURO-IV                      all IAM regions
-  transport, freight, lorry, diesel, 7.5t gross weight, EURO-V                       all IAM regions
   transport, freight, lorry, diesel, 7.5t gross weight, EURO-VI                      all IAM regions
-  transport, freight, lorry, compressed gas, 7.5t gross weight, EURO-III             all IAM regions
-  transport, freight, lorry, compressed gas, 7.5t gross weight, EURO-IV              all IAM regions
-  transport, freight, lorry, compressed gas, 7.5t gross weight, EURO-V               all IAM regions
   transport, freight, lorry, compressed gas, 7.5t gross weight, EURO-VI              all IAM regions
   transport, freight, lorry, plugin diesel hybrid, 7.5t gross weight, EURO-VI        all IAM regions
-  transport, freight, lorry, battery electric, NMC-622 battery, 18t gross weight     all IAM regions
+  transport, freight, lorry, battery electric 18t gross weight                       all IAM regions
   transport, freight, lorry, fuel cell electric, 18t gross weight                    all IAM regions
   transport, freight, lorry, diesel hybrid, 18t gross weight, EURO-VI                all IAM regions
-  transport, freight, lorry, diesel, 18t gross weight, EURO-III                      all IAM regions
-  transport, freight, lorry, diesel, 18t gross weight, EURO-IV                       all IAM regions
-  transport, freight, lorry, diesel, 18t gross weight, EURO-V                        all IAM regions
   transport, freight, lorry, diesel, 18t gross weight, EURO-VI                       all IAM regions
-  transport, freight, lorry, compressed gas, 18t gross weight, EURO-III              all IAM regions
-  transport, freight, lorry, compressed gas, 18t gross weight, EURO-IV               all IAM regions
-  transport, freight, lorry, compressed gas, 18t gross weight, EURO-V                all IAM regions
   transport, freight, lorry, compressed gas, 18t gross weight, EURO-VI               all IAM regions
   transport, freight, lorry, plugin diesel hybrid, 18t gross weight, EURO-VI         all IAM regions
-  transport, freight, lorry, battery electric, NMC-622 battery, 26t gross weight     all IAM regions
+  transport, freight, lorry, battery electric 26t gross weight                       all IAM regions
   transport, freight, lorry, fuel cell electric, 26t gross weight                    all IAM regions
   transport, freight, lorry, diesel hybrid, 26t gross weight, EURO-VI                all IAM regions
-  transport, freight, lorry, diesel, 26t gross weight, EURO-III                      all IAM regions
-  transport, freight, lorry, diesel, 26t gross weight, EURO-IV                       all IAM regions
-  transport, freight, lorry, diesel, 26t gross weight, EURO-V                        all IAM regions
   transport, freight, lorry, diesel, 26t gross weight, EURO-VI                       all IAM regions
-  transport, freight, lorry, compressed gas, 26t gross weight, EURO-III              all IAM regions
-  transport, freight, lorry, compressed gas, 26t gross weight, EURO-IV               all IAM regions
-  transport, freight, lorry, compressed gas, 26t gross weight, EURO-V                all IAM regions
   transport, freight, lorry, compressed gas, 26t gross weight, EURO-VI               all IAM regions
   transport, freight, lorry, plugin diesel hybrid, 26t gross weight, EURO-VI         all IAM regions
-  transport, freight, lorry, battery electric, NMC-622 battery, 32t gross weight     all IAM regions
+  transport, freight, lorry, battery electric 32t gross weight                       all IAM regions
   transport, freight, lorry, fuel cell electric, 32t gross weight                    all IAM regions
   transport, freight, lorry, diesel hybrid, 32t gross weight, EURO-VI                all IAM regions
-  transport, freight, lorry, diesel, 32t gross weight, EURO-III                      all IAM regions
-  transport, freight, lorry, diesel, 32t gross weight, EURO-IV                       all IAM regions
-  transport, freight, lorry, diesel, 32t gross weight, EURO-V                        all IAM regions
   transport, freight, lorry, diesel, 32t gross weight, EURO-VI                       all IAM regions
-  transport, freight, lorry, compressed gas, 32t gross weight, EURO-III              all IAM regions
-  transport, freight, lorry, compressed gas, 32t gross weight, EURO-IV               all IAM regions
-  transport, freight, lorry, compressed gas, 32t gross weight, EURO-V                all IAM regions
   transport, freight, lorry, compressed gas, 32t gross weight, EURO-VI               all IAM regions
   transport, freight, lorry, plugin diesel hybrid, 32t gross weight, EURO-VI         all IAM regions
-  transport, freight, lorry, battery electric, NMC-622 battery, 40t gross weight     all IAM regions
+  transport, freight, lorry, battery electric 40t gross weight                       all IAM regions
   transport, freight, lorry, fuel cell electric, 40t gross weight                    all IAM regions
   transport, freight, lorry, diesel hybrid, 40t gross weight, EURO-VI                all IAM regions
-  transport, freight, lorry, diesel, 40t gross weight, EURO-III                      all IAM regions
-  transport, freight, lorry, diesel, 40t gross weight, EURO-IV                       all IAM regions
-  transport, freight, lorry, diesel, 40t gross weight, EURO-V                        all IAM regions
   transport, freight, lorry, diesel, 40t gross weight, EURO-VI                       all IAM regions
-  transport, freight, lorry, compressed gas, 40t gross weight, EURO-III              all IAM regions
-  transport, freight, lorry, compressed gas, 40t gross weight, EURO-IV               all IAM regions
-  transport, freight, lorry, compressed gas, 40t gross weight, EURO-V                all IAM regions
   transport, freight, lorry, compressed gas, 40t gross weight, EURO-VI               all IAM regions
   transport, freight, lorry, plugin diesel hybrid, 40t gross weight, EURO-VI         all IAM regions
  ================================================================================== ==================
 
 
 Inventories are from Sacchi3_ et al. 2021. The vehicles are available
-for different years and emission standards and for each IAM region. *premise* will only
-import vehicles which production year is equal or inferior to
-the scenario year considered. *premise* will create fleet average vehicles
-during the *Transport* transformation for each IAM region. The inventories can be consulted
+for different years and emission standards and for each IAM region.
+
+When doing:
+
+.. code-block:: python
+
+    update("trucks")
+
+*premise* will create fleet average vehicles for each IAM region. The inventories can be consulted
 here: LCItrucks_.
 
 .. _LCItrucks: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-trucks.xlsx
@@ -1487,83 +1289,52 @@ The following datasets for city and coach buses are imported.
   =================================================================================================================== ==================
   Bus datasets                                                                                                        location
  =================================================================================================================== ==================
-  transport, passenger bus, battery electric - overnight charging, NMC-622 battery, 9m midibus                        all IAM regions
+  transport, passenger bus, battery electric - overnight charging 9m midibus                                          all IAM regions
   transport, passenger bus, battery electric - opportunity charging, LTO battery, 9m midibus                          all IAM regions
   transport, passenger bus, fuel cell electric, 9m midibus                                                            all IAM regions
   transport, passenger bus, diesel hybrid, 9m midibus, EURO-VI                                                        all IAM regions
-  transport, passenger bus, diesel, 9m midibus, EURO-III                                                              all IAM regions
-  transport, passenger bus, diesel, 9m midibus, EURO-IV                                                               all IAM regions
-  transport, passenger bus, diesel, 9m midibus, EURO-V                                                                all IAM regions
   transport, passenger bus, diesel, 9m midibus, EURO-VI                                                               all IAM regions
-  transport, passenger bus, compressed gas, 9m midibus, EURO-III                                                      all IAM regions
-  transport, passenger bus, compressed gas, 9m midibus, EURO-IV                                                       all IAM regions
-  transport, passenger bus, compressed gas, 9m midibus, EURO-V                                                        all IAM regions
   transport, passenger bus, compressed gas, 9m midibus, EURO-VI                                                       all IAM regions
-  transport, passenger bus, battery electric - overnight charging, NMC-622 battery, 13m single deck urban bus         all IAM regions
+  transport, passenger bus, battery electric - overnight charging 13m single deck urban bus                           all IAM regions
   transport, passenger bus, battery electric - battery-equipped trolleybus, LTO battery, 13m single deck urban bus    all IAM regions
   transport, passenger bus, battery electric - opportunity charging, LTO battery, 13m single deck urban bus           all IAM regions
   transport, passenger bus, fuel cell electric, 13m single deck urban bus                                             all IAM regions
   transport, passenger bus, diesel hybrid, 13m single deck urban bus, EURO-VI                                         all IAM regions
-  transport, passenger bus, diesel, 13m single deck urban bus, EURO-III                                               all IAM regions
-  transport, passenger bus, diesel, 13m single deck urban bus, EURO-IV                                                all IAM regions
-  transport, passenger bus, diesel, 13m single deck urban bus, EURO-V                                                 all IAM regions
   transport, passenger bus, diesel, 13m single deck urban bus, EURO-VI                                                all IAM regions
-  transport, passenger bus, compressed gas, 13m single deck urban bus, EURO-III                                       all IAM regions
-  transport, passenger bus, compressed gas, 13m single deck urban bus, EURO-IV                                        all IAM regions
-  transport, passenger bus, compressed gas, 13m single deck urban bus, EURO-V                                         all IAM regions
   transport, passenger bus, compressed gas, 13m single deck urban bus, EURO-VI                                        all IAM regions
   transport, passenger bus, fuel cell electric, 13m single deck coach bus                                             all IAM regions
   transport, passenger bus, diesel hybrid, 13m single deck coach bus, EURO-VI                                         all IAM regions
-  transport, passenger bus, diesel, 13m single deck coach bus, EURO-III                                               all IAM regions
-  transport, passenger bus, diesel, 13m single deck coach bus, EURO-IV                                                all IAM regions
-  transport, passenger bus, diesel, 13m single deck coach bus, EURO-V                                                 all IAM regions
   transport, passenger bus, diesel, 13m single deck coach bus, EURO-VI                                                all IAM regions
-  transport, passenger bus, compressed gas, 13m single deck coach bus, EURO-III                                       all IAM regions
-  transport, passenger bus, compressed gas, 13m single deck coach bus, EURO-IV                                        all IAM regions
-  transport, passenger bus, compressed gas, 13m single deck coach bus, EURO-V                                         all IAM regions
   transport, passenger bus, compressed gas, 13m single deck coach bus, EURO-VI                                        all IAM regions
-  transport, passenger bus, battery electric - overnight charging, NMC-622 battery, 13m double deck urban bus         all IAM regions
+  transport, passenger bus, battery electric - overnight charging 13m double deck urban bus                           all IAM regions
   transport, passenger bus, battery electric - opportunity charging, LTO battery, 13m double deck urban bus           all IAM regions
   transport, passenger bus, fuel cell electric, 13m double deck urban bus                                             all IAM regions
   transport, passenger bus, diesel hybrid, 13m double deck urban bus, EURO-VI                                         all IAM regions
-  transport, passenger bus, diesel, 13m double deck urban bus, EURO-III                                               all IAM regions
-  transport, passenger bus, diesel, 13m double deck urban bus, EURO-IV                                                all IAM regions
-  transport, passenger bus, diesel, 13m double deck urban bus, EURO-V                                                 all IAM regions
   transport, passenger bus, diesel, 13m double deck urban bus, EURO-VI                                                all IAM regions
-  transport, passenger bus, compressed gas, 13m double deck urban bus, EURO-III                                       all IAM regions
-  transport, passenger bus, compressed gas, 13m double deck urban bus, EURO-IV                                        all IAM regions
-  transport, passenger bus, compressed gas, 13m double deck urban bus, EURO-V                                         all IAM regions
   transport, passenger bus, compressed gas, 13m double deck urban bus, EURO-VI                                        all IAM regions
   transport, passenger bus, fuel cell electric, 13m double deck coach bus                                             all IAM regions
   transport, passenger bus, diesel hybrid, 13m double deck coach bus, EURO-VI                                         all IAM regions
-  transport, passenger bus, diesel, 13m double deck coach bus, EURO-III                                               all IAM regions
-  transport, passenger bus, diesel, 13m double deck coach bus, EURO-IV                                                all IAM regions
-  transport, passenger bus, diesel, 13m double deck coach bus, EURO-V                                                 all IAM regions
   transport, passenger bus, diesel, 13m double deck coach bus, EURO-VI                                                all IAM regions
-  transport, passenger bus, compressed gas, 13m double deck coach bus, EURO-III                                       all IAM regions
-  transport, passenger bus, compressed gas, 13m double deck coach bus, EURO-IV                                        all IAM regions
-  transport, passenger bus, compressed gas, 13m double deck coach bus, EURO-V                                         all IAM regions
   transport, passenger bus, compressed gas, 13m double deck coach bus, EURO-VI                                        all IAM regions
-  transport, passenger bus, battery electric - overnight charging, NMC-622 battery, 18m articulated urban bus         all IAM regions
+  transport, passenger bus, battery electric - overnight charging 18m articulated urban bus                           all IAM regions
   transport, passenger bus, battery electric - battery-equipped trolleybus, LTO battery, 18m articulated urban bus    all IAM regions
   transport, passenger bus, battery electric - opportunity charging, LTO battery, 18m articulated urban bus           all IAM regions
   transport, passenger bus, fuel cell electric, 18m articulated urban bus                                             all IAM regions
   transport, passenger bus, diesel hybrid, 18m articulated urban bus, EURO-VI                                         all IAM regions
-  transport, passenger bus, diesel, 18m articulated urban bus, EURO-III                                               all IAM regions
-  transport, passenger bus, diesel, 18m articulated urban bus, EURO-IV                                                all IAM regions
-  transport, passenger bus, diesel, 18m articulated urban bus, EURO-V                                                 all IAM regions
   transport, passenger bus, diesel, 18m articulated urban bus, EURO-VI                                                all IAM regions
-  transport, passenger bus, compressed gas, 18m articulated urban bus, EURO-III                                       all IAM regions
-  transport, passenger bus, compressed gas, 18m articulated urban bus, EURO-IV                                        all IAM regions
-  transport, passenger bus, compressed gas, 18m articulated urban bus, EURO-V                                         all IAM regions
   transport, passenger bus, compressed gas, 18m articulated urban bus, EURO-VI                                        all IAM regions
  =================================================================================================================== ==================
 
 Inventories are from Sacchi_ et al. 2021. The vehicles are available
-for different years and emission standards and for each IAM region. *premise* will only
-import vehicles which production year is equal or inferior to
-the scenario year considered. *premise* will create fleet average vehicles
-during the *Transport* transformation for each IAM region. The inventories can be consulted
+for different years and emission standards and for each IAM region.
+
+When doing:
+
+.. code-block:: python
+
+    update("buses")
+
+*premise* will create fleet average vehicles for each IAM region. The inventories can be consulted
 here: LCIbuses_.
 
 .. _LCIbuses: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-buses.xlsx
@@ -1598,322 +1369,26 @@ all sorts of data from the IAM output file and store it into
 multi-dimensional arrays.
 
 
-Production volumes
-------------------
+Production volumes and efficiencies
+-----------------------------------
 
-Production volumes for different commodities are collected, for the
-year and scenario specified by the user. Production volumes are used to
-build regional markets. For example, for the global market, the volume-based
-shares of each region are used to reflect their respective supply importance.
-Another example is for building electricity markets: the respective
-production volumes of each electricity-producing technology is used to
-determine the gross supply mix of the market.
-
-
-The table below shows a non-exhaustive list of correspondences between *premise*, REMIND, IMAGE
-and LCI terminology, regarding electricity producing technologies. *premise*
-production volumes given for secondary energy carriers for electricity.
-The mapping file is available in the library root folder: mappingElec_.
-
-.. _mappingElec: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/electricity_variables.yaml
-
-
- ========================== ===================================== ================================================= ===================================================================================================
-  name in premise            name in REMIND                         name in IMAGE                                    name in LCI database (only first of several shown)
- ========================== ===================================== ================================================= ===================================================================================================
-  Biomass CHP                SE|Electricity|Biomass|CHP|w/o CCS    Secondary Energy|Electricity|Biomass|w/o CCS|3    heat and power co-generation, wood chips
-  Biomass CHP CCS                                                  Secondary Energy|Electricity|Biomass|w/ CCS|2     electricity production, at co-generation power plant/wood, post, pipeline 200km, storage 1000m
-  Biomass ST                                                       Secondary Energy|Electricity|Biomass|w/o CCS|1    electricity production, at wood burning power plant 20 MW, truck 25km, no CCS
-  Biomass IGCC CCS           SE|Electricity|Biomass|IGCCC|w/ CCS   Secondary Energy|Electricity|Biomass|w/ CCS|1     electricity production, from CC plant, 100% SNG, truck 25km, post, pipeline 200km, storage 1000m
-  Biomass IGCC               SE|Electricity|Biomass|IGCC|w/o CCS   Secondary Energy|Electricity|Biomass|w/o CCS|2    electricity production, at BIGCC power plant 450MW, no CCS
-  Coal PC                    SE|Electricity|Coal|PC|w/o CCS        Secondary Energy|Electricity|Coal|w/o CCS|1       electricity production, hard coal
-  Coal IGCC                  SE|Electricity|Coal|IGCC|w/o CCS      Secondary Energy|Electricity|Coal|w/o CCS|2       electricity production, at power plant/hard coal, IGCC, no CCS
-  Coal PC CCS                SE|Electricity|Coal|PCC|w/ CCS                                                          electricity production, at power plant/hard coal, post, pipeline 200km, storage 1000m
-  Coal IGCC CCS              SE|Electricity|Coal|IGCCC|w/ CCS      Secondary Energy|Electricity|Coal|w/ CCS|1        electricity production, at power plant/hard coal, pre, pipeline 200km, storage 1000m
-  Coal CHP                   SE|Electricity|Coal|CHP|w/o CCS       Secondary Energy|Electricity|Coal|w/o CCS|3       heat and power co-generation, hard coal
-  Coal CHP CCS                                                     Secondary Energy|Electricity|Coal|w/ CCS|2        electricity production, at co-generation power plant/hard coal, oxy, pipeline
-  Gas OC                     SE|Electricity|Gas|GT                 Secondary Energy|Electricity|Gas|w/o CCS|1        electricity production, natural gas, conventional power plant
-  Gas CC                     SE|Electricity|Gas|CC|w/o CCS         Secondary Energy|Electricity|Gas|w/o CCS|2        electricity production, natural gas, combined cycle power plant
-  Gas CHP                    SE|Electricity|Gas|CHP|w/o CCS        Secondary Energy|Electricity|Gas|w/o CCS|3        heat and power co-generation, natural gas, combined cycle power plant, 400MW electrical
-  Gas CHP CCS                                                      Secondary Energy|Electricity|Gas|w/ CCS|2         electricity production, at co-generation power plant/natural gas, post, pipeline
-  Gas CC CCS                 SE|Electricity|Gas|w/ CCS             Secondary Energy|Electricity|Gas|w/ CCS|1         electricity production, at power plant/natural gas, pre, pipeline
-  Geothermal                 SE|Electricity|Geothermal             Secondary Energy|Electricity|Other                electricity production, deep geothermal
-  Hydro                      SE|Electricity|Hydro                  Secondary Energy|Electricity|Hydro                electricity production, hydro, reservoir
-  Nuclear                    SE|Electricity|Nuclear                Secondary Energy|Electricity|Nuclear              electricity production, nuclear
-  Oil ST                     SE|Electricity|Oil|w/o CCS            Secondary Energy|Electricity|Oil|w/o CCS|1        electricity production, oil
-  Oil CC                                                           Secondary Energy|Electricity|Oil|w/o CCS|2        electricity production, oil
-  Oil CC CCS                                                       Secondary Energy|Electricity|Oil|w/ CCS|1         electricity production, at co-generation power plant/oil, post, pipeline 200km, storage 1000m
-  Oil CHP                                                          Secondary Energy|Electricity|Oil|w/o CCS|3        heat and power co-generation, oil
-  Oil CHP CCS                                                      Secondary Energy|Electricity|Oil|w/ CCS|2         electricity production, at co-generation power plant/oil, post, pipeline 200km, storage 1000m
-  Solar CSP                  SE|Electricity|Solar|CSP              Secondary Energy|Electricity|Solar|CSP            electricity production, solar thermal parabolic trough, 50 MW
-  Solar PV Centralized       SE|Electricity|Solar|PV               Secondary Energy|Electricity|Solar|PV|1           electricity production, photovoltaic, commercial
-  Solar PV Residential                                             Secondary Energy|Electricity|Solar|PV|2           electricity production, photovoltaic, residential
-  Wind Onshore               SE|Electricity|Wind|Onshore           Secondary Energy|Electricity|Wind|1               electricity production, wind, <1MW turbine, onshore
-  Wind Offshore              SE|Electricity|Wind|Offshore          Secondary Energy|Electricity|Wind|2               electricity production, wind, 1-3MW turbine, offshore
- ========================== ===================================== ================================================= ===================================================================================================
-
-.. note::
-
-    IAMs do not necessarily display the same variety of technologies.
-    For example, REMIND does not provide a variable for residential PV production while
-    IMAGE does.
-
-
-.. note::
-
-    Because of a lack of more diverse inventories, wind power is only represented
-    with relatively small installations (< 1MW, 1-3 MW and >3 MW), in respect to today's
-    standard. This can lead to overestimate the associated environmental burden.
-
-
-The table below shows the correspondence between *premise*, REMIND, IMAGE
-and LCI terminology, regarding steel and cement producing technologies. The mapping files are
-available in the library root folder: mappingCement_ and mappingSteel_.
-
-
- ==================== ====================================== ============================= ==============================
-  name in premise      name in REMIND                          name in IMAGE                name in LCI database
- ==================== ====================================== ============================= ==============================
-  cement               Production|Industry|Cement             Production|Cement             cement production, Portland
-  steel - primary      Production|Industry|Steel|Primary      Production|Steel|Primary      steel production, converter
-  steel - secondary    Production|Industry|Steel|Secondary    Production|Steel|Secondary    steel production, electric
- ==================== ====================================== ============================= ==============================
-
-The table below shows the correspondence between *premise*, REMIND, IMAGE
-and LCI terminology, regarding fuel producing technologies. The mapping file is
-available in the library root folder: mappingFuels_.
-
-
- ==================================== =============================================== ========================================================================= ================================================================================================================================================
-  name in premise                      name in REMIND                                   name in IMAGE                                                            name in LCI database (only first of several shown)
- ==================================== =============================================== ========================================================================= ================================================================================================================================================
-  natural gas                          SE|Gases|Non-Biomass                                                                                                      natural gas, high pressure
-  biomethane                           SE|Gases|Biomass                                                                                                          biomethane, gaseous
-  diesel                               SE|Liquids|Oil                                  Secondary Energy|Consumption|Liquids|Fossil                               diesel production, low-sulfur
-  gasoline                             SE|Liquids|Oil                                  Secondary Energy|Consumption|Liquids|Fossil                               petrol production, low-sulfur
-  petrol, synthetic, hydrogen          SE|Liquids|Hydrogen                                                                                                       gasoline production, synthetic, from methanol, hydrogen from electrolysis, CO2 from DAC, energy allocation, at fuelling station
-  petrol, synthetic, coal              SE|Liquids|Coal|w/o CCS                                                                                                   gasoline production, synthetic, from methanol, hydrogen from coal gasification, CO2 from DAC, energy allocation, at fuelling station
-  diesel, synthetic, hydrogen          SE|Liquids|Hydrogen                                                                                                       diesel production, synthetic, from Fischer Tropsch process, hydrogen from electrolysis, energy allocation, at fuelling station
-  diesel, synthetic, coal              SE|Liquids|Coal|w/o CCS                                                                                                   diesel production, synthetic, from Fischer Tropsch process, hydrogen from coal gasification, energy allocation, at fuelling station
-  diesel, synthetic, wood              SE|Liquids|Biomass|Biofuel|BioFTR|w/o CCS       Secondary Energy|Consumption|Liquids|Biomass|FT Diesel|Woody|w/oCCS       diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, energy allocation, at fuelling station
-  diesel, synthetic, wood, with CCS    SE|Liquids|Biomass|Biofuel|BioFTRC|w/ CCS       Secondary Energy|Consumption|Liquids|Biomass|FT Diesel|Woody|w/CCS        diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, with CCS, energy allocation, at fuelling station
-  diesel, synthetic, grass                                                             Secondary Energy|Consumption|Liquids|Biomass|FT Diesel|Grassy|w/oCCS      diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, energy allocation, at fuelling station
-  diesel, synthetic, grass, with CCS                                                   Secondary Energy|Consumption|Liquids|Biomass|FT Diesel|Grassy|w/CCS       diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, with CCS, energy allocation, at fuelling station
-  hydrogen, electrolysis               SE|Hydrogen|Electricity                                                                                                   hydrogen supply, from electrolysis
-  hydrogen, biomass                    SE|Hydrogen|Biomass|w/o CCS                                                                                               hydrogen supply, from gasification of biomass, by
-  hydrogen, biomass, with CCS          SE|Hydrogen|Biomass|w/ CCS                                                                                                hydrogen supply, from gasification of biomass by heatpipe reformer, with CCS
-  hydrogen, coal                       SE|Hydrogen|Coal|w/o CCS                                                                                                  hydrogen supply, from coal gasification, by truck, as gaseous, over 500 km
-  hydrogen, from natural gas                   SE|Hydrogen|Gas|w/o CCS                                                                                                   hydrogen supply, from SMR of from natural gas, by truck, as gaseous, over 500 km
-  hydrogen, from natural gas, with CCS         SE|Hydrogen|Gas|w/ CCS                                                                                                    hydrogen supply, from SMR of from natural gas, with CCS, by truck, as gaseous, over 500 km
-  biodiesel, oil                       SE|Liquids|Biomass|Biofuel|Biodiesel|w/o CCS    Secondary Energy|Consumption|Liquids|Biomass|Biodiesel|Oilcrops|w/oCCS    biodiesel production, via transesterification
-  biodiesel, oil, with CCS                                                             Secondary Energy|Consumption|Liquids|Biomass|Biodiesel|Oilcrops|w/CCS     biodiesel production, via transesterification
-  bioethanol, wood                     SE|Liquids|Biomass|Cellulosic|w/o CCS           Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Woody|w/oCCS         ethanol production, via fermentation, from forest
-  bioethanol, wood, with CCS           SE|Liquids|Biomass|Cellulosic|w/ CCS            Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Woody|w/CCS          ethanol production, via fermentation, from forest, with carbon capture and storage
-  bioethanol, grass                    SE|Liquids|Biomass|Non-Cellulosic               Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Grassy|w/oCCS        ethanol production, via fermentation, from switchgrass
-  bioethanol, grass, with CCS                                                          Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Grassy|w/CCS         ethanol production, via fermentation, from switchgrass, with carbon capture and storage
-  bioethanol, grain                    SE|Liquids|Biomass|Conventional Ethanol         Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Maize|w/oCCS         ethanol production, via fermentation, from wheat grains
-  bioethanol, grain, with CCS                                                          Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Maize|w/CCS          ethanol production, via fermentation, from corn, with carbon capture and storage
-  bioethanol, sugar                    SE|Liquids|Biomass|Conventional Ethanol         Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Sugar|w/oCCS         ethanol production, via fermentation, from sugarbeet
-  bioethanol, sugar, with CCS                                                          Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Sugar|w/CCS          ethanol production, via fermentation, from sugarbeet, with carbon capture and storage
-  methanol, wood                                                                       Secondary Energy|Consumption|Liquids|Biomass|Methanol|Woody|w/oCCS        market for methanol, from biomass
-  methanol, grass                                                                      Secondary Energy|Consumption|Liquids|Biomass|Methanol|Grassy|w/oCCS       market for methanol, from biomass
-  methanol, wood, with CCS                                                             Secondary Energy|Consumption|Liquids|Biomass|Methanol|Woody|w/CCS         market for methanol, from biomass
-  methanol, grass, with CCS                                                            Secondary Energy|Consumption|Liquids|Biomass|Methanol|Grassy|w/CCS        market for methanol, from biomass
- ==================================== =============================================== ========================================================================= ================================================================================================================================================
-
-.. warning::
-
-    Some fuel types are not properly represented in the LCI database.
-    Available inventories for biomass-based methanol production do not differentiate
-    between wood and grass as the feedstock.
-
-.. note::
-
-    **Modelling choice**: *premise* builds several potential supply chains for hydrogen.
-    Because the logistics to supply hydrogen in the future is not known or indicated by the IAM,
-    the choice is made to supply it by truck over 500 km, in a gaseous state.
-
-
-The production volumes considered for a given scenario can be consulted, like so:
-
-.. code-block:: python
-
-    ndb.scenarios[0]["iam data"].production_volumes
-
-To have an updated overview of the mapping concenring all sectors,
-refer to this file: mapping_.
+The mapping between IAM variables and *premise* variables regarding production
+volumes and efficiencies can be found in the mapping_ file.
 
 .. _mapping: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/mapping_overview.xlsx
-
-Efficiencies
-------------
-
-The efficiency of the different technologies producing
-commodities (e.g., electricity, steel, cement, fuel) is modelled to change over time
-by the IAM. *premise* stores the relative change in efficiency of such technologies.
-
-The table below shows the correspondence between *premise*, REMIND, IMAGE,
-regarding efficiency variables for electricity producing technologies. The mapping file is
-available in the library root folder: mappingElec_.
-
-.. _mappingElec: https://github.com/polca/premise/blob/master/premise/data/electricity/electricity_tech_vars.yml
-
- ================== ================================================== ===========================================
-  name in premise    name in REMIND                                      name in IMAGE
- ================== ================================================== ===========================================
-  Biomass CHP        Tech|Electricity|Biomass|CHP|w/o CCS|Efficiency    Efficiency|Electricity|Biomass|w/o CCS|3
-  Biomass CHP CCS                                                       Efficiency|Electricity|Biomass|w/ CCS|2
-  Biomass ST                                                            Efficiency|Electricity|Biomass|w/o CCS|1
-  Biomass IGCC CCS   Tech|Electricity|Biomass|IGCCC|w/ CCS|Efficiency   Efficiency|Electricity|Biomass|w/ CCS|1
-  Biomass IGCC       Tech|Electricity|Biomass|IGCC|w/o CCS|Efficiency   Efficiency|Electricity|Biomass|w/o CCS|2
-  Coal PC            Tech|Electricity|Coal|PC|w/o CCS|Efficiency        Efficiency|Electricity|Coal|w/o CCS|1
-  Coal IGCC          Tech|Electricity|Coal|IGCC|w/o CCS|Efficiency      Efficiency|Electricity|Coal|w/o CCS|2
-  Coal PC CCS        Tech|Electricity|Coal|PCC|w/ CCS|Efficiency
-  Coal IGCC CCS      Tech|Electricity|Coal|IGCCC|w/ CCS|Efficiency      Efficiency|Electricity|Coal|w/ CCS|1
-  Coal CHP           Tech|Electricity|Coal|CHP|w/o CCS|Efficiency       Efficiency|Electricity|Coal|w/o CCS|3
-  Coal CHP CCS                                                          Efficiency|Electricity|Coal|w/ CCS|2
-  Gas OC             Tech|Electricity|Gas|GT|Efficiency                 Efficiency|Electricity|Gas|w/o CCS|1
-  Gas CC             Tech|Electricity|Gas|CC|w/o CCS|Efficiency         Efficiency|Electricity|Gas|w/o CCS|2
-  Gas CHP            Tech|Electricity|Gas|CHP|w/o CCS|Efficiency        Efficiency|Electricity|Gas|w/o CCS|3
-  Gas CHP CCS                                                           Efficiency|Electricity|Gas|w/ CCS|2
-  Gas CC CCS         Tech|Electricity|Gas|CCC|w/ CCS|Efficiency         Efficiency|Electricity|Gas|w/ CCS|1
-  Nuclear                                                               Efficiency|Electricity|Nuclear
-  Oil ST             Tech|Electricity|Oil|DOT|Efficiency                Efficiency|Electricity|Oil|w/o CCS|1
-  Oil CC                                                                Efficiency|Electricity|Oil|w/o CCS|2
-  Oil CC CCS                                                            Efficiency|Electricity|Oil|w/ CCS|1
-  Oil CHP                                                               Efficiency|Electricity|Oil|w/o CCS|3
-  Oil CHP CCS                                                           Efficiency|Electricity|Oil|w/ CCS|2
- ================== ================================================== ===========================================
-
-The table below shows the correspondence between *premise*, REMIND, IMAGE,
-regarding efficiency variables for cement and steel
-producing technologies. For cement and steel, it is different, as *premise*
-derives efficiencies by dividing the the final energy demand by the production volume
-(to obtain GJ/t steel or cement). This is because efficiency variables for cement
-and steel is not always given as such. The mapping files are
-available in the library root folder: mappingCement_ and mappingSteel_.
-
-.. _mappingCement: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/cement_variables.yaml
-.. _mappingSteel: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/steel_variables.yaml
-
- ==================== ========================================== ==============================
-  name in premise      name in REMIND                              name in IMAGE
- ==================== ========================================== ==============================
-  cement               Final Energy|Industry|Cement               FE|Industry|Cement
-  steel - primary      Final Energy|Industry|Steel                FE|Industry|Steel|Primary
-  steel - secondary    Final Energy|Industry|Steel|Electricity    FE|Industry|Steel|Secondary
- ==================== ========================================== ==============================
-
-The table below shows the correspondence between *premise*, REMIND, IMAGE,
-regarding efficiency variables for fuels producing technologies. The mapping file is
-available in the library root folder: mappingFuels_.
-
-.. _mappingFuels: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/fuel_variables.yaml
-
- ==================================== ======================================================================= ========================================================
-  name in premise                      name in REMIND                                                           name in IMAGE
- ==================================== ======================================================================= ========================================================
-  biomethane                           Tech|Gases|Biomass|w/o CCS|Efficiency
-  diesel                               Tech|Liquids|Oil|Efficiency
-  gasoline                             Tech|Liquids|Oil|Efficiency
-  diesel, synthetic, wood                                                                                      Efficiency|Liquids|Biomass|FT Diesel|Woody|w/o CCS
-  diesel, synthetic, wood, with CCS                                                                            Efficiency|Liquids|Biomass|FT Diesel|Woody|w/ CCS
-  diesel, synthetic, grass                                                                                     Efficiency|Liquids|Biomass|FT Diesel|Woody|w/o CCS
-  diesel, synthetic, grass, with CCS                                                                           Efficiency|Liquids|Biomass|FT Diesel|Woody|w/ CCS
-  biodiesel, oil                       Tech|Liquids|Biomass|Biofuel|Biodiesel|w/o CCS|Efficiency               Efficiency|Liquids|Biomass|Biodiesel|Oilcrops|w/o CCS
-  biodiesel, oil, with CCS                                                                                     Efficiency|Liquids|Biomass|Biodiesel|Oilcrops|w/ CCS
-  bioethanol, wood                     Tech|Liquids|Biomass|Biofuel|Ethanol|Cellulosic|w/o CCS|Efficiency      Efficiency|Liquids|Biomass|Ethanol|Woody|w/o CCS
-  bioethanol, wood, with CCS                                                                                   Efficiency|Liquids|Biomass|Ethanol|Woody|w/ CCS
-  bioethanol, grass                    Tech|Liquids|Biomass|Biofuel|Ethanol|Cellulosic|w/o CCS|Efficiency      Efficiency|Liquids|Biomass|Ethanol|Grassy|w/o CCS
-  bioethanol, grass, with CCS                                                                                  Efficiency|Liquids|Biomass|Ethanol|Grassy|w/ CCS
-  bioethanol, grain                    Tech|Liquids|Biomass|Biofuel|Ethanol|Conventional|w/o CCS|Efficiency    Efficiency|Liquids|Biomass|Ethanol|Maize|w/o CCS
-  bioethanol, grain, with CCS                                                                                  Efficiency|Liquids|Biomass|Ethanol|Maize|w/ CCS
-  bioethanol, sugar                    Tech|Liquids|Biomass|Biofuel|Ethanol|Conventional|w/o CCS|Efficiency    Efficiency|Liquids|Biomass|Ethanol|Sugar|w/o CCS
-  bioethanol, sugar, with CCS                                                                                  Efficiency|Liquids|Biomass|Ethanol|Sugar|w/ CCS
-  methanol, wood                                                                                               Efficiency|Liquids|Biomass|Methanol|Woody|w/o CCS
-  methanol, grass                                                                                              Efficiency|Liquids|Biomass|Methanol|Grassy|w/o CCS
-  methanol, wood, with CCS                                                                                     Efficiency|Liquids|Biomass|Methanol|Woody|w/ CCS
-  methanol, grass, with CCS                                                                                    Efficiency|Liquids|Biomass|Methanol|Grassy|w/ CCS
- ==================================== ======================================================================= ========================================================
-
-
-*premise* stores the change in efficiency (called *scaling factor*) of a given technology
-relative to 2020. This is based on the fact that the efficiency of ecoinvent datasets
-are believed to reflect current (2020) efficiency.
-
-.. note::
-
-    If a technology, in a given region, is given a *scaling factor* of 1.2 in 2030,
-    this means that the corresponding ecoinvent dataset is adjusted so that its
-    efficiency is improved by 20% (by multiplying the dataset inputs by 1/1.2).
-    In other words, *premise* does not use the efficiency given by the IAM,
-    but rather its change over time relative to 2020.
-
-The *scaling factors* considered for a given scenario can be consulted, like so:
-
-.. code-block:: python
-
-    ndb.scenarios[0]["iam data"].efficiency
 
 Land use and land use change
 ----------------------------
 
-When building prospective databases using the IAM IMAGE model, the latter provides
-additional variables relating to average *land use* and *land use change* emissions, for each type of
-crop grown to be used in biofuel production.
-Upon the creation of biofuel supply chains in the *Fuels* transformation function, such information
-is used to adjust the inventories of crop farming datasets. The table below shows the IMAGE variables
-used to that effect. The mapping file is
-available in the library root folder: mappingCrops_.
+The mapping between IAM variables and *premise* variables regarding land use
+and emissions caused by land use change can be found in the mapping_ file.
 
-.. _mappingCrops: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/crops_variables.yaml
-
- ========================= ========================== ========================================== =============================================================
-  Crop family in premise    Crop type in premise       Land use variable in IMAGE [Ha/GJ-Prim]    Land use change variable in IMAGE [kg CO2/GJ-Prim]
- ========================= ========================== ========================================== =============================================================
-  sugar                     sugarbeet, sugarcane       Land Use|Average|Biomass|Sugar             Emission Factor|CO2|Energy|Supply|Biomass|Average|Sugar
-  oil                       rapeseed, palm oil         Land Use|Average|Biomass|OilCrop           Emission Factor|CO2|Energy|Supply|Biomass|Average|Oilcrops
-  wood                      poplar, eucalyptus         Land Use|Average|Biomass|Woody             Emission Factor|CO2|Energy|Supply|Biomass|Average|Woody
-  grass                     switchgrass, miscanthus    Land Use|Average|Biomass|Grassy            Emission Factor|CO2|Energy|Supply|Biomass|Average|Grassy
-  grain                     corn                       Land Use|Average|Biomass|Maize             Emission Factor|CO2|Energy|Supply|Biomass|Average|Maize
- ========================= ========================== ========================================== =============================================================
-
-The *land use* and *land use change* emissions considered for a given scenario
-can be consulted, like so:
-
-.. code-block:: python
-
-    ndb.scenarios[0]["iam data"].land_use
-    ndb.scenarios[0]["iam data"].land_use_change
 
 Carbon Capture and Storage
 --------------------------
 
-Some scenarios involve the capture and storage of CO2 emissions
-of certain sectors (e.g., cement and steel).
-The capture rate of a given sector is calculated
-from the IAM data file, as::
-
-    rate = amount of CO2 captured / (amount of CO2 captured + amount of CO2 not captured)
-
-The table below lists the variables needed to calculate those rates.
-
- ============================== =============================== ============================================
-  name in premise                name in REMIND                  name in IMAGE
- ============================== =============================== ============================================
-  cement - CO2 (not captured)    Emi|CO2|FFaI|Industry|Cement    Emissions|CO2|Industry|Cement|Gross
-  cement - CCO2 (captured)       Emi|CCO2|FFaI|Industry|Cement   Emissions|CO2|Industry|Cement|Sequestered
-  steel - CO2 (not captured)     Emi|CO2|FFaI|Industry|Steel     Emissions|CO2|Industry|Steel|Gross
-  steel - CCO2 (captured)        Emi|CCO2|FFaI|Industry|Steel    Emissions|CO2|Industry|Steel|Sequestered
- ============================== =============================== ============================================
-
-
-The *carbon capture rates* which are floating values
-comprised between 0 and 1, can be consulted like so:
-
-.. code-block:: python
-
-    ndb.scenarios[0]["iam data"].carbon_capture_rate
+The mapping between IAM variables and *premise* variables regarding carbon capture
+and storage can be found in the mapping_ file.
 
 
 Data sources external to the IAM
@@ -1922,7 +1397,7 @@ Data sources external to the IAM
 *premise* tries to adhere to the IAM scenario data as much as possible. There are
 however a number of cases where external data sources are used. This is notably the case
 for non-CO2 pollutants emissions for different sectors (electricity, steel and cement),
-as well as expected efficiency gains for photovoltaic panels.
+as well as expected efficiency gains for photovoltaic panels and batteries.
 
 Air emissions
 *************

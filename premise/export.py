@@ -1527,7 +1527,7 @@ class Export:
                     if item == "System description":
                         writer.writerow(["Ecoinvent v3"])
                     if item == "Infrastructure":
-                        writer.writerow(["Yes"])
+                        writer.writerow(["No"])
                     if item == "External documents":
                         writer.writerow(
                             [
@@ -1802,7 +1802,13 @@ class Export:
             print(x)
 
         if len(self.unmatched_category_flows) > 0:
-            print(f"{len(self.unmatched_category_flows)} unmatched flow categories.")
+            print(
+                f"{len(self.unmatched_category_flows)} unmatched flow categories. Check unlinked.log."
+            )
+            # save the list of unmatched flow to unlinked.log
+            with open("unlinked.log", "a") as f:
+                for item in self.unmatched_category_flows:
+                    f.write(f"{item}\n")
 
         print(f"Simapro CSV file saved in {self.filepath}.")
 
