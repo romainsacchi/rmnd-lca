@@ -902,7 +902,7 @@ Solar PV Residential:
 Storage, Battery:
   ecoinvent_aliases:
     fltr:
-      - market for battery capacity, stationary (CONT scenario)
+      - electricity supply, from stationary battery (CONT scenario)
   iam_aliases:
     image: Secondary Energy|Electricity|Storage
     message: Secondary Energy|Electricity|Storage
