@@ -1068,22 +1068,22 @@ class BaseTransformation:
                             "uncertainty type": exc.get("uncertainty type", 0),
                             "loc": (
                                 exc.get("loc", 0) / exc["amount"]
-                                if exc.get("loc")
+                                if exc.get("loc", None) is not None
                                 else None
                             ),
                             "scale": (
                                 exc.get("scale", 0) / exc["amount"]
-                                if exc.get("scale")
+                                if exc.get("scale", None) is not None
                                 else None
                             ),
                             "minimum": (
                                 exc.get("minimum", 0) / exc["amount"]
-                                if exc.get("minimum")
+                                if exc.get("minimum", None) is not None
                                 else None
                             ),
                             "maximum": (
                                 exc.get("maximum", 0) / exc["amount"]
-                                if exc.get("maximum")
+                                if exc.get("maximum", None) is not None
                                 else None
                             ),
                         }
@@ -1994,22 +1994,22 @@ class BaseTransformation:
                         "uncertainty type": exc.get("uncertainty type", 0),
                         "loc": (
                             exc.get("loc", 0) / exc["amount"]
-                            if exc.get("loc")
+                            if exc.get("loc", None) is not None
                             else None
                         ),
                         "scale": (
                             exc.get("scale", 0) / exc["amount"]
-                            if exc.get("scale")
+                            if exc.get("scale", None) is not None
                             else None
                         ),
                         "minimum": (
                             exc.get("minimum", 0) / exc["amount"]
-                            if exc.get("minimum")
+                            if exc.get("minimum", None) is not None
                             else None
                         ),
                         "maximum": (
                             exc.get("maximum", 0) / exc["amount"]
-                            if exc.get("maximum")
+                            if exc.get("maximum", None) is not None
                             else None
                         ),
                     }

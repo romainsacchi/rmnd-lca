@@ -204,7 +204,7 @@ Li-S:
       # value for 2050 from https://www.nature.com/articles/s41560-020-00748-8/figures/1
       2050:
         mean: 0.340
-        minimum: 0.185
+        minimum: 0.270
         maximum: 0.500
 
 SiB:
@@ -221,8 +221,8 @@ SiB:
       # future values from https://doi.org/10.3390/batteries9070379.
       2050:
         mean: 0.200
-        minimum: 0.160
-        maximum: 0.220
+        minimum: 0.150
+        maximum: 0.230
 
 VRFB:
   ecoinvent_aliases:
