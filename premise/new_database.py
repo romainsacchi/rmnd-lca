@@ -632,7 +632,9 @@ class NewDatabase:
             db_name = f"ecospold_{self.system_model}_{self.version}"
 
         uncertainty_data = (
-            "w_uncertainty" if self.keep_source_db_uncertainty is True else "wo_uncertainty"
+            "w_uncertainty"
+            if self.keep_source_db_uncertainty is True
+            else "wo_uncertainty"
         )
 
         file_name = (
@@ -665,7 +667,9 @@ class NewDatabase:
             db_name = f"ecospold_{self.system_model}_{self.version}"
 
         uncertainty_data = (
-            "w_uncertainty" if self.keep_imports_uncertainty is True else "wo_uncertainty"
+            "w_uncertainty"
+            if self.keep_imports_uncertainty is True
+            else "wo_uncertainty"
         )
 
         file_name = (

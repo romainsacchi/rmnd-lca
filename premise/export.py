@@ -960,9 +960,7 @@ def check_geographical_linking(scenario, original_database):
     return scenario
 
 
-def prepare_db_for_export(
-    scenario, name, original_database, biosphere_name=None
-):
+def prepare_db_for_export(scenario, name, original_database, biosphere_name=None):
     """
     Prepare a database for export.
     """

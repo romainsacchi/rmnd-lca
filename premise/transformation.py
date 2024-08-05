@@ -1062,12 +1062,30 @@ class BaseTransformation:
             for exc in excs_to_relink:
                 if exc["type"] == "technosphere":
                     if exc.get("uncertainty type", 0) != 0:
-                        old_uncertainty[(exc["name"], exc.get("product"), exc["unit"])] = {
+                        old_uncertainty[
+                            (exc["name"], exc.get("product"), exc["unit"])
+                        ] = {
                             "uncertainty type": exc.get("uncertainty type", 0),
-                            "loc": exc.get("loc", 0) / exc["amount"] if exc.get("loc") else None,
-                            "scale": exc.get("scale", 0) / exc["amount"] if exc.get("scale") else None,
-                            "minimum": exc.get("minimum", 0) / exc["amount"] if exc.get("minimum") else None,
-                            "maximum": exc.get("maximum", 0) / exc["amount"] if exc.get("maximum") else None,
+                            "loc": (
+                                exc.get("loc", 0) / exc["amount"]
+                                if exc.get("loc")
+                                else None
+                            ),
+                            "scale": (
+                                exc.get("scale", 0) / exc["amount"]
+                                if exc.get("scale")
+                                else None
+                            ),
+                            "minimum": (
+                                exc.get("minimum", 0) / exc["amount"]
+                                if exc.get("minimum")
+                                else None
+                            ),
+                            "maximum": (
+                                exc.get("maximum", 0) / exc["amount"]
+                                if exc.get("maximum")
+                                else None
+                            ),
                         }
 
             # make a dictionary with the names and amounts
@@ -1103,7 +1121,9 @@ class BaseTransformation:
                 for exc in new_exchanges:
                     key = (exc["name"], exc["product"], exc["unit"])
                     if key in old_uncertainty:
-                        exc["uncertainty type"] = old_uncertainty[key]["uncertainty type"]
+                        exc["uncertainty type"] = old_uncertainty[key][
+                            "uncertainty type"
+                        ]
                         for k, v in old_uncertainty[key].items():
                             if k != "uncertainty type":
                                 if v is not None:
@@ -1972,10 +1992,26 @@ class BaseTransformation:
                 if exc.get("uncertainty type", 0) != 0:
                     old_uncertainty[(exc["name"], exc.get("product"), exc["unit"])] = {
                         "uncertainty type": exc.get("uncertainty type", 0),
-                        "loc": exc.get("loc", 0) / exc["amount"] if exc.get("loc") else None,
-                        "scale": exc.get("scale", 0) / exc["amount"] if exc.get("scale") else None,
-                        "minimum": exc.get("minimum", 0) / exc["amount"] if exc.get("minimum") else None,
-                        "maximum": exc.get("maximum", 0) / exc["amount"] if exc.get("maximum") else None,
+                        "loc": (
+                            exc.get("loc", 0) / exc["amount"]
+                            if exc.get("loc")
+                            else None
+                        ),
+                        "scale": (
+                            exc.get("scale", 0) / exc["amount"]
+                            if exc.get("scale")
+                            else None
+                        ),
+                        "minimum": (
+                            exc.get("minimum", 0) / exc["amount"]
+                            if exc.get("minimum")
+                            else None
+                        ),
+                        "maximum": (
+                            exc.get("maximum", 0) / exc["amount"]
+                            if exc.get("maximum")
+                            else None
+                        ),
                     }
 
         new_exchanges = self.find_candidates(
@@ -1998,11 +2034,27 @@ class BaseTransformation:
                 "type": "technosphere",
                 "amount": sum(exc["amount"] for exc in exchanges),
             }
-            for (name, prod, location, unit, ), exchanges in groupby(
+            for (
+                name,
+                prod,
+                location,
+                unit,
+            ), exchanges in groupby(
                 sorted(
-                    new_exchanges, key=itemgetter("name", "product", "location", "unit",)
+                    new_exchanges,
+                    key=itemgetter(
+                        "name",
+                        "product",
+                        "location",
+                        "unit",
+                    ),
                 ),
-                key=itemgetter("name", "product", "location", "unit",),
+                key=itemgetter(
+                    "name",
+                    "product",
+                    "location",
+                    "unit",
+                ),
             )
         ]
 
