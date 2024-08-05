@@ -514,7 +514,8 @@ class NewDatabase:
         use_cached_database: bool = True,
         external_scenarios: list = None,
         quiet=False,
-        keep_uncertainty_data=False,
+        keep_imports_uncertainty=False,
+        keep_source_db_uncertainty=False,
         gains_scenario="CLE",
         use_absolute_efficiency=False,
         biosphere_name: str = "biosphere3",
@@ -525,7 +526,8 @@ class NewDatabase:
         self.system_model = check_system_model(system_model)
         self.system_model_args = system_args
         self.use_absolute_efficiency = use_absolute_efficiency
-        self.keep_uncertainty_data = keep_uncertainty_data
+        self.keep_imports_uncertainty = keep_imports_uncertainty
+        self.keep_source_db_uncertainty = keep_source_db_uncertainty
         self.biosphere_name = check_presence_biosphere_database(biosphere_name)
 
         # if version is anything other than 3.8 or 3.9
@@ -630,7 +632,7 @@ class NewDatabase:
             db_name = f"ecospold_{self.system_model}_{self.version}"
 
         uncertainty_data = (
-            "w_uncertainty" if self.keep_uncertainty_data is True else "wo_uncertainty"
+            "w_uncertainty" if self.keep_source_db_uncertainty is True else "wo_uncertainty"
         )
 
         file_name = (
@@ -663,7 +665,7 @@ class NewDatabase:
             db_name = f"ecospold_{self.system_model}_{self.version}"
 
         uncertainty_data = (
-            "w_uncertainty" if self.keep_uncertainty_data is True else "wo_uncertainty"
+            "w_uncertainty" if self.keep_imports_uncertainty is True else "wo_uncertainty"
         )
 
         file_name = (
@@ -696,7 +698,7 @@ class NewDatabase:
         """
         return DatabaseCleaner(
             self.source, self.source_type, self.source_file_path, self.version
-        ).prepare_datasets(self.keep_uncertainty_data)
+        ).prepare_datasets(self.keep_source_db_uncertainty)
 
     def __import_inventories(self) -> List[dict]:
         """
@@ -808,7 +810,7 @@ class NewDatabase:
                 version_out=self.version,
                 path=filepath[0],
                 system_model=self.system_model,
-                keep_uncertainty_data=self.keep_uncertainty_data,
+                keep_uncertainty_data=self.keep_imports_uncertainty,
             )
             datasets = inventory.merge_inventory()
             data.extend(datasets)
@@ -1009,7 +1011,6 @@ class NewDatabase:
                 scenario=scenario,
                 db_name=name,
                 original_database=self.database,
-                keep_uncertainty_data=self.keep_uncertainty_data,
                 biosphere_name=self.biosphere_name,
             )
 
@@ -1033,7 +1034,6 @@ class NewDatabase:
             scenario=tmp_scenario,
             name="database",
             original_database=self.database,
-            keep_uncertainty_data=self.keep_uncertainty_data,
             biosphere_name=self.biosphere_name,
         )
 
@@ -1101,7 +1101,6 @@ class NewDatabase:
                 scenario=scenario,
                 db_name=name[s],
                 original_database=self.database,
-                keep_uncertainty_data=self.keep_uncertainty_data,
                 biosphere_name=self.biosphere_name,
             )
             write_brightway_database(
@@ -1176,7 +1175,6 @@ class NewDatabase:
                 scenario=scenario,
                 db_name="database",
                 original_database=self.database,
-                keep_uncertainty_data=self.keep_uncertainty_data,
                 biosphere_name=self.biosphere_name,
             )
             Export(scenario, filepath[s], self.version).export_db_to_matrices()
@@ -1217,7 +1215,6 @@ class NewDatabase:
                 scenario=scenario,
                 db_name="database",
                 original_database=self.database,
-                keep_uncertainty_data=self.keep_uncertainty_data,
                 biosphere_name=self.biosphere_name,
             )
             export = Export(scenario, filepath, self.version)
@@ -1264,7 +1261,6 @@ class NewDatabase:
                 scenario=scenario,
                 db_name="database",
                 original_database=self.database,
-                keep_uncertainty_data=self.keep_uncertainty_data,
                 biosphere_name=self.biosphere_name,
             )
             Export(scenario, filepath, self.version).export_db_to_simapro(
@@ -1305,7 +1301,6 @@ class NewDatabase:
                 scenario=scenario,
                 db_name=name,
                 original_database=self.database,
-                keep_uncertainty_data=self.keep_uncertainty_data,
                 biosphere_name=self.biosphere_name,
             )
 

@@ -62,7 +62,7 @@ class Energy(BaseTransformation):
             version_out=self.version,
             path=LCI_HEAT,
             system_model=self.system_model,
-            keep_uncertainty_data=False,
+            keep_uncertainty_data=True,
         )
         datasets = inventory.merge_inventory()
         self.database.extend(datasets)

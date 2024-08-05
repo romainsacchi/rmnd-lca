@@ -961,7 +961,7 @@ def check_geographical_linking(scenario, original_database):
 
 
 def prepare_db_for_export(
-    scenario, name, original_database, keep_uncertainty_data=False, biosphere_name=None
+    scenario, name, original_database, biosphere_name=None
 ):
     """
     Prepare a database for export.
@@ -979,7 +979,6 @@ def prepare_db_for_export(
         original_database=original_database,
         database=scenario["database"],
         db_name=name,
-        keep_uncertainty_data=keep_uncertainty_data,
         biosphere_name=biosphere_name,
     )
     validator.run_all_checks()
@@ -991,7 +990,6 @@ def _prepare_database(
     scenario,
     db_name,
     original_database,
-    keep_uncertainty_data,
     biosphere_name,
 ):
 
@@ -999,7 +997,6 @@ def _prepare_database(
         scenario,
         name=db_name,
         original_database=original_database,
-        keep_uncertainty_data=keep_uncertainty_data,
         biosphere_name=biosphere_name,
     )
 

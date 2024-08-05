@@ -1057,6 +1057,19 @@ class BaseTransformation:
             if len(excs_to_relink) == 0:
                 continue
 
+            old_uncertainty = {}
+
+            for exc in excs_to_relink:
+                if exc["type"] == "technosphere":
+                    if exc.get("uncertainty type", 0) != 0:
+                        old_uncertainty[(exc["name"], exc.get("product"), exc["unit"])] = {
+                            "uncertainty type": exc.get("uncertainty type", 0),
+                            "loc": exc.get("loc", 0) / exc["amount"] if exc.get("loc") else None,
+                            "scale": exc.get("scale", 0) / exc["amount"] if exc.get("scale") else None,
+                            "minimum": exc.get("minimum", 0) / exc["amount"] if exc.get("minimum") else None,
+                            "maximum": exc.get("maximum", 0) / exc["amount"] if exc.get("maximum") else None,
+                        }
+
             # make a dictionary with the names and amounts
             # of the technosphere exchanges to relink
             # to compare with the new exchanges
@@ -1084,6 +1097,17 @@ class BaseTransformation:
             new_exchanges = self.process_exchanges_to_relink(
                 act, unique_excs_to_relink, alt_names
             )
+
+            # apply uncertainties, if any
+            if old_uncertainty:
+                for exc in new_exchanges:
+                    key = (exc["name"], exc["product"], exc["unit"])
+                    if key in old_uncertainty:
+                        exc["uncertainty type"] = old_uncertainty[key]["uncertainty type"]
+                        for k, v in old_uncertainty[key].items():
+                            if k != "uncertainty type":
+                                if v is not None:
+                                    exc[k] = v * exc["amount"]
 
             # Update act["exchanges"] by removing the exchanges to relink
             act["exchanges"] = [e for e in act["exchanges"] if e not in excs_to_relink]
@@ -1574,6 +1598,12 @@ class BaseTransformation:
                     "location": i[2],
                     "type": "technosphere",
                     "amount": exchange["amount"] * i[-1],
+                    "uncertainty type": exchange.get("uncertainty type", 0),
+                    "loc": exchange.get("loc", 0) * i[-1],
+                    "scale": exchange.get("scale", 0) * i[-1],
+                    "negative": exchange.get("negative", False),
+                    "minimum": exchange.get("minimum", 0) * i[-1],
+                    "maximum": exchange.get("maximum", 0) * i[-1],
                 }
                 for i in exchanges
             ]
@@ -1634,6 +1664,12 @@ class BaseTransformation:
                     "location": dataset["location"],
                     "type": "technosphere",
                     "amount": exchange["amount"],
+                    "uncertainty type": exchange.get("uncertainty type", 0),
+                    "loc": exchange.get("loc", None),
+                    "scale": exchange.get("scale", None),
+                    "negative": exchange.get("negative", False),
+                    "minimum": exchange.get("minimum", None),
+                    "maximum": exchange.get("maximum", None),
                 }
             ]
 
@@ -1679,6 +1715,12 @@ class BaseTransformation:
             "location": location,
             "type": "technosphere",
             "amount": exchange["amount"] * amount_multiplier,
+            "uncertainty type": exchange.get("uncertainty type", 0),
+            "loc": exchange.get("loc", None),
+            "scale": exchange.get("scale", None),
+            "negative": exchange.get("negative", False),
+            "minimum": exchange.get("minimum", None),
+            "maximum": exchange.get("maximum", None),
         }
 
     def handle_multiple_possible_datasets(
@@ -1923,6 +1965,19 @@ class BaseTransformation:
             if exc["type"] == "technosphere":
                 exchanges_before[exc["product"]] += exc["amount"]
 
+        old_uncertainty = {}
+
+        for exc in dataset["exchanges"]:
+            if exc["type"] == "technosphere":
+                if exc.get("uncertainty type", 0) != 0:
+                    old_uncertainty[(exc["name"], exc.get("product"), exc["unit"])] = {
+                        "uncertainty type": exc.get("uncertainty type", 0),
+                        "loc": exc.get("loc", 0) / exc["amount"] if exc.get("loc") else None,
+                        "scale": exc.get("scale", 0) / exc["amount"] if exc.get("scale") else None,
+                        "minimum": exc.get("minimum", 0) / exc["amount"] if exc.get("minimum") else None,
+                        "maximum": exc.get("maximum", 0) / exc["amount"] if exc.get("maximum") else None,
+                    }
+
         new_exchanges = self.find_candidates(
             dataset,
             exclusive=exclusive,
@@ -1943,13 +1998,24 @@ class BaseTransformation:
                 "type": "technosphere",
                 "amount": sum(exc["amount"] for exc in exchanges),
             }
-            for (name, prod, location, unit), exchanges in groupby(
+            for (name, prod, location, unit, ), exchanges in groupby(
                 sorted(
-                    new_exchanges, key=itemgetter("name", "product", "location", "unit")
+                    new_exchanges, key=itemgetter("name", "product", "location", "unit",)
                 ),
-                key=itemgetter("name", "product", "location", "unit"),
+                key=itemgetter("name", "product", "location", "unit",),
             )
         ]
+
+        # apply uncertainties, if any
+        if old_uncertainty:
+            for exc in new_exchanges:
+                key = (exc["name"], exc["product"], exc["unit"])
+                if key in old_uncertainty:
+                    exc["uncertainty type"] = old_uncertainty[key]["uncertainty type"]
+                    for k, v in old_uncertainty[key].items():
+                        if k != "uncertainty type":
+                            if v is not None:
+                                exc[k] = v * exc["amount"]
 
         dataset["exchanges"] = [
             exc for exc in dataset["exchanges"] if exc["type"] != "technosphere"

@@ -876,7 +876,7 @@ class DefaultInventory(BaseInventoryImport):
         # Remove uncertainty data
         if not self.keep_uncertainty_data:
             print("Remove uncertainty data.")
-            self.database = remove_uncertainty(self.database)
+            self.import_db.data = remove_uncertainty(self.import_db.data)
         else:
             check_uncertainty_data(self.import_db.data, filename=Path(self.path).stem)
 
