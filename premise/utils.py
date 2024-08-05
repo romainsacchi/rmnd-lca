@@ -308,7 +308,9 @@ def hide_messages():
     """
 
     print("Keep uncertainty data?")
-    print("NewDatabase(..., keep_source_db_uncertainty=True), keep_imports_uncertainty=True)")
+    print(
+        "NewDatabase(..., keep_source_db_uncertainty=True), keep_imports_uncertainty=True)"
+    )
     print("")
     print("Hide these messages?")
     print("NewDatabase(..., quiet=True)")

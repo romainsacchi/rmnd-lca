@@ -209,7 +209,9 @@ class BaseDatasetValidator:
                             int(exc["uncertainty type"])
                         ]
                     ):
-                        message = f"Exchange {exc['name']} has incomplete uncertainty data."
+                        message = (
+                            f"Exchange {exc['name']} has incomplete uncertainty data."
+                        )
                         self.log_issue(ds, "incomplete uncertainty data", message)
 
     def check_datasets_integrity(self):
