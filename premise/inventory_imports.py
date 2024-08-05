@@ -264,9 +264,7 @@ def check_uncertainty_data(data, filename):
                 if exc["uncertainty type"] not in {0, 1}:
                     missing_parameters = [
                         f
-                        for f in MANDATORY_UNCERTAINTY_FIELDS[
-                            exc["uncertainty type"]
-                        ]
+                        for f in MANDATORY_UNCERTAINTY_FIELDS[exc["uncertainty type"]]
                         if exc.get(f) is None
                     ]
                     if missing_parameters:
@@ -275,7 +273,7 @@ def check_uncertainty_data(data, filename):
                                 dataset["name"][:30],
                                 exc["name"][:30],
                                 exc["uncertainty type"],
-                                missing_parameters
+                                missing_parameters,
                             ]
                         )
 
@@ -292,7 +290,11 @@ def check_uncertainty_data(data, filename):
                             ]
                         )
 
-                    if not exc.get("minimum", 0) <= exc.get("loc", 0) <= exc.get("maximum", 0):
+                    if (
+                        not exc.get("minimum", 0)
+                        <= exc.get("loc", 0)
+                        <= exc.get("maximum", 0)
+                    ):
                         rows.append(
                             [
                                 dataset["name"][:30],
