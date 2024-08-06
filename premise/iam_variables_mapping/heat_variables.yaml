@@ -28,6 +28,7 @@ heat, from natural gas (market):
     fltr:
       - market for heat, central or small-scale, natural gas
       - market for heat, district or industrial, natural gas
+    mask: Jakobsberg
 
 heat, from light fuel oil:
   ecoinvent_aliases:

@@ -139,11 +139,11 @@ class Heat(BaseTransformation):
 
         created_datasets = []
 
-        for heat_datasets in self.heat_techs.values():
+        for heat_tech, heat_datasets in self.heat_techs.items():
             datasets = list(
                 ws.get_many(
                     self.database,
-                    ws.either(*[ws.contains("name", n) for n in heat_datasets]),
+                    ws.either(*[ws.equals("name", n) for n in heat_datasets]),
                     ws.equals("unit", "megajoule"),
                     ws.doesnt_contain_any("location", self.regions),
                 )
@@ -155,12 +155,19 @@ class Heat(BaseTransformation):
 
                 created_datasets.append(dataset["name"])
 
+                geo_mapping = None
+                if heat_tech == "heat, from natural gas (market)":
+                    geo_mapping = {
+                        r: "Europe without Switzerland" for r in self.regions
+                    }
+
                 new_ds = self.fetch_proxies(
                     name=dataset["name"],
                     ref_prod=dataset["reference product"],
                     exact_name_match=True,
                     exact_product_match=True,
                     subset=datasets,
+                    geo_mapping=geo_mapping,
                 )
 
                 if len(new_ds) == 0:
