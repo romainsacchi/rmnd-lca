@@ -37,21 +37,6 @@ SUPPORTED_PATHWAYS:
   - SSP5-PkBudg500
   - static
 
-LIST_TRANSF_FUNC:
-  - update_biomass
-  - update_electricity
-  - update_dac
-  - update_cement
-  - update_steel
-  - update_two_wheelers
-  - update_cars
-  - update_trucks
-  - update_buses
-  - update_fuels
-  - update_heat
-  - update_external_scenario
-  - update_emissions
-
 LIST_MESSAGE_REGIONS:
   - AFR
   - CHN

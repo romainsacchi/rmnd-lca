@@ -262,22 +262,18 @@ def check_uncertainty_data(data, filename):
                     exc["uncertainty type"] = 0
 
                 if exc["uncertainty type"] not in {0, 1}:
-                    if not all(
-                        f in exc
+                    missing_parameters = [
+                        f
                         for f in MANDATORY_UNCERTAINTY_FIELDS[exc["uncertainty type"]]
-                    ):
+                        if exc.get(f) is None
+                    ]
+                    if missing_parameters:
                         rows.append(
                             [
                                 dataset["name"][:30],
                                 exc["name"][:30],
                                 exc["uncertainty type"],
-                                [
-                                    f
-                                    for f in MANDATORY_UNCERTAINTY_FIELDS[
-                                        exc["uncertainty type"]
-                                    ]
-                                    if f not in exc
-                                ],
+                                missing_parameters,
                             ]
                         )
 
@@ -294,7 +290,11 @@ def check_uncertainty_data(data, filename):
                             ]
                         )
 
-                    if not exc["minimum"] <= exc["loc"] <= exc["maximum"]:
+                    if (
+                        not exc.get("minimum", 0)
+                        <= exc.get("loc", 0)
+                        <= exc.get("maximum", 0)
+                    ):
                         rows.append(
                             [
                                 dataset["name"][:30],
@@ -876,7 +876,7 @@ class DefaultInventory(BaseInventoryImport):
         # Remove uncertainty data
         if not self.keep_uncertainty_data:
             print("Remove uncertainty data.")
-            self.database = remove_uncertainty(self.database)
+            self.import_db.data = remove_uncertainty(self.import_db.data)
         else:
             check_uncertainty_data(self.import_db.data, filename=Path(self.path).stem)
 

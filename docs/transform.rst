@@ -4,16 +4,12 @@ TRANSFORM
 A series of transformations are applied to the Life Cycle Inventory (LCI) database to align process performance
 and technology market shares with the outputs from the Integrated Assessment Model (IAM) scenario.
 
-Battery
-"""""""
+Mobile batteries
+""""""""""""""""
 
-Inventories for several battery technologies are provided in *premise*.
-See EXTRACT/Import of additional inventories/Li-ion batteries for additional information.
-
-*premise* adjusts the mass of battery packs throughout the database
-to reflect progress in specific energy density (kWh/kg cell). The assumed
-energy density values are reported in the following file: premise/data/battery/energy_density.yaml.
-
+Inventories for several battery technologies for mobile applications are provided
+in *premise*. See EXTRACT/Import of additional inventories/Li-ion batteries for
+additional information.
 
 Run
 
@@ -28,122 +24,192 @@ Run
         scenarios=[
                 {"model":"remind", "pathway":"SSP2-Base", "year":2028}
             ],
-        source_db="ecoinvent 3.9 cutoff",
-        source_version="3.9",
+        source_db="ecoinvent 3.7 cutoff",
+        source_version="3.7.1",
         key='xxxxxxxxxxxxxxxxxxxxxxxxx'
     )
     ndb.update("battery")
 
 
-The table below shows the **current** and *future* specific energy density of
+The table below shows the **current** specific energy density of
 different battery technologies.
 
-.. table:: Battery Cell Energy Densities (kWh/kg cell)
+====================== ==================================== ==================== ==================
+Type                   Specific energy density (current)    BoP mass share [%]   Battery energy
+                       [kWh/kg cell]                                             density [kWh/kg
+                                                                                 battery]
+====================== ==================================== ==================== ==================
+Li-ion, NMC111         0.15                                 73%                  0.11
+Li-ion, NMC622         0.20                                 73%                  0.15
+Li-ion, NMC811         0.22                                 71%                  0.16
+Li-ion, NCA            0.23                                 71%                  0.16
+Li-ion, LFP            0.14                                 73%                  0.10
+Li-ion, LiMn2O4        0.13                                 80%                  0.10
+Li-ion, LTO            0.09                                 64%                  0.05
+Li-sulfur, Li-S        0.15                                 75%                  0.11
+Li-oxygen, Li-O2       0.36                                 55%                  0.20
+Sodium-ion, SiB        0.16                                 75%                  0.12
+====================== ==================================== ==================== ==================
 
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | Battery  | Year   | Mean (kWh/kg)       | Min-Max (kWh/kg)    | Source                                                   |
-   +==========+========+=====================+=====================+==========================================================+
-   | NMC111   | 2020   | 0.180               | 0.150 - 0.190       | https://doi.org/10.3390/batteries9070379                 |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.200               | 0.180 - 0.220       | https://doi.org/10.3390/batteries9070379                 |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | NMC523   | 2020   | 0.200               | 0.170 - 0.220       | https://doi.org/10.3390/batteries9070379                 |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.220               | 0.200 - 0.240       | https://doi.org/10.3390/batteries9070379                 |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | NMC622   | 2020   | 0.240               | 0.200 - 0.280       | https://doi.org/10.3390/batteries9070379                 |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.260               | 0.240 - 0.280       | https://doi.org/10.3390/batteries9070379                 |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | NMC811   | 2020   | 0.280               | 0.240 - 0.340       | https://doi.org/10.3390/batteries9070379                 |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.340               | 0.300 - 0.360       | https://doi.org/10.3390/batteries9070379                 |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | NMC955   | 2020   | 0.340               | 0.300 - 0.380       | https://doi.org/10.3390/batteries9070379                 |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.380               | 0.340 - 0.400       | https://doi.org/10.3390/batteries9070379                 |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | NCA      | 2020   | 0.280               | 0.240 - 0.340       | https://doi.org/10.3390/batteries9070379                 |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.340               | 0.280 - 0.360       | https://doi.org/10.3390/batteries9070379                 |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | LFP      | 2020   | 0.160               | 0.140 - 0.190       | https://doi.org/10.3390/batteries9070379                 |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.220               | 0.200 - 0.250       | https://doi.org/10.3390/batteries9070379                 |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | LTO      | 2020   | 0.050               | 0.040 - 0.060       | https://doi.org/10.3390/batteries9070379                 |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.050               | 0.040 - 0.060       | https://doi.org/10.3390/batteries9070379                 |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | LMO      | 2020   | 0.110               | 0.100 - 0.120       | https://doi.org/10.3390/batteries9070379                 |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.110               | 0.100 - 0.120       | https://doi.org/10.3390/batteries9070379                 |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | Li-O2    | 2020   | 0.620               | 0.500 - 0.740       | https://www.nature.com/articles/s41560-020-00748-8       |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.930               | 0.620 - 1.123       | https://www.nature.com/articles/s41560-020-00748-8       |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | Li-S     | 2020   | 0.150               | 0.120 - 0.180       | https://doi.org/10.1021/acssuschemeng.3c00141            |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.340               | 0.185 - 0.500       | https://www.nature.com/articles/s41560-020-00748-8       |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
-   | SiB      | 2020   | 0.157               | 0.120 - 0.180       | https://doi.org/10.1016/j.resconrec.2023.107362          |
-   |          +--------+---------------------+---------------------+----------------------------------------------------------+
-   |          | 2050   | 0.200               | 0.160 - 0.220       | https://doi.org/10.3390/batteries9070379                 |
-   +----------+--------+---------------------+---------------------+----------------------------------------------------------+
+And the table below shows the **projected** (2050) specific energy density
+of different battery technologies.
+
+====================== ==================================== ==================== ==================
+Type                   Specific energy density (2050)       BoP mass share [%]   Battery energy
+                       [kWh/kg cell]                                             density [kWh/kg
+                                                                                 battery]
+====================== ==================================== ==================== ==================
+Li-ion, NMC111         0.2                                  73%                  0.15
+Li-ion, NMC811         0.5                                  71%                  0.36
+Li-ion, NCA            0.35                                 71%                  0.25
+Li-ion, LFP            0.25                                 73%                  0.18
+Li-ion, LiMn2O4        0.2                                  80%                  0.16
+Li-ion, LTO            0.15                                 75%                  0.11
+Li-sulfur, Li-S        0.5                                  75%                  0.38
+Li-oxygen, Li-O2       0.50                                 64%                  0.20
+Sodium-ion, SiB        0.22                                 75%                  0.17
+====================== ==================================== ==================== ==================
+
+
+*premise* adjusts the mass of battery packs throughout the database
+to reflect progress in specific energy density (kWh/kg cell).
+
+For example, in 2050, the mass of NMC811 batteries (cells and Balance of Plant) is expected to
+be 0.5/0.22 = 2.3 times lower for a same energy capacity. The report of changes
+shows the new mass of battery packs for each activity using them.
 
 The target values used for scaling can be modified by the user.
 The YAML file is located under premise/data/battery/energy_density.yaml.
 
-*premise* generates the battery datasets below, that contain
-the necessary inputs of battery cells, packs, and systems (including EoL)
-to provide 1 kWh of capacity.
+For each battery technology *premise* creates a market dataset that represents the
+supply of 1 kWh of electricity stored in a battery of the given technology.
 
- ==================================================================== ===========
-  battery capacity dataset name                                        location
- ==================================================================== ===========
-  market for battery capacity, Li-ion, LFP                             GLO
-  market for battery capacity, Li-ion, NMC111                          GLO
-  market for battery capacity, Li-ion, NMC523                          GLO
-  market for battery capacity, Li-ion, NMC622                          GLO
-  market for battery capacity, Li-ion, NMC811                          GLO
-  market for battery capacity, Li-ion, NMC955                          GLO
-  market for battery capacity, Li-ion, NCA                             GLO
-  market for battery capacity, Li-ion, LTO                             GLO
-  market for battery capacity, Li-ion, LiMn2O4                         GLO
-  market for battery capacity, Li-sulfur, Li-S                         GLO
-  market for battery capacity, Li-ion, Li-O2                           GLO
-  market for battery capacity, Sodium-ion, SiB                         GLO
-  market for battery capacity, Sodium-Nickel-Chloride, Na-NiCl         GLO
- ==================================================================== ===========
+The table below shows the market for battery capacity datasets created by *premise*.
 
-Based on the change in energy density, the mass of the battery pack is adjusted
-to reflect the progress in specific energy density (kWh/kg cell) over the years.
+=============================================== =========== ============================= ===============================
+ Name                                            Location    Kg per kWh in 2020 (kg/kWh)   Kg per kWh in 2050 (kg/KWh)
+=============================================== =========== ============================= ===============================
+market for battery capacity, Li-ion, LFP	     GLO         8.6                           6.22
+market for battery capacity, Li-ion, LTO	     GLO         18.4                          18.4
+market for battery capacity, Li-ion, Li-O2	     GLO         5.05                          3.37
+market for battery capacity, Li-ion, LiMn2O4     GLO         8.75                          8.75
+market for battery capacity, Li-ion, NCA	     GLO         5.03                          4.14
+market for battery capacity, Li-ion, NMC111	     GLO         7.61                          6.85
+market for battery capacity, Li-ion, NMC523	     GLO         6.85                          6.23
+market for battery capacity, Li-ion, NMC622	     GLO         5.71                          5.27
+market for battery capacity, Li-ion, NMC811	     GLO         5.03                          4.14
+market for battery capacity, Li-ion, NMC955	     GLO         4.14                          3.71
+market for battery capacity, Li-sulfur, Li-S     GLO         8.89                          3.92
+market for battery capacity, Sodium-Nickel-Cl	 GLO         8.62                          8.62
+market for battery capacity, Sodium-ion, SiB     GLO         8.33                          6.54
+=============================================== =========== ============================= ===============================
 
-Additionally, *premise* also provide the following datasets:
+Changing the target values in the YAML file will change the scaling factors
+and the mass of battery packs per kWh in the database.
 
- =================================================
-  battery capacity dataset name
- =================================================
-  market for battery capacity (MIX scenario)
-  market for battery capacity (LFP scenario)
-  market for battery capacity (NCx scenario)
-  market for battery capacity (PLiB scenario)
- =================================================
+Finally, *premise* also create a technology-average dataset for mobile batteries
+according to four scenarios provided in Degen_ et al, 2023.:
 
-These datasets represent four possible scenarios for the development of battery technology,
-according to Degen_ et al. 2023. The scenarios are:
+============================================= =========== ===================================================================
+ Name                                          Location    Description
+============================================= =========== ===================================================================
+market for battery capacity (LFP scenario)     GLO         LFP dominates the market for mobile batteries.
+market for battery capacity (NCx scenario)     GLO         NCA and NCM dominate the market for mobile batteries.
+market for battery capacity (PLiB scenario)    GLO         Post-lithium batteries dominate the market for mobile batteries.
+market for battery capacity (MIX scenario)     GLO         A mix of lithium and post-lithium batteries dominates the market.
+============================================= =========== ===================================================================
 
-* MIX: a mix of different battery technologies
-* LFP: a scenario where LFP batteries dominate
-* NCx: a scenario where NMC batteries dominate
-* PLiB: a scenario where post-Lithium batteries dominate
+These  datasets provide 1 kWh of battery capacity, and the technology
+shares are adjusted over time with values found
+under  https://github.com/polca/premise/blob/master/premise/data/battery/scenario.csv.
 
-The shares of each technology in the market datasets are based on the scenario
-and are adjusted based on the scenario year.
+.. _Degen: https://doi.org/10.1016/j.joule.2023.01.001
 
-.. _Degen: https://www.nature.com/articles/s41560-023-01355-z
 
+Stationary batteries
+""""""""""""""""""""
+
+Inventories for several battery technologies for stationary applications are provided:
+
+* Lithium-ion batteries (NMC-111, NMC-622, NMC-811, LFP)
+* Lead-acid batteries
+* Vanadium redox flow batteries (VRFB)
+
+As for batteries for mobile applications, *premise* adjusts the mass of battery packs
+throughout the database to reflect progress in specific energy density (kWh/kg cell).
+The current specific energy densities are given in the table below.
+
+====================== ==================================== ==================== ==================
+Type                   Specific energy density (current)    BoP mass share [%]   Battery energy
+                       [kWh/kg cell]                                             density [kWh/kg
+                                                                                 battery]
+====================== ==================================== ==================== ==================
+Li-ion, NMC111         0.15                                 73%                  0.11
+Li-ion, NMC622         0.20                                 73%                  0.15
+Li-ion, NMC811         0.22                                 71%                  0.16
+Li-ion, LFP            0.14                                 73%                  0.10
+Sodium-ion, SiB        0.16                                 75%                  0.12
+Lead-acid              0.03                                 80%                  0.02
+VRFB                   0.02                                 75%                  0.02
+====================== ==================================== ==================== ==================
+
+The future specific energy densities are given in the table below.
+
+====================== ==================================== ==================== ==================
+Type                   Specific energy density (2050)       BoP mass share [%]   Battery energy
+                       [kWh/kg cell]                                             density [kWh/kg
+                                                                                 battery]
+====================== ==================================== ==================== ==================
+Li-ion, NMC111         0.2                                  73%                  0.15
+Li-ion, NMC811         0.5                                  71%                  0.36
+Li-ion, NCA            0.35                                 71%                  0.25
+Li-ion, LFP            0.25                                 73%                  0.18
+Sodium-ion, SiB        0.22                                 75%                  0.17
+Lead-acid              0.04                                 80%                  0.03
+VRFB                   0.04                                 75%                  0.03
+====================== ==================================== ==================== ==================
+
+The target values used for scaling can be modified by the user.
+The YAML file is located under premise/data/battery/energy_density.yaml.
+
+For each battery technology *premise* creates a market dataset that represents the
+supply of 1 kWh of electricity stored in a battery of the given technology.
+
+The table below shows the market for battery capacity datasets created by *premise*.
+
+========================================================================== =========== ============================= ===============================
+ Name                                                                       Location    Kg per kWh in 2020 (kg/kWh)   Kg per kWh in 2050 (kg/KWh)
+========================================================================== =========== ============================= ===============================
+market for battery capacity, Li-ion, LFP, stationary	                    GLO         8.6                           6.22
+market for battery capacity, Li-ion, NMC111, stationary	                    GLO         7.61                          6.85
+market for battery capacity, Li-ion, NMC523, stationary	                    GLO         6.85                          6.23
+market for battery capacity, Li-ion, NMC622, stationary	                    GLO         5.71                          5.27
+market for battery capacity, Li-ion, NMC811, stationary	                    GLO         5.03                          4.14
+market for battery capacity, Li-ion, NMC955, stationary	                    GLO         4.14                          3.71
+market for battery capacity, Sodium-Nickel-Chloride, Na-NiCl, stationary	GLO         8.62                          8.62
+market for battery capacity, Sodium-ion, SiB, stationary	                GLO         8.33                          6.54
+market for battery capacity, lead acid, rechargeable, stationary	        GLO         33.33                         28.60
+market for battery capacity, redox-flow, Vanadium, stationary	            GLO         51.55                         25.00
+========================================================================== =========== ============================= ===============================
+
+Changing the target values in the YAML file will change the scaling factors
+and the mass of battery packs per kWh in the database.
+
+Finally, *premise* also create a technology-average dataset for stationary batteries
+according to three scenarios provided in Schlichenmaier_ & Naegler, 2022:
+
+======================================================== =========== =============================================================================
+ Name                                                     Location    Description
+======================================================== =========== =============================================================================
+market for battery capacity, stationary (CONT scenario)   GLO         LFP and NMC dominate the market for stationary batteries.
+market for battery capacity, stationary (TC scenario)     GLO         Vanadium Redox Flow batteries dominate the market for stationary batteries.
+======================================================== =========== =============================================================================
+
+.. _Schlichenmaier: https://doi.org/10.1016/j.egyr.2022.11.025
+
+
+`market for battery capacity, stationary (CONT scenario)` supplies any storage
+capacity needed in high voltage electricity markets.
 
 Biomass
 """""""
@@ -198,12 +264,9 @@ The following market is created for each IAM region:
 inside of which, the shares of "purpose grown" and "residual" biomass
 is represented by the following activities:
 
-========================== ===================================== ======================================= ===========================
-  name in premise            name in REMIND                         name in IMAGE                         name in LCI database
-========================== ===================================== ======================================= ===========================
-  biomass - purpose grown    SE|Electricity|Biomass|Energy Crops   Primary Energy|Biomass|Energy Crops    market for wood chips
-  biomass - residual         SE|Electricity|Biomass|Residues       Primary Energy|Biomass|Residues        supply of forest residue
-========================== ===================================== ======================================= ===========================
+* market for wood chips (for "purpose grown" biomass)
+* market for wood chips (for "purpose grown" woody biomass)
+* supply of forest residue (for "residual" biomass)
 
 The sum of those shares equal 1. The activity "supply of forest residue" includes
 the energy, embodied biogenic CO2, transport and associated emissions to chip the residual biomass
@@ -244,7 +307,8 @@ Run
             ],
         source_db="ecoinvent 3.7 cutoff",
         source_version="3.7.1",
-        key='xxxxxxxxxxxxxxxxxxxxxxxxx'
+        key='xxxxxxxxxxxxxxxxxxxxxxxxx',
+        use_absolute_efficiency=False # default
     )
     ndb.update("electricity")
 
@@ -254,11 +318,15 @@ Efficiency adjustment
 
 The energy conversion efficiency of power plant datasets for specific technologies is adjusted
 to align with the efficiency changes indicated by the IAM scenario.
-Two approaches are possible:
+
+Two approaches are possible (`use_absolute_efficiency`):
+
 * application of a scaling factor to the inputs of the dataset relative to the current efficiency
 * application of a scaling factor to the inputs of the dataset to match the absolute efficiency given by the IAM scenario
 
-The first approach (default) preserves
+The first approach (default) preserves the relative share of inputs in the dataset, as reported in ecoinvent,
+while the second approach adjusts the inputs to match the absolute efficiency given by the IAM scenario.
+
 
 Combustion-based powerplants
 ----------------------------
@@ -477,6 +545,8 @@ are considered for the different types of PV panels:
 The sources for these efficiencies are given in the inventory file LCI_PV_:
 
 .. _LCI_PV: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-PV.xlsx
+
+And the efficiency values are stored in the file premise/data/renewables/efficiency_solar_PV.csv.
 
 Given a scenario year, *premise* iterates through the different PV panel installation
 datasets to update their efficiency accordingly.
@@ -852,7 +922,6 @@ between today and the scenario year.
 .. _IEA: https://iea.blob.core.windows.net/assets/cbaa3da1-fd61-4c2a-8719-31538f59b54f/TechnologyRoadmapLowCarbonTransitionintheCementIndustry.pdf
 
 
-
 Once the new energy input is determined, *premise* scales down the fuel,
 and the fossil and biogenic CO2 emissions accordingly, based on the Lower Heating Value
 and CO2 emission factors for these fuels.
@@ -1081,14 +1150,9 @@ Steel markets
 *premise* create a dataset "market for steel, low-alloyed" for each IAM region.
 Within each dataset, the supply shares of primary and secondary steel
 are adjusted to reflect the projections from the IAM scenario, for a given region
-and year, based on the variables below.
+and year, based on the variables described in the steel_ mapping file.
 
- ==================== ====================================== ============================= ==============================
-  name in premise      name in REMIND                          name in IMAGE                name in LCI database
- ==================== ====================================== ============================= ==============================
-  steel - primary      Production|Industry|Steel|Primary      Production|Steel|Primary      steel production, converter
-  steel - secondary    Production|Industry|Steel|Secondary    Production|Steel|Secondary    steel production, electric
- ==================== ====================================== ============================= ==============================
+.. _steel: https://github.com/polca/premise/blob/master/premise/data/battery/scenario.csv
 
 The table below shows an example of the market for India, where 66% of the steel comes
 from an oxygen converter process (primary steel), while 34% comes from an electric arc
@@ -1165,6 +1229,7 @@ Run
     ndb.update("cars")
     ndb.update("trucks")
     ndb.update("buses")
+    ndb.update("trains")
 
 
 *premise* imports inventories for transport activity operated by:
@@ -1173,8 +1238,11 @@ Run
 * passenger cars
 * medium and heavy duty trucks
 * buses
+* trains
 
-The efficiency of vehicles is adjusted according to the IAM scenario.
+Inventories are available for current vehicles. Future vehicle inventories
+are obtained by scaling down the current inventories based on the
+vehicle efficiency improvements projected by the IAM scenario.
 
 Trucks
 ++++++
@@ -1199,19 +1267,61 @@ Each truck is available for a variety of powertrain types:
 - diesel
 - compressed gas
 
-The efficiency of the powertrains is adjusted according to the IAM scenario.
+but also for different driving cycles, to which a range autonomy
+of the vehicle is associated:
+
+- urban delivery (required range autonomy of 150 km)
+- regional delivery (required range autonomy of 400 km)
+- long haul (required range autonomy of 800 km)
+
+Those are driving cycles developed for the software VECTO_,
+which have become standard in measuring the CO2 emissions of trucks.
+
+.. _VECTO: https://ec.europa.eu/clima/eu-action/transport-emissions/road-transport-reducing-co2-emissions-vehicles/vehicle-energy-consumption-calculation-tool-vecto_en
 
 The truck vehicle model is from Sacchi_ et al, 2021.
 
 .. _Sacchi: https://pubs.acs.org/doi/abs/10.1021/acs.est.0c07773
 
+.. note::
+
+    Not all powertrain types are available for regional and long haul driving cycles.
+    This is specifically the case for battery electric trucks, for which the mass
+    and size prevent them from completing the cycle, or surpasses the vehicle gross weight.
+
+
 
 Fleet average trucks
 --------------------
 
-IAM scenarios provides the amount of energy service provided by each type of
-vehicle in a given region and year. This is expressed in "vehicle-kilometers", or
-"ton-kilometers" for freight transport.
+REMIND and IMAGE provide fleet composition data, per scenario, region and year.
+
+The fleet data is expressed in "vehicle-kilometer" performed by each
+type of vehicle, in a given region and year.
+
+*premise* uses the following loads to translate the transport
+demand from "vehicle-kilometers" to "ton-kilometers", derived from TRACCS_:
+
+.. _TRACCS: https://traccs.emisia.com/
+
+ ============== ================= ==================== ============
+  load [tons]    urban delivery    regional delivery    long haul
+ ============== ================= ==================== ============
+  3.5t           0.26              0.26                 0.8
+  7.5t           0.52              0.52                 1.6
+  18t            1.35              1.35                 4.1
+  26t            2.05              2.05                 6.2
+  32t            6.1               6.1                  9.1
+  40t            6.1               6.1                  9.1
+ ============== ================= ==================== ============
+
+.. note::
+
+    Loads from the TRACCS survey data are representative for EU-28 conditions.
+    *premise* applies these loads to all IAM regions. Hence, there might be
+    some inconsistency at this level.
+    Also, these loads are much lower than those assumed in original ecoinvent
+    truck datasets.
 
 *premise* uses the fleet data to produce fleet average trucks for each
 IAM region, and more specifically:
@@ -1255,7 +1365,7 @@ The following table shows the correspondence between the original
 truck transport datasets and the new ones replacing them:
 
  ======================================================================== ======================================================================= =======================================================================
-  Original dataset                                                         Replaced by                                                    Replaced by (IMAGE)
+  Original dataset                                                         Replaced by (REMIND)                                                    Replaced by (IMAGE)
  ======================================================================== ======================================================================= =======================================================================
   transport, freight, lorry, unspecified                                    transport, freight, lorry, unspecified                                  transport, freight, lorry, unspecified
   transport, freight, lorry 16-32 metric ton                                transport, freight, lorry, 26t gross weight, unspecified powertrain     transport, freight, lorry, 26t gross weight, unspecified powertrain
@@ -1271,37 +1381,43 @@ truck transport datasets and the new ones replacing them:
   transport, freight, lorry with refrigeration machine, freezing            transport, freight, lorry, unspecified                                  transport, freight, lorry, unspecified
  ======================================================================== ======================================================================= =======================================================================
 
-Note that IMAGE fleet data only represent "medium-duty" and "heavy-duty" trucks.
+Note that IMAGE fleet data only uses 26t and 40t trucks.
 
-Trains
-++++++
+Additionally, *premise* iterates through each truck transport-consuming
+activities to calculate the driving distance required. When the reference
+unit of the dataset is 1 kilogram, the distance driven by truck can easily
+be inferred. Indeed, for example, 0.56 tkm of truck transport for 1 kg of
+flour indicates that the flour has been transported over 560 km.
 
-The following datasets representing freight transport by train are imported:
+On this basis, *premise* chooses one of the following
+driving cycles:
 
- ================================================================ ================================================
-  train transport dataset name                                     description
- ================================================================ ================================================
-  transport, freight, train, diesel-electric                       freight transport by diesel-electric train
-  transport, freight, train, electric                              freight transport by electric train
-  transport, freight, train, fuel cell, hydrogen                   freight transport by hydrogen fuel cell train
- ================================================================ ================================================
+- *regional delivery*, if the distance is inferior or equal to 450 km
+- *long haul*, if the distance is superior to 450 km
 
-These inventories are adapted from the ecoinvent database by Jonas Klimt, 2024.
 
-The inventories are available in the following file: premise/data/additional_inventories/lci-rail_freight.xlsx
+Hence, in the following dataset for "market for steel, low-alloyed"
+for the IAM region of India, *premise* chose the *regional delivery*
+driving cycle since the kilogram of steel has been transported on
+average over 120 km by truck. The truck used to transport that kilogram of steel
+is a fleet average vehicle built upon the REMIND fleet data for the region
+of India.
 
-The efficiency of the powertrains is adjusted according to the IAM scenario.
-The share of each powertrain in the fleet is also adjusted according to the IAM scenario.
 
-Fleet-average freight train are created for each IAM region, based on the IAM scenario data, under
-the following name:
-
- ================================================================ ================================================
-  train transport dataset name                                     description
- ================================================================ ================================================
-  transport, freight, train, unspecified                           fleet average freight train
- ================================================================ ================================================
-
+ ================================================================= ============ ================ ===========
+  Output                                                            _            _                _
+ ================================================================= ============ ================ ===========
+  producer                                                          amount       unit             location
+  market for steel, low-alloyed                                     1            kilogram         IND
+  Input
+  supplier                                                          amount       unit             location
+  market group for transport, freight, inland waterways, barge      0.5          ton kilometer    GLO
+  market group for transport, freight train                         0.35         ton kilometer    GLO
+  market for transport, freight, sea, bulk carrier for dry goods    0.38         ton kilometer    GLO
+  transport, freight, lorry, unspecified, **regional delivery**     0.12         ton kilometer    IND
+  steel production, converter, low-alloyed                          0.66         kilogram         IND
+  steel production, electric, low-alloyed                           0.34         kilogram         IND
+ ================================================================= ============ ================ ===========
 
 Direct Air Capture
 """"""""""""""""""
@@ -1416,7 +1532,7 @@ requirements, which are sourced from Bauer_ et al, 2022:
  ==================== ======= ======= =======
   kWh/kg H2, 25 bar    2010    2020    2050
  ==================== ======= ======= =======
-  electricity          58      55      44
+  electricity          58      55      48
  ==================== ======= ======= =======
 
 .. _Bauer: https://www.psi.ch/en/media/77703/download?attachment
@@ -1575,46 +1691,13 @@ Fuel markets
 - market for diesel
 - market for natural gas, high pressure
 - market for hydrogen, gaseous
+- market for kerosene
+- market for liquefied petroleum gas
 
-based on the IAM scenario data regarding the composition of
-liquid and gaseous secondary energy carriers:
+The market shares are based on the IAM scenario data regarding the composition of
+liquid and gaseous secondary energy carriers. The ampping between the IAM scenario
+data and the fuel markets is described under: https://github.com/polca/premise/tree/master/premise/iam_variables_mapping/fuels_variables.yaml
 
- ==================================== =============================================== ========================================================================= ================================================================================================================================================
-  name in premise                      name in REMIND                                   name in IMAGE                                                            name in LCI database
- ==================================== =============================================== ========================================================================= ================================================================================================================================================
-  natural gas                          SE|Gases|Non-Biomass                                                                                                      natural gas, high pressure
-  biomethane                           SE|Gases|Biomass                                                                                                          biomethane, gaseous
-  diesel                               SE|Liquids|Oil                                  Secondary Energy|Consumption|Liquids|Fossil                               diesel production, low-sulfur
-  gasoline                             SE|Liquids|Oil                                  Secondary Energy|Consumption|Liquids|Fossil                               petrol production, low-sulfur
-  petrol, synthetic, hydrogen          SE|Liquids|Hydrogen                                                                                                       gasoline production, synthetic, from methanol, hydrogen from electrolysis, CO2 from DAC, energy allocation, at fuelling station
-  petrol, synthetic, coal              SE|Liquids|Coal|w/o CCS                                                                                                   gasoline production, synthetic, from methanol, hydrogen from coal gasification, CO2 from DAC, energy allocation, at fuelling station
-  diesel, synthetic, hydrogen          SE|Liquids|Hydrogen                                                                                                       diesel production, synthetic, from Fischer Tropsch process, hydrogen from electrolysis, energy allocation, at fuelling station
-  diesel, synthetic, coal              SE|Liquids|Coal|w/o CCS                                                                                                   diesel production, synthetic, from Fischer Tropsch process, hydrogen from coal gasification, energy allocation, at fuelling station
-  diesel, synthetic, wood              SE|Liquids|Biomass|Biofuel|BioFTR|w/o CCS       Secondary Energy|Consumption|Liquids|Biomass|FT Diesel|Woody|w/oCCS       diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, energy allocation, at fuelling station
-  diesel, synthetic, wood, with CCS    SE|Liquids|Biomass|Biofuel|BioFTRC|w/ CCS       Secondary Energy|Consumption|Liquids|Biomass|FT Diesel|Woody|w/CCS        diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, with CCS, energy allocation, at fuelling station
-  diesel, synthetic, grass                                                             Secondary Energy|Consumption|Liquids|Biomass|FT Diesel|Grassy|w/oCCS      diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, energy allocation, at fuelling station
-  diesel, synthetic, grass, with CCS                                                   Secondary Energy|Consumption|Liquids|Biomass|FT Diesel|Grassy|w/CCS       diesel production, synthetic, from Fischer Tropsch process, hydrogen from wood gasification, with CCS, energy allocation, at fuelling station
-  hydrogen, electrolysis               SE|Hydrogen|Electricity                                                                                                   hydrogen supply, from electrolysis
-  hydrogen, biomass                    SE|Hydrogen|Biomass|w/o CCS                                                                                               hydrogen supply, from gasification of biomass, by
-  hydrogen, biomass, with CCS          SE|Hydrogen|Biomass|w/ CCS                                                                                                hydrogen supply, from gasification of biomass by heatpipe reformer, with CCS
-  hydrogen, coal                       SE|Hydrogen|Coal|w/o CCS                                                                                                  hydrogen supply, from coal gasification, by truck, as gaseous, over 500 km
-  hydrogen, from natural gas                   SE|Hydrogen|Gas|w/o CCS                                                                                                   hydrogen supply, from SMR of from natural gas, by truck, as gaseous, over 500 km
-  hydrogen, from natural gas, with CCS         SE|Hydrogen|Gas|w/ CCS                                                                                                    hydrogen supply, from SMR of from natural gas, with CCS, by truck, as gaseous, over 500 km
-  biodiesel, oil                       SE|Liquids|Biomass|Biofuel|Biodiesel|w/o CCS    Secondary Energy|Consumption|Liquids|Biomass|Biodiesel|Oilcrops|w/oCCS    biodiesel production, via transesterification
-  biodiesel, oil, with CCS                                                             Secondary Energy|Consumption|Liquids|Biomass|Biodiesel|Oilcrops|w/CCS     biodiesel production, via transesterification
-  bioethanol, wood                     SE|Liquids|Biomass|Cellulosic|w/o CCS           Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Woody|w/oCCS         ethanol production, via fermentation, from forest
-  bioethanol, wood, with CCS           SE|Liquids|Biomass|Cellulosic|w/ CCS            Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Woody|w/CCS          ethanol production, via fermentation, from forest, with carbon capture and storage
-  bioethanol, grass                    SE|Liquids|Biomass|Non-Cellulosic               Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Grassy|w/oCCS        ethanol production, via fermentation, from switchgrass
-  bioethanol, grass, with CCS                                                          Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Grassy|w/CCS         ethanol production, via fermentation, from switchgrass, with carbon capture and storage
-  bioethanol, grain                    SE|Liquids|Biomass|Conventional Ethanol         Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Maize|w/oCCS         ethanol production, via fermentation, from wheat grains
-  bioethanol, grain, with CCS                                                          Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Maize|w/CCS          ethanol production, via fermentation, from corn, with carbon capture and storage
-  bioethanol, sugar                    SE|Liquids|Biomass|Conventional Ethanol         Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Sugar|w/oCCS         ethanol production, via fermentation, from sugarbeet
-  bioethanol, sugar, with CCS                                                          Secondary Energy|Consumption|Liquids|Biomass|Ethanol|Sugar|w/CCS          ethanol production, via fermentation, from sugarbeet, with carbon capture and storage
-  methanol, wood                                                                       Secondary Energy|Consumption|Liquids|Biomass|Methanol|Woody|w/oCCS        market for methanol, from biomass
-  methanol, grass                                                                      Secondary Energy|Consumption|Liquids|Biomass|Methanol|Grassy|w/oCCS       market for methanol, from biomass
-  methanol, wood, with CCS                                                             Secondary Energy|Consumption|Liquids|Biomass|Methanol|Woody|w/CCS         market for methanol, from biomass
-  methanol, grass, with CCS                                                            Secondary Energy|Consumption|Liquids|Biomass|Methanol|Grassy|w/CCS        market for methanol, from biomass
- ==================================== =============================================== ========================================================================= ================================================================================================================================================
 
 .. warning::
 
@@ -1771,312 +1854,480 @@ implementation in the wurst_ library.
 .. _constructive_geometries: https://github.com/cmutel/constructive_geometries
 .. _wurst: https://github.com/polca/wurst
 
- ========================================= ================ ===============
-  ecoinvent location                        REMIND region    IMAGE region
- ========================================= ================ ===============
-  AE                                        MEA              ME
-  AL                                        NEU              CEU
-  AM                                        REF              RUS
-  AO                                        SSA              RSAF
-  APAC                                      OAS              SEAS
-  AR                                        LAM              RSAM
-  AT                                        EUR              WEU
-  AU                                        CAZ              OCE
-  AZ                                        REF              RUS
-  BA                                        NEU              CEU
-  BD                                        OAS              RSAS
-  BE                                        EUR              WEU
-  BG                                        EUR              CEU
-  BH                                        MEA              ME
-  BJ                                        SSA              WAF
-  BN                                        OAS              SEAS
-  BO                                        LAM              RSAM
-  BR                                        LAM              BRA
-  BR-AC                                     LAM              BRA
-  BR-AL                                     LAM              BRA
-  BR-AM                                     LAM              BRA
-  BR-AP                                     LAM              BRA
-  BR-BA                                     LAM              BRA
-  BR-CE                                     LAM              BRA
-  BR-DF                                     LAM              BRA
-  BR-ES                                     LAM              BRA
-  BR-GO                                     LAM              BRA
-  BR-MA                                     LAM              BRA
-  BR-MG                                     LAM              BRA
-  BR-Mid-western grid                       LAM              BRA
-  BR-MS                                     LAM              BRA
-  BR-MT                                     LAM              BRA
-  BR-North-eastern grid                     LAM              BRA
-  BR-Northern grid                          LAM              BRA
-  BR-PA                                     LAM              BRA
-  BR-PB                                     LAM              BRA
-  BR-PE                                     LAM              BRA
-  BR-PI                                     LAM              BRA
-  BR-PR                                     LAM              BRA
-  BR-RJ                                     LAM              BRA
-  BR-RN                                     LAM              BRA
-  BR-RO                                     LAM              BRA
-  BR-RR                                     LAM              BRA
-  BR-RS                                     LAM              BRA
-  BR-SC                                     LAM              BRA
-  BR-SE                                     LAM              BRA
-  BR-South-eastern grid                     LAM              BRA
-  BR-Southern grid                          LAM              BRA
-  BR-SP                                     LAM              BRA
-  BR-TO                                     LAM              BRA
-  BW                                        SSA              RSAF
-  BY                                        REF              UKR
-  CA                                        CAZ              CAN
-  CA-AB                                     CAZ              CAN
-  CA-BC                                     CAZ              CAN
-  CA-MB                                     CAZ              CAN
-  Canada without Quebec                     CAZ              CAN
-  CA-NB                                     CAZ              CAN
-  CA-NF                                     CAZ              CAN
-  CA-NS                                     CAZ              CAN
-  CA-NT                                     CAZ              CAN
-  CA-NU                                     CAZ              CAN
-  CA-ON                                     CAZ              CAN
-  CA-PE                                     CAZ              CAN
-  CA-QC                                     CAZ              CAN
-  CA-SK                                     CAZ              CAN
-  CA-YK                                     CAZ              CAN
-  CD                                        SSA              WAF
-  CENTREL                                   EUR              CEU
-  CG                                        SSA              WAF
-  CH                                        NEU              WEU
-  CI                                        SSA              WAF
-  CL                                        LAM              RSAM
-  CM                                        SSA              WAF
-  CN                                        CHA              CHN
-  CN-AH                                     CHA              CHN
-  CN-BJ                                     CHA              CHN
-  CN-CQ                                     CHA              CHN
-  CN-CSG                                    CHA              CHN
-  CN-FJ                                     CHA              CHN
-  CN-GD                                     CHA              CHN
-  CN-GS                                     CHA              CHN
-  CN-GX                                     CHA              CHN
-  CN-GZ                                     CHA              CHN
-  CN-HA                                     CHA              CHN
-  CN-HB                                     CHA              CHN
-  CN-HE                                     CHA              CHN
-  CN-HL                                     CHA              CHN
-  CN-HN                                     CHA              CHN
-  CN-HU                                     CHA              CHN
-  CN-JL                                     CHA              CHN
-  CN-JS                                     CHA              CHN
-  CN-JX                                     CHA              CHN
-  CN-LN                                     CHA              CHN
-  CN-NM                                     CHA              CHN
-  CN-NX                                     CHA              CHN
-  CN-QH                                     CHA              CHN
-  CN-SA                                     CHA              CHN
-  CN-SC                                     CHA              CHN
-  CN-SD                                     CHA              CHN
-  CN-SGCC                                   CHA              CHN
-  CN-SH                                     CHA              CHN
-  CN-SX                                     CHA              CHN
-  CN-TJ                                     CHA              CHN
-  CN-XJ                                     CHA              CHN
-  CN-XZ                                     CHA              CHN
-  CN-YN                                     CHA              CHN
-  CN-ZJ                                     CHA              CHN
-  CO                                        LAM              RSAM
-  CR                                        LAM              RCAM
-  CU                                        LAM              RCAM
-  CW                                        LAM              RCAM
-  CY                                        EUR              CEU
-  CZ                                        EUR              CEU
-  DE                                        EUR              WEU
-  DK                                        EUR              WEU
-  DO                                        LAM              RCAM
-  DZ                                        MEA              NAF
-  EC                                        LAM              RSAM
-  EE                                        EUR              CEU
-  EG                                        MEA              NAF
-  ENTSO-E                                   EUR              WEU
-  ER                                        SSA              EAF
-  ES                                        EUR              WEU
-  ET                                        SSA              EAF
-  Europe without Austria                    EUR              WEU
-  Europe without Switzerland                EUR              WEU
-  Europe without Switzerland and Austria    EUR              WEU
-  Europe, without Russia and Turkey         EUR              WEU
-  FI                                        EUR              WEU
-  FR                                        EUR              WEU
-  GA                                        SSA              WAF
-  GB                                        EUR              WEU
-  GE                                        REF              RUS
-  GH                                        SSA              WAF
-  GI                                        EUR              WEU
-  GLO                                       World            World
-  GR                                        EUR              WEU
-  GT                                        LAM              RCAM
-  HK                                        CHA              CHN
-  HN                                        LAM              RCAM
-  HR                                        EUR              CEU
-  HT                                        LAM              RCAM
-  HU                                        EUR              CEU
-  IAI Area, Africa                          SSA              RSAF
-  IAI Area, Asia, without China and GCC     OAS              SEAS
-  IAI Area, EU27 & EFTA                     EUR              WEU
-  IAI Area, Gulf Cooperation Council        MEA              ME
-  IAI Area, North America                   USA              USA
-  IAI Area, Russia & RER w/o EU27 & EFTA    REF              RUS
-  IAI Area, South America                   LAM              RSAM
-  ID                                        OAS              INDO
-  IE                                        EUR              WEU
-  IL                                        MEA              ME
-  IN                                        IND              INDIA
-  IN-AP                                     IND              INDIA
-  IN-AR                                     IND              INDIA
-  IN-AS                                     IND              INDIA
-  IN-BR                                     IND              INDIA
-  IN-CT                                     IND              INDIA
-  IN-DL                                     IND              INDIA
-  IN-Eastern grid                           IND              INDIA
-  IN-GA                                     IND              INDIA
-  IN-GJ                                     IND              INDIA
-  IN-HP                                     IND              INDIA
-  IN-HR                                     IND              INDIA
-  IN-JH                                     IND              INDIA
-  IN-JK                                     IND              INDIA
-  IN-KA                                     IND              INDIA
-  IN-KL                                     IND              INDIA
-  IN-MH                                     IND              INDIA
-  IN-ML                                     IND              INDIA
-  IN-MN                                     IND              INDIA
-  IN-MP                                     IND              INDIA
-  IN-NL                                     IND              INDIA
-  IN-North-eastern grid                     IND              INDIA
-  IN-Northern grid                          IND              INDIA
-  IN-OR                                     IND              INDIA
-  IN-PB                                     IND              INDIA
-  IN-PY                                     IND              INDIA
-  IN-RJ                                     IND              INDIA
-  IN-SK                                     IND              INDIA
-  IN-Southern grid                          IND              INDIA
-  IN-TN                                     IND              INDIA
-  IN-TR                                     IND              INDIA
-  IN-UP                                     IND              INDIA
-  IN-UT                                     IND              INDIA
-  IN-WB                                     IND              INDIA
-  IN-Western grid                           IND              INDIA
-  IQ                                        MEA              ME
-  IR                                        MEA              ME
-  IS                                        NEU              WEU
-  IT                                        EUR              WEU
-  JM                                        LAM              RCAM
-  JO                                        MEA              ME
-  JP                                        JPN              JAP
-  KE                                        SSA              EAF
-  KG                                        REF              STAN
-  KH                                        OAS              SEAS
-  KP                                        OAS              KOR
-  KR                                        OAS              KOR
-  KW                                        MEA              ME
-  KZ                                        REF              STAN
-  LB                                        MEA              ME
-  LK                                        OAS              RSAS
-  LT                                        EUR              CEU
-  LU                                        EUR              WEU
-  LV                                        EUR              CEU
-  LY                                        MEA              NAF
-  MA                                        MEA              NAF
-  MD                                        REF              UKR
-  ME                                        NEU              ME
-  MG                                        SSA              EAF
-  MK                                        NEU              CEU
-  MM                                        OAS              SEAS
-  MN                                        OAS              CHN
-  MT                                        EUR              WEU
-  MU                                        SSA              EAF
-  MX                                        LAM              MEX
-  MY                                        OAS              SEAS
-  MZ                                        SSA              RSAF
-  NA                                        SSA              RSAF
-  NE                                        SSA              WAF
-  NG                                        SSA              WAF
-  NI                                        LAM              RCAM
-  NL                                        EUR              WEU
-  NO                                        NEU              WEU
-  NORDEL                                    NEU              WEU
-  North America without Quebec              USA              USA
-  NP                                        OAS              RSAS
-  NZ                                        CAZ              OCE
-  OCE                                       CAZ              OCE
-  OM                                        MEA              ME
-  PA                                        LAM              RCAM
-  PE                                        LAM              RSAM
-  PG                                        OAS              INDO
-  PH                                        OAS              SEAS
-  PK                                        OAS              RSAS
-  PL                                        EUR              CEU
-  PT                                        EUR              WEU
-  PY                                        LAM              RSAM
-  QA                                        MEA              ME
-  RAF                                       SSA              RSAF
-  RAS                                       CHA              CHN
-  RER                                       EUR              WEU
-  RER w/o CH+DE                             EUR              WEU
-  RER w/o DE+NL+RU                          EUR              WEU
-  RER w/o RU                                EUR              WEU
-  RLA                                       LAM              RSAM
-  RME                                       MEA              ME
-  RNA                                       USA              USA
-  RO                                        EUR              CEU
-  RoW                                       World            World
-  RS                                        NEU              CEU
-  RU                                        REF              RUS
-  RW                                        SSA              EAF
-  SA                                        MEA              ME
-  SAS                                       IND              INDIA
-  SD                                        MEA              EAF
-  SE                                        EUR              WEU
-  SG                                        OAS              SEAS
-  SI                                        EUR              CEU
-  SK                                        EUR              CEU
-  SN                                        SSA              WAF
-  SS                                        SSA              EAF
-  SV                                        LAM              RCAM
-  SY                                        MEA              ME
-  TG                                        SSA              WAF
-  TH                                        OAS              SEAS
-  TJ                                        REF              STAN
-  TM                                        REF              STAN
-  TN                                        MEA              NAF
-  TR                                        MEA              TUR
-  TT                                        LAM              RCAM
-  TW                                        CHA              CHN
-  TZ                                        SSA              RSAF
-  UA                                        REF              UKR
-  UCTE                                      EUR              WEU
-  UCTE without Germany                      EUR              WEU
-  UN-OCEANIA                                CAZ              OCE
-  UN-SEASIA                                 OAS              SEAS
-  US                                        USA              USA
-  US-ASCC                                   USA              USA
-  US-HICC                                   USA              USA
-  US-MRO                                    USA              USA
-  US-NPCC                                   USA              USA
-  US-PR                                     USA              USA
-  US-RFC                                    USA              USA
-  US-SERC                                   USA              USA
-  US-TRE                                    USA              USA
-  US-WECC                                   USA              USA
-  UY                                        LAM              RSAM
-  UZ                                        REF              STAN
-  VE                                        LAM              RSAM
-  VN                                        OAS              SEAS
-  WECC                                      USA              USA
-  WEU                                       EUR              WEU
-  XK                                        EUR              CEU
-  YE                                        MEA              ME
-  ZA                                        SSA              SAF
-  ZM                                        SSA              RSAF
-  ZW                                        SSA              RSAF
- ========================================= ================ ===============
++----------------------+---------------------------------+---------------+------------------+
+| ecoinvent_location   | GCAM_region                     | TIAM_region   | MESSAGE_region   |
++======================+=================================+===============+==================+
+| BI                   | Africa_Eastern                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| KM                   | Africa_Eastern                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| DJ                   | Africa_Eastern                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| ER                   | Africa_Eastern                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| ET                   | Africa_Eastern                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| KE                   | Africa_Eastern                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| MG                   | Africa_Eastern                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| MU                   | Africa_Eastern                  | ODA           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| RE                   | Africa_Eastern                  | nan           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| RW                   | Africa_Eastern                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| SD                   | Africa_Eastern                  | AFR           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| SO                   | Africa_Eastern                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| UG                   | Africa_Eastern                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| SS                   | Africa_Eastern                  | AFR           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| DZ                   | Africa_Northern                 | AFR           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| EG                   | Africa_Northern                 | AFR           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| EH                   | Africa_Northern                 | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| LY                   | Africa_Northern                 | AFR           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| MA                   | Africa_Northern                 | AFR           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| TN                   | Africa_Northern                 | AFR           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| AO                   | Africa_Southern                 | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| BW                   | Africa_Southern                 | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| LS                   | Africa_Southern                 | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| MZ                   | Africa_Southern                 | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| MW                   | Africa_Southern                 | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| NA                   | Africa_Southern                 | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| SZ                   | Africa_Southern                 | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| TZ                   | Africa_Southern                 | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| ZM                   | Africa_Southern                 | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| ZW                   | Africa_Southern                 | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| BJ                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| BF                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| CF                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| CI                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| CM                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| CD                   | Africa_Western                  | AFR           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| CG                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| CV                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| GA                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| GH                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| GN                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| GM                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| GW                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| GQ                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| LR                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| ML                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| MR                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| NE                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| NG                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| SN                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| SL                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| ST                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| TD                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| TG                   | Africa_Western                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| AR                   | Argentina                       | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| AU                   | Australia_NZ                    | AUS           | R12_PAO          |
++----------------------+---------------------------------+---------------+------------------+
+| NZ                   | Australia_NZ                    | AUS           | R12_PAO          |
++----------------------+---------------------------------+---------------+------------------+
+| BR                   | Brazil                          | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| CA                   | Canada                          | CAN           | R12_NAM          |
++----------------------+---------------------------------+---------------+------------------+
+| AW                   | Central America and Caribbean   | CSA           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| AI                   | Central America and Caribbean   | CSA           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| AG                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| BS                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| BZ                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| BM                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| BB                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| CR                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| CU                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| KY                   | Central America and Caribbean   | CSA           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| DM                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| DO                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| GP                   | Central America and Caribbean   | nan           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| GD                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| GT                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| HN                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| HT                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| JM                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| KN                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| LC                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| MS                   | Central America and Caribbean   | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| MQ                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| NI                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| PA                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| SV                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| TT                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| VC                   | Central America and Caribbean   | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| AM                   | Central Asia                    | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| AZ                   | Central Asia                    | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| GE                   | Central Asia                    | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| KZ                   | Central Asia                    | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| KG                   | Central Asia                    | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| MN                   | Central Asia                    | ODA           | R12_RCPA         |
++----------------------+---------------------------------+---------------+------------------+
+| TJ                   | Central Asia                    | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| TM                   | Central Asia                    | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| UZ                   | Central Asia                    | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| CN                   | China                           | CHI           | R12_CHN          |
++----------------------+---------------------------------+---------------+------------------+
+| HK                   | China                           | nan           | R12_CHN          |
++----------------------+---------------------------------+---------------+------------------+
+| MO                   | China                           | nan           | R12_CHN          |
++----------------------+---------------------------------+---------------+------------------+
+| CO                   | Colombia                        | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| BG                   | EU-12                           | EEU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| CY                   | EU-12                           | MEA           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| CZ                   | EU-12                           | EEU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| EE                   | EU-12                           | FSU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| HU                   | EU-12                           | EEU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| LT                   | EU-12                           | FSU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| LV                   | EU-12                           | FSU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| MT                   | EU-12                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| PL                   | EU-12                           | EEU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| RO                   | EU-12                           | EEU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| SK                   | EU-12                           | EEU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| SI                   | EU-12                           | EEU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| AD                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| AT                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| BE                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| DK                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| FI                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| FR                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| DE                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| GR                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| GL                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| IE                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| IT                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| LU                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| MC                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| NL                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| PT                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| SE                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| ES                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| GB                   | EU-15                           | UK            | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| GI                   | EU-15                           | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| BY                   | Europe_Eastern                  | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| MD                   | Europe_Eastern                  | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| UA                   | Europe_Eastern                  | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| IS                   | European Free Trade Association | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| NO                   | European Free Trade Association | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| CH                   | European Free Trade Association | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| AL                   | Europe_Non_EU                   | WEU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| BA                   | Europe_Non_EU                   | EEU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| HR                   | Europe_Non_EU                   | EEU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| MK                   | Europe_Non_EU                   | EEU           | R12_EEU          |
++----------------------+---------------------------------+---------------+------------------+
+| ME                   | Europe_Non_EU                   | EEU           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| RS                   | Europe_Non_EU                   | EEU           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| TR                   | Europe_Non_EU                   | MEA           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| XK                   | Europe_Non_EU                   | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| IN                   | India                           | IND           | R12_SAS          |
++----------------------+---------------------------------+---------------+------------------+
+| ID                   | Indonesia                       | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| JP                   | Japan                           | JPN           | R12_PAO          |
++----------------------+---------------------------------+---------------+------------------+
+| MX                   | Mexico                          | MEX           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| AE                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| BH                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| IR                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| IQ                   | Middle East                     | nan           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| IL                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| JO                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| KW                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| LB                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| OM                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| PS                   | Middle East                     | MEA           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| QA                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| SA                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| SY                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| YE                   | Middle East                     | MEA           | R12_MEA          |
++----------------------+---------------------------------+---------------+------------------+
+| PK                   | Pakistan                        | ODA           | R12_SAS          |
++----------------------+---------------------------------+---------------+------------------+
+| RU                   | Russia                          | FSU           | R12_FSU          |
++----------------------+---------------------------------+---------------+------------------+
+| ZA                   | South Africa                    | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| GF                   | South America_Northern          | nan           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| GY                   | South America_Northern          | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| SR                   | South America_Northern          | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| VE                   | South America_Northern          | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| CW                   | South America_Northern          | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| BO                   | South America_Southern          | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| CL                   | South America_Southern          | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| EC                   | South America_Southern          | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| PE                   | South America_Southern          | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| PY                   | South America_Southern          | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| UY                   | South America_Southern          | CSA           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| AF                   | South Asia                      | ODA           | R12_SAS          |
++----------------------+---------------------------------+---------------+------------------+
+| BD                   | South Asia                      | ODA           | R12_SAS          |
++----------------------+---------------------------------+---------------+------------------+
+| BT                   | South Asia                      | ODA           | R12_SAS          |
++----------------------+---------------------------------+---------------+------------------+
+| LK                   | South Asia                      | ODA           | R12_SAS          |
++----------------------+---------------------------------+---------------+------------------+
+| MV                   | South Asia                      | ODA           | R12_SAS          |
++----------------------+---------------------------------+---------------+------------------+
+| NP                   | South Asia                      | ODA           | R12_SAS          |
++----------------------+---------------------------------+---------------+------------------+
+| AS                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| BN                   | Southeast Asia                  | MEA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| CK                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| FJ                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| FM                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| GU                   | Southeast Asia                  | nan           | R12_NAM          |
++----------------------+---------------------------------+---------------+------------------+
+| KH                   | Southeast Asia                  | ODA           | R12_RCPA         |
++----------------------+---------------------------------+---------------+------------------+
+| KI                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| LA                   | Southeast Asia                  | ODA           | R12_RCPA         |
++----------------------+---------------------------------+---------------+------------------+
+| MH                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| MM                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| MP                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| MY                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| YT                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| NC                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| NF                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| NU                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| NR                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| PN                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| PH                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| PW                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| PG                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| KP                   | Southeast Asia                  | ODA           | R12_RCPA         |
++----------------------+---------------------------------+---------------+------------------+
+| PF                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| SG                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| SB                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| SC                   | Southeast Asia                  | AFR           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| TH                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| TK                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| TL                   | Southeast Asia                  | ODA           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| TO                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| TV                   | Southeast Asia                  | nan           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| VN                   | Southeast Asia                  | ODA           | R12_RCPA         |
++----------------------+---------------------------------+---------------+------------------+
+| VU                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| WS                   | Southeast Asia                  | ODA           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| KR                   | South Korea                     | SKO           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| TW                   | Taiwan                          | CHI           | R12_PAS          |
++----------------------+---------------------------------+---------------+------------------+
+| US                   | USA                             | USA           | R12_NAM          |
++----------------------+---------------------------------+---------------+------------------+
+| GLO                  | World                           | World         | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| RoW                  | World                           | World         | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| FK                   | nan                             | CSA           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| FO                   | nan                             | WEU           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| SM                   | nan                             | WEU           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| VA                   | nan                             | WEU           | nan              |
++----------------------+---------------------------------+---------------+------------------+
+| IM                   | nan                             | nan           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| LI                   | nan                             | nan           | R12_WEU          |
++----------------------+---------------------------------+---------------+------------------+
+| IO                   | nan                             | nan           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| SH                   | nan                             | nan           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| ZR                   | nan                             | nan           | R12_AFR          |
++----------------------+---------------------------------+---------------+------------------+
+| ANT                  | nan                             | nan           | R12_LAM          |
++----------------------+---------------------------------+---------------+------------------+
+| PR                   | nan                             | nan           | R12_NAM          |
++----------------------+---------------------------------+---------------+------------------+
+| VI                   | nan                             | nan           | R12_NAM          |
++----------------------+---------------------------------+---------------+------------------+
+
+The mapping between ecoinvent locations and IAM regions is available under the following directory:
+https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/topologies
 
 Regionalization
 """""""""""""""

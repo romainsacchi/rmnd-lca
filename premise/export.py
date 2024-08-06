@@ -960,9 +960,7 @@ def check_geographical_linking(scenario, original_database):
     return scenario
 
 
-def prepare_db_for_export(
-    scenario, name, original_database, keep_uncertainty_data=False, biosphere_name=None
-):
+def prepare_db_for_export(scenario, name, original_database, biosphere_name=None):
     """
     Prepare a database for export.
     """
@@ -979,7 +977,6 @@ def prepare_db_for_export(
         original_database=original_database,
         database=scenario["database"],
         db_name=name,
-        keep_uncertainty_data=keep_uncertainty_data,
         biosphere_name=biosphere_name,
     )
     validator.run_all_checks()
@@ -991,7 +988,6 @@ def _prepare_database(
     scenario,
     db_name,
     original_database,
-    keep_uncertainty_data,
     biosphere_name,
 ):
 
@@ -999,7 +995,6 @@ def _prepare_database(
         scenario,
         name=db_name,
         original_database=original_database,
-        keep_uncertainty_data=keep_uncertainty_data,
         biosphere_name=biosphere_name,
     )
 
@@ -1169,6 +1164,10 @@ class Export:
                             "Cannot find the biosphere flow",
                             exc["name"],
                             exc["categories"],
+                            "in ",
+                            ds["name"],
+                            ds["reference product"],
+                            ds["location"],
                         )
                         row = ()
                     list_rows.append(row)
@@ -1523,7 +1522,7 @@ class Export:
                     if item == "System description":
                         writer.writerow(["Ecoinvent v3"])
                     if item == "Infrastructure":
-                        writer.writerow(["Yes"])
+                        writer.writerow(["No"])
                     if item == "External documents":
                         writer.writerow(
                             [
@@ -1798,7 +1797,13 @@ class Export:
             print(x)
 
         if len(self.unmatched_category_flows) > 0:
-            print(f"{len(self.unmatched_category_flows)} unmatched flow categories.")
+            print(
+                f"{len(self.unmatched_category_flows)} unmatched flow categories. Check unlinked.log."
+            )
+            # save the list of unmatched flow to unlinked.log
+            with open("unlinked.log", "a") as f:
+                for item in self.unmatched_category_flows:
+                    f.write(f"{item}\n")
 
         print(f"Simapro CSV file saved in {self.filepath}.")
 

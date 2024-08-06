@@ -1515,7 +1515,7 @@ class Electricity(BaseTransformation):
             # "Oil CC",
             "Coal CF 80-20",
             "Coal CF 50-50",
-            "Storage, Flow Battery",
+            "Storage, Battery",
             "Storage, Hydrogen",
         ]
 

@@ -237,7 +237,7 @@ class Battery(BaseTransformation):
                         [mean_2020_energy_density, mean_2050_energy_density],
                     ),
                     0,
-                    1,
+                    None,
                 )
 
                 scaling_factor_min = minimum_2020_energy_density / np.clip(
@@ -247,7 +247,7 @@ class Battery(BaseTransformation):
                         [minimum_2020_energy_density, minimum_2050_energy_density],
                     ),
                     0,
-                    1,
+                    None,
                 )
 
                 scaling_factor_max = maximum_2020_energy_density / np.clip(
@@ -257,7 +257,7 @@ class Battery(BaseTransformation):
                         [maximum_2020_energy_density, maximum_2050_energy_density],
                     ),
                     0,
-                    1,
+                    None,
                 )
 
                 if "log parameters" not in ds:

@@ -2,13 +2,13 @@
 # for which constructive_geometries
 # cannot find an IAM equivalent
 ---
-Europe without Austria:
+Europe without Switzerland and Austria:
   remind: EUR
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
-Europe without Switzerland and Austria:
+Europe without Austria:
   remind: EUR
   image: WEU
   message: WEU

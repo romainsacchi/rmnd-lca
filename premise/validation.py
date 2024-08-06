@@ -151,7 +151,6 @@ class BaseDatasetValidator:
         database,
         original_database=None,
         db_name=None,
-        keep_uncertainty_data=False,
         biosphere_name=None,
     ):
         self.original_database = original_database
@@ -164,7 +163,6 @@ class BaseDatasetValidator:
         self.geo = Geomap(model)
         self.minor_issues_log = []
         self.major_issues_log = []
-        self.keep_uncertainty_data = keep_uncertainty_data
         self.biosphere_name = biosphere_name
 
     def check_matrix_squareness(self):
@@ -202,18 +200,19 @@ class BaseDatasetValidator:
             12: {"loc", "scale", "shape"},
         }
 
-        if self.keep_uncertainty_data is True:
-            for ds in self.database:
-                for exc in ds["exchanges"]:
-                    if int(exc.get("uncertainty type", 0)) not in [0, 1]:
-                        if not all(
-                            f in exc
-                            for f in MANDATORY_UNCERTAINTY_FIELDS[
-                                int(exc["uncertainty type"])
-                            ]
-                        ):
-                            message = f"Exchange {exc['name']} has incomplete uncertainty data."
-                            self.log_issue(ds, "incomplete uncertainty data", message)
+        for ds in self.database:
+            for exc in ds["exchanges"]:
+                if int(exc.get("uncertainty type", 0)) not in [0, 1]:
+                    if not all(
+                        f in exc
+                        for f in MANDATORY_UNCERTAINTY_FIELDS[
+                            int(exc["uncertainty type"])
+                        ]
+                    ):
+                        message = (
+                            f"Exchange {exc['name']} has incomplete uncertainty data."
+                        )
+                        self.log_issue(ds, "incomplete uncertainty data", message)
 
     def check_datasets_integrity(self):
         # Verify no unintended loss of datasets
