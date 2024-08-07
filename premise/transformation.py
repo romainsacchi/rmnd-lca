@@ -7,6 +7,7 @@ on the wurst database.
 
 import copy
 import logging.config
+import math
 import uuid
 from collections import defaultdict
 from collections.abc import ValuesView
@@ -44,6 +45,20 @@ with open(LOG_CONFIG, encoding="utf-8") as f:
     logging.config.dictConfig(config)
 
 logger = logging.getLogger("module")
+
+
+def redefine_loc(e):
+    if e.get("uncertainty type") in [0, 3, 4]:
+        return e["amount"]
+
+    elif e.get("uncertainty type") == 5:
+        return e["amount"]
+
+    elif e.get("uncertainty type") == 2:
+        return math.log(e["amount"])
+
+    else:
+        return None
 
 
 def get_suppliers_of_a_region(
@@ -1066,16 +1081,8 @@ class BaseTransformation:
                             (exc["name"], exc.get("product"), exc["unit"])
                         ] = {
                             "uncertainty type": exc.get("uncertainty type", 0),
-                            "loc": (
-                                exc.get("loc", 0) / exc["amount"]
-                                if exc.get("loc", None) is not None
-                                else None
-                            ),
-                            "scale": (
-                                exc.get("scale", 0) / exc["amount"]
-                                if exc.get("scale", None) is not None
-                                else None
-                            ),
+                            "loc": redefine_loc(exc) if exc.get("loc") else None,
+                            "scale": exc.get("scale"),
                             "minimum": (
                                 exc.get("minimum", 0) / exc["amount"]
                                 if exc.get("minimum", None) is not None
@@ -1124,6 +1131,7 @@ class BaseTransformation:
                         exc["uncertainty type"] = old_uncertainty[key][
                             "uncertainty type"
                         ]
+                        #TODO: fix this
                         for k, v in old_uncertainty[key].items():
                             if k != "uncertainty type":
                                 if v is not None:

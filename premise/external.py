@@ -3,6 +3,7 @@ Implements external scenario data.
 """
 
 import logging
+import math
 import uuid
 from collections import defaultdict
 from functools import lru_cache
@@ -1461,6 +1462,19 @@ class ExternalScenario(BaseTransformation):
                 if isinstance(new_loc, str):
                     new_loc = [(new_loc, 1.0)]
 
+                def redefine_loc(e):
+                    if e.get("uncertainty type") in [0, 3, 4]:
+                        return e["amount"] * ratio * share
+
+                    elif e.get("uncertainty type") == 5:
+                        return e.get("loc", 0) * (e["amount"] * ratio * share / e["amount"])
+
+                    elif e.get("uncertainty type") == 2:
+                        return math.log(e["amount"] * ratio * share)
+
+                    else:
+                        return None
+
                 if len(new_loc) > 0:
                     for loc, share in new_loc:
                         # add new exchange
@@ -1472,6 +1486,11 @@ class ExternalScenario(BaseTransformation):
                                 "location": loc,
                                 "name": new_name,
                                 "product": new_ref,
+                                "uncertainty type": exc.get("uncertainty type", 0),
+                                "loc": redefine_loc(exc),
+                                "scale": exc.get("scale", 0) if "scale" in exc else None,
+                                "minimum": exc.get("minimum", 0) * (exc["amount"] * ratio * share / exc["amount"]) if "minimum" in exc else None,
+                                "maximum": exc.get("maximum", 0) * (exc["amount"] * ratio * share / exc["amount"]) if "maximum" in exc else None,
                             }
                         )
 
