@@ -281,7 +281,9 @@ def update_exchanges(
                     }
                 )
             else:
-                print(f"Value {new_amount} outside of range {min_value} - {max_value} for {metal} in {activity['name']}")
+                print(
+                    f"Value {new_amount} outside of range {min_value} - {max_value} for {metal} in {activity['name']}"
+                )
 
     activity["exchanges"].append(new_exchange)
 
