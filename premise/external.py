@@ -1467,7 +1467,9 @@ class ExternalScenario(BaseTransformation):
                         return e["amount"] * ratio * share
 
                     elif e.get("uncertainty type") == 5:
-                        return e.get("loc", 0) * (e["amount"] * ratio * share / e["amount"])
+                        return e.get("loc", 0) * (
+                            e["amount"] * ratio * share / e["amount"]
+                        )
 
                     elif e.get("uncertainty type") == 2:
                         return math.log(e["amount"] * ratio * share)
@@ -1488,9 +1490,21 @@ class ExternalScenario(BaseTransformation):
                                 "product": new_ref,
                                 "uncertainty type": exc.get("uncertainty type", 0),
                                 "loc": redefine_loc(exc),
-                                "scale": exc.get("scale", 0) if "scale" in exc else None,
-                                "minimum": exc.get("minimum", 0) * (exc["amount"] * ratio * share / exc["amount"]) if "minimum" in exc else None,
-                                "maximum": exc.get("maximum", 0) * (exc["amount"] * ratio * share / exc["amount"]) if "maximum" in exc else None,
+                                "scale": (
+                                    exc.get("scale", 0) if "scale" in exc else None
+                                ),
+                                "minimum": (
+                                    exc.get("minimum", 0)
+                                    * (exc["amount"] * ratio * share / exc["amount"])
+                                    if "minimum" in exc
+                                    else None
+                                ),
+                                "maximum": (
+                                    exc.get("maximum", 0)
+                                    * (exc["amount"] * ratio * share / exc["amount"])
+                                    if "maximum" in exc
+                                    else None
+                                ),
                             }
                         )
 
