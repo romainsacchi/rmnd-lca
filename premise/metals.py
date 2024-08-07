@@ -248,23 +248,14 @@ def update_exchanges(
     old_amount = sum(
         exc["amount"]
         for exc in activity["exchanges"]
-        if (exc["name"], exc.get("product"), exc["type"])
-        == (
-            new_provider["name"],
-            new_provider["reference product"],
-            "technosphere",
-        )
+        if exc.get("product", "").lower() == new_provider["reference product"].lower()
+        and exc.get("type") == "technosphere"
     )
 
     activity["exchanges"] = [
         e
         for e in activity["exchanges"]
-        if (e["name"], e.get("product"), e["type"])
-        != (
-            new_provider["name"],
-            new_provider["reference product"],
-            "technosphere",
-        )
+        if e.get("product", "").lower() != new_provider["reference product"].lower()
     ]
 
     new_exchange = {
@@ -274,7 +265,7 @@ def update_exchanges(
         "unit": new_provider["unit"],
         "location": new_provider["location"],
         "type": "technosphere",
-        "uncertainty_type": 0,  # assumes no uncertainty
+        "uncertainty type": 0,  # assumes no uncertainty
     }
 
     if min_value is not None and max_value is not None:
@@ -289,6 +280,8 @@ def update_exchanges(
                         "preserve uncertainty": True,
                     }
                 )
+            else:
+                print(f"Value {new_amount} outside of range {min_value} - {max_value} for {metal} in {activity['name']}")
 
     activity["exchanges"].append(new_exchange)
 
@@ -524,9 +517,7 @@ class Metals(BaseTransformation):
                     self.database, ws.equals("name", final_technology)
                 )
 
-
                 for metal_user in metal_users:
-                    print(metal_user["name"], metal_user["location"], metal_row["Element"], dataset_metal["name"])
                     update_exchanges(
                         activity=metal_user,
                         new_amount=median_value,
