@@ -523,7 +523,10 @@ class Metals(BaseTransformation):
                 metal_users = ws.get_many(
                     self.database, ws.equals("name", final_technology)
                 )
+
+
                 for metal_user in metal_users:
+                    print(metal_user["name"], metal_user["location"], metal_row["Element"], dataset_metal["name"])
                     update_exchanges(
                         activity=metal_user,
                         new_amount=median_value,
