@@ -223,8 +223,6 @@ class BaseDatasetValidator:
                     if exc.get("uncertainty type", 0) == 5 and "loc" not in exc:
                         exc["loc"] = exc["amount"]
 
-
-
     def check_datasets_integrity(self):
         # Verify no unintended loss of datasets
         original_activities = [
