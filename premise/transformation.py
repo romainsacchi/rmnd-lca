@@ -47,18 +47,34 @@ with open(LOG_CONFIG, encoding="utf-8") as f:
 logger = logging.getLogger("module")
 
 
-def redefine_loc(e):
-    if e.get("uncertainty type") in [0, 3, 4]:
-        return e["amount"]
+def redefine_uncertainty_params(old_exc, new_exc):
+    """
+    Returns "loc", "scale", "minimum" and "maximum" and "negative" values for a given exchange.
+    """
 
-    elif e.get("uncertainty type") == 5:
-        return e["amount"]
+    try:
+        if old_exc.get("uncertainty type") in [0, 1,]:
+            return new_exc["amount"], None, None, None, True if new_exc["amount"] < 0 else False
 
-    elif e.get("uncertainty type") == 2:
-        return math.log(e["amount"])
+        elif old_exc.get("uncertainty type") == 2:
+            return math.log(new_exc["amount"]), old_exc.get("scale"), None, None, True if new_exc["amount"] < 0 else False
 
-    else:
-        return None
+        elif old_exc.get("uncertainty type") == 3:
+            return new_exc["amount"], old_exc.get("scale"), None, None, True if new_exc["amount"] < 0 else False
+
+        elif old_exc.get("uncertainty type") == 4:
+            return None, None, old_exc.get("minimum", 0) * (new_exc["amount"]/old_exc["amount"]), old_exc.get("maximum") * (new_exc["amount"]/old_exc["amount"]), True if new_exc["amount"] < 0 else False
+
+        elif old_exc.get("uncertainty type") == 5:
+            return new_exc["amount"], None, old_exc.get("minimum", 0) * (new_exc["amount"]/old_exc["amount"]), old_exc.get("maximum") * (new_exc["amount"]/old_exc["amount"]), True if new_exc["amount"] < 0 else False
+
+        else:
+            return None, None, None, None, None
+    except:
+        print("ERROR")
+        print(old_exc)
+        print(new_exc)
+        return None, None, None, None, None
 
 
 def get_suppliers_of_a_region(
@@ -1081,18 +1097,11 @@ class BaseTransformation:
                             (exc["name"], exc.get("product"), exc["unit"])
                         ] = {
                             "uncertainty type": exc.get("uncertainty type", 0),
-                            "loc": redefine_loc(exc) if exc.get("loc") else None,
+                            "amount": exc["amount"],
+                            "loc": exc.get("loc"),
                             "scale": exc.get("scale"),
-                            "minimum": (
-                                exc.get("minimum", 0) / exc["amount"]
-                                if exc.get("minimum", None) is not None
-                                else None
-                            ),
-                            "maximum": (
-                                exc.get("maximum", 0) / exc["amount"]
-                                if exc.get("maximum", None) is not None
-                                else None
-                            ),
+                            "minimum": exc.get("minimum", 0),
+                            "maximum": exc.get("maximum", 0)
                         }
 
             # make a dictionary with the names and amounts
@@ -1128,14 +1137,27 @@ class BaseTransformation:
                 for exc in new_exchanges:
                     key = (exc["name"], exc["product"], exc["unit"])
                     if key in old_uncertainty:
-                        exc["uncertainty type"] = old_uncertainty[key][
-                            "uncertainty type"
-                        ]
-                        # TODO: fix this
-                        for k, v in old_uncertainty[key].items():
-                            if k != "uncertainty type":
-                                if v is not None:
-                                    exc[k] = v * exc["amount"]
+                        exc["uncertainty type"] = old_uncertainty[key]["uncertainty type"]
+                        loc, scale, minimum, maximum, negative = redefine_uncertainty_params(
+                            old_uncertainty[key],
+                            exc
+                        )
+
+                        if loc:
+                            exc["loc"] = loc
+
+                        if scale:
+                            exc["scale"] = scale
+
+                        if minimum:
+                            exc["minimum"] = minimum
+
+                        if maximum:
+                            exc["maximum"] = maximum
+
+                        if negative:
+                            exc["negative"] = negative
+
 
             # Update act["exchanges"] by removing the exchanges to relink
             act["exchanges"] = [e for e in act["exchanges"] if e not in excs_to_relink]
@@ -1617,25 +1639,27 @@ class BaseTransformation:
         if isinstance(exchanges, tuple):
             exchanges = [exchanges]
 
-        new_exchanges.extend(
-            [
-                {
-                    "name": i[0],
-                    "product": i[1],
-                    "unit": i[3],
-                    "location": i[2],
-                    "type": "technosphere",
-                    "amount": exchange["amount"] * i[-1],
-                    "uncertainty type": exchange.get("uncertainty type", 0),
-                    "loc": exchange.get("loc", 0) * i[-1],
-                    "scale": exchange.get("scale", 0) * i[-1],
-                    "negative": exchange.get("negative", False),
-                    "minimum": exchange.get("minimum", 0) * i[-1],
-                    "maximum": exchange.get("maximum", 0) * i[-1],
-                }
-                for i in exchanges
-            ]
-        )
+        _ = lambda x: 0 if x is None else x
+
+        for i, e in enumerate(exchanges):
+
+            new_exc = {
+                "name": e[0],
+                "product": e[1],
+                "unit": exchange["unit"],
+                "location": e[2],
+                "type": "technosphere",
+                "amount": exchange["amount"] * e[-1],
+                "uncertainty type": exchange.get("uncertainty type", 0),
+            }
+
+            for key in ["loc", "scale", "negative", "minimum", "maximum"]:
+                if key in exchange:
+                    if isinstance(exchange[key], float):
+                        new_exc[key] = exchange[key]
+
+            new_exchanges.append(new_exc)
+
 
     def process_uncached_exchange(
         self,
@@ -1684,8 +1708,8 @@ class BaseTransformation:
             print(
                 f"No possible datasets found for {key} in {dataset['name']} {dataset['location']}"
             )
-            return [
-                {
+
+            exc = {
                     "name": exchange["name"],
                     "product": exchange["product"],
                     "unit": exchange["unit"],
@@ -1693,13 +1717,13 @@ class BaseTransformation:
                     "type": "technosphere",
                     "amount": exchange["amount"],
                     "uncertainty type": exchange.get("uncertainty type", 0),
-                    "loc": exchange.get("loc", None),
-                    "scale": exchange.get("scale", None),
-                    "negative": exchange.get("negative", False),
-                    "minimum": exchange.get("minimum", None),
-                    "maximum": exchange.get("maximum", None),
-                }
-            ]
+            }
+
+            for key in ["loc", "scale", "negative", "minimum", "maximum"]:
+                if key in exchange:
+                    exc[key] = exchange[key]
+
+            return [exc]
 
         if len(possible_datasets) == 1:
             self.handle_single_possible_dataset(
@@ -1736,7 +1760,8 @@ class BaseTransformation:
 
     def new_exchange(self, exchange, location, amount_multiplier):
         # Create a new exchange dictionary with the modified location and amount
-        return {
+
+        exc = {
             "name": exchange["name"],
             "product": exchange["product"],
             "unit": exchange["unit"],
@@ -1744,12 +1769,13 @@ class BaseTransformation:
             "type": "technosphere",
             "amount": exchange["amount"] * amount_multiplier,
             "uncertainty type": exchange.get("uncertainty type", 0),
-            "loc": exchange.get("loc", None),
-            "scale": exchange.get("scale", None),
-            "negative": exchange.get("negative", False),
-            "minimum": exchange.get("minimum", None),
-            "maximum": exchange.get("maximum", None),
         }
+
+        for key in ["loc", "scale", "negative", "minimum", "maximum"]:
+            if key in exchange:
+                exc[key] = exchange[key]
+
+        return exc
 
     def handle_multiple_possible_datasets(
         self,
@@ -2000,27 +2026,12 @@ class BaseTransformation:
                 if exc.get("uncertainty type", 0) != 0:
                     old_uncertainty[(exc["name"], exc.get("product"), exc["unit"])] = {
                         "uncertainty type": exc.get("uncertainty type", 0),
-                        "loc": (
-                            exc.get("loc", 0) / exc["amount"]
-                            if exc.get("loc", None) is not None
-                            else None
-                        ),
-                        "scale": (
-                            exc.get("scale", 0) / exc["amount"]
-                            if exc.get("scale", None) is not None
-                            else None
-                        ),
-                        "minimum": (
-                            exc.get("minimum", 0) / exc["amount"]
-                            if exc.get("minimum", None) is not None
-                            else None
-                        ),
-                        "maximum": (
-                            exc.get("maximum", 0) / exc["amount"]
-                            if exc.get("maximum", None) is not None
-                            else None
-                        ),
+                        "amount": exc["amount"],
                     }
+
+                    for key in ["loc", "scale", "negative", "minimum", "maximum"]:
+                        if key in exc:
+                            old_uncertainty[(exc["name"], exc.get("product"), exc["unit"])][key] = exc[key]
 
         new_exchanges = self.find_candidates(
             dataset,
@@ -2072,10 +2083,26 @@ class BaseTransformation:
                 key = (exc["name"], exc["product"], exc["unit"])
                 if key in old_uncertainty:
                     exc["uncertainty type"] = old_uncertainty[key]["uncertainty type"]
-                    for k, v in old_uncertainty[key].items():
-                        if k != "uncertainty type":
-                            if v is not None:
-                                exc[k] = v * exc["amount"]
+                    loc, scale, minimum, maximum, negative = redefine_uncertainty_params(
+                        old_uncertainty[key],
+                        exc
+                    )
+
+                    if loc:
+                        exc["loc"] = loc
+
+                    if scale:
+                        exc["scale"] = scale
+
+                    if negative:
+                        exc["negative"] = negative
+
+                    if minimum:
+                        exc["minimum"] = minimum
+
+                    if maximum:
+                        exc["maximum"] = maximum
+
 
         dataset["exchanges"] = [
             exc for exc in dataset["exchanges"] if exc["type"] != "technosphere"

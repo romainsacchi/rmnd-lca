@@ -51,6 +51,7 @@ def rescale_exchanges(
 
     for exc in technosphere(ds, *(technosphere_filters or [])):
         rescale_exchange(exc, value, remove_uncertainty)
+
     for exc in biosphere(ds, *(biosphere_filters or [])):
         rescale_exchange(exc, value, remove_uncertainty)
 

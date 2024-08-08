@@ -277,6 +277,18 @@ def check_uncertainty_data(data, filename):
                             ]
                         )
 
+                if exc["uncertainty type"] == 2:
+                    if exc["amount"] < 0:
+                        if exc.get("negative") is not True:
+                            rows.append(
+                                [
+                                    dataset["name"][:30],
+                                    exc["name"][:30],
+                                    exc["uncertainty type"],
+                                    "'negative' should be TRUE",
+                                ]
+                            )
+
                 # if distribution is triangular, make sure that `minimum`
                 # and `maximum` are not equal and are comprising the `loc`
                 if exc["uncertainty type"] == 5:
