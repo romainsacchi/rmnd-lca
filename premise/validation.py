@@ -214,6 +214,17 @@ class BaseDatasetValidator:
                         )
                         self.log_issue(ds, "incomplete uncertainty data", message)
 
+                    if exc.get("uncertainty type", 0) == 2 and "loc" not in exc:
+                        exc["loc"] = math.log(exc["amount"])
+
+                    if exc.get("uncertainty type", 0) == 3 and "loc" not in exc:
+                        exc["loc"] = exc["amount"]
+
+                    if exc.get("uncertainty type", 0) == 5 and "loc" not in exc:
+                        exc["loc"] = exc["amount"]
+
+
+
     def check_datasets_integrity(self):
         # Verify no unintended loss of datasets
         original_activities = [

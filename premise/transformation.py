@@ -67,7 +67,7 @@ def redefine_uncertainty_params(old_exc, new_exc):
 
         elif old_exc.get("uncertainty type") == 2:
             return (
-                math.log(new_exc["amount"]),
+                math.log(new_exc["amount"] * -1) if new_exc["amount"] < 0 else math.log(new_exc["amount"]),
                 old_exc.get("scale"),
                 None,
                 None,
