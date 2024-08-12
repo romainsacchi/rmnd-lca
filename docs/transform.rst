@@ -123,7 +123,7 @@ These  datasets provide 1 kWh of battery capacity, and the technology
 shares are adjusted over time with values found
 under  https://github.com/polca/premise/blob/master/premise/data/battery/scenario.csv.
 
-.. _Degen: https://doi.org/10.1016/j.joule.2023.01.001
+.. _Degen: https://www.nature.com/articles/s41560-023-01355-z
 
 
 Stationary batteries
