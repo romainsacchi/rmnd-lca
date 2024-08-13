@@ -120,7 +120,7 @@ jobs:
         python-version: ["3.11"]
     steps:
       - uses: actions/checkout@v2
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: ${{ matrix.python-version }}
           channels: conda-forge,cmutel,konstantinstadler,haasad,pascallesage,romainsacchi
@@ -176,7 +176,6 @@ jobs:
       - name: Pull distribution 📦 from Anaconda and test it if master branch
 
         run: |
-          conda install -n base conda-libmamba-solver
           conda install romainsacchi::premise
           conda update premise
           conda install bottleneck

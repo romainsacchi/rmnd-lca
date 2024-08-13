@@ -51,6 +51,9 @@ def test_brightway():
 
     ndb.update()
 
+    if "superstructure" in bw2data.databases:
+        del bw2data.databases["superstructure"]
+
     ndb.write_superstructure_db_to_brightway("superstructure")
 
     method = [m for m in bw2data.methods if "IPCC" in m[0]][0]

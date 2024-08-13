@@ -10,18 +10,14 @@ name,product,category,sub_category
 1-naphthylacetic acid production,1-naphthylacetic acid,material,Chemicals\Acids (organic)\Transformation
 1-propanol production,1-propanol,material,Chemicals\Organic\Transformation
 "1,1-difluoroethane production","1,1-difluoroethane",material,Chemicals\Organic\Transformation
-"1,1-difluoroethane production","1,1-difluoroethane",material,Chemicals\Organic\Transformation
 "1,1-difluoroethane production, HFC-152a","1,1-difluoroethane, HFC-152a",material,Chemicals\Organic\Transformation
 "1,1-dimethylcyclopentane to generic market for solvent, organic","solvent, organic",material,Chemicals\Organic\Market
 "1,2-dichloro-1,1-difluoroethane (r-132b) production",r-132b,material,Chemicals\Organic\Transformation
 "1,3-dichloropropene to generic market for pesticide, unspecified","pesticide, unspecified",material,Chemicals\Organic\Transformation
 "1,4-butanediol production","1,4-butanediol",material,Chemicals\Organic\Transformation
-"1,4-butanediol production","1,4-butanediol",material,Chemicals\Organic\Transformation
 2-butanol production by hydration of butene,2-butanol,material,Chemicals\Organic\Transformation
 2-butanol production by hydration of butene,butane,material,Chemicals\Organic\Transformation
 "2-cyclopentanone production, decarboxylative cyclization of adipic acid",2-cyclopentanone,material,Chemicals\Organic\Transformation
-"2-cyclopentanone production, decarboxylative cyclization of adipic acid",2-cyclopentanone,material,Chemicals\Organic\Transformation
-"2-cyclopentanone production, decarboxylative cyclization of adipic acid",formic acid,material,Chemicals\Organic\Transformation
 "2-cyclopentanone production, decarboxylative cyclization of adipic acid",formic acid,material,Chemicals\Organic\Transformation
 2-methyl-2-butanol production,2-methyl-2-butanol,material,Chemicals\Organic\Transformation
 "2-methylpentane to generic market for solvent, organic","solvent, organic",material,Chemicals\Organic\Market
@@ -50,7 +46,6 @@ acetaldehyde oxidation,"acetic acid, without water, in 98% solution state",mater
 acetaldehyde oxidation,acetic anhydride,material,Chemicals\Organic\Transformation
 acetaldehyde production,acetaldehyde,material,Chemicals\Organic\Transformation
 "acetaldehyde production, ethylene oxidation",acetaldehyde,material,Chemicals\Organic\Transformation
-"acetaldehyde production, ethylene oxidation",acetaldehyde,material,Chemicals\Organic\Transformation
 "acetamide-anillide-compound production, unspecified","acetamide-anillide-compound, unspecified",material,Chemicals\Pesticides\Transformation
 acetanilide production,acetanilide,material,Chemicals\Organic\Transformation
 "acetic acid production, butane oxidation","acetone, liquid",material,Chemicals\Organic\Transformation
@@ -59,20 +54,11 @@ acetanilide production,acetanilide,material,Chemicals\Organic\Transformation
 "acetic acid production, butane oxidation",formic acid,material,Chemicals\Organic\Transformation
 "acetic acid production, butane oxidation",methyl ethyl ketone,material,Chemicals\Organic\Transformation
 "acetic acid production, butane oxidation",ethyl acetate,material,Chemicals\Organic\Transformation
-"acetic acid production, butane oxidation","acetic acid, without water, in 98% solution state",material,Chemicals\Organic\Transformation
-"acetic acid production, butane oxidation",formic acid,material,Chemicals\Organic\Transformation
-"acetic acid production, butane oxidation",methyl acetate,material,Chemicals\Organic\Transformation
-"acetic acid production, butane oxidation",ethyl acetate,material,Chemicals\Organic\Transformation
-"acetic acid production, butane oxidation",methyl ethyl ketone,material,Chemicals\Organic\Transformation
-"acetic acid production, butane oxidation","acetone, liquid",material,Chemicals\Organic\Transformation
 "acetic acid production, methanol carboxylation (Monsanto), product in 98% solution state",propionic acid,material,Fuels\Biofuels\Ethanol\Transformation
 "acetic acid production, methanol carboxylation (Monsanto), product in 98% solution state","acetic acid, without water, in 98% solution state",material,Fuels\Biofuels\Ethanol\Transformation
 "acetic acid production, product in 98% solution state","acetic acid, without water, in 98% solution state",material,Chemicals\Acids (organic)\Transformation
 "acetic anhydride production, acetaldehyde oxidation","acetic acid, without water, in 98% solution state",material,Chemicals\Acids (organic)\Transformation
 "acetic anhydride production, acetaldehyde oxidation",acetic anhydride,material,Chemicals\Acids (organic)\Transformation
-"acetic anhydride production, acetaldehyde oxidation","acetic acid, without water, in 98% solution state",material,Chemicals\Acids (organic)\Transformation
-"acetic anhydride production, acetaldehyde oxidation",acetic anhydride,material,Chemicals\Acids (organic)\Transformation
-"acetic anhydride production, acetic acid pyrolysis, via ketene intermediate",acetic anhydride,material,Chemicals\Acids (organic)\Transformation
 "acetic anhydride production, acetic acid pyrolysis, via ketene intermediate",acetic anhydride,material,Chemicals\Acids (organic)\Transformation
 "acetic anhydride production, ketene route",acetic anhydride,material,Chemicals\Organic\Transformation
 acetoacetic acid production,acetoacetic acid,material,Chemicals\Organic\Transformation
@@ -86,16 +72,12 @@ aclonifen production,aclonifen,material,Chemicals\Pesticides\Transformation
 acrolein production,acrolein,material,Chemicals\Organic\Transformation
 acrylic acid production,acrylic acid,material,Chemicals\Acids (organic)\Transformation
 acrylic acid production,"acetic acid, without water, in 98% solution state",material,Chemicals\Acids (organic)\Transformation
-acrylic acid production,"acetic acid, without water, in 98% solution state",material,Chemicals\Acids (organic)\Transformation
 "acrylic binder production, with water, in 54% solution state","acrylic binder, with water, in 54% solution state",material,Chemicals\Organic\Transformation
 "acrylic dispersion production, with water, in 58% solution","acrylic dispersion, with water, in 58% solution state",material,Chemicals\Organic\Transformation
-"acrylic dispersion production, with water, in 58% solution state","acrylic dispersion, with water, in 58% solution state",material,Chemicals\Organic\Transformation
 "acrylic dispersion production, with water, in 58% solution state","acrylic dispersion, with water, in 58% solution state",material,Chemicals\Organic\Transformation
 acrylic filler production,acrylic filler,material,Construction\Coverings\Transformation
 "acrylic varnish production, with water, in 53% solution state","acrylic varnish, with water, in 53% solution state",material,Construction\Paints\Transformation
 "acrylonitrile production, Sohio process",hydrogen cyanide,material,Chemicals\Gases\Market
-"acrylonitrile production, sohio process",acetonitrile,material,Chemicals\Gases\Market
-"acrylonitrile production, sohio process",acrylonitrile,material,Chemicals\Gases\Market
 "acrylonitrile production, sohio process",acetonitrile,material,Chemicals\Gases\Market
 "acrylonitrile production, sohio process",acrylonitrile,material,Chemicals\Gases\Market
 acrylonitrile-butadiene-styrene copolymer production,acrylonitrile-butadiene-styrene copolymer,material,Plastics\Rubbers\Transformation
@@ -108,7 +90,6 @@ adhesive mortar production,adhesive mortar,material,Construction\Binders\Transfo
 adipic acid production,adipic acid,material,Chemicals\Acids (organic)\Transformation
 adipic acid production,succinic acid,material,Chemicals\Acids (organic)\Transformation
 adiponitrile production,adiponitrile,material,Chemicals\Organic\Transformation
-adobe brick production,adobe brick,material,Chemicals\Organic\Transformation
 adobe brick production,adobe brick,material,Chemicals\Organic\Transformation
 "agricultural machinery production, tillage","agricultural machinery, tillage",processing,Agricultural\Transformation\Infrastructure
 "agricultural machinery production, unspecified","agricultural machinery, unspecified",processing,Agricultural\Transformation\Infrastructure
@@ -156,7 +137,6 @@ alkyl sulphate (C12-14) production,alkyl sulphate (C12-14),material,Chemicals\Or
 "allyl chloride production, reaction of propylene and chlorine",dichloropropene,material,Chemicals\Inorganic\Transformation
 "allyl chloride production, reaction of propylene and chlorine",allyl chloride,material,Chemicals\Organic\Transformation
 "allyl chloride production, reaction of propylene and chlorine","1,3-dichloropropene",material,Chemicals\Organic\Transformation
-"allyl chloride production, reaction of propylene and chlorine","1,3-dichloropropene",material,Chemicals\Organic\Transformation
 almond production,almond,material,Agricultural\Food\Transformation
 alpha-naphthol production,sodium hydrogen sulfite,material,Chemicals\Gases\Market
 alpha-naphthol production,alpha-naphthol,material,Chemicals\Organic\Transformation
@@ -202,10 +182,6 @@ aluminium oxide production,aluminium oxide,material,Others\Obsolete
 "aluminium production, primary, liquid, sÃ¶derberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
 "aluminium production, primary, liquid, Soderberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
 "aluminium production, primary, liquid, sšderberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
-"aluminium production, primary, liquid, sšderberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
-"aluminium production, primary, liquid, sšderberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
-"aluminium production, primary, liquid, sšderberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
-"aluminium production, primary, liquid, sšderberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
 "aluminium production, primary, liquid, Soderberg_obsolete","aluminium, primary, liquid",material,Others\Obsolete
 "aluminium scrap, new, Recycled Content cut-off","aluminium scrap, new",material,Metals\Non ferro\Transformation
 "aluminium scrap, new, Recycled Content cut-off_obsolete","aluminium scrap, new",material,Others\Obsolete
@@ -236,10 +212,8 @@ amination of chlorosilane,ammonium chloride,material,Chemicals\Inorganic\Transfo
 amination of chlorosilane,hexamethyldisilazane,material,Chemicals\Organic\Transformation
 amine oxide production,amine oxide,material,Chemicals\Organic\Transformation
 amine oxides production,amine oxides,material,Chemicals\Organic\Transformation
-amine oxides production,amine oxides,material,Chemicals\Organic\Transformation
 "amine-based silica production, for sorbent-based direct air capture system",amine-based silica,material,Chemicals\Organic\Transformation
 "aminopyridine production, Chichibabin amination","hydrogen, gaseous, low pressure",material,Chemicals\Gases\Market
-"aminopyridine production, chichibabin amination",aminopyridine,material,Chemicals\Organic\Transformation
 "aminopyridine production, chichibabin amination",aminopyridine,material,Chemicals\Organic\Transformation
 "ammonia production, hydrogen from coal gasification","ammonia, anhydrous, liquid",material,Fuels\Others\Transformation
 "ammonia production, hydrogen from coal gasification with CCS","ammonia, anhydrous, liquid",material,Fuels\Others\Transformation
@@ -353,20 +327,8 @@ barium sulfide production,barium sulfide,material,Chemicals\Inorganic\Transforma
 "bark chips, wet, measured as dry mass to generic market for residual hardwood, wet","residual hardwood, wet",material,Others\Obsolete
 "bark chips, wet, measured as dry mass to generic market for residual hardwood, wet","residual softwood, wet",material,Others\Obsolete
 barley grain production,barley grain,material,Agricultural\Animal feed\Market
-barley grain production,barley grain,material,Agricultural\Animal feed\Market
-barley grain production,barley grain,material,Agricultural\Animal feed\Market
-barley grain production,barley grain,material,Agricultural\Animal feed\Market
-barley grain production,barley grain,material,Agricultural\Animal feed\Market
-barley grain production,barley grain,material,Agricultural\Animal feed\Market
-barley grain production,barley grain,material,Agricultural\Animal feed\Market
-barley grain production,barley grain,material,Agricultural\Animal feed\Market
-barley grain production,barley grain,material,Agricultural\Animal feed\Market
-barley grain production,barley grain,material,Agricultural\Animal feed\Market
-barley grain production,barley grain,material,Agricultural\Animal feed\Market
 "barley grain production, organic","straw, organic",material,Agricultural\Animal feed\Market
 "barley grain production, organic","barley grain, organic",material,Agricultural\Animal feed\Market
-"barley grain production, organic","barley grain, organic",material,Agricultural\Animal feed\Market
-"barley grain production, organic","straw, organic",material,Agricultural\Animal feed\Market
 "barley grain production, swiss integrated production, extensive","barley grain, swiss integrated production",material,Agricultural\Animal feed\Market
 "barley grain production, swiss integrated production, extensive",straw,material,Agricultural\Animal feed\Market
 "barley grain production, swiss integrated production, intensive",straw,material,Agricultural\Animal feed\Market
@@ -405,7 +367,6 @@ basic oxygen furnace secondary metallurgy slag to market for basic oxygen furnac
 "batch dyeing, fibre, cotton","batch dyeing, fibre, cotton",processing,Textiles\Transformation
 batter wheat mix production,wheat flour mix,material,Agricultural\Food\Transformation
 battery 50kw,battery 50kw,material,Electronics\Battery\Transformation
-battery 50kw,battery 50kw,material,Electronics\Battery\Transformation
 "battery cell assembly, li-s",battery cell,material,Electronics\Battery\Transformation
 "battery cell deactivation, for lis battery",cells to deactivation,material,Electronics\Battery\Transformation
 "battery cell production, Li-ion, LFP","battery cell, Li-ion, LFP",material,Electronics\Battery\Transformation
@@ -422,7 +383,6 @@ battery 50kw,battery 50kw,material,Electronics\Battery\Transformation
 "battery cell production, sib, with napba cathode and fossil-hc anode",battery cell,material,Electronics\Battery\Transformation
 "battery cell production, sib, with nmmt cathode and fossil-hc anode",battery cell,material,Electronics\Battery\Transformation
 "battery cell production, sib, with nvpf cathode and fossil-hc anode",battery cell,material,Electronics\Battery\Transformation
-battery charger,battery charger,material,Electronics\Battery\Transformation
 battery charger,battery charger,material,Electronics\Battery\Transformation
 "battery management system assembly, for vrfb system","battery management system, for vrfb system",material,Electronics\Battery\Transformation
 "battery management system production, for Li-ion battery","battery management system, for Li-ion battery",material,Electronics\Battery\Transformation
@@ -483,7 +443,6 @@ benzene chlorination,p-dichlorobenzene,material,Chemicals\Organic\Transformation
 benzene production,benzene,material,Chemicals\Organic\Transformation
 benzimidazole-compound production,benzimidazole-compound,material,Chemicals\Pesticides\Transformation
 benzo[thia]diazole-compound production,benzo[thia]diazole-compound,material,Chemicals\Pesticides\Transformation
-"benzoic acid production, toluene oxidation",benzoic acid,material,Chemicals\Pesticides\Transformation
 "benzoic acid production, toluene oxidation",benzoic acid,material,Chemicals\Pesticides\Transformation
 benzoic-compound production,benzoic-compound,material,Chemicals\Pesticides\Transformation
 benzyl alcohol production,benzyl alcohol,material,Chemicals\Organic\Transformation
@@ -624,17 +583,10 @@ Brown-Schlesinger process,sodium tetrahydridoborate,material,Chemicals\Inorganic
 Brown-Schlesinger process,sodium methoxide,material,Chemicals\Organic\Transformation
 "btx production, from pyrolysis gas, average","toluene, liquid",material,Chemicals\Acids (organic)\Transformation
 "btx production, from pyrolysis gas, average",benzene,material,Chemicals\Acids (organic)\Transformation
-"btx production, from pyrolysis gas, average","toluene, liquid",material,Chemicals\Acids (organic)\Transformation
 "btx production, from pyrolysis gas, average","xylene, mixed",material,Chemicals\Acids (organic)\Transformation
 "btx production, from pyrolysis gas, average","hydrocarbons, aromatic, cyclic (c9+)",material,Chemicals\Acids (organic)\Transformation
-"btx production, from pyrolysis gas, average","hydrocarbons, aromatic, cyclic (c9+)",material,Chemicals\Acids (organic)\Transformation
-"btx production, from pyrolysis gas, average",p-xylene,material,Chemicals\Acids (organic)\Transformation
-"btx production, from pyrolysis gas, average","xylene, mixed",material,Chemicals\Acids (organic)\Transformation
 "btx production, from pyrolysis gas, average",p-xylene,material,Chemicals\Acids (organic)\Transformation
 "btx production, from pyrolysis gas, average",raffinate,material,Chemicals\Acids (organic)\Transformation
-"btx production, from pyrolysis gas, average",raffinate,material,Chemicals\Acids (organic)\Transformation
-"btx production, from pyrolysis gas, average",o-xylene,material,Chemicals\Acids (organic)\Transformation
-"btx production, from pyrolysis gas, average",benzene,material,Chemicals\Acids (organic)\Transformation
 "btx production, from pyrolysis gas, average",o-xylene,material,Chemicals\Acids (organic)\Transformation
 "btx production, from reformate, average","hydrocarbons, aromatic, cyclic (c9+)",material,Chemicals\Others\Transformation
 "btx production, from reformate, average","toluene, liquid",material,Chemicals\Others\Transformation
@@ -642,14 +594,7 @@ Brown-Schlesinger process,sodium methoxide,material,Chemicals\Organic\Transforma
 "btx production, from reformate, average",p-xylene,material,Chemicals\Others\Transformation
 "btx production, from reformate, average",benzene,material,Chemicals\Others\Transformation
 "btx production, from reformate, average","xylene, mixed",material,Chemicals\Others\Transformation
-"btx production, from reformate, average","toluene, liquid",material,Chemicals\Others\Transformation
 "btx production, from reformate, average",raffinate,material,Chemicals\Others\Transformation
-"btx production, from reformate, average",raffinate,material,Chemicals\Others\Transformation
-"btx production, from reformate, average",o-xylene,material,Chemicals\Others\Transformation
-"btx production, from reformate, average",benzene,material,Chemicals\Others\Transformation
-"btx production, from reformate, average","xylene, mixed",material,Chemicals\Others\Transformation
-"btx production, from reformate, average",p-xylene,material,Chemicals\Others\Transformation
-"btx production, from reformate, average","hydrocarbons, aromatic, cyclic (c9+)",material,Chemicals\Others\Transformation
 buffer tank,buffer tank,transport,Road\Transformation\Infrastructure
 "building construction, budget hotel","building, budget hotel",use,Tourism\Hotels\Transformation\Infrastructure
 "building construction, hall","building, hall",material,Construction\Others\Transformation\Infrastructure
@@ -672,18 +617,13 @@ burnt shale production,"electricity, medium voltage",energy,Electricity country 
 bus production,bus,transport,Road\Transformation\Infrastructure
 butadiene production,butadiene,material,Chemicals\Organic\Transformation
 "butadiene purification, extractive distillation of crude butadiene",butadiene,material,Chemicals\Organic\Transformation
-"butadiene purification, extractive distillation of crude butadiene",butadiene,material,Chemicals\Organic\Transformation
-butadiene to generic market for generic c4 hydrocarbons,generic c4 hydrocarbons,material,Chemicals\Organic\Transformation
 butadiene to generic market for generic c4 hydrocarbons,generic c4 hydrocarbons,material,Chemicals\Organic\Transformation
 "butane extraction, from natural gas liquids",butane,material,Others\Obsolete
 butane to generic market for generic c4 hydrocarbons,generic c4 hydrocarbons,material,Others\Obsolete
 "butane-1,4-diol production","butane-1,4-diol",material,Chemicals\Organic\Transformation
 "butanols production, hydroformylation of propylene",1-butanol,material,Chemicals\Organic\Transformation
 "butanols production, hydroformylation of propylene",isobutanol,material,Chemicals\Organic\Transformation
-"butanols production, hydroformylation of propylene",1-butanol,material,Chemicals\Organic\Transformation
-"butanols production, hydroformylation of propylene",isobutanol,material,Chemicals\Organic\Transformation
 "butene production, mixed","butene, mixed",material,Chemicals\Organic\Transformation
-"butene, mixed to generic market for generic c4 hydrocarbons",generic c4 hydrocarbons,material,Chemicals\Organic\Transformation
 "butene, mixed to generic market for generic c4 hydrocarbons",generic c4 hydrocarbons,material,Chemicals\Organic\Transformation
 "butter production, from cow milk","butter, from cow milk",material,Agricultural\Food\Transformation
 "butter production, from cow milk","buttermilk, from cow milk",material,Agricultural\Food\Transformation
@@ -710,11 +650,9 @@ cabbage white production,cabbage white,material,Agricultural\Plant production\Ve
 "cable production, three-conductor cable","cable, three-conductor cable",material,Electronics\Component\Transformation
 "cable production, unspecified","cable, unspecified",material,Electronics\Component\Transformation
 cable trays ti epr,cable trays ti epr,material,Electronics\Component\Transformation
-cable trays ti epr,cable trays ti epr,material,Electronics\Component\Transformation
 "cable yarder production, trailer-mounted","mobile cable yarder, trailer-mounted",transport,Building equipment\Transformation\Infrastructure
 "cable yarder production, truck-mounted","mobile cable yarder, truck-mounted, incl. processor",transport,Building equipment\Transformation\Infrastructure
 cable yarder with sled winch production,cable yarder with sled winch,material,Electronics\Component\Transformation
-"cable, average,  epr","cable, average,  epr",material,Electronics\Component\Transformation
 "cable, average,  epr","cable, average,  epr",material,Electronics\Component\Transformation
 cables,cables,transport,Road\Transformation\Infrastructure
 "cadmium chloride production, semiconductor-grade","cadmium chloride, semiconductor-grade",material,Chemicals\Inorganic\Transformation
@@ -1074,12 +1012,8 @@ chimney production,chimney,energy,Heat\Oil\Transformation\Infrastructure
 "chlor-alkali electrolysis, membrane cell","hydrogen, liquid",material,Chemicals\Gases\Transformation
 "chlor-alkali electrolysis, membrane cell","sodium hydroxide, without water, in 50% solution state",material,Chemicals\Inorganic\Transformation
 "chlor-alkali electrolysis, membrane cell",potassium hydroxide,material,Chemicals\Gases\Market
-"chlor-alkali electrolysis, membrane cell",potassium hydroxide,material,Chemicals\Gases\Market
 "chlor-alkali electrolysis, membrane cell","sodium hypochlorite, without water, in 15% solution state",material,Chemicals\Gases\Market
 "chlor-alkali electrolysis, membrane cell","hydrochloric acid, without water, in 30% solution state",material,Chemicals\Gases\Market
-"chlor-alkali electrolysis, membrane cell","sodium hypochlorite, without water, in 15% solution state",material,Chemicals\Gases\Market
-"chlor-alkali electrolysis, membrane cell","hydrochloric acid, without water, in 30% solution state",material,Chemicals\Gases\Market
-"chlor-alkali electrolysis, membrane cell",sulfuric acid,material,Chemicals\Gases\Market
 "chlor-alkali electrolysis, membrane cell",sulfuric acid,material,Chemicals\Gases\Market
 "chlor-alkali electrolysis, mercury cell","hydrogen, liquid",material,Chemicals\Gases\Liquified\Transformation
 "chlor-alkali electrolysis, mercury cell","hydrogen, gaseous, low pressure",material,Chemicals\Gases\Market
@@ -1096,15 +1030,10 @@ chloroacetyl chloride production,chloroacetyl chloride,material,Chemicals\Organi
 "chlorobenzenes production, benzene chlorination",p-dichlorobenzene,material,Chemicals\Organic\Transformation
 "chlorobenzenes production, benzene chlorination",monochlorobenzene,material,Chemicals\Organic\Transformation
 "chlorobenzenes production, benzene chlorination","hydrochloric acid, without water, in 30% solution state",material,Chemicals\Organic\Transformation
-"chlorobenzenes production, benzene chlorination",monochlorobenzene,material,Chemicals\Organic\Transformation
-"chlorobenzenes production, benzene chlorination",p-dichlorobenzene,material,Chemicals\Organic\Transformation
-"chlorobenzenes production, benzene chlorination",o-dichlorobenzene,material,Chemicals\Organic\Transformation
-"chlorobenzenes production, benzene chlorination","hydrochloric acid, without water, in 30% solution state",material,Chemicals\Organic\Transformation
 "chlorobenzenes production, benzene chlorination",o-dichlorobenzene,material,Chemicals\Organic\Transformation
 chlorodifluoromethane production,chlorodifluoromethane,material,Chemicals\Organic\Transformation
 chlorofluorination of ethylene,hexafluoroethane,material,Chemicals\Organic\Transformation
 chlorofluorination of ethylene,monochloropentafluoroethane,material,Chemicals\Organic\Transformation
-chloroform production,chloroform,material,Chemicals\Organic\Transformation
 chloroform production,chloroform,material,Chemicals\Organic\Transformation
 chloromethyl methyl ether production,chloromethyl methyl ether,material,Chemicals\Organic\Transformation
 chloronitrobenzene production,chloronitrobenzene,material,Chemicals\Organic\Transformation
@@ -1131,7 +1060,6 @@ chromium steel pipe production,chromium steel pipe,material,Metals\Ferro\Transfo
 "chromium steel turning, primarily roughing, computer numerical controlled","chromium steel removed by turning, primarily roughing, computer numerical controlled",processing,Metals\Chipping\Transformation
 "chromium steel turning, primarily roughing, conventional","chromium steel removed by turning, primarily roughing, conventional",processing,Metals\Chipping\Transformation
 "chromium trioxide production, flakes","chromium trioxide, flakes",processing,Metals\Chipping\Transformation
-"chromium trioxide production, flakes","chromium trioxide, flakes",processing,Metals\Chipping\Transformation
 citric acid production,"energy feed, gross",material,Agricultural\Animal feed\Transformation
 citric acid production,"protein feed, 100% crude",material,Agricultural\Animal feed\Transformation
 citric acid production,maize starch,material,Agricultural\Food\Transformation
@@ -1146,14 +1074,10 @@ citric acid production,"potassium chloride, as K2O",material,Others\Obsolete
 "clamps and fasteners production, for li-o2 battery",clamps and fasteners,material,Electronics\Battery\Transformation
 clay brick production,clay brick,material,Construction\Bricks\Transformation
 "clay brick production, extruded",clay brick,material,Construction\Bricks\Transformation
-"clay brick production, extruded",clay brick,material,Construction\Bricks\Transformation
-"clay brick production, extruded",clay brick,material,Construction\Bricks\Transformation
 "clay brick production, moulded",clay brick,material,Construction\Bricks\Transformation
 clay pit construction,clay pit infrastructure,material,Minerals\Transformation\Infrastructure
 clay pit operation,clay,material,Minerals\Transformation
 clay plaster production,clay plaster,material,Construction\Coverings\Transformation
-clay roof tile production,clay roof tile,material,Construction\Coverings\Transformation
-clay roof tile production,clay roof tile,material,Construction\Coverings\Transformation
 clay roof tile production,clay roof tile,material,Construction\Coverings\Transformation
 "clay roof tile production, glazed",clay roof tile,material,Construction\Coverings\Transformation
 clay to generic market for supplementary cementitious materials,supplementary cementitious materials,material,Construction\Coverings\Market
@@ -1257,16 +1181,8 @@ coke production,benzene,material,Chemicals\Organic\Transformation
 coke production,coal tar,material,Chemicals\Organic\Transformation
 coke production,coke,material,Chemicals\Organic\Transformation
 coke production,"steam, in chemical industry",material,Chemicals\Organic\Transformation
-coke production,benzene,material,Chemicals\Organic\Transformation
 coke production,coal gas,material,Chemicals\Organic\Transformation
 coke production,sulfur,material,Chemicals\Organic\Transformation
-coke production,coke,material,Chemicals\Organic\Transformation
-coke production,coal gas,material,Chemicals\Organic\Transformation
-coke production,coal tar,material,Chemicals\Organic\Transformation
-coke production,coke,material,Chemicals\Organic\Transformation
-coke production,benzene,material,Chemicals\Organic\Transformation
-coke production,coal gas,material,Chemicals\Organic\Transformation
-coke production,coal tar,material,Chemicals\Organic\Transformation
 "coke production, dry quenching",sulfur,material,Chemicals\Organic\Transformation
 "coke production, dry quenching",coke,material,Chemicals\Organic\Transformation
 "coke production, dry quenching","steam, in chemical industry",material,Chemicals\Organic\Transformation
@@ -1444,7 +1360,6 @@ concrete slab production,concrete slab,material,Construction\Concrete\Transforma
 "concrete, all types to generic market for concrete, medium strength","concrete, medium strength",material,Construction\Concrete\Market
 "concrete, all types to generic market for concrete, normal strength","concrete, normal strength",material,Construction\Concrete\Transformation
 condenser epr,condenser epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-condenser epr,condenser epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 construction,rock wool factory,material,Others\Obsolete
 construction,sawmill,material,Others\Obsolete
 "construction work, heat and power co-generation unit, 160kW electrical","construction work, heat and power co-generation unit, 160kW electrical",energy,Cogeneration\Gas\Transformation\Infrastructure
@@ -1502,8 +1417,6 @@ copper carbonate production,copper carbonate,material,Chemicals\Inorganic\Transf
 "copper mine operation and beneficiation, sulfide ore",molybdenite,material,Metals\Non ferro\Transformation
 "copper mine operation and beneficiation, sulfide ore","copper concentrate, sulfide ore",material,Minerals\Transformation
 "copper mine operation and beneficiation, sulfide ore",rhenium,material,Minerals\Transformation
-"copper mine operation and beneficiation, sulfide ore",rhenium,material,Minerals\Transformation
-"copper mine operation and beneficiation, sulfide ore",rhenium,material,Minerals\Transformation
 "copper mine operation, sulfide ore","copper concentrate, sulfide ore",material,Others\Obsolete
 "copper mine operation, sulfide ore",molybdenite,material,Others\Obsolete
 copper oxide production,copper oxide,material,Chemicals\Inorganic\Transformation
@@ -1556,7 +1469,6 @@ cryolite production,cryolite,material,Chemicals\Inorganic\Transformation
 "cryolite production, from fluosilicic acid",silica sand,material,Chemicals\Inorganic\Transformation
 "cucumber production, in heated greenhouse",cucumber,material,Agricultural\Plant production\Vegetables\Transformation
 cumene production,cumene,material,Chemicals\Organic\Transformation
-"cumene production, benzene alkylation",cumene,material,Chemicals\Organic\Transformation
 "cumene production, benzene alkylation",cumene,material,Chemicals\Organic\Transformation
 curing agent 97652 production,curing agent 97652,material,Chemicals\Organic\Transformation
 "current collector production, for vrfb system","current collector, for vrfb system",material,Chemicals\Organic\Transformation
@@ -1677,7 +1589,6 @@ diesel-electric generating set production 18.5kW,"diesel-electric generating set
 "diesel, with particle filter","transport, freight train",transport,Others\Obsolete
 diethyl ether production,"diethyl ether, without water, in 99.95% solution state",material,Chemicals\Organic\Transformation
 diethyl ether production,"water, decarbonised",material,Water\Industry water\Transformation
-"diethylenetriaminepentaacetic acid production, alkaline cyanomethylation of diethylenetriamine","dtpa, diethylenetriaminepentaacetic acid",material,Water\Industry water\Transformation
 "diethylenetriaminepentaacetic acid production, alkaline cyanomethylation of diethylenetriamine","dtpa, diethylenetriaminepentaacetic acid",material,Water\Industry water\Transformation
 "digester sludge, Recycled Content cut-off",digester sludge,material,Chemicals\Organic\Transformation
 dimethenamide production,dimethenamide,material,Chemicals\Pesticides\Transformation
@@ -2144,10 +2055,6 @@ epoxy paint primer/topcoat production,epoxy paint primer/topcoat,material,Chemic
 epoxy resin production,epoxy resin,material,Others\Obsolete
 "epoxy resin production, liquid","epoxy resin, liquid",material,Chemicals\Organic\Transformation
 epr construction,epr construction,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-epr construction,epr construction,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-epr construction,epr construction,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-epr decommissioning,epr decommissioning,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-epr decommissioning,epr decommissioning,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 epr decommissioning,epr decommissioning,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 erbium oxide to generic market for mischmetal,mischmetal,material,Metals\Non ferro\Market
 establishing orchard,establishing orchard,material,Agricultural\Plant production\Other\Transformation
@@ -2331,7 +2238,6 @@ ethylene bromide production,ethylene bromide,material,Chemicals\Organic\Transfor
 ethylene carbonate production,ethylene carbonate,material,Chemicals\Organic\Transformation
 "ethylene diamine production, from ethanolamine",ethylene diamine,material,Fuels\Biofuels\Ethanol\Transformation
 "ethylene diamine production, from ethylene dichloride",ethylene diamine,material,Fuels\Biofuels\Ethanol\Transformation
-"ethylene diamine production, from ethylene dichloride",ethylene diamine,material,Fuels\Biofuels\Ethanol\Transformation
 ethylene dichloride production,ethylene dichloride,material,Chemicals\Organic\Transformation
 ethylene glycol diethyl ether production,ethylene glycol diethyl ether,material,Chemicals\Organic\Transformation
 ethylene glycol dimethyl ether production,ethylene glycol dimethyl ether,material,Chemicals\Organic\Transformation
@@ -2342,13 +2248,9 @@ ethylene glycol production,triethylene glycol,material,Chemicals\Organic\Transfo
 "ethylene glycols production, thermal hydrolysis of ethylene oxide",diethylene glycol,material,Chemicals\Organic\Transformation
 "ethylene glycols production, thermal hydrolysis of ethylene oxide",ethylene glycol,material,Chemicals\Organic\Transformation
 "ethylene glycols production, thermal hydrolysis of ethylene oxide",triethylene glycol,material,Chemicals\Organic\Transformation
-"ethylene glycols production, thermal hydrolysis of ethylene oxide",triethylene glycol,material,Chemicals\Organic\Transformation
-"ethylene glycols production, thermal hydrolysis of ethylene oxide",diethylene glycol,material,Chemicals\Organic\Transformation
-"ethylene glycols production, thermal hydrolysis of ethylene oxide",ethylene glycol,material,Chemicals\Organic\Transformation
 ethylene hydration,"diethyl ether, without water, in 99.95% solution state",material,Chemicals\Organic\Transformation
 ethylene hydration,"ethanol, without water, in 99.7% solution state, from ethylene",material,Chemicals\Organic\Transformation
 ethylene oxide production,ethylene oxide,material,Chemicals\Organic\Transformation
-"ethylene oxide production, ethylene oxidation",ethylene oxide,material,Chemicals\Organic\Transformation
 "ethylene oxide production, ethylene oxidation",ethylene oxide,material,Chemicals\Organic\Transformation
 "ethylene production, average",ethylene,material,Chemicals\Organic\Transformation
 "ethylene production, pipeline system","ethylene, pipeline system",material,Chemicals\Organic\Transformation
@@ -2356,7 +2258,6 @@ ethylene vinyl acetate copolymer production,ethylene vinyl acetate copolymer,mat
 ethylenediamine production,ethylenediamine,material,Others\Obsolete
 "ethylenediamine production, from ethanolamine",ethylenediamine,material,Chemicals\Organic\Transformation
 "ethylenediamine production, from ethylene dichloride",ethylenediamine,material,Chemicals\Organic\Transformation
-"ethylenediaminetetraacetic acid production, alkaline cyanomethylation of ethylenediamine","edta, ethylenediaminetetraacetic acid",material,Chemicals\Organic\Transformation
 "ethylenediaminetetraacetic acid production, alkaline cyanomethylation of ethylenediamine","edta, ethylenediaminetetraacetic acid",material,Chemicals\Organic\Transformation
 "ethylvinylacetate production, foil","ethylvinylacetate, foil",material,Plastics\Thermoplasts\Transformation
 "eucalyptus seedling production, in heated greenhouse","eucalyptus seedling, for planting",material,Agricultural\Plant seeds\Transformation
@@ -2529,7 +2430,6 @@ field application of potassium nitrate,"potassium fertiliser, as K2O",material,O
 "finishing, textile, knit cotton","finishing, textile, knit cotton",processing,Textiles\Transformation
 "finishing, textile, woven cotton","finishing, textile, woven cotton",processing,Textiles\Transformation
 fire figting equipment ti epr,fire figting equipment ti epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-fire figting equipment ti epr,fire figting equipment ti epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 "fire suppression system production, for lis battery",fire suppression system,material,Electronics\Battery\Transformation
 fish canning plant construction and maintenance,fish canning plant,material,Agricultural\Food\Transformation\Infrastructure
 "fish canning, large fish","fish canning, large fish",processing,Agricultural\Transformation
@@ -2600,8 +2500,6 @@ forklift operation,forklift operation,material,Others\Obsolete
 "formaldehyde production, methanol oxidation","steam, in chemical industry",material,Fuels\Biofuels\Ethanol\Transformation
 "formaldehyde production, methanol oxidation ",formaldehyde,material,Fuels\Biofuels\Ethanol\Transformation
 "formaldehyde production, methanol oxidation ","steam, in chemical industry",material,Fuels\Biofuels\Ethanol\Transformation
-"formaldehyde production, methanol oxidation ","steam, in chemical industry",material,Fuels\Biofuels\Ethanol\Transformation
-"formaldehyde production, methanol oxidation ",formaldehyde,material,Fuels\Biofuels\Ethanol\Transformation
 "formic acid production, methyl formate route",formic acid,material,Chemicals\Acids (organic)\Transformation
 forwarder production,forwarder,transport,Road\Transformation\Infrastructure
 "forwarder production, with terrain chipper",terrain chipper on forwarder,transport,Road\Transformation\Infrastructure
@@ -2626,7 +2524,6 @@ fosetyl-Al production,sodium nitrate,material,Chemicals\Pesticides\Transformatio
 "fuel cell production, stack solid oxide, 125kW electrical, future","fuel cell, stack solid oxide, 125kW electrical, future",energy,Cogeneration\Gas\Transformation\Infrastructure
 "fuel cell stack production, 1 kwe, proton exchange membrane (pem)","fuel cell stack, 1 kwe, proton exchange membrane (pem)",energy,Cogeneration\Gas\Transformation\Infrastructure
 "fuel cell system assembly, 1 kwe, proton exchange membrane (pem)","fuel cell system, 1 kwe, proton exchange membrane (pem)",energy,Cogeneration\Gas\Transformation\Infrastructure
-"fuel elements pwr, uo2 4.8% & mox, at nuclear fuel fabrication plant","fuel elements pwr, uo2 4.8% & mox, at nuclear fuel fabrication plant",material,Others\Obsolete
 "fuel elements pwr, uo2 4.8% & mox, at nuclear fuel fabrication plant","fuel elements pwr, uo2 4.8% & mox, at nuclear fuel fabrication plant",material,Others\Obsolete
 fuel supply for gasoline vehicles,gasoline blend,transport,Road\Transformation\Infrastructure
 "fuel tank assembly, compressed hydrogen gas, 700bar","fuel tank, compressed hydrogen gas, 700bar",transport,Road\Transformation\Infrastructure
@@ -2706,7 +2603,6 @@ gas-to-liquid plant construction,gas-to-liquid plant,material,Fuels\Others\Trans
 "gasoline production, synthetic, from methanol, hydrogen from electrolysis, CO2 from DAC, economic allocation, at fuelling station","gasoline, synthetic, vehicle grade",material,Fuels\Others\Transformation
 "gasoline production, synthetic, from methanol, hydrogen from electrolysis, CO2 from DAC, energy allocation, at fuelling station","gasoline, synthetic, vehicle grade",material,Fuels\Biofuels\Ethanol\Transformation
 "gearbox, for lorry","gearbox, for lorry",transport,Road\Transformation\Infrastructure
-generator epr,generator epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 generator epr,generator epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 "generator production, 200kW electrical","generator, 200kW electrical",energy,Cogeneration\Gas\Transformation\Infrastructure
 "generator production, mini CHP plant","generator, mini CHP plant",energy,Cogeneration\Gas\Transformation\Infrastructure
@@ -3172,12 +3068,8 @@ housing assembly for home storage system,housing for home storage system,materia
 "housing system construction, pig, electricity from renewable energy products","housing system, pig, per pig place, electricity from renewable energy products",processing,Agricultural\Transformation\Infrastructure
 "housing system construction, pig, fully-slatted floor","housing system, pig, fully-slatted floor, per pig place",processing,Agricultural\Transformation\Infrastructure
 hvac ducts,hvac ducts,transport,Building equipment\Transformation\Infrastructure
-hvac ducts,hvac ducts,transport,Building equipment\Transformation\Infrastructure
-hvac equipment,hvac equipment,transport,Building equipment\Transformation\Infrastructure
 hvac equipment,hvac equipment,transport,Building equipment\Transformation\Infrastructure
 hvac fire damper,hvac fire damper,transport,Building equipment\Transformation\Infrastructure
-hvac fire damper,hvac fire damper,transport,Building equipment\Transformation\Infrastructure
-hvac ventilator,hvac ventilator,transport,Building equipment\Transformation\Infrastructure
 hvac ventilator,hvac ventilator,transport,Building equipment\Transformation\Infrastructure
 hydraulic digger production,hydraulic digger,transport,Building equipment\Transformation\Infrastructure
 "hydraulic fluid production, for geological stimulation",hydraulic fracturing fluid,material,Chemicals\Others\Transformation
@@ -3185,29 +3077,17 @@ hydrazine production,hydrazine,material,Chemicals\Inorganic\Transformation
 hydrazine sulfate production,hydrazine sulfate,material,Chemicals\Inorganic\Transformation
 "hydrocarbons purification, molecular sieve separation of naphtha ","1,1-dimethylcyclopentane",material,Chemicals\Organic\Transformation
 "hydrocarbons purification, molecular sieve separation of naphtha ",fraction 8 from naphtha separation,material,Chemicals\Organic\Transformation
-"hydrocarbons purification, molecular sieve separation of naphtha ",fraction 8 from naphtha separation,material,Chemicals\Organic\Transformation
 "hydrocarbons purification, molecular sieve separation of naphtha ",fraction 1 from naphtha separation,material,Chemicals\Organic\Transformation
 "hydrocarbons purification, molecular sieve separation of naphtha ","2,3-dimethylbutane",material,Chemicals\Organic\Transformation
 "hydrocarbons purification, molecular sieve separation of naphtha ",heptane,material,Chemicals\Organic\Transformation
 "hydrocarbons purification, molecular sieve separation of naphtha ",fraction 7 from naphtha separation,material,Chemicals\Organic\Transformation
-"hydrocarbons purification, molecular sieve separation of naphtha ","2,3-dimethylbutane",material,Chemicals\Organic\Transformation
-"hydrocarbons purification, molecular sieve separation of naphtha ",heptane,material,Chemicals\Organic\Transformation
 "hydrocarbons purification, molecular sieve separation of naphtha ",2-methylpentane,material,Chemicals\Organic\Transformation
 "hydrocarbons purification, molecular sieve separation of naphtha ",hexane,material,Chemicals\Organic\Transformation
-"hydrocarbons purification, molecular sieve separation of naphtha ",hexane,material,Chemicals\Organic\Transformation
-"hydrocarbons purification, molecular sieve separation of naphtha ",fraction 1 from naphtha separation,material,Chemicals\Organic\Transformation
-"hydrocarbons purification, molecular sieve separation of naphtha ",2-methylpentane,material,Chemicals\Organic\Transformation
-"hydrocarbons purification, molecular sieve separation of naphtha ",fraction 7 from naphtha separation,material,Chemicals\Organic\Transformation
-"hydrocarbons purification, molecular sieve separation of naphtha ","1,1-dimethylcyclopentane",material,Chemicals\Organic\Transformation
-"hydrocarbons purification, molecular sieve separation of naphtha ",methylcyclopentane,material,Chemicals\Organic\Transformation
-"hydrocarbons purification, molecular sieve separation of naphtha ",methylcyclohexane,material,Chemicals\Organic\Transformation
 "hydrocarbons purification, molecular sieve separation of naphtha ",methylcyclopentane,material,Chemicals\Organic\Transformation
 "hydrocarbons purification, molecular sieve separation of naphtha ",methylcyclohexane,material,Chemicals\Organic\Transformation
 "hydrocarbons, aromatic, cyclic (c9+) to generic market for residual hydrocarbon mix, from steam cracking operations","residual hydrocarbon mix, from steam cracking operations",material,Chemicals\Organic\Transformation
 "hydrochloric acid production, from the reaction of hydrogen with chlorine","hydrochloric acid, without water, in 30% solution state",material,Chemicals\Acids (inorganic)\Transformation
 "hydrochloric acid production, mannheim process","sodium sulfate, anhydrite",material,Chemicals\Acids (inorganic)\Transformation
-"hydrochloric acid production, mannheim process","sodium sulfate, anhydrite",material,Chemicals\Acids (inorganic)\Transformation
-"hydrochloric acid production, mannheim process","hydrochloric acid, without water, in 30% solution state",material,Chemicals\Acids (inorganic)\Transformation
 "hydrochloric acid production, mannheim process","hydrochloric acid, without water, in 30% solution state",material,Chemicals\Acids (inorganic)\Transformation
 hydroformylation of butene,1-pentanol,material,Chemicals\Organic\Transformation
 hydroformylation of butene,2-methyl-1-butanol,material,Chemicals\Organic\Transformation
@@ -3312,7 +3192,6 @@ hydrogenation of hydrogen,"hydrogen, hydrogenated",material,Fuels\Others\Transfo
 hydroquinone production,hydroquinone,material,Chemicals\Organic\Transformation
 hydroxylamine production,hydroxylamine,material,Chemicals\Inorganic\Transformation
 i&c cabinet,i&c cabinet,material,Others\Obsolete
-i&c cabinet,i&c cabinet,material,Others\Obsolete
 "ibis fasteners production, for li-o2 battery",ibis fasteners,material,Electronics\Battery\Transformation
 "ibis fasteners production, for lis battery",ibis fasteners,material,Electronics\Battery\Transformation
 "ibis production, for li-o2 battery",ibis,material,Electronics\Battery\Transformation
@@ -3378,13 +3257,7 @@ indolylbutyric acid production,indolylbutyric acid,material,Chemicals\Acids (org
 "industrial furnace production, natural gas","industrial furnace, natural gas",energy,Heat\Gas\Transformation\Infrastructure
 "industrial gases production, cryogenic air separation","nitrogen, liquid",energy,Heat\Gas\Transformation\Infrastructure
 "industrial gases production, cryogenic air separation","oxygen, liquid",energy,Heat\Gas\Transformation\Infrastructure
-"industrial gases production, cryogenic air separation","nitrogen, liquid",energy,Heat\Gas\Transformation\Infrastructure
 "industrial gases production, cryogenic air separation","argon, crude, liquid",energy,Heat\Gas\Transformation\Infrastructure
-"industrial gases production, cryogenic air separation","oxygen, liquid",energy,Heat\Gas\Transformation\Infrastructure
-"industrial gases production, cryogenic air separation","argon, crude, liquid",energy,Heat\Gas\Transformation\Infrastructure
-"industrial gases production, cryogenic air separation","argon, crude, liquid",energy,Heat\Gas\Transformation\Infrastructure
-"industrial gases production, cryogenic air separation","nitrogen, liquid",energy,Heat\Gas\Transformation\Infrastructure
-"industrial gases production, cryogenic air separation","oxygen, liquid",energy,Heat\Gas\Transformation\Infrastructure
 "industrial machine production, heavy, unspecified","industrial machine, heavy, unspecified",transport,Building equipment\Transformation\Infrastructure
 inert material landfill construction,inert material landfill,processing,Waste\Transformation\Infrastructure
 "infrastructure construction, for regional distribution of oil product","infrastructure, for regional distribution of oil product",material,Fuels\Oil\Crude oil\Transformation\Infrastructure
@@ -3449,7 +3322,6 @@ iron-nickel-chromium alloy production,iron-nickel-chromium alloy,material,Metals
 iron(II) chloride production,iron(II) chloride,material,Chemicals\Inorganic\Transformation
 "iron(III) chloride production, product in 40% solution state","iron (III) chloride, without water, in 40% solution state",material,Chemicals\Inorganic\Transformation
 "iron(iii) chloride production, product in 40% solution state","iron(iii) chloride, without water, in 40% solution state",material,Chemicals\Inorganic\Transformation
-"iron(iii) chloride production, product in 40% solution state","iron(iii) chloride, without water, in 40% solution state",material,Chemicals\Inorganic\Transformation
 "iron(III) chloride production, without water, in 12% iron solution state","iron(III) chloride, without water, in a 12% iron solution state",material,Chemicals\Inorganic\Transformation
 "iron(III) chloride production, without water, in 14% iron solution state","iron(III) chloride, without water, in 14% iron solution state",material,Chemicals\Inorganic\Transformation
 "iron(III) sulfate production, without water, in 12.5% iron solution state","iron(III) sulfate, without water, in 12.5% iron solution state",material,Chemicals\Inorganic\Transformation
@@ -3459,7 +3331,6 @@ irrigation,irrigation,processing,Others\Obsolete
 "irrigation, surface",irrigation,processing,Agricultural\Transformation
 isobutyl acetate production,isobutyl acetate,material,Chemicals\Organic\Transformation
 isohexane production,isohexane,material,Chemicals\Organic\Transformation
-isolated phase bus,isolated phase bus,material,Electronics\Battery\Transformation
 isolated phase bus,isolated phase bus,material,Electronics\Battery\Transformation
 isophorondiisocyanate production,isophorondiisocyante,material,Chemicals\Organic\Transformation
 isophthalic acid based unsaturated polyester resin production,isophthalic acid based unsaturated polyester resin,material,Chemicals\Organic\Transformation
@@ -3757,11 +3628,9 @@ lithium brine inspissation,"lithium brine, 6.7 % Li",material,Chemicals\Inorgani
 "lithium brine production, sulfate removal, from salar de cauchari-olaroz","lithium brine, sulfate-free",material,Chemicals\Inorganic\Transformation
 "lithium brine purifying, via membrane separation","lithium brine, purified",material,Chemicals\Inorganic\Transformation
 lithium carbonate precipitation 1,"lithium carbonate, precipitated",material,Chemicals\Inorganic\Transformation
-lithium carbonate precipitation 1,"lithium carbonate, precipitated",material,Chemicals\Inorganic\Transformation
 "lithium carbonate precipitation 1, from salar de cauchari-olaroz","lithium carbonate, precipitated",material,Chemicals\Inorganic\Transformation
 "lithium carbonate precipitation 1, from salar de olaroz","lithium carbonate, precipitated",material,Chemicals\Inorganic\Transformation
 "lithium carbonate precipitation 1, from salar del hombre muerto","lithium carbonate, precipitated",material,Chemicals\Inorganic\Transformation
-lithium carbonate precipitation 2,"lithium carbonate, precipitated",material,Chemicals\Inorganic\Transformation
 lithium carbonate precipitation 2,"lithium carbonate, precipitated",material,Chemicals\Inorganic\Transformation
 "lithium carbonate precipitation 2, from salar de cauchari-olaroz","lithium carbonate, precipitated",material,Chemicals\Inorganic\Transformation
 "lithium carbonate precipitation 2, from salar de olaroz","lithium carbonate, precipitated",material,Chemicals\Inorganic\Transformation
@@ -4463,7 +4332,6 @@ market for acrylic acid,acrylic acid,material,Chemicals\Acids (organic)\Market
 "market for acrylic binder, with water, in 54% solution state","acrylic binder, with water, in 54% solution state",material,Chemicals\Organic\Market
 "market for acrylic dispersion, with water, in 58% solution","acrylic dispersion, with water, in 58% solution state",material,Chemicals\Organic\Market
 "market for acrylic dispersion, with water, in 58% solution state","acrylic dispersion, with water, in 58% solution state",material,Chemicals\Organic\Market
-"market for acrylic dispersion, with water, in 58% solution state","acrylic dispersion, with water, in 58% solution state",material,Chemicals\Organic\Market
 market for acrylic filler,acrylic filler,material,Construction\Coverings\Market
 "market for acrylic varnish, with water, in 53% solution state","acrylic varnish, with water, in 53% solution state",material,Construction\Paints\Market
 market for acrylonitrile,acrylonitrile,material,Chemicals\Organic\Market
@@ -4475,7 +4343,6 @@ market for adhesive mortar,adhesive mortar,material,Construction\Binders\Market
 "market for adhesive, for metal","adhesive, for metal",material,Chemicals\Others\Market
 market for adipic acid,adipic acid,material,Chemicals\Acids (organic)\Market
 market for adiponitrile,adiponitrile,material,Chemicals\Organic\Market
-market for adobe brick,adobe brick,material,Others\Obsolete
 market for adobe brick,adobe brick,material,Others\Obsolete
 "market for agricultural machinery, tillage","agricultural machinery, tillage",processing,Agricultural\Market\Infrastructure
 "market for agricultural machinery, unspecified","agricultural machinery, unspecified",processing,Agricultural\Market\Infrastructure
@@ -4771,7 +4638,6 @@ market for blast furnace sludge,blast furnace sludge,waste treatment,Others\Mark
 "market for blast furnace sludge, for recovery_obsolete","blast furnace sludge, for recovery",waste treatment,Others\Obsolete
 market for blast oxygen furnace converter,blast oxygen furnace converter,material,Metals\Ferro\Market\Infrastructure
 market for blasting,blasting,processing,Others\Market
-market for bleach,bleach,processing,Textiles\Market
 market for bleach,bleach,processing,Textiles\Market
 "market for bleaching and dyeing, yarn","bleaching and dyeing, yarn",processing,Textiles\Market
 "market for bleaching, textile","bleaching, textile",processing,Textiles\Market
@@ -5239,7 +5105,6 @@ market for chloroacetic acid,chloroacetic acid,material,Chemicals\Acids (organic
 market for chloroacetyl chloride,chloroacetyl chloride,material,Chemicals\Organic\Market
 market for chlorodifluoromethane,chlorodifluoromethane,material,Chemicals\Organic\Market
 market for chloroform,chloroform,material,Chemicals\Organic\Market
-market for chloroform,chloroform,material,Chemicals\Organic\Market
 market for chloromethyl methyl ether,chloromethyl methyl ether,material,Chemicals\Organic\Market
 market for chloronitrobenzene,chloronitrobenzene,material,Chemicals\Organic\Market
 market for chloropropionic acid,chloropropionic acid,material,Chemicals\Acids (organic)\Market
@@ -5271,7 +5136,6 @@ market for clay,clay,material,Minerals\Market
 market for clay brick,clay brick,material,Construction\Bricks\Market
 market for clay pit infrastructure,clay pit infrastructure,material,Minerals\Market\Infrastructure
 market for clay plaster,clay plaster,material,Construction\Coverings\Market
-market for clay roof tile,clay roof tile,material,Construction\Coverings\Market
 market for clay roof tile,clay roof tile,material,Construction\Coverings\Market
 "market for cleaning consumables, without water, in 13.6% solution state","cleaning consumables, without water, in 13.6% solution state",material,Chemicals\Others\Market
 "market for cleft timber, measured as dry mass","cleft timber, measured as dry mass",material,Wood\Extraction\Market
@@ -5627,7 +5491,6 @@ market for ethylamine,ethylamine,material,Chemicals\Organic\Market
 market for ethylene,ethylene,material,Chemicals\Organic\Market
 market for ethylene bromide,ethylene bromide,material,Chemicals\Organic\Market
 market for ethylene carbonate,ethylene carbonate,material,Chemicals\Organic\Market
-market for ethylene diamine,ethylene diamine,material,Chemicals\Organic\Market
 market for ethylene diamine,ethylene diamine,material,Chemicals\Organic\Market
 market for ethylene dichloride,ethylene dichloride,material,Chemicals\Organic\Market
 market for ethylene glycol,ethylene glycol,material,Chemicals\Organic\Market
@@ -6206,57 +6069,31 @@ market for lauric diethanolamide,lauric diethanolamide,material,Chemicals\Organi
 market for leach residue from copper production,leach residue from copper production,waste treatment,Others\Market
 "market for leachate, SLF, hard coal ash","leachate, SLF, hard coal ash",waste treatment,Landfill\Slag compartment\Transformation
 "market for leachate, slf, inert waste","leachate, slf, inert waste",waste treatment,Landfill\Slag compartment\Transformation
-"market for leachate, slf, inert waste","leachate, slf, inert waste",waste treatment,Landfill\Slag compartment\Transformation
 "market for leachate, SLF, lignite ash","leachate, SLF, lignite ash",waste treatment,Landfill\Slag compartment\Transformation
-"market for leachate, slf, municipal solid waste","leachate, slf, municipal solid waste",waste treatment,Landfill\Slag compartment\Transformation
-"market for leachate, slf, municipal solid waste","leachate, slf, municipal solid waste",waste treatment,Landfill\Slag compartment\Transformation
 "market for leachate, slf, municipal solid waste","leachate, slf, municipal solid waste",waste treatment,Landfill\Slag compartment\Transformation
 "market for leachate, SLF, refinery sludge","leachate, SLF, refinery sludge",waste treatment,Biowaste\Transformation
 "market for leachate, SLF, residue from cooling tower","leachate, SLF, residue from cooling tower",waste treatment,Others\Transformation
 "market for leachate, slf, scrap tin sheet","leachate, slf, scrap tin sheet",waste treatment,Others\Transformation
-"market for leachate, slf, scrap tin sheet","leachate, slf, scrap tin sheet",waste treatment,Others\Transformation
-"market for leachate, slf, scrap tin sheet","leachate, slf, scrap tin sheet",waste treatment,Others\Transformation
 "market for leachate, SLF, sludge from pulp and paper production","leachate, SLF, sludge from pulp and paper production",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste aluminium","leachate, slf, waste aluminium",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste aluminium","leachate, slf, waste aluminium",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste asphalt","leachate, slf, waste asphalt",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste asphalt","leachate, slf, waste asphalt",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste bitumen","leachate, slf, waste bitumen",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste bitumen","leachate, slf, waste bitumen",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste bitumen","leachate, slf, waste bitumen",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste emulsion paint","leachate, slf, waste emulsion paint",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste emulsion paint","leachate, slf, waste emulsion paint",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste emulsion paint","leachate, slf, waste emulsion paint",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste glass","leachate, slf, waste glass",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste graphical paper","leachate, slf, waste graphical paper",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste graphical paper","leachate, slf, waste graphical paper",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste gypsum","leachate, slf, waste gypsum",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste gypsum","leachate, slf, waste gypsum",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste gypsum","leachate, slf, waste gypsum",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste newspaper","leachate, slf, waste newspaper",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste packaging paper","leachate, slf, waste packaging paper",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste paint","leachate, slf, waste paint",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste paint","leachate, slf, waste paint",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste paint","leachate, slf, waste paint",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste paperboard","leachate, slf, waste paperboard",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste paperboard","leachate, slf, waste paperboard",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste plastic plaster","leachate, slf, waste plastic plaster",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste plastic plaster","leachate, slf, waste plastic plaster",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste plastic, mixture","leachate, slf, waste plastic, mixture",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste plastic, mixture","leachate, slf, waste plastic, mixture",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste polyethylene","leachate, slf, waste polyethylene",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste polyethylene","leachate, slf, waste polyethylene",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste polyethylene terephthalate","leachate, slf, waste polyethylene terephthalate",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste polyethylene terephthalate","leachate, slf, waste polyethylene terephthalate",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste polypropylene","leachate, slf, waste polypropylene",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste polypropylene","leachate, slf, waste polypropylene",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste polystyrene","leachate, slf, waste polystyrene",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste polystyrene","leachate, slf, waste polystyrene",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste polyurethane","leachate, slf, waste polyurethane",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste polyurethane","leachate, slf, waste polyurethane",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste polyvinylchloride","leachate, slf, waste polyvinylchloride",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste polyvinylchloride","leachate, slf, waste polyvinylchloride",waste treatment,Biowaste\Transformation
-"market for leachate, slf, waste wood, untreated","leachate, slf, waste wood, untreated",waste treatment,Biowaste\Transformation
 "market for leachate, slf, waste wood, untreated","leachate, slf, waste wood, untreated",waste treatment,Biowaste\Transformation
 "market for leachate, SLF, wood ash mixture, pure","leachate, SLF, wood ash mixture, pure",waste treatment,Landfill\Slag compartment\Transformation
 "market for leachate, slf[w], waste plastic, consumer electronics","leachate, slf[w], waste plastic, consumer electronics",waste treatment,Landfill\Slag compartment\Transformation
@@ -6663,7 +6500,6 @@ market for o-nitrophenol,o-nitrophenol,material,Chemicals\Organic\Market
 market for o-nitrotoluene,o-nitrotoluene,material,Chemicals\Organic\Market
 market for o-phenylene diamine,o-phenylene diamine,material,Chemicals\Organic\Market
 market for o-xylene,o-xylene,material,Chemicals\Organic\Market
-market for o-xylene,o-xylene,material,Chemicals\Organic\Market
 market for oat grain,oat grain,material,Agricultural\Plant production\Cereals\Market
 "market for oat grain, feed","oat grain, feed",material,Agricultural\Animal feed\Market
 "market for oat seed, for sowing","oat seed, for sowing",material,Agricultural\Plant seeds\Market
@@ -6739,7 +6575,6 @@ market for p-dichlorobenzene,p-dichlorobenzene,material,Chemicals\Organic\Market
 market for p-nitrophenol,p-nitrophenol,material,Chemicals\Organic\Market
 market for p-nitrotoluene,p-nitrotoluene,material,Chemicals\Organic\Market
 market for p-phenylene diamine,p-phenylene diamine,material,Chemicals\Organic\Market
-market for p-xylene,p-xylene,material,Chemicals\Organic\Market
 market for p-xylene,p-xylene,material,Chemicals\Organic\Market
 market for packaging box factory,packaging box factory,material,Paper+ Board\Packagings\Market\Infrastructure
 "market for packaging film, low density polyethylene","packaging film, low density polyethylene",material,Plastics\Thermoplasts\Market
@@ -6946,9 +6781,7 @@ market for polydimethylsiloxane,polydimethylsiloxane,material,Chemicals\Silicons
 "market for polyester resin, unsaturated","polyester resin, unsaturated",material,Chemicals\Organic\Market
 market for polyester-complexed starch biopolymer,polyester-complexed starch biopolymer,material,Plastics\Biopolymers\Market
 "market for polyether polyols, long chain","polyether polyols, long chain",material,Plastics\Biopolymers\Market
-"market for polyether polyols, long chain","polyether polyols, long chain",material,Plastics\Biopolymers\Market
 "market for polyether polyols, long chain, isopa","polyether polyols, long chain, isopa",material,Plastics\Biopolymers\Market
-"market for polyether polyols, short chain","polyether polyols, short chain",material,Plastics\Biopolymers\Market
 "market for polyether polyols, short chain","polyether polyols, short chain",material,Plastics\Biopolymers\Market
 "market for polyether polyols, short chain, isopa","polyether polyols, short chain, isopa",material,Plastics\Biopolymers\Market
 "market for polyethylene pipe, corrugated, DN 75","polyethylene pipe, corrugated, DN 75",material,Construction\Ventilation\Market
@@ -7458,7 +7291,6 @@ market for sanitary landfill facility,sanitary landfill facility,processing,Wast
 "market for sawlog and veneer log, paranÃ¡ pine, measured as solid wood under bark","sawlog and veneer log, paranÃ¡ pine, measured as solid wood under bark",material,Wood\Extraction\Market
 "market for sawlog and veneer log, parana pine, measured as solid wood under bark","sawlog and veneer log, parana pine, measured as solid wood under bark",material,Wood\Extraction\Market
 "market for sawlog and veneer log, paran‡ pine, measured as solid wood under bark","sawlog and veneer log, paran‡ pine, measured as solid wood under bark",material,Wood\Extraction\Market
-"market for sawlog and veneer log, paran‡ pine, measured as solid wood under bark","sawlog and veneer log, paran‡ pine, measured as solid wood under bark",material,Wood\Extraction\Market
 "market for sawlog and veneer log, softwood, debarked, measured as solid wood","sawlog and veneer log, softwood, debarked, measured as solid wood",material,Wood\Extraction\Market
 "market for sawlog and veneer log, softwood, measured as solid wood under bark","sawlog and veneer log, softwood, measured as solid wood under bark",material,Wood\Extraction\Market
 market for sawmill,sawmill,material,Wood\Products\Market\Infrastructure
@@ -7497,7 +7329,6 @@ market for sawmill,sawmill,material,Wood\Products\Market\Infrastructure
 "market for sawnwood, parana pine from sustainable forest management, kiln dried","sawnwood, parana pine from sustainable forest management, kiln dried",material,Others\Obsolete
 "market for sawnwood, parana pine from sustainable forest management, kiln dried_obsolete","sawnwood, parana pine from sustainable forest management, kiln dried",material,Others\Obsolete
 "market for sawnwood, parana pine, dried (u=10%)","sawnwood, parana pine, dried (u=10%)",material,Wood\Products\Market
-"market for sawnwood, paran‡ pine, dried (u=10%)","sawnwood, paran‡ pine, dried (u=10%)",material,Wood\Products\Market
 "market for sawnwood, paran‡ pine, dried (u=10%)","sawnwood, paran‡ pine, dried (u=10%)",material,Wood\Products\Market
 "market for sawnwood, softwood, dried (u=10%), planed","sawnwood, softwood, dried (u=10%), planed",material,Wood\Products\Market
 "market for sawnwood, softwood, dried (u=20%), planed","sawnwood, softwood, dried (u=20%), planed",material,Wood\Products\Market
@@ -8695,7 +8526,6 @@ market for woven bamboo mat,woven bamboo mat,material,Wood\Products\Market
 "market for xenon, gaseous","xenon, gaseous",material,Chemicals\Gases\Market
 market for xylene,xylene,material,Chemicals\Organic\Market
 "market for xylene, mixed","xylene, mixed",material,Chemicals\Organic\Market
-"market for xylene, mixed","xylene, mixed",material,Chemicals\Organic\Market
 "market for yarn, cotton","yarn, cotton",material,Textiles\Market
 "market for yarn, jute","yarn, jute",material,Textiles\Market
 "market for yarn, kenaf","yarn, kenaf",material,Textiles\Market
@@ -8757,7 +8587,6 @@ market group for irrigation,irrigation,processing,Agricultural\Market
 "market group for land use change, perennial crop","land use change, perennial crop",processing,Land transformation\Market
 market group for light fuel oil,light fuel oil,material,Fuels\Oil\Fuel oil\Market
 market group for liquefied petroleum gas,liquefied petroleum gas,material,Fuels\Oil\Propane/butane\Market
-market group for maize grain,maize grain,material,Agricultural\Animal feed\Market
 market group for maize grain,maize grain,material,Agricultural\Animal feed\Market
 market group for municipal solid waste,municipal solid waste,waste treatment,Others\Market
 "market group for natural gas, high pressure","natural gas, high pressure",material,Fuels\Natural gas\Market
@@ -8890,7 +8719,6 @@ methyl iodide,methyl iodide,energy,Electricity by fuel\Photovoltaic\Market\Infra
 methyl iodide production,methyl iodide,material,Chemicals\Organic\Transformation
 methyl methacrylate production,methyl methacrylate,material,Chemicals\Organic\Transformation
 methyl t-butyl ether production,methyl t-butyl ether,material,Chemicals\Organic\Transformation
-methyl t-butyl ether production,methyl t-butyl ether,material,Chemicals\Organic\Transformation
 methyl tert-butyl ether production,methyl tert-butyl ether,material,Chemicals\Organic\Transformation
 methyl-3-methoxypropionate production,methyl-3-methoxypropionate,material,Chemicals\Organic\Transformation
 methylamine production,methylamine,material,Chemicals\Organic\Transformation
@@ -8902,7 +8730,6 @@ methylene diphenyl diisocyanate production,methylene diphenyl diisocyanate,mater
 "methylene diphenyl diisocyanate production, isopa","methylene diphenyl diisocyanate, isopa",material,Chemicals\Organic\Transformation
 methylene diphenyldiisocyanate production,methylene diphenyldiisocyanate,material,Others\Obsolete
 methylpyrrolidone production,methylpyrrolidone,material,Others\Obsolete
-methylsulfonic acid production,methylsulfonic acid,material,Others\Obsolete
 methylsulfonic acid production,methylsulfonic acid,material,Others\Obsolete
 metolachlor production,metolachlor,material,Chemicals\Pesticides\Transformation
 "micro gas turbine production, 100kW electrical","micro gas turbine, 100kW electrical",energy,Cogeneration\Gas\Transformation\Infrastructure
@@ -9010,7 +8837,6 @@ motor scooter production,"motor scooter, 50 cubic cm engine",transport,Road\Tran
 "mowing, by rotary mower","mowing, by rotary mower",processing,Agricultural\Transformation
 "mowing, by rotary or sickle mower","mowing, by rotary or sickle mower",processing,Agricultural\Transformation
 "mox fuel element for lwr, at nuclear fuel fabrication plant","mox fuel element for lwr, at nuclear fuel fabrication plant",material,Fuels\Uranium\Fuel element\Transformation
-"mox fuel element for lwr, at nuclear fuel fabrication plant","mox fuel element for lwr, at nuclear fuel fabrication plant",material,Fuels\Uranium\Fuel element\Transformation
 "MOX fuel element production, for light water reactor","mOX fuel element, for light water reactor",material,Fuels\Uranium\Fuel element\Transformation
 mulberry production,mulberry leaves,material,Agricultural\Plant production\Legumes\Transformation
 mulching,mulching,processing,Agricultural\Transformation
@@ -9111,7 +8937,6 @@ mv switchgear and tsg control panel production,mv switchgear and tsg control pan
 N-methyl-2-pyrrolidone production,n-methyl-2-pyrrolidone,material,Chemicals\Organic\Transformation
 n-olefins production,n-olefins,material,Chemicals\Organic\Transformation
 "N,N-dimethylformamide production","n,N-dimethylformamide",material,Chemicals\Organic\Transformation
-"n,n-dimethylformamide production, direct synthesis","n,n-dimethylformamide",material,Chemicals\Organic\Transformation
 "n,n-dimethylformamide production, direct synthesis","n,n-dimethylformamide",material,Chemicals\Organic\Transformation
 nafion membrane production,nafion membrane,material,Others\Obsolete
 "napba active material production, for sib battery",napba active material,material,Electronics\Battery\Transformation
@@ -9263,20 +9088,8 @@ nitro-compound production,nitro-compound,material,Chemicals\Pesticides\Transform
 nitrobenzene production,nitrobenzene,material,Chemicals\Organic\Transformation
 "nitrogen trifluoride, at plant","nitrogen trifluoride, at plant",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "nitrotoluenes production, toluene nitration",o-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",o-nitrotoluene,material,Chemicals\Organic\Transformation
 "nitrotoluenes production, toluene nitration",m-nitrotoluene,material,Chemicals\Organic\Transformation
 "nitrotoluenes production, toluene nitration",p-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",m-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",p-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",p-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",p-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",o-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",p-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",m-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",m-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",o-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",o-nitrotoluene,material,Chemicals\Organic\Transformation
-"nitrotoluenes production, toluene nitration",m-nitrotoluene,material,Chemicals\Organic\Transformation
 nitrous dioxide production,nitrous dioxide,material,Chemicals\Gases\Transformation
 nitrous oxide production,nitrous oxide,material,Chemicals\Gases\Transformation
 "NMC111 hydroxide production, for Li-ion battery","sodium sulfate, anhydrite",material,Chemicals\Inorganic\Transformation
@@ -9305,7 +9118,6 @@ NPK (26-15-15) fertiliser production,nPK (26-15-15) fertiliser,material,Chemical
 "nuclear fuel element production, for pressure water reactor, UO2 4.2% & MOX","nuclear fuel element, for pressure water reactor, UO2 4.2% & MOX",material,Fuels\Uranium\Fuel element\Transformation
 "nuclear fuel element production, for pressure water reactor, UO2 4.2% centrifuge & MOX","nuclear fuel element, for pressure water reactor, UO2 4.2% centrifuge & MOX",material,Fuels\Uranium\Fuel element\Transformation
 nuclear fuel factory construction,nuclear fuel factory,material,Fuels\Uranium\Enriched\Transformation\Infrastructure
-nuclear island epr,nuclear island epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 nuclear island epr,nuclear island epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 "nuclear power plant construction, boiling water reactor 1000MW","nuclear power plant, boiling water reactor 1000MW",energy,Electricity by fuel\Nuclear\BWR\Transformation\Infrastructure
 "nuclear power plant construction, pressure water reactor 650MW","nuclear power plant, pressure water reactor, 650MW",energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
@@ -9409,17 +9221,7 @@ o-cresol production,o-cresol,material,Chemicals\Organic\Transformation
 o-nitrophenol production,o-nitrophenol,material,Chemicals\Organic\Transformation
 o-phenylene diamine production,o-phenylene diamine,material,Others\Obsolete
 oat grain production,oat grain,material,Agricultural\Animal feed\Transformation
-oat grain production,oat grain,material,Agricultural\Animal feed\Transformation
 oat grain production,straw,material,Agricultural\Animal feed\Transformation
-oat grain production,straw,material,Agricultural\Animal feed\Transformation
-oat grain production,oat grain,material,Agricultural\Animal feed\Transformation
-oat grain production,oat grain,material,Agricultural\Animal feed\Transformation
-oat grain production,oat grain,material,Agricultural\Animal feed\Transformation
-oat grain production,oat grain,material,Agricultural\Animal feed\Transformation
-oat grain production,oat grain,material,Agricultural\Animal feed\Transformation
-oat grain production,oat grain,material,Agricultural\Animal feed\Transformation
-oat grain production,oat grain,material,Agricultural\Animal feed\Transformation
-oat grain production,oat grain,material,Agricultural\Animal feed\Transformation
 "oat grain, feed production","oat grain, feed",material,Agricultural\Animal feed\Transformation
 oat production,oat grain,material,Agricultural\Plant production\Cereals\Transformation
 oat production,straw,material,Agricultural\Plant production\Roughage\Transformation
@@ -9900,9 +9702,6 @@ pentaerythritol production in sodium hydroxide solution,sodium formate,material,
 pentane production,pentane,material,Chemicals\Organic\Transformation
 "pentanols production, hydroformylation of butene",2-methyl-1-butanol,material,Chemicals\Organic\Transformation
 "pentanols production, hydroformylation of butene",3-methyl-1-butanol,material,Chemicals\Organic\Transformation
-"pentanols production, hydroformylation of butene",3-methyl-1-butanol,material,Chemicals\Organic\Transformation
-"pentanols production, hydroformylation of butene",2-methyl-1-butanol,material,Chemicals\Organic\Transformation
-"pentanols production, hydroformylation of butene",1-pentanol,material,Chemicals\Organic\Transformation
 "pentanols production, hydroformylation of butene",1-pentanol,material,Chemicals\Organic\Transformation
 perfluoropentane production,perfluoropentane,material,Chemicals\Inorganic\Transformation
 perlite quarry operation,perlite,material,Minerals\Transformation
@@ -9947,8 +9746,6 @@ petroleum refinery operation,petroleum coke,material,Others\Obsolete
 phenol production,"acetone, liquid",material,Others\Obsolete
 phenol production,phenol,material,Others\Obsolete
 "phenol production, cumene oxidation","acetone, liquid",material,Others\Obsolete
-"phenol production, cumene oxidation","acetone, liquid",material,Others\Obsolete
-"phenol production, cumene oxidation",phenol,material,Others\Obsolete
 "phenol production, cumene oxidation",phenol,material,Others\Obsolete
 "phenol production, from cumene","acetone, liquid",material,Chemicals\Organic\Transformation
 "phenol production, from cumene",phenol,material,Chemicals\Organic\Transformation
@@ -10057,7 +9854,6 @@ photovoltaic panel factory construction,photovoltaic panel factory,energy,Electr
 "photovoltaics, electric installation for 570kWp module, open ground","photovoltaics, electric installation for 570kWp module, open ground",energy,Electricity by fuel\Photovoltaic\Transformation\Infrastructure
 phthalic anhydride production,phthalic anhydride,material,Chemicals\Organic\Transformation
 "phthalic anhydride production, o-xylene oxidation",phthalic anhydride,material,Chemicals\Organic\Transformation
-"phthalic anhydride production, o-xylene oxidation",phthalic anhydride,material,Chemicals\Organic\Transformation
 phthalimide production,phthalimide,material,Chemicals\Organic\Transformation
 phthalimide-compound production,phthalimide-compound,material,Chemicals\Pesticides\Transformation
 pig iron production,pig iron,material,Metals\Ferro\Transformation
@@ -10165,8 +9961,6 @@ plastic tunnel construction,plastic tunnel,material,Agricultural\Plant productio
 "platinum group metal, extraction and refinery operations",rhodium,material,Metals\Non ferro\Transformation
 "platinum group metal, extraction and refinery operations",ruthenium,material,Metals\Non ferro\Transformation
 "platinum group metal, extraction and refinery operations",iridium,material,Metals\Non ferro\Transformation
-"platinum group metal, extraction and refinery operations",ruthenium,material,Metals\Non ferro\Transformation
-"platinum group metal, extraction and refinery operations",iridium,material,Metals\Non ferro\Transformation
 "platinum group metal, mine and concentration operations",platinum group metal concentrate,material,Minerals\Transformation
 platinum to generic market for metal catalyst for catalytic converter,metal catalyst for catalytic converter,material,Chemicals\Others\Market
 platinum to generic market for precious metal for jewellery,precious metal for jewellery,material,Others\Obsolete
@@ -10198,9 +9992,7 @@ polydimethylsiloxane production,polydimethylsiloxane,material,Chemicals\Silicons
 "polyester resin production, unsaturated","polyester resin, unsaturated",material,Chemicals\Organic\Transformation
 polyester-complexed starch biopolymer production,polyester-complexed starch biopolymer,material,Plastics\Biopolymers\Transformation
 "polyether polyols production, long chain","polyether polyols, long chain",material,Plastics\Biopolymers\Transformation
-"polyether polyols production, long chain","polyether polyols, long chain",material,Plastics\Biopolymers\Transformation
 "polyether polyols production, long chain, isopa","polyether polyols, long chain, isopa",material,Plastics\Biopolymers\Transformation
-"polyether polyols production, short chain","polyether polyols, short chain",material,Plastics\Biopolymers\Transformation
 "polyether polyols production, short chain","polyether polyols, short chain",material,Plastics\Biopolymers\Transformation
 "polyether polyols production, short chain, isopa","polyether polyols, short chain, isopa",material,Plastics\Biopolymers\Transformation
 "polyethylene pipe production, corrugated, DN 75","polyethylene pipe, corrugated, DN 75",material,Construction\Ventilation\Transformation
@@ -10281,7 +10073,6 @@ potassium nitrate production,potassium nitrate,material,Chemicals\Inorganic\Tran
 "potassium nitrate production, industrial grade","potassium nitrate, industrial grade",material,Chemicals\Inorganic\Transformation
 "potassium nitrate production, technical grade","potassium nitrate, technical grade",material,Chemicals\Inorganic\Transformation
 potassium perchlorate production,potassium perchlorate,material,Chemicals\Inorganic\Transformation
-"potassium permanganate production, manganese dioxide oxidation",potassium permanganate,material,Chemicals\Inorganic\Transformation
 "potassium permanganate production, manganese dioxide oxidation",potassium permanganate,material,Chemicals\Inorganic\Transformation
 potassium sulfate production,potassium sulfate,material,Chemicals\Inorganic\Transformation
 potassium sulfate production,"potassium sulfate, as K2O",material,Others\Obsolete
@@ -10391,14 +10182,9 @@ processing,potato planting,processing,Others\Obsolete
 processing of nickel-rich materials,"nickel, class 1",material,Metals\Non ferro\Transformation
 prochloraz production,prochloraz,material,Chemicals\Organic\Transformation
 "procurement civil, partial, ti epr","procurement civil, partial, ti epr",energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-"procurement civil, partial, ti epr","procurement civil, partial, ti epr",energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-procurement electrical & i&c equipment ti epr,procurement electrical & i&c equipment ti epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 procurement electrical & i&c equipment ti epr,procurement electrical & i&c equipment ti epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 procurement mechanical ti epr,procurement mechanical ti epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-procurement mechanical ti epr,procurement mechanical ti epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 procurement miscellaneous ti epr,procurement miscellaneous ti epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-procurement miscellaneous ti epr,procurement miscellaneous ti epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-procurement ti epr,procurement ti epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 procurement ti epr,procurement ti epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 production,acetylene,material,Others\Obsolete
 production,aluminium hydroxide,material,Others\Obsolete
@@ -10512,7 +10298,6 @@ pyrazole production,pyrazole,material,Chemicals\Organic\Transformation
 pyrethroid-compound production,pyrethroid-compound,material,Chemicals\Pesticides\Transformation
 pyridazine-compound production,pyridazine-compound,material,Chemicals\Pesticides\Transformation
 "pyridine production, Chichibabin process","hydrogen, gaseous, low pressure",material,Chemicals\Gases\Market
-"pyridine production, chichibabin process",pyridine,material,Chemicals\Pesticides\Transformation
 "pyridine production, chichibabin process",pyridine,material,Chemicals\Pesticides\Transformation
 pyridine-compound production,pyridine-compound,material,Chemicals\Pesticides\Transformation
 "pyrolysis fuel gas to generic market for residual hydrocarbon mix, from steam cracking operations","residual hydrocarbon mix, from steam cracking operations",material,Fuels\Others\Transformation
@@ -10709,9 +10494,6 @@ sanitary landfill facility construction,sanitary landfill facility,processing,Wa
 "sawing and planing, paran‡ pine, kiln dried","electricity, low voltage",material,Wood\Products\Transformation
 "sawing and planing, paran‡ pine, kiln dried","sawnwood, paran‡ pine, dried (u=10%)",material,Wood\Products\Transformation
 "sawing and planing, paran‡ pine, kiln dried","residual wood, dry",material,Wood\Products\Transformation
-"sawing and planing, paran‡ pine, kiln dried","sawnwood, paran‡ pine, dried (u=10%)",material,Wood\Products\Transformation
-"sawing and planing, paran‡ pine, kiln dried","residual wood, dry",material,Wood\Products\Transformation
-"sawing and planing, paran‡ pine, kiln dried","electricity, low voltage",material,Wood\Products\Transformation
 "sawing, hardwood","slab and siding, hardwood, wet, measured as dry mass",processing,Agricultural\Transformation
 "sawing, hardwood","saw dust, wet, measured as dry mass",material,Others\Obsolete
 "sawing, hardwood","sawnwood, hardwood, raw, debarked",material,Others\Obsolete
@@ -10908,7 +10690,6 @@ sodium hydrosulfide production,sodium hydrosulfide,material,Chemicals\Inorganic\
 sodium hydroxide to generic market for neutralising agent,"neutralising agent, sodium hydroxide-equivalent",material,Chemicals\Inorganic\Market
 "sodium hypochlorite production, product in 15% solution state","sodium hypochlorite, without water, in 15% solution state",material,Chemicals\Inorganic\Transformation
 sodium hypochlorite to generic market for bleach,bleach,material,Chemicals\Inorganic\Transformation
-sodium hypochlorite to generic market for bleach,bleach,material,Chemicals\Inorganic\Transformation
 "sodium metasilicate pentahydrate production, 58% active substance, powder","sodium metasilicate pentahydrate, 58% active substance, powder",material,Chemicals\Washing agents\Builders\Transformation
 sodium methoxide production,sodium methoxide,material,Chemicals\Organic\Transformation
 sodium nitrate production,sodium nitrate,material,Chemicals\Inorganic\Transformation
@@ -10919,9 +10700,7 @@ sodium oxide production,sodium oxide,material,Chemicals\Inorganic\Transformation
 "sodium perborate production, monohydrate, powder","sodium perborate, monohydrate, powder",material,Chemicals\Washing agents\Bleaches\Transformation
 "sodium perborate production, tetrahydrate, powder","sodium perborate, tetrahydrate, powder",material,Chemicals\Washing agents\Bleaches\Transformation
 "sodium perborate, tetrahydrate, powder to generic market for bleach",bleach,material,Chemicals\Washing agents\Bleaches\Transformation
-"sodium perborate, tetrahydrate, powder to generic market for bleach",bleach,material,Chemicals\Washing agents\Bleaches\Transformation
 "sodium percarbonate production, powder","sodium percarbonate, powder",material,Chemicals\Washing agents\Bleaches\Transformation
-"sodium percarbonate, powder to generic market for bleach",bleach,material,Chemicals\Washing agents\Bleaches\Transformation
 "sodium percarbonate, powder to generic market for bleach",bleach,material,Chemicals\Washing agents\Bleaches\Transformation
 sodium perchlorate production,sodium perchlorate,material,Chemicals\Inorganic\Transformation
 sodium persulfate production,sodium persulfate,material,Chemicals\Inorganic\Transformation
@@ -10929,8 +10708,6 @@ sodium phenolate production,sodium phenolate,material,Chemicals\Organic\Transfor
 sodium phosphate production,sodium phosphate,material,Chemicals\Inorganic\Transformation
 "sodium production, sodium chloride electrolysis, molten salt cell","chlorine, gaseous",material,Chemicals\Inorganic\Transformation
 "sodium production, sodium chloride electrolysis, molten salt cell",sodium,material,Chemicals\Inorganic\Transformation
-"sodium production, sodium chloride electrolysis, molten salt cell",sodium,material,Chemicals\Inorganic\Transformation
-"sodium production, sodium chloride electrolysis, molten salt cell","chlorine, gaseous",material,Chemicals\Inorganic\Transformation
 sodium pyrophosphate production,sodium pyrophosphate,material,Chemicals\Inorganic\Transformation
 "sodium silicate production, furnace liquor, product in 37% solution state","sodium silicate, without water, in 37% solution state",material,Chemicals\Inorganic\Transformation
 "sodium silicate production, furnace process, solid product","sodium silicate, solid",material,Chemicals\Inorganic\Transformation
@@ -10954,7 +10731,6 @@ sodium tripolyphosphate production,sodium tripolyphosphate,material,Chemicals\Wa
 "softwood forestry, mixed species, sustainable forest management","sawlog and veneer log, softwood, measured as solid wood under bark",material,Wood\Extraction\Transformation
 "softwood forestry, paranÃ¡ pine, sustainable forest management","sawlog and veneer log, paranÃ¡ pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
 "softwood forestry, parana pine, sustainable forest management","sawlog and veneer log, parana pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
-"softwood forestry, paran‡ pine, sustainable forest management","sawlog and veneer log, paran‡ pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
 "softwood forestry, paran‡ pine, sustainable forest management","sawlog and veneer log, paran‡ pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
 "softwood forestry, pine, sustainable forest management","wood chips, wet, measured as dry mass",material,Wood\Byproducts\Transformation
 "softwood forestry, pine, sustainable forest management","bundle, energy wood, measured as dry mass",material,Wood\Extraction\Transformation
@@ -11172,10 +10948,7 @@ sweet sorghum production,sweet sorghum stem,material,Agricultural\Plant producti
 swine production,"swine for slaughtering, live weight",material,Agricultural\Animal production\Porcine\Transformation
 "switch production, toggle type","switch, toggle type",material,Electronics\Component\Transformation
 switchgear hv,switchgear hv,material,Others\Obsolete
-switchgear hv,switchgear hv,material,Others\Obsolete
 switchgear lv,switchgear lv,material,Others\Obsolete
-switchgear lv,switchgear lv,material,Others\Obsolete
-switchgear mv,switchgear mv,material,Others\Obsolete
 switchgear mv,switchgear mv,material,Others\Obsolete
 syngas production plant,syngas production plant,material,Chemicals\Gases\Market
 "syngas production, from natural gas","syngas, from natural gas",material,Fuels\Others\Transformation
@@ -11215,7 +10988,6 @@ synthetic graphite production,"synthetic graphite, 99% pure",material,Chemicals\
 "synthetic natural gas from wood, 70 bar, at plant","synthetic natural gas from wood, 70 bar, at plant",material,Others\Obsolete
 synthetic rubber production,synthetic rubber,material,Plastics\Rubbers\Transformation
 "system controller production, for home storage system","system controller, for home storage system",material,Others\Obsolete
-t-butyl amine production,t-butyl amine,material,Others\Obsolete
 t-butyl amine production,t-butyl amine,material,Others\Obsolete
 tab aluminum,tab aluminum,material,Others\Obsolete
 tab copper,tab copper,material,Others\Obsolete
@@ -11370,8 +11142,6 @@ tram production,tram,transport,Rail\Transformation\Infrastructure
 tram track construction,tram track,transport,Rail\Transformation\Infrastructure
 "tram, electric","tram, electric",transport,Road\Transformation\Infrastructure
 transformer 12kv,transformer 12kv,material,Electronics\Component\Transformation
-transformer 12kv,transformer 12kv,material,Electronics\Component\Transformation
-transformer 500mv,transformer 500mv,material,Electronics\Component\Transformation
 transformer 500mv,transformer 500mv,material,Electronics\Component\Transformation
 "transformer production, 315kva, 11kv2","transformer, 315kva, 11kv2",material,Electronics\Component\Transformation
 "transformer production, high voltage use","transformer, high voltage use",material,Electronics\Component\Transformation
@@ -14260,7 +14030,6 @@ treatment of waste x-ray film,waste x-ray film,waste treatment,Others\Transforma
 "tree seedling production, in unheated greenhouse",tree seedling,processing,Others\Obsolete
 "trellis system construction, wooden poles, soft wood, tar impregnated","trellis system, wooden poles, soft wood, tar impregnated",material,Wood\Products\Transformation
 triazine-compound production,triazine-compound,material,Chemicals\Pesticides\Transformation
-triazine-compound production,triazine-compound,material,Chemicals\Pesticides\Transformation
 "triazine-compound production, unspecified","triazine-compound, unspecified",material,Chemicals\Pesticides\Transformation
 trichloroacetic acid production,trichloroacetic acid,material,Chemicals\Acids (organic)\Transformation
 trichloroborane production,trichloroborane,material,Chemicals\Inorganic\Transformation
@@ -14293,9 +14062,7 @@ tubular particleboard production,tubular particleboard,material,Wood\Products\Tr
 tungsten carbide powder production,tungsten carbide powder,material,Chemicals\Others\Transformation
 tungsten mine operation and beneficiation,tungsten concentrate,material,Chemicals\Others\Transformation
 turbine epr,turbine epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
-turbine epr,turbine epr,energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
 turpentine to generic market for solvent for paint,solvent for paint,material,Chemicals\Organic\Market
-"u enriched 4.8%, in fuel element for lwr, at nuclear fuel fabrication plant","u enriched 4.8%, in fuel element for lwr, at nuclear fuel fabrication plant",material,Others\Obsolete
 "u enriched 4.8%, in fuel element for lwr, at nuclear fuel fabrication plant","u enriched 4.8%, in fuel element for lwr, at nuclear fuel fabrication plant",material,Others\Obsolete
 "ultrafiltration module production, hollow fiber",ultrafiltration module,material,Water\Industry water\Transformation\Infrastructure
 "ultraviolet lamp production, for water desinfection",ultraviolet lamp,material,Electronics\Component\Transformation
@@ -14313,15 +14080,8 @@ turpentine to generic market for solvent for paint,solvent for paint,material,Ch
 "unsaturated hydrocarbons production, steam cracking operation, average","butene, mixed",material,Chemicals\Gases\Market
 "unsaturated hydrocarbons production, steam cracking operation, average",propylene,material,Chemicals\Gases\Market
 "unsaturated hydrocarbons production, steam cracking operation, average","pyrolysis gas, containing benzene, toluene and xylene",material,Chemicals\Gases\Market
-"unsaturated hydrocarbons production, steam cracking operation, average",pyrolysis fuel gas,material,Chemicals\Gases\Market
-"unsaturated hydrocarbons production, steam cracking operation, average",propylene,material,Chemicals\Gases\Market
-"unsaturated hydrocarbons production, steam cracking operation, average",pyrolysis fuel oil,material,Chemicals\Gases\Market
 "unsaturated hydrocarbons production, steam cracking operation, average","butadiene, crude",material,Chemicals\Gases\Market
 "unsaturated hydrocarbons production, steam cracking operation, average",ethylene,material,Chemicals\Gases\Market
-"unsaturated hydrocarbons production, steam cracking operation, average",ethylene,material,Chemicals\Gases\Market
-"unsaturated hydrocarbons production, steam cracking operation, average","butene, mixed",material,Chemicals\Gases\Market
-"unsaturated hydrocarbons production, steam cracking operation, average","butadiene, crude",material,Chemicals\Gases\Market
-"unsaturated hydrocarbons production, steam cracking operation, average","pyrolysis gas, containing benzene, toluene and xylene",material,Chemicals\Gases\Market
 uranium conversion facility construction,uranium conversion facility,material,Fuels\Uranium\Enriched\Transformation\Infrastructure
 uranium enrichment centrifuge facility construction,uranium enrichment centrifuge facility,material,Fuels\Uranium\Enriched\Transformation\Infrastructure
 uranium enrichment diffusion facility construction,uranium enrichment diffusion facility,material,Fuels\Uranium\Enriched\Transformation\Infrastructure
@@ -14367,13 +14127,11 @@ urea production,urea,material,Chemicals\Fertilisers (inorganic)\Transformation
 vacuum cleaner production,vacuum cleaner,material,Appliances\Transformation\Infrastructure
 "valve, average, ni epr","valve, average, ni epr",material,Metals\Ferro\Transformation
 vanadium bearing magnetite production,vanadium bearing magnetite,material,Metals\Ferro\Transformation
-vanadium bearing magnetite production,vanadium bearing magnetite,material,Metals\Ferro\Transformation
 vanadium electrolyte solution production,vanadium electrolyte solution,material,Metals\Ferro\Transformation
 vanadium pentoxide and unalloyed steel production,vanadium pentoxide and unalloyed steel,material,Metals\Ferro\Transformation
 "vanadium pentoxide bearing cast iron, production",vanadium pentoxide bearing cast iron,material,Metals\Ferro\Transformation
 vanadium pentoxide bearing iron pellet production,vanadium pentoxide bearing iron pellet,material,Metals\Ferro\Transformation
 vanadium pentoxide bearing iron sinter production,vanadium pentoxide bearing iron sinter,material,Metals\Ferro\Transformation
-vanadium pentoxide production,vanadium pentoxide,material,Metals\Ferro\Transformation
 vanadium pentoxide production,vanadium pentoxide,material,Metals\Ferro\Transformation
 "vanadium phospate production, vpo4, carbon coated","vanadium phosphate, carbon coated",material,Metals\Ferro\Transformation
 vanadium slag production,vanadium slag,material,Metals\Ferro\Transformation
@@ -14391,7 +14149,6 @@ ventilation components factory construction,ventilation components factory,mater
 "ventilation control and wiring production, decentralized unit","ventilation control and wiring, decentralized unit",material,Construction\Ventilation\Transformation
 "ventilation duct production, connection piece, steel, 100x50 mm","ventilation duct, connection piece, steel, 100x50 mm",material,Construction\Ventilation\Transformation
 "ventilation duct production, elbow 90 degrees, steel, 100x50 mm","ventilation duct, elbow 90 degrees, steel, 100x50 mm",material,Construction\Ventilation\Transformation
-"ventilation duct production, elbow 90¡, steel, 100x50 mm","ventilation duct, elbow 90¡, steel, 100x50 mm",material,Construction\Ventilation\Transformation
 "ventilation duct production, elbow 90¡, steel, 100x50 mm","ventilation duct, elbow 90¡, steel, 100x50 mm",material,Construction\Ventilation\Transformation
 "ventilation duct production, elbow 90Â¡, steel, 100x50 mm","ventilation duct, elbow 90Â¡, steel, 100x50 mm",material,Metals\Ferro\Transformation
 "ventilation duct production, elbow 90Â°, steel, 100x50 mm","ventilation duct, elbow 90Â°, steel, 100x50 mm",material,Construction\Ventilation\Transformation
@@ -14474,8 +14231,6 @@ water supply network construction,water supply network,material,Water\Drinking w
 "water works construction, capacity 6.23E10l/year, seawater reverse osmosis, conventional pretreatment","water works, capacity 6.23E10l/year",material,Water\Drinking water\Transformation\Infrastructure
 "water works construction, capacity 6.23E10l/year, seawater reverse osmosis, ultrafiltration pretreatment","water works, capacity 6.23E10l/year",material,Water\Drinking water\Transformation\Infrastructure
 "water, pure, via reverse osmosis","water, pure",material,Water\Drinking water\Transformation\Infrastructure
-"water, pure, via reverse osmosis","water, pure",material,Water\Drinking water\Transformation\Infrastructure
-"water, pure, via reverse osmosis","water, pure",material,Water\Drinking water\Transformation\Infrastructure
 wave energy converter platform production,wave energy converter platform,material,Others\Obsolete
 "wax production, for lost-wax metal casting","wax, lost-wax casting",material,Chemicals\Organic\Transformation
 "weaned calves production on native and planted pasture, Pantanal","cattle for slaughtering, live weight",material,Agricultural\Animal production\Bovine\Transformation
@@ -14500,11 +14255,7 @@ wheat bran to generic market for energy feed,"protein feed, 100% crude",material
 "wheat grain processing, dry milling",wheat flour,material,Agricultural\Food\Transformation
 wheat grain production,wheat grain,energy,Heat\Others\Transformation
 wheat grain production,straw,energy,Heat\Others\Transformation
-wheat grain production,straw,energy,Heat\Others\Transformation
-wheat grain production,straw,energy,Heat\Others\Transformation
 "wheat grain production, organic","straw, organic",energy,Heat\Others\Transformation
-"wheat grain production, organic","straw, organic",energy,Heat\Others\Transformation
-"wheat grain production, organic","wheat grain, organic",energy,Heat\Others\Transformation
 "wheat grain production, organic","wheat grain, organic",energy,Heat\Others\Transformation
 "wheat grain production, swiss integrated production, extensive","wheat grain, swiss integrated production",energy,Heat\Others\Transformation
 "wheat grain production, swiss integrated production, extensive",straw,energy,Heat\Others\Transformation
@@ -14606,10 +14357,6 @@ wood wool production,wood wool,material,Wood\Products\Transformation
 woven bamboo mat production,woven bamboo mat,material,Wood\Products\Transformation
 "xenon and krypton purification, air separation","xenon, gaseous",material,Chemicals\Organic\Transformation
 "xenon and krypton purification, air separation","krypton, gaseous",material,Chemicals\Organic\Transformation
-"xenon and krypton purification, air separation","krypton, gaseous",material,Chemicals\Organic\Transformation
-"xenon and krypton purification, air separation","xenon, gaseous",material,Chemicals\Organic\Transformation
-"xenon and krypton purification, air separation","xenon, gaseous",material,Chemicals\Organic\Transformation
-"xenon and krypton purification, air separation","krypton, gaseous",material,Chemicals\Organic\Transformation
 xylene production,xylene,material,Chemicals\Organic\Transformation
 "yarding and processing, mobile cable yarder on truck",cable yarding,transport,Building equipment\Transformation
 "yarding, mobile cable yarder on trailer",cable yarding,transport,Building equipment\Transformation
@@ -14657,61 +14404,61 @@ zirconium oxide production,zirconium oxide,material,Chemicals\Inorganic\Transfor
 "zirconium oxide to generic market for electrolyte, for solid oxide fuel cell","electrolyte, for solid oxide fuel cell",energy,Cogeneration\Gas\Market\Infrastructure
 "zirconium sponge production, from zirconium tetrachloride","zirconium sponge, nuclear-grade",material,Metals\Non ferro\Transformation
 zucchini production,zucchini,material,Agricultural\Plant production\Vegetables\Transformation
-"market for battery capacity (mix scenario)","battery capacity",material,Electronics\Battery\Transformation
-"market for battery capacity (lfp scenario)","battery capacity",material,Electronics\Battery\Transformation
-"market for battery capacity (ncx scenario)","battery capacity",material,Electronics\Battery\Transformation
-"market for battery capacity (plib scenario)","battery capacity",material,Electronics\Battery\Transformation
+market for battery capacity (mix scenario),battery capacity,material,Electronics\Battery\Transformation
+market for battery capacity (lfp scenario),battery capacity,material,Electronics\Battery\Transformation
+market for battery capacity (ncx scenario),battery capacity,material,Electronics\Battery\Transformation
+market for battery capacity (plib scenario),battery capacity,material,Electronics\Battery\Transformation
 "bicycle, electric (<25 km/h)","bicycle, electric (<25 km/h)",transport,Road\Transformation\Infrastructure
 "transport, bicycle, electric (<25 km/h)","transport, bicycle, electric (<25 km/h)",transport,Road\Transformation
 "bicycle, electric (<45 km/h)","bicycle, electric (<45 km/h)",transport,Road\Transformation\Infrastructure
 "transport, bicycle, electric (<45 km/h)","transport, bicycle, electric (<45 km/h)",transport,Road\Transformation
-"coating, drying, optical lithography","gaas wafer with resist patterned",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"electroplating","gaas wafer with resist and gold particles",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"wet etching","gaas wafer with gold particles",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"metal organic vapor phase epitaxy (movpe)","gaas wafer with nanowires",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"epitaxial lift-off (elo)","gaas wafer - re-polished for reuse",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"polycrystalline gaas boule production","polycrystalline gaas boule",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"7n gallium production","7n gallium",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"7n arsenic production","7n arsenic",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"single-crystal gaas boule production","single-crystal gaas boule",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"gaas ingot production - x-ray, cropping, grinding notch","single-crystal gaas ingot",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"diamond saw production","diamond saw",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"synthetic diamond production","synthetic diamond",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"raw gaas wafer production","raw gaas wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"sawing slurry production","sawing slurry",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"etched gaas wafer production - cleaning, etching","etched gaas wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"pre-polished gaas wafer production","pre-polished gaas wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"double-polished gaas wafer production - chemical, mechanical polishing (cmp)","double-polished gaas wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"cmp slurry production","cmp slurry",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"gaas wafer production - cleaning, quality control, packing","gaas wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"trimethyl aluminum 99% pure production","trimethyl aluminum 99% pure",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"methyl aluminum sesquichloride production","methyl aluminum sesquichloride",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"trimethyl gallium 99% pure production","trimethyl gallium 99% pure",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"gallium chloride production","gallium chloride",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"coating, drying, optical lithography",gaas wafer with resist patterned,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+electroplating,gaas wafer with resist and gold particles,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+wet etching,gaas wafer with gold particles,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+metal organic vapor phase epitaxy (movpe),gaas wafer with nanowires,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+epitaxial lift-off (elo),gaas wafer - re-polished for reuse,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+polycrystalline gaas boule production,polycrystalline gaas boule,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+7n gallium production,7n gallium,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+7n arsenic production,7n arsenic,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+single-crystal gaas boule production,single-crystal gaas boule,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"gaas ingot production - x-ray, cropping, grinding notch",single-crystal gaas ingot,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+diamond saw production,diamond saw,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+synthetic diamond production,synthetic diamond,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+raw gaas wafer production,raw gaas wafer,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+sawing slurry production,sawing slurry,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"etched gaas wafer production - cleaning, etching",etched gaas wafer,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+pre-polished gaas wafer production,pre-polished gaas wafer,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"double-polished gaas wafer production - chemical, mechanical polishing (cmp)",double-polished gaas wafer,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+cmp slurry production,cmp slurry,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"gaas wafer production - cleaning, quality control, packing",gaas wafer,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+trimethyl aluminum 99% pure production,trimethyl aluminum 99% pure,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+methyl aluminum sesquichloride production,methyl aluminum sesquichloride,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+trimethyl gallium 99% pure production,trimethyl gallium 99% pure,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+gallium chloride production,gallium chloride,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "photovoltaic installation, 0.28kwp, gaas","photovoltaic installation, gaas",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "electricity production, photovoltaic, 0.28kwp, gaas","electricity production, photovoltaic, 0.28kwp, gaas",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"perovskite wafer production","perovskite wafer",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"perovskite wafer packaging","perovskite wafer, packaged",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"perovskite wafer transport","perovskite wafer, transported",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"perovskite wafer cleaning","perovskite wafer, cleaned",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+perovskite wafer production,perovskite wafer,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+perovskite wafer packaging,"perovskite wafer, packaged",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+perovskite wafer transport,"perovskite wafer, transported",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+perovskite wafer cleaning,"perovskite wafer, cleaned",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "pecvd of thin film layer, for perovskite","cell, perovskite, to sputter",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "sputter process 1, perovskite cell","perovskite cell, sputtered 1",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "sputter process 2, perovskite cell","perovskite cell, sputtered 2",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"spiro-ometad deposition of perovskite cell","spiro-ometad deposited perovskite cell",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"perovskite cell deposition","deposited perovskite cell",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"perovskite cell curing 1","cured perovskite cell 1",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"perovskite cell zinc oxide deposition","zinc oxide deposited perovskite cell",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+spiro-ometad deposition of perovskite cell,spiro-ometad deposited perovskite cell,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+perovskite cell deposition,deposited perovskite cell,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+perovskite cell curing 1,cured perovskite cell 1,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+perovskite cell zinc oxide deposition,zinc oxide deposited perovskite cell,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "sputter process 3, perovskite cell","perovskite cell, sputtered 3",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"perovskite cell contact formation","metallized perovskite cell",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"perovskite cell curing 2","cured perovskite cell 2",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+perovskite cell contact formation,metallized perovskite cell,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+perovskite cell curing 2,cured perovskite cell 2,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "photovoltaic cell production, perovskite","photovoltaic cell, perovskite",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"perovskite module assembly","assembled perovskite cell",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+perovskite module assembly,assembled perovskite cell,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "photovoltaic panel production, 0.5kwp, perovskite","photovoltaic panel, perovskite",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "electricity production, photovoltaic, 0.5kwp, perovskite-on-silicon tandem","electricity production, photovoltaic, 0.5kwp, perovskite-on-silicon tandem",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"exhaust abatement, for perovskite","abated exhaust",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"tray cleaning, for perovskite","tray cleaning",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"ultrapure water system activity, for perovskite","ultra pure water",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
-"inhouse waste water treatment, for perovskite production","waste water",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"exhaust abatement, for perovskite",abated exhaust,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"tray cleaning, for perovskite",tray cleaning,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"ultrapure water system activity, for perovskite",ultra pure water,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"inhouse waste water treatment, for perovskite production",waste water,energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "process cooling, water, for perovskite","cooling water, conditioned",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "process cooling, water, for perovskite","cooling water, used",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "air compressor activity, for perovskite","compressed air, 14 bar, low efficiency",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure

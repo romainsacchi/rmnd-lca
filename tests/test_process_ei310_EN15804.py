@@ -54,6 +54,11 @@ def test_brightway():
 
     ndb.update()
 
+    if "test1" in bw2data.databases:
+        del bw2data.databases["test1"]
+    if "test2" in bw2data.databases:
+        del bw2data.databases["test2"]
+
     ndb.write_db_to_brightway(
         [
             "test1",
