@@ -39,13 +39,15 @@ Type                   Specific energy density (current)    BoP mass share [%]  
                        [kWh/kg cell]                                             density [kWh/kg
                                                                                  battery]
 ====================== ==================================== ==================== ==================
-Li-ion, NMC111         0.15                                 73%                  0.11
-Li-ion, NMC622         0.20                                 73%                  0.15
-Li-ion, NMC811         0.22                                 71%                  0.16
-Li-ion, NCA            0.23                                 71%                  0.16
-Li-ion, LFP            0.14                                 73%                  0.10
-Li-ion, LiMn2O4        0.13                                 80%                  0.10
-Li-ion, LTO            0.09                                 64%                  0.05
+Li-ion, NMC111         0.18                                 73%                  0.13
+Li-ion, NMC523         0.20                                 73%                  0.15
+Li-ion, NMC622         0.24                                 73%                  0.18
+Li-ion, NMC811         0.28                                 71%                  0.20
+Li-ion, NMC955         0.34                                 71%                  0.24
+Li-ion, NCA            0.28                                 71%                  0.20
+Li-ion, LFP            0.16                                 80%                  0.13
+Li-ion, LiMn2O4        0.11                                 80%                  0.09
+Li-ion, LTO            0.05                                 64%                  0.03
 Li-sulfur, Li-S        0.15                                 75%                  0.11
 Li-oxygen, Li-O2       0.36                                 55%                  0.20
 Sodium-ion, SiB        0.16                                 75%                  0.12
@@ -60,14 +62,17 @@ Type                   Specific energy density (2050)       BoP mass share [%]  
                                                                                  battery]
 ====================== ==================================== ==================== ==================
 Li-ion, NMC111         0.2                                  73%                  0.15
-Li-ion, NMC811         0.5                                  71%                  0.36
-Li-ion, NCA            0.35                                 71%                  0.25
-Li-ion, LFP            0.25                                 73%                  0.18
-Li-ion, LiMn2O4        0.2                                  80%                  0.16
-Li-ion, LTO            0.15                                 75%                  0.11
-Li-sulfur, Li-S        0.5                                  75%                  0.38
-Li-oxygen, Li-O2       0.50                                 64%                  0.20
-Sodium-ion, SiB        0.22                                 75%                  0.17
+Li-ion, NMC523         0.22                                 73%                  0.16
+Li-ion, NMC622         0.26                                 73%                  0.19
+Li-ion, NMC811         0.34                                 71%                  0.24
+Li-ion, NMC955         0.38                                 71%                  0.27
+Li-ion, NCA            0.34                                 71%                  0.24
+Li-ion, LFP            0.22                                 80%                  0.18
+Li-ion, LiMn2O4        0.11                                 73%                  0.08
+Li-ion, LTO            0.05                                 64%                  0.03
+Li-sulfur, Li-S        0.34                                 75%                  0.26
+Li-oxygen, Li-O2       0.93                                 55%                  0.51
+Sodium-ion, SiB        0.20                                 75%                  0.15
 ====================== ==================================== ==================== ==================
 
 
