@@ -1,9 +1,19 @@
-from electrolysis:
+from electrolysis (PEM):
   name: hydrogen production, gaseous, 30 bar, from PEM electrolysis, from grid electricity
   var: hydrogen, from electrolysis
   feedstock name: electricity, low voltage
   feedstock unit: kilowatt hour
-  floor value: 48.9
+  efficiency:
+    2020:
+      mean: 54
+      minimum: 52.9
+      maximum: 55.1
+    2050:
+      mean: 48.9
+      minimum: 45.3
+      maximum: 52.5
+  floor value: 45.3
+
 from SMR of biogas, with CCS:
   name: hydrogen production, steam methane reforming, from biomethane, with CCS
   var: hydrogen, from biogas, with CCS

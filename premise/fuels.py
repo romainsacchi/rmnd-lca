@@ -133,16 +133,6 @@ def adjust_electrolysis_electricity_requirement(year: int) -> ndarray:
     Calculate the adjusted electricity requirement for hydrogen electrolysis
     based on the given year.
 
-    The electricity requirement decreases linearly from 58 kWh/kg H2 in 2010
-    to 48 kWh/kg H2 in 2050, according to a literature review conducted by
-    the Paul Scherrer Institute:
-
-    Bauer (ed.), C., Desai, H., Heck, T., Sacchi, R., Schneider, S., Terlouw,
-    T., Treyer, K., Zhang, X. Electricity storage and hydrogen – technologies,
-    costs and impacts on climate change.
-    Auftraggeberin: Bundesamt für Energie BFE, 3003 Bern.
-
-
     :param year: the year for which to calculate the adjusted electricity requirement
     :return: the adjusted electricity requirement in kWh/kg H2
 
@@ -549,7 +539,7 @@ class Fuels(BaseTransformation):
                     )
 
                 else:
-                    if hydrogen_type == "from electrolysis":
+                    if "from electrolysis" in hydrogen_type:
                         # get the electricity consumption
                         new_energy_consumption = (
                             adjust_electrolysis_electricity_requirement(self.year)
