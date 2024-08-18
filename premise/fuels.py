@@ -127,8 +127,7 @@ def get_pre_cooling_energy(
 
 
 def adjust_electrolysis_electricity_requirement(
-        year: int,
-        projected_efficiency: dict
+    year: int, projected_efficiency: dict
 ) -> [float, float, float]:
     """
 
@@ -156,17 +155,23 @@ def adjust_electrolysis_electricity_requirement(
         mean = np.interp(
             year,
             [2020, 2050],
-            [projected_efficiency[2020]["mean"], projected_efficiency[2050]["mean"]]
+            [projected_efficiency[2020]["mean"], projected_efficiency[2050]["mean"]],
         )
         min = np.interp(
             year,
             [2020, 2050],
-            [projected_efficiency[2020]["minimum"], projected_efficiency[2050]["minimum"]]
+            [
+                projected_efficiency[2020]["minimum"],
+                projected_efficiency[2050]["minimum"],
+            ],
         )
         max = np.interp(
             year,
             [2020, 2050],
-            [projected_efficiency[2020]["maximum"], projected_efficiency[2050]["maximum"]]
+            [
+                projected_efficiency[2020]["maximum"],
+                projected_efficiency[2050]["maximum"],
+            ],
         )
 
     return mean, min, max
@@ -404,7 +409,6 @@ class Fuels(BaseTransformation):
             for activity in activities:
                 self.rev_fuel_map[activity] = fuel
 
-
     def find_suppliers(
         self,
         name: str,
@@ -504,8 +508,12 @@ class Fuels(BaseTransformation):
 
         for fuel_type, dataset_name in self.fuel_map.items():
             if fuel_type in hydrogen_parameters:
-                hydrogen_feedstock_name = hydrogen_parameters[fuel_type].get("feedstock name")
-                hydrogen_feedstock_unit = hydrogen_parameters[fuel_type].get("feedstock unit")
+                hydrogen_feedstock_name = hydrogen_parameters[fuel_type].get(
+                    "feedstock name"
+                )
+                hydrogen_feedstock_unit = hydrogen_parameters[fuel_type].get(
+                    "feedstock unit"
+                )
                 projected_efficiency = hydrogen_parameters[fuel_type].get("efficiency")
                 floor_value = hydrogen_parameters[fuel_type].get("floor value")
 
@@ -531,7 +539,9 @@ class Fuels(BaseTransformation):
                     )
 
                     if initial_energy_use is None or initial_energy_use == 0:
-                        print(f"Initial energy consumption for {fuel_type} in {region} is None.")
+                        print(
+                            f"Initial energy consumption for {fuel_type} in {region} is None."
+                        )
 
                     # add it to "log parameters"
                     if "log parameters" not in dataset:
@@ -550,10 +560,7 @@ class Fuels(BaseTransformation):
 
                     new_energy_use, min_energy_use, max_energy_use = None, None, None
 
-                    if (
-                        fuel_type
-                        in self.fuel_efficiencies.variables.values
-                    ):
+                    if fuel_type in self.fuel_efficiencies.variables.values:
                         # Find scaling factor compared to 2020
                         scaling_factor = 1 / self.find_iam_efficiency_change(
                             data=self.fuel_efficiencies,
@@ -566,9 +573,7 @@ class Fuels(BaseTransformation):
                             new_energy_use = scaling_factor * initial_energy_use
 
                             # set a floor value/kg H2
-                            new_energy_use = max(
-                                new_energy_use, floor_value
-                            )
+                            new_energy_use = max(new_energy_use, floor_value)
 
                         else:
                             if "from electrolysis" in fuel_type:
@@ -576,8 +581,7 @@ class Fuels(BaseTransformation):
                                 # get the electricity consumption
                                 new_energy_use, min_energy_use, max_energy_use = (
                                     adjust_electrolysis_electricity_requirement(
-                                        self.year,
-                                        projected_efficiency
+                                        self.year, projected_efficiency
                                     )
                                 )
 
@@ -586,8 +590,7 @@ class Fuels(BaseTransformation):
                             # get the electricity consumption
                             new_energy_use, min_energy_use, max_energy_use = (
                                 adjust_electrolysis_electricity_requirement(
-                                    self.year,
-                                    projected_efficiency
+                                    self.year, projected_efficiency
                                 )
                             )
 
@@ -629,9 +632,7 @@ class Fuels(BaseTransformation):
 
                         # add it to "log parameters"
                         dataset["log parameters"].update(
-                            {
-                                "new energy input for hydrogen production": new_energy_use
-                            }
+                            {"new energy input for hydrogen production": new_energy_use}
                         )
 
                     self.write_log(dataset)
@@ -680,12 +681,12 @@ class Fuels(BaseTransformation):
                 self.add_to_index(dataset)
 
         datasets = [
-                "hydrogenation of hydrogen",
-                "dehydrogenation of hydrogen",
-                "market group for electricity, low voltage",
-                "hydrogen embrittlement inhibition",
-                "hydrogen refuelling station",
-            ]
+            "hydrogenation of hydrogen",
+            "dehydrogenation of hydrogen",
+            "market group for electricity, low voltage",
+            "hydrogen embrittlement inhibition",
+            "hydrogen refuelling station",
+        ]
 
         datasets.extend(
             [
@@ -697,7 +698,8 @@ class Fuels(BaseTransformation):
 
         datasets.extend(
             [
-                x for k, v in self.fuel_map.items()
+                x
+                for k, v in self.fuel_map.items()
                 for x in v
                 if k.startswith("hydrogen, from")
             ]
@@ -767,7 +769,12 @@ class Fuels(BaseTransformation):
                                 # electricity for compression
                                 if state in ["gaseous", "liquid"]:
                                     dataset = self.add_compression_electricity(
-                                        state, vehicle, distance, region, dataset, subset
+                                        state,
+                                        vehicle,
+                                        distance,
+                                        region,
+                                        dataset,
+                                        subset,
                                     )
 
                                 # electricity for hydrogenation, dehydrogenation and
@@ -2423,9 +2430,7 @@ class Fuels(BaseTransformation):
             for activity in activities:
                 self.rev_fuel_map[activity] = fuel
 
-
         d_fuels = self.get_fuel_mapping()
-
 
         datasets = [
             item

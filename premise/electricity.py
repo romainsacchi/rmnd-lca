@@ -1454,9 +1454,15 @@ class Electricity(BaseTransformation):
                 current_eff = power / max_power
 
                 if self.year in module_eff.coords["year"].values:
-                    new_mean_eff = module_eff.sel(technology=pv_tech, year=self.year, efficiency_type="mean").values
-                    new_min_eff = module_eff.sel(technology=pv_tech, year=self.year, efficiency_type="min").values
-                    new_max_eff = module_eff.sel(technology=pv_tech, year=self.year, efficiency_type="max").values
+                    new_mean_eff = module_eff.sel(
+                        technology=pv_tech, year=self.year, efficiency_type="mean"
+                    ).values
+                    new_min_eff = module_eff.sel(
+                        technology=pv_tech, year=self.year, efficiency_type="min"
+                    ).values
+                    new_max_eff = module_eff.sel(
+                        technology=pv_tech, year=self.year, efficiency_type="max"
+                    ).values
                 else:
                     new_mean_eff = (
                         module_eff.sel(technology=pv_tech, efficiency_type="mean")
