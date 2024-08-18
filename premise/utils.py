@@ -164,7 +164,15 @@ def get_efficiency_solar_photovoltaics() -> xr.DataArray:
         EFFICIENCY_RATIO_SOLAR_PV, sep=get_delimiter(filepath=EFFICIENCY_RATIO_SOLAR_PV)
     )
 
-    return dataframe.groupby(["technology", "year"]).mean()["efficiency"].to_xarray()
+    dataframe = dataframe.melt(id_vars=["technology", "year"],
+                 value_vars=["mean", "min", "max"],
+                 var_name="efficiency_type", value_name="efficiency")
+
+    # Convert the DataFrame to an xarray Dataset
+    array = dataframe.set_index(["year", "technology", "efficiency_type"])["efficiency"].to_xarray()
+    array = array.interpolate_na(dim="year", method="linear")
+
+    return array
 
 
 def default_global_location(database):

@@ -1454,32 +1454,50 @@ class Electricity(BaseTransformation):
                 current_eff = power / max_power
 
                 if self.year in module_eff.coords["year"].values:
-                    new_eff = module_eff.sel(technology=pv_tech, year=self.year).values
+                    new_mean_eff = module_eff.sel(technology=pv_tech, year=self.year, efficiency_type="mean").values
+                    new_min_eff = module_eff.sel(technology=pv_tech, year=self.year, efficiency_type="min").values
+                    new_max_eff = module_eff.sel(technology=pv_tech, year=self.year, efficiency_type="max").values
                 else:
-                    new_eff = (
-                        module_eff.sel(technology=pv_tech)
+                    new_mean_eff = (
+                        module_eff.sel(technology=pv_tech, efficiency_type="mean")
+                        .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
+                        .values
+                    )
+                    new_min_eff = (
+                        module_eff.sel(technology=pv_tech, efficiency_type="min")
+                        .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
+                        .values
+                    )
+                    new_max_eff = (
+                        module_eff.sel(technology=pv_tech, efficiency_type="max")
                         .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
                         .values
                     )
 
                 # in case self.year <10 or >2050
-                new_eff = np.clip(new_eff, 0.1, 0.27)
+                new_mean_eff = np.clip(new_mean_eff, 0.1, 0.30)
+                new_min_eff = np.clip(new_min_eff, 0.1, 0.30)
+                new_max_eff = np.clip(new_max_eff, 0.1, 0.30)
 
                 # We only update the efficiency if it is higher than the current one.
-                if new_eff.sum() > current_eff:
-                    exc["amount"] *= float(current_eff / new_eff)
+                if new_mean_eff.sum() > current_eff:
+                    exc["amount"] *= float(current_eff / new_mean_eff)
+                    exc["uncertainty type"] = 5
+                    exc["loc"] = exc["amount"]
+                    exc["minimum"] = exc["amount"] * (new_min_eff / new_mean_eff)
+                    exc["maximum"] = exc["amount"] * (new_max_eff / new_mean_eff)
 
                     dataset["comment"] = (
                         f"`premise` has changed the efficiency "
                         f"of this photovoltaic installation "
-                        f"from {int(current_eff * 100)} pct. to {int(new_eff * 100)} pt."
+                        f"from {int(current_eff * 100)} pct. to {int(new_mean_eff * 100)} pt."
                     )
 
                     if "log parameters" not in dataset:
                         dataset["log parameters"] = {}
 
                     dataset["log parameters"].update({"old efficiency": current_eff})
-                    dataset["log parameters"].update({"new efficiency": new_eff})
+                    dataset["log parameters"].update({"new efficiency": new_mean_eff})
 
                     # add to log
                     self.write_log(dataset=dataset, status="updated")

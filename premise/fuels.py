@@ -126,32 +126,50 @@ def get_pre_cooling_energy(
     return energy_pre_cooling
 
 
-@lru_cache()
-def adjust_electrolysis_electricity_requirement(year: int) -> ndarray:
+def adjust_electrolysis_electricity_requirement(
+        year: int,
+        projected_efficiency: dict
+) -> [float, float, float]:
     """
 
     Calculate the adjusted electricity requirement for hydrogen electrolysis
     based on the given year.
 
     :param year: the year for which to calculate the adjusted electricity requirement
-    :return: the adjusted electricity requirement in kWh/kg H2
+    :param hydrogen_type: the type of hydrogen production
+    :param projected_efficiency: the projected efficiency of the electrolysis process
+    :return: the adjusted mena, min and max electricity requirement in kWh/kg H2
 
     """
-    # Constants
-    MIN_ELECTRICITY_REQUIREMENT = 48
-    MAX_ELECTRICITY_REQUIREMENT = 60  # no maximum
 
-    # Calculate adjusted electricity requirement
-    electricity_requirement = -0.3538 * (year - 2010) + 58.589
+    if year < 2020:
+        mean = projected_efficiency[2020]["mean"]
+        min = projected_efficiency[2020]["minimum"]
+        max = projected_efficiency[2020]["maximum"]
 
-    # Clip to minimum and maximum values
-    adjusted_requirement = np.clip(
-        electricity_requirement,
-        MIN_ELECTRICITY_REQUIREMENT,
-        MAX_ELECTRICITY_REQUIREMENT,
-    )
+    elif year > 2050:
+        mean = projected_efficiency[2050]["mean"]
+        min = projected_efficiency[2050]["minimum"]
+        max = projected_efficiency[2050]["maximum"]
 
-    return adjusted_requirement
+    else:
+        mean = np.interp(
+            year,
+            [2020, 2050],
+            [projected_efficiency[2020]["mean"], projected_efficiency[2050]["mean"]]
+        )
+        min = np.interp(
+            year,
+            [2020, 2050],
+            [projected_efficiency[2020]["minimum"], projected_efficiency[2050]["minimum"]]
+        )
+        max = np.interp(
+            year,
+            [2020, 2050],
+            [projected_efficiency[2020]["maximum"], projected_efficiency[2050]["maximum"]]
+        )
+
+    return mean, min, max
 
 
 def is_fuel_production(name):
@@ -285,7 +303,6 @@ def _update_fuels(scenario, version, system_model):
         )
     ):
         fuels.generate_fuel_markets()
-        fuels.adjust_fuel_conversion_efficiency()
         fuels.relink_datasets()
         scenario["database"] = fuels.database
         scenario["cache"] = fuels.cache
@@ -378,6 +395,16 @@ class Fuels(BaseTransformation):
                     dim="variables",
                 )
 
+        # create fuel filters
+        mapping = InventorySet(self.database)
+        self.fuel_map = mapping.generate_fuel_map()
+        # reverse fuel map
+        self.rev_fuel_map = {}
+        for fuel, activities in self.fuel_map.items():
+            for activity in activities:
+                self.rev_fuel_map[activity] = fuel
+
+
     def find_suppliers(
         self,
         name: str,
@@ -454,12 +481,12 @@ class Fuels(BaseTransformation):
         Defines regional variants for hydrogen production, but also different supply
         chain designs:
         * by truck (500 km), gaseous, liquid and LOHC
-        * by reassigned CNG pipeline (500 km), gaseous, with and without inhibitors
         * by dedicated H2 pipeline (500 km), gaseous
         * by ship, liquid (2000 km)
 
-        For truck and pipeline supply chains, we assume a transmission and a distribution part, for which
-        we have specific pipeline designs. We also assume a means for regional storage in between (salt cavern).
+        For truck and pipeline supply chains, we assume a transmission and
+        a distribution part, for which we have specific pipeline designs.
+        We also assume a means for regional storage in between (salt cavern).
         We apply distance-based losses along the way.
 
         Most of these supply chain design options are based on the work of:
@@ -471,96 +498,130 @@ class Fuels(BaseTransformation):
           Sustain Energy Fuels 2020;4:2256–73. https://doi.org/10.1039/d0se00067a.
         * Petitpas G. Boil-off losses along the LH2 pathway. US Dep Energy Off Sci Tech Inf 2018.
 
-
         """
 
-        hydrogen_sources = fetch_mapping(HYDROGEN_SOURCES)
+        hydrogen_parameters = fetch_mapping(HYDROGEN_SOURCES)
 
-        for hydrogen_type, hydrogen_vars in hydrogen_sources.items():
-            hydrogen_activity_name = hydrogen_sources[hydrogen_type].get("name")
-            hydrogen_efficiency_variable = hydrogen_sources[hydrogen_type].get("var")
-            hydrogen_feedstock_name = hydrogen_sources[hydrogen_type].get(
-                "feedstock name"
-            )
-            hydrogen_feedstock_unit = hydrogen_sources[hydrogen_type].get(
-                "feedstock unit"
-            )
-            efficiency_floor_value = hydrogen_sources[hydrogen_type].get("floor value")
+        for fuel_type, dataset_name in self.fuel_map.items():
+            if fuel_type in hydrogen_parameters:
+                hydrogen_feedstock_name = hydrogen_parameters[fuel_type].get("feedstock name")
+                hydrogen_feedstock_unit = hydrogen_parameters[fuel_type].get("feedstock unit")
+                projected_efficiency = hydrogen_parameters[fuel_type].get("efficiency")
+                floor_value = hydrogen_parameters[fuel_type].get("floor value")
 
-            new_ds = self.fetch_proxies(
-                name=hydrogen_activity_name,
-                ref_prod="hydrogen",
-                production_variable=hydrogen_efficiency_variable,
-                exact_name_match=True,
-            )
+                if isinstance(dataset_name, set):
+                    if len(dataset_name) > 1:
+                        print(f"Multiple datasets found for {fuel_type}.")
 
-            for region, dataset in new_ds.items():
-                # find current energy consumption in dataset
-                initial_energy_consumption = sum(
-                    exc["amount"]
-                    for exc in dataset["exchanges"]
-                    if exc["unit"] == hydrogen_feedstock_unit
-                    and hydrogen_feedstock_name in exc["name"]
-                    and exc["type"] != "production"
+                new_ds = self.fetch_proxies(
+                    name=list(dataset_name)[0],
+                    ref_prod="hydrogen",
+                    production_variable=fuel_type,
+                    exact_name_match=True,
                 )
 
-                # add it to "log parameters"
-                if "log parameters" not in dataset:
-                    dataset["log parameters"] = {}
-
-                dataset["log parameters"].update(
-                    {
-                        "initial energy input for hydrogen production": initial_energy_consumption
-                    }
-                )
-
-                # Fetch the efficiency change of the
-                # electrolysis process over time,
-                # according to the IAM scenario,
-                # if available.
-
-                if (
-                    hydrogen_efficiency_variable
-                    in self.fuel_efficiencies.variables.values
-                ):
-                    # Find scaling factor compared to 2020
-                    scaling_factor = 1 / self.find_iam_efficiency_change(
-                        data=self.fuel_efficiencies,
-                        variable=hydrogen_efficiency_variable,
-                        location=region,
+                for region, dataset in new_ds.items():
+                    # find current energy consumption in dataset
+                    initial_energy_use = sum(
+                        exc["amount"]
+                        for exc in dataset["exchanges"]
+                        if exc["unit"] == hydrogen_feedstock_unit
+                        and hydrogen_feedstock_name in exc["name"]
+                        and exc["type"] != "production"
                     )
 
-                    # new energy consumption
-                    new_energy_consumption = scaling_factor * initial_energy_consumption
+                    if initial_energy_use is None or initial_energy_use == 0:
+                        print(f"Initial energy consumption for {fuel_type} in {region} is None.")
 
-                    # set a floor value/kg H2
-                    new_energy_consumption = max(
-                        new_energy_consumption, efficiency_floor_value
+                    # add it to "log parameters"
+                    if "log parameters" not in dataset:
+                        dataset["log parameters"] = {}
+
+                    dataset["log parameters"].update(
+                        {
+                            "initial energy input for hydrogen production": initial_energy_use
+                        }
                     )
 
-                else:
-                    if "from electrolysis" in hydrogen_type:
-                        # get the electricity consumption
-                        new_energy_consumption = (
-                            adjust_electrolysis_electricity_requirement(self.year)
+                    # Fetch the efficiency change of the
+                    # electrolysis process over time,
+                    # according to the IAM scenario,
+                    # if available.
+
+                    new_energy_use, min_energy_use, max_energy_use = None, None, None
+
+                    if (
+                        fuel_type
+                        in self.fuel_efficiencies.variables.values
+                    ):
+                        # Find scaling factor compared to 2020
+                        scaling_factor = 1 / self.find_iam_efficiency_change(
+                            data=self.fuel_efficiencies,
+                            variable=fuel_type,
+                            location=region,
                         )
+
+                        if scaling_factor != 1:
+                            # new energy consumption
+                            new_energy_use = scaling_factor * initial_energy_use
+
+                            # set a floor value/kg H2
+                            new_energy_use = max(
+                                new_energy_use, floor_value
+                            )
+
+                        else:
+                            if "from electrolysis" in fuel_type:
+
+                                # get the electricity consumption
+                                new_energy_use, min_energy_use, max_energy_use = (
+                                    adjust_electrolysis_electricity_requirement(
+                                        self.year,
+                                        projected_efficiency
+                                    )
+                                )
+
                     else:
-                        new_energy_consumption = None
+                        if "from electrolysis" in fuel_type:
+                            # get the electricity consumption
+                            new_energy_use, min_energy_use, max_energy_use = (
+                                adjust_electrolysis_electricity_requirement(
+                                    self.year,
+                                    projected_efficiency
+                                )
+                            )
 
-                if new_energy_consumption is not None:
                     # recalculate scaling factor
-                    scaling_factor = new_energy_consumption / initial_energy_consumption
+                    try:
+                        scaling_factor = new_energy_use / initial_energy_use
+                    except ZeroDivisionError:
+                        scaling_factor = 1
+                    except TypeError:
+                        scaling_factor = 1
 
-                    if not np.isnan(scaling_factor) and scaling_factor > 0.0:
-                        # rescale the fuel consumption exchange
-                        dataset = rescale_exchanges(
-                            dataset,
-                            scaling_factor,
-                            technosphere_filters=[
+                    if scaling_factor != 1:
+                        if min_energy_use is not None:
+                            for exc in ws.technosphere(
+                                dataset,
                                 ws.contains("name", hydrogen_feedstock_name),
                                 ws.equals("unit", hydrogen_feedstock_unit),
-                            ],
-                        )
+                            ):
+                                exc["amount"] = new_energy_use
+                                exc["uncertainty type"] = 5
+                                exc["loc"] = new_energy_use
+                                exc["minimum"] = min_energy_use
+                                exc["maximum"] = max_energy_use
+
+                        else:
+                            # rescale the fuel consumption exchange
+                            rescale_exchanges(
+                                dataset,
+                                scaling_factor,
+                                technosphere_filters=[
+                                    ws.contains("name", hydrogen_feedstock_name),
+                                    ws.equals("unit", hydrogen_feedstock_unit),
+                                ],
+                            )
 
                         # add it to "log parameters"
                         if "log parameters" not in dataset:
@@ -569,7 +630,7 @@ class Fuels(BaseTransformation):
                         # add it to "log parameters"
                         dataset["log parameters"].update(
                             {
-                                "new energy input for hydrogen production": new_energy_consumption
+                                "new energy input for hydrogen production": new_energy_use
                             }
                         )
 
@@ -586,8 +647,8 @@ class Fuels(BaseTransformation):
                         "generated by `premise`. "
                     )
 
-            self.database.extend(new_ds.values())
-            self.add_to_index(new_ds.values())
+                self.database.extend(new_ds.values())
+                self.add_to_index(new_ds.values())
 
         # loss coefficients for hydrogen supply
         losses = fetch_mapping(HYDROGEN_SUPPLY_LOSSES)
@@ -618,21 +679,32 @@ class Fuels(BaseTransformation):
                 # add it to list of created datasets
                 self.add_to_index(dataset)
 
-        datasets = (
-            [
+        datasets = [
                 "hydrogenation of hydrogen",
                 "dehydrogenation of hydrogen",
                 "market group for electricity, low voltage",
                 "hydrogen embrittlement inhibition",
                 "hydrogen refuelling station",
             ]
-            + [
+
+        datasets.extend(
+            [
                 c.get("regional storage", {}).get("name")
                 for c in supply_chain_scenarios.values()
                 if c.get("regional storage", {}).get("name")
             ]
-            + [x["name"] for x in hydrogen_sources.values()]
-            + [
+        )
+
+        datasets.extend(
+            [
+                x for k, v in self.fuel_map.items()
+                for x in v
+                if k.startswith("hydrogen, from")
+            ]
+        )
+
+        datasets.extend(
+            [
                 v["name"]
                 for config in supply_chain_scenarios.values()
                 for v in config["vehicle"]
@@ -645,105 +717,98 @@ class Fuels(BaseTransformation):
         )
 
         for region in self.regions:
-            for hydrogen_type, hydrogen_vars in hydrogen_sources.items():
-                for vehicle, config in supply_chain_scenarios.items():
-                    for state in config["state"]:
-                        for distance in config["distance"]:
-                            # dataset creation
-                            dataset: dict[
-                                str,
-                                Union[
-                                    Union[
-                                        str, list[dict[str, Union[int, str]]], ndarray
+            for hydrogen_type, hydrogen_datasets in self.fuel_map.items():
+                if "hydrogen, from" in hydrogen_type:
+                    for vehicle, config in supply_chain_scenarios.items():
+                        for state in config["state"]:
+                            for distance in config["distance"]:
+                                # dataset creation
+                                dataset = {
+                                    "location": region,
+                                    "name": f"hydrogen supply, {hydrogen_type}, by {vehicle}, as {state}, over {distance} km",
+                                    "reference product": "hydrogen, 700 bar",
+                                    "unit": "kilogram",
+                                    "database": self.database[1]["database"],
+                                    "code": str(uuid.uuid4().hex),
+                                    "comment": "Dataset representing hydrogen supply, generated by `premise`.",
+                                    "exchanges": [
+                                        {
+                                            "uncertainty type": 0,
+                                            "loc": 1,
+                                            "amount": 1,
+                                            "type": "production",
+                                            "production volume": 1,
+                                            "product": "hydrogen, 700 bar",
+                                            "name": f"hydrogen supply, {hydrogen_type}, "
+                                            f"by {vehicle}, as {state}, over {distance} km",
+                                            "unit": "kilogram",
+                                            "location": region,
+                                        }
                                     ],
-                                    Any,
-                                ],
-                            ] = {
-                                "location": region,
-                                "name": f"hydrogen supply, {hydrogen_type}, by {vehicle}, as {state}, over {distance} km",
-                                "reference product": "hydrogen, 700 bar",
-                                "unit": "kilogram",
-                                "database": self.database[1]["database"],
-                                "code": str(uuid.uuid4().hex),
-                                "comment": "Dataset representing hydrogen supply, generated by `premise`.",
-                                "exchanges": [
-                                    {
-                                        "uncertainty type": 0,
-                                        "loc": 1,
-                                        "amount": 1,
-                                        "type": "production",
-                                        "production volume": 1,
-                                        "product": "hydrogen, 700 bar",
-                                        "name": f"hydrogen supply, {hydrogen_type}, "
-                                        f"by {vehicle}, as {state}, over {distance} km",
-                                        "unit": "kilogram",
-                                        "location": region,
-                                    }
-                                ],
-                            }
+                                }
 
-                            # transport
-                            dataset = self.add_hydrogen_transport(
-                                dataset, config, region, distance, vehicle, subset
-                            )
+                                # transport
+                                dataset = self.add_hydrogen_transport(
+                                    dataset, config, region, distance, vehicle, subset
+                                )
 
-                            # need for inhibitor and purification if CNG pipeline
-                            # electricity for purification: 2.46 kWh/kg H2
-                            if vehicle == "CNG pipeline":
-                                dataset = self.add_hydrogen_inhibitor(
+                                # need for inhibitor and purification if CNG pipeline
+                                # electricity for purification: 2.46 kWh/kg H2
+                                if vehicle == "CNG pipeline":
+                                    dataset = self.add_hydrogen_inhibitor(
+                                        dataset, region, subset
+                                    )
+
+                                if "regional storage" in config:
+                                    dataset = self.add_hydrogen_regional_storage(
+                                        dataset, region, config, subset
+                                    )
+
+                                # electricity for compression
+                                if state in ["gaseous", "liquid"]:
+                                    dataset = self.add_compression_electricity(
+                                        state, vehicle, distance, region, dataset, subset
+                                    )
+
+                                # electricity for hydrogenation, dehydrogenation and
+                                # compression at delivery
+                                if state == "liquid organic compound":
+                                    dataset = self.add_hydrogenation_energy(
+                                        region, dataset, subset
+                                    )
+
+                                dataset = self.add_hydrogen_input_and_losses(
+                                    list(hydrogen_datasets)[0],
+                                    region,
+                                    losses,
+                                    vehicle,
+                                    state,
+                                    distance,
+                                    dataset,
+                                    subset,
+                                )
+
+                                # add fuelling station, including storage tank
+                                dataset["exchanges"].append(
+                                    self.add_h2_fuelling_station(region, subset)
+                                )
+
+                                # add pre-cooling
+                                dataset = self.add_pre_cooling_electricity(
                                     dataset, region, subset
                                 )
 
-                            if "regional storage" in config:
-                                dataset = self.add_hydrogen_regional_storage(
-                                    dataset, region, config, subset
+                                dataset = self.relink_technosphere_exchanges(
+                                    dataset,
                                 )
 
-                            # electricity for compression
-                            if state in ["gaseous", "liquid"]:
-                                dataset = self.add_compression_electricity(
-                                    state, vehicle, distance, region, dataset, subset
-                                )
+                                self.database.append(dataset)
 
-                            # electricity for hydrogenation, dehydrogenation and
-                            # compression at delivery
-                            if state == "liquid organic compound":
-                                dataset = self.add_hydrogenation_energy(
-                                    region, dataset, subset
-                                )
+                                # add to log
+                                self.write_log(dataset)
 
-                            dataset = self.add_hydrogen_input_and_losses(
-                                hydrogen_vars,
-                                region,
-                                losses,
-                                vehicle,
-                                state,
-                                distance,
-                                dataset,
-                                subset,
-                            )
-
-                            # add fuelling station, including storage tank
-                            dataset["exchanges"].append(
-                                self.add_h2_fuelling_station(region, subset)
-                            )
-
-                            # add pre-cooling
-                            dataset = self.add_pre_cooling_electricity(
-                                dataset, region, subset
-                            )
-
-                            dataset = self.relink_technosphere_exchanges(
-                                dataset,
-                            )
-
-                            self.database.append(dataset)
-
-                            # add to log
-                            self.write_log(dataset)
-
-                            # add it to list of created datasets
-                            self.add_to_index(dataset)
+                                # add it to list of created datasets
+                                self.add_to_index(dataset)
 
     def add_hydrogen_transport(
         self,
@@ -821,7 +886,7 @@ class Fuels(BaseTransformation):
         # fetch the H2 production activity
         h2_ds = list(
             self.find_suppliers(
-                name=hydrogen_activity["name"],
+                name=hydrogen_activity,
                 ref_prod="hydrogen",
                 unit="kilogram",
                 loc=region,
@@ -1668,68 +1733,6 @@ class Fuels(BaseTransformation):
 
         return dataset
 
-    def adjust_fuel_conversion_efficiency(self):
-        """
-        Adjust the input to output fuel conversion efficiency.
-        """
-
-        for fuel, activities in self.fuel_map.items():
-            for activity in activities:
-                for ds in ws.get_many(self.database, ws.equals("name", activity)):
-                    variable = self.rev_fuel_map.get(activity)
-                    scaling_factor = 1.0
-                    if variable in self.fuel_efficiencies.coords["variables"]:
-                        if ds["location"] in self.regions:
-                            region = ds["location"]
-                        else:
-                            region = self.ecoinvent_to_iam_loc[ds["location"]]
-
-                        if self.year in self.fuel_efficiencies.coords["year"].values:
-                            scaling_factor = self.fuel_efficiencies.sel(
-                                variables=variable,
-                                region=region,
-                                year=self.year,
-                            ).values
-                        else:
-                            scaling_factor = (
-                                self.fuel_efficiencies.sel(
-                                    variables=variable,
-                                    region=region,
-                                )
-                                .interp(year=self.year)
-                                .values
-                            )
-                    if (
-                        scaling_factor != 1.0
-                        and "market for" not in ds["name"]
-                        and "fuel conversion efficiency"
-                        not in ds.get("log parameters", {})
-                    ):
-                        rescale_exchanges(
-                            ds,
-                            1 / scaling_factor,
-                        )
-
-                        if "log parameters" not in ds:
-                            ds["log parameters"] = {}
-
-                        ds["log parameters"].update(
-                            {
-                                "fuel conversion efficiency": 1 / scaling_factor,
-                            }
-                        )
-
-                        # update comment section
-                        txt = (
-                            f" The inputs of this dataset have been multiplied by {1 / scaling_factor}"
-                            f"to reflect changes in efficiency according to {self.model.upper()} - {self.scenario.upper()}."
-                        )
-                        if "comment" in ds:
-                            ds["comment"] += txt
-                        else:
-                            ds["comment"] = txt
-                        self.write_log(ds, status="updated")
-
     def get_production_label(self, crop_type: str) -> [str, None]:
         """
         Get the production label for the dataset.
@@ -1917,7 +1920,8 @@ class Fuels(BaseTransformation):
         else:
             start_period = self.year
             end_period = self.year + period
-            # make sure end_period is not greater than the last year in the dataset
+            # make sure end_period is not greater than
+            # the last year in the dataset
             end_period = min(
                 end_period, self.iam_fuel_markets.coords["year"].values[-1]
             )
@@ -2419,7 +2423,9 @@ class Fuels(BaseTransformation):
             for activity in activities:
                 self.rev_fuel_map[activity] = fuel
 
+
         d_fuels = self.get_fuel_mapping()
+
 
         datasets = [
             item

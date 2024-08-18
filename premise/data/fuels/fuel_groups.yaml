@@ -36,7 +36,7 @@ gas:
 
 hydrogen:
   - hydrogen, from petroleum
-  - hydrogen, from electrolysis
+  - hydrogen, from electrolysis, PEM
   - hydrogen, from solar
   - hydrogen, from pyrolysis
   - hydrogen, from biomass

@@ -514,7 +514,7 @@ hydrogen, from petroleum:
     fltr:
       - hydrogen production, gaseous, petroleum refinery operation
 
-hydrogen, from electrolysis:
+hydrogen, from electrolysis, PEM:
   lhv: 120
   co2: 0
   biogenic_share: 1
@@ -528,8 +528,28 @@ hydrogen, from electrolysis:
     remind: Tech|Hydrogen|Electricity|Efficiency
     tiam-ucl: Efficiency|Hydrogen|Electrolysis
   ecoinvent_aliases:
-    fltr:
-      - hydrogen production, gaseous, 30 bar, from PEM electrolysis, from grid electricity
+    fltr: hydrogen production, gaseous, 30 bar, from PEM electrolysis, from grid electricity
+    mask:
+      - carbon dioxide
+
+hydrogen, from electrolysis, AEC:
+  lhv: 120
+  co2: 0
+  biogenic_share: 1
+  ecoinvent_aliases:
+    fltr: hydrogen production, gaseous, 20 bar, from AEC electrolysis, from grid electricity
+    mask:
+      - carbon dioxide
+
+hydrogen, from electrolysis, SOEC:
+  lhv: 120
+  co2: 0
+  biogenic_share: 1
+  ecoinvent_aliases:
+    fltr: hydrogen production, gaseous, 1 bar, from SOEC electrolysis, from grid electricity
+    mask:
+      - steam
+      - carbon dioxide
 
 hydrogen, from solar:
   lhv: 120
@@ -596,6 +616,7 @@ hydrogen, from coal:
     remind: Tech|Hydrogen|Coal|w/o CC|Efficiency
   ecoinvent_aliases:
     fltr: hydrogen production, coal gasification
+    mask: CCS
 
 hydrogen, from coal, with CCS:
   lhv: 120

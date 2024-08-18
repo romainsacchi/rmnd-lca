@@ -1,6 +1,4 @@
-from electrolysis (PEM):
-  name: hydrogen production, gaseous, 30 bar, from PEM electrolysis, from grid electricity
-  var: hydrogen, from electrolysis
+hydrogen, from electrolysis, PEM:
   feedstock name: electricity, low voltage
   feedstock unit: kilowatt hour
   efficiency:
@@ -14,63 +12,80 @@ from electrolysis (PEM):
       maximum: 52.5
   floor value: 45.3
 
-from SMR of biogas, with CCS:
-  name: hydrogen production, steam methane reforming, from biomethane, with CCS
-  var: hydrogen, from biogas, with CCS
+hydrogen, from electrolysis, AEC:
+  feedstock name: electricity, low voltage
+  feedstock unit: kilowatt hour
+  efficiency:
+    2020:
+      mean: 51.8
+      minimum: 48.7
+      maximum: 54.9
+    2050:
+      mean: 48.5
+      minimum: 47.1
+      maximum: 49.9
+  floor value: 47.1
+
+hydrogen, from electrolysis, SOEC:
+  feedstock name: electricity, low voltage
+  feedstock unit: kilowatt hour
+  efficiency:
+    2020:
+      mean: 42.3
+      minimum: 41.2
+      maximum: 43.4
+    2050:
+      mean: 40.6
+      minimum: 40.0
+      maximum: 41.2
+  floor value: 40.0
+
+hydrogen, from biogas, with CCS:
   feedstock name: biomethane
   feedstock unit: kilogram
   floor value: 3.2
-from SMR of biogas:
-  name: hydrogen production, steam methane reforming, from biomethane
-  var: hydrogen, from biogas
+
+hydrogen, from biogas:
   feedstock name: biomethane
   feedstock unit: kilogram
   floor value: 3.2
-from SMR of natural gas:
-  name: hydrogen production, steam methane reforming
-  var: hydrogen, from natural gas
+
+hydrogen, from natural gas:
   feedstock name: natural gas
   feedstock unit: cubic meter
   floor value: 3.5
-from SMR of natural gas, with CCS:
-  name: hydrogen production, steam methane reforming, with CCS
-  var: hydrogen, from natural gas, with CCS
+
+hydrogen, from natural gas, with CCS:
   feedstock name: natural gas
   feedstock unit: cubic meter
   floor value: 3.5
-from gasification of biomass, with CCS:
-  name: hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant
-  var: hydrogen, from biomass, with CCS
+
+hydrogen, from biomass, with CCS:
   feedstock name: wood chips
   feedstock unit: kilogram
   floor value: 7
-from gasification of biomass:
-  name: hydrogen production, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant
-  var: hydrogen, from biomass
+
+hydrogen, from biomass:
   feedstock name: wood chips
   feedstock unit: kilogram
   floor value: 7
-from coal gasification:
-  name: hydrogen production, coal gasification
-  var: hydrogen, from coal
+
+hydrogen, from coal:
   feedstock name: hard coal
   feedstock unit: kilogram
   floor value: 5
-from coal gasification, with CCS:
-  name: hydrogen production, coal gasification, with CCS
-  var: hydrogen, from coal, with CCS
+
+hydrogen, from coal, with CCS:
   feedstock name: hard coal
   feedstock unit: kilogram
   floor value: 5
-from pyrolysis:
-  name: hydrogen production, gaseous, 100 bar, from methane pyrolysis
-  var: hydrogen, from pyrolysis
+
+hydrogen, from pyrolysis:
   feedstock name: natural gas
   feedstock unit: cubic meter
   floor value: 6.5
-from thermochemical water splitting:
-  name: hydrogen production, gaseous, 25 bar, from thermochemical water splitting, at solar tower
-  var: hydrogen, from solar
+
+hydrogen, from solar:
   feedstock name: Energy, solar, converted
   feedstock unit: megajoule
   floor value: 180
