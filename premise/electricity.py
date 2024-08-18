@@ -1444,10 +1444,8 @@ class Electricity(BaseTransformation):
 
             for exc in ws.technosphere(
                 dataset,
-                *[
-                    ws.contains("name", "photovoltaic"),
-                    ws.equals("unit", "square meter"),
-                ],
+                ws.contains("name", "photovoltaic"),
+                ws.equals("unit", "square meter"),
             ):
                 surface = float(exc["amount"])
                 max_power = surface  # in kW, since we assume a constant 1,000W/m^2
