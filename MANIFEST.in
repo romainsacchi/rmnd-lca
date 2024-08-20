@@ -31,6 +31,13 @@ include premise/data/metals/*.csv
 include premise/data/metals/*.yml
 include premise/data/metals/*.yaml
 include premise/data/transport/*.yaml
+include premise/data/transport/*.csv
+include premise/data/transport/bus/*.csv
+include premise/data/transport/car/*.csv
+include premise/data/transport/truck/*.csv
+include premise/data/transport/two-wheeler/*.csv
+include premise/data/battery/*.yaml
+include premise/data/battery/*.csv
 include premise/data/GAINS_emission_factors/*.csv
 include premise/data/GAINS_emission_factors/*.yaml
 include premise/data/GAINS_emission_factors/iam_data/CLE/*.csv

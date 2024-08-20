@@ -5,7 +5,7 @@ A series of transformations are applied to the Life Cycle Inventory (LCI) databa
 and technology market shares with the outputs from the Integrated Assessment Model (IAM) scenario.
 
 Mobile batteries
-""""""""""""""""
+++++++++++++++++
 
 Inventories for several battery technologies for mobile applications are provided
 in *premise*. See EXTRACT/Import of additional inventories/Li-ion batteries for
@@ -132,7 +132,7 @@ under  https://github.com/polca/premise/blob/master/premise/data/battery/scenari
 
 
 Stationary batteries
-""""""""""""""""""""
+++++++++++++++++++++
 
 Inventories for several battery technologies for stationary applications are provided:
 
@@ -217,7 +217,7 @@ market for battery capacity, stationary (TC scenario)     GLO         Vanadium R
 capacity needed in high voltage electricity markets.
 
 Biomass
-"""""""
++++++++
 
 Run
 
@@ -295,7 +295,7 @@ and transport it to the powerplant, but no other forestry-related burden is incl
 
 
 Power generation
-""""""""""""""""
+++++++++++++++++
 
 Run
 
@@ -607,7 +607,7 @@ Regional electricity markets
 ----------------------------
 
 High voltage regional markets
-=============================
+-----------------------------
 
 *premise* creates high, medium and low-voltage electricity markets for each IAM region.
 It starts by creating high-voltage markets and define the share of each supplying technology
@@ -668,7 +668,7 @@ ecoinvent). This is not ideal as it supposes that future country-specific
 production volumes will remain the same in respect to one another.
 
 High voltage regional markets for aluminium smelters
-====================================================
+----------------------------------------------------
 
 Aluminium production is a significant consumer of electricity.
 In the ecoinvent database, aluminium smelters are represented by
@@ -716,10 +716,8 @@ regional mixes defined by the International Energy Agency (IEA).
 .. _IAI Beyond 2 Degrees Aluminium Roadmap: https://international-aluminium.org/resource/aluminium-sector-greenhouse-gas-pathways-to-2050-2021/
 
 
-
-
 Storage
-=======
+-------
 
 If the IAM scenario requires the use of storage, *premise* adds a storage
 dataset to the high voltage market. *premise* can add two types of storage:
@@ -741,7 +739,7 @@ The efficiency of the H2-fed gas turbine is based on the parameters of Ozawa_ et
 
 
 Medium voltage regional markets
-===============================
+-------------------------------
 
 The workflow is not too different from that of high voltage markets.
 There are however only two possible providers of electricity in medium
@@ -753,7 +751,7 @@ market to itself. Distribution losses are modelled the same way as for
 high voltage markets and are added to the input from high voltage market.
 
 Low voltage regional markets
-============================
+----------------------------
 
 Low voltage regional markets receive an input from the medium voltage
 market, as well as from residential photovoltaic power.
@@ -818,7 +816,7 @@ The rest of the modelling is similar to that of regular regional electricity
 markets described above.
 
 Original market datasets
-========================
+------------------------
 
 Market datasets originally present in the ecoinvent LCI database are cleared
 from any inputs. Instead, an input from the newly created regional market
@@ -840,14 +838,14 @@ regional market, which "includes" it in terms of geography.
  ============================================ =========== ================ ===========
 
 Relinking
-=========
+---------
 
 Once the new markets are created, *premise* re-links all electricity-consuming
 activities to the new regional markets. The regional market it re-links to
 depends on the location of the consumer.
 
 Cement production
-"""""""""""""""""
++++++++++++++++++
 
 The modelling of future improvements in the cement sector is relatively
 simple at the moment, and does not involve the emergence of new
@@ -873,7 +871,7 @@ Run
     ndb.update("cement")
 
 Dataset proxies
-+++++++++++++++
+---------------
 
 *premise* duplicates clinker production datasets in ecoinvent (called
 "clinker production") so as to create a proxy dataset for each IAM region.
@@ -886,7 +884,7 @@ in different fields, such as that of *production volume*.
 
 
 Efficiency adjustment
-+++++++++++++++++++++
+---------------------
 
 *premise* then adjusts the thermal efficiency of the process.
 It does so by calculating the technology-weighted energy requirements
@@ -939,7 +937,7 @@ at a fix emission rate of 525 kg CO2/t clinker.
 
 
 Carbon Capture and Storage
-++++++++++++++++++++++++++
+--------------------------
 
 If the IAM scenario indicates that a share of the CO2 emissions
 for the cement sector in a given region and year is sequestered and stored,
@@ -975,7 +973,7 @@ the 2018 IEA_ cement roadmap report.
     ndb.generate_scenario_report()
 
 Cement markets
-++++++++++++++
+--------------
 
 Run
 
@@ -1004,7 +1002,7 @@ as well. These cement production datasets link the newly created
 clinker production dataset, corresponding to their IAM region.
 
 Clinker-to-cement ratio
-+++++++++++++++++++++++
+-----------------------
 
 *premise* used to modify the composition of cement markets to reflect
 a lower clinker content over time, based on external projections. This is
@@ -1012,7 +1010,7 @@ no longer performed, as it is not an assumption stemming from the IAM model,
 but rather a projection of the cement industry.
 
 Original market datasets
-========================
+------------------------
 
 Market datasets originally present in the ecoinvent LCI database are cleared
 from any inputs. Instead, an input from the newly created regional market
@@ -1035,7 +1033,7 @@ regional market, which "includes" it in terms of geography.
 
 
 Relinking
-+++++++++
+---------
 
 Once cement production and market datasets are created, *premise*
 re-links cement-consuming activities to the new regional markets for
@@ -1043,7 +1041,7 @@ cement. The regional market it re-links to depends on the location
 of the consumer.
 
 Steel production
-""""""""""""""""
+++++++++++++++++
 
 Run
 
@@ -1071,7 +1069,7 @@ simple at the moment, and does not involve the emergence of new
 technologies (e.g., hydrogen-based DRI, electro-winning).
 
 Dataset proxies
-+++++++++++++++
+---------------
 
 *premise* duplicates steel production datasets in ecoinvent for the
 production of primary and secondary steel (called respectively
@@ -1086,7 +1084,7 @@ to using a rest-of-the-world (RoW) dataset to represent the IAM region.
 in different fields, such as that of *production volume*.
 
 Efficiency adjustment
-+++++++++++++++++++++
+---------------------
 
 Regarding primary steel production (using BO-BOF), *premise* adjusts
 the inputs of fuels found in:
@@ -1125,7 +1123,7 @@ provided by the IAM scenario.
     by *premise*. Therefore, there is a large modelling uncertainty.
 
 Carbon Capture and Storage
-++++++++++++++++++++++++++
+--------------------------
 
 If the IAM scenario indicates that a share of the CO2 emissions
 from the steel sector in a given region and year is sequestered and stored,
@@ -1150,7 +1148,7 @@ case of a steel mill.
 
 
 Steel markets
-+++++++++++++
+-------------
 
 *premise* create a dataset "market for steel, low-alloyed" for each IAM region.
 Within each dataset, the supply shares of primary and secondary steel
@@ -1180,7 +1178,7 @@ furnace process (secondary steel).
 
 
 Original market datasets
-========================
+------------------------
 
 Market datasets originally present in the ecoinvent LCI database are cleared
 from any inputs. Instead, an input from the newly created regional market
@@ -1203,7 +1201,7 @@ regional market, which "includes" it in terms of geography.
 
 
 Relinking
-+++++++++
+---------
 
 Once steel production and market datasets are created, *premise*
 re-links steel-consuming activities to the new regional markets for
@@ -1211,7 +1209,7 @@ steel. The regional market it re-links to depends on the location
 of the consumer.
 
 Transport
-"""""""""
++++++++++
 
 Run
 
@@ -1250,7 +1248,7 @@ are obtained by scaling down the current inventories based on the
 vehicle efficiency improvements projected by the IAM scenario.
 
 Trucks
-++++++
+------
 
 The following size classes of medium and heavy duty trucks are imported:
 
@@ -1425,7 +1423,7 @@ of India.
  ================================================================= ============ ================ ===========
 
 Direct Air Capture
-""""""""""""""""""
+++++++++++++++++++
 
 Run
 
@@ -1457,7 +1455,7 @@ and heat of the DAC datasets to reflect changes in efficiency.
 .. _Qiu: https://doi.org/10.1038/s41467-022-31146-1
 
 Fuels
-"""""
++++++
 
 Run
 
@@ -1485,10 +1483,10 @@ and fuel markets, based on data from the IAM scenario.
 
 
 Efficiency adjustment
-+++++++++++++++++++++
+---------------------
 
 Biofuels
-========
+--------
 
 The biomass-to-fuel efficiency ratio of bioethanol and biodiesel
 production datasets is adjusted according to the IAM scenario projections.
@@ -1496,54 +1494,8 @@ production datasets is adjusted according to the IAM scenario projections.
 Inputs to the biofuel production datasets are multiplied by a *scaling factor*
 that represents the change in efficiency relative to today (2020).
 
-Hydrogen
-========
-
-Several pathways for hydrogen production are modeled in *premise*:
-
-- electrolysis
-- steam methane reforming of natural gas
-- steam methane reforming of biomethane
-- gasification of coal
-- gasification of woody biomass
-
-The last four pathways are modeled with and without CCS.
-
-Inventories for these pathways are available under:
-
-* premise/data/additional_inventories/lci-hydrogen-electrolysis.xlsx
-* premise/data/additional_inventories/lci-smr-atr-natgas.xlsx
-* premise/data/additional_inventories/lci-smr-atr-biogas.xlsx
-* premise/data/additional_inventories/lci-hydrogen-coal-gasification.xlsx
-* premise/data/additional_inventories/lci-hydrogen-wood-gasification.xlsx
-
-
-In case the IAM variable that relates to a given hydrogen pathway's
-efficiency is not available, the process' efficiency is not modified,
-with the exception of electrolysis, which is modified regardless.
-
-A scaling factor is calculated for each pathway, which is the ratio
-between the IAM variable value for the year in question
-and the current efficiency value (i.e., in 2020). *premise*
-uses this scaling factor to adjust the amount of feedstock
-input to produce 1 kg of hydrogen (e.g., m3 of natural gas per kg hydrogen).
-
-If the IAM variable that relates to the efficiency of
-the electrolysis hydrogen process is not available,
-*premise* adjusts the amount of electricity needed
-to produce 1 kg of hydrogen by electrolysis, on the basis of the following
-requirements, which are sourced from Bauer_ et al, 2022:
-
- ==================== ======= ======= =======
-  kWh/kg H2, 25 bar    2010    2020    2050
- ==================== ======= ======= =======
-  electricity          58      55      48
- ==================== ======= ======= =======
-
-.. _Bauer: https://www.psi.ch/en/media/77703/download?attachment
-
 Land use and land use change
-++++++++++++++++++++++++++++
+----------------------------
 
 When building a database using IMAGE, land use and land use change emissions
 are available. Upon the import of crops farming datasets, *premise* adjusts
@@ -1579,7 +1531,7 @@ CO2 emissions per kg of crop farmed are calculated as::
     land_use_co2 = land_use_co2 [kg CO2/GJ] / 1000 [MJ/GJ] * LHV [MJ/kg]
 
 Regional supply chains
-++++++++++++++++++++++
+----------------------
 
 *premise* builds several supply chains for synthetic fuels, for each IAM
 region. THe reason for this is that synthetic fuels can be produced from
@@ -1587,7 +1539,33 @@ a variety of hydrogen and CO2 sources. Additionally, hydrogen can be supplied
 by different means of transport, and in different states.
 
 Hydrogen
-========
+--------
+
+Several pathways for hydrogen production are modeled in *premise*:
+
+- electrolysis
+- steam methane reforming of natural gas
+- steam methane reforming of biomethane
+- gasification of coal
+- gasification of woody biomass
+- natural gas pyrolysis
+- thermochemical water splitting
+
+Each pathways are modeled with and without CCS,
+with the exception of electrolysis, natural gas pyrolysis
+and thermochemical water splitting.
+
+In case the IAM variable that relates to a given hydrogen pathway's
+efficiency is not available, the process' efficiency is not modified.
+
+A scaling factor is calculated for each pathway, which is the ratio
+between the IAM variable value for the year in question
+and the current efficiency value (i.e., in 2020). *premise*
+uses this scaling factor to adjust the amount of feedstock
+input to produce 1 kg of hydrogen (e.g., m3 of natural gas per kg hydrogen).
+
+Hydrogen supply chains
+----------------------
 
 *premise* starts by building different supply chains for hydrogen by varying:
 
@@ -1686,7 +1664,7 @@ Also, in this same case, electricity is used:
 
 
 Fuel markets
-++++++++++++
+------------
 
 *premise* builds markets for the following fuels:
 
@@ -1716,7 +1694,7 @@ data and the fuel markets is described under: https://github.com/polca/premise/t
     the choice is made to supply it by truck over 500 km, in a gaseous state.
 
 Influence of differing LHV on fuel market composition
-=====================================================
+-----------------------------------------------------
 
 Because not all competing fuels of a same type have similar calorific values,
 some adjustments are made. The table below shows the example of the market for
@@ -1799,7 +1777,7 @@ hardwood chips) relink to the dataset `market for biomass, used as fuel` if
 
 
 CO2 emissions update
-++++++++++++++++++++
+--------------------
 
 *premise* iterates through activities that consume any of the newly created
 fuel markets to update the way CO2 emissions are modelled. Based on the fuel
@@ -1833,7 +1811,7 @@ new diesel market of the REMIND region for India.
 
 
 Geographical mapping
-""""""""""""""""""""
+++++++++++++++++++++
 
 IAM models have slightly different geographical resolutions and definitions.
 
@@ -1859,208 +1837,209 @@ implementation in the wurst_ library.
 .. _constructive_geometries: https://github.com/cmutel/constructive_geometries
 .. _wurst: https://github.com/polca/wurst
 
-=============== ================================= =============================== ======================== =========================== ========================
- Country Code    message-topology.json             gcam-topology.json              tiam-ucl-topology.json   remind-topology.json        image-topology.json
-==============  ================================= =============================== ======================== =========================== ========================
- AF              R12_SAS                            South Asia                      ODA                      OAS                         RSAS
- AG              R12_LAM                            Central America and Caribbean   CSA                      LAM                         N/A
- AI              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- AL              R12_EEU                            Europe_Non_EU                   WEU                      NEU                         CEU
- AM              R12_FSU                            Central Asia                    FSU                      REF                         RUS
- AO              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- AR              R12_LAM                            Argentina                       CSA                      LAM                         RSAM
- AS              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- AT              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- AU              R12_PAO                            Australia_NZ                    AUS                      CAZ                         OCE
- AZ              R12_FSU                            Central Asia                    FSU                      REF                         RUS
- BA              R12_EEU                            Europe_Non_EU                   EEU                      NEU                         CEU
- BD              R12_SAS                            South Asia                      ODA                      OAS                         RSAS
- BE              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- BF              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- BG              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- BH              R12_MEA                            Middle East                     MEA                      MEA                         ME
- BI              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- BJ              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- BN              R12_PAS                            Southeast Asia                  MEA                      OAS                         SEAS
- BO              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- BR              R12_LAM                            Brazil                          CSA                      LAM                         BRA
- BS              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- BT              R12_SAS                            South Asia                      ODA                      OAS                         RSAS
- BW              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- BY              R12_FSU                            Europe_Eastern                  FSU                      REF                         UKR
- BZ              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- CA              R12_NAM                            Canada                          CAN                      CAZ                         CAN
- CD              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- CF              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- CG              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- CH              R12_WEU                            European Free Trade Association WEU                      NEU                         WEU
- CI              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- CL              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- CM              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- CN              R12_CHN                            China                           CHI                      CHA                         CHN
- CO              R12_LAM                            Colombia                        CSA                      LAM                         RSAM
- CR              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- CU              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- CY              R12_WEU                            EU-12                           MEA                      EUR                         N/A
- CZ              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- DE              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- DJ              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- DK              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- DM              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- DO              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- DZ              R12_MEA                            Africa_Northern                 AFR                      MEA                         NAF
- EC              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- EE              R12_EEU                            EU-12                           FSU                      EUR                         CEU
- EG              R12_MEA                            Africa_Northern                 AFR                      MEA                         NAF
- ER              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- ES              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- ET              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- FI              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- FJ              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- FR              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- GA              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GB              R12_WEU                            EU-15                           UK                       EUR                         WEU
- GE              R12_FSU                            Central Asia                    FSU                      REF                         RUS
- GF              R12_LAM                            South America_Northern          CSA                      LAM                         RSAM
- GH              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GI              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- GL              R12_WEU                            EU-15                           NEU                      NEU                         WEU
- GM              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GN              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GQ              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GR              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- GT              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- GW              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GY              R12_LAM                            South America_Northern          CSA                      LAM                         RSAM
- HK              R12_CHN                            China                           CHI                      CHA                         CHN
- HN              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- HR              R12_EEU                            Europe_Non_EU                   EEU                      EUR                         CEU
- HT              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- HU              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- ID              R12_PAS                            Indonesia                       ODA                      OAS                         INDO
- IE              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- IL              R12_MEA                            Middle East                     MEA                      MEA                         ME
- IN              R12_SAS                            India                           IND                      IND                         INDIA
- IQ              R12_MEA                            Middle East                     MEA                      MEA                         ME
- IR              R12_MEA                            Middle East                     MEA                      MEA                         ME
- IS              R12_WEU                            European Free Trade Association WEU                      NEU                         WEU
- IT              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- JM              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- JO              R12_MEA                            Middle East                     MEA                      MEA                         ME
- JP              R12_PAO                            Japan                           JPN                      JPN                         JAP
- KE              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- KG              R12_FSU                            Central Asia                    FSU                      REF                         STAN
- KH              R12_RCPA                           Southeast Asia                  ODA                      OAS                         SEAS
- KI              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- KM              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- KN              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- KP              R12_RCPA                           Southeast Asia                  ODA                      OAS                         KOR
- KR              R12_PAS                            South Korea                     SKO                      OAS                         KOR
- KW              R12_MEA                            Middle East                     MEA                      MEA                         ME
- KY              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- KZ              R12_FSU                            Central Asia                    FSU                      REF                         STAN
- LA              R12_RCPA                           Southeast Asia                  ODA                      OAS                         SEAS
- LB              R12_MEA                            Middle East                     MEA                      MEA                         ME
- LC              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- LI              R12_WEU                            EU-15                           WEU                      NEU                         WEU
- LK              R12_SAS                            South Asia                      ODA                      OAS                         RSAS
- LR              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- LS              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- LT              R12_EEU                            EU-12                           FSU                      EUR                         CEU
- LU              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- LV              R12_EEU                            EU-12                           FSU                      EUR                         CEU
- LY              R12_MEA                            Africa_Northern                 AFR                      MEA                         NAF
- MA              R12_MEA                            Africa_Northern                 AFR                      MEA                         NAF
- MC              R12_WEU                            EU-15                           WEU                      NEU                         WEU
- MD              R12_FSU                            Europe_Eastern                  FSU                      REF                         UKR
- ME              R12_EEU                            Europe_Non_EU                   EEU                      NEU                         CEU
- MG              R12_AFR                            Africa_Eastern                  AFR                      SSA                         RSAF
- MK              R12_EEU                            Europe_Non_EU                   EEU                      NEU                         CEU
- ML              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- MM              R12_PAS                            Southeast Asia                  ODA                      OAS                         SEAS
- MN              R12_RCPA                           Central Asia                    ODA                      OAS                         CHN
- MO              R12_CHN                            China                           CHI                      CHA                         CHN
- MR              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- MS              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- MT              R12_WEU                            EU-12                           WEU                      EUR                         WEU
- MU              R12_AFR                            Africa_Eastern                  ODA                      SSA                         EAF
- MW              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- MX              R12_LAM                            Mexico                          MEX                      MEX                         MEX
- MY              R12_PAS                            Southeast Asia                  ODA                      OAS                         SEAS
- MZ              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- NA              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- NE              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- NG              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- NI              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- NL              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- NO              R12_WEU                            European Free Trade Association WEU                      NEU                         WEU
- NP              R12_SAS                            South Asia                      ODA                      OAS                         RSAS
- NR              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- NU              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- NZ              R12_PAO                            Australia_NZ                    AUS                      CAZ                         OCE
- OM              R12_MEA                            Middle East                     MEA                      MEA                         ME
- PA              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- PE              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- PF              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- PG              R12_PAS                            Southeast Asia                  ODA                      OAS                         INDO
- PH              R12_PAS                            Southeast Asia                  ODA                      OAS                         SEAS
- PK              R12_SAS                            Pakistan                        ODA                      OAS                         RSAS
- PL              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- PT              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- PY              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- QA              R12_MEA                            Middle East                     MEA                      MEA                         ME
- RE              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- RO              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- RS              R12_EEU                            Europe_Non_EU                   EEU                      NEU                         CEU
- RW              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- SA              R12_MEA                            Middle East                     MEA                      MEA                         ME
- SB              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- SC              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- SD              R12_MEA                            Africa_Eastern                  AFR                      MEA                         EAF
- SE              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- SG              R12_PAS                            Southeast Asia                  ODA                      OAS                         SEAS
- SH              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- SI              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- SK              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- SL              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- SM              R12_WEU                            EU-15                           WEU                      NEU                         WEU
- SN              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- SO              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- SR              R12_LAM                            South America_Northern          CSA                      LAM                         RSAM
- SS              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- ST              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- SV              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- SY              R12_MEA                            Middle East                     MEA                      MEA                         ME
- SZ              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- TC              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- TD              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- TG              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- TH              R12_PAS                            Southeast Asia                  ODA                      OAS                         SEAS
- TJ              R12_FSU                            Central Asia                    FSU                      REF                         STAN
- TL              R12_PAS                            Southeast Asia                  ODA                      OAS                         INDO
- TM              R12_FSU                            Central Asia                    FSU                      REF                         STAN
- TN              R12_MEA                            Africa_Northern                 AFR                      MEA                         NAF
- TO              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- TR              R12_WEU                            EU-15                           MEA                      MEA                         TUR
- TT              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- TV              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- TZ              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- UA              R12_FSU                            Europe_Eastern                  FSU                      REF                         UKR
- UG              R12_AFR                            Africa_Eastern                 AFR                       SSA                         EAF
- US              R12_NAM                            USA                             USA                      USA                         USA
- UY              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- UZ              R12_FSU                            Central Asia                    FSU                      REF                         STAN
- VC              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- VE              R12_LAM                            South America_Northern          CSA                      LAM                         RSAM
- VG              N/A                                N/A                             N/A                      LAM                         RCAM
- VI              R12_NAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- VN              R12_RCPA                           Southeast Asia                  ODA                      OAS                         SEAS
- VU              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- YE              R12_MEA                            Middle East                     MEA                      MEA                         ME
- ZA              R12_AFR                            South Africa                    AFR                      SSA                         SAF
- ZM              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- ZW              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
-=============== ================================= =============================== ======================== =========================== ========================
+
+ =============== ================================= ================================ ======================== =========================== ========================
+  Country Code    message-topology.json             gcam-topology.json              tiam-ucl-topology.json   remind-topology.json        image-topology.json
+ =============== ================================= ================================ ======================== =========================== ========================
+  AF              R12_SAS                           South Asia                      ODA                      OAS                         RSAS
+  AG              R12_LAM                           Central America and Caribbean   CSA                      LAM                         N/A
+  AI              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  AL              R12_EEU                           Europe_Non_EU                   WEU                      NEU                         CEU
+  AM              R12_FSU                           Central Asia                    FSU                      REF                         RUS
+  AO              R12_AFR                           Africa_Southern                 AFR                      SSA                         RSAF
+  AR              R12_LAM                           Argentina                       CSA                      LAM                         RSAM
+  AS              R12_PAS                           Southeast Asia                  ODA                      OAS                         OCE
+  AT              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  AU              R12_PAO                           Australia_NZ                    AUS                      CAZ                         OCE
+  AZ              R12_FSU                           Central Asia                    FSU                      REF                         RUS
+  BA              R12_EEU                           Europe_Non_EU                   EEU                      NEU                         CEU
+  BD              R12_SAS                           South Asia                      ODA                      OAS                         RSAS
+  BE              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  BF              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  BG              R12_EEU                           EU-12                           EEU                      EUR                         CEU
+  BH              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  BI              R12_AFR                           Africa_Eastern                  AFR                      SSA                         EAF
+  BJ              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  BN              R12_PAS                           Southeast Asia                  MEA                      OAS                         SEAS
+  BO              R12_LAM                           South America_Southern          CSA                      LAM                         RSAM
+  BR              R12_LAM                           Brazil                          CSA                      LAM                         BRA
+  BS              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  BT              R12_SAS                           South Asia                      ODA                      OAS                         RSAS
+  BW              R12_AFR                           Africa_Southern                 AFR                      SSA                         RSAF
+  BY              R12_FSU                           Europe_Eastern                  FSU                      REF                         UKR
+  BZ              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  CA              R12_NAM                           Canada                          CAN                      CAZ                         CAN
+  CD              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  CF              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  CG              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  CH              R12_WEU                           European Free Trade Association WEU                      NEU                         WEU
+  CI              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  CL              R12_LAM                           South America_Southern          CSA                      LAM                         RSAM
+  CM              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  CN              R12_CHN                           China                           CHI                      CHA                         CHN
+  CO              R12_LAM                           Colombia                        CSA                      LAM                         RSAM
+  CR              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  CU              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  CY              R12_WEU                           EU-12                           MEA                      EUR                         N/A
+  CZ              R12_EEU                           EU-12                           EEU                      EUR                         CEU
+  DE              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  DJ              R12_AFR                           Africa_Eastern                  AFR                      SSA                         EAF
+  DK              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  DM              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  DO              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  DZ              R12_MEA                           Africa_Northern                 AFR                      MEA                         NAF
+  EC              R12_LAM                           South America_Southern          CSA                      LAM                         RSAM
+  EE              R12_EEU                           EU-12                           FSU                      EUR                         CEU
+  EG              R12_MEA                           Africa_Northern                 AFR                      MEA                         NAF
+  ER              R12_AFR                           Africa_Eastern                  AFR                      SSA                         EAF
+  ES              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  ET              R12_AFR                           Africa_Eastern                  AFR                      SSA                         EAF
+  FI              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  FJ              R12_PAS                           Southeast Asia                  ODA                      OAS                         OCE
+  FR              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  GA              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  GB              R12_WEU                           EU-15                           UK                       EUR                         WEU
+  GE              R12_FSU                           Central Asia                    FSU                      REF                         RUS
+  GF              R12_LAM                           South America_Northern          CSA                      LAM                         RSAM
+  GH              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  GI              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  GL              R12_WEU                           EU-15                           NEU                      NEU                         WEU
+  GM              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  GN              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  GQ              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  GR              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  GT              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  GW              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  GY              R12_LAM                           South America_Northern          CSA                      LAM                         RSAM
+  HK              R12_CHN                           China                           CHI                      CHA                         CHN
+  HN              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  HR              R12_EEU                           Europe_Non_EU                   EEU                      EUR                         CEU
+  HT              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  HU              R12_EEU                           EU-12                           EEU                      EUR                         CEU
+  ID              R12_PAS                           Indonesia                       ODA                      OAS                         INDO
+  IE              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  IL              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  IN              R12_SAS                           India                           IND                      IND                         INDIA
+  IQ              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  IR              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  IS              R12_WEU                           European Free Trade Association WEU                      NEU                         WEU
+  IT              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  JM              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  JO              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  JP              R12_PAO                           Japan                           JPN                      JPN                         JAP
+  KE              R12_AFR                           Africa_Eastern                  AFR                      SSA                         EAF
+  KG              R12_FSU                           Central Asia                    FSU                      REF                         STAN
+  KH              R12_RCPA                          Southeast Asia                  ODA                      OAS                         SEAS
+  KI              R12_PAS                           Southeast Asia                  ODA                      OAS                         OCE
+  KM              R12_AFR                           Africa_Eastern                  AFR                      SSA                         EAF
+  KN              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  KP              R12_RCPA                          Southeast Asia                  ODA                      OAS                         KOR
+  KR              R12_PAS                           South Korea                     SKO                      OAS                         KOR
+  KW              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  KY              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  KZ              R12_FSU                           Central Asia                    FSU                      REF                         STAN
+  LA              R12_RCPA                          Southeast Asia                  ODA                      OAS                         SEAS
+  LB              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  LC              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  LI              R12_WEU                           EU-15                           WEU                      NEU                         WEU
+  LK              R12_SAS                           South Asia                      ODA                      OAS                         RSAS
+  LR              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  LS              R12_AFR                           Africa_Southern                 AFR                      SSA                         RSAF
+  LT              R12_EEU                           EU-12                           FSU                      EUR                         CEU
+  LU              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  LV              R12_EEU                           EU-12                           FSU                      EUR                         CEU
+  LY              R12_MEA                           Africa_Northern                 AFR                      MEA                         NAF
+  MA              R12_MEA                           Africa_Northern                 AFR                      MEA                         NAF
+  MC              R12_WEU                           EU-15                           WEU                      NEU                         WEU
+  MD              R12_FSU                           Europe_Eastern                  FSU                      REF                         UKR
+  ME              R12_EEU                           Europe_Non_EU                   EEU                      NEU                         CEU
+  MG              R12_AFR                           Africa_Eastern                  AFR                      SSA                         RSAF
+  MK              R12_EEU                           Europe_Non_EU                   EEU                      NEU                         CEU
+  ML              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  MM              R12_PAS                           Southeast Asia                  ODA                      OAS                         SEAS
+  MN              R12_RCPA                          Central Asia                    ODA                      OAS                         CHN
+  MO              R12_CHN                           China                           CHI                      CHA                         CHN
+  MR              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  MS              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  MT              R12_WEU                           EU-12                           WEU                      EUR                         WEU
+  MU              R12_AFR                           Africa_Eastern                  ODA                      SSA                         EAF
+  MW              R12_AFR                           Africa_Southern                 AFR                      SSA                         RSAF
+  MX              R12_LAM                           Mexico                          MEX                      MEX                         MEX
+  MY              R12_PAS                           Southeast Asia                  ODA                      OAS                         SEAS
+  MZ              R12_AFR                           Africa_Southern                 AFR                      SSA                         RSAF
+  NA              R12_AFR                           Africa_Southern                 AFR                      SSA                         RSAF
+  NE              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  NG              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  NI              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  NL              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  NO              R12_WEU                           European Free Trade Association WEU                      NEU                         WEU
+  NP              R12_SAS                           South Asia                      ODA                      OAS                         RSAS
+  NR              R12_PAS                           Southeast Asia                  ODA                      OAS                         OCE
+  NU              R12_PAS                           Southeast Asia                  ODA                      OAS                         OCE
+  NZ              R12_PAO                           Australia_NZ                    AUS                      CAZ                         OCE
+  OM              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  PA              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  PE              R12_LAM                           South America_Southern          CSA                      LAM                         RSAM
+  PF              R12_PAS                           Southeast Asia                  ODA                      OAS                         OCE
+  PG              R12_PAS                           Southeast Asia                  ODA                      OAS                         INDO
+  PH              R12_PAS                           Southeast Asia                  ODA                      OAS                         SEAS
+  PK              R12_SAS                           Pakistan                        ODA                      OAS                         RSAS
+  PL              R12_EEU                           EU-12                           EEU                      EUR                         CEU
+  PT              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  PY              R12_LAM                           South America_Southern          CSA                      LAM                         RSAM
+  QA              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  RE              R12_AFR                           Africa_Eastern                  AFR                      SSA                         EAF
+  RO              R12_EEU                           EU-12                           EEU                      EUR                         CEU
+  RS              R12_EEU                           Europe_Non_EU                   EEU                      NEU                         CEU
+  RW              R12_AFR                           Africa_Eastern                  AFR                      SSA                         EAF
+  SA              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  SB              R12_PAS                           Southeast Asia                  ODA                      OAS                         OCE
+  SC              R12_AFR                           Africa_Eastern                  AFR                      SSA                         EAF
+  SD              R12_MEA                           Africa_Eastern                  AFR                      MEA                         EAF
+  SE              R12_WEU                           EU-15                           WEU                      EUR                         WEU
+  SG              R12_PAS                           Southeast Asia                  ODA                      OAS                         SEAS
+  SH              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  SI              R12_EEU                           EU-12                           EEU                      EUR                         CEU
+  SK              R12_EEU                           EU-12                           EEU                      EUR                         CEU
+  SL              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  SM              R12_WEU                           EU-15                           WEU                      NEU                         WEU
+  SN              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  SO              R12_AFR                           Africa_Eastern                  AFR                      SSA                         EAF
+  SR              R12_LAM                           South America_Northern          CSA                      LAM                         RSAM
+  SS              R12_AFR                           Africa_Eastern                  AFR                      SSA                         EAF
+  ST              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  SV              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  SY              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  SZ              R12_AFR                           Africa_Southern                 AFR                      SSA                         RSAF
+  TC              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  TD              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  TG              R12_AFR                           Africa_Western                  AFR                      SSA                         WAF
+  TH              R12_PAS                           Southeast Asia                  ODA                      OAS                         SEAS
+  TJ              R12_FSU                           Central Asia                    FSU                      REF                         STAN
+  TL              R12_PAS                           Southeast Asia                  ODA                      OAS                         INDO
+  TM              R12_FSU                           Central Asia                    FSU                      REF                         STAN
+  TN              R12_MEA                           Africa_Northern                 AFR                      MEA                         NAF
+  TO              R12_PAS                           Southeast Asia                  ODA                      OAS                         OCE
+  TR              R12_WEU                           EU-15                           MEA                      MEA                         TUR
+  TT              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  TV              R12_PAS                           Southeast Asia                  ODA                      OAS                         OCE
+  TZ              R12_AFR                           Africa_Southern                 AFR                      SSA                         RSAF
+  UA              R12_FSU                           Europe_Eastern                  FSU                      REF                         UKR
+  UG              R12_AFR                           Africa_Eastern                  AFR                       SSA                         EAF
+  US              R12_NAM                           USA                             USA                      USA                         USA
+  UY              R12_LAM                           South America_Southern          CSA                      LAM                         RSAM
+  UZ              R12_FSU                           Central Asia                    FSU                      REF                         STAN
+  VC              R12_LAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  VE              R12_LAM                           South America_Northern          CSA                      LAM                         RSAM
+  VG              N/A                               N/A                             N/A                      LAM                         RCAM
+  VI              R12_NAM                           Central America and Caribbean   CSA                      LAM                         RCAM
+  VN              R12_RCPA                          Southeast Asia                  ODA                      OAS                         SEAS
+  VU              R12_PAS                           Southeast Asia                  ODA                      OAS                         OCE
+  YE              R12_MEA                           Middle East                     MEA                      MEA                         ME
+  ZA              R12_AFR                           South Africa                    AFR                      SSA                         SAF
+  ZM              R12_AFR                           Africa_Southern                 AFR                      SSA                         RSAF
+  ZW              R12_AFR                           Africa_Southern                 AFR                      SSA                         RSAF
+ =============== ================================= ================================ ======================== =========================== ========================
 
 
 
@@ -2068,7 +2047,7 @@ The mapping between ecoinvent locations and IAM regions is available under the f
 https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/topologies
 
 Regionalization
-"""""""""""""""
++++++++++++++++
 
 Several of the integration steps described above involve the
 regionalization of datasets. It is the case, for example, when introducing
@@ -2177,7 +2156,12 @@ Final Steps
 
 
 GAINS emission factors
-""""""""""""""""""""""
+++++++++++++++++++++++
+
+Emissions factors from the air pollution model GAINS are used to scale
+non-CO2 emissions in various datasets. The emission factors are available under:
+
+premise/data/GAINS_emission_factors
 
 Run
 
@@ -2295,7 +2279,7 @@ For questions related to GAINS modelling, please contact the respective GAINS te
 * GAINS-IAM: https://gains.iiasa.ac.at/gains/IAM/index.login
 
 Logs
-""""
+++++
 
 *premise* generates a spreadsheet report detailing changes made to the database
 for each scenario. The report is saved in the current working directory and

@@ -1442,69 +1442,71 @@ class Electricity(BaseTransformation):
             if len(pv_tech) > 0:
                 pv_tech = pv_tech[0]
 
-            for exc in ws.technosphere(
-                dataset,
-                ws.contains("name", "photovoltaic"),
-                ws.equals("unit", "square meter"),
-            ):
-                surface = float(exc["amount"])
-                max_power = surface  # in kW, since we assume a constant 1,000W/m^2
-                current_eff = power / max_power
+            if pv_tech:
 
-                if self.year in module_eff.coords["year"].values:
-                    new_mean_eff = module_eff.sel(
-                        technology=pv_tech, year=self.year, efficiency_type="mean"
-                    ).values
-                    new_min_eff = module_eff.sel(
-                        technology=pv_tech, year=self.year, efficiency_type="min"
-                    ).values
-                    new_max_eff = module_eff.sel(
-                        technology=pv_tech, year=self.year, efficiency_type="max"
-                    ).values
-                else:
-                    new_mean_eff = (
-                        module_eff.sel(technology=pv_tech, efficiency_type="mean")
-                        .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
-                        .values
-                    )
-                    new_min_eff = (
-                        module_eff.sel(technology=pv_tech, efficiency_type="min")
-                        .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
-                        .values
-                    )
-                    new_max_eff = (
-                        module_eff.sel(technology=pv_tech, efficiency_type="max")
-                        .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
-                        .values
-                    )
+                for exc in ws.technosphere(
+                    dataset,
+                    ws.contains("name", "photovoltaic"),
+                    ws.equals("unit", "square meter"),
+                ):
+                    surface = float(exc["amount"])
+                    max_power = surface  # in kW, since we assume a constant 1,000W/m^2
+                    current_eff = power / max_power
 
-                # in case self.year <10 or >2050
-                new_mean_eff = np.clip(new_mean_eff, 0.1, 0.30)
-                new_min_eff = np.clip(new_min_eff, 0.1, 0.30)
-                new_max_eff = np.clip(new_max_eff, 0.1, 0.30)
+                    if self.year in module_eff.coords["year"].values:
+                        new_mean_eff = module_eff.sel(
+                            technology=pv_tech, year=self.year, efficiency_type="mean"
+                        ).values
+                        new_min_eff = module_eff.sel(
+                            technology=pv_tech, year=self.year, efficiency_type="min"
+                        ).values
+                        new_max_eff = module_eff.sel(
+                            technology=pv_tech, year=self.year, efficiency_type="max"
+                        ).values
+                    else:
+                        new_mean_eff = (
+                            module_eff.sel(technology=pv_tech, efficiency_type="mean")
+                            .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
+                            .values
+                        )
+                        new_min_eff = (
+                            module_eff.sel(technology=pv_tech, efficiency_type="min")
+                            .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
+                            .values
+                        )
+                        new_max_eff = (
+                            module_eff.sel(technology=pv_tech, efficiency_type="max")
+                            .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
+                            .values
+                        )
 
-                # We only update the efficiency if it is higher than the current one.
-                if new_mean_eff.sum() > current_eff:
-                    exc["amount"] *= float(current_eff / new_mean_eff)
-                    exc["uncertainty type"] = 5
-                    exc["loc"] = exc["amount"]
-                    exc["minimum"] = exc["amount"] * (new_min_eff / new_mean_eff)
-                    exc["maximum"] = exc["amount"] * (new_max_eff / new_mean_eff)
+                    # in case self.year <10 or >2050
+                    new_mean_eff = np.clip(new_mean_eff, 0.1, 0.30)
+                    new_min_eff = np.clip(new_min_eff, 0.1, 0.30)
+                    new_max_eff = np.clip(new_max_eff, 0.1, 0.30)
 
-                    dataset["comment"] = (
-                        f"`premise` has changed the efficiency "
-                        f"of this photovoltaic installation "
-                        f"from {int(current_eff * 100)} pct. to {int(new_mean_eff * 100)} pt."
-                    )
+                    # We only update the efficiency if it is higher than the current one.
+                    if new_mean_eff.sum() >= current_eff:
+                        exc["amount"] *= float(current_eff / new_mean_eff)
+                        exc["uncertainty type"] = 5
+                        exc["loc"] = exc["amount"]
+                        exc["minimum"] = exc["amount"] * (new_min_eff / new_mean_eff)
+                        exc["maximum"] = exc["amount"] * (new_max_eff / new_mean_eff)
 
-                    if "log parameters" not in dataset:
-                        dataset["log parameters"] = {}
+                        dataset["comment"] = (
+                            f"`premise` has changed the efficiency "
+                            f"of this photovoltaic installation "
+                            f"from {int(current_eff * 100)} pct. to {int(new_mean_eff * 100)} pt."
+                        )
 
-                    dataset["log parameters"].update({"old efficiency": current_eff})
-                    dataset["log parameters"].update({"new efficiency": new_mean_eff})
+                        if "log parameters" not in dataset:
+                            dataset["log parameters"] = {}
 
-                    # add to log
-                    self.write_log(dataset=dataset, status="updated")
+                        dataset["log parameters"].update({"old efficiency": current_eff})
+                        dataset["log parameters"].update({"new efficiency": new_mean_eff})
+
+                        # add to log
+                        self.write_log(dataset=dataset, status="updated")
 
     def create_region_specific_power_plants(self):
         """
