@@ -1466,17 +1466,23 @@ class Electricity(BaseTransformation):
                     else:
                         new_mean_eff = (
                             module_eff.sel(technology=pv_tech, efficiency_type="mean")
-                            .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
+                            .interp(
+                                year=self.year, kwargs={"fill_value": "extrapolate"}
+                            )
                             .values
                         )
                         new_min_eff = (
                             module_eff.sel(technology=pv_tech, efficiency_type="min")
-                            .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
+                            .interp(
+                                year=self.year, kwargs={"fill_value": "extrapolate"}
+                            )
                             .values
                         )
                         new_max_eff = (
                             module_eff.sel(technology=pv_tech, efficiency_type="max")
-                            .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
+                            .interp(
+                                year=self.year, kwargs={"fill_value": "extrapolate"}
+                            )
                             .values
                         )
 
@@ -1502,8 +1508,12 @@ class Electricity(BaseTransformation):
                         if "log parameters" not in dataset:
                             dataset["log parameters"] = {}
 
-                        dataset["log parameters"].update({"old efficiency": current_eff})
-                        dataset["log parameters"].update({"new efficiency": new_mean_eff})
+                        dataset["log parameters"].update(
+                            {"old efficiency": current_eff}
+                        )
+                        dataset["log parameters"].update(
+                            {"new efficiency": new_mean_eff}
+                        )
 
                         # add to log
                         self.write_log(dataset=dataset, status="updated")
