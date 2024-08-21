@@ -1,0 +1,128 @@
+# battery size, in kWh
+# for long-haul trucks
+# provided by carculator_truck
+# min: size for a range autonomy of 400 km
+# max for a range autonomy of 800 km
+# mean: value in between min and max
+---
+
+truck:
+  3.5t:
+    2020:
+      min: 160
+      max: 383
+      mean: 272
+    2030:
+      min: 134
+      max: 300
+      mean: 217
+    2040:
+      min: 120
+      max: 267
+      mean: 194
+    2050:
+      min: 108
+      max: 236
+      mean: 172
+  7.5t:
+    2020:
+      min: 272
+      max: 639
+      mean: 456
+    2030:
+      min: 203
+      max: 479
+      mean: 341
+    2040:
+      min: 182
+      max: 479
+      mean: 330
+    2050:
+      min: 168
+      max: 370
+      mean: 269
+  18t:
+    2020:
+      min: 394
+      max: 1110
+      mean: 752
+    2030:
+      min: 323
+      max: 802
+      mean: 562
+    2040:
+      min: 296
+      max: 726
+      mean: 511
+    2050:
+      min: 273
+      max: 666
+      mean: 470
+  26t:
+    2020:
+      min: 509
+      max: 1291
+      mean: 900
+    2030:
+      min: 390
+      max: 978
+      mean: 684
+    2040:
+      min: 362
+      max: 906
+      mean: 634
+    2050:
+      min: 360
+      max: 845
+      mean: 603
+  32t:
+    2020:
+      min: 660
+      max: 1515
+      mean: 1088
+    2030:
+      min: 550
+      max: 1207
+      mean: 879
+    2040:
+      min: 530
+      max: 1124
+      mean: 827
+    2050:
+      min: 490
+      max: 1038
+      mean: 764
+  40t:
+    2020:
+      min: 665
+      max: 1542
+      mean: 1104
+    2030:
+      min: 550
+      max: 1200
+      mean: 875
+    2040:
+      min: 530
+      max: 1123
+      mean: 826
+    2050:
+      min: 490
+      max: 1067
+      mean: 779
+  60t:
+    2020:
+      min: 835
+      max: 1804
+      mean: 1320
+    2030:
+      min: 670
+      max: 1349
+      mean: 1010
+    2040:
+      min: 630
+      max: 1255
+      mean: 942
+    2050:
+      min: 603
+      max: 1188
+      mean: 896

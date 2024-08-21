@@ -86,6 +86,19 @@ def _update_vehicles(scenario, vehicle_type, version, system_model):
     return scenario
 
 
+def get_battery_size() -> dict:
+    """
+    Return a dictionary that contains the size of the battery
+    for each vehicle type and powertrain.
+    :return: dictionary with battery sizes
+    """
+    with open(
+        DATA_DIR / "transport" / "battery_size.yaml", "r", encoding="utf-8"
+    ) as stream:
+        out = yaml.safe_load(stream)
+        return out
+
+
 def get_average_truck_load_factors() -> Dict[str, Dict[str, Dict[str, float]]]:
     """
     Load average load factors for trucks
@@ -373,6 +386,7 @@ class Transport(BaseTransformation):
         self.vehicle_fuel_map = mapping.generate_vehicle_fuel_map(
             transport_type=vehicle_type
         )
+        self.battery_size = get_battery_size()
 
         # check if vehicle map is empty
         for v in self.vehicle_map.values():
@@ -418,6 +432,7 @@ class Transport(BaseTransformation):
 
         for new_ds in new_datasets:
             new_ds = self.adjust_transport_efficiency(new_ds)
+
             if not self.is_in_index(new_ds):
                 self.add_to_index(new_ds)
                 self.database.append(new_ds)
@@ -459,10 +474,21 @@ class Transport(BaseTransformation):
             )
         )
 
+        # if trucks, adjust battery size
+        if self.vehicle_type == "truck":
+            for ds in ws.get_many(
+                self.database,
+                ws.contains("name", "battery electric"),
+                ws.contains("name", "truck"),
+                ws.equals("unit", "unit"),
+            ):
+                self.adjust_battery_size(ds)
+
         # if trucks, need to reconnect everything
         # loop through datasets that use truck transport
         if self.vehicle_type == "truck":
-            list_created_trucks = [(a["name"], a["location"]) for a in fleet_act]
+
+            list_created_vehicles = [(v["name"], v["location"]) for v in fleet_act]
 
             for dataset in ws.get_many(
                 self.database,
@@ -471,37 +497,74 @@ class Transport(BaseTransformation):
             ):
                 for exc in ws.technosphere(
                     dataset,
-                    ws.contains("name", "transport, freight, lorry"),
+                    ws.either(
+                        *[
+                            ws.equals("name", v)
+                            for v in self.mapping["truck"]["old_trucks"]
+                        ]
+                    ),
                     ws.equals("unit", "ton kilometer"),
                 ):
-                    key = [
-                        k
-                        for k in self.mapping["truck"]["old_trucks"][self.model]
-                        if k.lower() in exc["name"].lower()
-                    ][0]
 
-                    if "input" in exc:
-                        del exc["input"]
+                    new_name = self.mapping["truck"]["old_trucks"][exc["name"]][
+                        self.model
+                    ]
+                    new_loc = self.geo.ecoinvent_to_iam_location(dataset["location"])
 
-                    if dataset["unit"] == "kilogram":
-                        name = f"{self.mapping['truck']['old_trucks'][self.model][key]}, long haul"
-                        loc = self.geo.ecoinvent_to_iam_location(dataset["location"])
-
-                        if (name, loc) in list_created_trucks:
-                            exc["name"] = name
-                        else:
-                            exc["name"] = (
-                                f"transport, freight, lorry, unspecified, long haul"
-                            )
+                    if (new_name, new_loc) in list_created_vehicles:
+                        exc["name"] = new_name
+                        exc["product"] = "transport, freight, lorry"
+                        exc["location"] = new_loc
                     else:
+                        print(f"Could not find dataset for {new_name} in {new_loc}.")
                         exc["name"] = (
                             "transport, freight, lorry, unspecified, long haul"
                         )
+                        exc["product"] = "transport, freight, lorry"
+                        exc["location"] = "World"
 
-                    exc["product"] = "transport, freight, lorry"
-                    exc["location"] = self.geo.ecoinvent_to_iam_location(
-                        dataset["location"]
-                    )
+            # also we need to empty the old transport datasets
+            for dataset in ws.get_many(
+                self.database,
+                ws.either(
+                    *[ws.equals("name", v) for v in self.mapping["truck"]["old_trucks"]]
+                ),
+            ):
+                dataset["exchanges"] = [
+                    e for e in dataset["exchanges"] if e["type"] == "production"
+                ]
+                dataset["comment"] = (
+                    "This dataset has been replaced by new fleet-average vehicles."
+                )
+
+                # add new truck as exchange
+                new_name = self.mapping["truck"]["old_trucks"][dataset["name"]][
+                    self.model
+                ]
+                new_loc = self.geo.ecoinvent_to_iam_location(dataset["location"])
+
+                if (new_name, new_loc) in list_created_vehicles:
+                    new_exc = {
+                        "name": new_name,
+                        "product": "transport, freight, lorry",
+                        "unit": "ton kilometer",
+                        "location": new_loc,
+                        "type": "technosphere",
+                        "amount": 1,
+                        "uncertainty type": 0,
+                    }
+                else:
+                    print(f"Could not find dataset for {new_name} in {new_loc}.")
+                    new_exc = {
+                        "name": "transport, freight, lorry, unspecified, long haul",
+                        "product": "transport, freight, lorry",
+                        "unit": "ton kilometer",
+                        "location": "World",
+                        "type": "technosphere",
+                        "amount": 1,
+                        "uncertainty type": 0,
+                    }
+                dataset["exchanges"].append(new_exc)
 
         return fleet_act
 
@@ -558,6 +621,62 @@ class Transport(BaseTransformation):
         self.write_log(dataset)
 
         return dataset
+
+    def adjust_battery_size(self, ds):
+        """
+        Adjust battery size for truck datasets.
+        """
+
+        # detect size in name
+        size = [s for s in self.battery_size["truck"] if s in ds["name"]][0]
+
+        print(self.battery_size["truck"][size])
+
+        if self.year <= min(self.battery_size["truck"][size].keys()):
+            mean_battery_size = self.battery_size["truck"][size][
+                min(self.battery_size["truck"][size].keys())
+            ]["mean"]
+            min_battery_size = self.battery_size["truck"][size][
+                min(self.battery_size["truck"][size].keys())
+            ]["min"]
+            max_battery_size = self.battery_size["truck"][size][
+                min(self.battery_size["truck"][size].keys())
+            ]["max"]
+        elif self.year >= max(self.battery_size["truck"][size].keys()):
+            mean_battery_size = self.battery_size["truck"][size][
+                max(self.battery_size["truck"][size].keys())
+            ]["mean"]
+            min_battery_size = self.battery_size["truck"][size][
+                max(self.battery_size["truck"][size].keys())
+            ]["min"]
+            max_battery_size = self.battery_size["truck"][size][
+                max(self.battery_size["truck"][size].keys())
+            ]["max"]
+        else:
+            mean_battery_size = np.interp(
+                self.year,
+                list(self.battery_size["truck"][size].keys()),
+                [v["mean"] for v in self.battery_size["truck"][size].values()],
+            )
+            min_battery_size = np.interp(
+                self.year,
+                list(self.battery_size["truck"][size].keys()),
+                [v["min"] for v in self.battery_size["truck"][size].values()],
+            )
+            max_battery_size = np.interp(
+                self.year,
+                list(self.battery_size["truck"][size].keys()),
+                [v["max"] for v in self.battery_size["truck"][size].values()],
+            )
+
+        for exc in ws.technosphere(ds, ws.contains("name", "market for battery")):
+            exc["amount"] = mean_battery_size
+            exc["uncertainty type"] = 5
+            exc["loc"] = exc["amount"]
+            exc["minimum"] = min_battery_size
+            exc["maximum"] = max_battery_size
+
+        ds["comment"] += f" Battery size adjusted to {mean_battery_size} kWh."
 
     def write_log(self, dataset, status="created"):
         """

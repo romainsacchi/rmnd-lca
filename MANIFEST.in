@@ -50,6 +50,8 @@ include premise/data/transport/car/*.csv
 include premise/data/transport/bus/*.csv
 include premise/data/transport/truck/*.csv
 include premise/data/transport/two-wheeler/*.csv
+include premise/data/battery/*.csv
+include premise/data/battery/*.yaml
 include premise/data/utils/*.csv
 include premise/data/utils/*.yml
 include premise/data/utils/*.yaml
