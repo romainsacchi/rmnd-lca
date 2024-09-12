@@ -30,7 +30,11 @@ from .transformation import (
     uuid,
     ws,
 )
-from .utils import get_efficiency_solar_photovoltaics, rescale_exchanges, get_water_consumption_factors
+from .utils import (
+    get_efficiency_solar_photovoltaics,
+    get_water_consumption_factors,
+    rescale_exchanges,
+)
 from .validation import ElectricityValidation
 
 POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
