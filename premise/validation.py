@@ -469,6 +469,9 @@ class BaseDatasetValidator:
                 if exc["type"] == "biosphere":
                     # check that the first item of the code field
                     # corresponds to biosphere_name
+                    if "input" not in exc:
+                        exc["input"] = (self.biosphere_name, exc["name"])
+
                     if exc["input"][0] != self.biosphere_name:
                         exc["input"] = (self.biosphere_name, exc["input"][1])
 

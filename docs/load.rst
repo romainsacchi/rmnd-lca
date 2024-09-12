@@ -187,8 +187,10 @@ Finally, once imported, unlinked flows remain. They can be found under these hig
    :align: center
 
 
-To link them, you need to import an additional mapping flow that you can find here
-("Tools" > "Flow mapping" > "Open file").
+To link them, you need to import an additional mapping flow that you can find at the following path:
+https://github.com/polca/premise/blob/master/premise/data/utils/export/flow_mapping_olca.csv
+
+Then, you can import this file in OpenLCA: ("Tools" > "Flow mapping" > "Open file").
 
 .. image:: olca_fig4.png
    :width: 500pt

@@ -1480,33 +1480,44 @@ class ExternalScenario(BaseTransformation):
                 if len(new_loc) > 0:
                     for loc, share in new_loc:
                         # add new exchange
-                        new_exchanges.append(
-                            {
-                                "amount": exc["amount"] * ratio * share,
-                                "type": "technosphere",
-                                "unit": exc["unit"],
-                                "location": loc,
-                                "name": new_name,
-                                "product": new_ref,
-                                "uncertainty type": exc.get("uncertainty type", 0),
-                                "loc": redefine_loc(exc),
-                                "scale": (
-                                    exc.get("scale", 0) if "scale" in exc else None
-                                ),
-                                "minimum": (
-                                    exc.get("minimum", 0)
-                                    * (exc["amount"] * ratio * share / exc["amount"])
-                                    if "minimum" in exc
-                                    else None
-                                ),
-                                "maximum": (
-                                    exc.get("maximum", 0)
-                                    * (exc["amount"] * ratio * share / exc["amount"])
-                                    if "maximum" in exc
-                                    else None
-                                ),
-                            }
-                        )
+                        if exc["amount"] * ratio * share != 0:
+                            new_exchanges.append(
+                                {
+                                    "amount": exc["amount"] * ratio * share,
+                                    "type": "technosphere",
+                                    "unit": exc["unit"],
+                                    "location": loc,
+                                    "name": new_name,
+                                    "product": new_ref,
+                                    "uncertainty type": exc.get("uncertainty type", 0),
+                                    "loc": redefine_loc(exc),
+                                    "scale": (
+                                        exc.get("scale", 0) if "scale" in exc else None
+                                    ),
+                                    "minimum": (
+                                        exc.get("minimum", 0)
+                                        * (
+                                            exc["amount"]
+                                            * ratio
+                                            * share
+                                            / exc["amount"]
+                                        )
+                                        if "minimum" in exc
+                                        else None
+                                    ),
+                                    "maximum": (
+                                        exc.get("maximum", 0)
+                                        * (
+                                            exc["amount"]
+                                            * ratio
+                                            * share
+                                            / exc["amount"]
+                                        )
+                                        if "maximum" in exc
+                                        else None
+                                    ),
+                                }
+                            )
 
                         if isfuel:
                             fuel_amount += exc["amount"] * ratio * share

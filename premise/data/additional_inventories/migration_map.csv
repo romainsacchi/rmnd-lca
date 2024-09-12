@@ -511,11 +511,11 @@ from,to,name_from,ref_prod_from,location_from,name_to,ref_prod_to,location_to
 39,36,"market for concrete, normal strength","concrete, normal strength",ZA,"market for concrete, normal","concrete, normal",ZA
 38,39,"market for energy use and operation emissions, electric bicycle","energy use and operation emissions, electric bicycle",GLO,"market for energy use, electric bicycle","energy use, electric bicycle",GLO
 38,39,"market for energy use and operation emissions, electric bicycle, electricity from renewable energy products","energy use and operation emissions, electric bicycle, electricity from renewable energy products",GLO,"market for energy use, electric bicycle, electricity from renewable energy products","energy use, electric bicycle, electricity from renewable energy products",GLO
-38,39,"market for iron (III) chloride, without water, in 40% solution state","iron (III) chloride, without water, in 40% solution state",GLO,"market for iron(III) chloride, without water, in 40% solution state","iron (III) chloride, without water, in 40% solution state",GLO
 38,39,market for meta-phenylene diamine,meta-phenylene diamine,GLO,market for resorcinol,resorcinol,GLO
 38,39,"market for natural gas, burned in gas motor, for storage","natural gas, burned in gas motor, for storage",GLO,"market for natural gas, burned in gas turbine","natural gas, burned in gas turbine",GLO
 38,39,"market for polar fleece production, energy use only","polar fleece production, energy use only",GLO,"market for polar fleece, energy use only","polar fleece, energy use only",GLO
 38,39,"market for soda ash, light, crystalline, heptahydrate","soda ash, light, crystalline, heptahydrate",GLO,"market for soda ash, light","soda ash, light",GLO
+38,310,"market for soda ash, light, crystalline, heptahydrate","soda ash, light, crystalline, heptahydrate",GLO,"market for soda ash, light","soda ash, light",RoW
 37,39,"market for soda ash, light, crystalline, heptahydrate","soda ash, light, crystalline, heptahydrate",GLO,"market for soda ash, light","soda ash, light",GLO
 38,39,"market for stibnite ore, 70% stibnite","stibnite ore, 70% stibnite",GLO,market for stibnite concentrate,stibnite concentrate,GLO
 38,39,"market for zircon, 50% zirconium","zircon, 50% zirconium",GLO,market for zircon,zircon,GLO
@@ -841,12 +841,10 @@ from,to,name_from,ref_prod_from,location_from,name_to,ref_prod_to,location_to
 38,310,"market for concrete, normal","concrete, normal",ZA,"market for concrete, normal strength","concrete, normal strength",ZA
 38,310,"market for energy use and operation emissions, electric bicycle","energy use and operation emissions, electric bicycle",GLO,"market for energy use, electric bicycle","energy use, electric bicycle",GLO
 38,310,"market for energy use and operation emissions, electric bicycle, electricity from renewable energy products","energy use and operation emissions, electric bicycle, electricity from renewable energy products",GLO,"market for energy use, electric bicycle, electricity from renewable energy products","energy use, electric bicycle, electricity from renewable energy products",GLO
-38,310,"market for iron (III) chloride, without water, in 40% solution state","iron (III) chloride, without water, in 40% solution state",GLO,"market for iron(III) chloride, without water, in 40% solution state","iron (III) chloride, without water, in 40% solution state",GLO
 38,310,market for meta-phenylene diamine,meta-phenylene diamine,GLO,market for resorcinol,resorcinol,GLO
 38,310,"market for natural gas, burned in gas motor, for storage","natural gas, burned in gas motor, for storage",GLO,"market for natural gas, burned in gas turbine","natural gas, burned in gas turbine",GLO
 38,310,"market for polar fleece production, energy use only","polar fleece production, energy use only",GLO,"market for polar fleece, energy use only","polar fleece, energy use only",GLO
-38,310,"market for soda ash, light, crystalline, heptahydrate","soda ash, light, crystalline, heptahydrate",GLO,"market for soda ash, light","soda ash, light",GLO
-37,310,"market for soda ash, light, crystalline, heptahydrate","soda ash, light, crystalline, heptahydrate",GLO,"market for soda ash, light","soda ash, light",GLO
+37,310,"market for soda ash, light, crystalline, heptahydrate","soda ash, light, crystalline, heptahydrate",GLO,"market for soda ash, light","soda ash, light",RoW
 38,310,"market for stibnite ore, 70% stibnite","stibnite ore, 70% stibnite",GLO,market for stibnite concentrate,stibnite concentrate,GLO
 38,310,"market for zircon, 50% zirconium","zircon, 50% zirconium",GLO,market for zircon,zircon,GLO
 38,310,"market group for concrete, normal","concrete, normal",GLO,"market group for concrete, normal strength","concrete, normal strength",GLO
@@ -987,6 +985,8 @@ from,to,name_from,ref_prod_from,location_from,name_to,ref_prod_to,location_to
 35,310,"market for ammonia, liquid","ammonia, liquid",RER,"market for ammonia, anhydrous, liquid","ammonia, anhydrous, liquid",RER
 35,310,"treatment of waste emulsion paint, municipal incineration",waste emulsion paint,CH,"treatment of waste emulsion paint, municipal incineration FAE",waste emulsion paint,CH
 39,310,sodium chloride electrolysis,sodium,RER,"sodium production, sodium chloride electrolysis, molten salt cell",sodium,RER
+310,39,"sodium production, sodium chloride electrolysis, molten salt cell",sodium,RER,sodium chloride electrolysis,sodium,RER
+310,38,"sodium production, sodium chloride electrolysis, molten salt cell",sodium,RER,sodium chloride electrolysis,sodium,RER
 39,310,market for inert waste,inert waste,CH,"market for inert waste, for final disposal","inert waste, for final disposal",CH
 35,310,"market for sodium hydroxide, without water, in 50% solution state","sodium hydroxide, without water, in 50% solution state",GLO,,,RoW
 36,310,"market for sodium hydroxide, without water, in 50% solution state","sodium hydroxide, without water, in 50% solution state",GLO,,,RoW
@@ -1191,6 +1191,7 @@ from,to,name_from,ref_prod_from,location_from,name_to,ref_prod_to,location_to
 37,310,"treatment of waste, from silicon wafer production, inorganic, residual material landfill","waste, from silicon wafer production, inorganic",CH,"treatment of waste, from silicon wafer production, inorganic, residual material landfill","waste, from silicon wafer production, inorganic",RoE
 38,310,"treatment of waste, from silicon wafer production, inorganic, residual material landfill","waste, from silicon wafer production, inorganic",CH,"treatment of waste, from silicon wafer production, inorganic, residual material landfill","waste, from silicon wafer production, inorganic",RoE
 39,310,"treatment of waste, from silicon wafer production, inorganic, residual material landfill","waste, from silicon wafer production, inorganic",CH,"treatment of waste, from silicon wafer production, inorganic, residual material landfill","waste, from silicon wafer production, inorganic",RoE
+310,38,"treatment of wastewater from wafer fabrication, wastewater treatment",wastewater from wafer fabrication,RoW,"treatment of wastewater from wafer fabrication, capacity 1.1E10l/year",wastewater from wafer fabrication,RoW
 35,310,"treatment of waste paperboard, municipal incineration",waste paperboard,CH,"treatment of waste paperboard, municipal incineration FAE",waste paperboard,CH
 36,310,"treatment of waste paperboard, municipal incineration",waste paperboard,CH,"treatment of waste paperboard, municipal incineration FAE",waste paperboard,CH
 37,310,"treatment of waste paperboard, municipal incineration",waste paperboard,CH,"treatment of waste paperboard, municipal incineration FAE",waste paperboard,CH
@@ -1276,10 +1277,9 @@ from,to,name_from,ref_prod_from,location_from,name_to,ref_prod_to,location_to
 38,310,"treatment of waste polyvinylfluoride, municipal incineration","waste polyvinylfluoride","CH","treatment of waste polyvinylfluoride, municipal incineration FAE","waste polyvinylfluoride",CH
 39,310,"treatment of waste polyvinylfluoride, municipal incineration","waste polyvinylfluoride","CH","treatment of waste polyvinylfluoride, municipal incineration FAE","waste polyvinylfluoride",CH
 39,310,market for blast furnace slag,blast furnace slag,GLO,,,RoW
-310,37,"market for iron(III) chloride, without water, in 40% solution state","iron(III) chloride, without water, in 40% solution state",GLO,"market for iron (III) chloride, without water, in 40% solution state","iron (III) chloride, without water, in 40% solution state",
-310,38,"market for iron(III) chloride, without water, in 40% solution state","iron(III) chloride, without water, in 40% solution state",GLO,"market for iron (III) chloride, without water, in 40% solution state","iron (III) chloride, without water, in 40% solution state",
 310,37,"market for sodium hydroxide, without water, in 50% solution state","sodium hydroxide, without water, in 50% solution state",RER,,,GLO
 310,38,"market for sodium hydroxide, without water, in 50% solution state","sodium hydroxide, without water, in 50% solution state",RER,,,GLO
+310,39,"market for sodium hydroxide, without water, in 50% solution state","sodium hydroxide, without water, in 50% solution state",RER,,,GLO
 37,310,"market for neutralising agent, sodium hydroxide-equivalent","neutralising agent, sodium hydroxide-equivalent",GLO,,,RoW
 38,310,"market for neutralising agent, sodium hydroxide-equivalent","neutralising agent, sodium hydroxide-equivalent",GLO,,,RoW
 39,310,"market for neutralising agent, sodium hydroxide-equivalent","neutralising agent, sodium hydroxide-equivalent",GLO,,,RoW
@@ -1306,3 +1306,7 @@ from,to,name_from,ref_prod_from,location_from,name_to,ref_prod_to,location_to
 310,37,"market for benzene","benzene","RER","market for benzene","benzene","GLO"
 310,38,"market for benzene","benzene","RER","market for benzene","benzene","GLO"
 310,39,"market for benzene","benzene","RER","market for benzene","benzene","GLO"
+310,38,"market for natural gas, low pressure","natural gas, low pressure",DE,"market for natural gas, low pressure","natural gas, low pressure",RoW
+310,38,"treatment of wastewater from PV cell production, wastewater treatment",wastewater from PV cell production,CH,"treatment of wastewater from PV cell production, capacity 5E9l/year",wastewater from PV cell production,CH
+310,39,"market for iron(III) chloride, without water, in 40% solution state","iron(III) chloride, without water, in 40% solution state",GLO,"market for iron(III) chloride, without water, in 40% solution state","iron (III) chloride, without water, in 40% solution state",GLO
+310,38,"market for iron(III) chloride, without water, in 40% solution state","iron(III) chloride, without water, in 40% solution state",GLO,"market for iron (III) chloride, without water, in 40% solution state","iron (III) chloride, without water, in 40% solution state",GLO

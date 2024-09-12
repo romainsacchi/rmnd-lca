@@ -163,31 +163,38 @@ class Biomass(BaseTransformation):
                 if v in self.iam_data.production_volumes.variables.values
             ]
 
+            if self.year in self.iam_data.production_volumes.coords["year"].values:
+                total_prod_vol = np.clip(
+                    (
+                        self.iam_data.production_volumes.sel(
+                            variables=available_biomass_vars,
+                            region=region,
+                            year=self.year,
+                        ).sum(dim="variables")
+                    ),
+                    1e-6,
+                    None,
+                )
+            else:
+                total_prod_vol = np.clip(
+                    (
+                        self.iam_data.production_volumes.sel(
+                            variables=available_biomass_vars, region=region
+                        )
+                        .interp(year=self.year)
+                        .sum(dim="variables")
+                    ),
+                    1e-6,
+                    None,
+                )
+
             for biomass_type, biomass_act in biomass_map.items():
-                if self.year in self.iam_data.production_volumes.coords["year"].values:
-                    total_prod_vol = np.clip(
-                        (
-                            self.iam_data.production_volumes.sel(
-                                variables=available_biomass_vars,
-                                region=region,
-                                year=self.year,
-                            ).sum(dim="variables")
-                        ),
-                        1e-6,
-                        None,
-                    )
-                else:
-                    total_prod_vol = np.clip(
-                        (
-                            self.iam_data.production_volumes.sel(
-                                variables=available_biomass_vars, region=region
-                            )
-                            .interp(year=self.year)
-                            .sum(dim="variables")
-                        ),
-                        1e-6,
-                        None,
-                    )
+
+                if (
+                    total_prod_vol < 1e-5
+                    and biomass_type != "biomass crops - purpose grown"
+                ):
+                    continue
 
                 if biomass_type in available_biomass_vars:
                     if (
@@ -226,6 +233,12 @@ class Biomass(BaseTransformation):
                     share = 0
                 else:
                     share = 0
+
+                if (
+                    total_prod_vol < 1e-5
+                    and biomass_type == "biomass crops - purpose grown"
+                ):
+                    share = 1
 
                 if share > 0:
                     ecoinvent_regions = self.geo.iam_to_ecoinvent_location(
@@ -286,6 +299,15 @@ class Biomass(BaseTransformation):
                     {
                         "biomass share": share,
                     }
+                )
+
+            # check that dataset has exchanges
+            number_tech_exchanges = len(
+                [exc for exc in dataset["exchanges"] if exc["type"] == "technosphere"]
+            )
+            if number_tech_exchanges == 0:
+                raise ValueError(
+                    f"Dataset {dataset['name']} has no technosphere exchanges."
                 )
 
             self.database.append(dataset)

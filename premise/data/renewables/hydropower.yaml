@@ -1,0 +1,15 @@
+# this file provides correction regarding water evaporation
+# and discharge for some hydropower electricity datasets
+---
+
+electricity production, hydro, reservoir, alpine region:
+  - name: Water
+    categories: water
+    unit: cubic meter
+    amount: 0.80825
+    type: biosphere
+  - name: Water
+    categories: air
+    unit: cubic meter
+    amount: 0.00175
+    type: biosphere

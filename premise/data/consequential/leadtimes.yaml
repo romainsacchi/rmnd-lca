@@ -67,7 +67,9 @@ petrol, synthetic, from coal, with CCS: 3
 diesel, synthetic, from electrolysis: 3
 diesel, synthetic, from coal: 3
 diesel, synthetic, from coal, with CCS: 3
-hydrogen, from electrolysis: 3
+hydrogen, from electrolysis, PEM: 3
+hydrogen, from electrolysis, AEC: 3
+hydrogen, from electrolysis, SOEC: 3
 hydrogen, from biomass: 3
 hydrogen, from biomass, with CCS: 3
 hydrogen, from coal: 3

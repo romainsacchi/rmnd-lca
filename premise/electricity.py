@@ -30,7 +30,7 @@ from .transformation import (
     uuid,
     ws,
 )
-from .utils import get_efficiency_solar_photovoltaics, rescale_exchanges
+from .utils import get_efficiency_solar_photovoltaics, rescale_exchanges, get_water_consumption_factors
 from .validation import ElectricityValidation
 
 POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
@@ -244,6 +244,7 @@ def _update_electricity(
     electricity.create_missing_power_plant_datasets()
     electricity.adjust_coal_power_plant_emissions()
     electricity.update_efficiency_of_solar_pv()
+    electricity.correct_hydropower_water_emissions()
     electricity.create_region_specific_power_plants()
 
     if scenario["year"] >= 2020:
@@ -1383,6 +1384,37 @@ class Electricity(BaseTransformation):
                 dataset["exchanges"].append(exchange)
 
         return dataset
+
+    def correct_hydropower_water_emissions(self) -> None:
+        """
+        Correct the emissions of water for hydropower plants.
+        In Swiss datasets, water evaoporation is too high.
+        We use a new factor from Flury and Frischknecht (2021) to correct this.
+        https://treeze.ch/fileadmin/user_upload/downloads/Publications/Case_Studies/Energy/flury-2012-hydroelectric-power-generation.pdf
+        """
+
+        water_factor = get_water_consumption_factors()
+
+        hydropower_datasets = ws.get_many(
+            self.database,
+            *[
+                ws.contains("name", "electricity production, hydro, reservoir"),
+                ws.equals("location", "CH"),
+                ws.equals("unit", "kilowatt hour"),
+            ],
+        )
+
+        for name, flows in water_factor.items():
+            for dataset in hydropower_datasets:
+                if name in dataset["name"]:
+                    for flow in flows:
+                        for exc in ws.biosphere(
+                            dataset,
+                            ws.equals("name", flow["name"]),
+                            ws.equals("unit", flow["unit"]),
+                            ws.equals("categories", (flow["categories"],)),
+                        ):
+                            exc["amount"] = flow["amount"]
 
     def update_efficiency_of_solar_pv(self) -> None:
         """

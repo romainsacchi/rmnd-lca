@@ -181,7 +181,7 @@ aluminium oxide production,aluminium oxide,material,Others\Obsolete
 "aluminium production, primary, liquid, prebake","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
 "aluminium production, primary, liquid, sÃ¶derberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
 "aluminium production, primary, liquid, Soderberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
-"aluminium production, primary, liquid, sšderberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
+"aluminium production, primary, liquid, sï¿½derberg","aluminium, primary, liquid",material,Metals\Non ferro\Transformation
 "aluminium production, primary, liquid, Soderberg_obsolete","aluminium, primary, liquid",material,Others\Obsolete
 "aluminium scrap, new, Recycled Content cut-off","aluminium scrap, new",material,Metals\Non ferro\Transformation
 "aluminium scrap, new, Recycled Content cut-off_obsolete","aluminium scrap, new",material,Others\Obsolete
@@ -1395,15 +1395,15 @@ containment penetration epr,containment penetration epr,energy,Electricity by fu
 "converter production, for electric passenger car","converter, for electric passenger car",material,Electronics\Component\Transformation
 conveyor belt production,conveyor belt,transport,Building equipment\Transformation\Infrastructure
 "cookstove production, gas or electric",cookstove,material,Appliances\Transformation\Infrastructure
-"cooling energy production, at -100 ¡c, propylene-ethylene compression refrigeration system 1 mw","cooling energy, at -100 ¡c",energy,Cogeneration\Gas\Transformation
-"cooling energy production, at -100 ¡c, r-134a-carbon dioxide-ethylene compression refrigeration system 1 mw","cooling energy, at -100 ¡c",energy,Cogeneration\Gas\Transformation
-"cooling energy production, at -15 ¡c, r-134a compression refrigeration system 1 mw","cooling energy, at -15 ¡c",energy,Cogeneration\Gas\Transformation
-"cooling energy production, at -160 ¡c, propylene-ethylene-methane compression refrigeration system 1 mw","cooling energy, at -160 ¡c",energy,Cogeneration\Gas\Transformation
-"cooling energy production, at -25 ¡c, ammonia compression refrigeration system 1 mw","cooling energy, at -25 ¡c",energy,Cogeneration\Gas\Transformation
-"cooling energy production, at -25 ¡c, propylene compression refrigeration system 1 mw","cooling energy, at -25 ¡c",energy,Cogeneration\Gas\Transformation
-"cooling energy production, at -45 ¡c, propylene compression refrigeration system 1 mw","cooling energy, at -45 ¡c",energy,Cogeneration\Gas\Transformation
-"cooling energy production, at -45 ¡c, r-134a compression refrigeration system 1 mw","cooling energy, at -45 ¡c",energy,Cogeneration\Gas\Transformation
-"cooling energy production, at -55 ¡c, propylene-ethylene compression refrigeration system 1 mw","cooling energy, at -55 ¡c",energy,Cogeneration\Gas\Transformation
+"cooling energy production, at -100 ï¿½c, propylene-ethylene compression refrigeration system 1 mw","cooling energy, at -100 ï¿½c",energy,Cogeneration\Gas\Transformation
+"cooling energy production, at -100 ï¿½c, r-134a-carbon dioxide-ethylene compression refrigeration system 1 mw","cooling energy, at -100 ï¿½c",energy,Cogeneration\Gas\Transformation
+"cooling energy production, at -15 ï¿½c, r-134a compression refrigeration system 1 mw","cooling energy, at -15 ï¿½c",energy,Cogeneration\Gas\Transformation
+"cooling energy production, at -160 ï¿½c, propylene-ethylene-methane compression refrigeration system 1 mw","cooling energy, at -160 ï¿½c",energy,Cogeneration\Gas\Transformation
+"cooling energy production, at -25 ï¿½c, ammonia compression refrigeration system 1 mw","cooling energy, at -25 ï¿½c",energy,Cogeneration\Gas\Transformation
+"cooling energy production, at -25 ï¿½c, propylene compression refrigeration system 1 mw","cooling energy, at -25 ï¿½c",energy,Cogeneration\Gas\Transformation
+"cooling energy production, at -45 ï¿½c, propylene compression refrigeration system 1 mw","cooling energy, at -45 ï¿½c",energy,Cogeneration\Gas\Transformation
+"cooling energy production, at -45 ï¿½c, r-134a compression refrigeration system 1 mw","cooling energy, at -45 ï¿½c",energy,Cogeneration\Gas\Transformation
+"cooling energy production, at -55 ï¿½c, propylene-ethylene compression refrigeration system 1 mw","cooling energy, at -55 ï¿½c",energy,Cogeneration\Gas\Transformation
 "cooling energy, from natural gas, at cogen unit with absorption chiller 100kW",cooling energy,energy,Cogeneration\Gas\Transformation
 "cooling system production, for li-o2 battery",cooling system,material,Electronics\Battery\Transformation
 "cooling tower, hybrid, epr","cooling tower, hybrid, epr",energy,Electricity by fuel\Nuclear\PWR\Transformation\Infrastructure
@@ -5226,12 +5226,12 @@ market for container ship,container ship,transport,Water\Market\Infrastructure
 market for conveyor belt,conveyor belt,transport,Building equipment\Market\Infrastructure
 market for cookstove,cookstove,material,Appliances\Market\Infrastructure
 market for cooling energy,cooling energy,energy,Cogeneration\Gas\Market
-"market for cooling energy, at -100 ¡c","cooling energy, at -100 ¡c",energy,Cogeneration\Gas\Market
-"market for cooling energy, at -15 ¡c","cooling energy, at -15 ¡c",energy,Cogeneration\Gas\Market
-"market for cooling energy, at -160 ¡c","cooling energy, at -160 ¡c",energy,Cogeneration\Gas\Market
-"market for cooling energy, at -25 ¡c","cooling energy, at -25 ¡c",energy,Cogeneration\Gas\Market
-"market for cooling energy, at -45 ¡c","cooling energy, at -45 ¡c",energy,Cogeneration\Gas\Market
-"market for cooling energy, at -55 ¡c","cooling energy, at -55 ¡c",energy,Cogeneration\Gas\Market
+"market for cooling energy, at -100 ï¿½c","cooling energy, at -100 ï¿½c",energy,Cogeneration\Gas\Market
+"market for cooling energy, at -15 ï¿½c","cooling energy, at -15 ï¿½c",energy,Cogeneration\Gas\Market
+"market for cooling energy, at -160 ï¿½c","cooling energy, at -160 ï¿½c",energy,Cogeneration\Gas\Market
+"market for cooling energy, at -25 ï¿½c","cooling energy, at -25 ï¿½c",energy,Cogeneration\Gas\Market
+"market for cooling energy, at -45 ï¿½c","cooling energy, at -45 ï¿½c",energy,Cogeneration\Gas\Market
+"market for cooling energy, at -55 ï¿½c","cooling energy, at -55 ï¿½c",energy,Cogeneration\Gas\Market
 market for copper,copper,material,Others\Obsolete
 market for copper cake,copper cake,material,Metals\Non ferro\Market
 market for copper cake_obsolete,copper cake,waste treatment,Others\Obsolete
@@ -7290,7 +7290,7 @@ market for sanitary landfill facility,sanitary landfill facility,processing,Wast
 "market for sawlog and veneer log, meranti, measured as solid wood under bark","sawlog and veneer log, meranti, measured as solid wood under bark",material,Wood\Extraction\Market
 "market for sawlog and veneer log, paranÃ¡ pine, measured as solid wood under bark","sawlog and veneer log, paranÃ¡ pine, measured as solid wood under bark",material,Wood\Extraction\Market
 "market for sawlog and veneer log, parana pine, measured as solid wood under bark","sawlog and veneer log, parana pine, measured as solid wood under bark",material,Wood\Extraction\Market
-"market for sawlog and veneer log, paran‡ pine, measured as solid wood under bark","sawlog and veneer log, paran‡ pine, measured as solid wood under bark",material,Wood\Extraction\Market
+"market for sawlog and veneer log, paranï¿½ pine, measured as solid wood under bark","sawlog and veneer log, paranï¿½ pine, measured as solid wood under bark",material,Wood\Extraction\Market
 "market for sawlog and veneer log, softwood, debarked, measured as solid wood","sawlog and veneer log, softwood, debarked, measured as solid wood",material,Wood\Extraction\Market
 "market for sawlog and veneer log, softwood, measured as solid wood under bark","sawlog and veneer log, softwood, measured as solid wood under bark",material,Wood\Extraction\Market
 market for sawmill,sawmill,material,Wood\Products\Market\Infrastructure
@@ -7329,7 +7329,7 @@ market for sawmill,sawmill,material,Wood\Products\Market\Infrastructure
 "market for sawnwood, parana pine from sustainable forest management, kiln dried","sawnwood, parana pine from sustainable forest management, kiln dried",material,Others\Obsolete
 "market for sawnwood, parana pine from sustainable forest management, kiln dried_obsolete","sawnwood, parana pine from sustainable forest management, kiln dried",material,Others\Obsolete
 "market for sawnwood, parana pine, dried (u=10%)","sawnwood, parana pine, dried (u=10%)",material,Wood\Products\Market
-"market for sawnwood, paran‡ pine, dried (u=10%)","sawnwood, paran‡ pine, dried (u=10%)",material,Wood\Products\Market
+"market for sawnwood, paranï¿½ pine, dried (u=10%)","sawnwood, paranï¿½ pine, dried (u=10%)",material,Wood\Products\Market
 "market for sawnwood, softwood, dried (u=10%), planed","sawnwood, softwood, dried (u=10%), planed",material,Wood\Products\Market
 "market for sawnwood, softwood, dried (u=20%), planed","sawnwood, softwood, dried (u=20%), planed",material,Wood\Products\Market
 "market for sawnwood, softwood, raw","sawnwood, softwood, raw",material,Wood\Products\Market
@@ -8235,7 +8235,7 @@ market for ventilation components factory,ventilation components factory,materia
 "market for ventilation control and wiring, decentralized unit","ventilation control and wiring, decentralized unit",material,Construction\Ventilation\Market
 "market for ventilation duct, connection piece, steel, 100x50 mm","ventilation duct, connection piece, steel, 100x50 mm",material,Construction\Ventilation\Market
 "market for ventilation duct, elbow 90 degrees, steel, 100x50 mm","ventilation duct, elbow 90 degrees, steel, 100x50 mm",material,Construction\Ventilation\Market
-"market for ventilation duct, elbow 90¡, steel, 100x50 mm","ventilation duct, elbow 90¡, steel, 100x50 mm",material,Construction\Ventilation\Market
+"market for ventilation duct, elbow 90ï¿½, steel, 100x50 mm","ventilation duct, elbow 90ï¿½, steel, 100x50 mm",material,Construction\Ventilation\Market
 "market for ventilation duct, elbow 90Â¡, steel, 100x50 mm","ventilation duct, elbow 90Â¡, steel, 100x50 mm",material,Metals\Ferro\Transformation
 "market for ventilation duct, elbow 90Â°, steel, 100x50 mm","ventilation duct, elbow 90Â°, steel, 100x50 mm",material,Metals\Ferro\Transformation
 "market for ventilation duct, steel, 100x50 mm","ventilation duct, steel, 100x50 mm",material,Construction\Ventilation\Market
@@ -10491,9 +10491,9 @@ sanitary landfill facility construction,sanitary landfill facility,processing,Wa
 "sawing and planing, parana pine, kiln dried","wood chips, dry, measured as dry mass",material,Others\Obsolete
 "sawing and planing, parana pine, kiln dried","residual wood, dry",material,Wood\Byproducts\Transformation
 "sawing and planing, parana pine, kiln dried","sawnwood, parana pine, dried (u=10%)",material,Wood\Products\Transformation
-"sawing and planing, paran‡ pine, kiln dried","electricity, low voltage",material,Wood\Products\Transformation
-"sawing and planing, paran‡ pine, kiln dried","sawnwood, paran‡ pine, dried (u=10%)",material,Wood\Products\Transformation
-"sawing and planing, paran‡ pine, kiln dried","residual wood, dry",material,Wood\Products\Transformation
+"sawing and planing, paranï¿½ pine, kiln dried","electricity, low voltage",material,Wood\Products\Transformation
+"sawing and planing, paranï¿½ pine, kiln dried","sawnwood, paranï¿½ pine, dried (u=10%)",material,Wood\Products\Transformation
+"sawing and planing, paranï¿½ pine, kiln dried","residual wood, dry",material,Wood\Products\Transformation
 "sawing, hardwood","slab and siding, hardwood, wet, measured as dry mass",processing,Agricultural\Transformation
 "sawing, hardwood","saw dust, wet, measured as dry mass",material,Others\Obsolete
 "sawing, hardwood","sawnwood, hardwood, raw, debarked",material,Others\Obsolete
@@ -10521,7 +10521,7 @@ sawmill construction,sawmill,material,Wood\Products\Transformation\Infrastructur
 "sawnwood production, softwood, raw, dried (u=20%)","sawnwood, softwood, raw, dried (u=20%)",material,Others\Obsolete
 "sawnwood, paranÃ¡ pine, dried u=10%, import from br","sawnwood, paranÃ¡ pine, dried u=10%",material,Others\Obsolete
 "sawnwood, parana pine, dried (u=10%), import from BR","sawnwood, parana pine, dried (u=10%)",material,Wood\Products\Market\Import
-"sawnwood, paran‡ pine, dried (u=10%), import from br","sawnwood, paran‡ pine, dried (u=10%)",material,Wood\Products\Market\Import
+"sawnwood, paranï¿½ pine, dried (u=10%), import from br","sawnwood, paranï¿½ pine, dried (u=10%)",material,Wood\Products\Market\Import
 "sba-15 production, for lis battery",sba-15,material,Electronics\Battery\Transformation
 "scandium oxide production, from rare earth tailings",iron ore concentrate,material,Chemicals\Inorganic\Transformation
 "scandium oxide production, from rare earth tailings","rare earth oxide concentrate, 50% REO",material,Chemicals\Inorganic\Transformation
@@ -10731,7 +10731,7 @@ sodium tripolyphosphate production,sodium tripolyphosphate,material,Chemicals\Wa
 "softwood forestry, mixed species, sustainable forest management","sawlog and veneer log, softwood, measured as solid wood under bark",material,Wood\Extraction\Transformation
 "softwood forestry, paranÃ¡ pine, sustainable forest management","sawlog and veneer log, paranÃ¡ pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
 "softwood forestry, parana pine, sustainable forest management","sawlog and veneer log, parana pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
-"softwood forestry, paran‡ pine, sustainable forest management","sawlog and veneer log, paran‡ pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
+"softwood forestry, paranï¿½ pine, sustainable forest management","sawlog and veneer log, paranï¿½ pine, measured as solid wood under bark",material,Wood\Extraction\Transformation
 "softwood forestry, pine, sustainable forest management","wood chips, wet, measured as dry mass",material,Wood\Byproducts\Transformation
 "softwood forestry, pine, sustainable forest management","bundle, energy wood, measured as dry mass",material,Wood\Extraction\Transformation
 "softwood forestry, pine, sustainable forest management","cleft timber, measured as dry mass",material,Wood\Extraction\Transformation
@@ -14149,7 +14149,7 @@ ventilation components factory construction,ventilation components factory,mater
 "ventilation control and wiring production, decentralized unit","ventilation control and wiring, decentralized unit",material,Construction\Ventilation\Transformation
 "ventilation duct production, connection piece, steel, 100x50 mm","ventilation duct, connection piece, steel, 100x50 mm",material,Construction\Ventilation\Transformation
 "ventilation duct production, elbow 90 degrees, steel, 100x50 mm","ventilation duct, elbow 90 degrees, steel, 100x50 mm",material,Construction\Ventilation\Transformation
-"ventilation duct production, elbow 90¡, steel, 100x50 mm","ventilation duct, elbow 90¡, steel, 100x50 mm",material,Construction\Ventilation\Transformation
+"ventilation duct production, elbow 90ï¿½, steel, 100x50 mm","ventilation duct, elbow 90ï¿½, steel, 100x50 mm",material,Construction\Ventilation\Transformation
 "ventilation duct production, elbow 90Â¡, steel, 100x50 mm","ventilation duct, elbow 90Â¡, steel, 100x50 mm",material,Metals\Ferro\Transformation
 "ventilation duct production, elbow 90Â°, steel, 100x50 mm","ventilation duct, elbow 90Â°, steel, 100x50 mm",material,Construction\Ventilation\Transformation
 "ventilation duct production, steel, 100x50 mm","ventilation duct, steel, 100x50 mm",material,Construction\Ventilation\Transformation
@@ -14465,3 +14465,137 @@ perovskite module assembly,assembled perovskite cell,energy,Electricity by fuel\
 "process exhaust ventilators, general, for perovskite production","exhaust, general",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "process exhaust ventilators, acidic, for perovskite production","exhaust, acidic",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
 "process exhaust ventilators, caustic, for perovskite production","exhaust, caustic",energy,Electricity by fuel\Photovoltaic\Market\Infrastructure
+"aluminium production, primary, liquid, sÃ¶derberg","aluminium, primary, liquid",material,Others\Obsolete
+"market for cooling energy, at -25 Â°c","cooling energy, at -25 Â°c",material,Others\Obsolete
+"hydrocarbons purification, molecular sieve separation of naphtha","1,1-dimethylcyclopentane",material,Others\Obsolete
+"cooling energy production, at -45 Â°c, r-134a compression refrigeration system 1 mw","cooling energy, at -45 Â°c",material,Others\Obsolete
+"cooling energy production, at -45 Â°c, propylene compression refrigeration system 1 mw","cooling energy, at -45 Â°c",material,Others\Obsolete
+"cooling energy production, at -25 Â°c, ammonia compression refrigeration system 1 mw","cooling energy, at -25 Â°c",material,Others\Obsolete
+"hydrocarbons purification, molecular sieve separation of naphtha","fraction 8 from naphtha separation",material,Others\Obsolete
+"hydrocarbons purification, molecular sieve separation of naphtha","fraction 1 from naphtha separation",material,Others\Obsolete
+"hydrocarbons purification, molecular sieve separation of naphtha","2,3-dimethylbutane",material,Others\Obsolete
+"hydrocarbons purification, molecular sieve separation of naphtha","heptane",material,Others\Obsolete
+"hydrocarbons purification, molecular sieve separation of naphtha","fraction 7 from naphtha separation",material,Others\Obsolete
+"cooling energy production, at -55 Â°c, propylene-ethylene compression refrigeration system 1 mw","cooling energy, at -55 Â°c",material,Others\Obsolete
+"sawing and planing, paranÃ¡ pine, kiln dried","electricity, low voltage",material,Others\Obsolete
+"market for cooling energy, at -55 Â°c","cooling energy, at -55 Â°c",material,Others\Obsolete
+"market for cooling energy, at -15 Â°c","cooling energy, at -15 Â°c",material,Others\Obsolete
+"hydrocarbons purification, molecular sieve separation of naphtha","2-methylpentane",material,Others\Obsolete
+"sawing and planing, paranÃ¡ pine, kiln dried","sawnwood, paranÃ¡ pine, dried (u=10%)",material,Others\Obsolete
+"hydrocarbons purification, molecular sieve separation of naphtha","hexane",material,Others\Obsolete
+"sawing and planing, paranÃ¡ pine, kiln dried","residual wood, dry",material,Others\Obsolete
+"softwood forestry, paranÃ¡ pine, sustainable forest management","sawlog and veneer log, paranÃ¡ pine, measured as solid wood under bark",material,Others\Obsolete
+"cooling energy production, at -25 Â°c, propylene compression refrigeration system 1 mw","cooling energy, at -25 Â°c",material,Others\Obsolete
+"cooling energy production, at -100 Â°c, r-134a-carbon dioxide-ethylene compression refrigeration system 1 mw","cooling energy, at -100 Â°c",material,Others\Obsolete
+"ventilation duct production, elbow 90Â°, steel, 100x50 mm","ventilation duct, elbow 90Â°, steel, 100x50 mm",material,Others\Obsolete
+"market for cooling energy, at -160 Â°c","cooling energy, at -160 Â°c",material,Others\Obsolete
+"cooling energy production, at -15 Â°c, r-134a compression refrigeration system 1 mw","cooling energy, at -15 Â°c",material,Others\Obsolete
+"market for cooling energy, at -45 Â°c","cooling energy, at -45 Â°c",material,Others\Obsolete
+"market for ventilation duct, elbow 90Â°, steel, 100x50 mm","ventilation duct, elbow 90Â°, steel, 100x50 mm",material,Others\Obsolete
+"market for cooling energy, at -100 Â°c","cooling energy, at -100 Â°c",material,Others\Obsolete
+"sawnwood, paranÃ¡ pine, dried (u=10%), import from br","sawnwood, paranÃ¡ pine, dried (u=10%)",material,Others\Obsolete
+"market for sawlog and veneer log, paranÃ¡ pine, measured as solid wood under bark","sawlog and veneer log, paranÃ¡ pine, measured as solid wood under bark",material,Others\Obsolete
+"cooling energy production, at -100 Â°c, propylene-ethylene compression refrigeration system 1 mw","cooling energy, at -100 Â°c",material,Others\Obsolete
+"market for sawnwood, paranÃ¡ pine, dried (u=10%)","sawnwood, paranÃ¡ pine, dried (u=10%)",material,Others\Obsolete
+"cooling energy production, at -160 Â°c, propylene-ethylene-methane compression refrigeration system 1 mw","cooling energy, at -160 Â°c",material,Others\Obsolete
+"hydrocarbons purification, molecular sieve separation of naphtha","methylcyclopentane",material,Others\Obsolete
+"hydrocarbons purification, molecular sieve separation of naphtha","methylcyclohexane",material,Others\Obsolete
+"polyethyleneimine (pei) production, for sorbent-based direct air capture system","polyethyleneimine",material,Others\Obsolete
+"bipolar plate production, for vrfb system","bipolar plate, for vrfb system",material,Electronics\Battery\Market
+"market for battery, redox-flow, vanadium","battery, redox-flow, vanadium",material,Electronics\Battery\Market
+"market for used redox-flow battery","used redox-flow battery",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, lfp","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, nmc111","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, nmc523","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, nmc622","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, nmc811","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, nmc955","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, nca","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, lto","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, limn2o4","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-sulfur, li-s","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, li-o2","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, sodium-ion, sib","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, sodium-nickel-chloride, na-nicl","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity (mix scenario)","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity (lfp scenario)","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity (ncx scenario)","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity (plib scenario)","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, lfp, stationary","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, nmc111, stationary","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, nmc523, stationary","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, nmc622, stationary","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, nmc811, stationary","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, li-ion, nmc955, stationary","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, redox-flow, vanadium, stationary","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, lead acid, rechargeable, stationary","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, sodium-ion, sib, stationary","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, sodium-nickel-chloride, na-nicl, stationary","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, stationary (cont scenario)","electricity storage capacity",material,Electronics\Battery\Market
+"market for battery capacity, stationary (tc scenario)","electricity storage capacity",material,Electronics\Battery\Market
+"electricity supply, from stationary battery (cont scenario)","electricity, low voltage",material,Electronics\Battery\Market
+"electricity supply, from stationary 14.4 kwh lfp battery","electricity, high voltage",material,Electronics\Battery\Market
+"metal organic vapor phase epitaxy (movpe), for gaas photovoltaic panel","gaas wafer with nanowires",material,Electronics\Photovoltaic\Transformation\Infrastructure
+"perovskite photovoltaic module assembly","perovskite photovoltaic module",material,Electronics\Photovoltaic\Transformation\Infrastructure
+"photovoltaic panel installation, 0.5kwp, perovskite","photovoltaic panel, perovskite",material,Electronics\Photovoltaic\Transformation\Infrastructure
+"hydrogen supply, hydrogen, from petroleum, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from petroleum, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from petroleum, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from petroleum, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, pem, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, pem, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, pem, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, pem, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, aec, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, aec, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, aec, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, aec, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, soec, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, soec, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, soec, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from electrolysis, soec, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from solar, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from solar, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from solar, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from solar, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from pyrolysis, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from pyrolysis, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from pyrolysis, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from pyrolysis, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biomass, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biomass, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biomass, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biomass, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biomass, with ccs, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biomass, with ccs, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biomass, with ccs, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biomass, with ccs, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from coal, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from coal, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from coal, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from coal, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from coal, with ccs, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from coal, with ccs, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from coal, with ccs, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from coal, with ccs, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from natural gas, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from natural gas, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from natural gas, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from natural gas, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from natural gas, with ccs, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from natural gas, with ccs, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from natural gas, with ccs, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from natural gas, with ccs, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biogas, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biogas, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biogas, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biogas, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biogas, with ccs, by truck, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biogas, with ccs, by truck, as liquid, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biogas, with ccs, by ship, as liquid, over 2000 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"hydrogen supply, hydrogen, from biogas, with ccs, by h2 pipeline, as gaseous, over 500 km","hydrogen, 700 bar",material,Chemicals\Gases\Market
+"clinker production, efficient","clinker",material,Chemicals\Inorganic\Transformation
+"clinker production, efficient, with on-site ccs","clinker",material,Chemicals\Inorganic\Transformation
+"clinker production, efficient, with oxyfuel ccs","clinker",material,Chemicals\Inorganic\Transformation
+"clinker production, efficient, with mea ccs","clinker",material,Chemicals\Inorganic\Transformation
+"carbon dioxide, captured at steel production plant, with underground storage, post, 200 km","carbon dioxide, captured and stored",material,Chemicals\Gases\Liquified\Transformation

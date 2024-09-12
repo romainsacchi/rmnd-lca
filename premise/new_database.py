@@ -504,7 +504,7 @@ class NewDatabase:
         scenarios: List[dict],
         source_version: str = "3.10",
         source_type: str = "brightway",
-        key: bytes = None,
+        key: Union[bytes, str] = None,
         source_db: str = None,
         source_file_path: str = None,
         additional_inventories: List[dict] = None,
@@ -715,7 +715,7 @@ class NewDatabase:
         # with HiddenPrints():
         # Manual import
         # file path and original ecoinvent version
-        data = []
+        data, unlinked = [], []
         filepaths = [
             (FILEPATH_OIL_GAS_INVENTORIES, "3.7"),
             (FILEPATH_CARMA_INVENTORIES, "3.5"),
@@ -781,7 +781,7 @@ class NewDatabase:
             (FILEPATH_NUCLEAR_EPR, "3.8"),
             (FILEPATH_NUCLEAR_SMR, "3.8"),
             (FILEPATH_WAVE, "3.8"),
-            (FILEPATH_FUEL_CELL, "3.9"),
+            (FILEPATH_FUEL_CELL, "3.10"),
             (FILEPATH_CSP, "3.9"),
             (FILEPATH_HYDROGEN_HEATING, "3.9"),
             (FILEPATH_METHANOL_HEATING, "3.9"),
@@ -819,6 +819,10 @@ class NewDatabase:
             datasets = inventory.merge_inventory()
             data.extend(datasets)
             self.database.extend(datasets)
+            unlinked.extend(inventory.list_unlinked)
+
+        if len(unlinked) > 0:
+            raise ValueError("Fix the unlinked exchanges before proceeding")
 
         return data
 

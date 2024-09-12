@@ -4,30 +4,74 @@
 'bus, diesel':
   iam_aliases:
     remind: ES|Transport|Pass|Road|Bus|Liquids
+    tiam-ucl: Distance|Transport|Bus|Diesel|Diesel
   energy_use_aliases:
     remind: FE|Transport|Pass|Road|Bus|Liquids
+    tiam-ucl: Final Energy|Transport|Bus|Diesel|Diesel
   ecoinvent_aliases:
     fltr:
       - 'transport, passenger bus, diesel, 13m single deck urban bus, EURO-VI'
   ecoinvent_fuel_aliases:
     fltr:
       - diesel
+
+'bus, gasoline':
+  iam_aliases:
+    tiam-ucl: Distance|Transport|Bus|Gasoline|Gasoline
+  energy_use_aliases:
+    tiam-ucl: Final Energy|Transport|Bus|Gasoline|Gasoline
+  ecoinvent_aliases:
+    fltr:
+      - 'transport, passenger bus, gasoline, 13m single deck urban bus, EURO-VI'
+  ecoinvent_fuel_aliases:
+    fltr:
+      - petrol, low-sulfur
+
+'bus, diesel hybrid':
+    iam_aliases:
+        tiam-ucl: Distance|Transport|Bus|Gasoline|Gasoline
+    energy_use_aliases:
+        tiam-ucl: Final Energy|Transport|Bus|Gasoline|Gasoline
+    ecoinvent_aliases:
+        fltr:
+        - 'transport, passenger bus, gasoline, 13m single deck urban bus, EURO-VI'
+    ecoinvent_fuel_aliases:
+        fltr:
+        - diesel
+
 'bus, compressed gas':
   iam_aliases:
     remind: ES|Transport|Pass|Road|Bus|Gases
+    tiam-ucl: Distance|Transport|Bus|Natural Gas|Natural Gas
   energy_use_aliases:
     remind: FE|Transport|Pass|Road|Bus|Gases
+    tiam-ucl: Final Energy|Transport|Bus|Natural Gas|Natural Gas
   ecoinvent_aliases:
     fltr:
       - 'transport, passenger bus, compressed gas, 13m single deck urban bus, EURO-VI'
   ecoinvent_fuel_aliases:
     fltr:
       - natural gas
+
+'bus, liquefied petroleum gas':
+    iam_aliases:
+        tiam-ucl: Distance|Transport|Bus|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+    energy_use_aliases:
+        tiam-ucl: Final Energy|Transport|Bus|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+    ecoinvent_aliases:
+        fltr:
+        - 'transport, passenger bus, liquefied petroleum gas, 13m single deck urban bus, EURO-VI'
+    ecoinvent_fuel_aliases:
+        fltr:
+        - liquefied petroleum gas
+
 'bus, fuel cell':
   iam_aliases:
     remind: ES|Transport|Pass|Road|Bus|FCEV
+    tiam-ucl: Distance|Transport|Bus|Hydrogen Fuel Cell|Bus Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Pass|Road|Bus|FCEV
+    tiam-ucl: Final Energy|Transport|Bus|Hydrogen Fuel Cell|Bus Hydrogen
   ecoinvent_aliases:
     fltr:
       - 'transport, passenger bus, fuel cell electric, 13m single deck urban bus'

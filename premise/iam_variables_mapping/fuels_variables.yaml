@@ -202,7 +202,7 @@ biomethane:
   co2: 0.06
   biogenic_share: 1
   iam_aliases:
-    # tiam-ucl: Secondary Energy|Liquids|Biomass|Biomethane
+    tiam-ucl: Secondary Energy|Liquids|Biomass|Biomethane|Biogas
     remind: SE|Gases|+|Biomass
   eff_aliases:
     remind: Tech|Gases|Biomass|w/o CC|Efficiency
@@ -394,7 +394,7 @@ diesel, synthetic, from coal:
     tiam-ucl: Efficiency|Liquids|Coal|FT fuel mix (diesel, kerosene, naptha, ELC)|w/o CCS
     gcam: Efficiency|Coal to Liquids|w/oCCS
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Coal|FT Diesel|w/o CCS
+    tiam-ucl: Secondary Energy|Liquids|Coal|FT|Diesel|w/o CCS
     gcam: Secondary Energy|Production|Coal to Liquids|w/oCCS
     remind: SE|Liquids|Fossil|Coal|+|w/o CC
   ecoinvent_aliases:
@@ -410,7 +410,7 @@ diesel, synthetic, from coal, with CCS:
     tiam-ucl: Efficiency|Liquids|Coal|FT fuel mix (diesel, kerosene, naptha, ELC)|w CCS
     gcam: Efficiency|Coal to Liquids|w/CCS
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Coal|FT Diesel|w CCS
+    tiam-ucl: Secondary Energy|Liquids|Coal|FT|Diesel|w CCS
     gcam: Secondary Energy|Production|Coal to Liquids|w/CCS
     remind: SE|Liquids|Fossil|Coal|+|w/ CC
   ecoinvent_aliases:
@@ -423,7 +423,7 @@ diesel, synthetic, from wood:
   co2: 0.0732
   biogenic_share: 1
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Biomass residues|FT Diesel|w/o CCS
+    tiam-ucl: Secondary Energy|Liquids|Biomass|FT|Diesel|w/o CCS
     gcam: Secondary Energy|Production|Refined Liquids|Biomass|FT Biofuels|w/oCCS
     remind: SE|Liquids|Biomass|BioFTR|w/o CC
     image: Secondary Energy|Consumption|Liquids|Biomass|FT Diesel|Woody|w/oCCS
@@ -440,7 +440,7 @@ diesel, synthetic, from wood, with CCS:
   co2: 0.0732
   biogenic_share: 1
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Biomass residues|FT Diesel|w CCS
+    tiam-ucl: Secondary Energy|Liquids|Biomass|FT|Diesel|w CCS
     gcam: Secondary Energy|Production|Refined Liquids|Biomass|FT Biofuels|w/CCS
     remind: SE|Liquids|Biomass|BioFTR|w/ CC
     image: Secondary Energy|Consumption|Liquids|Biomass|FT Diesel|Woody|w/CCS
@@ -485,7 +485,7 @@ diesel, synthetic, from natural gas:
   co2: 0.0732
   biogenic_share: 0
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT Diesel|w/o CCS
+    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT|Diesel|w/o CCS
   eff_aliases:
     tiam-ucl: Efficiency|Liquids|Natural gas|FT fuel mix (diesel, kerosene, naptha, ELC)|w/o CCS
   ecoinvent_aliases:
@@ -497,7 +497,7 @@ diesel, synthetic, from natural gas, with CCS:
   co2: 0.0732
   biogenic_share: 0
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT Diesel|w CCS
+    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT|Diesel|w CCS
   eff_aliases:
     tiam-ucl: Efficiency|Liquids|Natural gas|FT fuel mix (diesel, kerosene, naptha, ELC)|w CCS
   ecoinvent_aliases:
@@ -1039,14 +1039,14 @@ liquefied petroleum gas:
       - liquefied petroleum gas production, petroleum refinery operation
       - market for liquefied petroleum gas
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Oil|LPG
+    tiam-ucl: Secondary Energy|Liquids|Oil|Liquid Petroleum Gas
 
 liquefied petroleum gas, synthetic, from natural gas:
   lhv: 45.5
   co2: 0.0631
   biogenic_share: 0
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT LPG|w/o CCS
+    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT|Liquid Petroleum Gas|w/o CCS
   ecoinvent_aliases:
     fltr:
       - liquefied petroleum gas production, synthetic, Fischer Tropsch process, from natural gas, energy allocation
@@ -1058,7 +1058,7 @@ liquefied petroleum gas, synthetic, from natural gas, with CCS:
   co2: 0.0631
   biogenic_share: 0
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT LPG|w CCS
+    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT|Liquid Petroleum Gas|w CCS
   ecoinvent_aliases:
     fltr:
       - liquefied petroleum gas production, synthetic, Fischer Tropsch process, from natural gas, energy allocation, with carbon capture and storage
@@ -1070,7 +1070,7 @@ liquefied petroleum gas, synthetic, from biomass:
   co2: 0.0631
   biogenic_share: 1
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Biomass|FT LPG|w/o CCS
+    tiam-ucl: Secondary Energy|Liquids|Biomass|FT|Liquid Petroleum Gas|w/o CCS
   ecoinvent_aliases:
     fltr:
       - liquefied petroleum gas production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, energy allocation
@@ -1082,7 +1082,7 @@ liquefied petroleum gas, synthetic, from biomass, with CCS:
   co2: 0.0631
   biogenic_share: 1
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Biomass|FT LPG|w CCS
+    tiam-ucl: Secondary Energy|Liquids|Biomass|FT|Liquid Petroleum Gas|w CCS
   ecoinvent_aliases:
     fltr:
       - liquefied petroleum gas production, synthetic, Fischer Tropsch process, hydrogen from wood gasification, energy allocation, with carbon capture and storage
@@ -1098,7 +1098,7 @@ liquefied petroleum gas, synthetic, from coal:
       name: synthetic fuel production, from coal, high temperature Fisher-Tropsch operations
       reference product: liquefied petroleum gas
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Coal|FT LPG|w/o CCS
+    tiam-ucl: Secondary Energy|Liquids|Coal|FT|Liquid Petroleum Gas|w/o CCS
   eff_aliases:
     tiam-ucl: Efficiency|Liquids|Coal|FT fuel mix (diesel, kerosene, naptha, ELC)|w/o CCS
 
@@ -1108,7 +1108,7 @@ liquefied petroleum gas, synthetic, from coal, with CCS:
   co2: 0.0631
   biogenic_share: 0
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Coal|FT LPG|w CCS
+    tiam-ucl: Secondary Energy|Liquids|Coal|FT|Liquid Petroleum Gas|w CCS
   ecoinvent_aliases:
     fltr:
       - liquefied petroleum gas production, synthetic, Fischer Tropsch process, from coal, energy allocation, with carbon capture and storage
@@ -1310,7 +1310,7 @@ kerosene, synthetic, from coal, energy allocation:
     fltr:
       - kerosene production, synthetic, Fischer Tropsch process, hydrogen from coal gasification, energy allocation
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Coal|FT Kerosene|w/o CCS
+    tiam-ucl: Secondary Energy|Liquids|Coal|FT|Kerosene|w/o CCS
   eff_aliases:
     tiam-ucl: Efficiency|Liquids|Coal|FT fuel mix (diesel, kerosene, naptha, ELC)|w/o CCS
 
@@ -1330,7 +1330,7 @@ kerosene, synthetic, from coal, energy allocation, with CCS:
     fltr:
       - kerosene production, synthetic, Fischer Tropsch process, hydrogen from coal gasification, with CCS, energy allocation
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Coal|FT Kerosene|w CCS
+    tiam-ucl: Secondary Energy|Liquids|Coal|FT|Kerosene|w CCS
   eff_aliases:
     tiam-ucl: Efficiency|Liquids|Coal|FT fuel mix (diesel, kerosene, naptha, ELC)|w CCS
 
@@ -1348,7 +1348,7 @@ kerosene, synthetic, from biomass, energy allocation:
   co2: 0.0715
   biogenic_share: 1
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Biomass|FT Kerosene|w/o CCS
+    tiam-ucl: Secondary Energy|Liquids|Biomass|FT|Kerosene|w/o CCS
   eff_aliases:
     tiam-ucl: Efficiency|Liquids|Biomass|FT fuel mix (diesel, kerosene, naptha, ELC)|w/o CCS
   ecoinvent_aliases:
@@ -1360,7 +1360,7 @@ kerosene, synthetic, from biomass, energy allocation, with CCS:
   co2: 0.0715
   biogenic_share: 1
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Biomass|FT Kerosene|w CCS
+    tiam-ucl: Secondary Energy|Liquids|Biomass|FT|Kerosene|w CCS
   eff_aliases:
     tiam-ucl: Efficiency|Liquids|Biomass|FT fuel mix (diesel, kerosene, naptha, ELC)|w CCS
   ecoinvent_aliases:
@@ -1372,7 +1372,7 @@ kerosene, synthetic, from natural gas, energy allocation:
   co2: 0.0715
   biogenic_share: 1
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT Kerosene|w/o CCS
+    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT|Kerosene|w/o CCS
   eff_aliases:
     tiam-ucl: Efficiency|Liquids|Natural gas|FT fuel mix (diesel, kerosene, naptha, ELC)|w/o CCS
   ecoinvent_aliases:
@@ -1384,7 +1384,7 @@ kerosene, synthetic, from natural gas, energy allocation, with CCS:
   co2: 0.0715
   biogenic_share: 1
   iam_aliases:
-    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT Kerosene|w CCS
+    tiam-ucl: Secondary Energy|Liquids|Natural Gas|FT|Kerosene|w CCS
   eff_aliases:
     tiam-ucl: Efficiency|Liquids|Natural gas|FT fuel mix (diesel, kerosene, naptha, ELC)|w CCS
   ecoinvent_aliases:

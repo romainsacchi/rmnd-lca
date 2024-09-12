@@ -630,8 +630,6 @@ class Transport(BaseTransformation):
         # detect size in name
         size = [s for s in self.battery_size["truck"] if s in ds["name"]][0]
 
-        print(self.battery_size["truck"][size])
-
         if self.year <= min(self.battery_size["truck"][size].keys()):
             mean_battery_size = self.battery_size["truck"][size][
                 min(self.battery_size["truck"][size].keys())

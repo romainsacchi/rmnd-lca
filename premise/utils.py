@@ -36,11 +36,11 @@ EFFICIENCY_RATIO_SOLAR_PV = DATA_DIR / "renewables" / "efficiency_solar_PV.csv"
 
 
 def rescale_exchanges(
-    ds,
-    value,
-    technosphere_filters=None,
-    biosphere_filters=None,
-    remove_uncertainty=False,
+        ds,
+        value,
+        technosphere_filters=None,
+        biosphere_filters=None,
+        remove_uncertainty=False,
 ):
     """
     Adapted from wurst's change_exchanges_by_constant_factor
@@ -87,9 +87,9 @@ class HiddenPrints:
 
 
 def eidb_label(
-    scenario: dict,
-    version: str,
-    system_model: str = "cutoff",
+        scenario: dict,
+        version: str,
+        system_model: str = "cutoff",
 ) -> str:
     """
     Return a label to name a scenario.
@@ -152,6 +152,17 @@ def get_crops_properties() -> dict:
         crop_props = yaml.safe_load(stream)
 
     return crop_props
+
+
+def get_water_consumption_factors() -> dict:
+    """
+    Return a dictionary from renewables/hydropower.yaml
+    with correction factors for hydropower datasets
+    """
+    with open(DATA_DIR / "renewables" / "hydropower.yaml", "r", encoding="utf-8") as stream:
+        water_consumption_factors = yaml.safe_load(stream)
+
+    return water_consumption_factors
 
 
 def get_efficiency_solar_photovoltaics() -> xr.DataArray:
@@ -235,8 +246,8 @@ def clear_existing_cache(all_versions: Optional[bool] = False, filter=None) -> N
         f.unlink()
         for f in DIR_CACHED_DB.glob("*")
         if f.is_file()
-        and (all_versions or "".join(tuple(map(str, __version__))) not in f.name)
-        and (filter is None or filter in f.name)
+           and (all_versions or "".join(tuple(map(str, __version__))) not in f.name)
+           and (filter is None or filter in f.name)
     ]
 
 
@@ -357,7 +368,6 @@ def delete_log():
 
 
 def create_scenario_list(scenarios: list) -> list:
-
     list_scenarios = []
 
     for scenario in scenarios:
