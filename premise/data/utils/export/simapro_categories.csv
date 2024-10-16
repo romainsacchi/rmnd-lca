@@ -1631,8 +1631,8 @@ disodium disulphite,disodium disulphite,material,Others\Obsolete
 disodium disulphite production,disodium disulphite,material,Chemicals\Inorganic\Transformation
 "display production, cathode ray tube, 17 inches","display, cathode ray tube, 17 inches",material,Electronics\Devices\Transformation
 "display production, liquid crystal, 17 inches","display, liquid crystal, 17 inches",material,Electronics\Devices\Transformation
-Distiller"s Dried Grains with Solubles to generic market for protein feed,"energy feed, gross",material,Agricultural\Animal feed\Market
-Distiller"s Dried Grains with Solubles to generic market for protein feed,"protein feed, 100% crude",material,Agricultural\Animal feed\Market
+Distiller's Dried Grains with Solubles to generic market for protein feed,"energy feed, gross",material,Agricultural\Animal feed\Market
+Distiller's Dried Grains with Solubles to generic market for protein feed,"protein feed, 100% crude",material,Agricultural\Animal feed\Market
 "distribution network construction, electricity, low voltage","distribution network, electricity, low voltage",transport,Electricity\Transformation\Infrastructure
 distribution sheds,distribution sheds,transport,Road\Transformation\Infrastructure
 dithiocarbamate-compound production,dithiocarbamate-compound,material,Chemicals\Pesticides\Transformation
@@ -2073,11 +2073,11 @@ ethanol fermentation plant construction,ethanol fermentation plant,material,Fuel
 ethanol production from grass,grass fibre,material,Agricultural\Animal feed\Transformation
 ethanol production from grass,"protein feed, 100% crude",material,Agricultural\Animal feed\Transformation
 ethanol production from grass,"ethanol, without water, in 95% solution state, from fermentation",material,Fuels\Biofuels\Ethanol\Transformation
-ethanol production from maize,distiller"s Dried Grains with Solubles,material,Agricultural\Animal feed\Transformation
+ethanol production from maize,distiller's Dried Grains with Solubles,material,Agricultural\Animal feed\Transformation
 ethanol production from maize,"ethanol, without water, in 95% solution state, from fermentation",material,Fuels\Biofuels\Ethanol\Transformation
-ethanol production from potatoes,distiller"s Dried Grains with Solubles,material,Agricultural\Animal feed\Transformation
+ethanol production from potatoes,distiller's Dried Grains with Solubles,material,Agricultural\Animal feed\Transformation
 ethanol production from potatoes,"ethanol, without water, in 95% solution state, from fermentation",material,Fuels\Biofuels\Ethanol\Transformation
-ethanol production from rye,distiller"s Dried Grains with Solubles,material,Agricultural\Animal feed\Transformation
+ethanol production from rye,distiller's Dried Grains with Solubles,material,Agricultural\Animal feed\Transformation
 ethanol production from rye,"ethanol, without water, in 95% solution state, from fermentation",material,Fuels\Biofuels\Ethanol\Transformation
 ethanol production from sugar beet,sugar beet pulp,material,Agricultural\Plant production\Sugar beets\Transformation
 ethanol production from sugar beet,"ethanol, without water, in 95% solution state, from fermentation",material,Fuels\Biofuels\Ethanol\Transformation
@@ -5367,8 +5367,8 @@ market for dishwasher,dishwasher,material,Appliances\Market\Infrastructure
 market for disodium disulphite,disodium disulphite,material,Chemicals\Inorganic\Market
 "market for display, cathode ray tube, 17 inches","display, cathode ray tube, 17 inches",material,Electronics\Devices\Market
 "market for display, liquid crystal, 17 inches","display, liquid crystal, 17 inches",material,Electronics\Devices\Market
-market for Distiller"s Dried Grains with Solubles,distiller"s Dried Grains with Solubles,material,Agricultural\Animal feed\Market
-market for Distiller"s Dried Grains with Solubles_obsolete,distiller"s Dried Grains with Solubles,waste treatment,Others\Obsolete
+market for Distiller's Dried Grains with Solubles,distiller's Dried Grains with Solubles,material,Agricultural\Animal feed\Market
+market for Distiller's Dried Grains with Solubles_obsolete,distiller's Dried Grains with Solubles,waste treatment,Others\Obsolete
 "market for distribution network, electricity, low voltage","distribution network, electricity, low voltage",transport,Electricity\Market\Infrastructure
 market for dithiocarbamate-compound,dithiocarbamate-compound,material,Chemicals\Pesticides\Market
 market for dodecanol,dodecanol,material,Chemicals\Organic\Market
@@ -7719,7 +7719,7 @@ market for stone wool,stone wool,material,Construction\Insulation\Market
 market for stone wool factory,stone wool factory,material,Construction\Insulation\Market\Infrastructure
 "market for stone wool, packed","stone wool, packed",material,Construction\Insulation\Market
 "market for storage building, chemicals, solid","storage building, chemicals, solid",material,Chemicals\Others\Market\Infrastructure
-"market for storage, 10"000 l","storage, 10"000 l",energy,Cogeneration\Gas\Market\Infrastructure
+"market for storage, 10'000 l","storage, 10'000 l",energy,Cogeneration\Gas\Market\Infrastructure
 "market for storage, 650 l mini CHP plant","storage, 650 l mini CHP plant",energy,Cogeneration\Gas\Market\Infrastructure
 market for straw,straw,material,Agricultural\Plant production\Roughage\Market
 "market for straw, organic","straw, organic",material,Agricultural\Plant production\Roughage\Market
@@ -8772,8 +8772,8 @@ miscanthus production,"miscanthus, chopped",material,Agricultural\Plant producti
 "miscanthus rhizome production, for planting","miscanthus rhizome, for planting",material,Agricultural\Plant seeds\Transformation
 "mischmetal production, primary",mischmetal,material,Metals\Non ferro\Transformation
 "mixed natural gas and biomethane production, high pressure","mixed natural gas and biomethane, high pressure",material,Fuels\Natural gas\Transformation
-"modified Solvay process, Hou"s process",ammonium chloride,material,Chemicals\Inorganic\Transformation
-"modified Solvay process, Hou"s process","soda ash, dense",material,Chemicals\Inorganic\Transformation
+"modified Solvay process, Hou's process",ammonium chloride,material,Chemicals\Inorganic\Transformation
+"modified Solvay process, Hou's process","soda ash, dense",material,Chemicals\Inorganic\Transformation
 "module packaging, for li-o2 battery",module packaging,material,Electronics\Battery\Transformation
 moisture separator-reheater HTP-LPT EPR,moisture separator-reheater HTP-LPT EPR,energy,Heat\Others\Transformation
 "molasses, from sugar beet, to generic market for energy feed","energy feed, gross",material,Agricultural\Animal feed\Market
@@ -10656,8 +10656,8 @@ smelting and refining of nickel ore,"ammonium sulfate, as N",material,Others\Obs
 "sng from wood, production plant","sng from wood, production plant",material,Others\Obsolete
 sng production plant,sng production plant,material,Others\Obsolete
 soap production,soap,material,Chemicals\Washing agents\Tensides\Transformation
-"soda ash production, dense, Hou"s process",ammonium chloride,waste treatment,Landfill\Slag compartment\Transformation
-"soda ash production, dense, Hou"s process","soda ash, dense",waste treatment,Landfill\Slag compartment\Transformation
+"soda ash production, dense, Hou's process",ammonium chloride,waste treatment,Landfill\Slag compartment\Transformation
+"soda ash production, dense, Hou's process","soda ash, dense",waste treatment,Landfill\Slag compartment\Transformation
 "soda ash, dense, to generic market for neutralising agent","neutralising agent, sodium hydroxide-equivalent",material,Chemicals\Inorganic\Market
 "soda ash, light, crystalline, heptahydrate, to generic market for neutralising agent","neutralising agent, sodium hydroxide-equivalent",material,Chemicals\Inorganic\Market
 "soda production, solvay process",calcium chloride,material,Chemicals\Inorganic\Transformation
@@ -10842,7 +10842,7 @@ stone wool production,stone wool,material,Construction\Insulation\Transformation
 "stone wool production, packed","stone wool, packed",material,Construction\Insulation\Transformation
 storage battery,storage battery,transport,Road\Transformation\Infrastructure
 "storage building construction, chemicals, solid","storage building, chemicals, solid",material,Chemicals\Others\Transformation\Infrastructure
-"storage production, 10"000 l","storage, 10"000 l",energy,Cogeneration\Gas\Transformation\Infrastructure
+"storage production, 10'000 l","storage, 10'000 l",energy,Cogeneration\Gas\Transformation\Infrastructure
 "storage production, 650 l mini CHP plant","storage, 650 l mini CHP plant",energy,Cogeneration\Gas\Transformation\Infrastructure
 "straw production, stand-alone production","straw, stand-alone production",material,Agricultural\Plant production\Roughage\Transformation
 "strawberry production, in heated greenhouse",strawberry,material,Agricultural\Plant production\Fruits\Transformation
