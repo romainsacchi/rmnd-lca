@@ -41,57 +41,57 @@ steel - primary:
       - Final Energy|Industry|Steel|Primary|Gas
       - Final Energy|Industry|Steel|Primary|Biomass
     tiam-ucl:
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Biofuels
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Blast Furnace Gas
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Coal
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Coke Oven Coke
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Coke Oven Gas
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Electricity
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Heat
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Heavy Fuel Oil
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Liquified Petroleum Gases
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Natural Gas Mix
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Petroleum Coke
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w CCS|Refined Petroleum Products (Oil)
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Biofuels
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Blast Furnace Gas
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Coal
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Coke Oven Coke
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Coke Oven Gas
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Electricity
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Heat
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Heavy Fuel Oil
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Liquified Petroleum Gases
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Natural Gas Mix
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Petroleum Coke
-      - Final Energy|Production|Steel|Primary|BF and BOF 1|w/o CCS|Refined Petroleum Products (Oil)
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Biofuels|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Blast Furnace Gas|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Blast Furnace Gas|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Coal|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Coal|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Coke Oven Coke|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Coke Oven Coke|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Coke Oven Gas|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Coke Oven Gas|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Electricity|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Electricity|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Heat|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Heat|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Heavy Fuel Oil|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Liquefied Petroleum Gas|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Natural Gas|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Natural Gas|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Oil|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Oil|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Petroleum Coke|w CCS
       - Final Energy|Production|Steel|Primary|BF and BOF 2|Blast Furnace Gas
       - Final Energy|Production|Steel|Primary|BF and BOF 2|Coal
       - Final Energy|Production|Steel|Primary|BF and BOF 2|Coke Oven Coke
       - Final Energy|Production|Steel|Primary|BF and BOF 2|Coke Oven Gas
       - Final Energy|Production|Steel|Primary|BF and BOF 2|Electricity
-      - Final Energy|Production|Steel|Primary|BF and BOF 2|Heat
-      - Final Energy|Production|Steel|Primary|BF and BOF 2|Natural Gas Mix
-      - Final Energy|Production|Steel|Primary|BF and BOF 2|Refined Petroleum Products (Oil)
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Biofuels
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Blast Furnace Gas
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Coal
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Coke Oven Coke
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Coke Oven Gas
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Electricity
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Heat
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Heavy Fuel Oil
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Liquified Petroleum Gases
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Natural Gas Mix
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Petroleum Coke
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w CCS|Refined Petroleum Products (Oil)
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w/o CCS|Blast Furnace Gas
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w/o CCS|Coal
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w/o CCS|Coke Oven Coke
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w/o CCS|Coke Oven Gas
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w/o CCS|Electricity
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w/o CCS|Natural Gas Mix
-      - Final Energy|Production|Steel|Primary|BF and BOF 3|w/o CCS|Refined Petroleum Products (Oil)
+      - Final Energy|Production|Steel|Primary|BF and BOF 2|Natural Gas
+      - Final Energy|Production|Steel|Primary|BF and BOF 2|Oil
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Biofuels|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Biofuels|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Blast Furnace Gas|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Blast Furnace Gas|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Coal|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Coal|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Coke Oven Coke|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Coke Oven Coke|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Coke Oven Gas|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Coke Oven Gas|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Electricity|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Electricity|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Heat|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Heat|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Heavy Fuel Oil|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Heavy Fuel Oil|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Liquefied Petroleum Gas|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Liquefied Petroleum Gas|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Natural Gas|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Natural Gas|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Oil|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Oil|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Petroleum Coke|w CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 3|Petroleum Coke|w/o CCS
       - Final Energy|Production|Steel|Primary|BF and BOF 4|Biofuels
       - Final Energy|Production|Steel|Primary|BF and BOF 4|Blast Furnace Gas
       - Final Energy|Production|Steel|Primary|BF and BOF 4|Coal
@@ -100,10 +100,19 @@ steel - primary:
       - Final Energy|Production|Steel|Primary|BF and BOF 4|Electricity
       - Final Energy|Production|Steel|Primary|BF and BOF 4|Heat
       - Final Energy|Production|Steel|Primary|BF and BOF 4|Heavy Fuel Oil
-      - Final Energy|Production|Steel|Primary|BF and BOF 4|Liquified Petroleum Gases
-      - Final Energy|Production|Steel|Primary|BF and BOF 4|Natural Gas Mix
+      - Final Energy|Production|Steel|Primary|BF and BOF 4|Liquefied Petroleum Gas
+      - Final Energy|Production|Steel|Primary|BF and BOF 4|Natural Gas
+      - Final Energy|Production|Steel|Primary|BF and BOF 4|Oil
       - Final Energy|Production|Steel|Primary|BF and BOF 4|Petroleum Coke
-      - Final Energy|Production|Steel|Primary|BF and BOF 4|Refined Petroleum Products (Oil)
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Liquefied Petroleum Gas|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 2|Heavy Fuel Oil
+      - Final Energy|Production|Steel|Primary|BF and BOF 2|Liquefied Petroleum Gas
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Heavy Fuel Oil|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 2|Biofuels
+      - Final Energy|Production|Steel|Primary|BF and BOF 2|Heat
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Biofuels|w/o CCS
+      - Final Energy|Production|Steel|Primary|BF and BOF 2|Petroleum Coke
+      - Final Energy|Production|Steel|Primary|BF and BOF 1|Petroleum Coke|w/o CCS
 
   ecoinvent_aliases:
     fltr:
@@ -142,20 +151,42 @@ steel - secondary:
     tiam-ucl:
       - Final Energy|Production|Steel|Secondary|DRH2 and EAF|Electricity
       - Final Energy|Production|Steel|Secondary|DRH2 and EAF|Hydrogen
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 1|Coal
       - Final Energy|Production|Steel|Secondary|DRI and EAF 1|Electricity
       - Final Energy|Production|Steel|Secondary|DRI and EAF 1|Natural Gas Mix
       - Final Energy|Production|Steel|Secondary|DRI and EAF 2|w CCS|Electricity
       - Final Energy|Production|Steel|Secondary|DRI and EAF 2|w CCS|Natural Gas Mix
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 2|w/o CCS|Coal
       - Final Energy|Production|Steel|Secondary|DRI and EAF 2|w/o CCS|Electricity
       - Final Energy|Production|Steel|Secondary|DRI and EAF 2|w/o CCS|Natural Gas Mix
       - Final Energy|Production|Steel|Secondary|DRI and EAF 3|Electricity
       - Final Energy|Production|Steel|Secondary|DRI and EAF 3|Natural Gas Mix
+      - Final Energy|Production|Steel|Secondary|EAF 1|Coal
       - Final Energy|Production|Steel|Secondary|EAF 1|Electricity
       - Final Energy|Production|Steel|Secondary|EAF 1|Natural Gas Mix
       - Final Energy|Production|Steel|Secondary|EAF 2|Electricity
       - Final Energy|Production|Steel|Secondary|EAF 2|Natural Gas Mix
       - Final Energy|Production|Steel|Secondary|EAF 3|Electricity
       - Final Energy|Production|Steel|Secondary|EAF 3|Natural Gas Mix
+      - Final Energy|Production|Steel|Secondary|DRH2 and EAF|Electricity
+      - Final Energy|Production|Steel|Secondary|DRH2 and EAF|Hydrogen
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 1|Electricity
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 1|Natural Gas
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 2|Electricity|w CCS
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 2|Electricity|w/o CCS
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 2|Natural Gas|w CCS
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 2|Natural Gas|w/o CCS
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 3|Electricity
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 3|Natural Gas
+      - Final Energy|Production|Steel|Secondary|EAF 1|Electricity
+      - Final Energy|Production|Steel|Secondary|EAF 1|Natural Gas
+      - Final Energy|Production|Steel|Secondary|EAF 2|Electricity
+      - Final Energy|Production|Steel|Secondary|EAF 2|Natural Gas
+      - Final Energy|Production|Steel|Secondary|EAF 3|Electricity
+      - Final Energy|Production|Steel|Secondary|EAF 3|Natural Gas
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 1|Coal
+      - Final Energy|Production|Steel|Secondary|DRI and EAF 2|Coal|w/o CCS
+      - Final Energy|Production|Steel|Secondary|EAF 1|Coal
 
   ecoinvent_aliases:
     fltr:

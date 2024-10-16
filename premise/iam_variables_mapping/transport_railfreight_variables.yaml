@@ -2,12 +2,13 @@
 # transport volumes (ES, in billion pkm/y) and energy use (FE)
 ---
 
-
 train, electric:
   iam_aliases:
     remind: ES|Transport|Freight|Rail|Electric
+    tiam-ucl: Distance|Transport|Rail|Freight|Electricity
   energy_use_aliases:
     remind: FE|Transport|Freight|Rail|Electricity
+    tiam-ucl: Final Energy|Transport|Rail|Freight|Electricity
   ecoinvent_aliases:
     fltr:
       - transport, freight train, electricity
@@ -18,12 +19,18 @@ train, electric:
 train, diesel-electric:
   iam_aliases:
     remind: 
-    - ES|Transport|Freight|Rail|Liquids|Fossil
-    - ES|Transport|Freight|Rail|Liquids|Biomass
+      - ES|Transport|Freight|Rail|Liquids|Fossil
+      - ES|Transport|Freight|Rail|Liquids|Biomass
+    tiam-ucl:
+      - Final Energy|Transport|Rail|Freight|Biodiesel
+      - Final Energy|Transport|Rail|Freight|Diesel
   energy_use_aliases:
     remind: 
-    - FE|Transport|Freight|Rail|Liquids|Fossil
-    - FE|Transport|Freight|Rail|Liquids|Biomass
+      - FE|Transport|Freight|Rail|Liquids|Fossil
+      - FE|Transport|Freight|Rail|Liquids|Biomass
+    tiam-ucl:
+      - Distance|Transport|Rail|Freight|Biodiesel
+      - Distance|Transport|Rail|Freight|Diesel
   ecoinvent_aliases:
     fltr:
       - transport, freight train, diesel-electric

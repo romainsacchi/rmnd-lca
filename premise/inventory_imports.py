@@ -726,6 +726,9 @@ class BaseInventoryImport:
                         print(
                             f"Could not find a biosphere flow for {key} in {self.path.name}. You need to fix this."
                         )
+                        # remove the exchange if it is not linked
+                        y["delete"] = True
+
             x["exchanges"] = [y for y in x["exchanges"] if "delete" not in y]
 
     def lower_case_technosphere_exchanges(self) -> None:
@@ -857,13 +860,16 @@ class DefaultInventory(BaseInventoryImport):
 
     def prepare_inventory(self) -> None:
         if self.version_in != self.version_out:
-            # if version_out is 3.9, migrate towards 3.8 first, then 3.9
-            if self.version_out in ["3.9", "3.9.1", "3.10"]:
-                if self.version_in != "3.8":
-                    print("Migrating to 3.8 first")
-                    self.import_db.migrate(
-                        f"migration_{self.version_in.replace('.', '')}_38"
-                    )
+            # if version_out is 3.9 or 3.10, migrate towards 3.8 first, then 3.9 or 3.10
+            if self.version_out in ["3.9", "3.9.1", "3.10"] and self.version_in in [
+                "3.5",
+                "3.6",
+                "3.7",
+            ]:
+                print("Migrating to 3.8 first")
+                self.import_db.migrate(
+                    f"migration_{self.version_in.replace('.', '')}_38"
+                )
                 self.import_db.migrate(
                     f"migration_38_{self.version_out.replace('.', '')}"
                 )
@@ -948,16 +954,21 @@ class VariousVehicles(BaseInventoryImport):
     def prepare_inventory(self):
         # if version_out is 3.9, migrate towards 3.8 first, then 3.9
         if self.version_out in ["3.9", "3.9.1", "3.10"]:
-            if self.version_in != "3.8":
+            if self.version_out in ["3.9", "3.9.1", "3.10"] and self.version_in in [
+                "3.5",
+                "3.6",
+                "3.7",
+            ]:
                 print("Migrating to 3.8 first")
                 self.import_db.migrate(
                     f"migration_{self.version_in.replace('.', '')}_38"
                 )
-            self.import_db.migrate(f"migration_38_{self.version_out.replace('.', '')}")
-
-        self.import_db.migrate(
-            f"migration_{self.version_in.replace('.', '')}_{self.version_out.replace('.', '')}"
-        )
+                self.import_db.migrate(
+                    f"migration_38_{self.version_out.replace('.', '')}"
+                )
+            self.import_db.migrate(
+                f"migration_{self.version_in.replace('.', '')}_{self.version_out.replace('.', '')}"
+            )
 
         self.lower_case_technosphere_exchanges()
         self.add_biosphere_links()
@@ -1022,13 +1033,16 @@ class AdditionalInventory(BaseInventoryImport):
 
     def prepare_inventory(self):
         if str(self.version_in) != self.version_out:
-            # if version_out is 3.9, migrate towards 3.8 first, then 3.9
-            if self.version_out in ["3.9", "3.9.1", "3.10"]:
-                if str(self.version_in) != "3.8":
-                    print("Migrating to 3.8 first")
-                    self.import_db.migrate(
-                        f"migration_{self.version_in.replace('.', '')}_38"
-                    )
+            # if version_out is 3.9 or 3.10, migrate towards 3.8 first, then 3.9/3.10
+            if self.version_out in ["3.9", "3.9.1", "3.10"] and self.version_in in [
+                "3.5",
+                "3.6",
+                "3.7",
+            ]:
+                print("Migrating to 3.8 first")
+                self.import_db.migrate(
+                    f"migration_{self.version_in.replace('.', '')}_38"
+                )
                 self.import_db.migrate(
                     f"migration_38_{self.version_out.replace('.', '')}"
                 )

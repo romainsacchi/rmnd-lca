@@ -5,7 +5,7 @@ A series of transformations are applied to the Life Cycle Inventory (LCI) databa
 and technology market shares with the outputs from the Integrated Assessment Model (IAM) scenario.
 
 Mobile batteries
-""""""""""""""""
+++++++++++++++++
 
 Inventories for several battery technologies for mobile applications are provided
 in *premise*. See EXTRACT/Import of additional inventories/Li-ion batteries for
@@ -132,7 +132,7 @@ under  https://github.com/polca/premise/blob/master/premise/data/battery/scenari
 
 
 Stationary batteries
-""""""""""""""""""""
+++++++++++++++++++++
 
 Inventories for several battery technologies for stationary applications are provided:
 
@@ -217,7 +217,7 @@ market for battery capacity, stationary (TC scenario)     GLO         Vanadium R
 capacity needed in high voltage electricity markets.
 
 Biomass
-"""""""
++++++++
 
 Run
 
@@ -295,7 +295,7 @@ and transport it to the powerplant, but no other forestry-related burden is incl
 
 
 Power generation
-""""""""""""""""
+++++++++++++++++
 
 Run
 
@@ -535,19 +535,30 @@ improving its performance in the past, relative to today.
 Photovoltaics panels
 --------------------
 
-Photovoltaic panels are expected to improve over time. The following module efficiencies
-are considered for the different types of PV panels:
+Photovoltaic panels are expected to improve over time. The following module efficiencies (mena, minimum, maximum)
+are considered for the different types of PV panels, applied as a triangular distribution on the panel surface
+required to reach the peak power output of the dataset:
+
+===================== ==================== ==================== =================== ================== ================== ================= ================== ================== =========================================
+  module efficiency      micro-Si            single-Si           multi-Si            CIGS               CIS                CdTe              GaAs               perovskite         Source
+===================== ==================== ==================== =================== ================== ================== ================= ================== ================== =========================================
+  2010                   10.0 (7.5-12.5)     15.0 (11.3-18.9)    14.0 (10.5-17.5)    11.0 (8.3-13.8)    11.0 (8.3-13.8)    10.0 (8.8-12.0)   28.0 (21.0-35.0)   25.0 (19.0-31.0)   [1], [2], [3], [4], [5], [6], [7], [8]
+  2020                   11.9 (9.0-15.0)     17.9 (13.0-22.0)    16.8 (12.0-21.0)    14.0 (10.5-18.0)   14.0 (10.5-18.0)   16.8 (13.0-21.0)  28.0 (21.0-35.0)   25.0 (19.0-31.0)   [1], [2], [3], [4], [5], [6], [7], [8]
+  2023                   -                   22.0 (17.0-24.0)    -                   15.0 (11.3-19.0)   -                  19.0 (15.0-20.0)  -                  -                  [2], [4], [6]
+  2050                   12.5 (9.0-16.0)     26.7 (20.0-34.0)    24.4 (16.0-30.0)    23.4 (17.3-29.0)   23.4 (17.3-29.0)   21.0 (17.5-25.0)  28.0 (25.0-28.0)   25.0 (22.0-31.0)   [1], [2], [3], [4], [5], [6], [7], [8]
+===================== ==================== ==================== =================== ================== ================== ================= ================== ================== =========================================
+
+.. [1] https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/studies/Photovoltaics-Report.pdf
+.. [2] https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/studies/Photovoltaics-Report.pdf
+.. [3] https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/studies/Photovoltaics-Report.pdf
+.. [4] https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/studies/Photovoltaics-Report.pdf. For future efficiency: own assumption, -+25%.
+.. [5] Future eff: Fraunhofer ISE Photovoltaics Report 2019; Uncertainty: Own assumption: -+25%.
+.. [6] https://www.sciencedirect.com/science/article/pii/S0927024823001101
+.. [7] https://link.springer.com/article/10.1007/s11367-020-01791-z
+.. [8] https://pubs.rsc.org/en/content/articlelanding/2022/se/d2se00096b; https://www.csem.ch/en/news/photovoltaic-technology-breakthrough-achieving-31.25-efficiency/
 
 
- ====================== =========== ============ =========== ======= ====== =======
-  % module efficiency    micro-Si    single-Si    multi-Si    CIGS    CIS    CdTe
- ====================== =========== ============ =========== ======= ====== =======
-  2010                   10          15.1         14          11      11     10
-  2020                   11.9        17.9         16.8        14      14     16.8
-  2050                   12.5        26.7         24.4        23.4    23.4   21
- ====================== =========== ============ =========== ======= ====== =======
-
-The sources for these efficiencies are given in the inventory file LCI_PV_:
+The sources for these efficiencies are also given in the inventory file LCI_PV_:
 
 .. _LCI_PV: https://github.com/polca/premise/blob/master/premise/data/additional_inventories/lci-PV.xlsx
 
@@ -607,7 +618,7 @@ Regional electricity markets
 ----------------------------
 
 High voltage regional markets
-=============================
+-----------------------------
 
 *premise* creates high, medium and low-voltage electricity markets for each IAM region.
 It starts by creating high-voltage markets and define the share of each supplying technology
@@ -668,7 +679,7 @@ ecoinvent). This is not ideal as it supposes that future country-specific
 production volumes will remain the same in respect to one another.
 
 High voltage regional markets for aluminium smelters
-====================================================
+----------------------------------------------------
 
 Aluminium production is a significant consumer of electricity.
 In the ecoinvent database, aluminium smelters are represented by
@@ -716,10 +727,8 @@ regional mixes defined by the International Energy Agency (IEA).
 .. _IAI Beyond 2 Degrees Aluminium Roadmap: https://international-aluminium.org/resource/aluminium-sector-greenhouse-gas-pathways-to-2050-2021/
 
 
-
-
 Storage
-=======
+-------
 
 If the IAM scenario requires the use of storage, *premise* adds a storage
 dataset to the high voltage market. *premise* can add two types of storage:
@@ -741,7 +750,7 @@ The efficiency of the H2-fed gas turbine is based on the parameters of Ozawa_ et
 
 
 Medium voltage regional markets
-===============================
+-------------------------------
 
 The workflow is not too different from that of high voltage markets.
 There are however only two possible providers of electricity in medium
@@ -753,7 +762,7 @@ market to itself. Distribution losses are modelled the same way as for
 high voltage markets and are added to the input from high voltage market.
 
 Low voltage regional markets
-============================
+----------------------------
 
 Low voltage regional markets receive an input from the medium voltage
 market, as well as from residential photovoltaic power.
@@ -818,7 +827,7 @@ The rest of the modelling is similar to that of regular regional electricity
 markets described above.
 
 Original market datasets
-========================
+------------------------
 
 Market datasets originally present in the ecoinvent LCI database are cleared
 from any inputs. Instead, an input from the newly created regional market
@@ -840,18 +849,54 @@ regional market, which "includes" it in terms of geography.
  ============================================ =========== ================ ===========
 
 Relinking
-=========
+---------
 
 Once the new markets are created, *premise* re-links all electricity-consuming
 activities to the new regional markets. The regional market it re-links to
 depends on the location of the consumer.
 
 Cement production
-"""""""""""""""""
++++++++++++++++++
 
-The modelling of future improvements in the cement sector is relatively
-simple at the moment, and does not involve the emergence of new
-technologies (e.g., electric kilns).
+The modelling of future improvements in the cement sector is dependent on the IAM model chosen.
+
+When choosing IMAGE, scenarios include the emergence of a new, more efficient kiln, as well
+as kilns fitted with three types of carbon capture technologies:
+
+* using monoethanolamine (MEA) as a solvent,
+* using oxyfuel combustion,
+* using Direct Separation (Leilac process).
+
+The implementation of the corresponding datasets for these new kiln technologies are based on the work of
+Muller_ et al., 2024.
+
+.. _Muller: https://doi.org/10.1016/j.jclepro.2024.141884
+
+We differ slightly from the implementation of Muller_ et al., 2024, in that:
+
+* the heat necessary for the regeneration of the MEA solvent is assumed to be provided by a natural gas boiler (instead of a fuel mix resembling that of the kiln itself), with up to 30% coming from recovered heat from the kiln by 2050,
+* the amount of heat needed for the regeneration of the MEA solvent goes from 3.76 GJ/ton CO2 in 2020, to 2.6 GJ/ton CO2 in 2050,
+* the provision of oxygen for the Direct Separation option comes from an existing air separation dataset from ecoinvent,
+* the fuel mix for the kiln is that of ecoinvent, further scaled down by the change of efficiency of the kiln (in Müller et al., 2024, they use directly the fuel mix provided by the IMAGE scenario, which we do not find representative, as it also includes the fuel used by other activities in the non-metallic minerals, notably a large share of natural gas).
+
+In a nutshell, *premise*:
+
+* makes copies of the `clinker production` dataset,
+* adjusts the fuel consumption and related CO2 emissions,
+* adjusts specific hot pollutant emissions removed by the carbon capture process (Mercury, NOx, SOx),
+* adds an input from the carbon capture process, based on a capture efficiency share,
+* and removes a corresponding amount from the outgoing CO2 emissions.
+
+The Direct Separation process only captures calcination emissions, while the other two technologies capture
+both combustion and calcination emissions.
+
+When choosing another IAM (e.g., REMIND, TIAM-UCL), the current implementation is relatively
+simpler at the moment, and does not involve the emergence of new
+technologies. In these scenarios, the production volumes of kilns
+equipped with CCS is not given. Instead, the share of CO2 emissions
+that is sequestered is given. We use the ratio of the CO2 emissions
+sequestered over the total CO2 emissions to determine the share of
+the CO2 emissions that is sequestered in the clinker production dataset
 
 Run
 
@@ -873,7 +918,7 @@ Run
     ndb.update("cement")
 
 Dataset proxies
-+++++++++++++++
+---------------
 
 *premise* duplicates clinker production datasets in ecoinvent (called
 "clinker production") so as to create a proxy dataset for each IAM region.
@@ -886,20 +931,12 @@ in different fields, such as that of *production volume*.
 
 
 Efficiency adjustment
-+++++++++++++++++++++
+---------------------
 
 *premise* then adjusts the thermal efficiency of the process.
-It does so by calculating the technology-weighted energy requirements
-per ton of clinker.
-Based on GNR/IEA roadmap data, *premise* uses:
 
-* the share of kiln technology for a given region today (2020):
-    * wet,
-    * dry,
-    * dry with pre-heater,
-    * and dry with pre-heater and pre-calciner
-
-* the energy requirement for each of these technologies today (2020).
+It first calculates the energy input in teh current (original) dataset,
+by looking up the fuel inputs and their respective lower heating values.
 
 Once the energy required per ton clinker today (2020) is known, it is
 multiplied by a *scaling factor* that represents a change in efficiency
@@ -918,13 +955,14 @@ between today and the scenario year.
 .. note::
 
     *premise* enforces a lower limit on the fuel consumption per ton of clinker.
-    This limit is set to 2.8 GJ/t clinker and corresponds to the minimum
+    This limit is set to 3.1 GJ/t clinker and is close to the minimum
     theoretical fuel consumption with an moisture content of the raw materials,
-    as considered in the 2018 IEA_ cement roadmap report. Hence, regardless of the
-    scaling factor, the fuel consumption per ton of clinker will never be less than
-    2.8 GJ/t.
+    as considered in the 2018 IEA_ cement roadmap report (i.e., 2.8 GJ/t clinker).
+    Hence, regardless of the scaling factor, the fuel consumption per ton of clinker
+    will never be less than 3.1 GJ/t.
 
 .. _IEA: https://iea.blob.core.windows.net/assets/cbaa3da1-fd61-4c2a-8719-31538f59b54f/TechnologyRoadmapLowCarbonTransitionintheCementIndustry.pdf
+
 
 
 Once the new energy input is determined, *premise* scales down the fuel,
@@ -939,28 +977,27 @@ at a fix emission rate of 525 kg CO2/t clinker.
 
 
 Carbon Capture and Storage
-++++++++++++++++++++++++++
+--------------------------
 
 If the IAM scenario indicates that a share of the CO2 emissions
 for the cement sector in a given region and year is sequestered and stored,
 *premise* adds CCS to the corresponding clinker production dataset.
 
-The CCS dataset used to that effect is from Meunier_ et al., 2020.
-The dataset described the capture of CO2 from a cement plant.
+The CCS dataset used to that effect is from Muller_ et al., 2024.
+The dataset described the capture of CO2 from a cement plant,
+using a monoethanolamine-based sorbent.
 To that dataset, *premise* adds another dataset that models the storage
 of the CO2 underground, from Volkart_ et al, 2013.
 
 
 Besides electricity, the CCS process requires heat, water and others inputs
 to regenerate the amine-based sorbent. We use two data points to approximate the heat
-requirement: 3.66 MJ/kg CO2 captured in 2020, and 2.6 MJ/kg in 2050.
-The first number is from Meunier_ et al., 2020, while the second number is described
+requirement: 3.76 MJ/kg CO2 captured in 2020 (minus 30% coming from the kiln as recovered heat),
+and 2.6 MJ/kg in 2050. The first number is from Muller_ et al., 2024, while the second number is described
 as the best-performing pilot project today, according to the 2022 review of pilot
 projects by the Global CCS Institute_. It is further assumed that the heat requirement
-is fulfilled to an extent of 15% by the recovery of excess heat, as mentioned in
-the 2018 IEA_ cement roadmap report.
+is fulfilled to an extent of 30% by the recovery of excess heat, as found in numerous studies.
 
-.. _Meunier: https://www.sciencedirect.com/science/article/pii/S0960148119310304
 .. _Volkart: https://doi.org/10.1016/j.ijggc.2013.03.003
 .. _Institute: https://www.globalccsinstitute.com/wp-content/uploads/2022/05/State-of-the-Art-CCS-Technologies-2022.pdf
 
@@ -975,7 +1012,7 @@ the 2018 IEA_ cement roadmap report.
     ndb.generate_scenario_report()
 
 Cement markets
-++++++++++++++
+--------------
 
 Run
 
@@ -1004,7 +1041,7 @@ as well. These cement production datasets link the newly created
 clinker production dataset, corresponding to their IAM region.
 
 Clinker-to-cement ratio
-+++++++++++++++++++++++
+-----------------------
 
 *premise* used to modify the composition of cement markets to reflect
 a lower clinker content over time, based on external projections. This is
@@ -1012,7 +1049,7 @@ no longer performed, as it is not an assumption stemming from the IAM model,
 but rather a projection of the cement industry.
 
 Original market datasets
-========================
+------------------------
 
 Market datasets originally present in the ecoinvent LCI database are cleared
 from any inputs. Instead, an input from the newly created regional market
@@ -1035,7 +1072,7 @@ regional market, which "includes" it in terms of geography.
 
 
 Relinking
-+++++++++
+---------
 
 Once cement production and market datasets are created, *premise*
 re-links cement-consuming activities to the new regional markets for
@@ -1043,7 +1080,7 @@ cement. The regional market it re-links to depends on the location
 of the consumer.
 
 Steel production
-""""""""""""""""
+++++++++++++++++
 
 Run
 
@@ -1071,7 +1108,7 @@ simple at the moment, and does not involve the emergence of new
 technologies (e.g., hydrogen-based DRI, electro-winning).
 
 Dataset proxies
-+++++++++++++++
+---------------
 
 *premise* duplicates steel production datasets in ecoinvent for the
 production of primary and secondary steel (called respectively
@@ -1086,7 +1123,7 @@ to using a rest-of-the-world (RoW) dataset to represent the IAM region.
 in different fields, such as that of *production volume*.
 
 Efficiency adjustment
-+++++++++++++++++++++
+---------------------
 
 Regarding primary steel production (using BO-BOF), *premise* adjusts
 the inputs of fuels found in:
@@ -1125,7 +1162,7 @@ provided by the IAM scenario.
     by *premise*. Therefore, there is a large modelling uncertainty.
 
 Carbon Capture and Storage
-++++++++++++++++++++++++++
+--------------------------
 
 If the IAM scenario indicates that a share of the CO2 emissions
 from the steel sector in a given region and year is sequestered and stored,
@@ -1150,7 +1187,7 @@ case of a steel mill.
 
 
 Steel markets
-+++++++++++++
+-------------
 
 *premise* create a dataset "market for steel, low-alloyed" for each IAM region.
 Within each dataset, the supply shares of primary and secondary steel
@@ -1180,7 +1217,7 @@ furnace process (secondary steel).
 
 
 Original market datasets
-========================
+------------------------
 
 Market datasets originally present in the ecoinvent LCI database are cleared
 from any inputs. Instead, an input from the newly created regional market
@@ -1196,14 +1233,16 @@ regional market, which "includes" it in terms of geography.
  ============================================ =========== ================ ===========
   producer                                     amount      unit             location
   market for clinker                           1.00E+00    kilogram         **ZA**
+============================================ =========== ================ ============
   Input                                        _           _                _
+============================================ =========== ================ ============
   supplier                                     amount      unit             location
   market for clinker                           1.00E+00    kilogram         **SAF**
  ============================================ =========== ================ ===========
 
 
 Relinking
-+++++++++
+---------
 
 Once steel production and market datasets are created, *premise*
 re-links steel-consuming activities to the new regional markets for
@@ -1211,7 +1250,7 @@ steel. The regional market it re-links to depends on the location
 of the consumer.
 
 Transport
-"""""""""
++++++++++
 
 Run
 
@@ -1250,7 +1289,7 @@ are obtained by scaling down the current inventories based on the
 vehicle efficiency improvements projected by the IAM scenario.
 
 Trucks
-++++++
+------
 
 The following size classes of medium and heavy duty trucks are imported:
 
@@ -1299,34 +1338,10 @@ The truck vehicle model is from Sacchi_ et al, 2021.
 Fleet average trucks
 --------------------
 
-REMIND and IMAGE provide fleet composition data, per scenario, region and year.
+REMIND, IMAGE and TIAM-UCL provide fleet composition data, per scenario, region and year.
 
-The fleet data is expressed in "vehicle-kilometer" performed by each
-type of vehicle, in a given region and year.
-
-*premise* uses the following loads to translate the transport
-demand from "vehicle-kilometers" to "ton-kilometers", derived from TRACCS_:
-
-.. _TRACCS: https://traccs.emisia.com/
-
- ============== ================= ==================== ============
-  load [tons]    urban delivery    regional delivery    long haul
- ============== ================= ==================== ============
-  3.5t           0.26              0.26                 0.8
-  7.5t           0.52              0.52                 1.6
-  18t            1.35              1.35                 4.1
-  26t            2.05              2.05                 6.2
-  32t            6.1               6.1                  9.1
-  40t            6.1               6.1                  9.1
- ============== ================= ==================== ============
-
-.. note::
-
-    Loads from the TRACCS survey data are representative for EU-28 conditions.
-    *premise* applies these loads to all IAM regions. Hence, there might be
-    some inconsistency at this level.
-    Also, these loads are much lower than those assumed in original ecoinvent
-    truck datasets.
+The fleet data is expressed in "ton-kilometers" performed by each
+type of vehicle for passenger transport, in a given region and year.
 
 *premise* uses the fleet data to produce fleet average trucks for each
 IAM region, and more specifically:
@@ -1339,26 +1354,16 @@ They appear in the LCI database as the following:
  ========================================================================================= =============================================================
   truck transport dataset name                                                              description
  ========================================================================================= =============================================================
-  transport, freight, lorry, 3.5t gross weight, unspecified powertrain, long haul           fleet average, for 3.5t size class, long haul cycle
-  transport, freight, lorry, 3.5t gross weight, unspecified powertrain, regional delivery   fleet average, for 3.5t size class, regional delivery cycle
-  transport, freight, lorry, 3.5t gross weight, unspecified powertrain, urban delivery      fleet average, for 3.5t size class, urban delivery cycle
-  transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul           fleet average, for 7.5t size class, long haul cycle
-  transport, freight, lorry, 7.5t gross weight, unspecified powertrain, regional delivery   fleet average, for 7.5t size class, regional delivery cycle
-  transport, freight, lorry, 7.5t gross weight, unspecified powertrain, urban delivery      fleet average, for 7.5t size class, urban delivery cycle
-  transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul            fleet average, for 18t size class, long haul cycle
-  transport, freight, lorry, 18t gross weight, unspecified powertrain, regional delivery    fleet average, for 18t size class, regional delivery cycle
-  transport, freight, lorry, 18t gross weight, unspecified powertrain, urban delivery       fleet average, for 18t size class, urban delivery cycle
-  transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul            fleet average, for 26t size class, long haul cycle
-  transport, freight, lorry, 26t gross weight, unspecified powertrain, regional delivery    fleet average, for 26t size class, regional delivery cycle
-  transport, freight, lorry, 26t gross weight, unspecified powertrain, urban delivery       fleet average, for 26t size class, urban delivery cycle
-  transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul            fleet average, for 26t size class, long haul cycle
-  transport, freight, lorry, 40t gross weight, unspecified powertrain, regional delivery    fleet average, for 26t size class, regional delivery cycle
-  transport, freight, lorry, 40t gross weight, unspecified powertrain, urban delivery       fleet average, for 26t size class, urban delivery cycle
+  transport, freight, lorry, 3.5t gross weight, unspecified powertrain, long haul           fleet average, for 3.5t size class, long haul
+  transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul           fleet average, for 7.5t size class, long haul
+  transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul            fleet average, for 18t size class, long haul
+  transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul            fleet average, for 26t size class, long haul
+  transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul            fleet average, for 26t size class, long haul
   transport, freight, lorry, unspecified, long haul                                         fleet average, all powertrain types, all size classes
-  transport, freight, lorry, unspecified, regional delivery                                 fleet average, all powertrain types, all size classes
-  transport, freight, lorry, unspecified, urban delivery                                    fleet average, all powertrain types, all size classes
  ========================================================================================= =============================================================
 
+The mapping file linking IAM variables to the truck datasets is available
+here: https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/transport_roadfreight_variables.yaml
 
 Relinking
 ---------
@@ -1369,63 +1374,106 @@ to the newly created fleet average truck datasets.
 The following table shows the correspondence between the original
 truck transport datasets and the new ones replacing them:
 
- ======================================================================== ======================================================================= =======================================================================
-  Original dataset                                                         Replaced by (REMIND)                                                    Replaced by (IMAGE)
- ======================================================================== ======================================================================= =======================================================================
-  transport, freight, lorry, unspecified                                    transport, freight, lorry, unspecified                                  transport, freight, lorry, unspecified
-  transport, freight, lorry 16-32 metric ton                                transport, freight, lorry, 26t gross weight, unspecified powertrain     transport, freight, lorry, 26t gross weight, unspecified powertrain
-  transport, freight, lorry 28 metric ton, fatty acid methyl ester 100%     transport, freight, lorry, 26t gross weight, unspecified powertrain     transport, freight, lorry, 26t gross weight, unspecified powertrain
-  transport, freight, lorry 3.5-7.5 metric ton                              transport, freight, lorry, 3.5t gross weight, unspecified powertrain    transport, freight, lorry, 26t gross weight, unspecified powertrain
-  transport, freight, lorry 7.5-16 metric ton                               transport, freight, lorry, 7.5t gross weight, unspecified powertrain    transport, freight, lorry, 26t gross weight, unspecified powertrain
-  transport, freight, lorry >32 metric ton                                  transport, freight, lorry, 40t gross weight, unspecified powertrain     transport, freight, lorry, 40t gross weight, unspecified powertrain
-  transport, freight, lorry with reefer, cooling                            transport, freight, lorry, unspecified                                  transport, freight, lorry, unspecified
-  transport, freight, lorry with reefer, freezing                           transport, freight, lorry, unspecified                                  transport, freight, lorry, unspecified
-  transport, freight, lorry with refrigeration machine, 3.5-7.5 ton         transport, freight, lorry, 3.5t gross weight, unspecified powertrain    transport, freight, lorry, 26t gross weight, unspecified powertrain
-  transport, freight, lorry with refrigeration machine, 7.5-16 ton          transport, freight, lorry, 7.5t gross weight, unspecified powertrain    transport, freight, lorry, 26t gross weight, unspecified powertrain
-  transport, freight, lorry with refrigeration machine, cooling             transport, freight, lorry, unspecified                                  transport, freight, lorry, unspecified
-  transport, freight, lorry with refrigeration machine, freezing            transport, freight, lorry, unspecified                                  transport, freight, lorry, unspecified
- ======================================================================== ======================================================================= =======================================================================
-
-Note that IMAGE fleet data only uses 26t and 40t trucks.
-
-Additionally, *premise* iterates through each truck transport-consuming
-activities to calculate the driving distance required. When the reference
-unit of the dataset is 1 kilogram, the distance driven by truck can easily
-be inferred. Indeed, for example, 0.56 tkm of truck transport for 1 kg of
-flour indicates that the flour has been transported over 560 km.
-
-On this basis, *premise* chooses one of the following
-driving cycles:
-
-- *regional delivery*, if the distance is inferior or equal to 450 km
-- *long haul*, if the distance is superior to 450 km
-
-
-Hence, in the following dataset for "market for steel, low-alloyed"
-for the IAM region of India, *premise* chose the *regional delivery*
-driving cycle since the kilogram of steel has been transported on
-average over 120 km by truck. The truck used to transport that kilogram of steel
-is a fleet average vehicle built upon the REMIND fleet data for the region
-of India.
-
-
- ================================================================= ============ ================ ===========
-  Output                                                            _            _                _
- ================================================================= ============ ================ ===========
-  producer                                                          amount       unit             location
-  market for steel, low-alloyed                                     1            kilogram         IND
-  Input
-  supplier                                                          amount       unit             location
-  market group for transport, freight, inland waterways, barge      0.5          ton kilometer    GLO
-  market group for transport, freight train                         0.35         ton kilometer    GLO
-  market for transport, freight, sea, bulk carrier for dry goods    0.38         ton kilometer    GLO
-  transport, freight, lorry, unspecified, **regional delivery**     0.12         ton kilometer    IND
-  steel production, converter, low-alloyed                          0.66         kilogram         IND
-  steel production, electric, low-alloyed                           0.34         kilogram         IND
- ================================================================= ============ ================ ===========
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| Transport Type                                            | REMIND               | IMAGE                | TIAM-UCL             |
++===========================================================+======================+======================+======================+
+| transport, freight, lorry 16-32 metric ton, EURO1         | 26t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 3.5-7.5 metric ton, EURO3       | 7.5t gross weight    | 18t gross weight     | 7.5t gross weight    |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 16-32 metric ton, EURO5         | 26t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry >32 metric ton, EURO1           | 40t gross weight     | 40t gross weight     | 40t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 3.5-7.5 metric ton, EURO4       | 7.5t gross weight    | 18t gross weight     | 7.5t gross weight    |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry, all sizes, EURO1 to market     | unspecified, long haul| unspecified, long haul| unspecified, long haul|
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 7.5-16 metric ton, EURO6        | 18t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 7.5-16 metric ton, EURO1        | 18t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry, all sizes, EURO3 to market     | unspecified, long haul| unspecified, long haul| unspecified, long haul|
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 16-32 metric ton, EURO6         | 26t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 7.5-16 metric ton, EURO2        | 18t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 7.5-16 metric ton, EURO3        | 18t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 7.5-16 metric ton, EURO4        | 18t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 16-32 metric ton, EURO2         | 26t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry >32 metric ton, EURO6           | 40t gross weight     | 40t gross weight     | 40t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 3.5-7.5 metric ton, EURO2       | 7.5t gross weight    | 18t gross weight     | 7.5t gross weight    |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 3.5-7.5 metric ton, EURO1       | 7.5t gross weight    | 18t gross weight     | 7.5t gross weight    |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry, all sizes, EURO2 to market     | unspecified, long haul| unspecified, long haul| unspecified, long haul|
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 16-32 metric ton, unregulated   | 26t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry >32 metric ton, unregulated     | 40t gross weight     | 40t gross weight     | 40t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry >32 metric ton, EURO3           | 40t gross weight     | 40t gross weight     | 40t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 3.5-7.5 metric ton, unregulated | 7.5t gross weight    | 18t gross weight     | 7.5t gross weight    |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 7.5-16 metric ton, EURO5        | 18t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 3.5-7.5 metric ton, EURO6       | 7.5t gross weight    | 18t gross weight     | 7.5t gross weight    |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|                                                           | long haul            | long haul            | long haul            |
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
+| transport, freight, lorry 7.5-16 metric ton, unregulated  | 18t gross weight     | 18t gross weight     | 18t gross weight     |
+|                                                           | unspecified powertrain,| unspecified powertrain,| unspecified powertrain,|
+|
++-----------------------------------------------------------+----------------------+----------------------+----------------------+
 
 Direct Air Capture
-""""""""""""""""""
+++++++++++++++++++
 
 Run
 
@@ -1457,7 +1505,7 @@ and heat of the DAC datasets to reflect changes in efficiency.
 .. _Qiu: https://doi.org/10.1038/s41467-022-31146-1
 
 Fuels
-"""""
++++++
 
 Run
 
@@ -1485,10 +1533,10 @@ and fuel markets, based on data from the IAM scenario.
 
 
 Efficiency adjustment
-+++++++++++++++++++++
+---------------------
 
 Biofuels
-========
+--------
 
 The biomass-to-fuel efficiency ratio of bioethanol and biodiesel
 production datasets is adjusted according to the IAM scenario projections.
@@ -1496,54 +1544,8 @@ production datasets is adjusted according to the IAM scenario projections.
 Inputs to the biofuel production datasets are multiplied by a *scaling factor*
 that represents the change in efficiency relative to today (2020).
 
-Hydrogen
-========
-
-Several pathways for hydrogen production are modeled in *premise*:
-
-- electrolysis
-- steam methane reforming of natural gas
-- steam methane reforming of biomethane
-- gasification of coal
-- gasification of woody biomass
-
-The last four pathways are modeled with and without CCS.
-
-Inventories for these pathways are available under:
-
-* premise/data/additional_inventories/lci-hydrogen-electrolysis.xlsx
-* premise/data/additional_inventories/lci-smr-atr-natgas.xlsx
-* premise/data/additional_inventories/lci-smr-atr-biogas.xlsx
-* premise/data/additional_inventories/lci-hydrogen-coal-gasification.xlsx
-* premise/data/additional_inventories/lci-hydrogen-wood-gasification.xlsx
-
-
-In case the IAM variable that relates to a given hydrogen pathway's
-efficiency is not available, the process' efficiency is not modified,
-with the exception of electrolysis, which is modified regardless.
-
-A scaling factor is calculated for each pathway, which is the ratio
-between the IAM variable value for the year in question
-and the current efficiency value (i.e., in 2020). *premise*
-uses this scaling factor to adjust the amount of feedstock
-input to produce 1 kg of hydrogen (e.g., m3 of natural gas per kg hydrogen).
-
-If the IAM variable that relates to the efficiency of
-the electrolysis hydrogen process is not available,
-*premise* adjusts the amount of electricity needed
-to produce 1 kg of hydrogen by electrolysis, on the basis of the following
-requirements, which are sourced from Bauer_ et al, 2022:
-
- ==================== ======= ======= =======
-  kWh/kg H2, 25 bar    2010    2020    2050
- ==================== ======= ======= =======
-  electricity          58      55      48
- ==================== ======= ======= =======
-
-.. _Bauer: https://www.psi.ch/en/media/77703/download?attachment
-
 Land use and land use change
-++++++++++++++++++++++++++++
+----------------------------
 
 When building a database using IMAGE, land use and land use change emissions
 are available. Upon the import of crops farming datasets, *premise* adjusts
@@ -1579,7 +1581,7 @@ CO2 emissions per kg of crop farmed are calculated as::
     land_use_co2 = land_use_co2 [kg CO2/GJ] / 1000 [MJ/GJ] * LHV [MJ/kg]
 
 Regional supply chains
-++++++++++++++++++++++
+----------------------
 
 *premise* builds several supply chains for synthetic fuels, for each IAM
 region. THe reason for this is that synthetic fuels can be produced from
@@ -1587,7 +1589,33 @@ a variety of hydrogen and CO2 sources. Additionally, hydrogen can be supplied
 by different means of transport, and in different states.
 
 Hydrogen
-========
+--------
+
+Several pathways for hydrogen production are modeled in *premise*:
+
+- electrolysis
+- steam methane reforming of natural gas
+- steam methane reforming of biomethane
+- gasification of coal
+- gasification of woody biomass
+- natural gas pyrolysis
+- thermochemical water splitting
+
+Each pathways are modeled with and without CCS,
+with the exception of electrolysis, natural gas pyrolysis
+and thermochemical water splitting.
+
+In case the IAM variable that relates to a given hydrogen pathway's
+efficiency is not available, the process' efficiency is not modified.
+
+A scaling factor is calculated for each pathway, which is the ratio
+between the IAM variable value for the year in question
+and the current efficiency value (i.e., in 2020). *premise*
+uses this scaling factor to adjust the amount of feedstock
+input to produce 1 kg of hydrogen (e.g., m3 of natural gas per kg hydrogen).
+
+Hydrogen supply chains
+----------------------
 
 *premise* starts by building different supply chains for hydrogen by varying:
 
@@ -1686,7 +1714,7 @@ Also, in this same case, electricity is used:
 
 
 Fuel markets
-++++++++++++
+------------
 
 *premise* builds markets for the following fuels:
 
@@ -1716,7 +1744,7 @@ data and the fuel markets is described under: https://github.com/polca/premise/t
     the choice is made to supply it by truck over 500 km, in a gaseous state.
 
 Influence of differing LHV on fuel market composition
-=====================================================
+-----------------------------------------------------
 
 Because not all competing fuels of a same type have similar calorific values,
 some adjustments are made. The table below shows the example of the market for
@@ -1799,7 +1827,7 @@ hardwood chips) relink to the dataset `market for biomass, used as fuel` if
 
 
 CO2 emissions update
-++++++++++++++++++++
+--------------------
 
 *premise* iterates through activities that consume any of the newly created
 fuel markets to update the way CO2 emissions are modelled. Based on the fuel
@@ -1833,7 +1861,7 @@ new diesel market of the REMIND region for India.
 
 
 Geographical mapping
-""""""""""""""""""""
+++++++++++++++++++++
 
 IAM models have slightly different geographical resolutions and definitions.
 
@@ -1859,208 +1887,209 @@ implementation in the wurst_ library.
 .. _constructive_geometries: https://github.com/cmutel/constructive_geometries
 .. _wurst: https://github.com/polca/wurst
 
-=============== ================================= =============================== ======================== =========================== ========================
- Country Code    message-topology.json             gcam-topology.json              tiam-ucl-topology.json   remind-topology.json        image-topology.json
-==============  ================================= =============================== ======================== =========================== ========================
- AF              R12_SAS                            South Asia                      ODA                      OAS                         RSAS
- AG              R12_LAM                            Central America and Caribbean   CSA                      LAM                         N/A
- AI              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- AL              R12_EEU                            Europe_Non_EU                   WEU                      NEU                         CEU
- AM              R12_FSU                            Central Asia                    FSU                      REF                         RUS
- AO              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- AR              R12_LAM                            Argentina                       CSA                      LAM                         RSAM
- AS              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- AT              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- AU              R12_PAO                            Australia_NZ                    AUS                      CAZ                         OCE
- AZ              R12_FSU                            Central Asia                    FSU                      REF                         RUS
- BA              R12_EEU                            Europe_Non_EU                   EEU                      NEU                         CEU
- BD              R12_SAS                            South Asia                      ODA                      OAS                         RSAS
- BE              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- BF              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- BG              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- BH              R12_MEA                            Middle East                     MEA                      MEA                         ME
- BI              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- BJ              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- BN              R12_PAS                            Southeast Asia                  MEA                      OAS                         SEAS
- BO              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- BR              R12_LAM                            Brazil                          CSA                      LAM                         BRA
- BS              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- BT              R12_SAS                            South Asia                      ODA                      OAS                         RSAS
- BW              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- BY              R12_FSU                            Europe_Eastern                  FSU                      REF                         UKR
- BZ              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- CA              R12_NAM                            Canada                          CAN                      CAZ                         CAN
- CD              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- CF              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- CG              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- CH              R12_WEU                            European Free Trade Association WEU                      NEU                         WEU
- CI              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- CL              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- CM              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- CN              R12_CHN                            China                           CHI                      CHA                         CHN
- CO              R12_LAM                            Colombia                        CSA                      LAM                         RSAM
- CR              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- CU              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- CY              R12_WEU                            EU-12                           MEA                      EUR                         N/A
- CZ              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- DE              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- DJ              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- DK              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- DM              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- DO              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- DZ              R12_MEA                            Africa_Northern                 AFR                      MEA                         NAF
- EC              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- EE              R12_EEU                            EU-12                           FSU                      EUR                         CEU
- EG              R12_MEA                            Africa_Northern                 AFR                      MEA                         NAF
- ER              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- ES              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- ET              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- FI              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- FJ              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- FR              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- GA              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GB              R12_WEU                            EU-15                           UK                       EUR                         WEU
- GE              R12_FSU                            Central Asia                    FSU                      REF                         RUS
- GF              R12_LAM                            South America_Northern          CSA                      LAM                         RSAM
- GH              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GI              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- GL              R12_WEU                            EU-15                           NEU                      NEU                         WEU
- GM              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GN              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GQ              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GR              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- GT              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- GW              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- GY              R12_LAM                            South America_Northern          CSA                      LAM                         RSAM
- HK              R12_CHN                            China                           CHI                      CHA                         CHN
- HN              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- HR              R12_EEU                            Europe_Non_EU                   EEU                      EUR                         CEU
- HT              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- HU              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- ID              R12_PAS                            Indonesia                       ODA                      OAS                         INDO
- IE              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- IL              R12_MEA                            Middle East                     MEA                      MEA                         ME
- IN              R12_SAS                            India                           IND                      IND                         INDIA
- IQ              R12_MEA                            Middle East                     MEA                      MEA                         ME
- IR              R12_MEA                            Middle East                     MEA                      MEA                         ME
- IS              R12_WEU                            European Free Trade Association WEU                      NEU                         WEU
- IT              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- JM              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- JO              R12_MEA                            Middle East                     MEA                      MEA                         ME
- JP              R12_PAO                            Japan                           JPN                      JPN                         JAP
- KE              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- KG              R12_FSU                            Central Asia                    FSU                      REF                         STAN
- KH              R12_RCPA                           Southeast Asia                  ODA                      OAS                         SEAS
- KI              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- KM              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- KN              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- KP              R12_RCPA                           Southeast Asia                  ODA                      OAS                         KOR
- KR              R12_PAS                            South Korea                     SKO                      OAS                         KOR
- KW              R12_MEA                            Middle East                     MEA                      MEA                         ME
- KY              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- KZ              R12_FSU                            Central Asia                    FSU                      REF                         STAN
- LA              R12_RCPA                           Southeast Asia                  ODA                      OAS                         SEAS
- LB              R12_MEA                            Middle East                     MEA                      MEA                         ME
- LC              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- LI              R12_WEU                            EU-15                           WEU                      NEU                         WEU
- LK              R12_SAS                            South Asia                      ODA                      OAS                         RSAS
- LR              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- LS              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- LT              R12_EEU                            EU-12                           FSU                      EUR                         CEU
- LU              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- LV              R12_EEU                            EU-12                           FSU                      EUR                         CEU
- LY              R12_MEA                            Africa_Northern                 AFR                      MEA                         NAF
- MA              R12_MEA                            Africa_Northern                 AFR                      MEA                         NAF
- MC              R12_WEU                            EU-15                           WEU                      NEU                         WEU
- MD              R12_FSU                            Europe_Eastern                  FSU                      REF                         UKR
- ME              R12_EEU                            Europe_Non_EU                   EEU                      NEU                         CEU
- MG              R12_AFR                            Africa_Eastern                  AFR                      SSA                         RSAF
- MK              R12_EEU                            Europe_Non_EU                   EEU                      NEU                         CEU
- ML              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- MM              R12_PAS                            Southeast Asia                  ODA                      OAS                         SEAS
- MN              R12_RCPA                           Central Asia                    ODA                      OAS                         CHN
- MO              R12_CHN                            China                           CHI                      CHA                         CHN
- MR              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- MS              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- MT              R12_WEU                            EU-12                           WEU                      EUR                         WEU
- MU              R12_AFR                            Africa_Eastern                  ODA                      SSA                         EAF
- MW              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- MX              R12_LAM                            Mexico                          MEX                      MEX                         MEX
- MY              R12_PAS                            Southeast Asia                  ODA                      OAS                         SEAS
- MZ              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- NA              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- NE              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- NG              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- NI              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- NL              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- NO              R12_WEU                            European Free Trade Association WEU                      NEU                         WEU
- NP              R12_SAS                            South Asia                      ODA                      OAS                         RSAS
- NR              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- NU              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- NZ              R12_PAO                            Australia_NZ                    AUS                      CAZ                         OCE
- OM              R12_MEA                            Middle East                     MEA                      MEA                         ME
- PA              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- PE              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- PF              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- PG              R12_PAS                            Southeast Asia                  ODA                      OAS                         INDO
- PH              R12_PAS                            Southeast Asia                  ODA                      OAS                         SEAS
- PK              R12_SAS                            Pakistan                        ODA                      OAS                         RSAS
- PL              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- PT              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- PY              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- QA              R12_MEA                            Middle East                     MEA                      MEA                         ME
- RE              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- RO              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- RS              R12_EEU                            Europe_Non_EU                   EEU                      NEU                         CEU
- RW              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- SA              R12_MEA                            Middle East                     MEA                      MEA                         ME
- SB              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- SC              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- SD              R12_MEA                            Africa_Eastern                  AFR                      MEA                         EAF
- SE              R12_WEU                            EU-15                           WEU                      EUR                         WEU
- SG              R12_PAS                            Southeast Asia                  ODA                      OAS                         SEAS
- SH              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- SI              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- SK              R12_EEU                            EU-12                           EEU                      EUR                         CEU
- SL              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- SM              R12_WEU                            EU-15                           WEU                      NEU                         WEU
- SN              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- SO              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- SR              R12_LAM                            South America_Northern          CSA                      LAM                         RSAM
- SS              R12_AFR                            Africa_Eastern                  AFR                      SSA                         EAF
- ST              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- SV              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- SY              R12_MEA                            Middle East                     MEA                      MEA                         ME
- SZ              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- TC              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- TD              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- TG              R12_AFR                            Africa_Western                  AFR                      SSA                         WAF
- TH              R12_PAS                            Southeast Asia                  ODA                      OAS                         SEAS
- TJ              R12_FSU                            Central Asia                    FSU                      REF                         STAN
- TL              R12_PAS                            Southeast Asia                  ODA                      OAS                         INDO
- TM              R12_FSU                            Central Asia                    FSU                      REF                         STAN
- TN              R12_MEA                            Africa_Northern                 AFR                      MEA                         NAF
- TO              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- TR              R12_WEU                            EU-15                           MEA                      MEA                         TUR
- TT              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- TV              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- TZ              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- UA              R12_FSU                            Europe_Eastern                  FSU                      REF                         UKR
- UG              R12_AFR                            Africa_Eastern                 AFR                       SSA                         EAF
- US              R12_NAM                            USA                             USA                      USA                         USA
- UY              R12_LAM                            South America_Southern          CSA                      LAM                         RSAM
- UZ              R12_FSU                            Central Asia                    FSU                      REF                         STAN
- VC              R12_LAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- VE              R12_LAM                            South America_Northern          CSA                      LAM                         RSAM
- VG              N/A                                N/A                             N/A                      LAM                         RCAM
- VI              R12_NAM                            Central America and Caribbean   CSA                      LAM                         RCAM
- VN              R12_RCPA                           Southeast Asia                  ODA                      OAS                         SEAS
- VU              R12_PAS                            Southeast Asia                  ODA                      OAS                         OCE
- YE              R12_MEA                            Middle East                     MEA                      MEA                         ME
- ZA              R12_AFR                            South Africa                    AFR                      SSA                         SAF
- ZM              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
- ZW              R12_AFR                            Africa_Southern                 AFR                      SSA                         RSAF
-=============== ================================= =============================== ======================== =========================== ========================
+
+ =============== ================================= ================================ ======================== =========================== ========================
+  Country Code    message-topology.json             gcam-topology.json              tiam-ucl-topology.json   remind-topology.json        image-topology.json
+ =============== ================================= ================================ ======================== =========================== ========================
+  AF              SAS                               South Asia                      ODA                      OAS                         RSAS
+  AG              LAM                               Central America and Caribbean   CSA                      LAM                         N/A
+  AI              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  AL              EEU                               Europe_Non_EU                   WEU                      NEU                         CEU
+  AM              FSU                               Central Asia                    FSU                      REF                         RUS
+  AO              AFR                               Africa_Southern                 AFR                      SSA                         RSAF
+  AR              LAM                               Argentina                       CSA                      LAM                         RSAM
+  AS              PAS                               Southeast Asia                  ODA                      OAS                         OCE
+  AT              WEU                               EU-15                           WEU                      EUR                         WEU
+  AU              PAO                               Australia_NZ                    AUS                      CAZ                         OCE
+  AZ              FSU                               Central Asia                    FSU                      REF                         RUS
+  BA              EEU                               Europe_Non_EU                   EEU                      NEU                         CEU
+  BD              SAS                               South Asia                      ODA                      OAS                         RSAS
+  BE              WEU                               EU-15                           WEU                      EUR                         WEU
+  BF              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  BG              EEU                               EU-12                           EEU                      EUR                         CEU
+  BH              MEA                               Middle East                     MEA                      MEA                         ME
+  BI              AFR                               Africa_Eastern                  AFR                      SSA                         EAF
+  BJ              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  BN              PAS                               Southeast Asia                  MEA                      OAS                         SEAS
+  BO              LAM                               South America_Southern          CSA                      LAM                         RSAM
+  BR              LAM                               Brazil                          CSA                      LAM                         BRA
+  BS              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  BT              SAS                               South Asia                      ODA                      OAS                         RSAS
+  BW              AFR                               Africa_Southern                 AFR                      SSA                         RSAF
+  BY              FSU                               Europe_Eastern                  FSU                      REF                         UKR
+  BZ              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  CA              NAM                               Canada                          CAN                      CAZ                         CAN
+  CD              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  CF              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  CG              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  CH              WEU                               European Free Trade Association WEU                      NEU                         WEU
+  CI              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  CL              LAM                               South America_Southern          CSA                      LAM                         RSAM
+  CM              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  CN              CHN                               China                           CHI                      CHA                         CHN
+  CO              LAM                               Colombia                        CSA                      LAM                         RSAM
+  CR              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  CU              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  CY              WEU                               EU-12                           MEA                      EUR                         N/A
+  CZ              EEU                               EU-12                           EEU                      EUR                         CEU
+  DE              WEU                               EU-15                           WEU                      EUR                         WEU
+  DJ              AFR                               Africa_Eastern                  AFR                      SSA                         EAF
+  DK              WEU                               EU-15                           WEU                      EUR                         WEU
+  DM              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  DO              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  DZ              MEA                               Africa_Northern                 AFR                      MEA                         NAF
+  EC              LAM                               South America_Southern          CSA                      LAM                         RSAM
+  EE              EEU                               EU-12                           FSU                      EUR                         CEU
+  EG              MEA                               Africa_Northern                 AFR                      MEA                         NAF
+  ER              AFR                               Africa_Eastern                  AFR                      SSA                         EAF
+  ES              WEU                               EU-15                           WEU                      EUR                         WEU
+  ET              AFR                               Africa_Eastern                  AFR                      SSA                         EAF
+  FI              WEU                               EU-15                           WEU                      EUR                         WEU
+  FJ              PAS                               Southeast Asia                  ODA                      OAS                         OCE
+  FR              WEU                               EU-15                           WEU                      EUR                         WEU
+  GA              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  GB              WEU                               EU-15                           UK                       EUR                         WEU
+  GE              FSU                               Central Asia                    FSU                      REF                         RUS
+  GF              LAM                               South America_Northern          CSA                      LAM                         RSAM
+  GH              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  GI              WEU                               EU-15                           WEU                      EUR                         WEU
+  GL              WEU                               EU-15                           NEU                      NEU                         WEU
+  GM              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  GN              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  GQ              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  GR              WEU                               EU-15                           WEU                      EUR                         WEU
+  GT              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  GW              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  GY              LAM                               South America_Northern          CSA                      LAM                         RSAM
+  HK              CHN                               China                           CHI                      CHA                         CHN
+  HN              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  HR              EEU                               Europe_Non_EU                   EEU                      EUR                         CEU
+  HT              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  HU              EEU                               EU-12                           EEU                      EUR                         CEU
+  ID              PAS                               Indonesia                       ODA                      OAS                         INDO
+  IE              WEU                               EU-15                           WEU                      EUR                         WEU
+  IL              MEA                               Middle East                     MEA                      MEA                         ME
+  IN              SAS                               India                           IND                      IND                         INDIA
+  IQ              MEA                               Middle East                     MEA                      MEA                         ME
+  IR              MEA                               Middle East                     MEA                      MEA                         ME
+  IS              WEU                               European Free Trade Association WEU                      NEU                         WEU
+  IT              WEU                               EU-15                           WEU                      EUR                         WEU
+  JM              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  JO              MEA                               Middle East                     MEA                      MEA                         ME
+  JP              PAO                               Japan                           JPN                      JPN                         JAP
+  KE              AFR                               Africa_Eastern                  AFR                      SSA                         EAF
+  KG              FSU                               Central Asia                    FSU                      REF                         STAN
+  KH              RCPA                              Southeast Asia                  ODA                      OAS                         SEAS
+  KI              PAS                               Southeast Asia                  ODA                      OAS                         OCE
+  KM              AFR                               Africa_Eastern                  AFR                      SSA                         EAF
+  KN              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  KP              RCPA                              Southeast Asia                  ODA                      OAS                         KOR
+  KR              PAS                               South Korea                     SKO                      OAS                         KOR
+  KW              MEA                               Middle East                     MEA                      MEA                         ME
+  KY              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  KZ              FSU                               Central Asia                    FSU                      REF                         STAN
+  LA              RCPA                              Southeast Asia                  ODA                      OAS                         SEAS
+  LB              MEA                               Middle East                     MEA                      MEA                         ME
+  LC              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  LI              WEU                               EU-15                           WEU                      NEU                         WEU
+  LK              SAS                               South Asia                      ODA                      OAS                         RSAS
+  LR              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  LS              AFR                               Africa_Southern                 AFR                      SSA                         RSAF
+  LT              EEU                               EU-12                           FSU                      EUR                         CEU
+  LU              WEU                               EU-15                           WEU                      EUR                         WEU
+  LV              EEU                               EU-12                           FSU                      EUR                         CEU
+  LY              MEA                               Africa_Northern                 AFR                      MEA                         NAF
+  MA              MEA                               Africa_Northern                 AFR                      MEA                         NAF
+  MC              WEU                               EU-15                           WEU                      NEU                         WEU
+  MD              FSU                               Europe_Eastern                  FSU                      REF                         UKR
+  ME              EEU                               Europe_Non_EU                   EEU                      NEU                         CEU
+  MG              AFR                               Africa_Eastern                  AFR                      SSA                         RSAF
+  MK              EEU                               Europe_Non_EU                   EEU                      NEU                         CEU
+  ML              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  MM              PAS                               Southeast Asia                  ODA                      OAS                         SEAS
+  MN              RCPA                              Central Asia                    ODA                      OAS                         CHN
+  MO              CHN                               China                           CHI                      CHA                         CHN
+  MR              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  MS              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  MT              WEU                               EU-12                           WEU                      EUR                         WEU
+  MU              AFR                               Africa_Eastern                  ODA                      SSA                         EAF
+  MW              AFR                               Africa_Southern                 AFR                      SSA                         RSAF
+  MX              LAM                               Mexico                          MEX                      MEX                         MEX
+  MY              PAS                               Southeast Asia                  ODA                      OAS                         SEAS
+  MZ              AFR                               Africa_Southern                 AFR                      SSA                         RSAF
+  NA              AFR                               Africa_Southern                 AFR                      SSA                         RSAF
+  NE              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  NG              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  NI              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  NL              WEU                               EU-15                           WEU                      EUR                         WEU
+  NO              WEU                               European Free Trade Association WEU                      NEU                         WEU
+  NP              SAS                               South Asia                      ODA                      OAS                         RSAS
+  NR              PAS                               Southeast Asia                  ODA                      OAS                         OCE
+  NU              PAS                               Southeast Asia                  ODA                      OAS                         OCE
+  NZ              PAO                               Australia_NZ                    AUS                      CAZ                         OCE
+  OM              MEA                               Middle East                     MEA                      MEA                         ME
+  PA              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  PE              LAM                               South America_Southern          CSA                      LAM                         RSAM
+  PF              PAS                               Southeast Asia                  ODA                      OAS                         OCE
+  PG              PAS                               Southeast Asia                  ODA                      OAS                         INDO
+  PH              PAS                               Southeast Asia                  ODA                      OAS                         SEAS
+  PK              SAS                               Pakistan                        ODA                      OAS                         RSAS
+  PL              EEU                               EU-12                           EEU                      EUR                         CEU
+  PT              WEU                               EU-15                           WEU                      EUR                         WEU
+  PY              LAM                               South America_Southern          CSA                      LAM                         RSAM
+  QA              MEA                               Middle East                     MEA                      MEA                         ME
+  RE              AFR                               Africa_Eastern                  AFR                      SSA                         EAF
+  RO              EEU                               EU-12                           EEU                      EUR                         CEU
+  RS              EEU                               Europe_Non_EU                   EEU                      NEU                         CEU
+  RW              AFR                               Africa_Eastern                  AFR                      SSA                         EAF
+  SA              MEA                               Middle East                     MEA                      MEA                         ME
+  SB              PAS                               Southeast Asia                  ODA                      OAS                         OCE
+  SC              AFR                               Africa_Eastern                  AFR                      SSA                         EAF
+  SD              MEA                               Africa_Eastern                  AFR                      MEA                         EAF
+  SE              WEU                               EU-15                           WEU                      EUR                         WEU
+  SG              PAS                               Southeast Asia                  ODA                      OAS                         SEAS
+  SH              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  SI              EEU                               EU-12                           EEU                      EUR                         CEU
+  SK              EEU                               EU-12                           EEU                      EUR                         CEU
+  SL              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  SM              WEU                               EU-15                           WEU                      NEU                         WEU
+  SN              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  SO              AFR                               Africa_Eastern                  AFR                      SSA                         EAF
+  SR              LAM                               South America_Northern          CSA                      LAM                         RSAM
+  SS              AFR                               Africa_Eastern                  AFR                      SSA                         EAF
+  ST              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  SV              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  SY              MEA                               Middle East                     MEA                      MEA                         ME
+  SZ              AFR                               Africa_Southern                 AFR                      SSA                         RSAF
+  TC              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  TD              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  TG              AFR                               Africa_Western                  AFR                      SSA                         WAF
+  TH              PAS                               Southeast Asia                  ODA                      OAS                         SEAS
+  TJ              FSU                               Central Asia                    FSU                      REF                         STAN
+  TL              PAS                               Southeast Asia                  ODA                      OAS                         INDO
+  TM              FSU                               Central Asia                    FSU                      REF                         STAN
+  TN              MEA                               Africa_Northern                 AFR                      MEA                         NAF
+  TO              PAS                               Southeast Asia                  ODA                      OAS                         OCE
+  TR              WEU                               EU-15                           MEA                      MEA                         TUR
+  TT              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  TV              PAS                               Southeast Asia                  ODA                      OAS                         OCE
+  TZ              AFR                               Africa_Southern                 AFR                      SSA                         RSAF
+  UA              FSU                               Europe_Eastern                  FSU                      REF                         UKR
+  UG              AFR                               Africa_Eastern                  AFR                       SSA                         EAF
+  US              NAM                               USA                             USA                      USA                         USA
+  UY              LAM                               South America_Southern          CSA                      LAM                         RSAM
+  UZ              FSU                               Central Asia                    FSU                      REF                         STAN
+  VC              LAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  VE              LAM                               South America_Northern          CSA                      LAM                         RSAM
+  VG              N/A                               N/A                             N/A                      LAM                         RCAM
+  VI              NAM                               Central America and Caribbean   CSA                      LAM                         RCAM
+  VN              RCPA                              Southeast Asia                  ODA                      OAS                         SEAS
+  VU              PAS                               Southeast Asia                  ODA                      OAS                         OCE
+  YE              MEA                               Middle East                     MEA                      MEA                         ME
+  ZA              AFR                               South Africa                    AFR                      SSA                         SAF
+  ZM              AFR                               Africa_Southern                 AFR                      SSA                         RSAF
+  ZW              AFR                               Africa_Southern                 AFR                      SSA                         RSAF
+ =============== ================================= ================================ ======================== =========================== ========================
 
 
 
@@ -2068,7 +2097,7 @@ The mapping between ecoinvent locations and IAM regions is available under the f
 https://github.com/polca/premise/blob/master/premise/iam_variables_mapping/topologies
 
 Regionalization
-"""""""""""""""
++++++++++++++++
 
 Several of the integration steps described above involve the
 regionalization of datasets. It is the case, for example, when introducing
@@ -2177,7 +2206,12 @@ Final Steps
 
 
 GAINS emission factors
-""""""""""""""""""""""
+++++++++++++++++++++++
+
+Emissions factors from the air pollution model GAINS are used to scale
+non-CO2 emissions in various datasets. The emission factors are available under:
+
+premise/data/GAINS_emission_factors
 
 Run
 
@@ -2295,7 +2329,7 @@ For questions related to GAINS modelling, please contact the respective GAINS te
 * GAINS-IAM: https://gains.iiasa.ac.at/gains/IAM/index.login
 
 Logs
-""""
+++++
 
 *premise* generates a spreadsheet report detailing changes made to the database
 for each scenario. The report is saved in the current working directory and

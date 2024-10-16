@@ -10,7 +10,7 @@ Biogas CHP:
   eff_aliases:
     tiam-ucl: Efficiency|Electricity|Biogas|w/o CCS
   iam_aliases:
-    tiam-ucl: Electricity|Biogas|w/o CCS
+    tiam-ucl: Secondary Energy|Electricity|Biogas|w/o CCS
   max_efficiency: 0.6
 Biomass CHP:
   ecoinvent_aliases:
@@ -32,7 +32,7 @@ Biomass CHP:
   iam_aliases:
     image: Secondary Energy|Electricity|Biomass|w/o CCS|3
     remind: SE|Electricity|Biomass|++|Combined Heat and Power w/o CC
-    tiam-ucl: Electricity|Biomass CHP|w/o CCS
+    tiam-ucl: Secondary Energy|Electricity|Biomass CHP|w/o CCS
   max_efficiency: 0.3
 Biomass CHP (existing):
   ecoinvent_aliases:
@@ -62,6 +62,7 @@ Biomass CHP (existing):
     name: heat and power co-generation, wood chips, 6667 kW
     new name: heat and power co-generation, existing, wood chips
     reference product: electricity, high voltage
+
 Biomass CHP CCS:
   ecoinvent_aliases:
     fltr:

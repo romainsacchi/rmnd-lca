@@ -24,6 +24,7 @@ system_model = "cutoff"
 scenarios = [
     {"model": "remind", "pathway": "SSP2-Base", "year": 2050},
     {"model": "image", "pathway": "SSP2-RCP19", "year": 2050},
+    {"model": "tiam-ucl", "pathway": "SSP2-RCP19", "year": 2050},
 ]
 
 
@@ -54,13 +55,10 @@ def test_brightway():
         del bw2data.databases["test1"]
     if "test2" in bw2data.databases:
         del bw2data.databases["test2"]
+    if "test3" in bw2data.databases:
+        del bw2data.databases["test3"]
 
-    ndb.write_db_to_brightway(
-        [
-            "test1",
-            "test2",
-        ]
-    )
+    ndb.write_db_to_brightway(["test1", "test2", "test3"])
 
     method = [m for m in bw2data.methods if "IPCC" in m[0]][0]
 

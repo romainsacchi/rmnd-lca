@@ -23,6 +23,7 @@ system_model = "cutoff"
 scenarios = [
     {"model": "remind", "pathway": "SSP2-Base", "year": 2050},
     {"model": "image", "pathway": "SSP2-RCP19", "year": 2050},
+    {"model": "tiam-ucl", "pathway": "SSP2-RCP19", "year": 2050},
 ]
 
 
@@ -53,7 +54,8 @@ def test_brightway():
     ndb.write_datapackage(name="datapackage")
 
     # check existence of files
-    assert os.path.exists("datapackage.zip")
+    cwd = os.getcwd()
+    assert os.path.exists(f"{cwd}/export/datapackage/datapackage.zip")
 
     # destroy all objects
     del ndb

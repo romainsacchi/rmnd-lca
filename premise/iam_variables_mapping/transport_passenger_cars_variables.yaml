@@ -55,6 +55,7 @@
   ecoinvent_fuel_aliases:
     fltr:
       - electricity
+      - petrol, low-sulfur
 'passenger car, gasoline, large':
   iam_aliases:
     remind: ES|Transport|VKM|Pass|Road|LDV|Large|Liquids
@@ -72,8 +73,10 @@
 'passenger car, battery electric, medium':
   iam_aliases:
     remind: ES|Transport|VKM|Pass|Road|LDV|Medium|BEV
+    tiam-ucl: Distance|Transport|Car|Electric|Electricity
   energy_use_aliases:
     remind: FE|Transport|VKM|Pass|Road|LDV|Medium|BEV
+    tiam-ucl: Final Energy|Transport|Car|Electric|Electricity
   ecoinvent_aliases:
     fltr:
       - 'transport, passenger car, battery electric, Medium'
@@ -85,8 +88,13 @@
 'passenger car, fuel cell electric, medium':
   iam_aliases:
     remind: ES|Transport|VKM|Pass|Road|LDV|Medium|FCEV
+    tiam-ucl:
+      - Distance|Transport|Car|Hydrogen Fuel Cell|Car Hydrogen
   energy_use_aliases:
     remind: FE|Transport|VKM|Pass|Road|LDV|Medium|FCEV
+    tiam-ucl:
+      - Final Energy|Transport|Car|Hydrogen Fuel Cell|Car Hydrogen
+      - Final Energy|Transport|Car|Hydrogen Fuel Cell|Electricity
   ecoinvent_aliases:
     fltr:
       - 'transport, passenger car, fuel cell electric, Medium'
@@ -98,8 +106,10 @@
 'passenger car, compressed gas, medium':
   iam_aliases:
     remind: ES|Transport|VKM|Pass|Road|LDV|Medium|Gases
+    tiam-ucl: Distance|Transport|Car|Natural Gas|Natural Gas
   energy_use_aliases:
     remind: FE|Transport|VKM|Pass|Road|LDV|Medium|Gases
+    tiam-ucl: Final Energy|Transport|Car|Natural Gas|Natural Gas
   ecoinvent_aliases:
     fltr:
       - 'transport, passenger car, compressed gas, Medium, EURO-6'
@@ -109,11 +119,32 @@
   ecoinvent_fuel_aliases:
     fltr:
       - natural gas
+'passenger car, liquefied petroleum gas, medium':
+  iam_aliases:
+    tiam-ucl: Distance|Transport|Car|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+  energy_use_aliases:
+    tiam-ucl: Final Energy|Transport|Car|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+
+  ecoinvent_aliases:
+    fltr:
+      - 'transport, passenger car, liquefied petroleum gas, Medium, EURO-6'
+    mask:
+      - ab
+      - SUV
+  ecoinvent_fuel_aliases:
+    fltr:
+      - liquefied petroleum gas
 'passenger car, plugin gasoline hybrid, medium':
   iam_aliases:
     remind: ES|Transport|VKM|Pass|Road|LDV|Medium|Hybrid Electric
+    tiam-ucl:
+      - Distance|Transport|Car|Gasoline Plug-in Hybrid|Electricity
+      - Distance|Transport|Car|Gasoline Plug-in Hybrid|Gasoline
   energy_use_aliases:
     remind: FE|Transport|VKM|Pass|Road|LDV|Medium|Hybrid Electric
+    tiam-ucl:
+      - Final Energy|Transport|Car|Gasoline Plug-in Hybrid|Electricity
+      - Final Energy|Transport|Car|Gasoline Plug-in Hybrid|Gasoline
   ecoinvent_aliases:
     fltr:
       - 'transport, passenger car, plugin gasoline hybrid, Medium'
@@ -123,11 +154,66 @@
   ecoinvent_fuel_aliases:
     fltr:
       - electricity
+'passenger car, diesel hybrid, medium':
+  iam_aliases:
+      tiam-ucl: Distance|Transport|Car|Diesel Hybrid|Diesel
+  energy_use_aliases:
+      tiam-ucl: Final Energy|Transport|Car|Diesel Hybrid|Diesel
+  ecoinvent_aliases:
+      fltr:
+      - 'transport, passenger car, diesel hybrid, Medium, EURO-6'
+      mask:
+      - ab
+      - SUV
+  ecoinvent_fuel_aliases:
+      fltr:
+      - diesel
+'passenger car, plugin diesel hybrid, medium':
+  iam_aliases:
+      tiam-ucl:
+        - Distance|Transport|Car|Diesel Plug-in Hybrid|Diesel
+        - Distance|Transport|Car|Diesel Plug-in Hybrid|Electricity
+  energy_use_aliases:
+      tiam-ucl:
+        - Final Energy|Transport|Car|Diesel Plug-in Hybrid|Diesel
+        - Final Energy|Transport|Car|Diesel Plug-in Hybrid|Electricity
+  ecoinvent_aliases:
+      fltr:
+      - 'transport, passenger car, plugin diesel hybrid, Medium'
+      mask:
+      - ab
+      - SUV
+  ecoinvent_fuel_aliases:
+      fltr:
+      - electricity
+      - diesel
+'passenger car, diesel, medium':
+  iam_aliases:
+      tiam-ucl: Distance|Transport|Car|Diesel|Diesel
+  energy_use_aliases:
+      tiam-ucl: Final Energy|Transport|Car|Diesel|Diesel
+  ecoinvent_aliases:
+      fltr:
+      - 'transport, passenger car, diesel, Medium, EURO-6'
+      mask:
+      - ab
+      - SUV
+  ecoinvent_fuel_aliases:
+      fltr:
+      - diesel
 'passenger car, gasoline, medium':
   iam_aliases:
     remind: ES|Transport|VKM|Pass|Road|LDV|Medium|Liquids
+    tiam-ucl:
+      - Distance|Transport|Car|Ethanol|Bioethanol
+      - Distance|Transport|Car|Ethanol|Gasoline
+      - Distance|Transport|Car|Gasoline|Gasoline
   energy_use_aliases:
     remind: FE|Transport|VKM|Pass|Road|LDV|Medium|Liquids
+    tiam-ucl:
+      - Final Energy|Transport|Car|Ethanol|Bioethanol
+      - Final Energy|Transport|Car|Ethanol|Gasoline
+      - Final Energy|Transport|Car|Gasoline|Gasoline
   ecoinvent_aliases:
     fltr:
       - 'transport, passenger car, gasoline, Medium, EURO-6'
@@ -136,6 +222,20 @@
       - SUV
   ecoinvent_fuel_aliases:
     fltr:
+      - gasoline
+'passenger car, hybrid gasoline, medium':
+  iam_aliases:
+      tiam-ucl: Distance|Transport|Car|Gasoline Hybrid|Gasoline
+  energy_use_aliases:
+      tiam-ucl: Final Energy|Transport|Car|Gasoline Hybrid|Gasoline
+  ecoinvent_aliases:
+      fltr:
+      - 'transport, passenger car, gasoline hybrid, Medium, EURO-6'
+      mask:
+      - ab
+      - SUV
+  ecoinvent_fuel_aliases:
+      fltr:
       - gasoline
 'passenger car, battery electric, mini':
   iam_aliases:

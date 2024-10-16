@@ -21,7 +21,7 @@ __________________________________________________
 * cut-off
 * consequential
 
-from version 3.6 to 3.9.1.
+from version 3.6 to 3.10.
 
 How does ``premise`` use ecoinvent?
 __________________________________
@@ -60,8 +60,8 @@ These datapackages can be shared freely, as they do not contain any ecoinvent da
 IAM models
 ----------
 
-I use a different IAM than REMIND or IMAGE ... Can I still use ``premise``?
-___________________________________________________________________________
+I use a different IAM than REMIND, IMAGE or TIAM-UCL ... Can I still use ``premise``?
+_____________________________________________________________________________________
 
 There is a MAPPING section in the documentation
 that explains how to link to a new IAM. The YAML files under ````premise``/iam_variables_mapping``

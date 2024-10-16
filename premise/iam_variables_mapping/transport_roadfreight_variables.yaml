@@ -54,8 +54,14 @@ truck, compressed gas, 3.5t:
 truck, battery electric, 7.5t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (7.5t)|Electric
+    tiam-ucl:
+      - Distance|Transport|Truck|Light|Electric|Electricity
+      - Distance|Transport|Truck|Commercial|Electric|Electricity
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (7.5t)|Electricity
+    tiam-ucl:
+      - Final Energy|Transport|Truck|Light|Electric|Electricity
+      - Final Energy|Transport|Truck|Commercial|Electric|Electricity
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, battery electric, 7.5t gross weight, long haul
@@ -66,8 +72,14 @@ truck, battery electric, 7.5t:
 truck, fuel cell electric, 7.5t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (7.5t)|FCEV
+    tiam-ucl:
+      - Distance|Transport|Truck|Commercial|Hydrogen Fuel Cell|Electricity
+      - Distance|Transport|Truck|Commercial|Hydrogen Fuel Cell|Truck Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (7.5t)|Hydrogen
+    tiam-ucl:
+      - Final Energy|Transport|Truck|Commercial|Hydrogen Fuel Cell|Electricity
+      - Final Energy|Transport|Truck|Commercial|Hydrogen Fuel Cell|Truck Hydrogen
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, fuel cell electric, 7.5t gross weight, long haul
@@ -75,11 +87,54 @@ truck, fuel cell electric, 7.5t:
     fltr:
       - hydrogen
 
+truck, gasoline, 7.5t:
+  iam_aliases:
+    tiam-ucl:
+      - Distance|Transport|Truck|Light|Ethanol|Bioethanol
+      - Distance|Transport|Truck|Light|Ethanol|Gasoline
+      - Distance|Transport|Truck|Light|Gasoline|Gasoline
+      - Distance|Transport|Truck|Light|Gasoline Hybrid|Gasoline
+      - Distance|Transport|Truck|Light|Gasoline Plug-in Hybrid|Electricity
+      - Distance|Transport|Truck|Light|Gasoline Plug-in Hybrid|Gasoline
+      - Distance|Transport|Truck|Commercial|Ethanol|Bioethanol
+      - Distance|Transport|Truck|Commercial|Ethanol|Gasoline
+      - Distance|Transport|Truck|Commercial|Gasoline Hybrid|Gasoline
+      - Distance|Transport|Truck|Commercial|Gasoline Plug-in Hybrid|Electricity
+      - Distance|Transport|Truck|Commercial|Gasoline Plug-in Hybrid|Gasoline
+      - Distance|Transport|Truck|Commercial|Gasoline|Gasoline
+  energy_use_aliases:
+    tiam-ucl:
+      - Final Energy|Transport|Truck|Light|Ethanol|Bioethanol
+      - Final Energy|Transport|Truck|Light|Ethanol|Gasoline
+      - Final Energy|Transport|Truck|Light|Gasoline|Gasoline
+      - Final Energy|Transport|Truck|Light|Gasoline Hybrid|Gasoline
+      - Final Energy|Transport|Truck|Light|Gasoline Plug-in Hybrid|Electricity
+      - Final Energy|Transport|Truck|Light|Gasoline Plug-in Hybrid|Gasoline
+      - Final Energy|Transport|Truck|Commercial|Ethanol|Bioethanol
+      - Final Energy|Transport|Truck|Commercial|Ethanol|Gasoline
+      - Final Energy|Transport|Truck|Commercial|Gasoline Hybrid|Gasoline
+      - Final Energy|Transport|Truck|Commercial|Gasoline Plug-in Hybrid|Electricity
+      - Final Energy|Transport|Truck|Commercial|Gasoline Plug-in Hybrid|Gasoline
+      - Final Energy|Transport|Truck|Commercial|Gasoline|Gasoline
+  ecoinvent_aliases:
+    fltr:
+      - transport, freight, lorry, gasoline, 7.5t gross weight, EURO-VI, long haul
+  ecoinvent_fuel_aliases:
+    fltr:
+      - petrol, low-sulfur
+
+
 truck, diesel, 7.5t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (7.5t)|Liquids
+    tiam-ucl:
+      - Distance|Transport|Truck|Light|Diesel|Diesel
+      - Distance|Transport|Truck|Commercial|Diesel|Diesel
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (7.5t)|Liquids
+    tiam-ucl:
+      - Final Energy|Transport|Truck|Light|Diesel|Diesel
+      - Final Energy|Transport|Truck|Commercial|Diesel|Diesel
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, diesel, 7.5t gross weight, EURO-VI, long haul
@@ -87,17 +142,75 @@ truck, diesel, 7.5t:
     fltr:
       - diesel
 
+truck, diesel hybrid, 7.5t:
+    iam_aliases:
+      tiam-ucl:
+        - Distance|Transport|Truck|Light|Diesel Hybrid|Diesel
+        - Distance|Transport|Truck|Commercial|Diesel Hybrid|Diesel
+    energy_use_aliases:
+      tiam-ucl:
+        - Final Energy|Transport|Truck|Light|Diesel Hybrid|Diesel
+        - Final Energy|Transport|Truck|Commercial|Diesel Hybrid|Diesel
+    ecoinvent_aliases:
+        fltr:
+        - transport, freight, lorry, diesel hybrid, 7.5t gross weight, EURO-VI, long haul
+    ecoinvent_fuel_aliases:
+        fltr:
+        - diesel
+
+truck, plugin diesel hybrid, 7.5t:
+    iam_aliases:
+      tiam-ucl:
+        - Distance|Transport|Truck|Light|Diesel Plug-in Hybrid|Diesel
+        - Distance|Transport|Truck|Light|Diesel Plug-in Hybrid|Electricity
+        - Distance|Transport|Truck|Commercial|Diesel Plug-in Hybrid|Diesel
+        - Distance|Transport|Truck|Commercial|Diesel Plug-in Hybrid|Electricity
+    energy_use_aliases:
+      tiam-ucl:
+        - Final Energy|Transport|Truck|Light|Diesel Plug-in Hybrid|Diesel
+        - Final Energy|Transport|Truck|Light|Diesel Plug-in Hybrid|Electricity
+        - Final Energy|Transport|Truck|Commercial|Diesel Plug-in Hybrid|Diesel
+        - Final Energy|Transport|Truck|Commercial|Diesel Plug-in Hybrid|Electricity
+    ecoinvent_aliases:
+        fltr:
+        - transport, freight, lorry, plugin diesel hybrid, 7.5t gross weight, EURO-VI, long haul
+    ecoinvent_fuel_aliases:
+        fltr:
+        - diesel
+
 truck, compressed gas, 7.5t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (7.5t)|Gases
+    tiam-ucl:
+      - Distance|Transport|Truck|Light|Natural Gas|Natural Gas
+      - Distance|Transport|Truck|Commercial|Natural Gas|Natural Gas
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (7.5t)|Gases
+    tiam-ucl:
+      - Final Energy|Transport|Truck|Light|Natural Gas|Natural Gas
+      - Final Energy|Transport|Truck|Commercial|Natural Gas|Natural Gas
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, compressed gas, 7.5t gross weight, EURO-VI, long haul
   ecoinvent_fuel_aliases:
     fltr:
       - natural gas
+
+truck, liquefied petroleum gas, 7.5t:
+  iam_aliases:
+    tiam-ucl:
+      - Distance|Transport|Truck|Light|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+      - Distance|Transport|Truck|Commercial|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+  energy_use_aliases:
+    tiam-ucl:
+      - Final Energy|Transport|Truck|Light|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+      - Final Energy|Transport|Truck|Commercial|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+  ecoinvent_aliases:
+    fltr:
+      - transport, freight, lorry, liquefied petroleum gas, 7.5t gross weight, EURO-VI, long haul
+  ecoinvent_fuel_aliases:
+    fltr:
+      - liquefied petroleum gas
 
 truck, battery electric, 18t:
   iam_aliases:
@@ -114,12 +227,14 @@ truck, battery electric, 18t:
 truck, fuel cell electric, 18t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (18t)|FCEV
+    tiam-ucl: Distance|Transport|Truck|Medium|Hydrogen Fuel Cell|Truck Hydrogen
     image:
       - Energy Service|Transportation|Freight|Med Truck|Fuel Cell Vehicle|Biofuels
       - Energy Service|Transportation|Freight|Med Truck|Fuel Cell Vehicle|Gasoline
       - Energy Service|Transportation|Freight|Med Truck|Fuel Cell Vehicle|Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (18t)|Hydrogen
+    tiam-ucl: Final Energy|Transport|Truck|Medium|Hydrogen Fuel Cell|Truck Hydrogen
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, fuel cell electric, 18t gross weight, long haul
@@ -127,9 +242,33 @@ truck, fuel cell electric, 18t:
     fltr:
       - hydrogen
 
+truck, gasoline, 18t:
+    iam_aliases:
+        tiam-ucl:
+        - Distance|Transport|Truck|Medium|Ethanol|Bioethanol
+        - Distance|Transport|Truck|Medium|Gasoline|Gasoline
+        - Distance|Transport|Truck|Medium|Methanol|Bioethanol
+        - Distance|Transport|Truck|Medium|Methanol|Methanol
+
+    energy_use_aliases:
+        tiam-ucl:
+          - Final Energy|Transport|Truck|Medium|Ethanol|Bioethanol
+          - Final Energy|Transport|Truck|Medium|Gasoline|Gasoline
+          - Final Energy|Transport|Truck|Medium|Methanol|Bioethanol
+          - Final Energy|Transport|Truck|Medium|Methanol|Methanol
+    ecoinvent_aliases:
+        fltr:
+        - transport, freight, lorry, gasoline, 18t gross weight, EURO-VI, long haul
+    ecoinvent_fuel_aliases:
+        fltr:
+        - petrol, low-sulfur
+
 truck, diesel, 18t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (18t)|Liquids
+    tiam-ucl:
+      - Distance|Transport|Truck|Medium|Diesel|Biodiesel
+      - Distance|Transport|Truck|Medium|Diesel|Diesel
     image:
       - Energy Service|Transportation|Freight|Med Truck|Internal combustion engine efficienct|Gasoline
       - Energy Service|Transportation|Freight|Med Truck|Internal Combustion Engine|Biofuel
@@ -138,6 +277,9 @@ truck, diesel, 18t:
       - Energy Service|Transportation|Freight|Med Truck|Internal Combustion Engine|Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (18t)|Liquids
+    tiam-ucl:
+      - Final Energy|Transport|Truck|Medium|Diesel|Biodiesel
+      - Final Energy|Transport|Truck|Medium|Diesel|Diesel
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, diesel, 18t gross weight, EURO-VI, long haul
@@ -163,14 +305,28 @@ truck, compressed gas, 18t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (18t)|Gases
     image: Energy Service|Transportation|Freight|Med Truck|Hybrid engine|LNG
+    tiam-ucl: Distance|Transport|Truck|Medium|Natural Gas|Natural Gas
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (18t)|Gases
+    tiam-ucl: Final Energy|Transport|Truck|Medium|Natural Gas|Natural Gas
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, compressed gas, 18t gross weight, EURO-VI, long haul
   ecoinvent_fuel_aliases:
     fltr:
       - natural gas
+
+truck, liquefied petroleum gas, 18t:
+  iam_aliases:
+      tiam-ucl: Distance|Transport|Truck|Medium|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+  energy_use_aliases:
+      tiam-ucl: Final Energy|Transport|Truck|Medium|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+  ecoinvent_aliases:
+      fltr:
+      - transport, freight, lorry, liquefied petroleum gas, 18t gross weight, EURO-VI, long haul
+  ecoinvent_fuel_aliases:
+      fltr:
+      - liquefied petroleum gas
 
 truck, diesel plugin hybrid, 18t:
     iam_aliases:
@@ -251,12 +407,14 @@ truck, battery electric, 40t:
 truck, fuel cell electric, 40t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (40t)|FCEV
+    tiam-ucl: Distance|Transport|Truck|Heavy|Hydrogen Fuel Cell|Truck Hydrogen
     image:
       - Energy Service|Transportation|Freight|Heavy Truck|Fuel Cell Vehicle|Biofuels
       - Energy Service|Transportation|Freight|Heavy Truck|Fuel Cell Vehicle|Gasoline
       - Energy Service|Transportation|Freight|Heavy Truck|Fuel Cell Vehicle|Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (40t)|Hydrogen
+    tiam-ucl: Final Energy|Transport|Truck|Heavy|Hydrogen Fuel Cell|Truck Hydrogen
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, fuel cell electric, 40t gross weight, long haul
@@ -281,6 +439,9 @@ truck, diesel hybrid, 40t:
 truck, diesel, 40t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (40t)|Liquids
+    tiam-ucl:
+      - Distance|Transport|Truck|Heavy|Diesel|Biodiesel
+      - Distance|Transport|Truck|Heavy|Diesel|Diesel
     image:
       - Energy Service|Transportation|Freight|Heavy Truck|Internal combustion engine efficienct|Gasoline
       - Energy Service|Transportation|Freight|Heavy Truck|Internal Combustion Engine|Biofuel
@@ -289,6 +450,9 @@ truck, diesel, 40t:
       - Energy Service|Transportation|Freight|Heavy Truck|Internal Combustion Engine|Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (40t)|Liquids
+    tiam-ucl:
+      - Final Energy|Transport|Truck|Heavy|Diesel|Biodiesel
+      - Final Energy|Transport|Truck|Heavy|Diesel|Diesel
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, diesel, 40t gross weight, EURO-VI, long haul
@@ -296,18 +460,50 @@ truck, diesel, 40t:
     fltr:
       - diesel
 
+truck, gasoline, 40t:
+    iam_aliases:
+        tiam-ucl:
+        - Distance|Transport|Truck|Heavy|Gas|Gasoline
+        - Distance|Transport|Truck|Heavy|Methanol|Bioethanol
+        - Distance|Transport|Truck|Heavy|Methanol|Methanol
+    energy_use_aliases:
+        tiam-ucl:
+          - Final Energy|Transport|Truck|Heavy|Gas|Gasoline
+          - Final Energy|Transport|Truck|Heavy|Methanol|Bioethanol
+          - Final Energy|Transport|Truck|Heavy|Methanol|Methanol
+    ecoinvent_aliases:
+        fltr:
+        - transport, freight, lorry, gasoline, 40t gross weight, EURO-VI, long haul
+    ecoinvent_fuel_aliases:
+        fltr:
+        - petrol, low-sulfur
+
 truck, compressed gas, 40t:
   iam_aliases:
     remind: ES|Transport|Freight|Road|Truck (40t)|Gases
     image: Energy Service|Transportation|Freight|Heavy Truck|Hybrid engine|LNG
+    tiam-ucl: Distance|Transport|Truck|Heavy|Natural Gas|Natural Gas
   energy_use_aliases:
     remind: FE|Transport|Freight|Road|Truck (40t)|Gases
+    tiam-ucl: Final Energy|Transport|Truck|Heavy|Natural Gas|Natural Gas
   ecoinvent_aliases:
     fltr:
       - transport, freight, lorry, compressed gas, 40t gross weight, EURO-VI, long haul
   ecoinvent_fuel_aliases:
     fltr:
       - natural gas
+
+truck, liquefied petroleum gas, 40t:
+    iam_aliases:
+        tiam-ucl: Distance|Transport|Truck|Heavy|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+    energy_use_aliases:
+        tiam-ucl: Final Energy|Transport|Truck|Heavy|Liquefied Petroleum Gas|Liquefied Petroleum Gas
+    ecoinvent_aliases:
+        fltr:
+        - transport, freight, lorry, liquefied petroleum gas, 40t gross weight, EURO-VI, long haul
+    ecoinvent_fuel_aliases:
+        fltr:
+        - liquefied petroleum gas
 
 truck, diesel plugin hybrid, 40t:
     iam_aliases:

@@ -790,19 +790,28 @@ class ExternalScenario(BaseTransformation):
                             # by order of preference
                             try:
                                 while not suppliers:
-                                    suppliers = list(
-                                        ws.get_many(
-                                            self.database,
-                                            ws.equals("name", name),
-                                            ws.equals(
-                                                "reference product",
-                                                ref_prod,
-                                            ),
-                                            ws.equals(
-                                                "location", possible_locations[counter]
-                                            ),
-                                        )
-                                    )
+                                    # suppliers = list(
+                                    #     ws.get_many(
+                                    #         self.database,
+                                    #         ws.equals("name", name),
+                                    #         ws.equals(
+                                    #             "reference product",
+                                    #             ref_prod,
+                                    #         ),
+                                    #         ws.equals(
+                                    #             "location", possible_locations[counter]
+                                    #         ),
+                                    #     )
+                                    # )
+
+                                    suppliers = [
+                                        s
+                                        for s in self.database
+                                        if s["name"].lower() == name.lower()
+                                        and s["reference product"].lower()
+                                        == ref_prod.lower()
+                                        and s["location"] == possible_locations[counter]
+                                    ]
 
                                     counter += 1
 
@@ -864,17 +873,25 @@ class ExternalScenario(BaseTransformation):
         act, counter = [], 0
         try:
             while not act:
-                act = list(
-                    ws.get_many(
-                        self.database,
-                        ws.equals("name", name),
-                        ws.equals(
-                            "reference product",
-                            ref_prod,
-                        ),
-                        ws.equals("location", possible_locations[counter]),
-                    )
-                )
+                # act = list(
+                #     ws.get_many(
+                #         self.database,
+                #         ws.equals("name", name),
+                #         ws.equals(
+                #             "reference product",
+                #             ref_prod,
+                #         ),
+                #         ws.equals("location", possible_locations[counter]),
+                #     )
+                # )
+
+                act = [
+                    a
+                    for a in self.database
+                    if a["name"].lower() == name.lower()
+                    and a["reference product"].lower() == ref_prod.lower()
+                    and a["location"] == possible_locations[counter]
+                ]
 
                 counter += 1
         except IndexError:
@@ -1480,33 +1497,44 @@ class ExternalScenario(BaseTransformation):
                 if len(new_loc) > 0:
                     for loc, share in new_loc:
                         # add new exchange
-                        new_exchanges.append(
-                            {
-                                "amount": exc["amount"] * ratio * share,
-                                "type": "technosphere",
-                                "unit": exc["unit"],
-                                "location": loc,
-                                "name": new_name,
-                                "product": new_ref,
-                                "uncertainty type": exc.get("uncertainty type", 0),
-                                "loc": redefine_loc(exc),
-                                "scale": (
-                                    exc.get("scale", 0) if "scale" in exc else None
-                                ),
-                                "minimum": (
-                                    exc.get("minimum", 0)
-                                    * (exc["amount"] * ratio * share / exc["amount"])
-                                    if "minimum" in exc
-                                    else None
-                                ),
-                                "maximum": (
-                                    exc.get("maximum", 0)
-                                    * (exc["amount"] * ratio * share / exc["amount"])
-                                    if "maximum" in exc
-                                    else None
-                                ),
-                            }
-                        )
+                        if exc["amount"] * ratio * share != 0:
+                            new_exchanges.append(
+                                {
+                                    "amount": exc["amount"] * ratio * share,
+                                    "type": "technosphere",
+                                    "unit": exc["unit"],
+                                    "location": loc,
+                                    "name": new_name,
+                                    "product": new_ref,
+                                    "uncertainty type": exc.get("uncertainty type", 0),
+                                    "loc": redefine_loc(exc),
+                                    "scale": (
+                                        exc.get("scale", 0) if "scale" in exc else None
+                                    ),
+                                    "minimum": (
+                                        exc.get("minimum", 0)
+                                        * (
+                                            exc["amount"]
+                                            * ratio
+                                            * share
+                                            / exc["amount"]
+                                        )
+                                        if "minimum" in exc
+                                        else None
+                                    ),
+                                    "maximum": (
+                                        exc.get("maximum", 0)
+                                        * (
+                                            exc["amount"]
+                                            * ratio
+                                            * share
+                                            / exc["amount"]
+                                        )
+                                        if "maximum" in exc
+                                        else None
+                                    ),
+                                }
+                            )
 
                         if isfuel:
                             fuel_amount += exc["amount"] * ratio * share

@@ -3,8 +3,8 @@ Consequential modelling
 
 The premise module allows users to import and adjust
 the consequential system model of the ecoinvent database
-v3.8 and 3.9, with a focus on electricity and fuel markets.
-This work is based on a publication with available
+v.3.8, v.3.9 and v.3.10, with a focus on electricity and fuel markets.
+This work is based on a publication available
 at https://doi.org/10.1016/j.rser.2023.113830
 
 If you use this module, please cite the publication:
@@ -15,15 +15,13 @@ Renewable and Sustainable Energy Reviews,
 Volume 188, 2023, doi: 10.1016/j.rser.2023.113830
 
 Currently, the identification of marginal supplying
-technologies is limited
-to the electricity and fuel sectors.
+technologies is limited to the electricity and fuel sectors.
 
 Some technologies are excluded from the marginal markets
 due to constraints on their feedstock availability.
 This typically applies to waste-to-energy (e.g., waste-based CHP)
 or waste-to-fuel (e.g., residue-based biofuel) plants.
 For steel markets, only the BF-BOF route is considered.
-
 
 Some imported inventories cannot be
 directly linked to the ecoinvent consequential database.

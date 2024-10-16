@@ -4,20 +4,30 @@
 Biomass IGCC CCS: 4
 Biomass IGCC: 4
 Biomass CHP: 4
+Biomass CHP (existing): 4
 Biomass CHP CCS: 4
 Biomass ST: 4
+Biomass ST CCS: 4
+Biomass MSW: 4
+Biogas CHP: 4
 Coal IGCC: 4
 Coal IGCC CCS: 5
 Coal PC: 4
 Coal PC CCS: 5
 Coal CHP: 4
 Coal CHP CCS: 5
+Coal USC: 4
+Coal USC CCS: 5
+Coal CF 80-20: 4
+Coal CF 50-50: 4
+Coal SC: 4
 Gas OC: 3
 Gas CC: 3
 Gas CC CCS: 3
 Gas CHP: 3
 Gas CHP CCS: 3
 Gas ST: 3
+Gas GT: 3
 Oil ST: 3
 Oil CC CCS: 3
 Oil CC: 3
@@ -26,6 +36,7 @@ Oil CHP: 3
 Foil ST: 3
 Geothermal: 3
 Hydro: 4
+Hydro, run-of-river: 4
 Hydrogen: 3
 Nuclear: 7
 Nuclear_EPR: 7
@@ -67,7 +78,25 @@ petrol, synthetic, from coal, with CCS: 3
 diesel, synthetic, from electrolysis: 3
 diesel, synthetic, from coal: 3
 diesel, synthetic, from coal, with CCS: 3
-hydrogen, from electrolysis: 3
+diesel, synthetic, from natural gas, with CCS: 3
+diesel, synthetic, from natural gas: 3
+kerosene, synthetic, from natural gas, energy allocation: 3
+kerosene, synthetic, from natural gas, energy allocation, with CCS: 3
+kerosene, synthetic, from coal, energy allocation, with CCS: 3
+kerosene, synthetic, from coal, energy allocation: 3
+kerosene, synthetic, from biomass, energy allocation: 3
+kerosene, synthetic, from biomass, energy allocation, with CCS: 3
+liquefied petroleum gas: 3
+liquefied petroleum gas, synthetic, from coal, with CCS: 3
+liquefied petroleum gas, synthetic, from coal: 3
+liquefied petroleum gas, synthetic, from natural gas, with CCS: 3
+liquefied petroleum gas, synthetic, from natural gas: 3
+liquefied petroleum gas, synthetic, from biomass, with CCS: 3
+liquefied petroleum gas, synthetic, from biomass: 3
+kerosene, from petroleum: 3
+hydrogen, from electrolysis, PEM: 3
+hydrogen, from electrolysis, AEC: 3
+hydrogen, from electrolysis, SOEC: 3
 hydrogen, from biomass: 3
 hydrogen, from biomass, with CCS: 3
 hydrogen, from coal: 3

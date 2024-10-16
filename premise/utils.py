@@ -154,6 +154,19 @@ def get_crops_properties() -> dict:
     return crop_props
 
 
+def get_water_consumption_factors() -> dict:
+    """
+    Return a dictionary from renewables/hydropower.yaml
+    with correction factors for hydropower datasets
+    """
+    with open(
+        DATA_DIR / "renewables" / "hydropower.yaml", "r", encoding="utf-8"
+    ) as stream:
+        water_consumption_factors = yaml.safe_load(stream)
+
+    return water_consumption_factors
+
+
 def get_efficiency_solar_photovoltaics() -> xr.DataArray:
     """
     Return an array with PV module efficiencies in function of year and technology.
@@ -357,7 +370,6 @@ def delete_log():
 
 
 def create_scenario_list(scenarios: list) -> list:
-
     list_scenarios = []
 
     for scenario in scenarios:

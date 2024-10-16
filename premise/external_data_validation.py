@@ -278,8 +278,8 @@ def check_inventories(
 
     d_datasets = {
         (
-            val["ecoinvent alias"]["name"],
-            val["ecoinvent alias"]["reference product"],
+            val["ecoinvent alias"]["name"].lower(),
+            val["ecoinvent alias"]["reference product"].lower(),
         ): {
             "exists in original database": val["ecoinvent alias"].get(
                 "exists in original database", True
@@ -309,7 +309,7 @@ def check_inventories(
     if "regionalize" in configuration:
         d_datasets.update(
             {
-                (val["name"], val["reference product"]): {
+                (val["name"].lower(), val["reference product"].lower()): {
                     "exists in original database": val.get(
                         "exists in original database", False
                     ),
@@ -331,7 +331,7 @@ def check_inventories(
 
     try:
         assert all(
-            (i[0], i[1]) in list_datasets
+            (i[0], i[1]) in [(x[0].lower(), x[1].lower()) for x in list_datasets]
             for i, v in d_datasets.items()
             if not v["exists in original database"]
             and not v.get("new dataset")
@@ -343,7 +343,8 @@ def check_inventories(
             for i, v in d_datasets.items()
             if not v["exists in original database"]
             and not v.get("new dataset")
-            and (i[0], i[1]) not in list_datasets
+            and (i[0].lower(), i[1].lower())
+            in [(x[0].lower(), x[1].lower()) for x in list_datasets]
         ]
 
         raise AssertionError(
@@ -355,7 +356,10 @@ def check_inventories(
     # flag imported inventories
     for i, dataset in enumerate(inventory_data):
         key = (dataset["name"], dataset["reference product"])
-        if key in d_datasets:
+        if (key[0].lower(), key[1].lower()) in d_datasets:
+            # replace key in d_datasets with the key in the inventory data
+            d_datasets[key] = d_datasets.pop((key[0].lower(), key[1].lower()))
+
             if d_datasets[key]["exists in original database"] is False:
                 dataset["custom scenario dataset"] = True
                 data_vars = d_datasets[(dataset["name"], dataset["reference product"])]
@@ -368,12 +372,17 @@ def check_inventories(
         return [
             item
             for item in data
-            if item["name"] == key[0] and item["reference product"] == key[1]
+            if item["name"].lower() == key[0].lower()
+            and item["reference product"].lower() == key[1].lower()
         ]
 
     def filter_candidates_by_mask(candidates, mask):
         """Exclude candidates containing the mask in their name."""
-        return [candidate for candidate in candidates if mask not in candidate["name"]]
+        return [
+            candidate
+            for candidate in candidates
+            if mask.lower() not in candidate["name"].lower()
+        ]
 
     def identify_potential_candidates(database, inventory_data, key, mask):
         """Identify and return potential candidates based on key and mask."""
@@ -546,14 +555,19 @@ def check_inventories(
             potential_candidates = identify_potential_candidates(
                 database, inventory_data, key, mask
             )
-            candidates = adjust_candidates_or_raise_error(
-                potential_candidates,
-                scenario_data,
-                key,
-                year,
-                val,
-                inventory_data,
-            )
+
+            try:
+                candidates = adjust_candidates_or_raise_error(
+                    potential_candidates,
+                    scenario_data,
+                    key,
+                    year,
+                    val,
+                    inventory_data,
+                )
+            except ValueError as e:
+                print(key, val, potential_candidates)
+                print()
 
             if duplicate_name:
                 for candidate in candidates:

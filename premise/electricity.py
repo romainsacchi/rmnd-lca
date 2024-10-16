@@ -30,7 +30,11 @@ from .transformation import (
     uuid,
     ws,
 )
-from .utils import get_efficiency_solar_photovoltaics, rescale_exchanges
+from .utils import (
+    get_efficiency_solar_photovoltaics,
+    get_water_consumption_factors,
+    rescale_exchanges,
+)
 from .validation import ElectricityValidation
 
 POWERPLANT_TECHS = VARIABLES_DIR / "electricity_variables.yaml"
@@ -244,6 +248,7 @@ def _update_electricity(
     electricity.create_missing_power_plant_datasets()
     electricity.adjust_coal_power_plant_emissions()
     electricity.update_efficiency_of_solar_pv()
+    electricity.correct_hydropower_water_emissions()
     electricity.create_region_specific_power_plants()
 
     if scenario["year"] >= 2020:
@@ -1384,6 +1389,37 @@ class Electricity(BaseTransformation):
 
         return dataset
 
+    def correct_hydropower_water_emissions(self) -> None:
+        """
+        Correct the emissions of water for hydropower plants.
+        In Swiss datasets, water evaoporation is too high.
+        We use a new factor from Flury and Frischknecht (2021) to correct this.
+        https://treeze.ch/fileadmin/user_upload/downloads/Publications/Case_Studies/Energy/flury-2012-hydroelectric-power-generation.pdf
+        """
+
+        water_factor = get_water_consumption_factors()
+
+        hydropower_datasets = ws.get_many(
+            self.database,
+            *[
+                ws.contains("name", "electricity production, hydro, reservoir"),
+                ws.equals("location", "CH"),
+                ws.equals("unit", "kilowatt hour"),
+            ],
+        )
+
+        for name, flows in water_factor.items():
+            for dataset in hydropower_datasets:
+                if name in dataset["name"]:
+                    for flow in flows:
+                        for exc in ws.biosphere(
+                            dataset,
+                            ws.equals("name", flow["name"]),
+                            ws.equals("unit", flow["unit"]),
+                            ws.equals("categories", (flow["categories"],)),
+                        ):
+                            exc["amount"] = flow["amount"]
+
     def update_efficiency_of_solar_pv(self) -> None:
         """
         Update the efficiency of solar PV modules.
@@ -1442,69 +1478,81 @@ class Electricity(BaseTransformation):
             if len(pv_tech) > 0:
                 pv_tech = pv_tech[0]
 
-            for exc in ws.technosphere(
-                dataset,
-                ws.contains("name", "photovoltaic"),
-                ws.equals("unit", "square meter"),
-            ):
-                surface = float(exc["amount"])
-                max_power = surface  # in kW, since we assume a constant 1,000W/m^2
-                current_eff = power / max_power
+            if pv_tech:
 
-                if self.year in module_eff.coords["year"].values:
-                    new_mean_eff = module_eff.sel(
-                        technology=pv_tech, year=self.year, efficiency_type="mean"
-                    ).values
-                    new_min_eff = module_eff.sel(
-                        technology=pv_tech, year=self.year, efficiency_type="min"
-                    ).values
-                    new_max_eff = module_eff.sel(
-                        technology=pv_tech, year=self.year, efficiency_type="max"
-                    ).values
-                else:
-                    new_mean_eff = (
-                        module_eff.sel(technology=pv_tech, efficiency_type="mean")
-                        .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
-                        .values
-                    )
-                    new_min_eff = (
-                        module_eff.sel(technology=pv_tech, efficiency_type="min")
-                        .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
-                        .values
-                    )
-                    new_max_eff = (
-                        module_eff.sel(technology=pv_tech, efficiency_type="max")
-                        .interp(year=self.year, kwargs={"fill_value": "extrapolate"})
-                        .values
-                    )
+                for exc in ws.technosphere(
+                    dataset,
+                    ws.contains("name", "photovoltaic"),
+                    ws.equals("unit", "square meter"),
+                ):
+                    surface = float(exc["amount"])
+                    max_power = surface  # in kW, since we assume a constant 1,000W/m^2
+                    current_eff = power / max_power
 
-                # in case self.year <10 or >2050
-                new_mean_eff = np.clip(new_mean_eff, 0.1, 0.30)
-                new_min_eff = np.clip(new_min_eff, 0.1, 0.30)
-                new_max_eff = np.clip(new_max_eff, 0.1, 0.30)
+                    if self.year in module_eff.coords["year"].values:
+                        new_mean_eff = module_eff.sel(
+                            technology=pv_tech, year=self.year, efficiency_type="mean"
+                        ).values
+                        new_min_eff = module_eff.sel(
+                            technology=pv_tech, year=self.year, efficiency_type="min"
+                        ).values
+                        new_max_eff = module_eff.sel(
+                            technology=pv_tech, year=self.year, efficiency_type="max"
+                        ).values
+                    else:
+                        new_mean_eff = (
+                            module_eff.sel(technology=pv_tech, efficiency_type="mean")
+                            .interp(
+                                year=self.year, kwargs={"fill_value": "extrapolate"}
+                            )
+                            .values
+                        )
+                        new_min_eff = (
+                            module_eff.sel(technology=pv_tech, efficiency_type="min")
+                            .interp(
+                                year=self.year, kwargs={"fill_value": "extrapolate"}
+                            )
+                            .values
+                        )
+                        new_max_eff = (
+                            module_eff.sel(technology=pv_tech, efficiency_type="max")
+                            .interp(
+                                year=self.year, kwargs={"fill_value": "extrapolate"}
+                            )
+                            .values
+                        )
 
-                # We only update the efficiency if it is higher than the current one.
-                if new_mean_eff.sum() > current_eff:
-                    exc["amount"] *= float(current_eff / new_mean_eff)
-                    exc["uncertainty type"] = 5
-                    exc["loc"] = exc["amount"]
-                    exc["minimum"] = exc["amount"] * (new_min_eff / new_mean_eff)
-                    exc["maximum"] = exc["amount"] * (new_max_eff / new_mean_eff)
+                    # in case self.year <10 or >2050
+                    new_mean_eff = np.clip(new_mean_eff, 0.1, 0.30)
+                    new_min_eff = np.clip(new_min_eff, 0.1, 0.30)
+                    new_max_eff = np.clip(new_max_eff, 0.1, 0.30)
 
-                    dataset["comment"] = (
-                        f"`premise` has changed the efficiency "
-                        f"of this photovoltaic installation "
-                        f"from {int(current_eff * 100)} pct. to {int(new_mean_eff * 100)} pt."
-                    )
+                    # We only update the efficiency if it is higher than the current one.
+                    if new_mean_eff.sum() >= current_eff:
+                        exc["amount"] *= float(current_eff / new_mean_eff)
+                        exc["uncertainty type"] = 5
+                        exc["loc"] = exc["amount"]
+                        exc["minimum"] = exc["amount"] * (new_min_eff / new_mean_eff)
+                        exc["maximum"] = exc["amount"] * (new_max_eff / new_mean_eff)
 
-                    if "log parameters" not in dataset:
-                        dataset["log parameters"] = {}
+                        dataset["comment"] = (
+                            f"`premise` has changed the efficiency "
+                            f"of this photovoltaic installation "
+                            f"from {int(current_eff * 100)} pct. to {int(new_mean_eff * 100)} pt."
+                        )
 
-                    dataset["log parameters"].update({"old efficiency": current_eff})
-                    dataset["log parameters"].update({"new efficiency": new_mean_eff})
+                        if "log parameters" not in dataset:
+                            dataset["log parameters"] = {}
 
-                    # add to log
-                    self.write_log(dataset=dataset, status="updated")
+                        dataset["log parameters"].update(
+                            {"old efficiency": current_eff}
+                        )
+                        dataset["log parameters"].update(
+                            {"new efficiency": new_mean_eff}
+                        )
+
+                        # add to log
+                        self.write_log(dataset=dataset, status="updated")
 
     def create_region_specific_power_plants(self):
         """
@@ -1918,7 +1966,7 @@ class Electricity(BaseTransformation):
 
         for tech, variable in load_electricity_variables().items():
             if not variable.get("exists in database", True):
-                if self.powerplant_map.get(tech) is not None:
+                try:
                     original = list(
                         ws.get_many(
                             self.database,
@@ -1929,61 +1977,63 @@ class Electricity(BaseTransformation):
                             ),
                         )
                     )[0]
+                except IndexError:
+                    continue
 
-                    # make a copy
-                    new_dataset = copy.deepcopy(original)
-                    new_dataset["name"] = variable["proxy"]["new name"]
-                    new_dataset["code"] = str(uuid.uuid4().hex)
-                    for e in ws.production(new_dataset):
+                # make a copy
+                new_dataset = copy.deepcopy(original)
+                new_dataset["name"] = variable["proxy"]["new name"]
+                new_dataset["code"] = str(uuid.uuid4().hex)
+                for e in ws.production(new_dataset):
+                    e["name"] = variable["proxy"]["new name"]
+                    if "input" in e:
+                        del e["input"]
+
+                # if `parameters` in dataset, delete them
+                if "parameters" in new_dataset:
+                    del new_dataset["parameters"]
+
+                new_dataset["comment"] = (
+                    "This dataset is a proxy dataset for a power plant. "
+                    "It is used to create missing power plant datasets."
+                )
+
+                # update efficiency
+                if "new efficiency" in variable["proxy"]:
+                    new_eff = variable["proxy"]["new efficiency"]
+                    ei_eff = find_fuel_efficiency(
+                        dataset=new_dataset,
+                        fuel_filters=self.powerplant_fuels_map[tech],
+                        energy_out=3.6,
+                        fuel_specs=self.fuels_specs,
+                        fuel_map_reverse=self.fuel_map_reverse,
+                    )
+                    rescale_exchanges(new_dataset, ei_eff / new_eff)
+
+                self.database.append(new_dataset)
+
+                new_datasets = self.fetch_proxies(
+                    name=variable["proxy"]["new name"],
+                    ref_prod=variable["proxy"]["reference product"],
+                    empty_original_activity=False,
+                )
+
+                for ds in new_datasets.values():
+                    ds["name"] = variable["proxy"]["new name"]
+                    ds["code"] = str(uuid.uuid4().hex)
+                    for e in ws.production(ds):
                         e["name"] = variable["proxy"]["new name"]
                         if "input" in e:
                             del e["input"]
 
-                    # if `parameters` in dataset, delete them
-                    if "parameters" in new_dataset:
-                        del new_dataset["parameters"]
-
-                    new_dataset["comment"] = (
+                    ds["comment"] = (
                         "This dataset is a proxy dataset for a power plant. "
                         "It is used to create missing power plant datasets."
                     )
 
-                    # update efficiency
-                    if "new efficiency" in variable["proxy"]:
-                        new_eff = variable["proxy"]["new efficiency"]
-                        ei_eff = find_fuel_efficiency(
-                            dataset=new_dataset,
-                            fuel_filters=self.powerplant_fuels_map[tech],
-                            energy_out=3.6,
-                            fuel_specs=self.fuels_specs,
-                            fuel_map_reverse=self.fuel_map_reverse,
-                        )
-                        rescale_exchanges(new_dataset, ei_eff / new_eff)
+                    self.add_to_index(ds)
 
-                    self.database.append(new_dataset)
-
-                    new_datasets = self.fetch_proxies(
-                        name=variable["proxy"]["new name"],
-                        ref_prod=variable["proxy"]["reference product"],
-                        empty_original_activity=False,
-                    )
-
-                    for ds in new_datasets.values():
-                        ds["name"] = variable["proxy"]["new name"]
-                        ds["code"] = str(uuid.uuid4().hex)
-                        for e in ws.production(ds):
-                            e["name"] = variable["proxy"]["new name"]
-                            if "input" in e:
-                                del e["input"]
-
-                        ds["comment"] = (
-                            "This dataset is a proxy dataset for a power plant. "
-                            "It is used to create missing power plant datasets."
-                        )
-
-                        self.add_to_index(ds)
-
-                    self.database.extend(new_datasets.values())
+                self.database.extend(new_datasets.values())
 
         mapping = InventorySet(self.database, model=self.model)
         self.powerplant_map = mapping.generate_powerplant_map()

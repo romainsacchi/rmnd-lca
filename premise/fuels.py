@@ -4,11 +4,9 @@ Integrates projections regarding fuel production and supply.
 
 import copy
 from functools import lru_cache
-from typing import Union
 
 import xarray as xr
 import yaml
-from numpy import ndarray
 
 from .filesystem_constants import DATA_DIR, VARIABLES_DIR
 from .inventory_imports import get_biosphere_code
@@ -28,6 +26,7 @@ from .transformation import (
     ws,
 )
 from .utils import get_crops_properties, rescale_exchanges
+from .validation import FuelsValidation
 
 logger = create_logger("fuel")
 
@@ -316,6 +315,17 @@ def _update_fuels(scenario, version, system_model):
     else:
         print("No fuel markets found in IAM data. Skipping.")
 
+    validate = FuelsValidation(
+        model=scenario["model"],
+        scenario=scenario["pathway"],
+        year=scenario["year"],
+        regions=scenario["iam data"].regions,
+        database=fuels.database,
+        iam_data=scenario["iam data"],
+    )
+
+    validate.run_fuel_checks()
+
     return scenario
 
 
@@ -539,9 +549,14 @@ class Fuels(BaseTransformation):
                     )
 
                     if initial_energy_use is None or initial_energy_use == 0:
-                        print(
-                            f"Initial energy consumption for {fuel_type} in {region} is None."
-                        )
+                        if "waste" not in fuel_type:
+                            print(
+                                f"Initial energy consumption for {fuel_type} in {region} is None."
+                            )
+                            print(f"List of exchanges:")
+                            for exc in dataset["exchanges"]:
+                                print(exc)
+                            print()
 
                     # add it to "log parameters"
                     if "log parameters" not in dataset:
@@ -560,7 +575,7 @@ class Fuels(BaseTransformation):
 
                     new_energy_use, min_energy_use, max_energy_use = None, None, None
 
-                    if fuel_type in self.fuel_efficiencies.variables.values:
+                    if fuel_type in self.fuel_efficiencies.variables.values.tolist():
                         # Find scaling factor compared to 2020
                         scaling_factor = 1 / self.find_iam_efficiency_change(
                             data=self.fuel_efficiencies,
@@ -577,7 +592,6 @@ class Fuels(BaseTransformation):
 
                         else:
                             if "from electrolysis" in fuel_type:
-
                                 # get the electricity consumption
                                 new_energy_use, min_energy_use, max_energy_use = (
                                     adjust_electrolysis_electricity_requirement(
@@ -609,11 +623,15 @@ class Fuels(BaseTransformation):
                                 ws.contains("name", hydrogen_feedstock_name),
                                 ws.equals("unit", hydrogen_feedstock_unit),
                             ):
-                                exc["amount"] = new_energy_use
+                                exc["amount"] *= scaling_factor
                                 exc["uncertainty type"] = 5
-                                exc["loc"] = new_energy_use
-                                exc["minimum"] = min_energy_use
-                                exc["maximum"] = max_energy_use
+                                exc["loc"] = exc["amount"]
+                                exc["minimum"] = exc["amount"] * (
+                                    min_energy_use / new_energy_use
+                                )
+                                exc["maximum"] = exc["amount"] * (
+                                    max_energy_use / new_energy_use
+                                )
 
                         else:
                             # rescale the fuel consumption exchange
@@ -2254,14 +2272,21 @@ class Fuels(BaseTransformation):
             .interp(year=self.year)
             .sum(dim=["variables"]),
             0,
-            atol=1e-3,
+            rtol=1e-3,
         ):
             if "hydrogen" in dataset["name"].lower():
                 prod_vars = [
                     "hydrogen, from natural gas",
                 ]
 
+            if "natural gas" in dataset["name"].lower():
+                prod_vars = [
+                    "natural gas",
+                ]
+
         sum_share = 0
+        shares = {}
+
         for prod_var in prod_vars:
             if len(prod_vars) > 1:
                 share = fuel_providers[prod_var]["find_share"](
@@ -2277,6 +2302,13 @@ class Fuels(BaseTransformation):
 
             if isinstance(share, np.ndarray):
                 share = share.item(0)
+
+            shares[prod_var] = share
+
+        # normalize shares
+        shares = {k: v / sum_share for k, v in shares.items()}
+
+        for prod_var, share in shares.items():
 
             blacklist = [
                 "petroleum coke",
@@ -2355,7 +2387,7 @@ class Fuels(BaseTransformation):
                 if text not in string:
                     string += text
 
-        if not np.isclose(sum_share, 1.0, rtol=1e-3):
+        if not np.isclose(sum(e for e in shares.values()), 1.0, rtol=1e-3):
             print(
                 f"WARNING: sum of shares for {dataset['name']} in {region} is {sum_share} instead of 1.0"
             )

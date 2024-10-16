@@ -39,6 +39,7 @@ def _update_cement(scenario, version, system_model):
     )
 
     if scenario["iam data"].cement_markets is not None:
+        cement.replace_clinker_production_with_markets()
         cement.add_datasets_to_database()
         cement.relink_datasets()
         scenario["database"] = cement.database
@@ -661,6 +662,23 @@ class Cement(BaseTransformation):
                     datasets.append(dataset)
 
         return datasets
+
+    def replace_clinker_production_with_markets(self):
+        """
+        Some cement production datasets in ecoinvent receive an input from clinker production datasets.
+        This is problematic because it will not benefit from the new cement markets, containing alternative clinker production pathways.
+        So we replace the clinker production datasets with the clinker markets.
+        """
+
+        for ds in ws.get_many(
+            self.database,
+            ws.contains("name", "cement production"),
+            ws.contains("reference product", "cement"),
+            ws.equals("unit", "kilogram"),
+        ):
+            for exc in ws.technosphere(ds):
+                if exc["name"] == "clinker production" and exc["product"] == "clinker":
+                    exc["name"] = "market for clinker"
 
     def add_datasets_to_database(self) -> None:
         """

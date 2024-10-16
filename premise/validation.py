@@ -469,6 +469,9 @@ class BaseDatasetValidator:
                 if exc["type"] == "biosphere":
                     # check that the first item of the code field
                     # corresponds to biosphere_name
+                    if "input" not in exc:
+                        exc["input"] = (self.biosphere_name, exc["name"])
+
                     if exc["input"][0] != self.biosphere_name:
                         exc["input"] = (self.biosphere_name, exc["input"][1])
 
@@ -1396,6 +1399,97 @@ class ElectricityValidation(BaseDatasetValidator):
         self.check_old_datasets()
         self.check_electricity_mix()
         self.check_efficiency()
+        self.save_log()
+
+
+class FuelsValidation(BaseDatasetValidator):
+    def __init__(self, model, scenario, year, regions, database, iam_data):
+        super().__init__(model, scenario, year, regions, database)
+        self.iam_data = iam_data
+
+    def check_fuel_market_composition(self):
+        # check that the fuel markets inputs
+        # equal to 1
+
+        fuel_market_names = [
+            "market for petrol, low-sulfur",
+            "market for diesel, low-sulfur",
+            "market for natural gas, high pressure",
+            "market for hydrogen, gaseous",
+            "market for kerosene",
+            "market for liquefied petroleum gas",
+        ]
+
+        for ds in self.database:
+            if (
+                any(ds["name"].startswith(x) for x in fuel_market_names)
+                and ds["location"] in self.regions
+                and ds["location"] != "World"
+            ):
+                if ds["unit"] == "cubic meter":
+
+                    total = sum(
+                        [
+                            (
+                                x["amount"]
+                                if x["unit"] == "cubic meter"
+                                else x["amount"] / 0.74
+                            )
+                            for x in ds["exchanges"]
+                            if x["type"] == "technosphere"
+                            and x["unit"] in ("kilogram", "cubic meter")
+                        ]
+                    )
+
+                else:
+                    total = sum(
+                        [
+                            x["amount"]
+                            for x in ds["exchanges"]
+                            if x["type"] == "technosphere"
+                            and x["unit"] in ("kilogram", "cubic meter")
+                        ]
+                    )
+                if total < 0.99 or total > 1.1:
+                    message = f"Fuel market inputs sum to {total}."
+                    self.log_issue(
+                        ds,
+                        "fuel market inputs do not sum to 1",
+                        message,
+                        issue_type="major",
+                    )
+
+    def check_electrolysis_electricity_input(self):
+        # check that the input of electricity for hydrogen production
+        # is within the expected range
+
+        for ds in self.database:
+            if (
+                ds["name"].startswith("hydrogen production")
+                and "electrolysis" in ds["name"]
+                and ds["location"] in self.regions
+            ):
+                electricity = sum(
+                    [
+                        x["amount"]
+                        for x in ds["exchanges"]
+                        if x["type"] == "technosphere" and x["unit"] == "kilowatt hour"
+                    ]
+                )
+                if electricity < 40 or electricity > 60:
+                    message = (
+                        f"Electricity use for hydrogen production is {electricity}."
+                    )
+                    self.log_issue(
+                        ds,
+                        "electricity use for hydrogen production",
+                        message,
+                        issue_type="major",
+                    )
+
+    def run_fuel_checks(self):
+        self.check_fuel_market_composition()
+        self.check_electrolysis_electricity_input()
         self.save_log()
 
 

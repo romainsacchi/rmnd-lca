@@ -38,17 +38,20 @@ Example
     fp = r"https://raw.githubusercontent.com/premise-community-scenarios/cobalt-perspective-2050/main/datapackage.json"
     cobalt = Package(fp)
 
+    external_scenario = [
+        {"scenario": "Sustainable development", "data": cobalt},
+    ] # several different scenarios can be listed here
+
+
     ndb = NewDatabase(
-    scenarios = [
-        {"model":"image", "pathway":"SSP2-Base", "year":2025},
-        {"model":"image", "pathway":"SSP2-Base", "year":2030},
-    ],
-    source_db="ecoinvent cutoff 3.8",
-    source_version="3.8",
-    key='xxxxxxx',
-    external_scenarios=[
-        cobalt,
-    ]
+        scenarios = [
+            {"model":"image", "pathway":"SSP2-Base", "year":2025, "external scenarios": external_scenario},
+            {"model":"image", "pathway":"SSP2-Base", "year":2030, "external scenarios": external_scenario},
+        ],
+        source_db="ecoinvent cutoff 3.8",
+        source_version="3.8",
+        key='xxxxxxx',
+    )
 
 
 The function **ndb.update("external")** can be called after that
