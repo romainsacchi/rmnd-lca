@@ -230,6 +230,7 @@ class PathwaysDataPackage:
                 configuration = scenario["configurations"]
                 if "production pathways" in configuration:
                     for var in configuration["production pathways"]:
+
                         if var not in mapping:
                             var_name = configuration["production pathways"][var][
                                 "production volume"
@@ -249,6 +250,7 @@ class PathwaysDataPackage:
                                 mask=mask,
                             )
 
+
                             mapping[var]["dataset"] = [
                                 dict(t)
                                 for t in {
@@ -256,6 +258,12 @@ class PathwaysDataPackage:
                                     for d in mapping[var]["dataset"]
                                 }
                             ]
+
+                            if len(mapping[var]["dataset"]) == 0:
+                                print(var)
+                                print(filters)
+                                print(mask)
+                                print()
 
                             if isinstance(mapping[var]["dataset"], list):
                                 if len(mapping[var]["dataset"]) == 0:

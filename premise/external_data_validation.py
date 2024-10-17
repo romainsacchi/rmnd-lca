@@ -307,6 +307,7 @@ def check_inventories(
 
     # direct regionalization
     if "regionalize" in configuration:
+
         d_datasets.update(
             {
                 (val["name"].lower(), val["reference product"].lower()): {
