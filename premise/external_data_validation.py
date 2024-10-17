@@ -286,6 +286,7 @@ def check_inventories(
             ),
             "new dataset": val["ecoinvent alias"].get("new dataset", False),
             "duplicate": val["ecoinvent alias"].get("duplicate", False),
+            "duplicate name": val["ecoinvent alias"]["name"],
             "regionalize": val["ecoinvent alias"].get("regionalize", False),
             "mask": val["ecoinvent alias"].get("mask", None),
             "except regions": val.get(
@@ -307,26 +308,21 @@ def check_inventories(
 
     # direct regionalization
     if "regionalize" in configuration:
-
-        d_datasets.update(
-            {
-                (val["name"].lower(), val["reference product"].lower()): {
-                    "exists in original database": val.get(
-                        "exists in original database", False
-                    ),
-                    "regionalize": True,
-                    "new dataset": False,
-                    "except regions": configuration["regionalize"].get(
-                        "except regions", []
-                    ),
-                    "efficiency": val.get("efficiency", []),
-                    "replaces": val.get("replaces", []),
-                    "replaces in": val.get("replaces in", []),
-                    "replacement ratio": val.get("replacement ratio", 1),
-                }
-                for val in configuration["regionalize"]["datasets"]
+        for val in configuration["regionalize"]["datasets"]:
+            d_datasets[(val["name"].lower(), val["reference product"].lower())] = {
+                "exists in original database": val.get(
+                    "exists in original database", False
+                ),
+                "regionalize": True,
+                "new dataset": False,
+                "except regions": configuration["regionalize"].get(
+                    "except regions", []
+                ),
+                "efficiency": val.get("efficiency", []),
+                "replaces": val.get("replaces", []),
+                "replaces in": val.get("replaces in", []),
+                "replacement ratio": val.get("replacement ratio", 1),
             }
-        )
 
     list_datasets = [(i["name"], i["reference product"]) for i in inventory_data]
 
@@ -367,6 +363,8 @@ def check_inventories(
                 inventory_data[i] = flag_activities_to_adjust(
                     dataset, scenario_data, year, data_vars
                 )
+        else:
+            print(f"Dataset {key[0]} and {key[1]} is not found in the configuration.")
 
     def find_candidates_by_key(data, key):
         """Filter data for items matching the key (name and reference product)."""
@@ -550,7 +548,7 @@ def check_inventories(
 
             duplicate_name = None
             if val.get("duplicate") is True:
-                duplicate_name = key[0]
+                duplicate_name = val.get("duplicate name")
                 key = (key[0].split("_")[0], key[1])
 
             potential_candidates = identify_potential_candidates(
