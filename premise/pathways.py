@@ -250,7 +250,6 @@ class PathwaysDataPackage:
                                 mask=mask,
                             )
 
-
                             mapping[var]["dataset"] = [
                                 dict(t)
                                 for t in {
