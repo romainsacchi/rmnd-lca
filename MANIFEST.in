@@ -30,6 +30,10 @@ include premise/data/metals/*.txt
 include premise/data/metals/*.csv
 include premise/data/metals/*.yml
 include premise/data/metals/*.yaml
+include premise/data/metals/*.txt
+include premise/data/metals/*.csv
+include premise/data/metals/*.xlsx
+include premise/data/metals/post-allocation correction/*.yaml
 include premise/data/transport/*.yaml
 include premise/data/transport/*.csv
 include premise/data/transport/bus/*.csv
