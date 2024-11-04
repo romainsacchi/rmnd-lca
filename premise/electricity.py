@@ -1479,7 +1479,7 @@ class Electricity(BaseTransformation):
                 pv_tech = pv_tech[0]
 
             if pv_tech:
-
+                scaling_factor = None
                 for exc in ws.technosphere(
                     dataset,
                     ws.either(
@@ -1532,7 +1532,8 @@ class Electricity(BaseTransformation):
 
                     # We only update the efficiency if it is higher than the current one.
                     if new_mean_eff.sum() >= current_eff:
-                        exc["amount"] *= float(current_eff / new_mean_eff)
+                        scaling_factor = float(current_eff / new_mean_eff)
+                        exc["amount"] *= scaling_factor
                         exc["uncertainty type"] = 5
                         exc["loc"] = exc["amount"]
                         exc["minimum"] = exc["amount"] * (new_min_eff / new_mean_eff)
@@ -1556,6 +1557,15 @@ class Electricity(BaseTransformation):
 
                         # add to log
                         self.write_log(dataset=dataset, status="updated")
+
+                # we also want to scale down the EoL dataset
+                if scaling_factor:
+                    for exc in ws.technosphere(
+                            dataset,
+                            ws.contains("name", "treatment"),
+                            ws.equals("unit", "kilogram"),
+                    ):
+                        exc["amount"] *= scaling_factor
 
     def create_region_specific_power_plants(self):
         """
