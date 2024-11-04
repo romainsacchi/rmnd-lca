@@ -1482,7 +1482,10 @@ class Electricity(BaseTransformation):
 
                 for exc in ws.technosphere(
                     dataset,
-                    ws.contains("name", "photovoltaic"),
+                    ws.either(
+                        ws.contains("name", "photovoltaic"),
+                        ws.contains("name", "open ground"),
+                    ),
                     ws.equals("unit", "square meter"),
                 ):
                     surface = float(exc["amount"])
