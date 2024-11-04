@@ -1561,9 +1561,9 @@ class Electricity(BaseTransformation):
                 # we also want to scale down the EoL dataset
                 if scaling_factor:
                     for exc in ws.technosphere(
-                            dataset,
-                            ws.contains("name", "treatment"),
-                            ws.equals("unit", "kilogram"),
+                        dataset,
+                        ws.contains("name", "treatment"),
+                        ws.equals("unit", "kilogram"),
                     ):
                         exc["amount"] *= scaling_factor
 
