@@ -1014,6 +1014,10 @@ class NewDatabase:
                 original_database=self.database,
                 biosphere_name=self.biosphere_name,
             )
+            # fetch database length for later
+            scenario["database length"] = len(scenario["database"])
+            # dump database
+            dump_database(scenario)
 
         list_scenarios = create_scenario_list(self.scenarios)
 

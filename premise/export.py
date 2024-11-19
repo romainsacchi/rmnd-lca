@@ -30,7 +30,7 @@ from . import __version__
 from .data_collection import get_delimiter
 from .filesystem_constants import DATA_DIR
 from .inventory_imports import get_correspondence_bio_flows
-from .utils import reset_all_codes
+from .utils import reset_all_codes, load_database, dump_database
 from .validation import BaseDatasetValidator
 
 FILEPATH_SIMAPRO_UNITS = DATA_DIR / "utils" / "export" / "simapro_units.yml"
@@ -636,29 +636,41 @@ def generate_scenario_difference_file(
         }
     )
     # Turn list into set for O(1) membership tests
-    list_acts = set(get_list_unique_acts([{"database": origin_db}] + scenarios))
+    #list_acts = set(get_list_unique_acts([{"database": origin_db}] + scenarios))
 
-    acts_ind = dict(enumerate(list_acts))
-    acts_ind_rev = {v: k for k, v in acts_ind.items()}
+    #acts_ind = dict(enumerate(list_acts))
+    #acts_ind_rev = {v: k for k, v in acts_ind.items()}
 
     list_scenarios = ["original"] + scenario_list
 
-    list_dbs = [origin_db] + [a["database"] for a in scenarios]
-
+    #list_dbs = [origin_db] + [a["database"] for a in scenarios]
+    db_lengths = [len(origin_db)] + [a["database length"] for a in scenarios]
     matrices = {
-        a: nsp.lil_matrix((len(list_acts), len(list_acts)))
-        for a, _ in enumerate(list_scenarios)
+        a: nsp.lil_matrix((b, b))
+        for a, b in enumerate(db_lengths)
     }
 
     # Use defaultdict to avoid key errors
     dict_meta = defaultdict(dict)
 
-    for db in list_dbs:
-        for a in db:
-            key = (a["name"], a["reference product"], None, a["location"], a["unit"])
+    activities_indices, index = {}, 0
+
+    for scenario_idx, scenario in enumerate(scenarios):
+        scenario = load_database(scenario)
+        database = scenario["database"]
+
+        for dataset in database:
+            key = (
+                dataset["name"],
+                dataset["reference product"],
+                None,
+                dataset["location"],
+                dataset["unit"]
+            )
+
             dict_meta[key] = {
                 b: c
-                for b, c in a.items()
+                for b, c in dataset.items()
                 if b
                 not in [
                     "exchanges",
@@ -671,18 +683,21 @@ def generate_scenario_difference_file(
                 ]
             }
 
-    for i, db in enumerate(list_dbs):
-        for ds in db:
-            c = (
-                ds["name"],
-                ds.get("reference product"),
-                ds.get("categories"),
-                ds.get("location"),
-                ds["unit"],
+            consumer_key = (
+                dataset["name"],
+                dataset.get("reference product"),
+                dataset.get("categories"),
+                dataset.get("location"),
+                dataset["unit"],
                 "production",
             )
-            for exc in ds["exchanges"]:
-                s = (
+
+            if consumer_key not in activities_indices:
+                activities_indices[consumer_key] = index
+                index += 1
+
+            for exc in dataset["exchanges"]:
+                supplier_key = (
                     exc["name"],
                     exc.get("product"),
                     exc.get("categories"),
@@ -690,7 +705,17 @@ def generate_scenario_difference_file(
                     exc["unit"],
                     exc["type"],
                 )
-                matrices[i][acts_ind_rev[s], acts_ind_rev[c]] += exc["amount"]
+
+                if supplier_key not in activities_indices:
+                    activities_indices[supplier_key] = index
+                    index += 1
+
+                matrices[scenario_idx][
+                    activities_indices[supplier_key],
+                    activities_indices[consumer_key]
+                ] += exc["amount"]
+
+        dump_database(scenario)
 
     m = sparse.stack([sparse.COO(x) for x in matrices.values()], axis=-1)
     inds = sparse.argwhere(m.sum(-1).T != 0)
@@ -702,11 +727,13 @@ def generate_scenario_difference_file(
     for ind in inds:
         inds_d[ind[0]].append(ind[1])
 
+    reversed_act_indices = {v: k for k, v in activities_indices.items()}
+
     with Pool(processes=mp.cpu_count()) as pool:
         new_db = pool.map(
             generate_new_activities,
             [
-                (k, v, acts_ind, db_name, version, dict_meta, m)
+                (k, v, reversed_act_indices, db_name, version, dict_meta, m)
                 for k, v in inds_d.items()
             ],
         )
@@ -714,8 +741,8 @@ def generate_scenario_difference_file(
     inds_std = sparse.argwhere((m[..., 1:] == m[..., 0, None]).all(axis=-1).T == False)
 
     for i in inds_std:
-        c_name, c_ref, c_cat, c_loc, c_unit, _ = acts_ind[i[0]]
-        s_name, s_ref, s_cat, s_loc, s_unit, s_type = acts_ind[i[1]]
+        c_name, c_ref, c_cat, c_loc, c_unit, _ = reversed_act_indices[i[0]]
+        s_name, s_ref, s_cat, s_loc, s_unit, s_type = reversed_act_indices[i[1]]
 
         database_name = db_name
         exc_key_supplier = None
@@ -808,7 +835,7 @@ def generate_scenario_difference_file(
     new_db, df = find_technosphere_keys(new_db, df)
 
     # return the dataframe and the new db
-    return df, new_db, list_acts
+    return df, new_db, set(activities_indices.keys())
 
 
 def find_technosphere_keys(db, df):
