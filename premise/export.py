@@ -636,19 +636,16 @@ def generate_scenario_difference_file(
         }
     )
     # Turn list into set for O(1) membership tests
-    #list_acts = set(get_list_unique_acts([{"database": origin_db}] + scenarios))
+    # list_acts = set(get_list_unique_acts([{"database": origin_db}] + scenarios))
 
-    #acts_ind = dict(enumerate(list_acts))
-    #acts_ind_rev = {v: k for k, v in acts_ind.items()}
+    # acts_ind = dict(enumerate(list_acts))
+    # acts_ind_rev = {v: k for k, v in acts_ind.items()}
 
     list_scenarios = ["original"] + scenario_list
 
-    #list_dbs = [origin_db] + [a["database"] for a in scenarios]
+    # list_dbs = [origin_db] + [a["database"] for a in scenarios]
     db_lengths = [len(origin_db)] + [a["database length"] for a in scenarios]
-    matrices = {
-        a: nsp.lil_matrix((b, b))
-        for a, b in enumerate(db_lengths)
-    }
+    matrices = {a: nsp.lil_matrix((b, b)) for a, b in enumerate(db_lengths)}
 
     # Use defaultdict to avoid key errors
     dict_meta = defaultdict(dict)
@@ -665,7 +662,7 @@ def generate_scenario_difference_file(
                 dataset["reference product"],
                 None,
                 dataset["location"],
-                dataset["unit"]
+                dataset["unit"],
             )
 
             dict_meta[key] = {
@@ -711,8 +708,7 @@ def generate_scenario_difference_file(
                     index += 1
 
                 matrices[scenario_idx][
-                    activities_indices[supplier_key],
-                    activities_indices[consumer_key]
+                    activities_indices[supplier_key], activities_indices[consumer_key]
                 ] += exc["amount"]
 
         dump_database(scenario)
