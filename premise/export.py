@@ -45,6 +45,16 @@ DIR_DATAPACKAGE = Path.cwd() / "export" / "datapackage"
 DIR_DATAPACKAGE_TEMP = Path.cwd() / "export" / "temp"
 
 
+def replace_unsupported_characters(text):
+    if text:
+        if isinstance(text, str):
+            return text.encode("latin-1", errors="replace").decode("latin-1")
+        else:
+            return text
+    else:
+        return ""
+
+
 def get_simapro_units() -> Dict[str, str]:
     """
     Load a dictionary that maps brightway2 unit to Simapro units.
@@ -602,7 +612,12 @@ def generate_new_activities(args):
 
 
 def generate_scenario_difference_file(
-    db_name, origin_db, scenarios, version, scenario_list, biosphere_name
+    db_name,
+    origin_db,
+    scenarios,
+    version,
+    scenario_list,
+    biosphere_name,
 ) -> tuple[DataFrame, list[dict], set[Any]]:
     """
     Generate a scenario difference file for a given list of databases
@@ -780,7 +795,6 @@ def generate_scenario_difference_file(
     df.loc[df["flow type"].isin(["technosphere", "production"]), "from categories"] = (
         None
     )
-    # df.loc[df["flow type"] == "production", list_scenarios] = 1.0
 
     df.loc[df["flow type"] == "biosphere", "from database"] = biosphere_name
 
@@ -841,6 +855,7 @@ def generate_superstructure_db(
     version,
     scenario_list,
     file_format="excel",
+    preserve_original_column: bool = False,
 ) -> List[dict]:
     """
     Build a superstructure database from a list of databases
@@ -850,6 +865,9 @@ def generate_superstructure_db(
     :param filepath: the filepath of the new database
     :param version: the version of the new database
     :param file_format: the format of the scenario difference file. Can be "excel", "csv" or "feather".
+    :param preserve_original_column: whether to keep the original column in the scenario difference file
+    :param scenario_list: a list of external scenarios
+
     :return: a superstructure database
     """
 
@@ -872,7 +890,11 @@ def generate_superstructure_db(
     df = df.rename(columns={"from unit": "unit"})
 
     # remove the column `original`
-    df = df.drop(columns=["original"])
+    if not preserve_original_column:
+        df = df.drop(columns=["original"])
+    else:
+        scenario_list = ["original"] + scenario_list
+
     if "unit" in df.columns:
         df = df.drop(columns=["unit"])
 
@@ -892,6 +914,9 @@ def generate_superstructure_db(
     df = df.drop_duplicates(subset=["from key", "to key"])
     after = len(df)
     print(f"Dropped {before - after} duplicate(s).")
+
+    for scenario in scenario_list:
+        df.loc[(df["flow type"] == "production") & (df[scenario] == 0), scenario] = 1
 
     # if df is longer than the row limit of Excel,
     # the export to Excel is not an option
@@ -1001,6 +1026,12 @@ def _prepare_database(
     )
 
     return scenario
+
+
+def get_uuids(db):
+    return {
+        (ds["name"], ds["reference product"], ds["location"]): ds["code"] for ds in db
+    }
 
 
 class Export:
@@ -1361,6 +1392,8 @@ class Export:
 
         dict_bio = get_simapro_biosphere_dictionnary()
 
+        uuids = get_uuids(self.db)
+
         headers = [
             "{SimaPro 9.1.1.7}",
             "{processes}",
@@ -1428,7 +1461,6 @@ class Export:
         filename = f"simapro_export_{self.model}_{self.scenario}_{self.year}.csv"
 
         dict_cat_simapro = get_simapro_category_of_exchange()
-        dict_cat = self.get_category_of_exchange()
         dict_refs = load_references()
 
         unlinked_biosphere_flows = []
@@ -1501,11 +1533,14 @@ class Export:
                                     dict_refs[ds["name"]]["description"],
                                 )
 
-                            writer.writerow([string])
                         else:
                             if "comment" in ds:
                                 string = re.sub("[^a-zA-Z0-9 .,]", "", ds["comment"])
-                                writer.writerow([string])
+
+                        # Add dataset UUID to comment filed
+                        string += f" | ID: {ds['code']}"
+
+                        writer.writerow([string])
 
                     if item in (
                         "Cut off rules",
@@ -1544,6 +1579,7 @@ class Export:
                                             1.0,
                                             "not defined",
                                             sub_category,
+                                            f"{replace_unsupported_characters(e.get('comment'))} | ID = {uuids[(e['name'],e['product'],e['location'])]}",
                                         ]
                                     )
 
@@ -1556,6 +1592,7 @@ class Export:
                                             "100%",
                                             "not defined",
                                             sub_category,
+                                            f"{replace_unsupported_characters(e.get('comment'))} | ID = {uuids[(e['name'], e['product'], e['location'])]}",
                                         ]
                                     )
                                 e["used"] = True
@@ -1580,6 +1617,7 @@ class Export:
                                             0,
                                             0,
                                             0,
+                                            f"{replace_unsupported_characters(e.get('comment'))} | ID = {uuids[(e['name'], e['product'], e['location'])]}",
                                         ]
                                     )
                                     e["used"] = True
@@ -1612,6 +1650,7 @@ class Export:
                                         0,
                                         0,
                                         0,
+                                        f"{replace_unsupported_characters(e.get('comment'))} | ID = {self.bio_dict.get((e['name'],e['categories'][0],'unspecified' if len(e['categories']) == 1 else e['categories'][1], e['unit']))}",
                                     ]
                                 )
                                 e["used"] = True
@@ -1626,9 +1665,12 @@ class Export:
                                     sub_compartment = ""
 
                                 if e["name"].lower() == "water":
-                                    e["unit"] = "kilogram"
+                                    unit = "kilogram"
+                                    # e["unit"] = "kilogram"
                                     # going from cubic meters to kilograms
                                     e["amount"] *= 1000
+                                else:
+                                    unit = e["unit"]
 
                                 if e["name"] not in dict_bio:
                                     unlinked_biosphere_flows.append(
@@ -1639,12 +1681,13 @@ class Export:
                                     [
                                         dict_bio.get(e["name"], e["name"]),
                                         sub_compartment,
-                                        simapro_units[e["unit"]],
+                                        simapro_units[unit],
                                         f"{e['amount']:.3E}",
                                         "undefined",
                                         0,
                                         0,
                                         0,
+                                        f"{replace_unsupported_characters(e.get('comment'))} | ID = {self.bio_dict.get((e['name'], e['categories'][0], 'unspecified' if len(e['categories']) == 1 else e['categories'][1], e['unit']))}",
                                     ]
                                 )
                                 e["used"] = True
@@ -1662,8 +1705,11 @@ class Export:
                                     sub_compartment = ""
 
                                 if e["name"].lower() == "water":
-                                    e["unit"] = "kilogram"
+                                    unit = "kilogram"
+                                    # e["unit"] = "kilogram"
                                     e["amount"] /= 1000
+                                else:
+                                    unit = e["unit"]
 
                                 if e["name"] not in dict_bio:
                                     unlinked_biosphere_flows.append(
@@ -1674,12 +1720,13 @@ class Export:
                                     [
                                         dict_bio.get(e["name"], e["name"]),
                                         sub_compartment,
-                                        simapro_units[e["unit"]],
+                                        simapro_units[unit],
                                         f"{e['amount']:.3E}",
                                         "undefined",
                                         0,
                                         0,
                                         0,
+                                        f"{replace_unsupported_characters(e.get('comment'))} | ID = {self.bio_dict.get((e['name'], e['categories'][0], 'unspecified' if len(e['categories']) == 1 else e['categories'][1], e['unit']))}",
                                     ]
                                 )
                                 e["used"] = True
@@ -1711,6 +1758,7 @@ class Export:
                                         0,
                                         0,
                                         0,
+                                        f"{replace_unsupported_characters(e.get('comment'))} | ID = {self.bio_dict.get((e['name'], e['categories'][0], 'unspecified' if len(e['categories']) == 1 else e['categories'][1], e['unit']))}",
                                     ]
                                 )
                                 e["used"] = True
@@ -1735,6 +1783,7 @@ class Export:
                                             0,
                                             0,
                                             0,
+                                            f"{replace_unsupported_characters(e.get('comment'))} | ID = {uuids[(e['name'], e['product'], e['location'])]}",
                                         ]
                                     )
                                     e["used"] = True

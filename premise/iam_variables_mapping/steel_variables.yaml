@@ -4,6 +4,7 @@
 steel - primary:
   iam_aliases:
     remind: Production|Industry|Steel|Primary
+    remind-eu: Production|Industry|Steel|Primary
     image: Production|Industry|Iron and Steel|Primary
     message: Production|Primary|Steel
     gcam: Production|Industry|Steel|Primary
@@ -16,6 +17,8 @@ steel - primary:
       - Production|Steel|Primary|BF and BOF 4
   energy_use_aliases:
     remind:
+      - FE|Industry|Steel|++|Primary
+    remind-eu:
       - FE|Industry|Steel|++|Primary
     image:
       - Final Energy|Industry|Steel|Gases
@@ -123,6 +126,7 @@ steel - primary:
 steel - secondary:
   iam_aliases:
     remind: Production|Industry|Steel|Secondary
+    remind-eu: Production|Industry|Steel|Secondary
     image: Production|Industry|Iron and Steel|EAF scrap
     message: Production|Secondary|Steel
     gcam: Production|Industry|Steel|Secondary
@@ -137,6 +141,8 @@ steel - secondary:
       - Production|Steel|Secondary|EAF 3
   energy_use_aliases:
     remind:
+      - FE|Industry|Steel|++|Secondary
+    remind-eu:
       - FE|Industry|Steel|++|Secondary
     image:
       - Final Energy|Industry|Steel|Electricity

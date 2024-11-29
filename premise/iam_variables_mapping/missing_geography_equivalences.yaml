@@ -4,210 +4,245 @@
 ---
 Europe without Switzerland and Austria:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 Europe without Austria:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 Europe without Switzerland:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 North America without Quebec:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 RER w/o RU:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 RER:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 RoW:
   remind: World
+  remind-eu: World
   image: World
   message: World
   tiam-ucl: World
   gcam: World
 GLO:
   remind: World
+  remind-eu: World
   image: World
   message: World
   tiam-ucl: World
   gcam: World
 RNA:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 SAS:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 IAI Area, EU27 & EFTA:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 UN-OCEANIA:
   remind: CAZ
+  remind-eu: AUS
   image: OCE
   message: PAO
   tiam-ucl: AUS
   gcam: Australia_NZ
 UN-SEASIA:
   remind: OAS
+  remind-eu: OAS
   image: SEAS
   message: PAS
   tiam-ucl: ODA
   gcam: Southeast Asia
 RAF:
   remind: SSA
+  remind-eu: RSAF
   image: RSAF
   message: AFR
   tiam-ucl: AFR
   gcam: South Africa
 RAS:
   remind: CHA
+  remind-eu: CHN
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IAI Area, Africa:
   remind: SSA
+  remind-eu: RSAF
   image: RSAF
   message: AFR
   tiam-ucl: AFR
   gcam: South Africa
 RER w/o CH+DE:
   remind: EUR
+  remind-eu: FRA
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 RER w/o DE+NL+RU:
   remind: EUR
+  remind-eu: FRA
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 IAI Area, Asia, without China and GCC:
   remind: OAS
+  remind-eu: OAS
   image: SEAS
   message: PAS
   tiam-ucl: ODA
   gcam: Southeast Asia
 Europe, without Russia and Turkey:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 WECC:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 WEU:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 UCTE:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 UCTE without Germany:
   remind: EUR
+  remind-eu: FRA
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 NORDEL:
   remind: NEU
+  remind-eu: NEN
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 ENTSO-E:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 RLA:
   remind: LAM
+  remind-eu: LAM
   image: RSAM
   message: LAM
   tiam-ucl: CSA
   gcam: South America_Southern
 IAI Area, South America:
   remind: LAM
+  remind-eu: RSAM
   image: RSAM
   message: LAM
   tiam-ucl: CSA
   gcam: South America_Southern
 IAI Area, Russia & RER w/o EU27 & EFTA:
   remind: REF
+  remind-eu: REF
   image: RUS
   message: FSU
   tiam-ucl: FSU
   gcam: Russia
 IAI Area, North America:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 OCE:
   remind: CAZ
+  remind-eu: CAZ
   image: OCE
   message: PAO
   tiam-ucl: AUS
   gcam: Australia_NZ
 US-PR:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 US only:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 APAC:
   remind: OAS
+  remind-eu: OAS
   image: SEAS
   message: PAS
   tiam-ucl: ODA
   gcam: Southeast Asia
 CN-NCGC:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
@@ -215,6 +250,7 @@ CN-NCGC:
 
 CN-CSG:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
@@ -222,30 +258,35 @@ CN-CSG:
 
 CN-SWG:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CN-CCG:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CN-ECGC:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 RoE:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 CN-NWG:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
@@ -253,6 +294,7 @@ CN-NWG:
 
 CN-NECG:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   gcam: China
@@ -260,6 +302,7 @@ CN-NECG:
 
 IN-DD:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
@@ -267,6 +310,7 @@ IN-DD:
 
 IN-DN:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
@@ -274,6 +318,7 @@ IN-DN:
 
 LA: # Laos
   remind: OAS
+  remind-eu: OAS
   image: SEAS
   message: PAS
   tiam-ucl: ODA
@@ -282,6 +327,7 @@ LA: # Laos
 # Fiji
 FJ:
   remind: OAS
+  remind-eu: OAS
   image: SEAS
   message: PAS
   tiam-ucl: ODA
@@ -290,6 +336,7 @@ FJ:
 # Guinea
 GN:
   remind: SSA
+  remind-eu: SSA
   image: RSAF
   message: AFR
   tiam-ucl: AFR
@@ -298,6 +345,7 @@ GN:
 # Guyana
 GY:
   remind: LAM
+  remind-eu: LAM
   image: RSAM
   message: LAM
   tiam-ucl: CSA
@@ -306,6 +354,7 @@ GY:
 # Sierra Leone
 SL:
   remind: SSA
+  remind-eu: SSA
   image: RSAF
   message: AFR
   tiam-ucl: AFR
@@ -314,6 +363,7 @@ SL:
 # add Solomon Islands
 SB:
   remind: OAS
+  remind-eu: OAS
   image: SEAS
   message: PAS
   tiam-ucl: ODA
@@ -322,6 +372,7 @@ SB:
 # add Uganda
 UG:
   remind: SSA
+  remind-eu: SSA
   image: RSAF
   message: AFR
   tiam-ucl: AFR
@@ -330,6 +381,7 @@ UG:
 # add Afghanistan
 AF:
   remind: OAS
+  remind-eu: OAS
   image: SEAS
   message: PAS
   tiam-ucl: ODA
@@ -338,6 +390,7 @@ AF:
 # add Mauritius
 MR:
   remind: SSA
+  remind-eu: SSA
   image: RSAF
   message: AFR
   tiam-ucl: AFR
@@ -345,12 +398,14 @@ MR:
 
 BR-North-eastern grid:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 BR-Northern grid:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
@@ -358,12 +413,14 @@ BR-Northern grid:
 
 BR-South-eastern/Mid-western grid:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 BR-Southern grid:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
@@ -371,708 +428,833 @@ BR-Southern grid:
     
 CN-JS:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-OR:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 BR-TO:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 BR-BA:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 IN-UP:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 BR-PI:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CN-ZJ:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CA-NS:
   remind: CAZ
+  remind-eu: CAN
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 BR-AP:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 BR-RS:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CA-QC:
   remind: CAZ
+  remind-eu: CAZ
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 US-TRE:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 CN-NM:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CA-SK:
   remind: CAZ
+  remind-eu: CAZ
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 BR-PR:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CN-GZ:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 BR-MG:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CA-NT:
   remind: CAZ
+  remind-eu: CAZ
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 BR-SE:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 BR-PA:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 IN-TN:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CN-HN:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-PY:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 IN-Southern grid:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 BR-PB:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CA-MB:
   remind: CAZ
+  remind-eu: CAN
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 IN-GJ:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CN-LN:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-HR:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 BR-CE:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 IN-AS:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 BR-AM:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CN-AH:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CN-HE:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CN-GX:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CN-XJ:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CN-HL:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CA-ON:
   remind: CAZ
+  remind-eu: CAN
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 IN-DL:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 US-ASCC:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 CA-PE:
   remind: CAZ
+  remind-eu: CAN
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 BR-RO:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CN-BJ:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-Northern grid:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 BR-RJ:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CA-NB:
   remind: CAZ
+  remind-eu: CAN
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 IN-HP:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CN-GS:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 Canada without Quebec:
   remind: CAZ
+  remind-eu: CAN
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 US-NPCC:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 CN-XZ:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 BR-DF:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 IN-KA:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 IN-MP:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 IN-Eastern grid:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CA-NF:
   remind: CAZ
+  remind-eu: CAN
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 US-HICC:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 IN-KL:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 BR-AC:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 US-MRO:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 US-RFC:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 CN-SD:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CN-SX:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CN-SA:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-MH:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CN-FJ:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 BR-SP:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CN-HB:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 BR-SC:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CN-NX:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 BR-MA:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CN-SC:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CN-CQ:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CA-BC:
   remind: CAZ
+  remind-eu: CAN
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 CN-GD:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-Western grid:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 BR-MS:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CN-YN:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 CA-AB:
   remind: CAZ
+  remind-eu: CAN
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 IN-JH:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 IN-TR:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 IN-GA:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CA-YK:
   remind: CAZ
+  remind-eu: CAZ
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 US-WECC:
   remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 BR-MT:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CN-HA:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-North-eastern grid:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 BR-PE:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CN-JX:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 BR-ES:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 BR-RR:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 BR-RN:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 IN-RJ:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 IN-AR:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 US-SERC:
   remind: USA
+  remind-eu: USA
+  image: USA
+  message: NAM
+  tiam-ucl: USA
+  gcam: USA
+US-FRCC:
+  remind: USA
+  remind-eu: USA
   image: USA
   message: NAM
   tiam-ucl: USA
   gcam: USA
 IN-WB:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CN-TJ:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-ML:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 BR-GO:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 BR-AL:
   remind: LAM
+  remind-eu: LAM
   image: BRA
   message: LAM
   tiam-ucl: CSA
   gcam: Brazil
 CN-JL:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-JK:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CN-HU:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-AP:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CN-SH:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-UT:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 RME:
   remind: EUR
+  remind-eu: DEU
   image: WEU
   message: WEU
   tiam-ucl: WEU
   gcam: EU-15
 IN-PB:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CA-NU:
   remind: CAZ
+  remind-eu: CAZ
   image: CAN
   message: NAM
   tiam-ucl: CAN
   gcam: Canada
 IN-CT:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 IN-MZ:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 IN-MN:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 IN-BR:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CN-QH:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-SK:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 CN-SGCC:
   remind: CHA
+  remind-eu: CHA
   image: CHN
   message: CHN
   tiam-ucl: CHI
   gcam: China
 IN-NL:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA
   gcam: India
 IN-CH:
   remind: IND
+  remind-eu: IND
   image: INDIA
   message: SAS
   tiam-ucl: ODA

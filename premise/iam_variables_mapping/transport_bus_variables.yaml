@@ -4,9 +4,11 @@
 'bus, diesel':
   iam_aliases:
     remind: ES|Transport|Pass|Road|Bus|Liquids
+    remind-eu: ES|Transport|Pass|Road|Bus|Liquids
     tiam-ucl: Distance|Transport|Bus|Diesel|Diesel
   energy_use_aliases:
     remind: FE|Transport|Pass|Road|Bus|Liquids
+    remind-eu: FE|Transport|Pass|Road|Bus|Liquids
     tiam-ucl: Final Energy|Transport|Bus|Diesel|Diesel
   ecoinvent_aliases:
     fltr:
@@ -42,9 +44,11 @@
 'bus, compressed gas':
   iam_aliases:
     remind: ES|Transport|Pass|Road|Bus|Gases
+    remind-eu: ES|Transport|Pass|Road|Bus|Gases
     tiam-ucl: Distance|Transport|Bus|Natural Gas|Natural Gas
   energy_use_aliases:
     remind: FE|Transport|Pass|Road|Bus|Gases
+    remind-eu: FE|Transport|Pass|Road|Bus|Gases
     tiam-ucl: Final Energy|Transport|Bus|Natural Gas|Natural Gas
   ecoinvent_aliases:
     fltr:
@@ -68,9 +72,11 @@
 'bus, fuel cell':
   iam_aliases:
     remind: ES|Transport|Pass|Road|Bus|FCEV
+    remind-eu: ES|Transport|Pass|Road|Bus|FCEV
     tiam-ucl: Distance|Transport|Bus|Hydrogen Fuel Cell|Bus Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Pass|Road|Bus|FCEV
+    remind-eu: FE|Transport|Pass|Road|Bus|FCEV
     tiam-ucl: Final Energy|Transport|Bus|Hydrogen Fuel Cell|Bus Hydrogen
   ecoinvent_aliases:
     fltr:
@@ -81,8 +87,10 @@
 'bus, battery electric':
   iam_aliases:
     remind: ES|Transport|Pass|Road|Bus|Electric
+    remind-eu: ES|Transport|Pass|Road|Bus|Electric
   energy_use_aliases:
     remind: FE|Transport|Pass|Road|Bus|Electric
+    remind-eu: FE|Transport|Pass|Road|Bus|Electric
   ecoinvent_aliases:
     fltr:
       - 'transport, passenger bus, battery electric - overnight charging, 13m single deck urban bus'

@@ -47,13 +47,14 @@ jobs:
                                libncurses-dev tk-dev
 
       - name: Install python version
-        uses: gabrielfalcao/pyenv-action@v13
+        uses: gabrielfalcao/pyenv-action@v18
         with:
-          default: 3.10.6
+          default: 3.11
           command: pip install -U pip  # upgrade pip after installing python
 
       - name: create environment
-        run: pyenv local 3.10.6 && python -mvenv .venv390
+        run: |
+          pyenv install 3.11.5 && python -mvenv .venv390
 
       - name: Install dependencies
         run: |
@@ -90,8 +91,6 @@ jobs:
           python -m
           pip install
           build
-          --user
-          --break-system-packages
 
       - name: Build a binary wheel and a source tarball
         run: >-
@@ -104,6 +103,7 @@ jobs:
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
           skip-existing: true
+          verbose: true
 
       - name: Publish distribution 📦 to Test PyPI if Push
         uses: pypa/gh-action-pypi-publish@release/v1
@@ -111,6 +111,7 @@ jobs:
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
           repository-url: https://test.pypi.org/legacy/
           skip-existing: true
+          verbose: true
 
   conda:
     name: (${{ matrix.python-version }}, ubuntu-latest)

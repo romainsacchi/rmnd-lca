@@ -5,9 +5,11 @@
 train, electric:
   iam_aliases:
     remind: ES|Transport|Freight|Rail|Electric
+    remind-eu: ES|Transport|Freight|Rail|Electric
     tiam-ucl: Distance|Transport|Rail|Freight|Electricity
   energy_use_aliases:
     remind: FE|Transport|Freight|Rail|Electricity
+    remind-eu: FE|Transport|Freight|Rail|Electricity
     tiam-ucl: Final Energy|Transport|Rail|Freight|Electricity
   ecoinvent_aliases:
     fltr:
@@ -21,11 +23,17 @@ train, diesel-electric:
     remind: 
       - ES|Transport|Freight|Rail|Liquids|Fossil
       - ES|Transport|Freight|Rail|Liquids|Biomass
+    remind-eu:
+      - ES|Transport|Freight|Rail|Liquids|Fossil
+      - ES|Transport|Freight|Rail|Liquids|Biomass
     tiam-ucl:
       - Final Energy|Transport|Rail|Freight|Biodiesel
       - Final Energy|Transport|Rail|Freight|Diesel
   energy_use_aliases:
     remind: 
+      - FE|Transport|Freight|Rail|Liquids|Fossil
+      - FE|Transport|Freight|Rail|Liquids|Biomass
+    remind-eu:
       - FE|Transport|Freight|Rail|Liquids|Fossil
       - FE|Transport|Freight|Rail|Liquids|Biomass
     tiam-ucl:
@@ -41,8 +49,10 @@ train, diesel-electric:
 train, fuel cell:
   iam_aliases:
     remind: ES|Transport|Freight|Rail|Liquids|Hydrogen
+    remind-eu: ES|Transport|Freight|Rail|Liquids|Hydrogen
   energy_use_aliases:
     remind: FE|Transport|Freight|Rail|Liquids|Hydrogen
+    remind-eu: FE|Transport|Freight|Rail|Liquids|Hydrogen
   ecoinvent_aliases:
     fltr:
       - transport, freight train, fuel cell, hydrogen

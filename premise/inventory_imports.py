@@ -62,6 +62,8 @@ def get_biosphere_code(version) -> dict:
         fp = DATA_DIR / "utils" / "export" / "flows_biosphere_39.csv"
     elif version == "3.10":
         fp = DATA_DIR / "utils" / "export" / "flows_biosphere_310.csv"
+    elif version == "3.7":
+        fp = DATA_DIR / "utils" / "export" / "flows_biosphere_37.csv"
     else:
         fp = DATA_DIR / "utils" / "export" / "flows_biosphere_38.csv"
 
@@ -73,6 +75,7 @@ def get_biosphere_code(version) -> dict:
             file,
             delimiter=get_delimiter(filepath=fp),
         )
+
         return {(row[0], row[1], row[2], row[3]): row[4] for row in input_dict}
 
 

@@ -52,6 +52,10 @@ The tool currently supports the following IAMs:
 | TIAM-UCL | TIAM-UCL (TIMES Integrated Assessment Model by University College London) is a global energy system model based on the TIMES (The Integrated MARKAL-EFOM System) framework, developed to evaluate long-term decarbonization pathways for global energy systems. It provides detailed insights into energy technology options, resource availability, and emission reduction strategies under various climate policy scenarios. The model focuses on the trade-offs and synergies between energy security, economic costs, and environmental outcomes. TIAM-UCL is frequently used to analyze scenarios consistent with the Paris Agreement and examine technological innovation's role in mitigating climate change globally. |
 
 
+What's new in 2.2.0?
+====================
+
+- `IncrementalDatabase`: allows distinguishing the contribution of each sector to the total impact.
 
 What's new in 2.1.4?
 ====================

@@ -10,6 +10,9 @@ sugar:
     remind:
       temperate: sugarbeet
       tropical: sugarcane
+    remind-eu:
+      temperate: sugarbeet
+      tropical: sugarcane
     message:
       temperate: sugarbeet
       tropical: sugarcane
@@ -33,6 +36,9 @@ oil:
     remind:
       temperate: rapeseed
       tropical: palm oil
+    remind-eu:
+      temperate: rapeseed
+      tropical: palm oil
     message:
       temperate: rapeseed
       tropical: palm oil
@@ -54,6 +60,9 @@ wood:
       temperate: poplar
       tropical: eucalyptus
     remind:
+      temperate: poplar
+      tropical: eucalyptus
+    remind-eu:
       temperate: poplar
       tropical: eucalyptus
     message:
@@ -80,6 +89,9 @@ grass:
     remind:
       temperate: switchgrass
       tropical: miscanthus
+    remind-eu:
+      temperate: switchgrass
+      tropical: miscanthus
     message:
       temperate: switchgrass
       tropical: miscanthus
@@ -101,6 +113,9 @@ grain:
       temperate: corn
       tropical: corn
     remind:
+      temperate: corn
+      tropical: corn
+    remind-eu:
       temperate: corn
       tropical: corn
     message:

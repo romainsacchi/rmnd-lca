@@ -9,6 +9,11 @@ cement - co2:
       - Emi|CO2|Energy|Demand|Industry|++|Cement
       - Carbon Management|Carbon Capture|Industry Energy|Cement
       - Carbon Management|Carbon Capture|+|Industry Process
+    remind-eu:
+      - Emi|CO2|Industrial Processes|+|Cement
+      - Emi|CO2|Energy|Demand|Industry|++|Cement
+      - Carbon Management|Carbon Capture|Industry Energy|Cement
+      - Carbon Management|Carbon Capture|+|Industry Process
     image:
       - Emissions|CO2|Industry|Cement|Gross
     message:
@@ -24,6 +29,9 @@ cement - cco2:
     remind:
       - Carbon Management|Carbon Capture|Industry Energy|Cement
       - Carbon Management|Carbon Capture|+|Industry Process
+    remind-eu:
+      - Carbon Management|Carbon Capture|Industry Energy|Cement
+      - Carbon Management|Carbon Capture|+|Industry Process
     image:
       - Emissions|CO2|Industry|Cement|Sequestered
     message:
@@ -35,6 +43,9 @@ cement - cco2:
 steel - co2:
   iam_aliases:
     remind:
+      - Emi|CO2|Energy|Demand|Industry|++|Steel
+      - Carbon Management|Carbon Capture|Industry Energy|Steel
+    remind-eu:
       - Emi|CO2|Energy|Demand|Industry|++|Steel
       - Carbon Management|Carbon Capture|Industry Energy|Steel
     image:
@@ -55,6 +66,8 @@ steel - co2:
 steel - cco2:
   iam_aliases:
     remind:
+      - Carbon Management|Carbon Capture|Industry Energy|Steel
+    remind-eu:
       - Carbon Management|Carbon Capture|Industry Energy|Steel
     image:
       - Emissions|CO2|Industry|Steel|Sequestered

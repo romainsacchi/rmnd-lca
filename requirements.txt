@@ -16,6 +16,6 @@ requests
 schema
 sparse>=0.14.0
 wurst>=0.4
-xarray
+xarray<=2024.2.0
 tqdm
 unfold

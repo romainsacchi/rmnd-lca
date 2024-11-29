@@ -28,10 +28,12 @@ Biomass CHP:
   eff_aliases:
     image: Efficiency|Electricity|Biomass|w/o CCS|3
     remind: Tech|Electricity|Biomass|Combined Heat and Power w/o CC|Efficiency
+    remind-eu: Tech|Electricity|Biomass|Combined Heat and Power w/o CC|Efficiency
     tiam-ucl: Efficiency|Electricity|Biomass CHP|w/o CCS
   iam_aliases:
     image: Secondary Energy|Electricity|Biomass|w/o CCS|3
     remind: SE|Electricity|Biomass|++|Combined Heat and Power w/o CC
+    remind-eu: SE|Electricity|Biomass|++|Combined Heat and Power w/o CC
     tiam-ucl: Secondary Energy|Electricity|Biomass CHP|w/o CCS
   max_efficiency: 0.3
 Biomass CHP (existing):
@@ -93,12 +95,14 @@ Biomass IGCC:
     image: Efficiency|Electricity|Biomass|w/o CCS|2
     message: Efficiency|Electricity|Biomass|w/o CCS|1
     remind: Tech|Electricity|Biomass|Gasification Combined Cycle w/o CC|Efficiency
+    remind-eu: Tech|Electricity|Biomass|Gasification Combined Cycle w/o CC|Efficiency
     tiam-ucl: Efficiency|Electricity|Biomass gasification|w/o CCS
   iam_aliases:
     gcam: Secondary Energy|Electricity|biomass (IGCC)
     image: Secondary Energy|Electricity|Biomass|w/o CCS|2
     message: Secondary Energy|Electricity|Biomass|w/o CCS|1
     remind: SE|Electricity|Biomass|++|Gasification Combined Cycle w/o CC
+    remind-eu: SE|Electricity|Biomass|++|Gasification Combined Cycle w/o CC
     tiam-ucl: Secondary Energy|Electricity|Biomass gasification|w/o CCS
   max_efficiency: 0.45
 
@@ -116,12 +120,14 @@ Biomass IGCC CCS:
     image: Efficiency|Electricity|Biomass|w/ CCS|1
     message: Efficiency|Electricity|Biomass|w/o CCS|1
     remind: Tech|Electricity|Biomass|Gasification Combined Cycle w/ CC|Efficiency
+    remind-eu: Tech|Electricity|Biomass|Gasification Combined Cycle w/ CC|Efficiency
     tiam-ucl: Efficiency|Electricity|Biomass gasification|w CCS
   iam_aliases:
     gcam: Secondary Energy|Electricity|biomass (IGCC CCS)
     image: Secondary Energy|Electricity|Biomass|w/ CCS|1
     message: Secondary Energy|Electricity|Biomass|w/ CCS|1
     remind: SE|Electricity|Biomass|++|Gasification Combined Cycle w/ CC
+    remind-eu: SE|Electricity|Biomass|++|Gasification Combined Cycle w/ CC
     tiam-ucl: Secondary Energy|Electricity|Biomass gasification|w CCS
   max_efficiency: 0.4
 Biomass MSW:
@@ -233,10 +239,12 @@ Coal CHP:
   eff_aliases:
     image: Efficiency|Electricity|Coal|w/o CCS|3
     remind: Tech|Electricity|Coal|Combined Heat and Power w/o CC|Efficiency
+    remind-eu: Tech|Electricity|Coal|Combined Heat and Power w/o CC|Efficiency
     tiam-ucl: Efficiency|Electricity|CHP existing coal|w/o CCS
   iam_aliases:
     image: Secondary Energy|Electricity|Coal|w/o CCS|3
     remind: SE|Electricity|Coal|++|Combined Heat and Power w/o CC
+    remind-eu: SE|Electricity|Coal|++|Combined Heat and Power w/o CC
     tiam-ucl: Secondary Energy|Electricity|CHP existing coal|w/o CCS
   max_efficiency: 0.45
 Coal CHP CCS:
@@ -273,12 +281,14 @@ Coal IGCC:
     image: Efficiency|Electricity|Coal|w/o CCS|2
     message: Efficiency|Electricity|Coal|w/o CCS|1
     remind: Tech|Electricity|Coal|Gasification Combined Cycle w/o CC|Efficiency
+    remind-eu: Tech|Electricity|Coal|Gasification Combined Cycle w/o CC|Efficiency
     tiam-ucl: Efficiency|Electricity|Coal IGCC|w/o CCS
   iam_aliases:
     gcam: Secondary Energy|Electricity|coal (IGCC)
     image: Secondary Energy|Electricity|Coal|w/o CCS|2
     message: Secondary Energy|Electricity|Coal|w/o CCS|1
     remind: SE|Electricity|Coal|++|Gasification Combined Cycle w/o CC
+    remind-eu: SE|Electricity|Coal|++|Gasification Combined Cycle w/o CC
     tiam-ucl: Secondary Energy|Electricity|Coal IGCC|w/o CCS
   max_efficiency: 0.55
 Coal IGCC CCS:
@@ -304,12 +314,14 @@ Coal IGCC CCS:
     image: Efficiency|Electricity|Coal|w/ CCS|1
     message: Efficiency|Electricity|Coal|w/ CCS|1
     remind: Tech|Electricity|Coal|Gasification Combined Cycle w/ CC|Efficiency
+    remind-eu: Tech|Electricity|Coal|Gasification Combined Cycle w/ CC|Efficiency
     tiam-ucl: Efficiency|Electricity|Coal IGCC|w CCS
   iam_aliases:
     gcam: Secondary Energy|Electricity|coal (IGCC CCS)
     image: Secondary Energy|Electricity|Coal|w/ CCS|1
     message: Secondary Energy|Electricity|Coal|w/ CCS|1
     remind: SE|Electricity|Coal|++|Gasification Combined Cycle w/ CC
+    remind-eu: SE|Electricity|Coal|++|Gasification Combined Cycle w/ CC
     tiam-ucl: Secondary Energy|Electricity|Coal IGCC|w CCS
   max_efficiency: 0.45
 Coal PC:
@@ -337,12 +349,14 @@ Coal PC:
     image: Efficiency|Electricity|Coal|w/o CCS|1
     message: Efficiency|Electricity|Coal|w/o CCS|3
     remind: Tech|Electricity|Coal|Pulverised Coal w/o CC|Efficiency
+    remind-eu: Tech|Electricity|Coal|Pulverised Coal w/o CC|Efficiency
     tiam-ucl: Efficiency|Electricity|Existing coal generation|w/o CCS
   iam_aliases:
     gcam: Secondary Energy|Electricity|coal (conv pul)
     image: Secondary Energy|Electricity|Coal|w/o CCS|1
     message: Secondary Energy|Electricity|Coal|w/o CCS|3
     remind: SE|Electricity|Coal|++|Pulverised Coal w/o CC
+    remind-eu: SE|Electricity|Coal|++|Pulverised Coal w/o CC
     tiam-ucl: Secondary Energy|Electricity|Existing coal generation|w/o CCS
   max_efficiency: 0.4
 Coal PC CCS:
@@ -496,12 +510,14 @@ Gas CC:
     image: Efficiency|Electricity|Gas|w/o CCS|2
     message: Efficiency|Electricity|Gas|w/o CCS|1
     remind: Tech|Electricity|Gas|Combined Cycle w/o CC|Efficiency
+    remind-eu: Tech|Electricity|Gas|Combined Cycle w/o CC|Efficiency
     tiam-ucl: Efficiency|Electricity|Gas CCGT|w/o CCS
   iam_aliases:
     gcam: Secondary Energy|Electricity|gas (CC)
     image: Secondary Energy|Electricity|Gas|w/o CCS|2
     message: Secondary Energy|Electricity|Gas|w/o CCS|1
     remind: SE|Electricity|Gas|++|Combined Cycle w/o CC
+    remind-eu: SE|Electricity|Gas|++|Combined Cycle w/o CC
     tiam-ucl: Secondary Energy|Electricity|Gas CCGT|w/o CCS
   max_efficiency: 0.65
 Gas CC CCS:
@@ -529,12 +545,14 @@ Gas CC CCS:
     image: Efficiency|Electricity|Gas|w/ CCS|1
     message: Efficiency|Electricity|Gas|w/ CCS|1
     remind: Tech|Electricity|Gas|Combined Cycle w/ CC|Efficiency
+    remind-eu: Tech|Electricity|Gas|Combined Cycle w/ CC|Efficiency
     tiam-ucl: Efficiency|Electricity|Gas CCGT|w CCS
   iam_aliases:
     gcam: Secondary Energy|Electricity|gas (CC CCS)
     image: Secondary Energy|Electricity|Gas|w/ CCS|1
     message: Secondary Energy|Electricity|Gas|w/ CCS|1
     remind: SE|Electricity|Gas|++|Combined Cycle w/ CC
+    remind-eu: SE|Electricity|Gas|++|Combined Cycle w/ CC
     tiam-ucl: Secondary Energy|Electricity|Gas CCGT|w CCS
   max_efficiency: 0.55
 Gas CHP:
@@ -563,10 +581,12 @@ Gas CHP:
   eff_aliases:
     image: Efficiency|Electricity|Gas|w/o CCS|3
     remind: Tech|Electricity|Gas|Combined Heat and Power w/o CC|Efficiency
+    remind-eu: Tech|Electricity|Gas|Combined Heat and Power w/o CC|Efficiency
     tiam-ucl: Efficiency|Electricity|Gas CHP|w/o CCS
   iam_aliases:
     image: Secondary Energy|Electricity|Gas|w/o CCS|3
     remind: SE|Electricity|Gas|++|Combined Heat and Power w/o CC
+    remind-eu: SE|Electricity|Gas|++|Combined Heat and Power w/o CC
     tiam-ucl: Secondary Energy|Electricity|Gas CHP|w/o CCS
   max_efficiency: 0.6
 Gas CHP CCS:
@@ -639,12 +659,14 @@ Gas OC:
     image: Efficiency|Electricity|Gas|w/o CCS|1
     message: Efficiency|Electricity|Gas|w/o CCS|3
     remind: Tech|Electricity|Gas|Gas Turbine|Efficiency
+    remind-eu: Tech|Electricity|Gas|Gas Turbine|Efficiency
     tiam-ucl: Efficiency|Electricity|Existing gas generation|w/o CCS
   iam_aliases:
     gcam: Secondary Energy|Electricity|gas (steam/CT)
     image: Secondary Energy|Electricity|Gas|w/o CCS|1
     message: Secondary Energy|Electricity|Gas|w/o CCS|3
     remind: SE|Electricity|Gas|++|Gas Turbine
+    remind-eu: SE|Electricity|Gas|++|Gas Turbine
     tiam-ucl: Secondary Energy|Electricity|Existing gas generation|w/o CCS
   max_efficiency: 0.5
 Gas ST:
@@ -670,10 +692,12 @@ Gas ST:
     image: Efficiency|Electricity|Gas|w/o CCS|1
     message: Efficiency|Electricity|Gas|w/o CCS|2
     remind: Tech|Electricity|Gas|Gas Turbine|Efficiency
+    remind-eu: Tech|Electricity|Gas|Gas Turbine|Efficiency
   exists in database: false
   iam_aliases:
     message: Secondary Energy|Electricity|Gas|w/o CCS|2
     remind: SE|Electricity|Gas|++|Gas Turbine
+    remind-eu: SE|Electricity|Gas|++|Gas Turbine
   max_efficiency: 0.5
   proxy:
     name: electricity production, natural gas, conventional power plant
@@ -689,6 +713,7 @@ Geothermal:
     image: Secondary Energy|Electricity|Other
     message: Secondary Energy|Electricity|Geothermal
     remind: SE|Electricity|+|Geothermal
+    remind-eu: SE|Electricity|+|Geothermal
     tiam-ucl: Secondary Energy|Electricity|Geothermal
 Hydro:
   ecoinvent_aliases:
@@ -704,6 +729,7 @@ Hydro:
     image: Secondary Energy|Electricity|Hydro
     message: Secondary Energy|Electricity|Hydro
     remind: SE|Electricity|+|Hydro
+    remind-eu: SE|Electricity|+|Hydro
     tiam-ucl: Secondary Energy|Electricity|Impoundment hydro
 Hydro, run-of-river:
   ecoinvent_aliases:
@@ -739,6 +765,7 @@ Nuclear:
     image: Secondary Energy|Electricity|Nuclear
     message: Secondary Energy|Electricity|Nuclear
     remind: SE|Electricity|+|Nuclear
+    remind-eu: SE|Electricity|+|Nuclear
     tiam-ucl: Secondary Energy|Electricity|Nuclear
 Nuclear_EPR:
   ecoinvent_aliases:
@@ -856,12 +883,14 @@ Oil ST:
     image: Efficiency|Electricity|Oil|w/o CCS|1
     message: Efficiency|Electricity|Oil|w/o CCS|2
     remind: Tech|Electricity|Oil|DOT|Efficiency
+    remind-eu: Tech|Electricity|Oil|DOT|Efficiency
     tiam-ucl: Efficiency|Electricity|Existing oil electric generation|w/o CCS
   iam_aliases:
     gcam: Secondary Energy|Electricity|refined liquids (steam/CT)
     image: Secondary Energy|Electricity|Oil|w/o CCS|1
     message: Secondary Energy|Electricity|Oil|w/o CCS|2
     remind: SE|Electricity|Oil|w/o CC
+    remind-eu: SE|Electricity|Oil|w/o CC
     tiam-ucl: Secondary Energy|Electricity|Existing oil electric generation|w/o CCS
   max_efficiency: 0.5
 Solar CSP:
@@ -874,6 +903,7 @@ Solar CSP:
     image: Secondary Energy|Electricity|Solar|CSP
     message: Secondary Energy|Electricity|Solar|CSP|1
     remind: SE|Electricity|Solar|+|CSP
+    remind-eu: SE|Electricity|Solar|+|CSP
     tiam-ucl: Secondary Energy|Electricity|Concentrated Solar CSP centralised
 Solar CSP autonomous:
   ecoinvent_aliases:
@@ -891,6 +921,7 @@ Solar PV Centralized:
     image: Secondary Energy|Electricity|Solar|PV|1
     message: Secondary Energy|Electricity|Solar|PV
     remind: SE|Electricity|Solar|+|PV
+    remind-eu: SE|Electricity|Solar|+|PV
     tiam-ucl: Secondary Energy|Electricity|Concentrated Solar PV centralised
 Solar PV Residential:
   ecoinvent_aliases:
@@ -914,6 +945,7 @@ Storage, Hydrogen:
     - electricity production, from hydrogen-fired one gigawatt gas turbine
   iam_aliases:
     remind: SE|Electricity|+|Hydrogen
+    remind-eu: SE|Electricity|+|Hydrogen
 Wave:
   ecoinvent_aliases:
     fltr:
@@ -933,6 +965,7 @@ Wind Offshore:
     image: Secondary Energy|Electricity|Wind|2
     message: Secondary Energy|Electricity|Wind|Offshore
     remind: SE|Electricity|Wind|+|Offshore
+    remind-eu: SE|Electricity|Wind|+|Offshore
     tiam-ucl: Secondary Energy|Electricity|Offshore wind centralised
 Wind Onshore:
   ecoinvent_aliases:
@@ -949,4 +982,5 @@ Wind Onshore:
     image: Secondary Energy|Electricity|Wind|1
     message: Secondary Energy|Electricity|Wind|Onshore
     remind: SE|Electricity|Wind|+|Onshore
+    remind-eu: SE|Electricity|Wind|+|Onshore
     tiam-ucl: Secondary Energy|Electricity|Onshore wind centralised

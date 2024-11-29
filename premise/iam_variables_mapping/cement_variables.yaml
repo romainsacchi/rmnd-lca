@@ -4,6 +4,7 @@
 cement, dry feed rotary kiln:
   iam_aliases:
     remind: Production|Industry|Cement
+    remind-eu: Production|Industry|Cement
     image: Production|Industry|Cement|Dry feed rotary kiln
     message: Production|Non-Metallic Minerals|Cement
     gcam: Production|Industry|Cement
@@ -11,6 +12,7 @@ cement, dry feed rotary kiln:
 
   energy_use_aliases:
     remind: FE|Industry|+++|Cement
+    remind-eu: FE|Industry|+++|Cement
     image:
       - Final Energy|Industry|Cement|Dry feed rotary kiln|Coal
       - Final Energy|Industry|Cement|Dry feed rotary kiln|Electricity
@@ -47,6 +49,7 @@ cement, dry feed rotary kiln:
 
   eff_aliases:
     remind: FE|Industry|Specific Energy Consumption|Cement
+    remind-eu: FE|Industry|Specific Energy Consumption|Cement
   ecoinvent_fuel_aliases:
     fltr:
       name:

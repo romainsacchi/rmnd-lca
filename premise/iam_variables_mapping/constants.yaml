@@ -12,6 +12,7 @@ SUPPORTED_EI_VERSIONS:
 
 SUPPORTED_MODELS:
   - remind
+  - remind-eu
   - image
   - message
   - tiam-ucl
@@ -66,6 +67,29 @@ LIST_REMIND_REGIONS:
   - SSA
   - USA
   - World
+
+LIST_REMIND-EU_REGIONS:
+  - OAS
+  - ENC
+  - NES
+  - MEA
+  - SSA
+  - LAM
+  - REF
+  - CAZ
+  - EWN
+  - ECS
+  - CHA
+  - ESC
+  - ECE
+  - FRA
+  - DEU
+  - UKI
+  - NEN
+  - IND
+  - JPN
+  - ESW
+  - USA
 
 LIST_IMAGE_REGIONS:
   - BRA

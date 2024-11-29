@@ -404,10 +404,11 @@ def dump_database(scenario):
     return scenario
 
 
-def load_database(scenario):
+def load_database(scenario, delete=True):
     """
     Load database from a pickle file.
     :param scenario: scenario dictionary
+
     """
 
     if scenario.get("database") is not None:
@@ -419,8 +420,10 @@ def load_database(scenario):
     with open(filepath, "rb") as f:
         scenario["database"] = pickle.load(f)
     del scenario["database filepath"]
+
     # delete the file
-    filepath.unlink()
+    if delete:
+        filepath.unlink()
 
     return scenario
 

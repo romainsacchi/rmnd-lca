@@ -45,138 +45,172 @@ truck:
   old_trucks:
     transport, freight, lorry 16-32 metric ton, EURO1:
       remind: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 3.5-7.5 metric ton, EURO3:
       remind: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 16-32 metric ton, EURO5:
       remind: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry >32 metric ton, EURO1:
       remind: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 3.5-7.5 metric ton, EURO4:
       remind: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
     transport, freight, lorry, all sizes, EURO1 to generic market for transport, freight, lorry, unspecified:
       remind: transport, freight, lorry, unspecified, long haul
+      remind-eu: transport, freight, lorry, unspecified, long haul
       image: transport, freight, lorry, unspecified, long haul
       tiam-ucl: transport, freight, lorry, unspecified, long haul
     transport, freight, lorry 7.5-16 metric ton, EURO6:
       remind: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 7.5-16 metric ton, EURO1:
       remind: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry, all sizes, EURO3 to generic market for transport, freight, lorry, unspecified:
       remind: transport, freight, lorry, unspecified, long haul
+      remind-eu: transport, freight, lorry, unspecified, long haul
       image: transport, freight, lorry, unspecified, long haul
       tiam-ucl: transport, freight, lorry, unspecified, long haul
     transport, freight, lorry 16-32 metric ton, EURO6:
       remind: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 7.5-16 metric ton, EURO2:
       remind: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 7.5-16 metric ton, EURO3:
       remind: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 7.5-16 metric ton, EURO4:
       remind: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 16-32 metric ton, EURO2:
       remind: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry >32 metric ton, EURO6:
       remind: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 3.5-7.5 metric ton, EURO2:
       remind: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 3.5-7.5 metric ton, EURO1:
       remind: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
     transport, freight, lorry, all sizes, EURO2 to generic market for transport, freight, lorry, unspecified:
       remind: transport, freight, lorry, unspecified, long haul
+      remind-eu: transport, freight, lorry, unspecified, long haul
       image: transport, freight, lorry, unspecified, long haul
       tiam-ucl: transport, freight, lorry, unspecified, long haul
     transport, freight, lorry 16-32 metric ton, unregulated:
       remind: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry >32 metric ton, unregulated:
       remind: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
     transport, freight, lorry >32 metric ton, EURO3:
       remind: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 3.5-7.5 metric ton, unregulated:
       remind: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 7.5-16 metric ton, EURO5:
       remind: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 3.5-7.5 metric ton, EURO6:
       remind: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 7.5-16 metric ton, unregulated:
       remind: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 3.5-7.5 metric ton, EURO5:
       remind: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 7.5t gross weight, unspecified powertrain, long haul
     transport, freight, lorry >32 metric ton, EURO2:
       remind: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
     transport, freight, lorry 16-32 metric ton, EURO3:
       remind: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry, all sizes, EURO5 to generic market for transport, freight, lorry, unspecified:
       remind: transport, freight, lorry, unspecified, long haul
+      remind-eu: transport, freight, lorry, unspecified, long haul
       image: transport, freight, lorry, unspecified, long haul
       tiam-ucl: transport, freight, lorry, unspecified, long haul
     transport, freight, lorry, all sizes, EURO6 to generic market for transport, freight, lorry, unspecified:
       remind: transport, freight, lorry, unspecified, long haul
+      remind-eu: transport, freight, lorry, unspecified, long haul
       image: transport, freight, lorry, unspecified, long haul
       tiam-ucl: transport, freight, lorry, unspecified, long haul
     transport, freight, lorry 16-32 metric ton, EURO4:
       remind: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 26t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 18t gross weight, unspecified powertrain, long haul
     transport, freight, lorry >32 metric ton, EURO4:
       remind: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
     transport, freight, lorry >32 metric ton, EURO5:
       remind: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
+      remind-eu: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       image: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
       tiam-ucl: transport, freight, lorry, 40t gross weight, unspecified powertrain, long haul
     transport, freight, lorry, all sizes, unregulated to generic market for transport, freight, lorry, unspecified:
       remind: transport, freight, lorry, unspecified, long haul
+      remind-eu: transport, freight, lorry, unspecified, long haul
       image: transport, freight, lorry, unspecified, long haul
       tiam-ucl: transport, freight, lorry, unspecified, long haul
 
