@@ -42,7 +42,6 @@ def rescale_exchanges(
     technosphere_filters=None,
     biosphere_filters=None,
     remove_uncertainty=False,
-
 ):
     """
     Adapted from wurst's change_exchanges_by_constant_factor
@@ -53,18 +52,12 @@ def rescale_exchanges(
 
     for exc in technosphere(ds, *(technosphere_filters or [])):
         rescale_exchange(
-            exc=exc,
-            value=value,
-            remove_uncertainty=remove_uncertainty,
-            sector=sector
+            exc=exc, value=value, remove_uncertainty=remove_uncertainty, sector=sector
         )
 
     for exc in biosphere(ds, *(biosphere_filters or [])):
         rescale_exchange(
-            exc=exc,
-            value=value,
-            remove_uncertainty=remove_uncertainty,
-            sector=sector
+            exc=exc, value=value, remove_uncertainty=remove_uncertainty, sector=sector
         )
 
     return ds
@@ -446,4 +439,3 @@ def delete_all_pickles():
     """
     for file in DIR_CACHED_FILES.glob("*.pickle"):
         file.unlink()
-

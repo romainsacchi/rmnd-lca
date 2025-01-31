@@ -895,7 +895,7 @@ class HeatValidation(BaseDatasetValidator):
                     rescale_exchanges(
                         ds=ds,
                         value=scaling_factor,
-                        sector="validation - efficiency correction"
+                        sector="validation - efficiency correction",
                     )
                     expected_co2 *= scaling_factor
 
