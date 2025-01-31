@@ -31,7 +31,7 @@ from .export import (
     generate_scenario_factor_file,
     generate_superstructure_db,
     prepare_db_for_export,
-    generate_decomposition_db
+    generate_decomposition_db,
 )
 from .external import _update_external_scenarios
 from .external_data_validation import check_external_scenarios
@@ -989,14 +989,15 @@ class NewDatabase:
         print("Done!\n")
 
     def write_decomposition_db_to_brightway(
-            self,
-            name: str = f"decomposition_db_{datetime.now().strftime('%d-%m-%Y')}",
-            filepath: str = None,
-            file_format: str = "csv",
+        self,
+        name: str = f"decomposition_db_{datetime.now().strftime('%d-%m-%Y')}",
+        filepath: str = None,
+        file_format: str = "csv",
     ):
         if len(self.scenarios) < 1:
-            raise ValueError("Decomposition analysis is only possible for"
-                             "one scenario at a time.")
+            raise ValueError(
+                "Decomposition analysis is only possible for" "one scenario at a time."
+            )
 
         self.scenarios[0] = load_database(self.scenarios[0])
 
@@ -1023,11 +1024,10 @@ class NewDatabase:
         #     biosphere_name=self.biosphere_name,
         # )
 
-        #write_brightway_database(
+        # write_brightway_database(
         #    data=self.database,
         #    name=name,
-        #)
-
+        # )
 
     def write_superstructure_db_to_brightway(
         self,

@@ -34,7 +34,8 @@ from .utils import (
     get_efficiency_solar_photovoltaics,
     get_water_consumption_factors,
     rescale_exchanges,
-    rescale_exchange, )
+    rescale_exchange,
+)
 from .uncertainty import flag_change
 from .validation import ElectricityValidation
 
@@ -731,7 +732,7 @@ class Electricity(BaseTransformation):
                 flag_change(
                     exchange=new_exchange,
                     factor=new_exchange["amount"],
-                    sector="electricity - market"
+                    sector="electricity - market",
                 )
 
             if "log parameters" not in new_dataset:
@@ -957,7 +958,7 @@ class Electricity(BaseTransformation):
                 flag_change(
                     exchange=new_exchange,
                     factor=new_exchange["amount"],
-                    sector="electricity - market"
+                    sector="electricity - market",
                 )
 
             if "log parameters" not in new_dataset:
@@ -1224,14 +1225,13 @@ class Electricity(BaseTransformation):
                             }
                         )
 
-
             new_dataset["exchanges"] = new_exchanges
 
             for new_exchange in new_exchanges:
                 flag_change(
                     exchange=new_exchange,
                     factor=new_exchange["amount"],
-                    sector="electricity - market"
+                    sector="electricity - market",
                 )
 
             if "log parameters" not in new_dataset:
@@ -1257,8 +1257,7 @@ class Electricity(BaseTransformation):
         # Using a list comprehension to process all technologies
         subset = filter_technology(
             dataset_names=[
-                item for subset in ecoinvent_technologies.values()
-                for item in subset
+                item for subset in ecoinvent_technologies.values() for item in subset
             ],
             database=self.database,
         )
@@ -1413,7 +1412,7 @@ class Electricity(BaseTransformation):
                 flag_change(
                     exchange=exchange,
                     factor=exchange["amount"],
-                    sector="electricity - market"
+                    sector="electricity - market",
                 )
                 dataset["exchanges"].append(exchange)
 
@@ -1450,11 +1449,10 @@ class Electricity(BaseTransformation):
                         ):
                             rescale_exchange(
                                 exc=exc,
-                                value=(flow["amount"]/exc["amount"]),
+                                value=(flow["amount"] / exc["amount"]),
                                 remove_uncertainty=False,
-                                sector="electricity - hydro - correction"
+                                sector="electricity - hydro - correction",
                             )
-
 
     def update_efficiency_of_solar_pv(self) -> None:
         """
@@ -1575,8 +1573,12 @@ class Electricity(BaseTransformation):
                             sector="electricity - efficiency",
                             remove_uncertainty=False,
                             uncertainty_type=5,
-                            minimum=exc["amount"] * scaling_factor * (new_min_eff / new_mean_eff),
-                            maximum=exc["amount"] * scaling_factor * (new_max_eff / new_mean_eff)
+                            minimum=exc["amount"]
+                            * scaling_factor
+                            * (new_min_eff / new_mean_eff),
+                            maximum=exc["amount"]
+                            * scaling_factor
+                            * (new_max_eff / new_mean_eff),
                         )
 
                         dataset["comment"] = (
@@ -1609,7 +1611,7 @@ class Electricity(BaseTransformation):
                             exc=exc,
                             value=scaling_factor,
                             remove_uncertainty=False,
-                            sector="electricity - efficiency"
+                            sector="electricity - efficiency",
                         )
 
     def create_region_specific_power_plants(self):
@@ -1732,7 +1734,7 @@ class Electricity(BaseTransformation):
                                 exc=exc,
                                 value=(co2_amount * 0.9 / exc["amount"]),
                                 remove_uncertainty=False,
-                                sector="electricity - CHP - correction"
+                                sector="electricity - CHP - correction",
                             )
 
                         if (
@@ -1872,7 +1874,7 @@ class Electricity(BaseTransformation):
                     rescale_exchanges(
                         ds=dataset,
                         value=scaling_factor,
-                        sector="electricity - efficiency"
+                        sector="electricity - efficiency",
                     )
 
                     self.write_log(dataset=dataset, status="updated")
@@ -2018,7 +2020,7 @@ class Electricity(BaseTransformation):
                                             exc=exc,
                                             value=scaling_factor,
                                             remove_uncertainty=False,
-                                            sector="electricity - air emissions"
+                                            sector="electricity - air emissions",
                                         )
 
                                         if "log parameters" not in dataset:
@@ -2085,7 +2087,7 @@ class Electricity(BaseTransformation):
                     rescale_exchanges(
                         ds=new_dataset,
                         value=ei_eff / new_eff,
-                        sector="electricity - efficiency"
+                        sector="electricity - efficiency",
                     )
 
                 self.database.append(new_dataset)
@@ -2178,21 +2180,15 @@ class Electricity(BaseTransformation):
 
                 # add the new electricity market
                 exchange = {
-                        "name": f"market group for electricity, high voltage",
-                        "product": f"electricity, high voltage",
-                        "amount": 1,
-                        "uncertainty type": 0,
-                        "location": self.geo.ecoinvent_to_iam_location(
-                            dataset["location"]
-                        ),
-                        "type": "technosphere",
-                        "unit": "kilowatt hour",
-                    }
-                flag_change(
-                    exchange=exchange,
-                    factor=1,
-                    sector="electricity - market"
-                )
+                    "name": f"market group for electricity, high voltage",
+                    "product": f"electricity, high voltage",
+                    "amount": 1,
+                    "uncertainty type": 0,
+                    "location": self.geo.ecoinvent_to_iam_location(dataset["location"]),
+                    "type": "technosphere",
+                    "unit": "kilowatt hour",
+                }
+                flag_change(exchange=exchange, factor=1, sector="electricity - market")
                 dataset["exchanges"].append(exchange)
 
                 self.write_log(dataset=dataset, status="updated")

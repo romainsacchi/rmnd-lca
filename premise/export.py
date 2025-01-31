@@ -846,6 +846,7 @@ def find_technosphere_keys(db, df):
 
     return db, df
 
+
 def generate_decomposition_db(
     origin_db,
     scenarios,
@@ -867,23 +868,57 @@ def generate_decomposition_db(
     )
 
     unwanted_keys = (
-        'input', 'Comment', 'scale', 'minimum', 'simapro category',
-        'production volume', 'comment', 'reference product', 'ub',
-        'formula', 'categories', 'u2', 'loc', 'product', 'allocation',
-        'normalization', 'u4', 'system model', 'database', 'unit',
-        'maximum', 'name', 'tag', 'type', 'original_amount',
-        'simapro name', 'dataset name', 'shape', 'u1', 'negative',
-        'u6', 'u5', 'u3', 'amount', 'input type', 'uncertainty type',
-        'pedigree', 'location'
+        "input",
+        "Comment",
+        "scale",
+        "minimum",
+        "simapro category",
+        "production volume",
+        "comment",
+        "reference product",
+        "ub",
+        "formula",
+        "categories",
+        "u2",
+        "loc",
+        "product",
+        "allocation",
+        "normalization",
+        "u4",
+        "system model",
+        "database",
+        "unit",
+        "maximum",
+        "name",
+        "tag",
+        "type",
+        "original_amount",
+        "simapro name",
+        "dataset name",
+        "shape",
+        "u1",
+        "negative",
+        "u6",
+        "u5",
+        "u3",
+        "amount",
+        "input type",
+        "uncertainty type",
+        "pedigree",
+        "location",
     )
 
-    cols = list(set([
-        k
-        for a in scenarios[0]["database"]
-        for e in a["exchanges"]
-        for k in e.keys()
-        if k not in unwanted_keys
-    ]))
+    cols = list(
+        set(
+            [
+                k
+                for a in scenarios[0]["database"]
+                for e in a["exchanges"]
+                for k in e.keys()
+                if k not in unwanted_keys
+            ]
+        )
+    )
 
     return db, df, cols
 
@@ -905,7 +940,6 @@ def generate_decomposition_db(
                     & (df["flow type"] == exc["type"]),
                     cols,
                 ] = [exc.get(k) for k in cols] * df["original"]
-
 
     if filepath is not None:
         filepath = Path(filepath)
@@ -941,6 +975,7 @@ def generate_decomposition_db(
     return db
 
     return
+
 
 def generate_superstructure_db(
     origin_db,

@@ -3,15 +3,15 @@ import math
 
 
 def rescale_exchange(
-        exc: dict,
-        value: float,
-        sector: str,
-        remove_uncertainty: bool =True,
-        uncertainty_type: int = None,
-        loc: float = None,
-        scale: float = None,
-        minimum: float = None,
-        maximum: float = None
+    exc: dict,
+    value: float,
+    sector: str,
+    remove_uncertainty: bool = True,
+    uncertainty_type: int = None,
+    loc: float = None,
+    scale: float = None,
+    minimum: float = None,
+    maximum: float = None,
 ):
     """Function to rescale exchange amount and uncertainty.
 
@@ -30,12 +30,7 @@ def rescale_exchange(
     # Scale the amount
     exc["amount"] *= value
 
-    flag_change(
-        exchange=exc,
-        factor=float(value),
-        sector=sector
-
-    )
+    flag_change(exchange=exc, factor=float(value), sector=sector)
 
     # Scale the uncertainty fields if uncertainty is not being removed
     if not remove_uncertainty:
@@ -74,7 +69,11 @@ def rescale_exchange(
 
     # If remove_uncertainty is True, then remove all uncertainty info
     elif remove_uncertainty:
-        FIELDS = ("scale", "minimum", "maximum", )
+        FIELDS = (
+            "scale",
+            "minimum",
+            "maximum",
+        )
         exc["uncertainty type"] = 0
         exc["loc"] = exc["amount"]
         for field in FIELDS:
@@ -84,13 +83,15 @@ def rescale_exchange(
     return exc
 
 
-def flag_change(exchange: dict, sector: str, value: float = None, factor: float = None) -> dict:
+def flag_change(
+    exchange: dict, sector: str, value: float = None, factor: float = None
+) -> dict:
     """
     Flag an exchange with the factor applied on the amount.
     """
 
     if value:
-        exchange[sector] = (value / exchange["amount"])
+        exchange[sector] = value / exchange["amount"]
         return exchange
 
     if factor:

@@ -1087,9 +1087,7 @@ class ExternalScenario(BaseTransformation):
 
             if "includes" not in ineff:
                 rescale_exchanges(
-                    ds=datatset,
-                    value=scaling_factor,
-                    sector="external - efficiency"
+                    ds=datatset, value=scaling_factor, sector="external - efficiency"
                 )
 
             else:
