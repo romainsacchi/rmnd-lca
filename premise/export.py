@@ -846,6 +846,101 @@ def find_technosphere_keys(db, df):
 
     return db, df
 
+def generate_decomposition_db(
+    origin_db,
+    scenarios,
+    scenario_list,
+    db_name,
+    biosphere_name,
+    filepath,
+    version,
+    file_format="excel",
+):
+    db, df = generate_sdf_and_db(
+        origin_db,
+        scenarios,
+        db_name,
+        biosphere_name,
+        version,
+        scenario_list,
+        preserve_original_column=True,
+    )
+
+    unwanted_keys = (
+        'input', 'Comment', 'scale', 'minimum', 'simapro category',
+        'production volume', 'comment', 'reference product', 'ub',
+        'formula', 'categories', 'u2', 'loc', 'product', 'allocation',
+        'normalization', 'u4', 'system model', 'database', 'unit',
+        'maximum', 'name', 'tag', 'type', 'original_amount',
+        'simapro name', 'dataset name', 'shape', 'u1', 'negative',
+        'u6', 'u5', 'u3', 'amount', 'input type', 'uncertainty type',
+        'pedigree', 'location'
+    )
+
+    cols = list(set([
+        k
+        for a in scenarios[0]["database"]
+        for e in a["exchanges"]
+        for k in e.keys()
+        if k not in unwanted_keys
+    ]))
+
+    return db, df, cols
+
+    # add as many columns to df as there are columns in cols
+    for col in cols:
+        df[col] = df["original"]
+
+    for act in scenarios[0]["database"]:
+        for exc in act["exchanges"]:
+            if any(exc.get(k) != 0 for k in cols):
+                df.loc[
+                    (df["to activity name"] == act["name"])
+                    & (df["to reference product"] == act["reference product"])
+                    & (df["to location"] == act["location"])
+                    & (df["from activity name"] == exc["name"])
+                    & (df["from reference product"] == exc.get("product"))
+                    & (df["from location"] == exc.get("location"))
+                    & (df["from categories"] == exc.get("categories"))
+                    & (df["flow type"] == exc["type"]),
+                    cols,
+                ] = [exc.get(k) for k in cols] * df["original"]
+
+
+    if filepath is not None:
+        filepath = Path(filepath)
+    else:
+        filepath = Path.cwd() / "export" / "scenario diff files"
+
+    if not os.path.exists(filepath):
+        os.makedirs(filepath)
+
+    # if df is longer than the row limit of Excel,
+    # the export to Excel is not an option
+    if len(df) > 1048576:
+        file_format = "csv"
+        print(
+            "The scenario difference file is too long to be exported to Excel. "
+            "Exporting to CSV instead."
+        )
+
+    if file_format == "excel":
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.xlsx"
+        df.to_excel(filepath_sdf, index=False)
+    elif file_format == "csv":
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.csv"
+        df.to_csv(filepath_sdf, index=False, sep=";", encoding="utf-8-sig")
+    elif file_format == "feather":
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.feather"
+        df.to_feather(filepath_sdf)
+    else:
+        raise ValueError(f"Unknown format {file_format}")
+
+    print(f"Scenario difference file exported to {filepath}!")
+
+    return db
+
+    return
 
 def generate_superstructure_db(
     origin_db,
@@ -874,6 +969,73 @@ def generate_superstructure_db(
 
     print("Building superstructure database...")
 
+    db, df = generate_sdf_and_db(
+        origin_db,
+        scenarios,
+        db_name,
+        biosphere_name,
+        version,
+        scenario_list,
+        preserve_original_column,
+    )
+
+    if filepath is not None:
+        filepath = Path(filepath)
+    else:
+        filepath = Path.cwd() / "export" / "scenario diff files"
+
+    if not os.path.exists(filepath):
+        os.makedirs(filepath)
+
+    # if df is longer than the row limit of Excel,
+    # the export to Excel is not an option
+    if len(df) > 1048576:
+        file_format = "csv"
+        print(
+            "The scenario difference file is too long to be exported to Excel. "
+            "Exporting to CSV instead."
+        )
+
+    if file_format == "excel":
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.xlsx"
+        df.to_excel(filepath_sdf, index=False)
+    elif file_format == "csv":
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.csv"
+        df.to_csv(filepath_sdf, index=False, sep=";", encoding="utf-8-sig")
+    elif file_format == "feather":
+        filepath_sdf = filepath / f"scenario_diff_{db_name}.feather"
+        df.to_feather(filepath_sdf)
+    else:
+        raise ValueError(f"Unknown format {file_format}")
+
+    print(f"Scenario difference file exported to {filepath}!")
+
+    return db
+
+
+def generate_sdf_and_db(
+    origin_db,
+    scenarios,
+    db_name,
+    biosphere_name,
+    version,
+    scenario_list,
+    preserve_original_column: bool = False,
+):
+    """
+    Build a superstructure database from a list of databases
+    :param origin_db: the original database
+    :param scenarios: a list of modified databases
+    :param db_name: the name of the new database
+    :param filepath: the filepath of the new database
+    :param version: the version of the new database
+    :param file_format: the format of the scenario difference file. Can be "excel", "csv" or "feather".
+    :param preserve_original_column: whether to keep the original column in the scenario difference file
+    :param scenario_list: a list of external scenarios
+
+    :return: a superstructure database
+    """
+
     # create the dataframe
     df, new_db, _ = generate_scenario_difference_file(
         origin_db=origin_db,
@@ -899,14 +1061,6 @@ def generate_superstructure_db(
     if "unit" in df.columns:
         df = df.drop(columns=["unit"])
 
-    if filepath is not None:
-        filepath = Path(filepath)
-    else:
-        filepath = Path.cwd() / "export" / "scenario diff files"
-
-    if not os.path.exists(filepath):
-        os.makedirs(filepath)
-
     # Drop duplicate rows
     # should not be any, but just in case
     before = len(df)
@@ -919,29 +1073,7 @@ def generate_superstructure_db(
     for scenario in scenario_list:
         df.loc[(df["flow type"] == "production") & (df[scenario] == 0), scenario] = 1
 
-    # if df is longer than the row limit of Excel,
-    # the export to Excel is not an option
-    if len(df) > 1048576:
-        file_format = "csv"
-        print(
-            "The scenario difference file is too long to be exported to Excel. Exporting to CSV instead."
-        )
-
-    if file_format == "excel":
-        filepath_sdf = filepath / f"scenario_diff_{db_name}.xlsx"
-        df.to_excel(filepath_sdf, index=False)
-    elif file_format == "csv":
-        filepath_sdf = filepath / f"scenario_diff_{db_name}.csv"
-        df.to_csv(filepath_sdf, index=False, sep=";", encoding="utf-8-sig")
-    elif file_format == "feather":
-        filepath_sdf = filepath / f"scenario_diff_{db_name}.feather"
-        df.to_feather(filepath_sdf)
-    else:
-        raise ValueError(f"Unknown format {file_format}")
-
-    print(f"Scenario difference file exported to {filepath}!")
-
-    return new_db
+    return new_db, df
 
 
 def check_geographical_linking(scenario, original_database):

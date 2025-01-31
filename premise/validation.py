@@ -892,7 +892,11 @@ class HeatValidation(BaseDatasetValidator):
                     self.log_issue(ds, "heat conversion efficiency", message)
 
                     scaling_factor = efficiency / 3.0
-                    rescale_exchanges(ds, scaling_factor)
+                    rescale_exchanges(
+                        ds=ds,
+                        value=scaling_factor,
+                        sector="validation - efficiency correction"
+                    )
                     expected_co2 *= scaling_factor
 
                 co2 = sum(

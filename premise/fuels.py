@@ -636,8 +636,9 @@ class Fuels(BaseTransformation):
                         else:
                             # rescale the fuel consumption exchange
                             rescale_exchanges(
-                                dataset,
-                                scaling_factor,
+                                ds=dataset,
+                                value=scaling_factor,
+                                sector="fuel - hydrogen - efficiency",
                                 technosphere_filters=[
                                     ws.contains("name", hydrogen_feedstock_name),
                                     ws.equals("unit", hydrogen_feedstock_unit),

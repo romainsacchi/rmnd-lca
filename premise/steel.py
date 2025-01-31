@@ -556,8 +556,9 @@ class Steel(BaseTransformation):
 
                 # Scale down the fuel exchanges using the scaling factor
                 rescale_exchanges(
-                    dataset,
-                    scaling_factor,
+                    ds=dataset,
+                    value=scaling_factor,
+                    sector="steel - efficiency",
                     technosphere_filters=[
                         ws.either(*[ws.contains("name", x) for x in list_fuels])
                     ],

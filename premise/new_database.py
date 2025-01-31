@@ -31,6 +31,7 @@ from .export import (
     generate_scenario_factor_file,
     generate_superstructure_db,
     prepare_db_for_export,
+    generate_decomposition_db
 )
 from .external import _update_external_scenarios
 from .external_data_validation import check_external_scenarios
@@ -986,6 +987,47 @@ class NewDatabase:
                 # Manually update the outer progress bar after each sector is completed
                 pbar_outer.update()
         print("Done!\n")
+
+    def write_decomposition_db_to_brightway(
+            self,
+            name: str = f"decomposition_db_{datetime.now().strftime('%d-%m-%Y')}",
+            filepath: str = None,
+            file_format: str = "csv",
+    ):
+        if len(self.scenarios) < 1:
+            raise ValueError("Decomposition analysis is only possible for"
+                             "one scenario at a time.")
+
+        self.scenarios[0] = load_database(self.scenarios[0])
+
+        list_scenarios = create_scenario_list(self.scenarios)
+
+        return generate_decomposition_db(
+            origin_db=self.database,
+            scenarios=self.scenarios,
+            scenario_list=list_scenarios,
+            db_name=name,
+            biosphere_name=self.biosphere_name,
+            filepath=filepath,
+            version=self.version,
+            file_format=file_format,
+        )
+
+        # tmp_scenario = self.scenarios[0]
+        # tmp_scenario["database"] = self.database
+        #
+        # self.database = prepare_db_for_export(
+        #     scenario=tmp_scenario,
+        #     name="database",
+        #     original_database=self.database,
+        #     biosphere_name=self.biosphere_name,
+        # )
+
+        #write_brightway_database(
+        #    data=self.database,
+        #    name=name,
+        #)
+
 
     def write_superstructure_db_to_brightway(
         self,

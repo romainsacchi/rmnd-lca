@@ -17,7 +17,7 @@ import xarray as xr
 import yaml
 from country_converter import CountryConverter
 from prettytable import ALL, PrettyTable
-from wurst import rescale_exchange
+from .uncertainty import rescale_exchange
 from wurst.searching import biosphere, equals, get_many, technosphere
 
 from . import __version__
@@ -37,10 +37,12 @@ EFFICIENCY_RATIO_SOLAR_PV = DATA_DIR / "renewables" / "efficiency_solar_PV.csv"
 
 def rescale_exchanges(
     ds,
-    value,
+    value: float,
+    sector: str,
     technosphere_filters=None,
     biosphere_filters=None,
     remove_uncertainty=False,
+
 ):
     """
     Adapted from wurst's change_exchanges_by_constant_factor
@@ -50,10 +52,20 @@ def rescale_exchanges(
     assert isinstance(value, Number), "Constant factor ``value`` must be a number"
 
     for exc in technosphere(ds, *(technosphere_filters or [])):
-        rescale_exchange(exc, value, remove_uncertainty)
+        rescale_exchange(
+            exc=exc,
+            value=value,
+            remove_uncertainty=remove_uncertainty,
+            sector=sector
+        )
 
     for exc in biosphere(ds, *(biosphere_filters or [])):
-        rescale_exchange(exc, value, remove_uncertainty)
+        rescale_exchange(
+            exc=exc,
+            value=value,
+            remove_uncertainty=remove_uncertainty,
+            sector=sector
+        )
 
     return ds
 
@@ -434,3 +446,4 @@ def delete_all_pickles():
     """
     for file in DIR_CACHED_FILES.glob("*.pickle"):
         file.unlink()
+

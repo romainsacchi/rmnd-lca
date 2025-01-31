@@ -602,8 +602,9 @@ class Transport(BaseTransformation):
 
         if scaling_factor != 1:
             dataset = rescale_exchanges(
-                dataset,
-                scaling_factor,
+                ds=dataset,
+                value=scaling_factor,
+                sector="transport - efficiency",
                 technosphere_filters=[
                     ws.either(
                         *[

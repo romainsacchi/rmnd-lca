@@ -241,8 +241,9 @@ class DirectAirCapture(BaseTransformation):
 
                     if scaling_factor != 1:
                         rescale_exchanges(
-                            dataset,
-                            scaling_factor,
+                            ds=dataset,
+                            value=scaling_factor,
+                            sector="DAC - efficiency",
                             technosphere_filters=[ws.equals("unit", "kilowatt hour")],
                         )
 
@@ -291,8 +292,9 @@ class DirectAirCapture(BaseTransformation):
                     if scaling_factor != 1:
 
                         rescale_exchanges(
-                            dataset,
-                            scaling_factor,
+                            ds=dataset,
+                            value=scaling_factor,
+                            sector="DAC - efficiency",
                             technosphere_filters=[ws.equals("unit", "megajoule")],
                         )
 

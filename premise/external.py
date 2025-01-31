@@ -1086,7 +1086,11 @@ class ExternalScenario(BaseTransformation):
             )
 
             if "includes" not in ineff:
-                rescale_exchanges(datatset, scaling_factor, remove_uncertainty=False)
+                rescale_exchanges(
+                    ds=datatset,
+                    value=scaling_factor,
+                    sector="external - efficiency"
+                )
 
             else:
                 if "technosphere" in ineff["includes"]:
