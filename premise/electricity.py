@@ -1451,7 +1451,7 @@ class Electricity(BaseTransformation):
                                 exc=exc,
                                 value=(flow["amount"] / exc["amount"]),
                                 remove_uncertainty=False,
-                                sector="electricity - hydro - correction",
+                                sector="electricity - emission factor",
                             )
 
     def update_efficiency_of_solar_pv(self) -> None:
@@ -1734,7 +1734,7 @@ class Electricity(BaseTransformation):
                                 exc=exc,
                                 value=(co2_amount * 0.9 / exc["amount"]),
                                 remove_uncertainty=False,
-                                sector="electricity - CHP - correction",
+                                sector="electricity - allocation",
                             )
 
                         if (
@@ -2020,7 +2020,7 @@ class Electricity(BaseTransformation):
                                             exc=exc,
                                             value=scaling_factor,
                                             remove_uncertainty=False,
-                                            sector="electricity - air emissions",
+                                            sector="electricity - emission factor",
                                         )
 
                                         if "log parameters" not in dataset:
