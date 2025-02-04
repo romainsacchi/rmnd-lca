@@ -116,7 +116,6 @@ What's new in 1.3.0?
 -   Updated REMIND scenarios to REMIND v.3.0
 
 
-
 Documentation
 -------------
 [https://premise.readthedocs.io/en/latest/](https://premise.readthedocs.io/en/latest/)
@@ -130,11 +129,16 @@ ecoinvent 3 to reflect projected energy policy trajectories.
 Requirements
 ------------
 * **Python 3.10 or 3.11**
-* License for [ecoinvent 3][1]. Please note that the ecoinvent database is not included in this package. Also, read ecoinvent's [GDPR & EULA](https://ecoinvent.org/gdpr-eula/).
-* Some IAM output files come with the library and are located by default in the subdirectory "/data/iam_output_files". **If you wish to use
- those files, you need to request (by [email](mailto:romain.sacchi@psi.ch)) an encryption key from the developers**.
+* License for [ecoinvent 3][1]. 
+* Some IAM output files come with the library and are located by default in the subdirectory "/data/iam_output_files". 
  A file path can be specified to fetch IAM output files elsewhere on your computer.
  * [brightway2][2] (optional). If you want to use the results in the Brightway 2 framework 8and Activity Browser), you need `bw2data <4.0.0`. To produce Brightway 2.5-compatible databases, you need `bw2data >=4.0.0`.
+
+> [!NOTE]
+> Please note that the ecoinvent database is not included in this package. Also, read ecoinvent's [GDPR & EULA](https://ecoinvent.org/gdpr-eula/).
+
+> [!WARNING]
+> If you wish to use standard IAM scenarios, you need to request (by [email](mailto:romain.sacchi@psi.ch)) an encryption key from the developers.
 
 How to install this package?
 ----------------------------
@@ -143,14 +147,16 @@ Two options:
 
 From Pypi:
 
-    pip install premise
+    pip install "premise[bw2]"  # for brightway2 and Activity-Browser compatibility
+    pip install "premise[bw25]"  # for brightway2.5 compatibility
 
 will install the package and the required dependencies.
 
 A development version with the latest advancements (but with the risks of unseen bugs),
 is available from Anaconda Cloud:
 
-    conda install -c conda-forge premise
+    conda install -c conda-forge premise-bw2 # for brightway2 and Activity-Browser compatibility
+    conda install -c conda-forge premise-bw25 # for brightway2.5 compatibility
 
 
 How to use it?

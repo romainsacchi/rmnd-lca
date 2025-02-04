@@ -731,7 +731,7 @@ class Electricity(BaseTransformation):
             for new_exchange in new_exchanges:
                 flag_change(
                     exchange=new_exchange,
-                    factor=new_exchange["amount"],
+                    value=new_exchange["amount"],
                     sector="electricity - market",
                 )
 
@@ -957,7 +957,7 @@ class Electricity(BaseTransformation):
             for new_exchange in new_exchanges:
                 flag_change(
                     exchange=new_exchange,
-                    factor=new_exchange["amount"],
+                    value=new_exchange["amount"],
                     sector="electricity - market",
                 )
 
@@ -1230,7 +1230,7 @@ class Electricity(BaseTransformation):
             for new_exchange in new_exchanges:
                 flag_change(
                     exchange=new_exchange,
-                    factor=new_exchange["amount"],
+                    value=new_exchange["amount"],
                     sector="electricity - market",
                 )
 
@@ -1411,7 +1411,7 @@ class Electricity(BaseTransformation):
                 }
                 flag_change(
                     exchange=exchange,
-                    factor=exchange["amount"],
+                    value=exchange["amount"],
                     sector="electricity - market",
                 )
                 dataset["exchanges"].append(exchange)
@@ -2188,7 +2188,7 @@ class Electricity(BaseTransformation):
                     "type": "technosphere",
                     "unit": "kilowatt hour",
                 }
-                flag_change(exchange=exchange, factor=1, sector="electricity - market")
+                flag_change(exchange=exchange, value=1, sector="electricity - market")
                 dataset["exchanges"].append(exchange)
 
                 self.write_log(dataset=dataset, status="updated")

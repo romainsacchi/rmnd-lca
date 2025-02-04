@@ -1,5 +1,6 @@
 from numbers import Number
 import math
+import copy
 
 
 def rescale_exchange(
@@ -90,12 +91,15 @@ def flag_change(
     Flag an exchange with the factor applied on the amount.
     """
 
+    if "original value" not in exchange:
+        exchange["original value"] = copy.deepcopy(exchange["amount"])
+
     if value:
-        exchange[sector] = value / exchange["amount"]
+        exchange[sector] = value
         return exchange
 
     if factor:
-        exchange[sector] = factor
+        exchange[sector] = exchange["original value"] * factor
         return exchange
 
     raise ValueError("`value` or `factor` must be passed.")
